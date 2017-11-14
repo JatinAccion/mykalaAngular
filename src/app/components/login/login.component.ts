@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
   user: User = new User();
   constructor(private router: Router, private auth: AuthService) { }
   ngOnInit() {
-    localStorage.clearItem('token');
+    localStorage.removeItem('token');
   }
   onLogin(): void {
     this.auth.login(this.user)
