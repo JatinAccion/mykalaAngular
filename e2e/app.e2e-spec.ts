@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('kala-angular App', () => {
+describe('my-kala App', () => {
   let page: AppPage;
 
   beforeEach(() => {
