@@ -8,6 +8,8 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.route';
 
 import { AuthService } from './services/auth.service';
+import { CoreService } from './services/core.service';
+
 
 import { EnsureAuthenticated } from './services/ensure-authenticated.service';
 
@@ -18,6 +20,9 @@ import { StatusComponent } from './components/status/status.component';
 import { LoginRedirect } from './services/login-redirect.service';
 import { LogoutComponent } from './components/logout/logout.component';
 
+import { HomeService } from './components/home/home.service';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +31,9 @@ import { LogoutComponent } from './components/logout/logout.component';
     HomeComponent,
     RegisterComponent,
     StatusComponent,
-    LogoutComponent
+    LogoutComponent,
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +41,7 @@ import { LogoutComponent } from './components/logout/logout.component';
     FormsModule,
     AppRoutingModule
   ],
-  providers: [AuthService, EnsureAuthenticated, LoginRedirect],
+  providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,7 +1,9 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/user';
+
+import { CoreService } from '../../services/core.service';
 
 @Component({
   selector: 'app-login',
@@ -11,14 +13,18 @@ import { User } from '../../models/user';
 })
 export class LoginComponent implements OnInit {
   user: User = new User();
-  constructor(private router: Router, private auth: AuthService) { }
+  @Input() hideNavi: string;
+  constructor(private router: Router, private auth: AuthService, private core: CoreService) { }
   ngOnInit() {
     localStorage.removeItem('token');
+    this.core.hide();
+
   }
   onLogin(): void {
     this.auth.login(this.user)
       .then((user) => {
         localStorage.setItem('token', user.json().auth_token);
+        this.core.show();
         this.router.navigateByUrl('/status');
       })
       .catch((err) => {

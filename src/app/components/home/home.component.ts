@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { HomeService } from './home.service';
 
 @Component({
   selector: 'app-home',
@@ -7,10 +8,14 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
   encapsulation: ViewEncapsulation.None
 })
 export class HomeComponent implements OnInit {
-
-  constructor() { }
+  customers: any = [];
+  constructor(private homeService: HomeService) { }
 
   ngOnInit() {
+    this.homeService.getCustomers().subscribe(customers => {
+    this.customers = customers;
+      console.log(this.customers);
+    });
   }
 
 }
