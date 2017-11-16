@@ -23,6 +23,11 @@ import { LogoutComponent } from './components/logout/logout.component';
 import { HomeService } from './components/home/home.service';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { ConversationalComponent } from './components/conversational/conversational.component';
+import { ConversationalService } from './components/conversational/conversational.service';
+import { cmsgComponent } from './components/conversational/cmsg.component';
+import { cuiDirective } from './components/conversational/cui.directive';
+
 
 @NgModule({
   declarations: [
@@ -33,7 +38,10 @@ import { FooterComponent } from './components/footer/footer.component';
     StatusComponent,
     LogoutComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    ConversationalComponent,
+    cmsgComponent,
+    cuiDirective
   ],
   imports: [
     BrowserModule,
@@ -41,7 +49,8 @@ import { FooterComponent } from './components/footer/footer.component';
     FormsModule,
     AppRoutingModule
   ],
-  providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService],
-  bootstrap: [AppComponent]
+  providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, ConversationalService],
+  bootstrap: [AppComponent],
+  entryComponents:[cmsgComponent, HomeComponent]
 })
 export class AppModule { }

@@ -1,5 +1,7 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { HomeService } from './home.service';
+import { CuiComponent } from '../conversational/cui.interface';
+
 
 @Component({
   selector: 'app-home',
@@ -7,7 +9,8 @@ import { HomeService } from './home.service';
   styleUrls: ['./home.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, CuiComponent {
+  @Input() data: any;
   customers: any = [];
   constructor(private homeService: HomeService) { }
 

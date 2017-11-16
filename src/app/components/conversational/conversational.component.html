@@ -1,0 +1,11 @@
+<div *ngFor="let conversation of conversations" class="col-md-4 alert alert-primary" >
+    <div [ngClass]="conversation.direction=='out'?'float-left':'float-right'"  cui ></div>
+      <div class="clearfix"></div>
+  </div>
+<div class="form-group">
+    <label for="email">Email</label>
+    <input type="text" class="form-control" id="email" placeholder="enter email" [(ngModel)]="email" name="email" required>
+
+  </div>
+  <!-- <cui></cui> -->
+  <ng-template cui></ng-template>

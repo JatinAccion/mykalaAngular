@@ -9,11 +9,17 @@ import { StatusComponent } from './components/status/status.component';
 import { LoginRedirect } from './services/login-redirect.service';
 import { EnsureAuthenticated } from './services/ensure-authenticated.service';
 import { LogoutComponent } from './components/logout/logout.component';
+import { ConversationalComponent } from './components/conversational/conversational.component';
 
 const appRoutes: Routes = [
     {
         path: 'login',
         component: LoginComponent,
+        canActivate: [LoginRedirect]
+    },
+    {
+        path: 'register',
+        component: RegisterComponent,
         canActivate: [LoginRedirect]
     },
     {
@@ -26,15 +32,14 @@ const appRoutes: Routes = [
         canActivate: [EnsureAuthenticated]
     },
     {
-        path: 'register',
-        component: RegisterComponent,
-        canActivate: [LoginRedirect]
+        path: 'cui',
+        component: ConversationalComponent,
+        canActivate: [EnsureAuthenticated]
     },
     {
         path: 'status',
         component: StatusComponent,
-        canActivate:
-        [EnsureAuthenticated]
+        canActivate: [EnsureAuthenticated]
     },
     // {
     //     path: '',
@@ -48,7 +53,7 @@ const appRoutes: Routes = [
         path: '',
         pathMatch: 'full',
         redirectTo: '/login'
-      },
+    },
 ];
 
 @NgModule({
