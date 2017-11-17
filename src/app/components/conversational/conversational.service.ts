@@ -43,10 +43,10 @@ export class ConversationalService {
 
     this.conversations.push(new Conversation('in', cmsgComponent, { message: msg }));
     const nextMsg = this.getNextMsg(msg);
-    if (nextMsg) {
+    if (nextMsg && nextMsg.length > 0) {
       this.conversations.push(new Conversation('out', cListComponent, { data: nextMsg }));
     } else {
-      this.conversations.push(new Conversation('out', cListComponent, { message: this.getNoResultsFound() }));
+      this.conversations.push(new Conversation('out', cmsgComponent, { message: this.getNoResultsFound() }));
     }
     // this.conversations.push(new Conversation('out', msg === "home" ? HomeComponent : cmsgComponent, { message: msg }));
   }
