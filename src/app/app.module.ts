@@ -27,6 +27,7 @@ import { ConversationalComponent } from './components/conversational/conversatio
 import { ConversationalService } from './components/conversational/conversational.service';
 import { cmsgComponent } from './components/conversational/cmsg.component';
 import { cuiDirective } from './components/conversational/cui.directive';
+import { cListComponent } from './components/conversational/cList.component';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { cuiDirective } from './components/conversational/cui.directive';
     FooterComponent,
     ConversationalComponent,
     cmsgComponent,
+    cListComponent,
     cuiDirective
   ],
   imports: [
@@ -51,6 +53,6 @@ import { cuiDirective } from './components/conversational/cui.directive';
   ],
   providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, ConversationalService],
   bootstrap: [AppComponent],
-  entryComponents:[cmsgComponent, HomeComponent]
+  entryComponents: [cmsgComponent, HomeComponent, cListComponent]
 })
 export class AppModule { }
