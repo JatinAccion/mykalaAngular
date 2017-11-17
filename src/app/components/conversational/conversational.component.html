@@ -1,16 +1,18 @@
 <div *ngFor="let conversation of conversations" class="col-md-4 alert alert-primary">
-  <div [ngClass]="conversation.direction=='out'?'float-left':'float-right'" cui>
-
-
+  <div [ngClass]="conversation.direction=='out'?'float-left':'float-right'" >
+    <div cui></div>
   </div>
+
   <div class="clearfix"></div>
 </div>
-<div class="form-group">
-  <label for="email">Email</label>
-  <input type="text" class="form-control" [(ngModel)]="msgType" required>
-  <button (click)="add()">Add</button>
-  <button (click)="refresh()">Refresh</button>
-
+<div class="form-group col-md-4">
+  <div class="col-md-8">
+    <label for="email">Email</label>
+    <input type="text" class="form-control" [(ngModel)]="msgType" required>
+  </div>
+  <div class="col-md-4">
+    <button (click)="add()">Add</button>
+  </div>
 </div>
 <!-- <cui></cui> -->
 <!-- <ng-template cui></ng-template> -->

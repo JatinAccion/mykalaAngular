@@ -13,14 +13,17 @@ export class ConversationalService {
     return "How are you today?";
   }
   addGreetings() {
-    this.conversations.push(new Conversation(this.getGreetings(), 'out', HomeComponent, { message: this.getGreetings() }));
-    this.conversations.push(new Conversation(this.getGreetings(), 'in', cmsgComponent, { message: this.getGreetings() }));
-    this.conversations.push(new Conversation(this.getGreetings(), 'out', cmsgComponent, { message: this.getGreetings() }));
-    this.conversations.push(new Conversation(this.getGreetings(), 'in', HomeComponent, { message: this.getGreetings() }));
-    this.conversations.push(new Conversation(this.getGreetings(), 'in', cmsgComponent, { message: this.getGreetings() }));
+    if (this.conversations.length === 0) {
+      this.conversations.push(new Conversation('out', cmsgComponent, { message: this.getGreetings() }));
+      // this.conversations.push(new Conversation('out', cmsgComponent, { message: this.getGreetings() }));
+      // this.conversations.push(new Conversation( 'in', HomeComponent, { message: this.getGreetings() }));
+      // this.conversations.push(new Conversation( 'in', cmsgComponent, { message: this.getGreetings() }));
+    }
   }
   addComponent(msg) {
-    this.conversations.push(new Conversation(msg, 'In', msg === "home" ? HomeComponent : cmsgComponent, { message: msg }));
+
+    this.conversations.push(new Conversation( 'in', cmsgComponent, { message: msg }));
+    this.conversations.push(new Conversation( 'out', msg === "home" ? HomeComponent : cmsgComponent, { message: msg }));
   }
 
 }

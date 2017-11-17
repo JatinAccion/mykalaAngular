@@ -22,7 +22,8 @@ export class ConversationalComponent implements OnInit, OnDestroy {
   subscription: any;
   interval: any;
   msgType: string = "home";
-  constructor(private componentFactoryResolver: ComponentFactoryResolver, private cservice: ConversationalService, private cd: ChangeDetectorRef) { }
+  run: boolean = true;
+  constructor(private componentFactoryResolver: ComponentFactoryResolver, private cservice: ConversationalService) { }
 
   ngOnInit() {
     this.conversations = new Array<Conversation>();
@@ -31,23 +32,19 @@ export class ConversationalComponent implements OnInit, OnDestroy {
   }
 
   ngAfterViewInit() {
+    console.log('ngAfterViewInit');
     this.loadConversations(true);
-    // this.cuiDirs.changes.subscribe(() => {
-    //   if (this.cuiDirs)
-    //     this.loadConversations(true);
-    // });
-    // if (this.dummy) {
-    //   this.dummy = !this.dummy;
-    //   this.cservice.addComponent("dummy");
-    // }
-    // this.cd.detectChanges();
-  }
-  ngAfterViewChecked(){
-    // this.loadConversations(true);
+    this.cuiDirs.changes.subscribe(() => {
+      if (this.cuiDirs) {
+        if (this.run) {
+          this.loadConversations(false);
+        }
+      }
+    });
   }
   loadConversations(last: boolean) {
     this.cuiDirs.forEach((item, index) => {
-      if (last || this.cuiDirs.length - 1 === index) {
+      if (last || this.cuiDirs.length  > index) {
         let conversation = this.conversations[index];
 
         let componentFactory = this.componentFactoryResolver.resolveComponentFactory(conversation.component);
@@ -56,6 +53,7 @@ export class ConversationalComponent implements OnInit, OnDestroy {
 
         let componentRef = viewContainerRef.createComponent(componentFactory);
         (<CuiComponent>componentRef.instance).data = conversation.data;
+
       }
     });
   }
@@ -83,14 +81,10 @@ export class ConversationalComponent implements OnInit, OnDestroy {
   }
   add() {
     this.cservice.addComponent(this.msgType);
-     this.loadConversations(false);
-    //  this.cservice.addComponent("dummy");
-    //   if (this.dummy) {
-    //   this.dummy = !this.dummy;
-    // }
+    this.run = true;
+    setTimeout(() => {
+      this.conversations = null;
+      this.conversations = this.cservice.conversations;
+    }, 1);
   }
-  refresh(){
-    console.log(this.cuiDirs.length);
-  }
-
 }
