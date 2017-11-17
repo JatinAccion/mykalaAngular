@@ -13,11 +13,14 @@ export class ConversationalService {
     return "How are you today?";
   }
   addGreetings() {
-    this.conversations.push(new Conversation(this.getGreetings(), 'out', cmsgComponent, { message: this.getGreetings() }));
-    this.conversations.push(new Conversation(this.getGreetings(), 'in', HomeComponent, { message: this.getGreetings() }));
+    this.conversations.push(new Conversation(this.getGreetings(), 'out', HomeComponent, { message: this.getGreetings() }));
+    this.conversations.push(new Conversation(this.getGreetings(), 'in', cmsgComponent, { message: this.getGreetings() }));
     this.conversations.push(new Conversation(this.getGreetings(), 'out', cmsgComponent, { message: this.getGreetings() }));
     this.conversations.push(new Conversation(this.getGreetings(), 'in', HomeComponent, { message: this.getGreetings() }));
     this.conversations.push(new Conversation(this.getGreetings(), 'in', cmsgComponent, { message: this.getGreetings() }));
+  }
+  addComponent(msg) {
+    this.conversations.push(new Conversation(msg, 'In', msg === "home" ? HomeComponent : cmsgComponent, { message: msg }));
   }
 
 }

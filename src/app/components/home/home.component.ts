@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit, CuiComponent {
   ngOnInit() {
     this.homeService.getCustomers().subscribe(customers => {
     this.customers = customers;
-      console.log(this.customers);
+      // console.log(this.customers);
     });
   }
 
