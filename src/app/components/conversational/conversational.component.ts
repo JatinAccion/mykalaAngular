@@ -44,7 +44,7 @@ export class ConversationalComponent implements OnInit, OnDestroy {
   }
   loadConversations(last: boolean) {
     this.cuiDirs.forEach((item, index) => {
-      if (last || this.cuiDirs.length  > index) {
+      if (last || this.cuiDirs.length > index) {
         let conversation = this.conversations[index];
 
         let componentFactory = this.componentFactoryResolver.resolveComponentFactory(conversation.component);
@@ -53,6 +53,10 @@ export class ConversationalComponent implements OnInit, OnDestroy {
 
         let componentRef = viewContainerRef.createComponent(componentFactory);
         (<CuiComponent>componentRef.instance).data = conversation.data;
+        (<CuiComponent>componentRef.instance).clicked.subscribe((msg) => {
+          this.msgType = msg;
+          this.add();
+        });
 
       }
     });

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input, EventEmitter, Output } from '@angular/core';
 import { CuiComponent } from './cui.interface';
 
 @Component({
@@ -8,6 +8,7 @@ import { CuiComponent } from './cui.interface';
 })
 export class cmsgComponent implements OnInit, CuiComponent {
     @Input() data: any;
+    @Output() clicked = new EventEmitter<string>();
   constructor() { }
 
   ngOnInit() {
