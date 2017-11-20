@@ -1,0 +1,17 @@
+<div>
+    <div class="form-group" *ngIf="step==1">
+        <label for="email">Email</label>
+        <input type="text" class="form-control" id="email" placeholder="enter email" [(ngModel)]="user.email" (keypress)="onEmailBlur($event)"
+            name="email" required>
+    </div>
+    <div class="form-group" *ngIf="step==2">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" id="email" placeholder="enter user name" [(ngModel)]="user.username" (keypress)="onUsernameBlur($event)"
+            name="username" required>
+    </div>
+    <div class="form-group" *ngIf="step==3">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" placeholder="enter password" [(ngModel)]="user.password" (keypress)="onPasswordBlur($event)"
+            name="password" required>
+    </div>
+</div>

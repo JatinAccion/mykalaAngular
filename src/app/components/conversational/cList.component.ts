@@ -4,8 +4,8 @@ import { CuiComponent } from './cui.interface';
 @Component({
     selector: 'cList',
     template: `
-                <div class="row">
-                    <div *ngFor="let item of data.data" class="col-md-3 border border-success rounded mx-1" (click)="onClick(item)" >
+                <div class="">
+                    <div *ngFor="let item of data.data" class="btn btn-primary m-2  " (click)="onClick(item)" >
                         {{item}}
                     </div>
                 </div>`,

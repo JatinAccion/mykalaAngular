@@ -15,7 +15,6 @@ import { EnsureAuthenticated } from './services/ensure-authenticated.service';
 
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
-import { RegisterComponent } from './components/register/register.component';
 import { StatusComponent } from './components/status/status.component';
 import { LoginRedirect } from './services/login-redirect.service';
 import { LogoutComponent } from './components/logout/logout.component';
@@ -28,6 +27,10 @@ import { ConversationalService } from './components/conversational/conversationa
 import { cmsgComponent } from './components/conversational/cmsg.component';
 import { cuiDirective } from './components/conversational/cui.directive';
 import { cListComponent } from './components/conversational/cList.component';
+import { JoinKalaComponent } from './components/join-kala/join-kala.component';
+import { UsrenameComponent } from './components/usrename/usrename.component';
+import { PasswordComponent } from './components/password/password.component';
+import { EmailComponent } from './components/email/email.component';
 
 
 @NgModule({
@@ -35,7 +38,6 @@ import { cListComponent } from './components/conversational/cList.component';
     AppComponent,
     LoginComponent,
     HomeComponent,
-    RegisterComponent,
     StatusComponent,
     LogoutComponent,
     HeaderComponent,
@@ -43,7 +45,11 @@ import { cListComponent } from './components/conversational/cList.component';
     ConversationalComponent,
     cmsgComponent,
     cListComponent,
-    cuiDirective
+    cuiDirective,
+    JoinKalaComponent,
+    UsrenameComponent,
+    PasswordComponent,
+    EmailComponent
   ],
   imports: [
     BrowserModule,
@@ -53,6 +59,6 @@ import { cListComponent } from './components/conversational/cList.component';
   ],
   providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, ConversationalService],
   bootstrap: [AppComponent],
-  entryComponents: [cmsgComponent, HomeComponent, cListComponent]
+  entryComponents: [cmsgComponent, HomeComponent, cListComponent, JoinKalaComponent]
 })
 export class AppModule { }
