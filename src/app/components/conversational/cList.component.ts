@@ -5,7 +5,7 @@ import { CuiComponent } from './cui.interface';
     selector: 'cList',
     template: `
                 <div class="">
-                    <div *ngFor="let item of data.data" class="btn btn-primary m-2  " (click)="onClick(item)" >
+                    <div *ngFor="let item of data.data" class="btn btn_red_right m-2  " (click)="onClick(item)" >
                         {{item}}
                     </div>
                 </div>`,
