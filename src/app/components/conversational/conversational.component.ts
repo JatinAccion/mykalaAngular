@@ -23,7 +23,8 @@ export class ConversationalComponent implements OnInit, OnDestroy {
   interval: any;
   msgType: string = "home";
   run: boolean = true;
-  constructor(private componentFactoryResolver: ComponentFactoryResolver, private cservice: ConversationalService) { }
+  // tslint:disable-next-line:max-line-length
+  constructor(private componentFactoryResolver: ComponentFactoryResolver, private cservice: ConversationalService, private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.conversations = new Array<Conversation>();
@@ -41,6 +42,9 @@ export class ConversationalComponent implements OnInit, OnDestroy {
         }
       }
     });
+  }
+  ngAfterViewChecked(){
+    this.cd.detectChanges();
   }
   loadConversations(last: boolean) {
     this.cuiDirs.forEach((item, index) => {
