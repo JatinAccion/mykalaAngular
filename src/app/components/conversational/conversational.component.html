@@ -1,10 +1,14 @@
-<div *ngFor="let conversation of conversations" class="col-md-4 alert alert-primary">
-  <div [ngClass]="conversation.direction=='out'?'float-left':'float-right'" >
-    <div cui></div>
-  </div>
+<!-- <div class="conversation">
+<div class="scroll-area"> -->
+  <div *ngFor="let conversation of conversations" class="col-md-4 alert alert-primary">
+    <div [ngClass]="conversation.direction=='out'?'float-left':'float-right'">
+      <div cui></div>
+    </div>
 
-  <div class="clearfix"></div>
-</div>
+    <div class="clearfix"></div>
+  </div>
+<!-- </div>
+</div> -->
 <div class="form-group col-md-4">
   <div class="col-md-8">
     <label for="email">Email</label>

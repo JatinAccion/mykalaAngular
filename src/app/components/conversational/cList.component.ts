@@ -5,9 +5,9 @@ import { CuiComponent } from './cui.interface';
     selector: 'cList',
     template: `
                 <div class="row">
-                <div *ngFor="let item of data.data" class="col-md-3 border border-success rounded mx-1" (click)="onClick(item)" >
-                    {{item}}
-                </div>
+                    <div *ngFor="let item of data.data" class="col-md-3 border border-success rounded mx-1" (click)="onClick(item)" >
+                        {{item}}
+                    </div>
                 </div>`,
     encapsulation: ViewEncapsulation.None
 })

@@ -25,22 +25,20 @@ export class ConversationalService {
   }
   getNextMsg(msg) {
     const search = this.searchData.filter(p => p.name === msg);
-    if (search) {
+    if (search && search.length > 0) {
       this.userResponse[search[0].level] = search[0].name;
       if (search[0].parent) {
         this.getNextMsg(search[0].parent);
       }
-      const response = this.searchData.filter(p => p.parent === msg //&&
-        // (this.userResponse.place ? p.level === "place" && p.parent === this.userResponse.place : true) &&
-        // (this.userResponse.type ? p.level === "type" && p.parent === this.userResponse.type : true) &&
-        // (this.userResponse.category ? p.level === "category" && p.parent === this.userResponse.category : true) &&
-        // (this.userResponse.subcategory ? p.level === "subcategory" && p.parent === this.userResponse.subcategory : true)
+      const response = this.searchData.filter(p => p.parent === msg
       ).map(p => p.name);
       return response;
     }
+    else {
+      return '';
+    }
   }
   addComponent(msg) {
-
     this.conversations.push(new Conversation('in', cmsgComponent, { message: msg }));
     const nextMsg = this.getNextMsg(msg);
     if (nextMsg && nextMsg.length > 0) {
