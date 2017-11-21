@@ -2,7 +2,7 @@
   <div class="clearfix">&nbsp;</div>
   <div class="col-12 px-0">
     <div *ngFor="let conversation of conversations">
-      <cmsg [ngClass]="conversation.direction=='out'?'left_chat':'right_chat'" [data]="conversation.data"></cmsg>
+      <cmsg [ngClass]="conversation.direction==2?'left_chat':'right_chat'" [data]="conversation.data"></cmsg>
       <div class="clearfix"></div>
     </div>
     <div class="clearfix">&nbsp;</div>

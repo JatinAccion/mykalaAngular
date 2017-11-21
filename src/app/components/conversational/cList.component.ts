@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, Input, EventEmitter, Output } from '@angular/core';
-import { CuiComponent } from './cui.interface';
+import { CuiComponent, MsgDirection } from './cui.interface';
+import { Conversation } from '../../models/conversation';
 
 @Component({
     selector: 'cList',
@@ -13,15 +14,13 @@ import { CuiComponent } from './cui.interface';
 })
 export class cListComponent implements OnInit, CuiComponent {
     @Input() data: any;
-    @Output() clicked = new EventEmitter<string>();
+    @Output() clicked = new EventEmitter<Conversation>();
     constructor() {
-        console.log(this.data);
     }
     ngOnInit() {
-        console.log(this.data);
     }
     onClick(item: string) {
-        this.clicked.emit(item);
+        this.clicked.emit(new Conversation(MsgDirection.In, item));
     }
 
 }

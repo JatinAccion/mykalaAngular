@@ -28,10 +28,6 @@ import { cmsgComponent } from './components/conversational/cmsg.component';
 import { cuiDirective } from './components/conversational/cui.directive';
 import { cListComponent } from './components/conversational/cList.component';
 import { JoinKalaComponent } from './components/join-kala/join-kala.component';
-import { UsrenameComponent } from './components/usrename/usrename.component';
-import { PasswordComponent } from './components/password/password.component';
-import { EmailComponent } from './components/email/email.component';
-
 
 @NgModule({
   declarations: [
@@ -46,10 +42,7 @@ import { EmailComponent } from './components/email/email.component';
     cmsgComponent,
     cListComponent,
     cuiDirective,
-    JoinKalaComponent,
-    UsrenameComponent,
-    PasswordComponent,
-    EmailComponent
+    JoinKalaComponent
   ],
   imports: [
     BrowserModule,
@@ -59,6 +52,6 @@ import { EmailComponent } from './components/email/email.component';
   ],
   providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, ConversationalService],
   bootstrap: [AppComponent],
-  entryComponents: [cmsgComponent, HomeComponent, cListComponent, JoinKalaComponent]
+  entryComponents: [cmsgComponent, HomeComponent, cListComponent, JoinKalaComponent, LoginComponent]
 })
 export class AppModule { }

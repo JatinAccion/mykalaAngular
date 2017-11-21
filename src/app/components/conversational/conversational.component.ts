@@ -1,9 +1,9 @@
 // tslint:disable-next-line:max-line-length
 import { Component, OnChanges, OnInit, ViewEncapsulation, AfterViewChecked, ViewChild, AfterViewInit, OnDestroy, ComponentFactoryResolver, ViewChildren, AfterContentInit, QueryList, ChangeDetectorRef, SimpleChanges } from '@angular/core';
 import { ConversationalService } from './conversational.service';
-import { Conversation } from '../../models/conversation';
+import { Conversation, ConversationInput } from '../../models/conversation';
 import { cuiDirective } from './cui.directive';
-import { CuiComponent } from './cui.interface';
+import { CuiComponent, MsgDirection } from './cui.interface';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -15,47 +15,46 @@ import { Subscription } from 'rxjs/Subscription';
   styleUrls: ['./conversational.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class ConversationalComponent implements OnInit, OnDestroy {
-  dummy: boolean;
+export class ConversationalComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild(cuiDirective) cuiDir: cuiDirective;
-  inputComponent: Conversation;
+  inputComponent: ConversationInput;
   subscription: Subscription;
-  @ViewChildren(cuiDirective) cuiDirs: QueryList<cuiDirective>;
+
   conversations: Array<Conversation>;
-  msgType: string = "home";
-  // tslint:disable-next-line:max-line-length
-  constructor(private componentFactoryResolver: ComponentFactoryResolver, private cservice: ConversationalService, private cd: ChangeDetectorRef) {
+  conversation: Conversation = new Conversation(MsgDirection.In, 'home');
+
+  constructor(private componentFactoryResolver: ComponentFactoryResolver,
+    private cservice: ConversationalService,
+    private cd: ChangeDetectorRef) {
     this.subscription = this.cservice.getComponent().subscribe(data => {
       this.inputComponent = data;
-      this.loadComponent();
+      this.loadInputComponent();
     });
   }
 
   ngOnInit() {
     this.conversations = new Array<Conversation>();
-    this.cservice.addGreetings();
+    this.cservice.initializeConversation();
     this.conversations = this.cservice.conversations;
   }
 
   ngAfterViewChecked() { this.cd.detectChanges(); }
 
   ngOnDestroy() { }
-  loadComponent() {
-    let componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.inputComponent.component);
-    let viewContainerRef = this.cuiDir.viewContainerRef;
+
+  loadInputComponent() {
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.inputComponent.component);
+    const viewContainerRef = this.cuiDir.viewContainerRef;
     viewContainerRef.clear();
-    let componentRef = viewContainerRef.createComponent(componentFactory);
+    const componentRef = viewContainerRef.createComponent(componentFactory);
     (<CuiComponent>componentRef.instance).data = this.inputComponent.data;
     (<CuiComponent>componentRef.instance).clicked.subscribe((msg) => {
-      this.msgType = msg;
-      this.add();
+      this.conversation = msg;
+      this.addConversation();
     });
-
   }
-
-
-  add() {
-    this.cservice.addComponent(this.msgType);
+  addConversation() {
+    this.cservice.addConversation(this.conversation);
     setTimeout(() => {
       this.conversations = null;
       this.conversations = this.cservice.conversations;

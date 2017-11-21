@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter } from '@angular/core';
 import { HomeService } from './home.service';
 import { CuiComponent } from '../conversational/cui.interface';
+import { Conversation } from '../../models/conversation';
 
 
 @Component({
@@ -11,7 +12,7 @@ import { CuiComponent } from '../conversational/cui.interface';
 })
 export class HomeComponent implements OnInit, CuiComponent {
   @Input() data: any;
-  @Output() clicked = new EventEmitter<string>();
+  @Output() clicked = new EventEmitter<Conversation>();
 
   customers: any = [];
   constructor(private homeService: HomeService) { }
