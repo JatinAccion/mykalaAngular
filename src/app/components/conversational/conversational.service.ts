@@ -1,14 +1,21 @@
-import { Injectable } from '@angular/core';
+import { Injectable, QueryList } from '@angular/core';
 import { Conversation } from '../../models/conversation';
 import { cmsgComponent } from './cmsg.component';
 import { HomeComponent } from '../home/home.component';
 import { cListComponent } from './cList.component';
 import { UsrenameComponent } from '../usrename/usrename.component';
 import { JoinKalaComponent } from '../join-kala/join-kala.component';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class ConversationalService {
   conversations: Array<Conversation>;
+  inputComponent = new Subject<Conversation>();
+  process = "Greetings";
+  getComponent(): Observable<any> {
+    return this.inputComponent.asObservable();
+  }
   isConverstionalUI = true;
   constructor() {
     this.conversations = new Array<Conversation>();
@@ -24,7 +31,7 @@ export class ConversationalService {
     return ["what's trending?", "Login", "Join"];
   }
   getLandingOptionsAfterLogin() {
-    return ["what's trending?"];
+    return ["what's trending?", "home"];
   }
   getNoResultsFound() {
     return "No results Found.. Please Try again..";
@@ -32,16 +39,18 @@ export class ConversationalService {
   addGreetings() {
     if (this.conversations.length === 0) {
       this.conversations.push(new Conversation('out', cmsgComponent, { message: this.getGreetings() }));
-      this.conversations.push(new Conversation('out', cListComponent, { data: this.getLandingOptions() }));
+      this.inputComponent.next(new Conversation('out', cListComponent, { data: this.getLandingOptions() }));
     }
   }
   onJoin() {
     this.conversations.push(new Conversation('out', cmsgComponent, { message: "Great! Please enter preferred user name." }));
-    this.conversations.push(new Conversation('out', JoinKalaComponent, { data: this.getLandingOptions() }));
+    this.process = "Join";
+    this.inputComponent.next(new Conversation('out', JoinKalaComponent, { data: this.getLandingOptions() }));
   }
   onJoined() {
     this.conversations.push(new Conversation('out', cmsgComponent, { message: "Great! thanks for Joining Kala." }));
-    this.conversations.push(new Conversation('out', cListComponent, { data: this.getLandingOptionsAfterLogin() }));
+    this.process = "Landing";
+    this.inputComponent.next(new Conversation('out', cListComponent, { data: this.getLandingOptionsAfterLogin() }));
   }
   getNextMsg(msg) {
     const search = this.searchData.filter(p => p.name === msg);
@@ -60,18 +69,27 @@ export class ConversationalService {
 
   }
   addComponent(msg) {
-    switch (msg) {
-      case "Join": this.onJoin(); break;
-      case "Join Completed": this.conversations.pop(); this.onJoined(); break;
-      default: {
+    switch (process) {
+      case "Join":
         this.conversations.push(new Conversation('in', cmsgComponent, { message: msg }));
-        const nextMsg = this.getNextMsg(msg);
-        if (nextMsg && nextMsg.length > 0) {
-          this.conversations.push(new Conversation('out', cListComponent, { data: nextMsg }));
-        } else {
-          this.conversations.push(new Conversation('out', cmsgComponent, { message: this.getNoResultsFound() }));
+        break;
+      case "Greetings": break;
+      case "Landing": break;
+      case "List":
+      default:
+        switch (msg) {
+          case "Join": this.onJoin(); break;
+          case "Join Completed": this.conversations.pop(); this.onJoined(); break;
+          default: {
+            this.conversations.push(new Conversation('in', cmsgComponent, { message: msg }));
+            const nextMsg = this.getNextMsg(msg);
+            if (nextMsg && nextMsg.length > 0) {
+              this.inputComponent.next(new Conversation('out', cListComponent, { data: nextMsg }));
+            } else {
+              this.conversations.push(new Conversation('out', cmsgComponent, { message: this.getNoResultsFound() }));
+            }
+          } break;
         }
-      } break;
     }
   }
 }

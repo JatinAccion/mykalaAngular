@@ -25,15 +25,31 @@ export class JoinKalaComponent implements OnInit, CuiComponent {
   onEmailBlur(event) { if (event.charCode === 13) { this.validateInput(); } }
   onUsernameBlur(event) { if (event.charCode === 13) { this.validateInput(); } }
   onPasswordBlur(event) { if (event.charCode === 13) { this.validateInput(); } }
+  isValidEmail() {
+    if (true) {
+      this.clicked.emit("email: " + this.user.email);
+    }
+  }
+  isValidUsername() {
+    if (true) {
+      this.clicked.emit("username: " + this.user.username);
+    }
+  }
+  isValidPassword() {
+    if (true) {
+      this.clicked.emit("password: " + "*******");
+    }
+  }
+
   validateInput() {
-    if (this.user.email === '') { this.onEmailError(); }
-    else if (this.user.username === '') { this.onUsernameError(); }
-    else if (this.user.password === '') { this.onPasswordError(); }
+    if (this.user.email === '' && !this.isValidEmail()) { this.onEmailError(); }
+    else if (this.user.username === '' && !this.isValidUsername()) { this.onUsernameError(); }
+    else if (this.user.password === '' && !this.isValidPassword()) { this.onPasswordError(); }
     else this.signUp();
   }
-  onEmailError() { this.step = 1; }
-  onUsernameError() { this.step = 2; }
-  onPasswordError() { this.step = 3; }
+  onEmailError() { this.clicked.emit("Please enter valid email Id"); this.step = 1; }
+  onUsernameError() { this.clicked.emit("Please enter valid user name"); this.step = 2; }
+  onPasswordError() { this.clicked.emit("Please enter valid password"); this.step = 3; }
   signUp() {
     this.auth.login(this.user)
       .then((user) => {

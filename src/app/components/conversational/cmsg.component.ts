@@ -7,11 +7,9 @@ import { CuiComponent } from './cui.interface';
   encapsulation: ViewEncapsulation.None
 })
 export class cmsgComponent implements OnInit, CuiComponent {
-    @Input() data: any;
-    @Output() clicked = new EventEmitter<string>();
+  @Input() data: any;
+  @Output() clicked = new EventEmitter<string>();
   constructor() { }
-
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
 }
