@@ -52,6 +52,6 @@ import { JoinKalaComponent } from './components/join-kala/join-kala.component';
   ],
   providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, ConversationalService],
   bootstrap: [AppComponent],
-  entryComponents: [cmsgComponent, HomeComponent, cListComponent, JoinKalaComponent, LoginComponent]
+  entryComponents: [cmsgComponent, HomeComponent, cListComponent, JoinKalaComponent]
 })
 export class AppModule { }

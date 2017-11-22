@@ -15,7 +15,7 @@ import { Conversation } from '../../models/conversation';
 })
 export class LoginComponent implements OnInit, CuiComponent {
   @Input() data: any;
-  @Output() clicked: EventEmitter<Conversation>;
+  @Output() clicked= new EventEmitter<Conversation>();
   user: User = new User();
   @Input() hideNavi: string;
   constructor(private router: Router, private auth: AuthService, private core: CoreService) { }
@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit, CuiComponent {
       .then((user) => {
         localStorage.setItem('token', user.json().auth_token);
         this.core.show();
+        this.clicked.emit(new Conversation(MsgDirection.Out, "Login Completed"));
         this.clicked.emit(new Conversation(MsgDirection.In, "Hi, " + user.json().auth_token));
         this.router.navigateByUrl('/status');
       })

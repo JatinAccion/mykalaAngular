@@ -7,6 +7,7 @@ import { JoinKalaComponent } from '../join-kala/join-kala.component';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { MsgDirection } from './cui.interface';
+import { LoginComponent } from '../login/login.component';
 
 @Injectable()
 export class ConversationalService {
@@ -69,12 +70,22 @@ export class ConversationalService {
             this.process = 'Join';
             this.inputComponent.next(new ConversationInput(MsgDirection.Out, JoinKalaComponent, { data: this.getLandingOptions() }));
             break;
+          case 'Login':
+            this.conversations.push(new Conversation(MsgDirection.Out, 'Great! Please enter  user name.'));
+            this.process = 'Join';
+            this.inputComponent.next(new ConversationInput(MsgDirection.Out, LoginComponent, { data: this.getLandingOptions() }));
+            break;
         }
         break;
       case 'Join':
         switch (msg.data) {
           case 'Join Completed': this.conversations.pop();
             this.conversations.push(new Conversation(MsgDirection.Out, 'Great! thanks for Joining Kala.'));
+            this.process = 'Landing';
+            this.inputComponent.next(new ConversationInput(MsgDirection.Out, cListComponent, { data: this.getLandingOptionsAfterLogin() }));
+            break;
+          case 'Login Completed': this.conversations.pop();
+            this.conversations.push(new Conversation(MsgDirection.Out, 'Great! thanks for Login Kala.'));
             this.process = 'Landing';
             this.inputComponent.next(new ConversationInput(MsgDirection.Out, cListComponent, { data: this.getLandingOptionsAfterLogin() }));
             break;
@@ -89,7 +100,7 @@ export class ConversationalService {
           this.inputComponent.next(new ConversationInput(MsgDirection.Out, cListComponent, { data: nextMsg }));
         } else {
           this.inputComponent.next(new ConversationInput(MsgDirection.Out, cListComponent, {
-            data: this.getLandingOptionsAfterLogin()));
+            data: this.getLandingOptionsAfterLogin()}));
           this.conversations.push(new Conversation(MsgDirection.Out, this.getNoResultsFound()));
         }
         break;

@@ -15,7 +15,7 @@ const appRoutes: Routes = [
     {
         path: 'login',
         component: LoginComponent,
-        canActivate: [LoginRedirect]
+        // canActivate: [LoginRedirect]
     },
     {
         path: 'join-kala',
@@ -29,7 +29,7 @@ const appRoutes: Routes = [
     {
         path: 'home',
         component: HomeComponent,
-        canActivate: [EnsureAuthenticated]
+        // canActivate: [EnsureAuthenticated]
     },
     {
         path: 'cui',
@@ -41,18 +41,14 @@ const appRoutes: Routes = [
         component: StatusComponent,
         canActivate: [EnsureAuthenticated]
     },
-    // {
-    //     path: '',
-    //     redirectTo: '/login'
-    // },
     {
         path: '**',
-        redirectTo: '/login'
+        redirectTo: '/home'
     },
     {
         path: '',
         pathMatch: 'full',
-        redirectTo: '/login'
+        redirectTo: '/home'
     },
 ];
 
