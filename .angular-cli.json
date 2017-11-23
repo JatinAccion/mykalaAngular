@@ -5,14 +5,15 @@
   },
   "apps": [
     {
+      "name": "admin",
       "root": "src",
-      "outDir": "dist",
+      "outDir": "dist/admin-app",
       "assets": [
-        "assets",
+        "admin-app/assets",
         "favicon.ico"
       ],
       "index": "index.html",
-      "main": "main.ts",
+      "main": "admin-app/main.ts",
       "polyfills": "polyfills.ts",
       "test": "test.ts",
       "tsconfig": "tsconfig.app.json",
@@ -20,13 +21,39 @@
       "prefix": "app",
       "styles": [
         "../node_modules/bootstrap/dist/css/bootstrap.min.css",
-        "styles.css"
+        "admin-app/styles.css"
+      ],
+      "scripts": [ ],
+      "environmentSource": "admin-app/environments/environment.ts",
+      "environments": {
+        "dev": "admin-app/environments/environment.ts",
+        "prod": "admin-app/environments/environment.prod.ts"
+      }
+    },
+    {
+      "name": "consumer",
+      "root": "src",
+      "outDir": "dist/consumer-app",
+      "assets": [
+        "consumer-app/assets",
+        "favicon.ico"
+      ],
+      "index": "index.html",
+      "main": "consumer-app/main.ts",
+      "polyfills": "polyfills.ts",
+      "test": "test.ts",
+      "tsconfig": "tsconfig.app.json",
+      "testTsconfig": "tsconfig.spec.json",
+      "prefix": "app",
+      "styles": [
+        "../node_modules/bootstrap/dist/css/bootstrap.min.css",
+        "consumer-app/styles.css"
       ],
       "scripts": [],
-      "environmentSource": "environments/environment.ts",
+      "environmentSource": "consumer-app/environments/environment.ts",
       "environments": {
-        "dev": "environments/environment.ts",
-        "prod": "environments/environment.prod.ts"
+        "dev": "consumer-app/environments/environment.ts",
+        "prod": "consumer-app/environments/environment.prod.ts"
       }
     }
   ],

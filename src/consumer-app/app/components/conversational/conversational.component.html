@@ -1,0 +1,36 @@
+<div class="mobile_view">
+  <div class="clearfix">&nbsp;</div>
+  <div class="col-12 px-0">
+    <div *ngFor="let conversation of conversations">
+      <cmsg [ngClass]="conversation.direction==2?'left_chat':'right_chat'" [data]="conversation.data"></cmsg>
+      <div class="clearfix"></div>
+    </div>
+    <div class="clearfix">&nbsp;</div>
+  </div>
+  <!-- <div class="container mobile_content">
+    <div class="mobile_chat">
+      <div class="text-center">
+        <span class="btn  btn_red_right">create account</span>
+      </div>
+    </div>
+  </div> -->
+  <footer class="mobile_Footer backgroundWhite">
+    <div class="mobile_Screen row">
+      <div class=" col-2 typeBox text-right">
+        <img src="/assets/images/key_down.png" />
+      </div>
+      <div class=" col-1 customerVoice">
+        <img src="/assets/images/consumer_voice.png" />
+      </div>
+      <div class=" col-7 nopadding text-left">
+        <div>
+          <div cui></div>
+        </div>
+        <!-- <input type="text" class="form-control txt-chat" placeholder="Type in your preference brand..." [(ngModel)]="msgType" required> -->
+      </div>
+      <div class="col-sm-2">
+        <!-- <button class="btn  btn_red_right" (click)="add()">Add</button> -->
+      </div>
+    </div>
+  </footer>
+</div>

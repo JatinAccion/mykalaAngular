@@ -1,0 +1,326 @@
+/* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: 'open_sansbold';
+    src: url('/admin-app/assets/fonts/opensans-bold-webfont.eot');
+    src: url('/admin-app/assets/fonts/opensans-bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/admin-app/assets/fonts/opensans-bold-webfont.woff2') format('woff2'),
+         url('/admin-app/assets/fonts/opensans-bold-webfont.woff') format('woff'),
+         url('/admin-app/assets/fonts/opensans-bold-webfont.ttf') format('truetype'),
+         url('/admin-app/assets/fonts/opensans-bold-webfont.svg#open_sansbold') format('svg');
+    font-weight: normal;
+    font-style: normal; 
+}  
+@font-face {
+    font-family: 'open_sanssemibold';
+    src: url('/admin-app/assets/fonts/opensans-semibold-webfont.eot');
+    src: url('/admin-app/assets/fonts/opensans-semibold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/admin-app/assets/fonts/opensans-semibold-webfont.woff2') format('woff2'),
+         url('/admin-app/assets/fonts/opensans-semibold-webfont.woff') format('woff'),
+         url('/admin-app/assets/fonts/opensans-semibold-webfont.ttf') format('truetype'),
+         url('/admin-app/assets/fonts/opensans-semibold-webfont.svg#open_sanssemibold') format('svg');
+    font-weight: normal;
+    font-style: normal; 
+}
+@font-face {
+    font-family: 'open_sansregular';
+    src: url('/admin-app/assets/fonts/opensans-regular-webfont.eot');
+    src: url('/admin-app/assets/fonts/opensans-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/admin-app/assets/fonts/opensans-regular-webfont.woff2') format('woff2'),
+         url('/admin-app/assets/fonts/opensans-regular-webfont.woff') format('woff'),
+         url('/admin-app/assets/fonts/opensans-regular-webfont.ttf') format('truetype'),
+         url('/admin-app/assets/fonts/opensans-regular-webfont.svg#open_sansbold') format('svg');
+    font-weight: normal;
+    font-style: normal; 
+}  
+@font-face {
+    font-family: 'open_sanslight';
+    src: url('/admin-app/assets/fonts/opensans-light-webfont.eot');
+    src: url('/admin-app/assets/fonts/opensans-light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/admin-app/assets/fonts/opensans-light-webfont.woff2') format('woff2'),
+         url('/admin-app/assets/fonts/opensans-light-webfont.woff') format('woff'),
+         url('/admin-app/assets/fonts/opensans-light-webfont.ttf') format('truetype'),
+         url('/admin-app/assets/fonts/opensans-light-webfont.svg#open_sanssemibold') format('svg');
+    font-weight: normal;
+    font-style: normal; 
+} 
+html, body, div, img {
+  margin: 0;
+  padding: 0; }
+
+html {
+  height: 100%; }
+
+body {
+    font-family:open_sansregular;
+    font-size:14px;
+    background:#f4f3f3;
+    height: 100%;
+    overflow-x:hidden;
+}
+header{
+    background:#292b2c;
+    color:#fff;
+    padding:14px;
+}
+.title h1{
+    color: #a7a9ab;
+    font-weight: lighter;
+    display: inline-block;
+    font-size: 30px;
+    font-family:open_sanslight;
+    margin:20px 0px;
+}
+.login_layout{
+    background:#fff;
+    padding:10px 0px 30px;
+}
+.form-signin {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+.form-signin h4{
+    font-size: 20px;
+    font-family:open_sanslight;
+    margin:20px 0px;
+    color: #999;
+}
+.txt{
+    border:solid 1px #999999;
+    border-radius:5px;
+    padding:7px;
+    color:#2e3441;
+}
+.btn-nml{
+    border:solid 1px #4580d2;
+    border-top-right-radius:7px;
+    border-top-left-radius:7px;
+    border-bottom-left-radius:7px; 
+    background:#4580d2;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+    color:#fff;
+    padding:8px 20px;
+    display: inline-block;
+}
+.btn-nml:hover{
+    text-decoration:none;
+    color:#000;
+}
+.ancUser a{
+    color:#fff;
+    padding:5px 10px;
+}
+.ancUser a:nth-child(1){ 
+    padding:5px 20px;
+}
+.ancUser a:nth-child(2){ 
+    padding:5px 10px;
+    position:relative;
+    top:-10px;
+    font-size:12px;
+}
+.form-inline{
+    border-left:solid 1px #999;
+} 
+.fixed-top{
+    position:relative !important;
+}
+.container-fluid{
+    padding:0px 15px !important; 
+}
+.backgroundWhite{
+    background:#fff;
+}
+.form-control{
+    font-size:14px;
+    color:#999;
+}
+.signup ul li a{
+    color:#999;
+}
+.signup h5{
+    margin:10px 0px;
+    padding:0px;
+    color:#000;
+    font-size:16px;
+}
+.signup .nav-link {
+    display: inline-block;
+    padding: 0.5em 1em; 
+    width: 200px;
+}
+.signup ul.flex-column{
+    display:inline-block; 
+}
+.signup .tab-content{
+    display: inline-block;
+    vertical-align: top;
+    width: 600px;
+    margin-left: -4px;
+    background: #fff;
+    padding: 10px;
+}
+.tab_details_right{
+    width: 240px;
+    display: inline-block;
+    vertical-align: top;
+}
+.nav-link.active{
+    background:#fff;
+    color:#999;
+    font-weight:bold;
+}
+.viewProduct .nav-link {
+    display: inline-block;
+    padding: 0.5em 1em; 
+    width: 550px;
+}
+.viewProduct ul.flex-column{
+    display:inline-block; 
+}
+.viewProduct .tab-content{
+    display:inline-block;
+    border:solid 1px green;
+    vertical-align:top;
+}
+.box_outlineGray{
+    border:solid 1px #999;
+    padding:6px 15px;
+    display:inline-block;
+    background:#fff; 
+    font-size:13px;
+    margin-right:10px;
+}
+a.categ_close{
+    color:#999;
+    padding-left:10px;
+}
+.ddl_default{
+    border:solid 1px #999;
+    font-size:13px;
+    padding:5px;
+}
+.accountInfo .title span{
+    position:relative;
+    top:20px;
+}
+.dropup, .dropdown{
+    position:inherit !important; 
+}
+.dropdown-menu{
+    width:105%;
+    border: 0px solid rgba(0, 0, 0, 0.15) !important;
+    border-radius: 0px !important;
+    top:96% !important;
+    box-shadow:0px 2px 2px #999;
+    left: -29px;
+}
+.dropdown-menu a.dropdown-item{
+    display:inline-block; 
+    width:auto !important
+}
+.nav-item.dropdown.active .active{
+    font-weight:bold;
+    color: #000;
+    text-decoration: none !important;
+    background-color: transparent !important;
+}
+.btn-default{
+    background:#436798;
+    color:#fff;
+    padding:8px 20px;
+    text-decoration:none;
+    font-size:14px;
+    border-radius:0px !important;
+}
+.btn-default:hover{ 
+    color:#fff; 
+    text-decoration:none;
+} 
+.draglogo{
+    border:dashed 2px #999;
+    padding:15px 0px;
+}
+.list-unstyled li a{
+    color:#0275d8 !important;
+}
+.border_outline{
+    border:solid 1px #999;
+}
+.colorGray{
+    color:#999999;
+}
+.colorlightGray{
+    color:#c8cdd8;
+}
+.height-100{
+    height:100px;
+}
+.shippingProfile{
+    padding:10px; 
+}
+.shippingProfile .card-header{
+    background-color: transparent !important;
+    border-bottom: 0px solid rgba(0, 0, 0, 0.125) !important;
+}
+.shippingProfile .card{
+    border:solid 0px ;
+    margin-bottom:10px !important;
+    border-radius:0 !important;
+}
+.shippingProfile .card a{
+    color:#999;
+}
+.AdminAcct_Row{
+    background:#fff;
+    padding:5px;
+    margin:20px 0px;
+}
+.btn-outer{ 
+    padding: 7px 20px;
+    border-radius: 12px; 
+    width:100% !important;
+}
+.btn_red_right{
+    background-color: #e06263;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 0px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4); 
+    color:#fff !important;
+    padding: 7px 20px;
+    display:block;
+    text-align:center;
+}
+.btn_redouter_right{
+    background-color: #fff;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 0px; 
+    border:solid 1px #999;
+    color:#241610;
+    padding: 7px 20px;
+    display:block;
+    text-align:center;
+}
+.AdminAcct_Row h5{
+    padding:0px;
+    margin:0px;
+    font-size:16px;
+    color:#1c75bc;
+}
+
+/* angular extra */
+.navbar-nav li .dropdown-menu{ 
+    left: -30px !important;
+    width: calc(100% + 60px);
+}
+
+
+
+
+
+
+

@@ -1,0 +1,16 @@
+<div class="title col-sm-12">
+    <h1>Log In</h1>
+</div>
+<div class="login_layout col-sm-12">
+    <div class="form-signin">
+        <h4>log into admin portal</h4>
+        <p><input type="text" class="form-control" placeholder="Email" [(ngModel)]="user.email" name="email" required /></p>
+        <p><input type="text" class="form-control" placeholder="Password" [(ngModel)]="user.password" name="password" required /></p>
+        <p><input type="checkbox" /> remember me</p>
+    </div>
+    <hr />
+    <div class="clearfix col-sm-12 text-center">
+        <!-- <a class="btn-nml width25" (click)="onLogin()">log in</a> -->
+        <button type="submit" class=" btn-nml width25" (click)="onLogin()">log in</button>
+    </div> 
+</div>  
