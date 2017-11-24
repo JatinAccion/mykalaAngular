@@ -1,11 +1,9 @@
 import { Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { User } from '../../models/user';
-
 import { CoreService } from '../../services/core.service';
-import { CuiComponent, MsgDirection } from '../conversational/cui.interface';
-import { Conversation } from '../../models/conversation';
+import { User } from '../../../../models/user';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -13,24 +11,26 @@ import { Conversation } from '../../models/conversation';
   styleUrls: ['./login.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class LoginComponent implements OnInit, CuiComponent {
-  @Input() data: any;
-  @Output() clicked= new EventEmitter<Conversation>();
+export class LoginComponent implements OnInit {
+  loginKala: FormGroup;
+  passwordRegex = new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$');
+  usernameRegex = new RegExp('^[a-zA-Z0-9_.-]*$');
   user: User = new User();
   @Input() hideNavi: string;
-  constructor(private router: Router, private auth: AuthService, private core: CoreService) { }
+  constructor(private formBuilder: FormBuilder, private router: Router, private auth: AuthService, private core: CoreService) { }
   ngOnInit() {
     localStorage.removeItem('token');
     this.core.hide();
-
+    this.loginKala = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.compose([Validators.pattern(this.passwordRegex), Validators.required, Validators.minLength(8)])]
+    });
   }
   onLogin(): void {
     this.auth.login(this.user)
       .then((user) => {
         localStorage.setItem('token', user.json().auth_token);
         this.core.show();
-        this.clicked.emit(new Conversation(MsgDirection.Out, "Login Completed"));
-        this.clicked.emit(new Conversation(MsgDirection.In, "Hi, " + user.json().auth_token));
         this.router.navigateByUrl('/status');
       })
       .catch((err) => {

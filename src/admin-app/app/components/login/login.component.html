@@ -1,16 +1,43 @@
 <div class="title col-sm-12">
     <h1>Log In</h1>
 </div>
-<div class="login_layout col-sm-12">
+<div [formGroup]="loginKala" class="login_layout col-sm-12">
     <div class="form-signin">
         <h4>log into admin portal</h4>
-        <p><input type="text" class="form-control" placeholder="Email" [(ngModel)]="user.email" name="email" required /></p>
-        <p><input type="text" class="form-control" placeholder="Password" [(ngModel)]="user.password" name="password" required /></p>
-        <p><input type="checkbox" /> remember me</p>
+        <div class="form-group">
+            <input pattern formControlName="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                placeholder="Enter email">
+
+            <!--Validation-->
+            <div *ngIf="loginKala.controls.email.dirty || loginKala.controls.email.touched">
+                <div *ngIf="!loginKala.controls.email.value" class="alert alert-danger errorMessages">Please enter the email</div>
+                <div *ngIf="loginKala.controls.email.value && loginKala.controls.email.errors" class="alert alert-danger errorMessages">Please enter the valid email</div>
+            </div>
+            <!--Validation-->
+
+        </div>
+        <div class="form-group">
+            <input formControlName="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+
+            <!--Validation-->
+            <div *ngIf="loginKala.controls.password.dirty || loginKala.controls.password.touched">
+                <div *ngIf="!loginKala.controls.password.value" class="alert alert-danger errorMessages">Please enter the password</div>
+                <div *ngIf="loginKala.controls.password.value && !loginKala.controls.password.pattern && loginKala.controls.password.errors"
+                    class="alert alert-danger errorMessages">
+                    Password length must be minimum 8 characters, 1 uppercase character, 1 lowercase character, 1 number, 1 special character
+                </div>
+            </div>
+            <!--Validation-->
+
+        </div>
+        <div class="form-check">
+            <label class="form-check-label">
+                <input type="checkbox" class="form-check-input"> remember me
+            </label>
+        </div>
     </div>
     <hr />
     <div class="clearfix col-sm-12 text-center">
-        <!-- <a class="btn-nml width25" (click)="onLogin()">log in</a> -->
-        <button type="submit" class=" btn-nml width25" (click)="onLogin()">log in</button>
+        <button type="button" class=" btn-nml width25" [disabled]="!loginKala.valid" (click)="onLogin()">log in</button>
     </div> 
 </div>  

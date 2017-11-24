@@ -1,0 +1,406 @@
+<div class="title col-sm-12">
+  <h1>Account Info</h1>
+</div>
+<div class="col-sm-12">
+  <div class="col-sm-12 signup">
+    <ngb-tabset [orientation]="currentOrientation" [justify]="currentJustify">
+      <ngb-tab title="Profile info">
+        <ng-template ngbTabContent>
+          <div class="row backgroundWhite">
+            <div class="col-sm-8 p-2">
+              <h5>Website details</h5>
+              <form class="divProfile1">
+                <div class="form-group">
+                  <div class="draglogo text-center">
+                    <div class=" text-center">Drag your Logo here</div>
+                    or
+                    <a href="#">Select file from computer</a>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div>Business name</div>
+                  <input type="text" class="form-control" aria-describedby=" " placeholder=""  >
+                </div>
+                <div class="form-group">
+                  <div>DNB/TIN</div>
+                  <input type="text" class="form-control" aria-describedby=" " placeholder="">
+                </div>
+                <div class="form-group">
+                  <div>Business summary
+                    <small class="float-right">300 characters left</small>
+                  </div>
+                  <input type="text" class="form-control" aria-describedby=" " placeholder="">
+                </div>
+                <div class="form-group">
+                  <div>Business Address</div>
+                  <input type="text" class="form-control" aria-describedby=" " placeholder="Address line 1">
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" aria-describedby=" " placeholder="Address line 2.(optional)">
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" aria-describedby=" " placeholder="City">
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <input type="text" class="form-control" aria-describedby="" placeholder="State">
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <input type="text" class="form-control" aria-describedby="" placeholder="Zipcode">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <input type="text" class="form-control" aria-describedby="" placeholder="Email">
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <input type="text" class="form-control" aria-describedby="" placeholder="Phone number">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="box_outlineGray">AC & Heating</div>
+                    <div class="box_outlineGray">Interior Design</div>
+                    <div class="box_outlineGray">Manufacturing</div>
+                  </div>
+                </div>
+
+                <hr />
+                <div class="row">
+                  <div class="col-sm-6">
+                    <a href="#">back</a>
+                  </div>
+                  <div class="col-sm-6 text-right">
+                    <a class="btn btn-default ancProfile1" href="#">Next</a>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab title="Payment info">
+        <ng-template ngbTabContent>
+            <div class="row backgroundWhite">
+                <div class="col-sm-8 p-2">
+                    <form class="divPayemnt1">
+                        <div class="form-group">
+                            <p>Payment Method</p>
+                            <select class="ddl_default w-100">
+                                <option>Manual or Automated</option>
+                                <option>Manual or Automated1</option>
+                                <option>Manual or Automated2</option>
+                                <option>Manual or Automated3</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <p>Payment Vehicle</p>
+                            <select class="ddl_default w-100">
+                                <option>Select option</option>
+                                <option>Select option1</option>
+                                <option>Select option2</option>
+                                <option>Select option3</option>
+                            </select>
+                        </div>
+                        <hr />
+                        <div class="form-group">
+                            <div>Bank name</div>
+                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <div>Business address</div>
+                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="street address eg. 123 Main st.">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Apt, Suite Bldge(optional)">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="City">
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="State">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Zipcode">
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-sm-6"><a href="#">Back</a></div>
+                            <div class="col-sm-6 text-right">
+                                <a class="btn btn-default ancPayemnt1" href="#">Next</a>
+                            </div>
+                        </div>
+                    </form>
+                    <form class="divPayemnt2">
+                        <div class="form-group">
+                            <div>Account Name</div>
+                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <div>Account Name</div>
+                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <div>ABA Routing number</div>
+                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <div>SWIFT code</div>
+                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Name">
+                        </div>
+                        <div class="form-group">
+                            <div>Retailer address on account</div>
+                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Position">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Address line 1">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Address line 2.(optional)">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="City">
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="State">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Zipcode">
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-sm-6"><a href="#">Back</a></div>
+                            <div class="col-sm-6 text-right">
+                                <a class="btn btn-default" href="#">Next</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
+            </div>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab title="Product info">
+        <ng-template ngbTabContent>
+            <div class="row backgroundWhite">
+                <div class="col-sm-8 p-2">
+                    <p>Product Type</p>
+                    <div class="col-sm-12 p-0">
+                        <div class="box_outlineGray">Nightlight <a href="#" class="categ_close">x</a></div> <div class="box_outlineGray">Flood & Spot lights <a href="#" class="categ_close">x</a></div> <div class="box_outlineGray">Sofa <a href="#" class="categ_close">x</a></div>
+                        <div class="clearfix">&nbsp;</div>
+                        <table class="table table-bordered">
+                            <tr>
+                                <td colspan="2">
+                                    <a href="#">Home & Garden </a> > <a href="#">Lighting</a> > sub-catagory
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <ul class="list-unstyled">
+                                        <li><a href="#">Kitchen & Dinning (186)</a></li>
+                                        <li><a href="#">Appliances (30)</a></li>
+                                        <li><a href="#">Furniture & Patio (162)</a></li>
+                                        <li><a href="#">Lighting (27)</a></li>
+                                        <li><a href="#">Lawn & Garden (43)</a></li>
+                                        <li><a href="#">Supplies (50)</a></li>
+                                        <li><a href="#">Pest Control (3)</a></li>
+                                        <li><a href="#">Bedding & Linens (13)</a></li>
+                                        <li><a href="#">Emergency & Safety (11)</a></li>
+                                        <li><a href="#">Pool & Spa (15)</a></li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <ul class="list-unstyled">
+                                        <li><a href="#">Lamps (3)</a></li>
+                                        <li><a href="#">Light Bulbs (3)</a></li>
+                                        <li><a href="#">Nightlights</a></li>
+                                        <li><a href="#">Light Ropes & Srings</a></li>
+                                        <li><a href="#">Lighting Fixtures (4)</a></li>
+                                        <li><a href="#">Track Lighting</a></li>
+                                        <li><a href="#">Landscape Lighting (4)</a></li>
+                                        <li><a href="#">Emergency Lighting</a></li>
+                                        <li><a href="#">Flood & Spot lights</a></li>
+                                        <li><a href="#">Lamp Shades</a></li>
+                                        <li><a href="#">Timers & Accessories</a></li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-sm-6"><a href="#">Back</a></div>
+                        <div class="col-sm-6 text-right">
+                            <a class="btn btn-default" href="#">Next</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
+            </div>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab title="Shipping profile">
+        <ng-template ngbTabContent>
+            <div class="row backgroundWhite">
+                <div class="col-sm-8 p-2">
+                    <div class="divshipping1">
+                        <p>Profile name</p>
+                        <p><input type="text" class="form-control" aria-describedby="" placeholder=""></p>
+                        <p>Delivery - Base options</p>
+                        <ul class="list-unstyled">
+                            <li><input type="radio" /> Free shipping</li>
+                            <li><input type="radio" /> Flat rate - single rate for all orders</li>
+                            <li><input type="radio" /> Price based</li>
+                            <li><input type="radio" /> Weight based</li>
+                            <li><input type="radio" /> Size based</li>
+                        </ul>
+                        <div class="col-sm-12">
+                            <div class="row border_outline">
+                                <div class="col-sm-8 p-3">
+                                    <strong>Letter</strong>
+                                    <div>Minimum: 5” long, 3 ½” high, and 0.007” thick Maximum: 11-1/2” long, 6-1/8” high, and ¼” thick</div>
+                                </div>
+                                <div class="col-sm-4 text-center">
+                                    <img src="images/icon_letter.png" />
+                                </div>
+                            </div>
+                            <div class="row border_outline">
+                                <div class="col-sm-8 p-3">
+                                    <strong>Small</strong>
+                                    <div>Max. Size: Length + (2 x Width) + (2 x Height) <= 28”</div>
+                                </div>
+                                <div class="col-sm-4 text-center">
+                                    <img src="images/icon_small.png" />
+                                </div>
+                            </div>
+                            <div class="row border_outline">
+                                <div class="col-sm-8 p-3">
+                                    <strong>Medium</strong>
+                                    <div>Max. Size: Length + (2 x Width) + (2 x Height) > 28”, <= 84”</div>
+                                </div>
+                                <div class="col-sm-4 text-center">
+                                    <img src="images/icon_medium.png" />
+                                </div>
+                            </div>
+                            <div class="row border_outline">
+                                <div class="col-sm-8 p-3">
+                                    <strong>Large</strong>
+                                    <div>Max. Size: Length + (2 x Width) + (2 x Height) > 84”, <= 165”</div>
+                                </div>
+                                <div class="col-sm-4 text-center">
+                                    <img src="images/icon_Large.png" />
+                                </div>
+                            </div>
+                            <div class="row border_outline">
+                                <div class="col-sm-8 p-3">
+                                    <strong>Oversized</strong>
+                                    <div>Max. Size: Length + (2 x Width) + (2 x Height) > 165”</div>
+                                </div>
+                                <div class="col-sm-4 text-center">
+                                    <img src="images/icon_oversize.png" />
+                                </div>
+                            </div>
+                            <div class="row border_outline p-3 my-3">
+                                <strong>Irregular</strong>
+                                Assumes shipment can’t be sorted with mail processing equipment due to size,
+                                shape, or content issues.
+                                The longest side of the package is over 60 inches or the second longest side is
+                                over 30 inches.
+                                The package is encased in an external shipping container made of metal or
+                                wood.
+                                The package is a cylindrical item, such as a barrel, drum, pail, or tire that isn't
+                                fully encased in a corrugated cardboard shipping container.
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6"><a href="#">Back</a></div>
+                            <div class="col-sm-6 text-right">
+                                <a class="btn btn-default ancshipping1" href="#">Next</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab title="Return and Exchange policy">
+        <ng-template ngbTabContent>
+            <div class="row backgroundWhite">
+                <div class="col-sm-8 p-2">
+                    <p>Returns and Exchange policy</p>
+                    <textarea class="h-50 form-control"></textarea> 
+                    <div class="clearfix">&nbsp;</div>
+                    <div class="row">
+                        <div class="col-sm-6"><a href="#">Back</a></div>
+                        <div class="col-sm-6 text-right">
+                            <a class="btn btn-default ancshipping2" href="#">Next</a>
+                        </div>
+                    </div> 
+                    <div class="clearfix">&nbsp;</div>
+                    <div class="clearfix">&nbsp;</div>
+                    <div class="clearfix">&nbsp;</div>
+                    <div class="clearfix">&nbsp;</div>
+                </div>
+                <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
+            </div>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab title="Notifications">
+        <ng-template ngbTabContent>
+            <div class="row backgroundWhite">
+                <div class="col-sm-8 p-2">
+                    <p>Notifications</p>
+                    <div class="row p-2">
+                        <div class="col-sm-4">
+                            Order email:
+                        </div>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" aria-describedby="" placeholder="order@mail.com">
+                        </div>
+                    </div>
+                    <div class="row p-2">
+                        <div class="col-sm-4">
+                            Shipping email:
+                        </div>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" aria-describedby="" placeholder="shipping@mail.com">
+                        </div>
+                    </div>
+                    <div class="height-100">&nbsp;</div>
+                    <div class="row">
+                        <div class="col-sm-6"><a href="#">Back</a></div>
+                        <div class="col-sm-6 text-right">
+                            <a class="btn btn-default ancshipping2" href="#">Save and Finish</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
+            </div> 
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
+  </div>
+</div>

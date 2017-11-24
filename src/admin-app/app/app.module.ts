@@ -2,8 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Route } from '@angular/router';
 import { HttpModule } from '@angular/http';
-import { FormsModule } from '@angular/forms';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.route';
@@ -23,12 +23,7 @@ import { LogoutComponent } from './components/logout/logout.component';
 import { HomeService } from './components/home/home.service';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { ConversationalComponent } from './components/conversational/conversational.component';
-import { ConversationalService } from './components/conversational/conversational.service';
-import { cmsgComponent } from './components/conversational/cmsg.component';
-import { cuiDirective } from './components/conversational/cui.directive';
-import { cListComponent } from './components/conversational/cList.component';
-import { JoinKalaComponent } from './components/join-kala/join-kala.component';
+import { RetailerModule } from './components/retailer/retailer.module';
 
 @NgModule({
   declarations: [
@@ -39,21 +34,17 @@ import { JoinKalaComponent } from './components/join-kala/join-kala.component';
     LogoutComponent,
     HeaderComponent,
     FooterComponent,
-    ConversationalComponent,
-    cmsgComponent,
-    cListComponent,
-    cuiDirective,
-    JoinKalaComponent
   ],
   imports: [
     BrowserModule,
     HttpModule,
-    FormsModule,
+    FormsModule, ReactiveFormsModule,
     NgbModule.forRoot(),
-    AppRoutingModule
+    AppRoutingModule,
+    RetailerModule
   ],
-  providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, ConversationalService],
+  providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService],
   bootstrap: [AppComponent],
-  entryComponents: [cmsgComponent, HomeComponent, cListComponent, JoinKalaComponent, LoginComponent]
+  entryComponents: [HomeComponent, LoginComponent]
 })
 export class AppModule { }

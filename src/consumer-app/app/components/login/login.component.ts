@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { User } from '../../models/user';
+import { User } from '../../../../models/user';
 
 import { CoreService } from '../../services/core.service';
 import { CuiComponent, MsgDirection } from '../conversational/cui.interface';

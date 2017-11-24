@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { JoinKalaComponent } from './join-kala.component';
+import { RetailerListComponent } from './retailer-list.component';
 
-describe('JoinKalaComponent', () => {
-  let component: JoinKalaComponent;
-  let fixture: ComponentFixture<JoinKalaComponent>;
+describe('RetailerListComponent', () => {
+  let component: RetailerListComponent;
+  let fixture: ComponentFixture<RetailerListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ JoinKalaComponent ]
+      declarations: [ RetailerListComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(JoinKalaComponent);
+    fixture = TestBed.createComponent(RetailerListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

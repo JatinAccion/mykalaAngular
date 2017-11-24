@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewEncapsulation, EventEmitter, Output, Input } from '@angular/core';
 import { CuiComponent, MsgDirection } from '../conversational/cui.interface';
 import { ConversationalService } from '../conversational/conversational.service';
-import { User } from '../../models/user';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CoreService } from '../../services/core.service';
+import { User } from '../../../../models/user';
 import { Conversation } from '../../models/conversation';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 

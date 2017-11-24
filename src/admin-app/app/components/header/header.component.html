@@ -7,35 +7,31 @@
     <img src="/admin-app/assets/images/logo.png" class="img-fluid" />
   </a>
   <div class="collapse navbar-collapse" id="navbarsExampleDefault" *ngIf="core.navVisible">
-
     <ul class="navbar-nav mr-auto">
       <li ngbDropdown class="nav-item dropdown active">
-        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-          ngbDropdownToggle>Accounts</a>
+        <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>Accounts</a>
         <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown01">
-          <a class="dropdown-item active" href="#">Accounts Info</a>
+          <a class="dropdown-item active" routerLink="/retailer-list" routerLinkActive="retailer-list">Seller Accounts</a>
+          <a class="dropdown-item " href="#">Accounts Info</a>
           <a class="dropdown-item" href="#">Shipping Profiles</a>
         </div>
       </li>
       <li ngbDropdown class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-          ngbDropdownToggle>Products</a>
+        <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>Products</a>
         <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown01">
           <a class="dropdown-item" href="#">View Products</a>
           <a class="dropdown-item" href="#">Products Files</a>
         </div>
       </li>
       <li ngbDropdown class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-          ngbDropdownToggle>Supports</a>
+        <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>Supports</a>
         <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown01">
           <a class="dropdown-item" href="#">Orders</a>
           <a class="dropdown-item" href="#">Inquiries</a>
         </div>
       </li>
       <li ngbDropdown class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-          ngbDropdownToggle>Reports</a>
+        <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>Reports</a>
         <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown01">
           <a class="dropdown-item" href="#">Sales</a>
           <a class="dropdown-item" href="#">Customers</a>
@@ -48,6 +44,7 @@
         <a class="nav-link" href="#">Users</a>
       </li>
     </ul>
+    <div class="mr-3 mt-2">Admin</div>
     <div class="form-inline my-2 my-lg-0 ancUser">
       <a href="#" class="">Hi, Shelley!</a>
       <a class="nav-link" routerLink="/logout" routerLinkActive="logout">log out</a>

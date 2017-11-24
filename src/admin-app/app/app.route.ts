@@ -8,19 +8,13 @@ import { HomeComponent } from './components/home/home.component';
 import { StatusComponent } from './components/status/status.component';
 
 import { LogoutComponent } from './components/logout/logout.component';
-import { ConversationalComponent } from './components/conversational/conversational.component';
-import { JoinKalaComponent } from './components/join-kala/join-kala.component';
+import { RetailerRoutingModule } from './components/retailer/retailer-routing.module';
 
 const appRoutes: Routes = [
     {
         path: 'login',
         component: LoginComponent,
         // canActivate: [LoginRedirect]
-    },
-    {
-        path: 'join-kala',
-        component: JoinKalaComponent,
-        canActivate: [LoginRedirect]
     },
     {
         path: 'logout',
@@ -30,11 +24,6 @@ const appRoutes: Routes = [
         path: 'home',
         component: HomeComponent,
         // canActivate: [EnsureAuthenticated]
-    },
-    {
-        path: 'cui',
-        component: ConversationalComponent,
-        canActivate: [EnsureAuthenticated]
     },
     {
         path: 'status',
@@ -53,7 +42,7 @@ const appRoutes: Routes = [
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(appRoutes, { useHash: true })],
+    imports: [RetailerRoutingModule, RouterModule.forRoot(appRoutes, { useHash: true })],
     exports: [RouterModule]
 })
 export class AppRoutingModule { }
