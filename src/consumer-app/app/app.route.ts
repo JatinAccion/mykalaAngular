@@ -19,8 +19,7 @@ const appRoutes: Routes = [
     },
     {
         path: 'join-kala',
-        component: JoinKalaComponent,
-        canActivate: [LoginRedirect]
+        component: JoinKalaComponent
     },
     {
         path: 'logout',

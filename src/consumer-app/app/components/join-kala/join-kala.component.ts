@@ -6,22 +6,31 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CoreService } from '../../services/core.service';
 import { Conversation } from '../../models/conversation';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-join-kala',
-  templateUrl: './join-kala.component.mobile.html',
+  templateUrl: './join-kala.component.html',
   styleUrls: ['./join-kala.component.css'],
   encapsulation: ViewEncapsulation.None
 })
 export class JoinKalaComponent implements OnInit, CuiComponent {
+  joinKala: FormGroup;
+  passwordRegex = new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$');
+  usernameRegex = new RegExp('^[a-zA-Z0-9_.-]*$');
   @Input() data: any;
   @Output() clicked = new EventEmitter<Conversation>();
   step = 1;
   user: User = new User('', '', '');
-  constructor(private router: Router, private auth: AuthService, private core: CoreService) { }
+  constructor(private formBuilder: FormBuilder, private router: Router, private auth: AuthService, private core: CoreService) { }
   ngOnInit() {
     localStorage.removeItem('token');
     this.core.hide();
+    this.joinKala = this.formBuilder.group({
+      username: ['', Validators.compose([Validators.required, Validators.pattern(this.usernameRegex)])],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.compose([Validators.pattern(this.passwordRegex), Validators.required, Validators.minLength(8)])]
+    });
   }
   onUsernameBlur(event) { if (event.charCode === 13) { this.validateInput(); } }
   onEmailBlur(event) { if (event.charCode === 13) { this.validateInput(); } }
@@ -73,5 +82,9 @@ export class JoinKalaComponent implements OnInit, CuiComponent {
 
   onClick(item: Conversation) {
     this.clicked.emit(item);
+  }
+
+  onSubmit() {
+    console.log(this.joinKala)
   }
 }

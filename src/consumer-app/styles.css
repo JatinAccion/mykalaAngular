@@ -1,45 +1,45 @@
 /* You can add global styles to this file, and also import other style files */
 @font-face {
     font-family: 'open_sansbold';
-    src: url('/assets/fonts/opensans-bold-webfont.eot');
-    src: url('/assets/fonts/opensans-bold-webfont.eot?#iefix') format('embedded-opentype'),
-         url('/assets/fonts/opensans-bold-webfont.woff2') format('woff2'),
-         url('/assets/fonts/opensans-bold-webfont.woff') format('woff'),
-         url('/assets/fonts/opensans-bold-webfont.ttf') format('truetype'),
-         url('/assets/fonts/opensans-bold-webfont.svg#open_sansbold') format('svg');
+    src: url('/consumer-app/assets/fonts/opensans-bold-webfont.eot');
+    src: url('/consumer-app/assets/fonts/opensans-bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/consumer-app/assets/fonts/opensans-bold-webfont.woff2') format('woff2'),
+         url('/consumer-app/assets/fonts/opensans-bold-webfont.woff') format('woff'),
+         url('/consumer-app/assets/fonts/opensans-bold-webfont.ttf') format('truetype'),
+         url('/consumer-app/assets/fonts/opensans-bold-webfont.svg#open_sansbold') format('svg');
     font-weight: normal;
     font-style: normal; 
 }  
 @font-face {
     font-family: 'open_sanssemibold';
-    src: url('/assets/fonts/opensans-semibold-webfont.eot');
-    src: url('/assets/fonts/opensans-semibold-webfont.eot?#iefix') format('embedded-opentype'),
-         url('/assets/fonts/opensans-semibold-webfont.woff2') format('woff2'),
-         url('/assets/fonts/opensans-semibold-webfont.woff') format('woff'),
-         url('/assets/fonts/opensans-semibold-webfont.ttf') format('truetype'),
-         url('/assets/fonts/opensans-semibold-webfont.svg#open_sanssemibold') format('svg');
+    src: url('/consumer-app/assets/fonts/opensans-semibold-webfont.eot');
+    src: url('/consumer-app/assets/fonts/opensans-semibold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/consumer-app/assets/fonts/opensans-semibold-webfont.woff2') format('woff2'),
+         url('/consumer-app/assets/fonts/opensans-semibold-webfont.woff') format('woff'),
+         url('/consumer-app/assets/fonts/opensans-semibold-webfont.ttf') format('truetype'),
+         url('/consumer-app/assets/fonts/opensans-semibold-webfont.svg#open_sanssemibold') format('svg');
     font-weight: normal;
     font-style: normal; 
 }
 @font-face {
     font-family: 'open_sansregular';
-    src: url('assets/fonts/opensans-regular-webfont.eot');
-    src: url('assets/fonts/opensans-regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('assets/fonts/opensans-regular-webfont.woff2') format('woff2'),
-         url('assets/fonts/opensans-regular-webfont.woff') format('woff'),
-         url('assets/fonts/opensans-regular-webfont.ttf') format('truetype'),
-         url('assets/fonts/opensans-regular-webfont.svg#open_sansbold') format('svg');
+    src: url('/consumer-app/assets/fonts/opensans-regular-webfont.eot');
+    src: url('/consumer-app/assets/fonts/opensans-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/consumer-app/assets/fonts/opensans-regular-webfont.woff2') format('woff2'),
+         url('/consumer-app/assets/fonts/opensans-regular-webfont.woff') format('woff'),
+         url('/consumer-app/assets/fonts/opensans-regular-webfont.ttf') format('truetype'),
+         url('/consumer-app/assets/fonts/opensans-regular-webfont.svg#open_sansbold') format('svg');
     font-weight: normal;
     font-style: normal; 
 }  
 @font-face {
     font-family: 'open_sanslight';
-    src: url('/assets/fonts/opensans-light-webfont.eot');
-    src: url('/assets/fonts/opensans-light-webfont.eot?#iefix') format('embedded-opentype'),
-         url('/assets/fonts/opensans-light-webfont.woff2') format('woff2'),
-         url('/assets/fonts/opensans-light-webfont.woff') format('woff'),
-         url('/assets/fonts/opensans-light-webfont.ttf') format('truetype'),
-         url('/assets/fonts/opensans-light-webfont.svg#open_sanssemibold') format('svg');
+    src: url('/consumer-app/assets/fonts/opensans-light-webfont.eot');
+    src: url('/consumer-app/assets/fonts/opensans-light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/consumer-app/assets/fonts/opensans-light-webfont.woff2') format('woff2'),
+         url('/consumer-app/assets/fonts/opensans-light-webfont.woff') format('woff'),
+         url('/consumer-app/assets/fonts/opensans-light-webfont.ttf') format('truetype'),
+         url('/consumer-app/assets/fonts/opensans-light-webfont.svg#open_sanssemibold') format('svg');
     font-weight: normal;
     font-style: normal; 
 } 
@@ -80,7 +80,7 @@ a:hover {
   margin: 0 auto; }
 
 #intro {
-  background: url("/assets/images/bg.jpg") no-repeat;
+  background: url("/consumer-app/assets/images/bg.jpg") no-repeat;
   background-size: cover; }
 
 #intro_initial {
@@ -490,7 +490,7 @@ ul.category_list{
     padding:6px 10px !important;
 }
 .search_txtIcon{
-    background:url(/assets/images/icon_search.png) no-repeat left !important;
+    background:url(/consumer-app/assets/images/icon_search.png) no-repeat left !important;
     color:red;
     padding-left:20px;
     margin-left:0px !important;
@@ -645,7 +645,7 @@ a.categ_close{
     color:#241610;
 }
 .catg_kitchen{
-    background:  linear-gradient( rgba(0,0,0, .6),  rgba(0,0,0, .6) ), url(/assets/images/catg-1.png); 
+    background:  linear-gradient( rgba(0,0,0, .6),  rgba(0,0,0, .6) ), url(/consumer-app/assets/images/catg-1.png); 
 }
 .category_list p{
     color:#fff;
@@ -653,40 +653,40 @@ a.categ_close{
     font-size:20px;
 }
 .catg_appliances{
-    background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ), url(/assets/images/catg-2.png);  
+    background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ), url(/consumer-app/assets/images/catg-2.png);  
 }
 .catg_appliances{
-    background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ),url(/assets/images/catg-3.png); 
+    background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ),url(/consumer-app/assets/images/catg-3.png); 
 }
 .catg_furniture{
-    background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ),url(/assets/images/catg-4.png); 
+    background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ),url(/consumer-app/assets/images/catg-4.png); 
 }
 .catg_lighting{
-    background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ),url(/assets/images/catg-5.png); 
+    background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ),url(/consumer-app/assets/images/catg-5.png); 
 }
 .catg_garden{
-    background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ),url(/assets/images/catg-6.png); 
+    background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ),url(/consumer-app/assets/images/catg-6.png); 
 }
 .catg_supplies{
-    background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ),url(/assets/images/catg-7.png); 
+    background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ),url(/consumer-app/assets/images/catg-7.png); 
 }
 .catg_poolspa{
-    background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ),url(/assets/images/catg-8.png); 
+    background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ),url(/consumer-app/assets/images/catg-8.png); 
 }
 .catg_pestcontrol{
-    background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ),url(/assets/images/catg-9.png); 
+    background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ),url(/consumer-app/assets/images/catg-9.png); 
 } 
 .catg_linens1{
-    background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ),url(/assets/images/catg-10.png); 
+    background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ),url(/consumer-app/assets/images/catg-10.png); 
 }
 .catg_safety{
-    background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ),url(/assets/images/catg-11.png); 
+    background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ),url(/consumer-app/assets/images/catg-11.png); 
 }
 .catg_DIY{
-    background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ),url(/assets/images/catg-1.png); 
+    background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ),url(/consumer-app/assets/images/catg-1.png); 
 }
 .catg_linens{
-    background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ),url(/assets/images/catg-2.png); 
+    background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ),url(/consumer-app/assets/images/catg-2.png); 
 }
 .productDtl-right{
     background:#fff;
@@ -811,7 +811,7 @@ ul.prd_Soc_icon li{
     left:0px;
 }
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus{ 
-   background:url(/assets/images/bottom-arrow.png) no-repeat bottom center !important;
+   background:url(/consumer-app/assets/images/bottom-arrow.png) no-repeat bottom center !important;
    background-color:transparent !important;
 }
  
@@ -1042,6 +1042,11 @@ h4.subtitle{
 }
 .width49{
     width:49% !important;
+}
+.errorMessages{
+    font-size: 14px;
+    margin-top: 10px;
+    padding: 5px 15px;
 }
 @media only screen and (min-width: 800px) and (max-width: 1024px){
     .sub_header > div{
