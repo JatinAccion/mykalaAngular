@@ -28,6 +28,8 @@ import { cmsgComponent } from './components/conversational/cmsg.component';
 import { cuiDirective } from './components/conversational/cui.directive';
 import { cListComponent } from './components/conversational/cList.component';
 import { JoinKalaComponent } from './components/join-kala/join-kala.component';
+import { ProfileInfoComponent } from './components/profile-info/profile-info.component';
+import { JoinKalaService } from './components/join-kala/join-kala.service';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,8 @@ import { JoinKalaComponent } from './components/join-kala/join-kala.component';
     cmsgComponent,
     cListComponent,
     cuiDirective,
-    JoinKalaComponent
+    JoinKalaComponent,
+    ProfileInfoComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +54,7 @@ import { JoinKalaComponent } from './components/join-kala/join-kala.component';
     AppRoutingModule,
     ReactiveFormsModule
   ],
-  providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, ConversationalService],
+  providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, ConversationalService, JoinKalaService],
   bootstrap: [AppComponent],
   entryComponents: [cmsgComponent, HomeComponent, cListComponent, JoinKalaComponent, LoginComponent]
 })

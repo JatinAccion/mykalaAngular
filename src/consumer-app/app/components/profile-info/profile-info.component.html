@@ -1,0 +1,185 @@
+<div style="height:120px;width:100%;"></div>
+<div class="title">
+  <h2>Just a few more details...</h2>
+</div>
+<form [formGroup]="profileInfo">
+  <div class="row">
+    <div class="col-sm-8 joinScreen_layout">
+      <!--Username-->
+      <div class="row">
+        <div class="col-sm-3">
+          <p class="colorlightGray">Username:</p>
+        </div>
+        <div class="col-sm-8">
+          <div class="form-group">
+            <input formControlName="username" readonly type="text" class="form-control" placeholder="User name">
+          </div>
+        </div>
+      </div>
+      <!--Username-->
+
+      <hr />
+
+      <!--Firstname-->
+      <div class="row">
+        <div class="col-sm-3">
+          <p class="colorlightGray">Firstname:</p>
+        </div>
+        <div class="col-sm-8">
+          <div class="form-group">
+            <input formControlName="firstname" type="text" class="form-control" placeholder="Firstname">
+          </div>
+        </div>
+      </div>
+      <!--Firstname-->
+
+      <hr />
+
+      <!--Lastname-->
+      <div class="row">
+        <div class="col-sm-3">
+          <p class="colorlightGray">Lastname:</p>
+        </div>
+        <div class="col-sm-8">
+          <div class="form-group">
+            <input formControlName="lastname" type="text" class="form-control" placeholder="Lastname">
+          </div>
+        </div>
+      </div>
+      <!--Lastname-->
+
+      <hr />
+
+      <!--Phone No-->
+      <div class="row">
+        <div class="col-sm-3">
+          <p class="colorlightGray">Phone No:</p>
+        </div>
+        <div class="col-sm-8">
+          <div class="form-group">
+            <input formControlName="phoneno" type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control"
+              placeholder="Phone No">
+            <!--Validation-->
+            <div *ngIf="profileInfo.controls.phoneno.value">
+              <div *ngIf="profileInfo.controls.phoneno.value && profileInfo.controls.phoneno.errors && (!profileInfo.controls.phoneno.minlength || !profileInfo.controls.phoneno.maxlength)"
+                class="alert alert-danger errorMessages">
+                Please enter the valid Phone No
+              </div>
+            </div>
+            <!--Validation-->
+          </div>
+        </div>
+      </div>
+      <!--Phone No-->
+
+      <hr />
+
+      <!--Email-->
+      <div class="row">
+        <div class="col-sm-3">
+          <p class="colorlightGray">Email:</p>
+        </div>
+        <div class="col-sm-8">
+          <div class="form-group">
+            <input formControlName="email" readonly type="email" class="form-control" placeholder="Email">
+          </div>
+        </div>
+      </div>
+      <!--Email-->
+
+      <hr />
+
+      <!--Gender-->
+      <div class="row">
+        <div class="col-sm-3 ">
+          <p class="colorlightGray">Gender:</p>
+        </div>
+        <div class="col-sm-9">
+          <div class="categ_outline_red">
+            <input type="radio" id="genderFemale" formControlName="gender" value="female" name="gender" />
+            <div style="margin: 0" class="form-group">
+              <div class="text-center">
+                <img src="/consumer-app/assets/images/female_red.png" class="gender_icon" />
+              </div>
+              <label class="colorred text-center" for="genderFemale">female</label>
+            </div>
+          </div>
+
+          <div class="categ_outline_gray">
+            <input type="radio" id="genderMale" formControlName="gender" value="male" name="gender" />
+            <div style="margin: 0" class="form-group">
+              <div class="text-center">
+                <img src="/consumer-app/assets/images/male_gray.png" class="gender_icon" />
+              </div>
+              <label class="colorred text-center" for="genderMale">male</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--Gender-->
+
+      <hr />
+
+      <!--Date of Birth-->
+      <div class="row">
+        <div class="col-sm-3">
+          <p class="colorlightGray">Date of Birth:</p>
+        </div>
+        <div class="col-sm-8">
+          <div class="form-group">
+            <input formControlName="dteOfBirth" type="date" class="form-control" placeholder="Date of Birth">
+          </div>
+        </div>
+      </div>
+      <!--Date of Birth-->
+
+      <hr />
+
+      <!--Zip Code-->
+      <div class="row">
+        <div class="col-sm-3">
+          <p class="colorlightGray">Location:</p>
+        </div>
+        <div class="col-sm-8">
+          <div class="form-group">
+            <input formControlName="location" type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control"
+              placeholder="Zipcode">
+            <!--Validation-->
+            <div *ngIf="profileInfo.controls.location.dirty || profileInfo.controls.location.touched">
+              <div *ngIf="!profileInfo.controls.location.value" class="alert alert-danger errorMessages">Please enter the zip code</div>
+              <div *ngIf="profileInfo.controls.location.value && profileInfo.controls.location.errors && (!profileInfo.controls.location.minlength || !profileInfo.controls.location.maxlength)"
+                class="alert alert-danger errorMessages">
+                Please enter the valid zip code
+              </div>
+            </div>
+            <!--Validation-->
+          </div>
+          <p class="clearfix">Carmel, Indiana</p>
+        </div>
+      </div>
+      <!--Zip Code-->
+    </div>
+
+    <div class="col-sm-4">
+      <div class="joinScreen_right">
+        <h4 class="subtitle">Hello there, Shelley!</h4>
+        <p>Build your profile and you get points for discounts.</p>
+        <div class="row">
+          <div class="col-sm-4 colorlightGray">Kala points:</div>
+          <div class="col-sm-6 text-right">
+            <h3 class="displayinline">20</h3>
+            <span class="pull-right colorlightGray">points</span>
+          </div>
+          <div class="col-sm-1">
+            <img src="/consumer-app/assets/images/info-button.png" />
+          </div>
+        </div>
+        <hr />
+        <div class="col-sm-12">
+          <button (click)="onSubmit()" [disabled]="!profileInfo.valid" type="button" class="btn btn_red_right width100">come on in</button>
+        </div>
+        <div class="clearfix">&nbsp;</div>
+      </div>
+    </div>
+  </div>
+</form>

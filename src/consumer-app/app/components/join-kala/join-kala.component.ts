@@ -7,6 +7,8 @@ import { CoreService } from '../../services/core.service';
 import { User } from '../../../../models/user';
 import { Conversation } from '../../models/conversation';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { JoinKalaService } from './join-kala.service';
+import defaultMessages from '../../userMessages';
 
 @Component({
   selector: 'app-join-kala',
@@ -15,14 +17,21 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
   encapsulation: ViewEncapsulation.None
 })
 export class JoinKalaComponent implements OnInit, CuiComponent {
+  loader: boolean = false;
   joinKala: FormGroup;
   passwordRegex = new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$');
-  usernameRegex = new RegExp('^[a-zA-Z0-9_.-]*$');
+  usernameRegex = new RegExp('^[a-zA-Z0-9.-]*$');
+  singupDetails;
+  signUpResponse = {
+    status: false,
+    response: "",
+    message: ""
+  };
   @Input() data: any;
   @Output() clicked = new EventEmitter<Conversation>();
   step = 1;
   user: User = new User('', '', '');
-  constructor(private formBuilder: FormBuilder, private router: Router, private auth: AuthService, private core: CoreService) { }
+  constructor(private joinKalaService: JoinKalaService, private formBuilder: FormBuilder, private router: Router, private auth: AuthService, private core: CoreService) { }
   ngOnInit() {
     localStorage.removeItem('token');
     this.core.hide();
@@ -85,6 +94,32 @@ export class JoinKalaComponent implements OnInit, CuiComponent {
   }
 
   onSubmit() {
-    console.log(this.joinKala)
+    this.loader = true;
+    this.singupDetails = {
+      "roles": { "role_name": "consumer" },
+      "username": this.joinKala.value.username,
+      "password": this.joinKala.value.password,
+      "email_id": this.joinKala.value.email,
+      "origin_source": "NA",
+      "user_status": 1
+    }
+    this.joinKalaService.joinKalaStepOne(this.singupDetails).subscribe(res => {
+      console.log(res);
+      window.localStorage['userInfo'] = JSON.stringify({ 'username': this.singupDetails.username, 'email': this.singupDetails.email });
+      this.signUpResponse.status = true;
+      this.signUpResponse.response = res._body;
+      if (this.signUpResponse.response === "success") {
+        this.signUpResponse.message = defaultMessages.createAccount.success;
+        setTimeout(function () {
+          this.router.navigateByUrl('/profile-info');
+        }, 3000)
+      }
+      else if (this.signUpResponse.response === "alreadyexists") this.signUpResponse.message = defaultMessages.createAccount.alreadyExists;
+      else this.signUpResponse.message = defaultMessages.createAccount.fail;
+      this.joinKala.reset();
+      this.loader = false;
+    }, err => {
+      console.log("Error occured");
+    });
   }
 }

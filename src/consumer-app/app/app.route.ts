@@ -10,6 +10,7 @@ import { StatusComponent } from './components/status/status.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { ConversationalComponent } from './components/conversational/conversational.component';
 import { JoinKalaComponent } from './components/join-kala/join-kala.component';
+import { ProfileInfoComponent } from './components/profile-info/profile-info.component';
 
 const appRoutes: Routes = [
     {
@@ -20,6 +21,10 @@ const appRoutes: Routes = [
     {
         path: 'join-kala',
         component: JoinKalaComponent
+    },
+    {
+        path: 'profile-info',
+        component: ProfileInfoComponent
     },
     {
         path: 'logout',

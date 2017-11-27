@@ -3,7 +3,7 @@
     <h2>Join Kala</h2>
 </div>
 <div class="col-sm-12 join_layout">
-    <form [formGroup]="joinKala" (ngSubmit)="onSubmit(joinKala)">
+    <form [formGroup]="joinKala">
         <div class="join_content">
             <h4 class="subtitle">create account</h4>
             <div class="form-group">
@@ -15,7 +15,7 @@
                     <div *ngIf="!joinKala.controls.username.value" class="alert alert-danger errorMessages">Please enter the username</div>
                     <div *ngIf="joinKala.controls.username.value && !joinKala.controls.username.pattern && joinKala.controls.username.errors"
                         class="alert alert-danger errorMessages">
-                        Username can contain only (dot, underscore, hypen)
+                        Username can contain only (dot, hypen)
                     </div>
                 </div>
                 <!--Validation-->
@@ -44,17 +44,19 @@
                     </div>
                 </div>
                 <!--Validation-->
+            </div>
 
+            <!--Response Message-->
+            <div *ngIf="signUpResponse.status" [ngClass]="signUpResponse.response == 'success' ? 'alert-success successMessage' : 'alert-danger errorMessage'"
+                class="alert">
+                {{signUpResponse.message}}
             </div>
-            <div class="form-check">
-                <label class="form-check-label">
-                    <input type="checkbox" class="form-check-input"> remember me
-                </label>
-            </div>
+
+            <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="loader" />
         </div>
         <hr />
         <div class="text-center">
-            <button type="submit" [disabled]="!joinKala.valid" class="btn btn_red_right">create account</button>
+            <button (click)="onSubmit(joinKala)" type="submit" [disabled]="!joinKala.valid" class="btn btn_red_right">create account</button>
         </div>
     </form>
     <div class="clearfix">&nbsp;</div>
