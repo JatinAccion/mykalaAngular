@@ -11,7 +11,6 @@ import { AppRoutingModule } from './app.route';
 import { AuthService } from './services/auth.service';
 import { CoreService } from './services/core.service';
 
-
 import { EnsureAuthenticated } from './services/ensure-authenticated.service';
 
 import { LoginComponent } from './components/login/login.component';

@@ -23,10 +23,11 @@ export class LoginComponent implements OnInit {
     this.core.hide();
     this.loginKala = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.compose([Validators.pattern(this.passwordRegex), Validators.required, Validators.minLength(8)])]
+      password: ['', [Validators.required]]
     });
   }
   onLogin(): void {
+    this.user = new User(this.loginKala.value.email, '', this.loginKala.value.password);
     this.auth.login(this.user)
       .then((user) => {
         localStorage.setItem('token', user.json().auth_token);

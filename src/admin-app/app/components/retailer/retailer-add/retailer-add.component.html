@@ -1,406 +1,665 @@
 <div class="title col-sm-12">
-  <h1>Account Info</h1>
+    <h1>Account Info</h1>
 </div>
 <div class="col-sm-12">
-  <div class="col-sm-12 signup">
-    <ngb-tabset [orientation]="currentOrientation" [justify]="currentJustify">
-      <ngb-tab title="Profile info">
-        <ng-template ngbTabContent>
-          <div class="row backgroundWhite">
-            <div class="col-sm-8 p-2">
-              <h5>Website details</h5>
-              <form class="divProfile1">
-                <div class="form-group">
-                  <div class="draglogo text-center">
-                    <div class=" text-center">Drag your Logo here</div>
-                    or
-                    <a href="#">Select file from computer</a>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div>Business name</div>
-                  <input type="text" class="form-control" aria-describedby=" " placeholder=""  >
-                </div>
-                <div class="form-group">
-                  <div>DNB/TIN</div>
-                  <input type="text" class="form-control" aria-describedby=" " placeholder="">
-                </div>
-                <div class="form-group">
-                  <div>Business summary
-                    <small class="float-right">300 characters left</small>
-                  </div>
-                  <input type="text" class="form-control" aria-describedby=" " placeholder="">
-                </div>
-                <div class="form-group">
-                  <div>Business Address</div>
-                  <input type="text" class="form-control" aria-describedby=" " placeholder="Address line 1">
-                </div>
-                <div class="form-group">
-                  <input type="text" class="form-control" aria-describedby=" " placeholder="Address line 2.(optional)">
-                </div>
-                <div class="form-group">
-                  <input type="text" class="form-control" aria-describedby=" " placeholder="City">
-                </div>
-                <div class="row">
-                  <div class="col-sm-6">
-                    <div class="form-group">
-                      <input type="text" class="form-control" aria-describedby="" placeholder="State">
-                    </div>
-                  </div>
-                  <div class="col-sm-6">
-                    <div class="form-group">
-                      <input type="text" class="form-control" aria-describedby="" placeholder="Zipcode">
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-sm-6">
-                    <div class="form-group">
-                      <input type="text" class="form-control" aria-describedby="" placeholder="Email">
-                    </div>
-                  </div>
-                  <div class="col-sm-6">
-                    <div class="form-group">
-                      <input type="text" class="form-control" aria-describedby="" placeholder="Phone number">
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-sm-12">
-                    <div class="box_outlineGray">AC & Heating</div>
-                    <div class="box_outlineGray">Interior Design</div>
-                    <div class="box_outlineGray">Manufacturing</div>
-                  </div>
-                </div>
+    <div class="col-sm-12 signup">
+        <ngb-tabset [orientation]="currentOrientation" [justify]="currentJustify">
+            <ngb-tab title="Profile info">
+                <ng-template ngbTabContent>
+                    <div class="row backgroundWhite">
+                        <div class="col-sm-8 p-2">
+                            <h5>Website details</h5>
+                            <form [formGroup]="profileInfo" class="divProfile">
+                                <div *ngIf="profileInfoStep==1">
+                                    <div class="form-group">
+                                        <div class="draglogo text-center">
+                                            <div class=" text-center">Drag your Logo here</div>
+                                            or
+                                            <a href="#">Select file from computer</a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div>Business name</div>
+                                        <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="bussines_name">
 
-                <hr />
-                <div class="row">
-                  <div class="col-sm-6">
-                    <a href="#">back</a>
-                  </div>
-                  <div class="col-sm-6 text-right">
-                    <a class="btn btn-default ancProfile1" href="#">Next</a>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </ng-template>
-      </ngb-tab>
-      <ngb-tab title="Payment info">
-        <ng-template ngbTabContent>
-            <div class="row backgroundWhite">
-                <div class="col-sm-8 p-2">
-                    <form class="divPayemnt1">
-                        <div class="form-group">
-                            <p>Payment Method</p>
-                            <select class="ddl_default w-100">
-                                <option>Manual or Automated</option>
-                                <option>Manual or Automated1</option>
-                                <option>Manual or Automated2</option>
-                                <option>Manual or Automated3</option>
-                            </select>
+                                        <!--Validation-->
+                                        <div *ngIf="profileInfo.controls.bussines_name.dirty || profileInfo.controls.bussines_name.touched">
+                                            <div *ngIf="!profileInfo.controls.bussines_name.value" class="alert alert-danger errorMessages">Please enter the Business name</div>
+                                            <div *ngIf="profileInfo.controls.bussines_name.value && profileInfo.controls.bussines_name.errors" class="alert alert-danger errorMessages">Please enter the valid Business name</div>
+                                        </div>
+                                        <!--Validation-->
+                                    </div>
+                                    <div class="form-group">
+                                        <div>DNB/TIN</div>
+                                        <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="tin">
+                                        <!--Validation-->
+                                        <div *ngIf="profileInfo.controls.tin.dirty || profileInfo.controls.tin.touched">
+                                            <div *ngIf="!profileInfo.controls.tin.value" class="alert alert-danger errorMessages">Please enter the tin</div>
+                                            <div *ngIf="profileInfo.controls.tin.value && profileInfo.controls.tin.errors" class="alert alert-danger errorMessages">Please enter the valid tin</div>
+                                        </div>
+                                        <!--Validation-->
+                                    </div>
+                                    <div class="form-group">
+                                        <div>Business summary
+                                            <small class="float-right">300 characters left</small>
+                                        </div>
+                                        <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="bussines_summary">
+                                        <!--Validation-->
+                                        <div *ngIf="profileInfo.controls.bussines_summary.dirty || profileInfo.controls.bussines_summary.touched">
+                                            <div *ngIf="!profileInfo.controls.bussines_summary.value" class="alert alert-danger errorMessages">Please enter the Business summary</div>
+                                            <div *ngIf="profileInfo.controls.bussines_summary.value && profileInfo.controls.bussines_summary.errors" class="alert alert-danger errorMessages">Please enter the valid Business summary</div>
+                                        </div>
+                                        <!--Validation-->
+                                    </div>
+                                    <div class="form-group">
+                                        <div>Business Address</div>
+                                        <input type="text" class="form-control" aria-describedby=" " placeholder="Address line 1" pattern formControlName="bussines_address">
+                                        <!--Validation-->
+                                        <div *ngIf="profileInfo.controls.bussines_address.dirty || profileInfo.controls.bussines_address.touched">
+                                            <div *ngIf="!profileInfo.controls.bussines_address.value" class="alert alert-danger errorMessages">Please enter the Business Address</div>
+                                            <div *ngIf="profileInfo.controls.bussines_address.value && profileInfo.controls.bussines_address.errors" class="alert alert-danger errorMessages">Please enter the valid Business Address</div>
+                                        </div>
+                                        <!--Validation-->
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" aria-describedby=" " placeholder="Address line 2.(optional)" pattern formControlName="bussines_address2">
+                                        <!--Validation-->
+                                        <div *ngIf="profileInfo.controls.bussines_address.dirty || profileInfo.controls.bussines_address.touched">
+                                            <div *ngIf="!profileInfo.controls.bussines_address.value" class="alert alert-danger errorMessages">Please enter the Business Address</div>
+                                            <div *ngIf="profileInfo.controls.bussines_address.value && profileInfo.controls.bussines_address.errors" class="alert alert-danger errorMessages">Please enter the valid Business Address</div>
+                                        </div>
+                                        <!--Validation-->
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" aria-describedby=" " placeholder="City" pattern formControlName="city">
+                                        <!--Validation-->
+                                        <div *ngIf="profileInfo.controls.city.dirty || profileInfo.controls.city.touched">
+                                            <div *ngIf="!profileInfo.controls.city.value" class="alert alert-danger errorMessages">Please enter the city</div>
+                                            <div *ngIf="profileInfo.controls.city.value && profileInfo.controls.city.errors" class="alert alert-danger errorMessages">Please enter the valid city</div>
+                                        </div>
+                                        <!--Validation-->
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" aria-describedby="" placeholder="State" pattern formControlName="state">
+                                                <!--Validation-->
+                                                <div *ngIf="profileInfo.controls.state.dirty || profileInfo.controls.state.touched">
+                                                    <div *ngIf="!profileInfo.controls.state.value" class="alert alert-danger errorMessages">Please enter the state</div>
+                                                    <div *ngIf="profileInfo.controls.state.value && profileInfo.controls.state.errors" class="alert alert-danger errorMessages">Please enter the valid state</div>
+                                                </div>
+                                                <!--Validation-->
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" aria-describedby="" placeholder="Zipcode" pattern formControlName="zipcode">
+                                                <!--Validation-->
+                                                <div *ngIf="profileInfo.controls.zipcode.dirty || profileInfo.controls.zipcode.touched">
+                                                    <div *ngIf="!profileInfo.controls.zipcode.value" class="alert alert-danger errorMessages">Please enter the zipcode</div>
+                                                    <div *ngIf="profileInfo.controls.zipcode.value && profileInfo.controls.zipcode.errors" class="alert alert-danger errorMessages">Please enter the valid zipcode</div>
+                                                </div>
+                                                <!--Validation-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" aria-describedby="" placeholder="Email" pattern formControlName="email">
+                                                <!--Validation-->
+                                                <div *ngIf="profileInfo.controls.email.dirty || profileInfo.controls.email.touched">
+                                                    <div *ngIf="!profileInfo.controls.email.value" class="alert alert-danger errorMessages">Please enter the email</div>
+                                                    <div *ngIf="profileInfo.controls.email.value && profileInfo.controls.email.errors" class="alert alert-danger errorMessages">Please enter the valid email</div>
+                                                </div>
+                                                <!--Validation-->
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" aria-describedby="" placeholder="Phone number" pattern formControlName="phone_number">
+                                                <!--Validation-->
+                                                <div *ngIf="profileInfo.controls.phone_number.dirty || profileInfo.controls.phone_number.touched">
+                                                    <div *ngIf="!profileInfo.controls.phone_number.value" class="alert alert-danger errorMessages">Please enter the phone number</div>
+                                                    <div *ngIf="profileInfo.controls.phone_number.value && profileInfo.controls.phone_number.errors" class="alert alert-danger errorMessages">Please enter the valid phone number</div>
+                                                </div>
+                                                <!--Validation-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div *ngFor="let sellerType of sellerTypes">
+                                                <label for="sellerType_{{sellerType.name}}">
+                                                    <input formControlName="seller_type" type="radio" [value]="sellerType.name"> {{sellerType.value}}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div *ngIf="profileInfoStep==2">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Website URL(optional) e.g.www.mykala.com" pattern formControlName="website">
+                                        <!--Validation-->
+                                        <div *ngIf="profileInfo.controls.website.dirty || profileInfo.controls.website.touched">
+                                            <div *ngIf="!profileInfo.controls.website.value" class="alert alert-danger errorMessages">Please enter the website</div>
+                                            <div *ngIf="profileInfo.controls.website.value && profileInfo.controls.website.errors" class="alert alert-danger errorMessages">Please enter the valid website</div>
+                                        </div>
+                                        <!--Validation-->
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Username for acct. login (optional)" pattern formControlName="website_username">
+                                        <!--Validation-->
+                                        <div *ngIf="profileInfo.controls.website_username.dirty || profileInfo.controls.website_username.touched">
+                                            <div *ngIf="!profileInfo.controls.website_username.value" class="alert alert-danger errorMessages">Please enter the website username</div>
+                                            <div *ngIf="profileInfo.controls.website_username.value && profileInfo.controls.website_username.errors" class="alert alert-danger errorMessages">Please enter the valid website username</div>
+                                        </div>
+                                        <!--Validation-->
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Password for acct. login (optional)" pattern formControlName="website_password">
+                                        <!--Validation-->
+                                        <div *ngIf="profileInfo.controls.website_password.dirty || profileInfo.controls.website_password.touched">
+                                            <div *ngIf="!profileInfo.controls.website_password.value" class="alert alert-danger errorMessages">Please enter the website password</div>
+                                            <div *ngIf="profileInfo.controls.website_password.value && profileInfo.controls.website_password.errors" class="alert alert-danger errorMessages">Please enter the valid website password</div>
+                                        </div>
+                                        <!--Validation-->
+                                    </div>
+                                    <hr />
+                                    <h5>Primary account contact</h5>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Name" pattern formControlName="contact_name">
+                                        <!--Validation-->
+                                        <div *ngIf="profileInfo.controls.contact_name.dirty || profileInfo.controls.contact_name.touched">
+                                            <div *ngIf="!profileInfo.controls.contact_name.value" class="alert alert-danger errorMessages">Please enter the name</div>
+                                            <div *ngIf="profileInfo.controls.contact_name.value && profileInfo.controls.contact_name.errors" class="alert alert-danger errorMessages">Please enter the valid name</div>
+                                        </div>
+                                        <!--Validation-->
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Position" pattern formControlName="contact_position">
+                                        <!--Validation-->
+                                        <div *ngIf="profileInfo.controls.contact_position.dirty || profileInfo.controls.emcontact_positionail.touched">
+                                            <div *ngIf="!profileInfo.controls.contact_position.value" class="alert alert-danger errorMessages">Please enter the position</div>
+                                            <div *ngIf="profileInfo.controls.contact_position.value && profileInfo.controls.contact_position.errors" class="alert alert-danger errorMessages">Please enter the valid position</div>
+                                        </div>
+                                        <!--Validation-->
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Address line 1" pattern formControlName="contact_address1">
+                                        <!--Validation-->
+                                        <div *ngIf="profileInfo.controls.contact_address1.dirty || profileInfo.controls.contact_address1.touched">
+                                            <div *ngIf="!profileInfo.controls.contact_address1.value" class="alert alert-danger errorMessages">Please enter the address1</div>
+                                            <div *ngIf="profileInfo.controls.contact_address1.value && profileInfo.controls.contact_address1.errors" class="alert alert-danger errorMessages">Please enter the valid address1</div>
+                                        </div>
+                                        <!--Validation-->
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Address line 2.(optional)" pattern formControlName="contact_address2">
+                                        <!--Validation-->
+                                        <div *ngIf="profileInfo.controls.contact_address2.dirty || profileInfo.controls.contact_address2.touched">
+                                            <div *ngIf="!profileInfo.controls.contact_address2.value" class="alert alert-danger errorMessages">Please enter the address2</div>
+                                            <div *ngIf="profileInfo.controls.contact_address2.value && profileInfo.controls.contact_address2.errors" class="alert alert-danger errorMessages">Please enter the valid address2</div>
+                                        </div>
+                                        <!--Validation-->
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="City" pattern formControlName="contact_city">
+                                        <!--Validation-->
+                                        <div *ngIf="profileInfo.controls.contact_city.dirty || profileInfo.controls.contact_city.touched">
+                                            <div *ngIf="!profileInfo.controls.contact_city.value" class="alert alert-danger errorMessages">Please enter the city</div>
+                                            <div *ngIf="profileInfo.controls.contact_city.value && profileInfo.controls.contact_city.errors" class="alert alert-danger errorMessages">Please enter the valid city</div>
+                                        </div>
+                                        <!--Validation-->
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="State" pattern formControlName="contact_state">
+                                                <!--Validation-->
+                                                <div *ngIf="profileInfo.controls.contact_state.dirty || profileInfo.controls.contact_state.touched">
+                                                    <div *ngIf="!profileInfo.controls.contact_state.value" class="alert alert-danger errorMessages">Please enter the state</div>
+                                                    <div *ngIf="profileInfo.controls.contact_state.value && profileInfo.controls.contact_state.errors" class="alert alert-danger errorMessages">Please enter the valid state</div>
+                                                </div>
+                                                <!--Validation-->
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Zipcode" pattern formControlName="contact_zipcode">
+                                                <!--Validation-->
+                                                <div *ngIf="profileInfo.controls.contact_zipcode.dirty || profileInfo.controls.contact_zipcode.touched">
+                                                    <div *ngIf="!profileInfo.controls.contact_zipcode.value" class="alert alert-danger errorMessages">Please enter the zipcode</div>
+                                                    <div *ngIf="profileInfo.controls.contact_zipcode.value && profileInfo.controls.contact_zipcode.errors" class="alert alert-danger errorMessages">Please enter the valid zipcode</div>
+                                                </div>
+                                                <!--Validation-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Email" pattern formControlName="contact_email">
+                                                <!--Validation-->
+                                                <div *ngIf="profileInfo.controls.contact_email.dirty || profileInfo.controls.contact_email.touched">
+                                                    <div *ngIf="!profileInfo.controls.contact_email.value" class="alert alert-danger errorMessages">Please enter the email</div>
+                                                    <div *ngIf="profileInfo.controls.contact_email.value && profileInfo.controls.contact_email.errors" class="alert alert-danger errorMessages">Please enter the valid email</div>
+                                                </div>
+                                                <!--Validation-->
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Phone number" pattern formControlName="contact_phone_number">
+                                                <!--Validation-->
+                                                <div *ngIf="profileInfo.controls.contact_phone_number.dirty || profileInfo.controls.contact_phone_number.touched">
+                                                    <div *ngIf="!profileInfo.controls.contact_phone_number.value" class="alert alert-danger errorMessages">Please enter the phone number</div>
+                                                    <div *ngIf="profileInfo.controls.contact_phone_number.value && profileInfo.controls.contact_phone_number.errors" class="alert alert-danger errorMessages">Please enter the valid phone number</div>
+                                                </div>
+                                                <!--Validation-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <a (click)="profileInfoBack()">back</a>
+                                    </div>
+                                    <div class="col-sm-6 text-right" *ngIf="profileInfoStep==1">
+                                        <a class="btn btn-default ancProfile1" (click)="profileInfoNext()">Next</a>
+                                    </div>
+                                    <div class="col-sm-6 text-right" *ngIf="profileInfoStep==2">
+                                        <a class="btn btn-default ancProfile1" (click)="profileInfoNSave()">Save & Next</a>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div class="form-group">
-                            <p>Payment Vehicle</p>
-                            <select class="ddl_default w-100">
-                                <option>Select option</option>
-                                <option>Select option1</option>
-                                <option>Select option2</option>
-                                <option>Select option3</option>
-                            </select>
-                        </div>
-                        <hr />
-                        <div class="form-group">
-                            <div>Bank name</div>
-                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="">
-                        </div>
-                        <div class="form-group">
-                            <div>Business address</div>
-                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="street address eg. 123 Main st.">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Apt, Suite Bldge(optional)">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="City">
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Payment info">
+                <ng-template ngbTabContent>
+                    <div class="row backgroundWhite">
+                        <div class="col-sm-8 p-2">
+                            <form [formGroup]="divPayemnt1" class="divPayemnt1">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="State">
+                                    <p>Payment Method</p>
+                                    <select class="ddl_default w-100">
+                                        <option>Manual or Automated</option>
+                                        <option>Manual or Automated1</option>
+                                        <option>Manual or Automated2</option>
+                                        <option>Manual or Automated3</option>
+                                    </select>
                                 </div>
-                            </div>
-                            <div class="col-sm-6">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Zipcode">
+                                    <p>Payment Vehicle</p>
+                                    <select class="ddl_default w-100">
+                                        <option>Select option</option>
+                                        <option>Select option1</option>
+                                        <option>Select option2</option>
+                                        <option>Select option3</option>
+                                    </select>
                                 </div>
-                            </div>
-                        </div>
-                        <hr />
-                        <div class="row">
-                            <div class="col-sm-6"><a href="#">Back</a></div>
-                            <div class="col-sm-6 text-right">
-                                <a class="btn btn-default ancPayemnt1" href="#">Next</a>
-                            </div>
-                        </div>
-                    </form>
-                    <form class="divPayemnt2">
-                        <div class="form-group">
-                            <div>Account Name</div>
-                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="">
-                        </div>
-                        <div class="form-group">
-                            <div>Account Name</div>
-                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="">
-                        </div>
-                        <div class="form-group">
-                            <div>ABA Routing number</div>
-                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="">
-                        </div>
-                        <div class="form-group">
-                            <div>SWIFT code</div>
-                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Name">
-                        </div>
-                        <div class="form-group">
-                            <div>Retailer address on account</div>
-                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Position">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Address line 1">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Address line 2.(optional)">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="City">
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
+                                <hr />
                                 <div class="form-group">
-                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="State">
+                                    <div>Bank name</div>
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="" pattern formControlName="bussines_name">
                                 </div>
-                            </div>
-                            <div class="col-sm-6">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Zipcode">
+                                    <div>Business address</div>
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="" pattern formControlName="bussines_name">
                                 </div>
-                            </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="street address eg. 123 Main st." pattern formControlName="bussines_name">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Apt, Suite Bldge(optional)" pattern formControlName="bussines_name">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="City" pattern formControlName="bussines_name">
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="State" pattern formControlName="bussines_name">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Zipcode" pattern formControlName="bussines_name">
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <a href="#">Back</a>
+                                    </div>
+                                    <div class="col-sm-6 text-right">
+                                        <a class="btn btn-default ancPayemnt1" href="#">Next</a>
+                                    </div>
+                                </div>
+                            </form>
+                            <form [formGroup]="divPayemnt2" class="divPayemnt2">
+                                <div class="form-group">
+                                    <div>Account Name</div>
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <div>Account Name</div>
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <div>ABA Routing number</div>
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <div>SWIFT code</div>
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Name">
+                                </div>
+                                <div class="form-group">
+                                    <div>Retailer address on account</div>
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Position">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Address line 1">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Address line 2.(optional)">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="City">
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="State">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Zipcode">
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <a href="#">Back</a>
+                                    </div>
+                                    <div class="col-sm-6 text-right">
+                                        <a class="btn btn-default" href="#">Next</a>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <hr />
-                        <div class="row">
-                            <div class="col-sm-6"><a href="#">Back</a></div>
-                            <div class="col-sm-6 text-right">
-                                <a class="btn btn-default" href="#">Next</a>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
-            </div>
-        </ng-template>
-      </ngb-tab>
-      <ngb-tab title="Product info">
-        <ng-template ngbTabContent>
-            <div class="row backgroundWhite">
-                <div class="col-sm-8 p-2">
-                    <p>Product Type</p>
-                    <div class="col-sm-12 p-0">
-                        <div class="box_outlineGray">Nightlight <a href="#" class="categ_close">x</a></div> <div class="box_outlineGray">Flood & Spot lights <a href="#" class="categ_close">x</a></div> <div class="box_outlineGray">Sofa <a href="#" class="categ_close">x</a></div>
-                        <div class="clearfix">&nbsp;</div>
-                        <table class="table table-bordered">
-                            <tr>
-                                <td colspan="2">
-                                    <a href="#">Home & Garden </a> > <a href="#">Lighting</a> > sub-catagory
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <ul class="list-unstyled">
-                                        <li><a href="#">Kitchen & Dinning (186)</a></li>
-                                        <li><a href="#">Appliances (30)</a></li>
-                                        <li><a href="#">Furniture & Patio (162)</a></li>
-                                        <li><a href="#">Lighting (27)</a></li>
-                                        <li><a href="#">Lawn & Garden (43)</a></li>
-                                        <li><a href="#">Supplies (50)</a></li>
-                                        <li><a href="#">Pest Control (3)</a></li>
-                                        <li><a href="#">Bedding & Linens (13)</a></li>
-                                        <li><a href="#">Emergency & Safety (11)</a></li>
-                                        <li><a href="#">Pool & Spa (15)</a></li>
-                                    </ul>
-                                </td>
-                                <td>
-                                    <ul class="list-unstyled">
-                                        <li><a href="#">Lamps (3)</a></li>
-                                        <li><a href="#">Light Bulbs (3)</a></li>
-                                        <li><a href="#">Nightlights</a></li>
-                                        <li><a href="#">Light Ropes & Srings</a></li>
-                                        <li><a href="#">Lighting Fixtures (4)</a></li>
-                                        <li><a href="#">Track Lighting</a></li>
-                                        <li><a href="#">Landscape Lighting (4)</a></li>
-                                        <li><a href="#">Emergency Lighting</a></li>
-                                        <li><a href="#">Flood & Spot lights</a></li>
-                                        <li><a href="#">Lamp Shades</a></li>
-                                        <li><a href="#">Timers & Accessories</a></li>
-                                    </ul>
-                                </td>
-                            </tr>
-                        </table>
+                        <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
                     </div>
-                    <hr />
-                    <div class="row">
-                        <div class="col-sm-6"><a href="#">Back</a></div>
-                        <div class="col-sm-6 text-right">
-                            <a class="btn btn-default" href="#">Next</a>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Product info">
+                <ng-template ngbTabContent>
+                    <div class="row backgroundWhite">
+                        <div class="col-sm-8 p-2">
+                            <p>Product Type</p>
+                            <div class="col-sm-12 p-0">
+                                <div class="box_outlineGray">Nightlight
+                                    <a href="#" class="categ_close">x</a>
+                                </div>
+                                <div class="box_outlineGray">Flood & Spot lights
+                                    <a href="#" class="categ_close">x</a>
+                                </div>
+                                <div class="box_outlineGray">Sofa
+                                    <a href="#" class="categ_close">x</a>
+                                </div>
+                                <div class="clearfix">&nbsp;</div>
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <td colspan="2">
+                                            <a href="#">Home & Garden </a> >
+                                            <a href="#">Lighting</a> > sub-catagory
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <ul class="list-unstyled">
+                                                <li>
+                                                    <a href="#">Kitchen & Dinning (186)</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Appliances (30)</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Furniture & Patio (162)</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Lighting (27)</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Lawn & Garden (43)</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Supplies (50)</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Pest Control (3)</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Bedding & Linens (13)</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Emergency & Safety (11)</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Pool & Spa (15)</a>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <ul class="list-unstyled">
+                                                <li>
+                                                    <a href="#">Lamps (3)</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Light Bulbs (3)</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Nightlights</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Light Ropes & Srings</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Lighting Fixtures (4)</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Track Lighting</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Landscape Lighting (4)</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Emergency Lighting</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Flood & Spot lights</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Lamp Shades</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Timers & Accessories</a>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <a href="#">Back</a>
+                                </div>
+                                <div class="col-sm-6 text-right">
+                                    <a class="btn btn-default" href="#">Next</a>
+                                </div>
+                            </div>
                         </div>
+                        <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
                     </div>
-                </div>
-                <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
-            </div>
-        </ng-template>
-      </ngb-tab>
-      <ngb-tab title="Shipping profile">
-        <ng-template ngbTabContent>
-            <div class="row backgroundWhite">
-                <div class="col-sm-8 p-2">
-                    <div class="divshipping1">
-                        <p>Profile name</p>
-                        <p><input type="text" class="form-control" aria-describedby="" placeholder=""></p>
-                        <p>Delivery - Base options</p>
-                        <ul class="list-unstyled">
-                            <li><input type="radio" /> Free shipping</li>
-                            <li><input type="radio" /> Flat rate - single rate for all orders</li>
-                            <li><input type="radio" /> Price based</li>
-                            <li><input type="radio" /> Weight based</li>
-                            <li><input type="radio" /> Size based</li>
-                        </ul>
-                        <div class="col-sm-12">
-                            <div class="row border_outline">
-                                <div class="col-sm-8 p-3">
-                                    <strong>Letter</strong>
-                                    <div>Minimum: 5” long, 3 ½” high, and 0.007” thick Maximum: 11-1/2” long, 6-1/8” high, and ¼” thick</div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Shipping profile">
+                <ng-template ngbTabContent>
+                    <div class="row backgroundWhite">
+                        <div class="col-sm-8 p-2">
+                            <div class="divshipping1">
+                                <p>Profile name</p>
+                                <p>
+                                    <input type="text" class="form-control" aria-describedby="" placeholder="">
+                                </p>
+                                <p>Delivery - Base options</p>
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <input type="radio" /> Free shipping</li>
+                                    <li>
+                                        <input type="radio" /> Flat rate - single rate for all orders</li>
+                                    <li>
+                                        <input type="radio" /> Price based</li>
+                                    <li>
+                                        <input type="radio" /> Weight based</li>
+                                    <li>
+                                        <input type="radio" /> Size based</li>
+                                </ul>
+                                <div class="col-sm-12">
+                                    <div class="row border_outline">
+                                        <div class="col-sm-8 p-3">
+                                            <strong>Letter</strong>
+                                            <div>Minimum: 5” long, 3 ½” high, and 0.007” thick Maximum: 11-1/2” long, 6-1/8” high, and ¼” thick</div>
+                                        </div>
+                                        <div class="col-sm-4 text-center">
+                                            <img src="images/icon_letter.png" />
+                                        </div>
+                                    </div>
+                                    <div class="row border_outline">
+                                        <div class="col-sm-8 p-3">
+                                            <strong>Small</strong>
+                                            <div>Max. Size: Length + (2 x Width) + (2 x Height)
+                                                <=2 8”</div>
+                                            </div>
+                                            <div class="col-sm-4 text-center">
+                                                <img src="images/icon_small.png" />
+                                            </div>
+                                        </div>
+                                        <div class="row border_outline">
+                                            <div class="col-sm-8 p-3">
+                                                <strong>Medium</strong>
+                                                <div>Max. Size: Length + (2 x Width) + (2 x Height) > 28”,
+                                                    <=8 4”</div>
+                                                </div>
+                                                <div class="col-sm-4 text-center">
+                                                    <img src="images/icon_medium.png" />
+                                                </div>
+                                            </div>
+                                            <div class="row border_outline">
+                                                <div class="col-sm-8 p-3">
+                                                    <strong>Large</strong>
+                                                    <div>Max. Size: Length + (2 x Width) + (2 x Height) > 84”,
+                                                        <=1 65”</div>
+                                                    </div>
+                                                    <div class="col-sm-4 text-center">
+                                                        <img src="images/icon_Large.png" />
+                                                    </div>
+                                                </div>
+                                                <div class="row border_outline">
+                                                    <div class="col-sm-8 p-3">
+                                                        <strong>Oversized</strong>
+                                                        <div>Max. Size: Length + (2 x Width) + (2 x Height) > 165”</div>
+                                                    </div>
+                                                    <div class="col-sm-4 text-center">
+                                                        <img src="images/icon_oversize.png" />
+                                                    </div>
+                                                </div>
+                                                <div class="row border_outline p-3 my-3">
+                                                    <strong>Irregular</strong>
+                                                    Assumes shipment can’t be sorted with mail processing equipment due to size, shape, or content issues. The longest side of the package is over 60 inches or the second longest side is over 30 inches. The package is encased in an external shipping container made of metal or wood. The package is a cylindrical item, such as a barrel, drum, pail, or tire that isn't fully encased in a corrugated cardboard shipping container.
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <a href="#">Back</a>
+                                                </div>
+                                                <div class="col-sm-6 text-right">
+                                                    <a class="btn btn-default ancshipping1" href="#">Next</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-sm-4 text-center">
-                                    <img src="images/icon_letter.png" />
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Return and Exchange policy">
+                <ng-template ngbTabContent>
+                    <div class="row backgroundWhite">
+                        <div class="col-sm-8 p-2">
+                            <p>Returns and Exchange policy</p>
+                            <textarea class="h-50 form-control"></textarea>
+                            <div class="clearfix">&nbsp;</div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <a href="#">Back</a>
+                                </div>
+                                <div class="col-sm-6 text-right">
+                                    <a class="btn btn-default ancshipping2" href="#">Next</a>
                                 </div>
                             </div>
-                            <div class="row border_outline">
-                                <div class="col-sm-8 p-3">
-                                    <strong>Small</strong>
-                                    <div>Max. Size: Length + (2 x Width) + (2 x Height) <= 28”</div>
-                                </div>
-                                <div class="col-sm-4 text-center">
-                                    <img src="images/icon_small.png" />
-                                </div>
-                            </div>
-                            <div class="row border_outline">
-                                <div class="col-sm-8 p-3">
-                                    <strong>Medium</strong>
-                                    <div>Max. Size: Length + (2 x Width) + (2 x Height) > 28”, <= 84”</div>
-                                </div>
-                                <div class="col-sm-4 text-center">
-                                    <img src="images/icon_medium.png" />
-                                </div>
-                            </div>
-                            <div class="row border_outline">
-                                <div class="col-sm-8 p-3">
-                                    <strong>Large</strong>
-                                    <div>Max. Size: Length + (2 x Width) + (2 x Height) > 84”, <= 165”</div>
-                                </div>
-                                <div class="col-sm-4 text-center">
-                                    <img src="images/icon_Large.png" />
-                                </div>
-                            </div>
-                            <div class="row border_outline">
-                                <div class="col-sm-8 p-3">
-                                    <strong>Oversized</strong>
-                                    <div>Max. Size: Length + (2 x Width) + (2 x Height) > 165”</div>
-                                </div>
-                                <div class="col-sm-4 text-center">
-                                    <img src="images/icon_oversize.png" />
-                                </div>
-                            </div>
-                            <div class="row border_outline p-3 my-3">
-                                <strong>Irregular</strong>
-                                Assumes shipment can’t be sorted with mail processing equipment due to size,
-                                shape, or content issues.
-                                The longest side of the package is over 60 inches or the second longest side is
-                                over 30 inches.
-                                The package is encased in an external shipping container made of metal or
-                                wood.
-                                The package is a cylindrical item, such as a barrel, drum, pail, or tire that isn't
-                                fully encased in a corrugated cardboard shipping container.
-                            </div>
+                            <div class="clearfix">&nbsp;</div>
+                            <div class="clearfix">&nbsp;</div>
+                            <div class="clearfix">&nbsp;</div>
+                            <div class="clearfix">&nbsp;</div>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-6"><a href="#">Back</a></div>
-                            <div class="col-sm-6 text-right">
-                                <a class="btn btn-default ancshipping1" href="#">Next</a>
-                            </div>
-                        </div>
+                        <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
                     </div>
-                </div>
-            </div>
-        </ng-template>
-      </ngb-tab>
-      <ngb-tab title="Return and Exchange policy">
-        <ng-template ngbTabContent>
-            <div class="row backgroundWhite">
-                <div class="col-sm-8 p-2">
-                    <p>Returns and Exchange policy</p>
-                    <textarea class="h-50 form-control"></textarea> 
-                    <div class="clearfix">&nbsp;</div>
-                    <div class="row">
-                        <div class="col-sm-6"><a href="#">Back</a></div>
-                        <div class="col-sm-6 text-right">
-                            <a class="btn btn-default ancshipping2" href="#">Next</a>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Notifications">
+                <ng-template ngbTabContent>
+                    <div class="row backgroundWhite">
+                        <div class="col-sm-8 p-2">
+                            <p>Notifications</p>
+                            <div class="row p-2">
+                                <div class="col-sm-4">
+                                    Order email:
+                                </div>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" aria-describedby="" placeholder="order@mail.com">
+                                </div>
+                            </div>
+                            <div class="row p-2">
+                                <div class="col-sm-4">
+                                    Shipping email:
+                                </div>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" aria-describedby="" placeholder="shipping@mail.com">
+                                </div>
+                            </div>
+                            <div class="height-100">&nbsp;</div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <a href="#">Back</a>
+                                </div>
+                                <div class="col-sm-6 text-right">
+                                    <a class="btn btn-default ancshipping2" href="#">Save and Finish</a>
+                                </div>
+                            </div>
                         </div>
-                    </div> 
-                    <div class="clearfix">&nbsp;</div>
-                    <div class="clearfix">&nbsp;</div>
-                    <div class="clearfix">&nbsp;</div>
-                    <div class="clearfix">&nbsp;</div>
-                </div>
-                <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
-            </div>
-        </ng-template>
-      </ngb-tab>
-      <ngb-tab title="Notifications">
-        <ng-template ngbTabContent>
-            <div class="row backgroundWhite">
-                <div class="col-sm-8 p-2">
-                    <p>Notifications</p>
-                    <div class="row p-2">
-                        <div class="col-sm-4">
-                            Order email:
-                        </div>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" aria-describedby="" placeholder="order@mail.com">
-                        </div>
+                        <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
                     </div>
-                    <div class="row p-2">
-                        <div class="col-sm-4">
-                            Shipping email:
-                        </div>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" aria-describedby="" placeholder="shipping@mail.com">
-                        </div>
-                    </div>
-                    <div class="height-100">&nbsp;</div>
-                    <div class="row">
-                        <div class="col-sm-6"><a href="#">Back</a></div>
-                        <div class="col-sm-6 text-right">
-                            <a class="btn btn-default ancshipping2" href="#">Save and Finish</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
-            </div> 
-        </ng-template>
-      </ngb-tab>
-    </ngb-tabset>
-  </div>
-</div>
+                </ng-template>
+            </ngb-tab>
+        </ngb-tabset>
+        </div>
+        </div>

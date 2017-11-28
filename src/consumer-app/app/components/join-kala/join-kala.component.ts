@@ -8,7 +8,7 @@ import { User } from '../../../../models/user';
 import { Conversation } from '../../models/conversation';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { JoinKalaService } from './join-kala.service';
-import defaultMessages from '../../userMessages';
+import { UserMessages } from '../../userMessages';
 
 @Component({
   selector: 'app-join-kala',
@@ -107,15 +107,18 @@ export class JoinKalaComponent implements OnInit, CuiComponent {
       console.log(res);
       window.localStorage['userInfo'] = JSON.stringify({ 'username': this.singupDetails.username, 'email': this.singupDetails.email });
       this.signUpResponse.status = true;
-      this.signUpResponse.response = res._body;
+      // this.signUpResponse.response = res._body;
       if (this.signUpResponse.response === "success") {
-        this.signUpResponse.message = defaultMessages.createAccount.success;
+        this.signUpResponse.message = UserMessages.createAccount_Success;
         setTimeout(function () {
           this.router.navigateByUrl('/profile-info');
         }, 3000)
       }
-      else if (this.signUpResponse.response === "alreadyexists") this.signUpResponse.message = defaultMessages.createAccount.alreadyExists;
-      else this.signUpResponse.message = defaultMessages.createAccount.fail;
+      // tslint:disable-next-line:curly
+      else if (this.signUpResponse.response === "alreadyexists")
+        this.signUpResponse.message = UserMessages.createAccount_alreadyExists;
+      // tslint:disable-next-line:curly
+      else this.signUpResponse.message = UserMessages.createAccount_fail;
       this.joinKala.reset();
       this.loader = false;
     }, err => {

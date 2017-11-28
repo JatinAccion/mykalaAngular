@@ -1,10 +1,6 @@
 /* Create Account Errors Messages*/
-const defaultMessages = {
-    createAccount: {
-        "success": "Your account has been created successfully",
-        "alreadyExists": "Account already exists",
-        "fail": "Something went wrong, please try again"
-    }
+export enum UserMessages {
+    createAccount_Success = "Your account has been created successfully",
+    createAccount_alreadyExists = "Account already exists",
+    createAccount_fail = "Something went wrong, please try again"
 }
-
-export default defaultMessages
