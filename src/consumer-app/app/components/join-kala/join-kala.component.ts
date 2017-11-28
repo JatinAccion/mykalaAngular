@@ -9,6 +9,11 @@ import { Conversation } from '../../models/conversation';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { JoinKalaService } from './join-kala.service';
 import { UserMessages } from '../../userMessages';
+<<<<<<< HEAD
+=======
+import { ConsumerSignUp } from '../../../../models/consumer-signup';
+import { RoleModel } from '../../../../models/userRole';
+>>>>>>> 8634784c2fe23f9bb7730ab91ba47482f3698f6e
 
 @Component({
   selector: 'app-join-kala',
@@ -21,7 +26,7 @@ export class JoinKalaComponent implements OnInit, CuiComponent {
   joinKala: FormGroup;
   passwordRegex = new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$');
   usernameRegex = new RegExp('^[a-zA-Z0-9.-]*$');
-  singupDetails;
+  userModel: ConsumerSignUp;
   signUpResponse = {
     status: false,
     response: "",
@@ -94,33 +99,43 @@ export class JoinKalaComponent implements OnInit, CuiComponent {
   }
 
   onSubmit() {
+    /*Request JSON*/
     this.loader = true;
-    this.singupDetails = {
-      "roles": { "role_name": "consumer" },
-      "username": this.joinKala.value.username,
-      "password": this.joinKala.value.password,
-      "email_id": this.joinKala.value.email,
-      "origin_source": "NA",
-      "user_status": 1
-    }
-    this.joinKalaService.joinKalaStepOne(this.singupDetails).subscribe(res => {
+    this.userModel.username = this.joinKala.value.username;
+    this.userModel.password = this.joinKala.value.password;
+    this.userModel.email_id = this.joinKala.value.email;
+    this.userModel.origin_source = "NA";
+    this.userModel.user_status = 1;
+    this.userModel.roles = new RoleModel();
+    this.userModel.roles.role_name = "consumer";
+
+    this.joinKalaService.joinKalaStepOne(this.userModel).subscribe(res => {
       console.log(res);
-      window.localStorage['userInfo'] = JSON.stringify({ 'username': this.singupDetails.username, 'email': this.singupDetails.email });
+      this.loader = false;
+      window.localStorage['userInfo'] = JSON.stringify({ 'username': this.userModel.username, 'email': this.userModel.email_id });
       this.signUpResponse.status = true;
       // this.signUpResponse.response = res._body;
       if (this.signUpResponse.response === "success") {
+<<<<<<< HEAD
         this.signUpResponse.message = UserMessages.createAccount_Success;
+=======
+        this.signUpResponse.message = UserMessages.createAccount_success;
+>>>>>>> 8634784c2fe23f9bb7730ab91ba47482f3698f6e
         setTimeout(function () {
           this.router.navigateByUrl('/profile-info');
         }, 3000)
       }
+<<<<<<< HEAD
       // tslint:disable-next-line:curly
       else if (this.signUpResponse.response === "alreadyexists")
         this.signUpResponse.message = UserMessages.createAccount_alreadyExists;
       // tslint:disable-next-line:curly
       else this.signUpResponse.message = UserMessages.createAccount_fail;
+=======
+      else if (this.signUpResponse.response === "alreadyexists") this.signUpResponse.message = UserMessages.createAccount_aleadyExist;
+      else this.signUpResponse.message = UserMessages.createAccount_Fail;
+>>>>>>> 8634784c2fe23f9bb7730ab91ba47482f3698f6e
       this.joinKala.reset();
-      this.loader = false;
     }, err => {
       console.log("Error occured");
     });

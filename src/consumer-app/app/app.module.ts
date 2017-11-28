@@ -30,6 +30,7 @@ import { cListComponent } from './components/conversational/cList.component';
 import { JoinKalaComponent } from './components/join-kala/join-kala.component';
 import { ProfileInfoComponent } from './components/profile-info/profile-info.component';
 import { JoinKalaService } from './components/join-kala/join-kala.service';
+import { ProfileInfoService } from './components/profile-info/profile-info.service';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,7 @@ import { JoinKalaService } from './components/join-kala/join-kala.service';
     AppRoutingModule,
     ReactiveFormsModule
   ],
-  providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, ConversationalService, JoinKalaService],
+  providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, ConversationalService, JoinKalaService, ProfileInfoService],
   bootstrap: [AppComponent],
   entryComponents: [cmsgComponent, HomeComponent, cListComponent, JoinKalaComponent, LoginComponent]
 })
