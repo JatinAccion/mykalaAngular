@@ -9,11 +9,8 @@ import { Conversation } from '../../models/conversation';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { JoinKalaService } from './join-kala.service';
 import { UserMessages } from '../../userMessages';
-<<<<<<< HEAD
-=======
 import { ConsumerSignUp } from '../../../../models/consumer-signup';
 import { RoleModel } from '../../../../models/userRole';
->>>>>>> 8634784c2fe23f9bb7730ab91ba47482f3698f6e
 
 @Component({
   selector: 'app-join-kala',
@@ -116,25 +113,13 @@ export class JoinKalaComponent implements OnInit, CuiComponent {
       this.signUpResponse.status = true;
       // this.signUpResponse.response = res._body;
       if (this.signUpResponse.response === "success") {
-<<<<<<< HEAD
-        this.signUpResponse.message = UserMessages.createAccount_Success;
-=======
         this.signUpResponse.message = UserMessages.createAccount_success;
->>>>>>> 8634784c2fe23f9bb7730ab91ba47482f3698f6e
         setTimeout(function () {
           this.router.navigateByUrl('/profile-info');
         }, 3000)
       }
-<<<<<<< HEAD
-      // tslint:disable-next-line:curly
-      else if (this.signUpResponse.response === "alreadyexists")
-        this.signUpResponse.message = UserMessages.createAccount_alreadyExists;
-      // tslint:disable-next-line:curly
-      else this.signUpResponse.message = UserMessages.createAccount_fail;
-=======
       else if (this.signUpResponse.response === "alreadyexists") this.signUpResponse.message = UserMessages.createAccount_aleadyExist;
       else this.signUpResponse.message = UserMessages.createAccount_Fail;
->>>>>>> 8634784c2fe23f9bb7730ab91ba47482f3698f6e
       this.joinKala.reset();
     }, err => {
       console.log("Error occured");
