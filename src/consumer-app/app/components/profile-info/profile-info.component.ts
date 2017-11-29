@@ -22,7 +22,7 @@ export class ProfileInfoComponent implements OnInit {
 
   ngOnInit() {
     this.profileInfo = this.formBuilder.group({
-      "profileImage": ['', Validators.required],
+      "profileImage": [''],
       "username": [''],
       "firstname": [''],
       "lastname": [''],
