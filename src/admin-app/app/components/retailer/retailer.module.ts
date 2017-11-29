@@ -7,13 +7,15 @@ import { RetailerListComponent } from './retailer-list/retailer-list.component';
 import { RetailerEditComponent } from './retailer-edit/retailer-edit.component';
 import { RetailerAddComponent } from './retailer-add/retailer-add.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RetialerService } from './retialer.service';
 
 @NgModule({
   imports: [
     CommonModule,
     RetailerRoutingModule,
     NgbModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RetialerService
   ],
   declarations: [RetailerListComponent, RetailerEditComponent, RetailerAddComponent]
 })

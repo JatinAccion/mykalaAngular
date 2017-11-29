@@ -20,12 +20,12 @@
                                     </div>
                                     <div class="form-group">
                                         <div>Business name</div>
-                                        <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="bussines_name">
+                                        <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="businessName">
 
                                         <!--Validation-->
-                                        <div *ngIf="profileInfo.controls.bussines_name.dirty || profileInfo.controls.bussines_name.touched">
-                                            <div *ngIf="!profileInfo.controls.bussines_name.value" class="alert alert-danger errorMessages">Please enter the Business name</div>
-                                            <div *ngIf="profileInfo.controls.bussines_name.value && profileInfo.controls.bussines_name.errors" class="alert alert-danger errorMessages">Please enter the valid Business name</div>
+                                        <div *ngIf="profileInfo.controls.businessName.dirty || profileInfo.controls.businessName.touched">
+                                            <div *ngIf="!profileInfo.controls.businessName.value" class="alert alert-danger errorMessages">Please enter the Business name</div>
+                                            <div *ngIf="profileInfo.controls.businessName.value && profileInfo.controls.businessName.errors" class="alert alert-danger errorMessages">Please enter the valid Business name</div>
                                         </div>
                                         <!--Validation-->
                                     </div>
@@ -43,11 +43,11 @@
                                         <div>Business summary
                                             <small class="float-right">300 characters left</small>
                                         </div>
-                                        <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="bussines_summary">
+                                        <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="businessSummary">
                                         <!--Validation-->
-                                        <div *ngIf="profileInfo.controls.bussines_summary.dirty || profileInfo.controls.bussines_summary.touched">
-                                            <div *ngIf="!profileInfo.controls.bussines_summary.value" class="alert alert-danger errorMessages">Please enter the Business summary</div>
-                                            <div *ngIf="profileInfo.controls.bussines_summary.value && profileInfo.controls.bussines_summary.errors" class="alert alert-danger errorMessages">Please enter the valid Business summary</div>
+                                        <div *ngIf="profileInfo.controls.businessSummary.dirty || profileInfo.controls.businessSummary.touched">
+                                            <div *ngIf="!profileInfo.controls.businessSummary.value" class="alert alert-danger errorMessages">Please enter the Business summary</div>
+                                            <div *ngIf="profileInfo.controls.businessSummary.value && profileInfo.controls.businessSummary.errors" class="alert alert-danger errorMessages">Please enter the valid Business summary</div>
                                         </div>
                                         <!--Validation-->
                                     </div>
@@ -132,7 +132,7 @@
                                         <div class="col-sm-12">
                                             <div *ngFor="let sellerType of sellerTypes">
                                                 <label for="sellerType_{{sellerType.name}}">
-                                                    <input formControlName="seller_type" type="radio" [value]="sellerType.name"> {{sellerType.value}}
+                                                    <input formControlName="sellerTypeId" type="radio" [value]="sellerType.name"> {{sellerType.value}}
                                                 </label>
                                             </div>
                                         </div>
@@ -141,29 +141,29 @@
 
                                 <div *ngIf="profileInfoStep==2">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Website URL(optional) e.g.www.mykala.com" pattern formControlName="website">
+                                        <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Website URL(optional) e.g.www.mykala.com" pattern formControlName="websiteUrl">
                                         <!--Validation-->
-                                        <div *ngIf="profileInfo.controls.website.dirty || profileInfo.controls.website.touched">
-                                            <div *ngIf="!profileInfo.controls.website.value" class="alert alert-danger errorMessages">Please enter the website</div>
-                                            <div *ngIf="profileInfo.controls.website.value && profileInfo.controls.website.errors" class="alert alert-danger errorMessages">Please enter the valid website</div>
+                                        <div *ngIf="profileInfo.controls.websiteUrl.dirty || profileInfo.controls.websiteUrl.touched">
+                                            <div *ngIf="!profileInfo.controls.websiteUrl.value" class="alert alert-danger errorMessages">Please enter the websiteUrl</div>
+                                            <div *ngIf="profileInfo.controls.websiteUrl.value && profileInfo.controls.websiteUrl.errors" class="alert alert-danger errorMessages">Please enter the valid websiteUrl</div>
                                         </div>
                                         <!--Validation-->
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Username for acct. login (optional)" pattern formControlName="website_username">
+                                        <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Username for acct. login (optional)" pattern formControlName="websiteUserName">
                                         <!--Validation-->
-                                        <div *ngIf="profileInfo.controls.website_username.dirty || profileInfo.controls.website_username.touched">
-                                            <div *ngIf="!profileInfo.controls.website_username.value" class="alert alert-danger errorMessages">Please enter the website username</div>
-                                            <div *ngIf="profileInfo.controls.website_username.value && profileInfo.controls.website_username.errors" class="alert alert-danger errorMessages">Please enter the valid website username</div>
+                                        <div *ngIf="profileInfo.controls.websiteUserName.dirty || profileInfo.controls.websiteUserName.touched">
+                                            <div *ngIf="!profileInfo.controls.websiteUserName.value" class="alert alert-danger errorMessages">Please enter the website username</div>
+                                            <div *ngIf="profileInfo.controls.websiteUserName.value && profileInfo.controls.websiteUserName.errors" class="alert alert-danger errorMessages">Please enter the valid website username</div>
                                         </div>
                                         <!--Validation-->
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Password for acct. login (optional)" pattern formControlName="website_password">
+                                        <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Password for acct. login (optional)" pattern formControlName="websitePassword">
                                         <!--Validation-->
-                                        <div *ngIf="profileInfo.controls.website_password.dirty || profileInfo.controls.website_password.touched">
-                                            <div *ngIf="!profileInfo.controls.website_password.value" class="alert alert-danger errorMessages">Please enter the website password</div>
-                                            <div *ngIf="profileInfo.controls.website_password.value && profileInfo.controls.website_password.errors" class="alert alert-danger errorMessages">Please enter the valid website password</div>
+                                        <div *ngIf="profileInfo.controls.websitePassword.dirty || profileInfo.controls.websitePassword.touched">
+                                            <div *ngIf="!profileInfo.controls.websitePassword.value" class="alert alert-danger errorMessages">Please enter the website password</div>
+                                            <div *ngIf="profileInfo.controls.websitePassword.value && profileInfo.controls.websitePassword.errors" class="alert alert-danger errorMessages">Please enter the valid website password</div>
                                         </div>
                                         <!--Validation-->
                                     </div>
@@ -306,30 +306,30 @@
                                 <hr />
                                 <div class="form-group">
                                     <div>Bank name</div>
-                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="" pattern formControlName="bussines_name">
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="" pattern formControlName="businessName">
                                 </div>
                                 <div class="form-group">
                                     <div>Business address</div>
-                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="" pattern formControlName="bussines_name">
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="" pattern formControlName="businessName">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="street address eg. 123 Main st." pattern formControlName="bussines_name">
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="street address eg. 123 Main st." pattern formControlName="businessName">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Apt, Suite Bldge(optional)" pattern formControlName="bussines_name">
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Apt, Suite Bldge(optional)" pattern formControlName="businessName">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="City" pattern formControlName="bussines_name">
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="City" pattern formControlName="businessName">
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="State" pattern formControlName="bussines_name">
+                                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="State" pattern formControlName="businessName">
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Zipcode" pattern formControlName="bussines_name">
+                                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Zipcode" pattern formControlName="businessName">
                                         </div>
                                     </div>
                                 </div>
