@@ -3,7 +3,10 @@ import { Retailer } from '../../../../../models/retailer';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { nameValue } from '../../../../../models/nameValue';
-import { ProfileInfo } from '../../../../../models/profile-info';
+import { RetailerProfileInfo } from '../../../../../models/retailer-profile-info';
+import { RetailerBuinessAddress } from '../../../../../models/retailer-business-adress';
+import { RetailerPrimaryContact } from '../../../../../models/retailer-contact';
+import { RetialerService } from '../retialer.service';
 
 @Component({
   selector: 'app-retailer-add',
@@ -19,19 +22,20 @@ export class RetailerAddComponent implements OnInit {
   businessNameRegex = new RegExp('^[a-zA-Z0-9_.-]*$');
   tinRegex = new RegExp('^[a-zA-Z0-9_.-]*$');
   normalTextRegex = new RegExp('^[a-zA-Z0-9_.-]*$');
-  //ProfileInfo
+  // ProfileInfo
   sellerTypes: Array<nameValue> = new Array<nameValue>();
   profileInfoStep = 1;
-  profileInfoObj = new ProfileInfo();
-  //ProfileInfo
+  profileInfoObj = new RetailerProfileInfo();
+  // ProfileInfo
 
-  constructor(private formBuilder: FormBuilder, private router: Router) { }
+  // tslint:disable-next-line:whitespace
+  constructor(private formBuilder: FormBuilder, private router: Router, private retialerService: RetialerService) { }
 
   ngOnInit() {
     this.profileInfo = this.formBuilder.group({
-      bussines_name: ['', [Validators.required]],
+      businessName: ['', [Validators.required]],
       tin: ['', [Validators.required]],
-      bussines_summary: ['', [Validators.required]],
+      businessSummary: ['', [Validators.required]],
       bussines_address: ['', [Validators.required]],
       bussines_address2: ['', [Validators.required]],
       city: ['', [Validators.required]],
@@ -39,10 +43,10 @@ export class RetailerAddComponent implements OnInit {
       zipcode: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       phone_number: ['', [Validators.required]],
-      seller_type: ['', [Validators.required]],
-      website: ['', [Validators.required]],
-      website_username: ['', [Validators.required]],
-      website_password: ['', [Validators.required]],
+      sellerTypeId: ['', [Validators.required]],
+      websiteUrl: ['', [Validators.required]],
+      websiteUserName: ['', [Validators.required]],
+      websitePassword: ['', [Validators.required]],
       contact_name: ['', [Validators.required]],
       contact_position: ['', [Validators.required]],
       contact_address1: ['', [Validators.required]],
@@ -65,35 +69,49 @@ export class RetailerAddComponent implements OnInit {
     this.profileInfoStep = 1;
   }
   profileInfoSave() {
-
     this.getProfileInfo();
-
+    this.retialerService.profileInfoSave(this.profileInfoObj)
+      .then((res) => {
+        this.profileInfoObj.retailerId = res.retailerId;
+        this.router.navigateByUrl('/retailer-list');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
   getProfileInfo() {
-    this.profileInfoObj.bussines_name = this.profileInfo.value.bussines_name;
+    this.profileInfoObj.businessLogoPath = this.profileInfo.value.businessName;
+    this.profileInfoObj.businessName = this.profileInfo.value.businessName;
     this.profileInfoObj.tin = this.profileInfo.value.tin;
-    this.profileInfoObj.bussines_summary = this.profileInfo.value.bussines_summary;
-    this.profileInfoObj.bussines_address = this.profileInfo.value.bussines_address;
-    this.profileInfoObj.bussines_address2 = this.profileInfo.value.bussines_address2;
-    this.profileInfoObj.city = this.profileInfo.value.city;
-    this.profileInfoObj.state = this.profileInfo.value.state;
-    this.profileInfoObj.zipcode = this.profileInfo.value.zipcode;
-    this.profileInfoObj.email = this.profileInfo.value.email;
-    this.profileInfoObj.phone_number = this.profileInfo.value.phone_number;
-    this.profileInfoObj.seller_type = this.profileInfo.value.seller_type;
+    this.profileInfoObj.businessSummary = this.profileInfo.value.businessSummary;
+    this.profileInfoObj.sellerTypeId = this.profileInfo.value.sellerTypeId;
 
-    this.profileInfoObj.website = this.profileInfo.value.website;
-    this.profileInfoObj.website_username = this.profileInfo.value.website_username;
-    this.profileInfoObj.website_password = this.profileInfo.value.website_password;
-    this.profileInfoObj.contact_name = this.profileInfo.value.contact_name;
-    this.profileInfoObj.contact_position = this.profileInfo.value.contact_position;
-    this.profileInfoObj.contact_address1 = this.profileInfo.value.contact_address1;
-    this.profileInfoObj.contact_address2 = this.profileInfo.value.contact_address2;
-    this.profileInfoObj.contact_city = this.profileInfo.value.contact_city;
-    this.profileInfoObj.contact_state = this.profileInfo.value.contact_state;
-    this.profileInfoObj.contact_zipcode = this.profileInfo.value.contact_zipcode;
-    this.profileInfoObj.contact_email = this.profileInfo.value.contact_email;
-    this.profileInfoObj.contact_phone_number = this.profileInfo.value.contact_phone_number;
+    this.profileInfoObj.websiteUrl = this.profileInfo.value.websiteUrl;
+    this.profileInfoObj.websiteUserName = this.profileInfo.value.websiteUserName;
+    this.profileInfoObj.websitePassword = this.profileInfo.value.websitePassword;
+
+    this.profileInfoObj.businessAdresses = new Array<RetailerBuinessAddress>();
+    const retailerBusinessAddress = new RetailerBuinessAddress();
+    retailerBusinessAddress.addressLine1 = this.profileInfo.value.bussines_address;
+    retailerBusinessAddress.addressLine2 = this.profileInfo.value.bussines_address2;
+    retailerBusinessAddress.city = this.profileInfo.value.city;
+    retailerBusinessAddress.state = this.profileInfo.value.state;
+    retailerBusinessAddress.zipcode = this.profileInfo.value.zipcode;
+    retailerBusinessAddress.email = this.profileInfo.value.email;
+    retailerBusinessAddress.phoneNo = this.profileInfo.value.phone_number;
+    this.profileInfoObj.businessAdresses.push(retailerBusinessAddress);
+
+    this.profileInfoObj.primaryContact = new RetailerPrimaryContact();
+
+    this.profileInfoObj.primaryContact.personName = this.profileInfo.value.contact_name;
+    this.profileInfoObj.primaryContact.position = this.profileInfo.value.contact_position;
+    this.profileInfoObj.primaryContact.addressLine1 = this.profileInfo.value.contact_address1;
+    this.profileInfoObj.primaryContact.addressLine2 = this.profileInfo.value.contact_address2;
+    this.profileInfoObj.primaryContact.city = this.profileInfo.value.contact_city;
+    this.profileInfoObj.primaryContact.state = this.profileInfo.value.contact_state;
+    this.profileInfoObj.primaryContact.zipcode = this.profileInfo.value.contact_zipcode;
+    this.profileInfoObj.primaryContact.email = this.profileInfo.value.contact_email;
+    this.profileInfoObj.primaryContact.phoneNo = this.profileInfo.value.contact_phone_number;
     return this.profileInfoObj;
   }
 

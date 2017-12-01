@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Retailer } from '../../../../../models/retailer';
+import { RetialerService } from '../retialer.service';
 
 @Component({
   selector: 'app-retailer-list',
@@ -8,10 +9,16 @@ import { Retailer } from '../../../../../models/retailer';
   encapsulation: ViewEncapsulation.None
 })
 export class RetailerListComponent implements OnInit {
-retailers: Array<Retailer>;
-  constructor() { }
+  retailers: Array<Retailer>;
+  constructor(private retialerService: RetialerService) { }
 
   ngOnInit() {
+    this.getData();
+  }
+  getData() {
+    this.retialerService.get(null).subscribe(res => {
+      this.retailers.push(res);
+    });
   }
 
 }
