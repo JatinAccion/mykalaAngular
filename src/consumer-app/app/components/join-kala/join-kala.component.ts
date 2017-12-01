@@ -23,12 +23,12 @@ export class JoinKalaComponent implements OnInit, CuiComponent {
   joinKala: FormGroup;
   passwordRegex = new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$');
   usernameRegex = new RegExp('^[a-zA-Z0-9.-]*$');
-  userModel: ConsumerSignUp;
+  userModel = new ConsumerSignUp();
   signUpResponse = {
     status: false,
-    response: "",
     message: ""
   };
+  userInfo: any;
   @Input() data: any;
   @Output() clicked = new EventEmitter<Conversation>();
   step = 1;
@@ -100,25 +100,26 @@ export class JoinKalaComponent implements OnInit, CuiComponent {
     this.loader = true;
     this.userModel.username = this.joinKala.value.username;
     this.userModel.password = this.joinKala.value.password;
-    this.userModel.email_id = this.joinKala.value.email;
+    this.userModel.emailId = this.joinKala.value.email;
     this.userModel.origin_source = "NA";
     this.userModel.user_status = 1;
     this.userModel.roles = new RoleModel();
-    this.userModel.roles.role_name = "consumer";
+    this.userModel.roles.roleName = "consumer";
 
     this.joinKalaService.joinKalaStepOne(this.userModel).subscribe(res => {
       console.log(res);
       this.loader = false;
-      window.localStorage['userInfo'] = JSON.stringify({ 'username': this.userModel.username, 'email': this.userModel.email_id });
+      this.userInfo = res;
       this.signUpResponse.status = true;
-      this.signUpResponse.response = res._body;
-      if (this.signUpResponse.response === "success") {
+      if (this.userInfo.userCreateStatus === "success") {
         this.signUpResponse.message = UserMessages.createAccount_success;
-        setTimeout(function () {
+        window.localStorage['userInfo'] = JSON.stringify(this.userInfo);
+        setTimeout((router: Router) => {
           this.router.navigateByUrl('/profile-info');
         }, 3000)
       }
-      else if (this.signUpResponse.response === "alreadyexists") this.signUpResponse.message = UserMessages.createAccount_aleadyExist;
+      else if (this.userInfo.userCreateStatus === "alreadyExists") this.signUpResponse.message = UserMessages.createAccount_aleadyExist;
+      else if (this.userInfo.userCreateStatus === "emailExists") this.signUpResponse.message = UserMessages.createAccount_emailExist
       else this.signUpResponse.message = UserMessages.createAccount_Fail;
       this.joinKala.reset();
     }, err => {

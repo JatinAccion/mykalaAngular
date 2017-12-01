@@ -11,6 +11,7 @@ import { LogoutComponent } from './components/logout/logout.component';
 import { ConversationalComponent } from './components/conversational/conversational.component';
 import { JoinKalaComponent } from './components/join-kala/join-kala.component';
 import { ProfileInfoComponent } from './components/profile-info/profile-info.component';
+import { ThankMessageComponent } from './components/thank-message/thank-message.component';
 
 const appRoutes: Routes = [
     {
@@ -20,11 +21,13 @@ const appRoutes: Routes = [
     },
     {
         path: 'join-kala',
-        component: JoinKalaComponent
+        component: JoinKalaComponent,
+        data: { header: 'header1' }
     },
     {
         path: 'profile-info',
-        component: ProfileInfoComponent
+        component: ProfileInfoComponent,
+        data: { header: 'header2' }
     },
     {
         path: 'logout',
@@ -44,6 +47,10 @@ const appRoutes: Routes = [
         path: 'status',
         component: StatusComponent,
         canActivate: [EnsureAuthenticated]
+    },
+    {
+        path: 'thank',
+        component: ThankMessageComponent,
     },
     {
         path: '**',

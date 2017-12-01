@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { CoreService } from '../../services/core.service';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -8,10 +9,24 @@ import { CoreService } from '../../services/core.service';
   encapsulation: ViewEncapsulation.None
 })
 export class HeaderComponent implements OnInit {
+  getHeader: any;
+  userName: string;
 
-  constructor(private core: CoreService) { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
+    this.router.events
+      .subscribe(() => {
+        var root = this.router.routerState.snapshot.root;
+        while (root) {
+          if (root.children && root.children.length) root = root.children[0]
+          else if (root.data && root.data["header"]) {
+            this.getHeader = root.data["header"];
+            this.userName = JSON.parse(window.localStorage['userInfo']).username;
+            return;
+          }
+          else return;
+        }
+      });
   }
-
 }

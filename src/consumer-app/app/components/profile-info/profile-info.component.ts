@@ -3,6 +3,7 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { ProfileInfoService } from './profile-info.service';
 import { ConsumerProfileInfo } from '../../../../models/consumer-profile-info';
 import { ConsumerAddress } from '../../../../models/consumer-address';
+import { UserMessages } from '../../../../models/userMessages';
 
 @Component({
   selector: 'app-profile-info',
@@ -11,25 +12,37 @@ import { ConsumerAddress } from '../../../../models/consumer-address';
   encapsulation: ViewEncapsulation.None
 })
 export class ProfileInfoComponent implements OnInit {
+  savedImage: string;
+  loader: boolean = false;
+  getUserInfo = JSON.parse(window.localStorage['userInfo']);
   profileInfo: FormGroup;
   phoneRegex: '/^[(]{0,1}[0-9]{3}[)\.\- ]{0,1}[0-9]{3}[\.\- ]{0,1}[0-9]{4}$/;';
   zipCodeRegex: '^\d{5}(?:[-\s]\d{4})?$';
   fetchGeoCode: string;
-  profileInformation: ConsumerProfileInfo;
+  profileInformation = new ConsumerProfileInfo();
   getCSC: any;
+  getImageUrl: string;
+  uploadFile: any;
+  staticURL: string = 'https://s3.us-east-2.amazonaws.com';
+  profileInfoResponse = {
+    status: false,
+    response: "",
+    message: ""
+  };
+  activationPath: string = window.location.origin + '/thank';
 
   constructor(private profileInfoServ: ProfileInfoService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.profileInfo = this.formBuilder.group({
       "profileImage": [''],
-      "username": [''],
+      "username": [this.getUserInfo.username],
       "firstname": [''],
       "lastname": [''],
       "phoneno": ['', Validators.compose([Validators.pattern(this.phoneRegex), Validators.minLength(10), Validators.maxLength(10)])],
-      "email": [''],
+      "email": [this.getUserInfo.emailId],
       "gender": [''],
-      "dteOfBirth": [''],
+      "dateOfBirth": [''],
       "location": ['', Validators.compose([Validators.required, Validators.pattern(this.zipCodeRegex), Validators.minLength(5), Validators.maxLength(6)])]
     });
   }
@@ -46,10 +59,29 @@ export class ProfileInfoComponent implements OnInit {
           "state": this.fetchGeoCode.split(',')[1].trim().split(" ")[0]
         }
       });
+  };
+
+  callUpload() {
+    this.uploadFile = document.getElementsByClassName('uploadImage');
+    this.uploadFile[0].click();
   }
 
-  onSubmit() {
+  fileChangeEvent(fileInput: any, profileInfo) {
+    if (fileInput.target.files && fileInput.target.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function (e: any) {
+        profileInfo.controls.profileImage.value = e.target.result;
+      }
+
+      reader.readAsDataURL(fileInput.target.files[0]);
+    }
+  }
+
+  onSubmit(profileInfo) {
+    this.loader = true;
     /*Request JSON*/
+    this.profileInformation.userId = this.getUserInfo.userId;
     this.profileInformation.userName = this.profileInfo.controls.username.value;
     this.profileInformation.firstName = this.profileInfo.controls.firstname.value;
     this.profileInformation.lastName = this.profileInfo.controls.lastname.value;
@@ -57,7 +89,7 @@ export class ProfileInfoComponent implements OnInit {
     this.profileInformation.phoneNo = this.profileInfo.controls.phoneno.value;
     this.profileInformation.email = this.profileInfo.controls.email.value;
     this.profileInformation.gender = this.profileInfo.controls.gender.value;
-    this.profileInformation.dob = this.profileInfo.controls.dob.value;
+    this.profileInformation.dob = this.profileInfo.controls.dateOfBirth.value;
     this.profileInformation.status = "";
     this.profileInformation.createdBy = "";
     this.profileInformation.modifiedBy = "";
@@ -72,7 +104,17 @@ export class ProfileInfoComponent implements OnInit {
     this.profileInformation.consumerAddress.modifiedBy = "";
     this.profileInformation.consumerAddress.status = "";
 
-    console.log(this.profileInfo)
+    this.profileInfoServ.completeProfile(this.profileInformation).subscribe(res => {
+      this.loader = false;
+      this.profileInfoResponse.status = true;
+      if (this.profileInfoResponse.response !== null) {
+        this.profileInfoResponse.response = 'success';
+        this.savedImage = this.staticURL.concat('/' + res);
+        window.localStorage['profileImage'] = this.savedImage;
+        this.profileInfoResponse.message = UserMessages.profileInfo_success;
+      }
+      else this.profileInfoResponse.message = UserMessages.profileInfo_Fail;
+    });
   }
 
 }

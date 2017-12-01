@@ -1,0 +1,11 @@
+<div style="height:120px;width:100%;"></div>
+<div class="thankWrapper">
+  <div *ngIf="verficationStatus == 'success'">
+    <h2>Thank You</h2>
+    <p>You've successfully verfied your account.</p>
+  </div>
+  <div *ngIf="verficationStatus == 'tokenExpired'">
+    <h2>Something Went Wrong</h2>
+    <p>Your token session has been expired.</p>
+  </div>
+</div>

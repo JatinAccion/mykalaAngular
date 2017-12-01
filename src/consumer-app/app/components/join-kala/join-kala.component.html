@@ -47,12 +47,13 @@
             </div>
 
             <!--Response Message-->
-            <div *ngIf="signUpResponse.status" [ngClass]="signUpResponse.response == 'success' ? 'alert-success successMessage' : 'alert-danger errorMessage'"
+            <div *ngIf="signUpResponse.status" [ngClass]="userInfo.userCreateStatus == 'success' ? 'alert-success successMessage' : 'alert-danger errorMessages'"
                 class="alert">
                 {{signUpResponse.message}}
             </div>
 
             <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="loader" />
+            <!--Response Message-->
         </div>
         <hr />
         <div class="text-center">

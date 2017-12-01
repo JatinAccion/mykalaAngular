@@ -4,11 +4,11 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class JoinKalaService {
-  signupURL: string = 'http://kaladev-env.us-east-1.elasticbeanstalk.com/login/user/';
+  signupURL: string = 'http://192.168.169.181:7090/login/user/';
 
   constructor(private http: Http) { }
 
   joinKalaStepOne(userModel) {
-    return this.http.post(this.signupURL, userModel)
+    return this.http.post(this.signupURL, userModel).map((res) => res.json())
   }
 }

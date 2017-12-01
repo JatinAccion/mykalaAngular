@@ -1,4 +1,5 @@
-<div class="clearfix sub_header" style="display:block;">
+<!--Header 1-->
+<div *ngIf="getHeader == 'header1'" class="clearfix sub_header" style="display:block;">
   <div class="row">
     <div class="col-sm-2 text-center col-6 px-0">
       <a href="#" class="anc_topIcon">
@@ -26,7 +27,36 @@
     </div>
   </div>
 </div>
+<!--Header 1-->
 
+<!--Header 2-->
+<div *ngIf="getHeader == 'header2'" class="clearfix sub_header" style="display:block;">
+  <div class="">
+    <p class="dialogue dialogue_left">Hi, {{userName}}</p>
+    <div class="dialogue dialogue_right clearfix">
+      <input type="text" placeholder="What do you want today?">
+      <span>
+        <img src="/consumer-app/assets/images/voice.png">
+      </span>
+    </div>
+  </div>
+
+  <div class="lounge_menu displayblock">
+    <img src="/consumer-app/assets/images/logo.png">
+    <br />
+    <br />
+    <span>
+      <a href="javascript:void(0)" class="lounge_trigger">lounge&nbsp;&nbsp;
+        <span class="glyphicon glyphicon-triangle-bottom">
+          <img src="/consumer-app/assets/images/consumer_menu.png" width="24" />
+        </span>
+      </a>
+    </span>
+  </div>
+</div>
+<!--Header 2-->
+
+<!--Sidebar-->
 <div id="sidebar">
   <div class="clearfix">
     <img src="/consumer-app/assets/images/avatar.jpg">
@@ -83,3 +113,4 @@
     </tbody>
   </table>
 </div>
+<!--Sidebar-->

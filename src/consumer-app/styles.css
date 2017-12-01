@@ -1130,3 +1130,26 @@ h4.subtitle{
     margin-top: 10px;
     padding: 5px 15px;
 }
+
+.profImageWrapper{
+    display: block;
+    width: 100px;
+    margin-top: 20px;
+}
+
+.profImageWrapper img{
+    width: 100%;
+    border: 1px solid #2d2d2d;
+}
+
+.uploadImage{
+    position: absolute;
+    width: 0px;
+    height: 0px;
+    border: none;
+    left: 25px;
+    top: 0px;
+    padding: 0px;
+    z-index: -1;
+    cursor: pointer;
+}

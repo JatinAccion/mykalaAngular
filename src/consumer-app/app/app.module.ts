@@ -31,6 +31,8 @@ import { JoinKalaComponent } from './components/join-kala/join-kala.component';
 import { ProfileInfoComponent } from './components/profile-info/profile-info.component';
 import { JoinKalaService } from './components/join-kala/join-kala.service';
 import { ProfileInfoService } from './components/profile-info/profile-info.service';
+import { ThankMessageComponent } from './components/thank-message/thank-message.component';
+import { VerificationService } from './components/thank-message/verification.service';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,8 @@ import { ProfileInfoService } from './components/profile-info/profile-info.servi
     cListComponent,
     cuiDirective,
     JoinKalaComponent,
-    ProfileInfoComponent
+    ProfileInfoComponent,
+    ThankMessageComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +58,7 @@ import { ProfileInfoService } from './components/profile-info/profile-info.servi
     AppRoutingModule,
     ReactiveFormsModule
   ],
-  providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, ConversationalService, JoinKalaService, ProfileInfoService],
+  providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, ConversationalService, JoinKalaService, ProfileInfoService, VerificationService],
   bootstrap: [AppComponent],
   entryComponents: [cmsgComponent, HomeComponent, cListComponent, JoinKalaComponent, LoginComponent]
 })

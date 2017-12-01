@@ -1,6 +1,7 @@
 import { ConsumerAddress } from "./consumer-address";
 
 export class ConsumerProfileInfo {
+    public userId: string;
     public userName: string;
     public firstName: string;
     public lastName: string;

@@ -1,3 +1,3 @@
 export class RoleModel {
-    public role_name: string;
+    public roleName: string;
 }

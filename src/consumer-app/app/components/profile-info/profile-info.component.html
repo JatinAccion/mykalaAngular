@@ -12,7 +12,16 @@
         </div>
         <div class="col-sm-8">
           <div class="form-group">
-            <input formControlName="profileImage" type="file" class="form-control" />
+            <div class="categ_outline_red" (click)="callUpload()">
+              <h2 class="colorred text-center">+</h2>
+              <div class="colorred">add</div>
+            </div>
+            <input formControlName="profileImage" (change)="fileChangeEvent($event, profileInfo)" type="file" class="form-control uploadImage" />
+            <!--Images Area-->
+            <span class="profImageWrapper" *ngIf="profileInfo.controls.profileImage.value">
+              <img src="{{profileInfo.controls.profileImage.value}}" />
+            </span>
+            <!--Images Area-->
           </div>
         </div>
       </div>
@@ -72,12 +81,10 @@
         </div>
         <div class="col-sm-8">
           <div class="form-group">
-            <input formControlName="phoneno" type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control"
-              placeholder="Phone No">
+            <input formControlName="phoneno" type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control" placeholder="Phone No">
             <!--Validation-->
             <div *ngIf="profileInfo.controls.phoneno.value">
-              <div *ngIf="profileInfo.controls.phoneno.value && profileInfo.controls.phoneno.errors && (!profileInfo.controls.phoneno.minlength || !profileInfo.controls.phoneno.maxlength)"
-                class="alert alert-danger errorMessages">
+              <div *ngIf="profileInfo.controls.phoneno.value && profileInfo.controls.phoneno.errors && (!profileInfo.controls.phoneno.minlength || !profileInfo.controls.phoneno.maxlength)" class="alert alert-danger errorMessages">
                 Please enter the valid Phone No
               </div>
             </div>
@@ -142,7 +149,7 @@
         </div>
         <div class="col-sm-8">
           <div class="form-group">
-            <input formControlName="dteOfBirth" type="date" class="form-control" placeholder="Date of Birth">
+            <input formControlName="dateOfBirth" type="date" class="form-control" placeholder="Date of Birth">
           </div>
         </div>
       </div>
@@ -157,13 +164,11 @@
         </div>
         <div class="col-sm-8">
           <div class="form-group">
-            <input formControlName="location" (blur)="onBlurMethod()" type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57'
-              class="form-control" placeholder="Zipcode">
+            <input formControlName="location" (blur)="onBlurMethod()" type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control" placeholder="Zipcode">
             <!--Validation-->
             <div *ngIf="profileInfo.controls.location.dirty || profileInfo.controls.location.touched">
               <div *ngIf="!profileInfo.controls.location.value" class="alert alert-danger errorMessages">Please enter the zip code</div>
-              <div *ngIf="profileInfo.controls.location.value && profileInfo.controls.location.errors && (!profileInfo.controls.location.minlength || !profileInfo.controls.location.maxlength)"
-                class="alert alert-danger errorMessages">
+              <div *ngIf="profileInfo.controls.location.value && profileInfo.controls.location.errors && (!profileInfo.controls.location.minlength || !profileInfo.controls.location.maxlength)" class="alert alert-danger errorMessages">
                 Please enter the valid zip code
               </div>
             </div>
@@ -193,9 +198,18 @@
         </div>
         <hr />
         <div class="col-sm-12">
-          <button (click)="onSubmit()" [disabled]="!profileInfo.valid" type="button" class="btn btn_red_right width100">come on in</button>
+          <button (click)="onSubmit(profileInfo)" [disabled]="!profileInfo.valid" type="button" class="btn btn_red_right width100">come on in</button>
         </div>
+
         <div class="clearfix">&nbsp;</div>
+
+        <!--Response Message-->
+        <div *ngIf="profileInfoResponse.status" [ngClass]="profileInfoResponse.response == 'success' ? 'alert-success successMessage' : 'alert-danger errorMessages'" class="alert">
+          {{profileInfoResponse.message}}
+        </div>
+
+        <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="loader" />
+        <!--Response Message-->
       </div>
     </div>
   </div>
