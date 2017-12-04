@@ -3,663 +3,407 @@
 </div>
 <div class="col-sm-12">
     <div class="col-sm-12 signup">
-        <ngb-tabset [orientation]="currentOrientation" [justify]="currentJustify">
-            <ngb-tab title="Profile info">
+        <ngb-tabset #tabs="ngbTabset" [orientation]="currentOrientation" [justify]="currentJustify" (tabChange)="setActiveTab($event)">
+            <ngb-tab title="Profile info" id="tab-Profile">
                 <ng-template ngbTabContent>
                     <div class="row backgroundWhite">
                         <div class="col-sm-8 p-2">
                             <h5>Website details</h5>
-                            <form [formGroup]="profileInfo" class="divProfile">
-                                <div *ngIf="profileInfoStep==1">
-                                    <div class="form-group">
-                                        <div class="draglogo text-center">
-                                            <div class=" text-center">Drag your Logo here</div>
-                                            or
-                                            <a href="#">Select file from computer</a>
-                                        </div>
+                            <!-- <form class="divProfile"> -->
+                            <div [formGroup]="profileFG1" [ngClass]="{'show': profileInfoStep==1, 'hide': profileInfoStep!==1 }">
+                                <div class="form-group">
+                                    <div class="draglogo text-center">
+                                        <div class=" text-center">Drag your Logo here</div>
+                                        or
+                                        <input formControlName="profileImage" (change)="fileChangeEvent($event, profileFG1)" type="file" class="form-control uploadImage" />
                                     </div>
-                                    <div class="form-group">
-                                        <div>Business name</div>
-                                        <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="businessName">
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label" [ngClass]="displayFieldCss(profileFG1.controls.businessName)">Business name</label>
+                                    <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="businessName">
+                                    <app-field-error-display [field]="profileFG1.controls.businessName" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                                </div>
+                                <div class="form-group">
+                                    <div class="control-label" [ngClass]="displayFieldCss(profileFG1.controls.tin)">DNB/TIN</div>
+                                    <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="tin">
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="profileFG1.controls.tin" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
 
-                                        <!--Validation-->
-                                        <div *ngIf="profileInfo.controls.businessName.dirty || profileInfo.controls.businessName.touched">
-                                            <div *ngIf="!profileInfo.controls.businessName.value" class="alert alert-danger errorMessages">Please enter the Business name</div>
-                                            <div *ngIf="profileInfo.controls.businessName.value && profileInfo.controls.businessName.errors" class="alert alert-danger errorMessages">Please enter the valid Business name</div>
-                                        </div>
-                                        <!--Validation-->
+                                </div>
+                                <div class="form-group">
+                                    <div class="control-label" [ngClass]="displayFieldCss(profileFG1.controls.businessSummary)">Business summary
+                                        <small class="float-right">300 characters left</small>
                                     </div>
-                                    <div class="form-group">
-                                        <div>DNB/TIN</div>
-                                        <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="tin">
-                                        <!--Validation-->
-                                        <div *ngIf="profileInfo.controls.tin.dirty || profileInfo.controls.tin.touched">
-                                            <div *ngIf="!profileInfo.controls.tin.value" class="alert alert-danger errorMessages">Please enter the tin</div>
-                                            <div *ngIf="profileInfo.controls.tin.value && profileInfo.controls.tin.errors" class="alert alert-danger errorMessages">Please enter the valid tin</div>
-                                        </div>
-                                        <!--Validation-->
-                                    </div>
-                                    <div class="form-group">
-                                        <div>Business summary
-                                            <small class="float-right">300 characters left</small>
-                                        </div>
-                                        <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="businessSummary">
-                                        <!--Validation-->
-                                        <div *ngIf="profileInfo.controls.businessSummary.dirty || profileInfo.controls.businessSummary.touched">
-                                            <div *ngIf="!profileInfo.controls.businessSummary.value" class="alert alert-danger errorMessages">Please enter the Business summary</div>
-                                            <div *ngIf="profileInfo.controls.businessSummary.value && profileInfo.controls.businessSummary.errors" class="alert alert-danger errorMessages">Please enter the valid Business summary</div>
-                                        </div>
-                                        <!--Validation-->
-                                    </div>
-                                    <div class="form-group">
-                                        <div>Business Address</div>
-                                        <input type="text" class="form-control" aria-describedby=" " placeholder="Address line 1" pattern formControlName="bussines_address">
-                                        <!--Validation-->
-                                        <div *ngIf="profileInfo.controls.bussines_address.dirty || profileInfo.controls.bussines_address.touched">
-                                            <div *ngIf="!profileInfo.controls.bussines_address.value" class="alert alert-danger errorMessages">Please enter the Business Address</div>
-                                            <div *ngIf="profileInfo.controls.bussines_address.value && profileInfo.controls.bussines_address.errors" class="alert alert-danger errorMessages">Please enter the valid Business Address</div>
-                                        </div>
-                                        <!--Validation-->
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" aria-describedby=" " placeholder="Address line 2.(optional)" pattern formControlName="bussines_address2">
-                                        <!--Validation-->
-                                        <div *ngIf="profileInfo.controls.bussines_address.dirty || profileInfo.controls.bussines_address.touched">
-                                            <div *ngIf="!profileInfo.controls.bussines_address.value" class="alert alert-danger errorMessages">Please enter the Business Address</div>
-                                            <div *ngIf="profileInfo.controls.bussines_address.value && profileInfo.controls.bussines_address.errors" class="alert alert-danger errorMessages">Please enter the valid Business Address</div>
-                                        </div>
-                                        <!--Validation-->
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" aria-describedby=" " placeholder="City" pattern formControlName="city">
-                                        <!--Validation-->
-                                        <div *ngIf="profileInfo.controls.city.dirty || profileInfo.controls.city.touched">
-                                            <div *ngIf="!profileInfo.controls.city.value" class="alert alert-danger errorMessages">Please enter the city</div>
-                                            <div *ngIf="profileInfo.controls.city.value && profileInfo.controls.city.errors" class="alert alert-danger errorMessages">Please enter the valid city</div>
-                                        </div>
-                                        <!--Validation-->
+                                    <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="businessSummary">
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="profileFG1.controls.businessSummary" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
+                                </div>
+                                <div class="form-group">
+                                    <div class="control-label" [ngClass]="displayFieldCss(profileFG1.controls.bussines_address)">Business Address</div>
+                                    <input type="text" class="form-control" aria-describedby=" " placeholder="Address line 1" pattern formControlName="bussines_address">
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="profileFG1.controls.bussines_address" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" aria-describedby=" " placeholder="Address line 2.(optional)" pattern formControlName="bussines_address2">
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="profileFG1.controls.bussines_address2" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" aria-describedby=" " placeholder="City" pattern formControlName="city">
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="profileFG1.controls.city" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
 
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" aria-describedby="" placeholder="State" pattern formControlName="state">
-                                                <!--Validation-->
-                                                <div *ngIf="profileInfo.controls.state.dirty || profileInfo.controls.state.touched">
-                                                    <div *ngIf="!profileInfo.controls.state.value" class="alert alert-danger errorMessages">Please enter the state</div>
-                                                    <div *ngIf="profileInfo.controls.state.value && profileInfo.controls.state.errors" class="alert alert-danger errorMessages">Please enter the valid state</div>
-                                                </div>
-                                                <!--Validation-->
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" aria-describedby="" placeholder="Zipcode" pattern formControlName="zipcode">
-                                                <!--Validation-->
-                                                <div *ngIf="profileInfo.controls.zipcode.dirty || profileInfo.controls.zipcode.touched">
-                                                    <div *ngIf="!profileInfo.controls.zipcode.value" class="alert alert-danger errorMessages">Please enter the zipcode</div>
-                                                    <div *ngIf="profileInfo.controls.zipcode.value && profileInfo.controls.zipcode.errors" class="alert alert-danger errorMessages">Please enter the valid zipcode</div>
-                                                </div>
-                                                <!--Validation-->
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" aria-describedby="" placeholder="Email" pattern formControlName="email">
-                                                <!--Validation-->
-                                                <div *ngIf="profileInfo.controls.email.dirty || profileInfo.controls.email.touched">
-                                                    <div *ngIf="!profileInfo.controls.email.value" class="alert alert-danger errorMessages">Please enter the email</div>
-                                                    <div *ngIf="profileInfo.controls.email.value && profileInfo.controls.email.errors" class="alert alert-danger errorMessages">Please enter the valid email</div>
-                                                </div>
-                                                <!--Validation-->
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" aria-describedby="" placeholder="Phone number" pattern formControlName="phone_number">
-                                                <!--Validation-->
-                                                <div *ngIf="profileInfo.controls.phone_number.dirty || profileInfo.controls.phone_number.touched">
-                                                    <div *ngIf="!profileInfo.controls.phone_number.value" class="alert alert-danger errorMessages">Please enter the phone number</div>
-                                                    <div *ngIf="profileInfo.controls.phone_number.value && profileInfo.controls.phone_number.errors" class="alert alert-danger errorMessages">Please enter the valid phone number</div>
-                                                </div>
-                                                <!--Validation-->
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div *ngFor="let sellerType of sellerTypes">
-                                                <label for="sellerType_{{sellerType.name}}">
-                                                    <input formControlName="sellerTypeId" type="radio" [value]="sellerType.name"> {{sellerType.value}}
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div *ngIf="profileInfoStep==2">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Website URL(optional) e.g.www.mykala.com" pattern formControlName="websiteUrl">
-                                        <!--Validation-->
-                                        <div *ngIf="profileInfo.controls.websiteUrl.dirty || profileInfo.controls.websiteUrl.touched">
-                                            <div *ngIf="!profileInfo.controls.websiteUrl.value" class="alert alert-danger errorMessages">Please enter the websiteUrl</div>
-                                            <div *ngIf="profileInfo.controls.websiteUrl.value && profileInfo.controls.websiteUrl.errors" class="alert alert-danger errorMessages">Please enter the valid websiteUrl</div>
-                                        </div>
-                                        <!--Validation-->
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Username for acct. login (optional)" pattern formControlName="websiteUserName">
-                                        <!--Validation-->
-                                        <div *ngIf="profileInfo.controls.websiteUserName.dirty || profileInfo.controls.websiteUserName.touched">
-                                            <div *ngIf="!profileInfo.controls.websiteUserName.value" class="alert alert-danger errorMessages">Please enter the website username</div>
-                                            <div *ngIf="profileInfo.controls.websiteUserName.value && profileInfo.controls.websiteUserName.errors" class="alert alert-danger errorMessages">Please enter the valid website username</div>
-                                        </div>
-                                        <!--Validation-->
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Password for acct. login (optional)" pattern formControlName="websitePassword">
-                                        <!--Validation-->
-                                        <div *ngIf="profileInfo.controls.websitePassword.dirty || profileInfo.controls.websitePassword.touched">
-                                            <div *ngIf="!profileInfo.controls.websitePassword.value" class="alert alert-danger errorMessages">Please enter the website password</div>
-                                            <div *ngIf="profileInfo.controls.websitePassword.value && profileInfo.controls.websitePassword.errors" class="alert alert-danger errorMessages">Please enter the valid website password</div>
-                                        </div>
-                                        <!--Validation-->
-                                    </div>
-                                    <hr />
-                                    <h5>Primary account contact</h5>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Name" pattern formControlName="contact_name">
-                                        <!--Validation-->
-                                        <div *ngIf="profileInfo.controls.contact_name.dirty || profileInfo.controls.contact_name.touched">
-                                            <div *ngIf="!profileInfo.controls.contact_name.value" class="alert alert-danger errorMessages">Please enter the name</div>
-                                            <div *ngIf="profileInfo.controls.contact_name.value && profileInfo.controls.contact_name.errors" class="alert alert-danger errorMessages">Please enter the valid name</div>
-                                        </div>
-                                        <!--Validation-->
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Position" pattern formControlName="contact_position">
-                                        <!--Validation-->
-                                        <div *ngIf="profileInfo.controls.contact_position.dirty || profileInfo.controls.emcontact_positionail.touched">
-                                            <div *ngIf="!profileInfo.controls.contact_position.value" class="alert alert-danger errorMessages">Please enter the position</div>
-                                            <div *ngIf="profileInfo.controls.contact_position.value && profileInfo.controls.contact_position.errors" class="alert alert-danger errorMessages">Please enter the valid position</div>
-                                        </div>
-                                        <!--Validation-->
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Address line 1" pattern formControlName="contact_address1">
-                                        <!--Validation-->
-                                        <div *ngIf="profileInfo.controls.contact_address1.dirty || profileInfo.controls.contact_address1.touched">
-                                            <div *ngIf="!profileInfo.controls.contact_address1.value" class="alert alert-danger errorMessages">Please enter the address1</div>
-                                            <div *ngIf="profileInfo.controls.contact_address1.value && profileInfo.controls.contact_address1.errors" class="alert alert-danger errorMessages">Please enter the valid address1</div>
-                                        </div>
-                                        <!--Validation-->
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Address line 2.(optional)" pattern formControlName="contact_address2">
-                                        <!--Validation-->
-                                        <div *ngIf="profileInfo.controls.contact_address2.dirty || profileInfo.controls.contact_address2.touched">
-                                            <div *ngIf="!profileInfo.controls.contact_address2.value" class="alert alert-danger errorMessages">Please enter the address2</div>
-                                            <div *ngIf="profileInfo.controls.contact_address2.value && profileInfo.controls.contact_address2.errors" class="alert alert-danger errorMessages">Please enter the valid address2</div>
-                                        </div>
-                                        <!--Validation-->
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="City" pattern formControlName="contact_city">
-                                        <!--Validation-->
-                                        <div *ngIf="profileInfo.controls.contact_city.dirty || profileInfo.controls.contact_city.touched">
-                                            <div *ngIf="!profileInfo.controls.contact_city.value" class="alert alert-danger errorMessages">Please enter the city</div>
-                                            <div *ngIf="profileInfo.controls.contact_city.value && profileInfo.controls.contact_city.errors" class="alert alert-danger errorMessages">Please enter the valid city</div>
-                                        </div>
-                                        <!--Validation-->
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="State" pattern formControlName="contact_state">
-                                                <!--Validation-->
-                                                <div *ngIf="profileInfo.controls.contact_state.dirty || profileInfo.controls.contact_state.touched">
-                                                    <div *ngIf="!profileInfo.controls.contact_state.value" class="alert alert-danger errorMessages">Please enter the state</div>
-                                                    <div *ngIf="profileInfo.controls.contact_state.value && profileInfo.controls.contact_state.errors" class="alert alert-danger errorMessages">Please enter the valid state</div>
-                                                </div>
-                                                <!--Validation-->
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Zipcode" pattern formControlName="contact_zipcode">
-                                                <!--Validation-->
-                                                <div *ngIf="profileInfo.controls.contact_zipcode.dirty || profileInfo.controls.contact_zipcode.touched">
-                                                    <div *ngIf="!profileInfo.controls.contact_zipcode.value" class="alert alert-danger errorMessages">Please enter the zipcode</div>
-                                                    <div *ngIf="profileInfo.controls.contact_zipcode.value && profileInfo.controls.contact_zipcode.errors" class="alert alert-danger errorMessages">Please enter the valid zipcode</div>
-                                                </div>
-                                                <!--Validation-->
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Email" pattern formControlName="contact_email">
-                                                <!--Validation-->
-                                                <div *ngIf="profileInfo.controls.contact_email.dirty || profileInfo.controls.contact_email.touched">
-                                                    <div *ngIf="!profileInfo.controls.contact_email.value" class="alert alert-danger errorMessages">Please enter the email</div>
-                                                    <div *ngIf="profileInfo.controls.contact_email.value && profileInfo.controls.contact_email.errors" class="alert alert-danger errorMessages">Please enter the valid email</div>
-                                                </div>
-                                                <!--Validation-->
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Phone number" pattern formControlName="contact_phone_number">
-                                                <!--Validation-->
-                                                <div *ngIf="profileInfo.controls.contact_phone_number.dirty || profileInfo.controls.contact_phone_number.touched">
-                                                    <div *ngIf="!profileInfo.controls.contact_phone_number.value" class="alert alert-danger errorMessages">Please enter the phone number</div>
-                                                    <div *ngIf="profileInfo.controls.contact_phone_number.value && profileInfo.controls.contact_phone_number.errors" class="alert alert-danger errorMessages">Please enter the valid phone number</div>
-                                                </div>
-                                                <!--Validation-->
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr />
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <a (click)="profileInfoBack()">back</a>
-                                    </div>
-                                    <div class="col-sm-6 text-right" *ngIf="profileInfoStep==1">
-                                        <a class="btn btn-default ancProfile1" (click)="profileInfoNext()">Next</a>
-                                    </div>
-                                    <div class="col-sm-6 text-right" *ngIf="profileInfoStep==2">
-                                        <a class="btn btn-default ancProfile1" (click)="profileInfoNSave()">Save & Next</a>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </ng-template>
-            </ngb-tab>
-            <ngb-tab title="Payment info">
-                <ng-template ngbTabContent>
-                    <div class="row backgroundWhite">
-                        <div class="col-sm-8 p-2">
-                            <form [formGroup]="divPayemnt1" class="divPayemnt1">
-                                <div class="form-group">
-                                    <p>Payment Method</p>
-                                    <select class="ddl_default w-100">
-                                        <option>Manual or Automated</option>
-                                        <option>Manual or Automated1</option>
-                                        <option>Manual or Automated2</option>
-                                        <option>Manual or Automated3</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <p>Payment Vehicle</p>
-                                    <select class="ddl_default w-100">
-                                        <option>Select option</option>
-                                        <option>Select option1</option>
-                                        <option>Select option2</option>
-                                        <option>Select option3</option>
-                                    </select>
-                                </div>
-                                <hr />
-                                <div class="form-group">
-                                    <div>Bank name</div>
-                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="" pattern formControlName="businessName">
-                                </div>
-                                <div class="form-group">
-                                    <div>Business address</div>
-                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="" pattern formControlName="businessName">
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="street address eg. 123 Main st." pattern formControlName="businessName">
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Apt, Suite Bldge(optional)" pattern formControlName="businessName">
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="City" pattern formControlName="businessName">
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="State" pattern formControlName="businessName">
+                                            <input type="text" class="form-control" aria-describedby="" placeholder="State" pattern formControlName="state">
+                                            <!--Validation-->
+                                            <app-field-error-display [field]="profileFG1.controls.state" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                                            <!--Validation-->
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Zipcode" pattern formControlName="businessName">
+                                            <input type="text" class="form-control" aria-describedby="" placeholder="Zipcode" pattern formControlName="zipcode">
+                                            <!--Validation-->
+                                            <app-field-error-display [field]="profileFG1.controls.zipcode" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                                            <!--Validation-->
                                         </div>
                                     </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" aria-describedby="" placeholder="Email" pattern formControlName="email">
+                                            <!--Validation-->
+                                            <app-field-error-display [field]="profileFG1.controls.email" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                                            <!--Validation-->
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" aria-describedby="" placeholder="Phone number" pattern formControlName="phone_number">
+                                            <!--Validation-->
+                                            <app-field-error-display [field]="profileFG1.controls.phone_number" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                                            <!--Validation-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <label class="control-label" [ngClass]="displayFieldCss(profileFG1.controls.sellerTypeId)">Seller Type</label>
+                                        <select class="ddl_default w-100 form-control" formControlName="sellerTypeId">
+                                            <option>Select Seller Type</option>
+                                            <option *ngFor="let option of sellerTypes" value="{{option.id}}">
+                                                {{option.value}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div [formGroup]="profileFG2" [ngClass]="{'show': profileInfoStep==2, 'hide': profileInfoStep!==2  }">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Website URL(optional) e.g.www.mykala.com" pattern formControlName="websiteUrl">
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="profileFG2.controls.websiteUrl" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Username for acct. login (optional)" pattern formControlName="websiteUserName">
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="profileFG2.controls.websiteUserName" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Password for acct. login (optional)" pattern formControlName="websitePassword">
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="profileFG2.controls.websitePassword" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
                                 </div>
                                 <hr />
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <a href="#">Back</a>
-                                    </div>
-                                    <div class="col-sm-6 text-right">
-                                        <a class="btn btn-default ancPayemnt1" href="#">Next</a>
-                                    </div>
-                                </div>
-                            </form>
-                            <form [formGroup]="divPayemnt2" class="divPayemnt2">
+                                <h5>Primary account contact</h5>
                                 <div class="form-group">
-                                    <div>Account Name</div>
-                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="">
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Name" pattern formControlName="contact_name">
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="profileFG2.controls.contact_name" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
                                 </div>
                                 <div class="form-group">
-                                    <div>Account Name</div>
-                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="">
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Position" pattern formControlName="contact_position">
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="profileFG2.controls.contact_position" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
                                 </div>
                                 <div class="form-group">
-                                    <div>ABA Routing number</div>
-                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="">
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Address line 1" pattern formControlName="contact_address1">
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="profileFG2.controls.contact_address1" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
                                 </div>
                                 <div class="form-group">
-                                    <div>SWIFT code</div>
-                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Name">
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Address line 2.(optional)" pattern formControlName="contact_address2">
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="profileFG2.controls.contact_address2" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
                                 </div>
                                 <div class="form-group">
-                                    <div>Retailer address on account</div>
-                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Position">
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Address line 1">
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Address line 2.(optional)">
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="City">
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="City" pattern formControlName="contact_city">
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="profileFG2.controls.contact_city" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="State">
+                                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="State" pattern formControlName="contact_state">
+                                            <!--Validation-->
+                                            <app-field-error-display [field]="profileFG2.controls.contact_state" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                                            <!--Validation-->
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Zipcode">
+                                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Zipcode" pattern formControlName="contact_zipcode">
+                                            <!--Validation-->
+                                            <app-field-error-display [field]="profileFG2.controls.contact_zipcode" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                                            <!--Validation-->
                                         </div>
                                     </div>
                                 </div>
-                                <hr />
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <a href="#">Back</a>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Email" pattern formControlName="contact_email">
+                                            <!--Validation-->
+                                            <app-field-error-display [field]="profileFG2.controls.contact_email" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                                            <!--Validation-->
+                                        </div>
                                     </div>
-                                    <div class="col-sm-6 text-right">
-                                        <a class="btn btn-default" href="#">Next</a>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Phone number" pattern formControlName="contact_phone_number">
+                                            <!--Validation-->
+                                            <app-field-error-display [field]="profileFG2.controls.contact_phone_number" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                                            <!--Validation-->
+                                        </div>
                                     </div>
                                 </div>
-                            </form>
-                        </div>
-                        <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
-                    </div>
-                </ng-template>
-            </ngb-tab>
-            <ngb-tab title="Product info">
-                <ng-template ngbTabContent>
-                    <div class="row backgroundWhite">
-                        <div class="col-sm-8 p-2">
-                            <p>Product Type</p>
-                            <div class="col-sm-12 p-0">
-                                <div class="box_outlineGray">Nightlight
-                                    <a href="#" class="categ_close">x</a>
-                                </div>
-                                <div class="box_outlineGray">Flood & Spot lights
-                                    <a href="#" class="categ_close">x</a>
-                                </div>
-                                <div class="box_outlineGray">Sofa
-                                    <a href="#" class="categ_close">x</a>
-                                </div>
-                                <div class="clearfix">&nbsp;</div>
-                                <table class="table table-bordered">
-                                    <tr>
-                                        <td colspan="2">
-                                            <a href="#">Home & Garden </a> >
-                                            <a href="#">Lighting</a> > sub-catagory
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <ul class="list-unstyled">
-                                                <li>
-                                                    <a href="#">Kitchen & Dinning (186)</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Appliances (30)</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Furniture & Patio (162)</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Lighting (27)</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Lawn & Garden (43)</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Supplies (50)</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Pest Control (3)</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Bedding & Linens (13)</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Emergency & Safety (11)</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Pool & Spa (15)</a>
-                                                </li>
-                                            </ul>
-                                        </td>
-                                        <td>
-                                            <ul class="list-unstyled">
-                                                <li>
-                                                    <a href="#">Lamps (3)</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Light Bulbs (3)</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Nightlights</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Light Ropes & Srings</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Lighting Fixtures (4)</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Track Lighting</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Landscape Lighting (4)</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Emergency Lighting</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Flood & Spot lights</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Lamp Shades</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Timers & Accessories</a>
-                                                </li>
-                                            </ul>
-                                        </td>
-                                    </tr>
-                                </table>
                             </div>
                             <hr />
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <a href="#">Back</a>
+                                    <a (click)="profileInfoBack()">back</a>
                                 </div>
-                                <div class="col-sm-6 text-right">
-                                    <a class="btn btn-default" href="#">Next</a>
+                                <div class="col-sm-6 text-right" *ngIf="profileInfoStep==1">
+                                    <a class="btn btn-default ancProfile1" (click)="profileInfoNext()">Next</a>
+                                </div>
+                                <div class="col-sm-6 text-right" *ngIf="profileInfoStep==2">
+                                    <a class="btn btn-default ancProfile1" (click)="profileInfoSave();">Save & Next</a>
                                 </div>
                             </div>
+                            <!-- </form> -->
                         </div>
-                        <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
                     </div>
                 </ng-template>
             </ngb-tab>
-            <ngb-tab title="Shipping profile">
+            <ngb-tab title="Payment info" id="tab-Payment">
                 <ng-template ngbTabContent>
                     <div class="row backgroundWhite">
                         <div class="col-sm-8 p-2">
-                            <div class="divshipping1">
-                                <p>Profile name</p>
-                                <p>
-                                    <input type="text" class="form-control" aria-describedby="" placeholder="">
-                                </p>
-                                <p>Delivery - Base options</p>
-                                <ul class="list-unstyled">
-                                    <li>
-                                        <input type="radio" /> Free shipping</li>
-                                    <li>
-                                        <input type="radio" /> Flat rate - single rate for all orders</li>
-                                    <li>
-                                        <input type="radio" /> Price based</li>
-                                    <li>
-                                        <input type="radio" /> Weight based</li>
-                                    <li>
-                                        <input type="radio" /> Size based</li>
-                                </ul>
-                                <div class="col-sm-12">
-                                    <div class="row border_outline">
-                                        <div class="col-sm-8 p-3">
-                                            <strong>Letter</strong>
-                                            <div>Minimum: 5” long, 3 ½” high, and 0.007” thick Maximum: 11-1/2” long, 6-1/8” high, and ¼” thick</div>
-                                        </div>
-                                        <div class="col-sm-4 text-center">
-                                            <img src="images/icon_letter.png" />
+                            <!-- <form class="divPayemnt1"> -->
+                            <div [formGroup]="paymentFG1" [ngClass]="{'show': paymentInfoStep==1, 'hide': paymentInfoStep!==1 }">
+                                <div class="form-group">
+                                    <p class="control-label" [ngClass]="displayFieldCss(paymentFG1.controls.paymentMethod)">Payment Method</p>
+                                    <select class="ddl_default w-100 form-control" formControlName="paymentMethod" (change)="paymentMethodChange()">
+                                        <option>Select payment Method</option>
+                                        <option *ngFor="let option of paymentMethods" value="{{option.name}}">
+                                            {{option.value}}
+                                        </option>
+                                    </select>
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="paymentFG1.controls.paymentMethod" [errorMsg]="paymentErrorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
+                                </div>
+                                <div class="form-group">
+                                    <p class="control-label" [ngClass]="displayFieldCss(paymentFG1.controls.paymentVehicle)">Payment Vehicle</p>
+                                    <select class="ddl_default w-100 form-control" formControlName="paymentVehicle">
+                                        <option>Select option</option>
+                                        <option *ngFor="let option of paymentVehicles" value="{{option.name}}">
+                                            {{option.value}}
+                                        </option>
+                                    </select>
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="paymentFG1.controls.paymentVehicle" [errorMsg]="paymentErrorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
+                                </div>
+                                <hr />
+                                <div class="form-group">
+                                    <div class="control-label" [ngClass]="displayFieldCss(paymentFG1.controls.bankname)">Bank name</div>
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="" pattern formControlName="bankname">
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="paymentFG1.controls.bankname" [errorMsg]="paymentErrorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
+                                </div>
+                                <div class="form-group">
+                                    <div class="control-label" [ngClass]="displayFieldCss(paymentFG1.controls.addressLine1)">Business Address</div>
+                                    <input type="text" class="form-control" aria-describedby=" " placeholder="Address line 1" pattern formControlName="addressLine1">
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="paymentFG1.controls.addressLine1" [errorMsg]="paymentErrorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" aria-describedby=" " placeholder="Address line 2.(optional)" pattern formControlName="addressLine2">
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="paymentFG1.controls.addressLine2" [errorMsg]="paymentErrorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" aria-describedby=" " placeholder="City" pattern formControlName="city">
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="paymentFG1.controls.city" [errorMsg]="paymentErrorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" aria-describedby="" placeholder="State" pattern formControlName="state">
+                                            <!--Validation-->
+                                            <app-field-error-display [field]="paymentFG1.controls.state" [errorMsg]="paymentErrorMsgs"> </app-field-error-display>
+                                            <!--Validation-->
                                         </div>
                                     </div>
-                                    <div class="row border_outline">
-                                        <div class="col-sm-8 p-3">
-                                            <strong>Small</strong>
-                                            <div>Max. Size: Length + (2 x Width) + (2 x Height)
-                                                <=2 8”</div>
-                                            </div>
-                                            <div class="col-sm-4 text-center">
-                                                <img src="images/icon_small.png" />
-                                            </div>
-                                        </div>
-                                        <div class="row border_outline">
-                                            <div class="col-sm-8 p-3">
-                                                <strong>Medium</strong>
-                                                <div>Max. Size: Length + (2 x Width) + (2 x Height) > 28”,
-                                                    <=8 4”</div>
-                                                </div>
-                                                <div class="col-sm-4 text-center">
-                                                    <img src="images/icon_medium.png" />
-                                                </div>
-                                            </div>
-                                            <div class="row border_outline">
-                                                <div class="col-sm-8 p-3">
-                                                    <strong>Large</strong>
-                                                    <div>Max. Size: Length + (2 x Width) + (2 x Height) > 84”,
-                                                        <=1 65”</div>
-                                                    </div>
-                                                    <div class="col-sm-4 text-center">
-                                                        <img src="images/icon_Large.png" />
-                                                    </div>
-                                                </div>
-                                                <div class="row border_outline">
-                                                    <div class="col-sm-8 p-3">
-                                                        <strong>Oversized</strong>
-                                                        <div>Max. Size: Length + (2 x Width) + (2 x Height) > 165”</div>
-                                                    </div>
-                                                    <div class="col-sm-4 text-center">
-                                                        <img src="images/icon_oversize.png" />
-                                                    </div>
-                                                </div>
-                                                <div class="row border_outline p-3 my-3">
-                                                    <strong>Irregular</strong>
-                                                    Assumes shipment can’t be sorted with mail processing equipment due to size, shape, or content issues. The longest side of the package is over 60 inches or the second longest side is over 30 inches. The package is encased in an external shipping container made of metal or wood. The package is a cylindrical item, such as a barrel, drum, pail, or tire that isn't fully encased in a corrugated cardboard shipping container.
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-6">
-                                                    <a href="#">Back</a>
-                                                </div>
-                                                <div class="col-sm-6 text-right">
-                                                    <a class="btn btn-default ancshipping1" href="#">Next</a>
-                                                </div>
-                                            </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" aria-describedby="" placeholder="Zipcode" pattern formControlName="zipcode">
+                                            <!--Validation-->
+                                            <app-field-error-display [field]="paymentFG1.controls.zipcode" [errorMsg]="paymentErrorMsgs"> </app-field-error-display>
+                                            <!--Validation-->
                                         </div>
                                     </div>
                                 </div>
-                </ng-template>
-            </ngb-tab>
-            <ngb-tab title="Return and Exchange policy">
-                <ng-template ngbTabContent>
-                    <div class="row backgroundWhite">
-                        <div class="col-sm-8 p-2">
-                            <p>Returns and Exchange policy</p>
-                            <textarea class="h-50 form-control"></textarea>
-                            <div class="clearfix">&nbsp;</div>
+                                <hr />
+                            </div>
+                            <div [formGroup]="paymentFG2" [ngClass]="{'show': paymentInfoStep==2, 'hide': paymentInfoStep!==2  }">
+                                <div class="form-group">
+                                    <div class="control-label" [ngClass]="displayFieldCss(paymentFG2.controls.accountName)">Account Name</div>
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="" pattern formControlName="accountName">
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="paymentFG2.controls.accountName" [errorMsg]="paymentErrorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
+                                </div>
+                                <div class="form-group">
+                                    <div class="control-label" [ngClass]="displayFieldCss(paymentFG2.controls.accountNumber)">Account Number</div>
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="" pattern formControlName="accountNumber">
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="paymentFG2.controls.accountNumber" [errorMsg]="paymentErrorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
+                                </div>
+                                <div class="form-group">
+                                    <div class="control-label" [ngClass]="displayFieldCss(paymentFG2.controls.routingNumber)">ABA Routing number</div>
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="" pattern formControlName="routingNumber">
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="paymentFG2.controls.routingNumber" [errorMsg]="paymentErrorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
+                                </div>
+                                <div class="form-group">
+                                    <div class="control-label" [ngClass]="displayFieldCss(paymentFG2.controls.swiftCode)">SWIFT code</div>
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="" pattern formControlName="swiftCode">
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="paymentFG2.controls.swiftCode" [errorMsg]="paymentErrorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
+                                </div>
+                                <div class="form-group">
+                                    <div class="control-label" [ngClass]="displayFieldCss(paymentFG2.controls.name)">Retailer name on account</div>
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Retailer name on account" pattern formControlName="name">
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="paymentFG2.controls.name" [errorMsg]="paymentErrorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
+                                </div>
+                                <div class="form-group">
+                                    <div class="control-label" [ngClass]="displayFieldCss(paymentFG2.controls.addressLine1)">Business Address</div>
+                                    <input type="text" class="form-control" aria-describedby=" " placeholder="Address line 1" pattern formControlName="addressLine1">
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="paymentFG2.controls.addressLine1" [errorMsg]="paymentErrorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" aria-describedby=" " placeholder="Address line 2.(optional)" pattern formControlName="addressLine2">
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="paymentFG2.controls.addressLine2" [errorMsg]="paymentErrorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" aria-describedby=" " placeholder="City" pattern formControlName="city">
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="paymentFG2.controls.city" [errorMsg]="paymentErrorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" aria-describedby="" placeholder="State" pattern formControlName="state">
+                                            <!--Validation-->
+                                            <app-field-error-display [field]="paymentFG2.controls.state" [errorMsg]="paymentErrorMsgs"> </app-field-error-display>
+                                            <!--Validation-->
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" aria-describedby="" placeholder="Zipcode" pattern formControlName="zipcode">
+                                            <!--Validation-->
+                                            <app-field-error-display [field]="paymentFG2.controls.zipcode" [errorMsg]="paymentErrorMsgs"> </app-field-error-display>
+                                            <!--Validation-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                            </div>
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <a href="#">Back</a>
+                                    <a (click)="paymentInfoBack()">back</a>
                                 </div>
-                                <div class="col-sm-6 text-right">
-                                    <a class="btn btn-default ancshipping2" href="#">Next</a>
+                                <div class="col-sm-6 text-right" [ngClass]="{'show': paymentInfoStep==1, 'hide': paymentInfoStep!==1 }">
+                                    <a class="btn btn-default ancProfile1" (click)="paymentInfoNext()">Next</a>
+                                </div>
+                                <div class="col-sm-6 text-right" [ngClass]="{'show': paymentInfoStep==2, 'hide': paymentInfoStep!==2  }">
+                                    <a class="btn btn-default ancProfile1" (click)="paymentInfoSave();tabs.select('tab-Product')">Save & Next</a>
                                 </div>
                             </div>
-                            <div class="clearfix">&nbsp;</div>
-                            <div class="clearfix">&nbsp;</div>
-                            <div class="clearfix">&nbsp;</div>
-                            <div class="clearfix">&nbsp;</div>
+                            <!-- </form> -->
                         </div>
                         <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
                     </div>
                 </ng-template>
             </ngb-tab>
-            <ngb-tab title="Notifications">
+            <ngb-tab title="Product info" id="tab-Product">
                 <ng-template ngbTabContent>
-                    <div class="row backgroundWhite">
-                        <div class="col-sm-8 p-2">
-                            <p>Notifications</p>
-                            <div class="row p-2">
-                                <div class="col-sm-4">
-                                    Order email:
-                                </div>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" aria-describedby="" placeholder="order@mail.com">
-                                </div>
-                            </div>
-                            <div class="row p-2">
-                                <div class="col-sm-4">
-                                    Shipping email:
-                                </div>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" aria-describedby="" placeholder="shipping@mail.com">
-                                </div>
-                            </div>
-                            <div class="height-100">&nbsp;</div>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <a href="#">Back</a>
-                                </div>
-                                <div class="col-sm-6 text-right">
-                                    <a class="btn btn-default ancshipping2" href="#">Save and Finish</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
-                    </div>
+
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Shipping profile" id="tab-Shipping">
+                <ng-template ngbTabContent>
+
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Return and Exchange policy" id="tab-Return">
+                <ng-template ngbTabContent>
+
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Notifications" id="tab-Notifications">
+                <ng-template ngbTabContent>
+
                 </ng-template>
             </ngb-tab>
         </ngb-tabset>
-        </div>
-        </div>
+        <ngb-alert [type]="alert.type" (close)="closeAlert(alert)">{{ alert.message }}</ngb-alert>
+    </div>
+</div>

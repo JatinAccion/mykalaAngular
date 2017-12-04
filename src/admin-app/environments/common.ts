@@ -2,15 +2,22 @@ export const apiNames = {
     Auth: {
         login: 'login',
         register: 'register',
-        status: 'status'
+        status: 'status',
+        token: 'auth/oauth/token'
     },
     retailers: {
-        get: 'get',
+        get: 'retailers/get',
+        sellerTypes: 'retailer/sellerType',
+
     },
     retailerProfileInfo: {
-        get: 'get',
-        add: 'add',
-        update: 'update',
-        delete: 'delete'
+        get: 'retailerProfileInfo/get',
+        save: 'retailer/saveRetailer',
+        delete: 'delete',
+    },
+    retailerPaymentInfo: {
+        get: 'retailerPaymentInfo/get',
+        save: 'retailer/saveBankDetails',
+        delete: 'delete',
     }
 };

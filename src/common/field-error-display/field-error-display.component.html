@@ -1,0 +1,12 @@
+<!-- <div *ngIf="displayError" >
+  <span class="glyphicon glyphicon-remove form-control-feedback fix-error-icon"></span>
+  <span class="sr-only">(error)</span>
+  <div class="error-msg">
+    {{ errorMsg }}
+  </div>
+</div> -->
+
+<div *ngIf="field.dirty || field.touched">
+    <div *ngIf="getHasRequired() && !field.value" class="alert alert-danger errorMessages">{{ getRequiredMsg() }}</div>
+    <div *ngIf="field.value && field.errors" class="alert alert-danger errorMessages">{{ getErrorMsg() }}</div>
+</div>

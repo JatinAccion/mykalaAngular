@@ -322,8 +322,20 @@ a.categ_close{
     margin-top: 10px;
     padding: 5px 15px;
 }
+.show {
+    display:block!important;
+}
 
-
+.hide {
+    display:none!important;
+}
+.control-label.required:after { 
+    color: #d00;
+    content: "*";
+    position: relative;
+    margin-left: 1px;
+    top:4px;
+  }
 
 
 

@@ -15,35 +15,35 @@
           <img src="images/business_logo.png" class="img-fluid" />
         </div>
         <div class="col-sm-8">
-            <p><strong>Ada</strong></p>
-            <div>New York, New York, United States</div>
-            <div>reviews:</div>
+            <p><strong>{{retailer.name}}</strong></p>
+            <div>{{retailer.address}}</div>
+            <div>reviews:{{retailer.reviews}}</div>
         </div>
         <div class="col-sm-2 mt-4 pr-4">
-            <p class="clearfix"><a class=" btn_redouter_right w-100" routerLink="/retailer-edit" routerLinkActive="retailer-edit">edit account</a></p>
+            <p class="clearfix"><a class=" btn_redouter_right w-100" [routerLink]="['../retailer-edit', retailer.retailerId]" >edit account</a></p>
             <p class="clearfix"><a class=" btn_red_right w-100" (click)="deactivate()">deactive</a></p>
         </div>
     </div>
     <hr />
     <div class="row">
         <div class="col-sm-2 text-center">
-            <h5>4,564</h5>
+            <h5>{{retailer.productsCount}}</h5>
             <div class="colorlightGray">Products</div>
         </div>
         <div class="col-sm-3 text-center">
-            <h5>564</h5>
+            <h5>{{retailer.transactionsCount}}</h5>
             <div class="colorlightGray">transactions</div>
         </div>
         <div class="col-sm-3 text-center">
-            <h5>7</h5>
+            <h5>{{retailer.returnsCount}}</h5>
             <div class="colorlightGray">returns</div>
         </div>
         <div class="col-sm-2 text-center">
-            <h5>1,564</h5>
+            <h5>{{retailer.offersCount}}</h5>
             <div class="colorlightGray">offers made</div>
         </div>
         <div class="col-sm-2 text-center">
-            <h5>4</h5>
+            <h5>{{retailer.complaintsCount}}</h5>
             <div class="colorlightGray">complaints</div>
         </div>
     </div>

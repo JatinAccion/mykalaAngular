@@ -4,7 +4,9 @@ import { ProductInfo } from './product-info';
 import { RetialerShippingProfile } from './retailer-shipping-profile';
 
 export class Retailer {
-    constructor(public imageUrl: string,
+    constructor(
+        public retailerId: number,
+        public imageUrl: string,
         public name: string,
         public address: string,
         public reviews: string[],

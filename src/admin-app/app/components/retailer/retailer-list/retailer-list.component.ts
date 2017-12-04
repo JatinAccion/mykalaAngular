@@ -10,7 +10,9 @@ import { RetialerService } from '../retialer.service';
 })
 export class RetailerListComponent implements OnInit {
   retailers: Array<Retailer>;
-  constructor(private retialerService: RetialerService) { }
+  constructor(private retialerService: RetialerService) {
+    this.retailers = new Array<Retailer>();
+  }
 
   ngOnInit() {
     this.getData();
@@ -20,5 +22,4 @@ export class RetailerListComponent implements OnInit {
       this.retailers.push(res);
     });
   }
-
 }

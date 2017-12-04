@@ -23,6 +23,7 @@ import { HomeService } from './components/home/home.service';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { RetailerModule } from './components/retailer/retailer.module';
+import { LocalStorageService } from './services/LocalStorage.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,7 @@ import { RetailerModule } from './components/retailer/retailer.module';
     StatusComponent,
     LogoutComponent,
     HeaderComponent,
-    FooterComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +43,7 @@ import { RetailerModule } from './components/retailer/retailer.module';
     AppRoutingModule,
     RetailerModule
   ],
-  providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService],
+  providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, LocalStorageService],
   bootstrap: [AppComponent],
   entryComponents: [HomeComponent, LoginComponent]
 })

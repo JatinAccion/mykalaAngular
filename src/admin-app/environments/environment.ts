@@ -7,7 +7,10 @@ import { apiNames } from './common';
 
 export const environment = {
   production: false,
-  authApi: 'http://localhost:3000/auth',
+  //Api: 'http://localhost:3000',
+  Api: 'http://localhost:8081',
+  AdminApi: 'http://localhost:8082',
+  //AdminApi: 'http://192.168.169.254:8082',
   apis: apiNames
 
 };
