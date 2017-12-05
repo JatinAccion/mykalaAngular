@@ -15,7 +15,7 @@ export class ProfileInfoService {
 
     /*Profile Completion API*/
     completeProfile(profileInformation) {
-        this.url = 'http://192.168.169.181:5090/profile/userDetail/';
+        this.url = 'http://localhost:5090/profile/userDetail/';
         return this.http.post(this.url, profileInformation).map((res) => res.text())
     }
 }

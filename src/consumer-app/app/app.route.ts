@@ -51,6 +51,7 @@ const appRoutes: Routes = [
     {
         path: 'thank',
         component: ThankMessageComponent,
+        data: { header: 'header2' }
     },
     {
         path: '**',

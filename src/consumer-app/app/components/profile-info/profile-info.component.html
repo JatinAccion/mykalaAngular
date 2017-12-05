@@ -186,16 +186,6 @@
       <div class="joinScreen_right">
         <h4 class="subtitle">Hello there, Shelley!</h4>
         <p>Build your profile and you get points for discounts.</p>
-        <div class="row">
-          <div class="col-sm-4 colorlightGray">Kala points:</div>
-          <div class="col-sm-6 text-right">
-            <h3 class="displayinline">20</h3>
-            <span class="pull-right colorlightGray">points</span>
-          </div>
-          <div class="col-sm-1">
-            <img src="/consumer-app/assets/images/info-button.png" />
-          </div>
-        </div>
         <hr />
         <div class="col-sm-12">
           <button (click)="onSubmit(profileInfo)" [disabled]="!profileInfo.valid" type="button" class="btn btn_red_right width100">come on in</button>
@@ -204,7 +194,7 @@
         <div class="clearfix">&nbsp;</div>
 
         <!--Response Message-->
-        <div *ngIf="profileInfoResponse.status" [ngClass]="profileInfoResponse.response == 'success' ? 'alert-success successMessage' : 'alert-danger errorMessages'" class="alert">
+        <div *ngIf="profileInfoResponse.status" style="margin-top: 0" [ngClass]="profileInfoResponse.response == 'success' ? 'alert-success successMessage' : 'alert-danger errorMessages'" class="alert">
           {{profileInfoResponse.message}}
         </div>
 

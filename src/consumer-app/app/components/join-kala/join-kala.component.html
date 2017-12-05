@@ -12,7 +12,7 @@
 
                 <!--Validation-->
                 <div *ngIf="joinKala.controls.username.dirty || joinKala.controls.username.touched">
-                    <div *ngIf="!joinKala.controls.username.value" class="alert alert-danger errorMessages">Please enter the username</div>
+                    <div *ngIf="!joinKala.controls.username.value" class="alert alert-danger errorMessages">Please enter the Username</div>
                     <div *ngIf="joinKala.controls.username.value && !joinKala.controls.username.pattern && joinKala.controls.username.errors"
                         class="alert alert-danger errorMessages">
                         Username can contain only (dot, hypen)
@@ -22,12 +22,12 @@
             </div>
             <div class="form-group">
                 <input pattern formControlName="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                    placeholder="Enter email">
+                    placeholder="Email">
 
                 <!--Validation-->
                 <div *ngIf="joinKala.controls.email.dirty || joinKala.controls.email.touched">
-                    <div *ngIf="!joinKala.controls.email.value" class="alert alert-danger errorMessages">Please enter the email</div>
-                    <div *ngIf="joinKala.controls.email.value && joinKala.controls.email.errors" class="alert alert-danger errorMessages">Please enter the valid email</div>
+                    <div *ngIf="!joinKala.controls.email.value" class="alert alert-danger errorMessages">Please enter Email</div>
+                    <div *ngIf="joinKala.controls.email.value && joinKala.controls.email.errors" class="alert alert-danger errorMessages">Please enter valid Email</div>
                 </div>
                 <!--Validation-->
 
@@ -40,7 +40,7 @@
                     <div *ngIf="!joinKala.controls.password.value" class="alert alert-danger errorMessages">Please enter the password</div>
                     <div *ngIf="joinKala.controls.password.value && !joinKala.controls.password.pattern && joinKala.controls.password.errors"
                         class="alert alert-danger errorMessages">
-                        Password length must be minimum 8 characters, 1 uppercase character, 1 lowercase character, 1 number, 1 special character
+                        Password length must be minimum 8 Characters, 1 Uppercase Character, 1 Lowercase Character, 1 Number, 1 Special Character
                     </div>
                 </div>
                 <!--Validation-->

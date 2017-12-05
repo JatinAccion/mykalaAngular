@@ -43,7 +43,7 @@ export class ProfileInfoComponent implements OnInit {
       "email": [this.getUserInfo.emailId],
       "gender": [''],
       "dateOfBirth": [''],
-      "location": ['', Validators.compose([Validators.required, Validators.pattern(this.zipCodeRegex), Validators.minLength(5), Validators.maxLength(6)])]
+      "location": ['', Validators.compose([Validators.required, Validators.pattern(this.zipCodeRegex), Validators.minLength(5), Validators.maxLength(5)])]
     });
   }
 

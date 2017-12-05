@@ -10,11 +10,12 @@ import { VerificationService } from './verification.service';
 export class ThankMessageComponent implements OnInit {
   verficationStatus: string;
   token: string;
+  
   constructor(private verification: VerificationService) { }
 
   ngOnInit() {
     this.token = window.location.href.split('=')[1];
-    this.verification.getVerified(this.token).subscribe(data => {
+    this.verification.getVerified(this.token).subscribe((data) => {
       this.verficationStatus = data;
     });
   }

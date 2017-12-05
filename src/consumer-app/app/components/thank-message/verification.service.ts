@@ -8,7 +8,7 @@ export class VerificationService {
     constructor(private http: Http) { }
 
     getVerified(token) {
-        this.url = 'http://192.168.169.181:5090/profile/validateToken';
+        this.url = 'http://localhost:7090/login/validateToken/';
         return this.http.post(this.url, token).map((res) => res.text())
     }
 }
