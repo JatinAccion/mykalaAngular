@@ -1,6 +1,10 @@
 <div style="height:120px;width:100%;"></div>
 <div class="thankWrapper">
-  <div>
+  <div *ngIf="verficationStatus == 'userverified'">
+    <h2>Already Verified</h2>
+    <p>Your account has been already verified.</p>
+  </div>
+  <div *ngIf="verficationStatus == 'success'">
     <h2>Thank You</h2>
     <p>You've successfully verfied your account.</p>
   </div>

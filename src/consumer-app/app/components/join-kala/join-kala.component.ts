@@ -7,7 +7,7 @@ import { CoreService } from '../../services/core.service';
 import { User } from '../../../../models/user';
 import { Conversation } from '../../models/conversation';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { JoinKalaService } from './join-kala.service';
+import { JoinKalaService } from '../../services/join-kala.service';
 import { UserMessages } from '../../../../models/userMessages';
 import { RoleModel } from '../../../../models/userRole';
 import { ConsumerSignUp } from '../../../../models/consumer-signup';

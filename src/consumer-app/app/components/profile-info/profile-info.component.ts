@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { ProfileInfoService } from './profile-info.service';
+import { ProfileInfoService } from '../../services/profile-info.service';
 import { ConsumerProfileInfo } from '../../../../models/consumer-profile-info';
 import { ConsumerAddress } from '../../../../models/consumer-address';
 import { UserMessages } from '../../../../models/userMessages';

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { VerificationService } from './verification.service';
+import { VerificationService } from '../../services/verification.service';
 
 @Component({
   selector: 'app-thank-message',
