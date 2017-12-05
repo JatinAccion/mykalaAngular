@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Retailer } from '../../../../../models/retailer';
+import { Retailer, RetailerReports } from '../../../../../models/retailer';
 import { RetialerService } from '../retialer.service';
 
 @Component({
@@ -18,8 +18,8 @@ export class RetailerListComponent implements OnInit {
     this.getData();
   }
   getData() {
-    this.retialerService.get(null).subscribe(res => {
-      this.retailers.push(res);
+    this.retialerService.get(null).subscribe((res) => {
+      return res.forEach(obj => { this.retailers.push(new Retailer(obj)); });
     });
   }
 }

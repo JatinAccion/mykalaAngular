@@ -4,15 +4,36 @@ import { ProductInfo } from './product-info';
 import { RetialerShippingProfile } from './retailer-shipping-profile';
 
 export class Retailer {
-    constructor(
-        public retailerId: number,
-        public imageUrl: string,
-        public name: string,
-        public address: string,
-        public reviews: string[],
-        public productsCount: number,
-        public transactionsCount: number,
-        public returnsCount: number,
-        public offersCount: number,
-        public complaintsCount: number) { }
+    constructor(obj: any) {
+        this.retailerId = obj.retailerId;
+        this.businessName = obj.businessName;
+        this.businessLogoPath = `https://s3.us-east-2.amazonaws.com/${obj.businessLogoPath}`;
+        this.city = obj.city;
+        this.state = obj.state;
+        this.country = obj.country;
+        this.reports = new RetailerReports(obj.reports);
+    }
+    public retailerId: number;
+    public businessName: string;
+    public businessLogoPath: string;
+    public city: string;
+    public state: string;
+    public country: string;
+    public reports: RetailerReports;
+}
+export class RetailerReports {
+    public products: number;
+    public transactions: number;
+    public returns: number;
+    public offersMade: number;
+    public complaints: number;
+    public reviews: number;
+    constructor(obj: any) {
+        this.products = obj.products;
+        this.transactions = obj.transactions;
+        this.returns = obj.returns;
+        this.offersMade = obj.offersMade;
+        this.complaints = obj.complaints;
+        this.reviews = obj.reviews;
+    }
 }

@@ -1,22 +1,26 @@
+<!-- <ngb-alert *ngIf="alert.show"  [type]="alert.type" (close)="closeAlert(alert)">{{ alert.message }}</ngb-alert> -->
 <div class="title col-sm-12">
     <h1>Account Info</h1>
+
 </div>
-<div class="col-sm-12">
+<div class="row">
     <div class="col-sm-12 signup">
         <ngb-tabset #tabs="ngbTabset" [orientation]="currentOrientation" [justify]="currentJustify" (tabChange)="setActiveTab($event)">
             <ngb-tab title="Profile info" id="tab-Profile">
                 <ng-template ngbTabContent>
                     <div class="row backgroundWhite">
-                        <div class="col-sm-8 p-2">
-                            <h5>Website details</h5>
+                        <div class="col-sm-12 p-2">
+
                             <!-- <form class="divProfile"> -->
                             <div [formGroup]="profileFG1" [ngClass]="{'show': profileInfoStep==1, 'hide': profileInfoStep!==1 }">
+                                <label class="control-label" [ngClass]="displayFieldCss(profileFG1.controls.profileImage)">Business Logo</label>
                                 <div class="form-group">
-                                    <div class="draglogo text-center">
+                                    <div class="draglogo p-3 text-center">
                                         <div class=" text-center">Drag your Logo here</div>
                                         or
                                         <input formControlName="profileImage" (change)="fileChangeEvent($event, profileFG1)" type="file" class="form-control uploadImage" />
                                     </div>
+                                    <app-field-error-display [field]="profileFG1.controls.profileImage" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label" [ngClass]="displayFieldCss(profileFG1.controls.businessName)">Business name</label>
@@ -24,7 +28,7 @@
                                     <app-field-error-display [field]="profileFG1.controls.businessName" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
                                 </div>
                                 <div class="form-group">
-                                    <div class="control-label" [ngClass]="displayFieldCss(profileFG1.controls.tin)">DNB/TIN</div>
+                                    <label class="control-label" [ngClass]="displayFieldCss(profileFG1.controls.tin)">DNB/TIN</label>
                                     <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="tin">
                                     <!--Validation-->
                                     <app-field-error-display [field]="profileFG1.controls.tin" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
@@ -32,16 +36,15 @@
 
                                 </div>
                                 <div class="form-group">
-                                    <div class="control-label" [ngClass]="displayFieldCss(profileFG1.controls.businessSummary)">Business summary
-                                        <small class="float-right">300 characters left</small>
-                                    </div>
+                                    <label class="control-label" [ngClass]="displayFieldCss(profileFG1.controls.businessSummary)">Business summary </label>
+                                    <small class="float-right">300 characters left</small>
                                     <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="businessSummary">
                                     <!--Validation-->
                                     <app-field-error-display [field]="profileFG1.controls.businessSummary" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
                                     <!--Validation-->
                                 </div>
                                 <div class="form-group">
-                                    <div class="control-label" [ngClass]="displayFieldCss(profileFG1.controls.bussines_address)">Business Address</div>
+                                    <label class="control-label" [ngClass]="displayFieldCss(profileFG1.controls.bussines_address)">Business Address</label>
                                     <input type="text" class="form-control" aria-describedby=" " placeholder="Address line 1" pattern formControlName="bussines_address">
                                     <!--Validation-->
                                     <app-field-error-display [field]="profileFG1.controls.bussines_address" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
@@ -109,6 +112,7 @@
                                 </div>
                             </div>
                             <div [formGroup]="profileFG2" [ngClass]="{'show': profileInfoStep==2, 'hide': profileInfoStep!==2  }">
+                                <h5>Website details</h5>
                                 <div class="form-group">
                                     <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Website URL(optional) e.g.www.mykala.com" pattern formControlName="websiteUrl">
                                     <!--Validation-->
@@ -199,7 +203,7 @@
                             <hr />
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <a (click)="profileInfoBack()">back</a>
+                                    <a (click)="profileInfoBack()" class="ancDefault">back</a>
                                 </div>
                                 <div class="col-sm-6 text-right" *ngIf="profileInfoStep==1">
                                     <a class="btn btn-default ancProfile1" (click)="profileInfoNext()">Next</a>
@@ -216,11 +220,11 @@
             <ngb-tab title="Payment info" id="tab-Payment">
                 <ng-template ngbTabContent>
                     <div class="row backgroundWhite">
-                        <div class="col-sm-8 p-2">
+                        <div class="col-sm-12 p-2">
                             <!-- <form class="divPayemnt1"> -->
                             <div [formGroup]="paymentFG1" [ngClass]="{'show': paymentInfoStep==1, 'hide': paymentInfoStep!==1 }">
                                 <div class="form-group">
-                                    <p class="control-label" [ngClass]="displayFieldCss(paymentFG1.controls.paymentMethod)">Payment Method</p>
+                                    <label class="control-label" [ngClass]="displayFieldCss(paymentFG1.controls.paymentMethod)">Payment Method</label>
                                     <select class="ddl_default w-100 form-control" formControlName="paymentMethod" (change)="paymentMethodChange()">
                                         <option>Select payment Method</option>
                                         <option *ngFor="let option of paymentMethods" value="{{option.name}}">
@@ -232,7 +236,7 @@
                                     <!--Validation-->
                                 </div>
                                 <div class="form-group">
-                                    <p class="control-label" [ngClass]="displayFieldCss(paymentFG1.controls.paymentVehicle)">Payment Vehicle</p>
+                                    <label class="control-label" [ngClass]="displayFieldCss(paymentFG1.controls.paymentVehicle)">Payment Vehicle</label>
                                     <select class="ddl_default w-100 form-control" formControlName="paymentVehicle">
                                         <option>Select option</option>
                                         <option *ngFor="let option of paymentVehicles" value="{{option.name}}">
@@ -245,14 +249,14 @@
                                 </div>
                                 <hr />
                                 <div class="form-group">
-                                    <div class="control-label" [ngClass]="displayFieldCss(paymentFG1.controls.bankname)">Bank name</div>
+                                    <label class="control-label" [ngClass]="displayFieldCss(paymentFG1.controls.bankname)">Bank name</label>
                                     <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="" pattern formControlName="bankname">
                                     <!--Validation-->
                                     <app-field-error-display [field]="paymentFG1.controls.bankname" [errorMsg]="paymentErrorMsgs"> </app-field-error-display>
                                     <!--Validation-->
                                 </div>
                                 <div class="form-group">
-                                    <div class="control-label" [ngClass]="displayFieldCss(paymentFG1.controls.addressLine1)">Business Address</div>
+                                    <label class="control-label" [ngClass]="displayFieldCss(paymentFG1.controls.addressLine1)">Bank Address</label>
                                     <input type="text" class="form-control" aria-describedby=" " placeholder="Address line 1" pattern formControlName="addressLine1">
                                     <!--Validation-->
                                     <app-field-error-display [field]="paymentFG1.controls.addressLine1" [errorMsg]="paymentErrorMsgs"> </app-field-error-display>
@@ -293,42 +297,42 @@
                             </div>
                             <div [formGroup]="paymentFG2" [ngClass]="{'show': paymentInfoStep==2, 'hide': paymentInfoStep!==2  }">
                                 <div class="form-group">
-                                    <div class="control-label" [ngClass]="displayFieldCss(paymentFG2.controls.accountName)">Account Name</div>
+                                    <label class="control-label" [ngClass]="displayFieldCss(paymentFG2.controls.accountName)">Account Name</label>
                                     <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="" pattern formControlName="accountName">
                                     <!--Validation-->
                                     <app-field-error-display [field]="paymentFG2.controls.accountName" [errorMsg]="paymentErrorMsgs"> </app-field-error-display>
                                     <!--Validation-->
                                 </div>
                                 <div class="form-group">
-                                    <div class="control-label" [ngClass]="displayFieldCss(paymentFG2.controls.accountNumber)">Account Number</div>
+                                    <label class="control-label" [ngClass]="displayFieldCss(paymentFG2.controls.accountNumber)">Account Number</label>
                                     <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="" pattern formControlName="accountNumber">
                                     <!--Validation-->
                                     <app-field-error-display [field]="paymentFG2.controls.accountNumber" [errorMsg]="paymentErrorMsgs"> </app-field-error-display>
                                     <!--Validation-->
                                 </div>
                                 <div class="form-group">
-                                    <div class="control-label" [ngClass]="displayFieldCss(paymentFG2.controls.routingNumber)">ABA Routing number</div>
+                                    <label class="control-label" [ngClass]="displayFieldCss(paymentFG2.controls.routingNumber)">ABA Routing number</label>
                                     <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="" pattern formControlName="routingNumber">
                                     <!--Validation-->
                                     <app-field-error-display [field]="paymentFG2.controls.routingNumber" [errorMsg]="paymentErrorMsgs"> </app-field-error-display>
                                     <!--Validation-->
                                 </div>
                                 <div class="form-group">
-                                    <div class="control-label" [ngClass]="displayFieldCss(paymentFG2.controls.swiftCode)">SWIFT code</div>
+                                    <label class="control-label" [ngClass]="displayFieldCss(paymentFG2.controls.swiftCode)">SWIFT code</label>
                                     <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="" pattern formControlName="swiftCode">
                                     <!--Validation-->
                                     <app-field-error-display [field]="paymentFG2.controls.swiftCode" [errorMsg]="paymentErrorMsgs"> </app-field-error-display>
                                     <!--Validation-->
                                 </div>
                                 <div class="form-group">
-                                    <div class="control-label" [ngClass]="displayFieldCss(paymentFG2.controls.name)">Retailer name on account</div>
-                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Retailer name on account" pattern formControlName="name">
+                                    <label class="control-label" [ngClass]="displayFieldCss(paymentFG2.controls.name)">Retailer address on account</label>
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Position" pattern formControlName="name">
                                     <!--Validation-->
                                     <app-field-error-display [field]="paymentFG2.controls.name" [errorMsg]="paymentErrorMsgs"> </app-field-error-display>
                                     <!--Validation-->
                                 </div>
                                 <div class="form-group">
-                                    <div class="control-label" [ngClass]="displayFieldCss(paymentFG2.controls.addressLine1)">Business Address</div>
+                                    <label class="control-label" [ngClass]="displayFieldCss(paymentFG2.controls.addressLine1)">Business Address</label>
                                     <input type="text" class="form-control" aria-describedby=" " placeholder="Address line 1" pattern formControlName="addressLine1">
                                     <!--Validation-->
                                     <app-field-error-display [field]="paymentFG2.controls.addressLine1" [errorMsg]="paymentErrorMsgs"> </app-field-error-display>
@@ -385,25 +389,25 @@
             </ngb-tab>
             <ngb-tab title="Product info" id="tab-Product">
                 <ng-template ngbTabContent>
-
+                    <div class="row backgroundWhite">inprogress</div>
                 </ng-template>
             </ngb-tab>
             <ngb-tab title="Shipping profile" id="tab-Shipping">
                 <ng-template ngbTabContent>
-
+                    <div class="row backgroundWhite"></div>
                 </ng-template>
             </ngb-tab>
             <ngb-tab title="Return and Exchange policy" id="tab-Return">
                 <ng-template ngbTabContent>
-
+                    <div class="row backgroundWhite"></div>
                 </ng-template>
             </ngb-tab>
             <ngb-tab title="Notifications" id="tab-Notifications">
                 <ng-template ngbTabContent>
-
+                    <div class="row backgroundWhite"></div>
                 </ng-template>
             </ngb-tab>
         </ngb-tabset>
-        <ngb-alert [type]="alert.type" (close)="closeAlert(alert)">{{ alert.message }}</ngb-alert>
+        
     </div>
 </div>

@@ -37,6 +37,7 @@ export interface IAlert {
   id: number;
   type: string;
   message: string;
+  show: boolean;
 }
 @Component({
   selector: 'app-retailer-add',
@@ -57,7 +58,8 @@ export class RetailerAddComponent implements OnInit {
   alert: IAlert = {
     id: 1,
     type: 'success',
-    message: 'This is an success alert',
+    message: '',
+    show: false
   };
   // #region ProfileInfo
   profileFG1 = new FormGroup({});
@@ -113,7 +115,7 @@ export class RetailerAddComponent implements OnInit {
     }
   }
   closeAlert(alert: IAlert) {
-    this.alert = null;
+    this.alert.show = false;
   }
   // #region ProfileInfo
   setProfileInfoValidators() {
@@ -126,9 +128,9 @@ export class RetailerAddComponent implements OnInit {
       bussines_address2: ['', [Validators.maxLength(255), Validators.pattern(this.textRegex)]],
       city: ['', [Validators.maxLength(255), Validators.pattern(this.textRegex)]],
       state: ['', [Validators.maxLength(255), Validators.pattern(this.textRegex)]],
-      zipcode: ['', [Validators.maxLength(10), Validators.pattern(this.numberRegex)]],
+      zipcode: ['', [Validators.maxLength(5), Validators.minLength(5), Validators.pattern(this.numberRegex)]],
       email: ['', [Validators.maxLength(255), Validators.email]],
-      phone_number: ['', [Validators.maxLength(255), Validators.pattern(this.numberRegex)]],
+      phone_number: ['', [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(this.numberRegex)]],
       sellerTypeId: ['', [Validators.required]]
     });
     this.profileFG2 = this.formBuilder.group({
@@ -141,35 +143,35 @@ export class RetailerAddComponent implements OnInit {
       contact_address2: ['', [Validators.maxLength(255), Validators.pattern(this.textRegex)]],
       contact_city: ['', [Validators.maxLength(255), Validators.pattern(this.textRegex)]],
       contact_state: ['', [Validators.maxLength(255), Validators.pattern(this.textRegex)]],
-      contact_zipcode: ['', [Validators.maxLength(10), Validators.pattern(this.numberRegex)]],
+      contact_zipcode: ['', [Validators.maxLength(5), Validators.minLength(5), Validators.pattern(this.numberRegex)]],
       contact_email: ['', [Validators.maxLength(255), Validators.email]],
-      contact_phone_number: ['', [Validators.maxLength(255), Validators.pattern(this.numberRegex)]]
+      contact_phone_number: ['', [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(this.numberRegex)]]
     });
     this.profileErrorMsgs = {
-      'profileImage': { required: 'Please enter me', error: 'Please enter valid me' },
+      'profileImage': { required: 'Please select  Business Logo', error: 'Please select Business Logo' },
       'businessName': { required: 'Please enter Business Name ', error: 'Please enter valid Business Name' },
-      'tin': { required: 'Please enter tin', error: 'Please enter valid tin' },
+      'tin': { required: 'Please enter Tin', error: 'Please enter valid TIN' },
       'businessSummary': { required: 'Please enter Business Summary', error: 'Please enter valid Business Summary' },
-      'bussines_address': { required: 'Please enter me', error: 'Please enter valid me' },
-      'bussines_address2': { required: 'Please enter me', error: 'Please enter valid me' },
-      'city': { required: 'Please enter me', error: 'Please enter valid me' },
-      'state': { required: 'Please enter me', error: 'Please enter valid me' },
-      'zipcode': { required: 'Please enter me', error: 'Please enter valid me' },
-      'email': { required: 'Please enter me', error: 'Please enter valid me' },
-      'phone_number': { required: 'Please enter me', error: 'Please enter valid me' },
-      'sellerTypeId': { required: 'Please enter me', error: 'Please enter valid me' },
-      'websiteUrl': { required: 'Please enter me', error: 'Please enter valid me' },
-      'websiteUserName': { required: 'Please enter me', error: 'Please enter valid me' },
-      'websitePassword': { required: 'Please enter me', error: 'Please enter valid me' },
-      'contact_name': { required: 'Please enter me', error: 'Please enter valid me' },
-      'contact_position': { required: 'Please enter me', error: 'Please enter valid me' },
-      'contact_address1': { required: 'Please enter me', error: 'Please enter valid me' },
-      'contact_address2': { required: 'Please enter me', error: 'Please enter valid me' },
-      'contact_city': { required: 'Please enter me', error: 'Please enter valid me' },
-      'contact_state': { required: 'Please enter me', error: 'Please enter valid me' },
-      'contact_zipcode': { required: 'Please enter me', error: 'Please enter valid me' },
-      'contact_email': { required: 'Please enter me', error: 'Please enter valid me' },
-      'contact_phone_number': { required: 'Please enter me', error: 'Please enter valid me' }
+      'bussines_address': { required: 'Please enter Address line Address line 2', error: 'Please enter valid Address line Address line 2' },
+      'bussines_address2': { required: 'Please enter Address line 2', error: 'Please enter valid Address line 2' },
+      'city': { required: 'Please enter City', error: 'Please enter valid City' },
+      'state': { required: 'Please enter State', error: 'Please enter valid State' },
+      'zipcode': { required: 'Please enter Zipcode', error: 'Please enter valid Zipcode' },
+      'email': { required: 'Please enter Email', error: 'Please enter valid Email' },
+      'phone_number': { required: 'Please enter Phone number', error: 'Please enter valid Phone number' },
+      'sellerTypeId': { required: 'Please select Seller Type', error: 'Please select valid Seller Type' },
+      'websiteUrl': { required: 'Please enter Website URL', error: 'Please enter valid Website URL' },
+      'websiteUserName': { required: 'Please enter Username', error: 'Please enter valid Username' },
+      'websitePassword': { required: 'Please enter Password', error: 'Please enter valid Password' },
+      'contact_name': { required: 'Please enter Name', error: 'Please enter valid Name' },
+      'contact_position': { required: 'Please enter Position', error: 'Please enter valid Position' },
+      'contact_address1': { required: 'Please enter Address line 1', error: 'Please enter valid Address line 1' },
+      'contact_address2': { required: 'Please enter Address line 2', error: 'Please enter valid Address line 2' },
+      'contact_city': { required: 'Please enter City', error: 'Please enter valid City' },
+      'contact_state': { required: 'Please enter State', error: 'Please enter valid State' },
+      'contact_zipcode': { required: 'Please enter Zipcode', error: 'Please enter valid Zipcode' },
+      'contact_email': { required: 'Please enter Email', error: 'Please enter valid Email' },
+      'contact_phone_number': { required: 'Please enter Phone number', error: 'Please enter valid Phone number' }
     };
   }
   getProfileInfoDropdowndata() {
@@ -207,6 +209,7 @@ export class RetailerAddComponent implements OnInit {
             id: 1,
             type: 'success',
             message: 'Saved successfully',
+            show: true
           };
           return true;
         })
@@ -216,6 +219,7 @@ export class RetailerAddComponent implements OnInit {
             id: 1,
             type: 'danger',
             message: 'Not able to Save',
+            show: true
           };
 
         });
@@ -354,7 +358,7 @@ export class RetailerAddComponent implements OnInit {
       addressLine2: ['', [Validators.pattern(this.textRegex)]],
       city: ['', [Validators.pattern(this.textRegex)]],
       state: ['', [Validators.pattern(this.textRegex)]],
-      zipcode: ['', [Validators.pattern(this.numberRegex)]]
+      zipcode: ['', [Validators.maxLength(5), Validators.minLength(5), Validators.pattern(this.numberRegex)]]
     });
     this.paymentFG2 = this.formBuilder.group({
       accountName: ['', [Validators.pattern(this.textRegex)]],
@@ -366,12 +370,12 @@ export class RetailerAddComponent implements OnInit {
       addressLine2: ['', [Validators.pattern(this.textRegex)]],
       city: ['', [Validators.pattern(this.textRegex)]],
       state: ['', [Validators.pattern(this.textRegex)]],
-      zipcode: ['', [Validators.pattern(this.numberRegex)]]
+      zipcode: ['', [Validators.maxLength(5), Validators.minLength(5), Validators.pattern(this.numberRegex)]]
     });
     this.paymentErrorMsgs = {
-      'paymentMethod': { required: 'Please enter me', error: 'Please enter valid me' },
-      'paymentVehicle': { required: 'Please enter me', error: 'Please enter valid me' },
-      'bankname': { required: 'Please enter me', error: 'Please enter valid me' },
+      'paymentMethod': { required: 'Please select Payment Method', error: 'Please select valid Payment Method' },
+      'paymentVehicle': { required: 'Please select Payment Vehicle', error: 'Please select valid Payment Vehicle' },
+      'bankname': { required: 'Please enter Bank name', error: 'Please enter valid Bank name' },
       'accountName': { required: 'Please enter me', error: 'Please enter valid me' },
       'accountNumber': { required: 'Please enter me', error: 'Please enter valid me' },
       'routingNumber': { required: 'Please enter me', error: 'Please enter valid me' },
@@ -425,6 +429,7 @@ export class RetailerAddComponent implements OnInit {
             id: 1,
             type: 'success',
             message: 'Saved successfully',
+            show: true
           };
           return true;
         })
@@ -434,6 +439,7 @@ export class RetailerAddComponent implements OnInit {
             id: 1,
             type: 'danger',
             message: 'Not able to Save',
+            show: true
           };
 
         });

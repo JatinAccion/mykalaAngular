@@ -9,7 +9,7 @@ export const environment = {
   production: false,
   //Api: 'http://localhost:3000',
   Api: 'http://localhost:8081',
-  AdminApi: 'http://localhost:8082',
+  AdminApi: 'http://localhost:8083',
   //AdminApi: 'http://192.168.169.254:8082',
   apis: apiNames
 

@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
         const resJson = res.json();
         this.localStorageService.setItem('token', `${resJson.token_type} ${resJson.access_token}`, resJson.expires_in);
         this.core.show();
-        this.router.navigateByUrl('/status');
+        this.router.navigateByUrl('/retailer-list');
       })
       .catch((err) => {
         console.log(err);

@@ -6,7 +6,7 @@ export const apiNames = {
         token: 'auth/oauth/token'
     },
     retailers: {
-        get: 'retailers/get',
+        get: 'retailer/allRetailers',
         sellerTypes: 'retailer/sellerType',
 
     },

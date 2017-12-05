@@ -9,7 +9,7 @@ import 'rxjs/add/operator/catch';
 import { environment } from './../../../environments/environment';
 import { RetailerProfileInfo } from '../../../../models/retailer-profile-info';
 import { Observable } from 'rxjs/Observable';
-import { Retailer } from '../../../../models/retailer';
+import { Retailer, RetailerReports } from '../../../../models/retailer';
 import { LocalStorageService } from '../../services/LocalStorage.service';
 import { tokenKey } from '@angular/core/src/view/util';
 import { nameValue } from '../../../../models/nameValue';
@@ -44,26 +44,14 @@ export class RetialerService {
     this.paymentVehicles.push(new nameValue('2', 'Invoice', '1'));
     this.paymentVehicles.push(new nameValue('3', 'Credit Card', '1'));
   }
-  get(query: any): Observable<Retailer> {
+  get(query: any): Observable<any[]> {
     this.headers = this.getHttpHeraders();
     const url = `${this.BASE_URL}/${environment.apis.retailers.get}`;
     return this.http
       .get(url, { search: query, headers: this.headers })
-      .map(p => {
-        const obj = p.json();
-        return new Retailer(
-          obj.retailerId,
-          obj.imageUrl,
-          obj.name,
-          obj.address,
-          obj.reviews,
-          obj.productsCount,
-          obj.transactionsCount,
-          obj.returnsCount,
-          obj.offersCount,
-          obj.complaintsCount
-        );
-      });
+      .map(p => p.json())
+      .catch(this.handleError);
+
   }
   profileInfoGet(retailerId: number): Observable<RetailerProfileInfo> {
     const url = `${this.BASE_URL}/${environment.apis.retailerProfileInfo.get}`;

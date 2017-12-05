@@ -1,5 +1,5 @@
 <div class="title col-sm-12">
-  <h1>Admin Account</h1>
+    <h1>Admin Account</h1>
 </div>
 <div class="row">
     <div class="col-sm-4">
@@ -9,41 +9,47 @@
         <a class="btn btn-default" routerLink="/retailer-add" routerLinkActive="retailer-add">+ New Account</a>
     </div>
 </div>
-<div class="AdminAcct_Row" *ngFor="let retailer of retailers"> 
+<div class="AdminAcct_Row" *ngFor="let retailer of retailers">
     <div class="row">
         <div class="col-sm-2 pl-4 pt-3">
-          <img src="images/business_logo.png" class="img-fluid" />
+            <img src="{{retailer.businessLogoPath}}" class="img-fluid" />
         </div>
         <div class="col-sm-8">
-            <p><strong>{{retailer.name}}</strong></p>
-            <div>{{retailer.address}}</div>
-            <div>reviews:{{retailer.reviews}}</div>
+            <p>
+                <strong>{{retailer.businessName}}</strong>
+            </p>
+            <div>{{retailer.city}}, {{retailer.state}}, {{retailer.country}}</div>
+            <div>reviews:{{retailer.reports.reviews}}</div>
         </div>
         <div class="col-sm-2 mt-4 pr-4">
-            <p class="clearfix"><a class=" btn_redouter_right w-100" [routerLink]="['../retailer-edit', retailer.retailerId]" >edit account</a></p>
-            <p class="clearfix"><a class=" btn_red_right w-100" (click)="deactivate()">deactive</a></p>
+            <p class="clearfix">
+                <a class=" btn_redouter_right w-100" [routerLink]="['../retailer-edit', retailer.retailerId]">edit account</a>
+            </p>
+            <p class="clearfix">
+                <a class=" btn_red_right w-100" (click)="deactivate()">deactive</a>
+            </p>
         </div>
     </div>
     <hr />
     <div class="row">
         <div class="col-sm-2 text-center">
-            <h5>{{retailer.productsCount}}</h5>
+            <h5>{{retailer.reports.products|number}}</h5>
             <div class="colorlightGray">Products</div>
         </div>
         <div class="col-sm-3 text-center">
-            <h5>{{retailer.transactionsCount}}</h5>
+            <h5>{{retailer.reports.transactions}}</h5>
             <div class="colorlightGray">transactions</div>
         </div>
         <div class="col-sm-3 text-center">
-            <h5>{{retailer.returnsCount}}</h5>
+            <h5>{{retailer.reports.returns}}</h5>
             <div class="colorlightGray">returns</div>
         </div>
         <div class="col-sm-2 text-center">
-            <h5>{{retailer.offersCount}}</h5>
+            <h5>{{retailer.reports.offersMade}}</h5>
             <div class="colorlightGray">offers made</div>
         </div>
         <div class="col-sm-2 text-center">
-            <h5>{{retailer.complaintsCount}}</h5>
+            <h5>{{retailer.reports.complaints}}</h5>
             <div class="colorlightGray">complaints</div>
         </div>
     </div>

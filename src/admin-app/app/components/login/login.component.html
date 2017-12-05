@@ -6,12 +6,12 @@
         <h4>log into admin portal</h4>
         <div class="form-group">
             <input pattern formControlName="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" 
-                placeholder="Enter email">
+                placeholder="Enter Username">
 
             <!--Validation-->
             <div *ngIf="loginKala.controls.email.dirty || loginKala.controls.email.touched">
-                <div *ngIf="!loginKala.controls.email.value" class="alert alert-danger errorMessages">Please enter the email</div>
-                <div *ngIf="loginKala.controls.email.value && loginKala.controls.email.errors" class="alert alert-danger errorMessages">Please enter the valid email</div>
+                <div *ngIf="!loginKala.controls.email.value" class="alert alert-danger errorMessages">Please enter the Username</div>
+                <div *ngIf="loginKala.controls.email.value && loginKala.controls.email.errors" class="alert alert-danger errorMessages">Please enter the valid Username</div>
             </div>
             <!--Validation-->
 
@@ -38,6 +38,6 @@
     </div>
     <hr />
     <div class="clearfix col-sm-12 text-center">
-        <button type="button" class=" btn-nml width25" [disabled]="!loginKala.valid" (click)="onLogin()">log in</button>
+        <button type="button" class=" btn-nml width25" [ngClass]="{'btn disabled': !loginKala.valid  }" [disabled]="!loginKala.valid && loginKala.touched" (click)="onLogin()">log in</button>
     </div> 
 </div>  
