@@ -1,4 +1,4 @@
-import { apiNames } from './common';
+import { apiNames, regexPatterns } from './common';
 
 // The file contents for the current environment will overwrite these during build.
 // The build system defaults to the dev environment which uses `environment.ts`, but if you do
@@ -7,10 +7,10 @@ import { apiNames } from './common';
 
 export const environment = {
   production: false,
-  //Api: 'http://localhost:3000',
-  Api: 'http://localhost:8081',
-  AdminApi: 'http://localhost:8083',
-  //AdminApi: 'http://192.168.169.254:8082',
-  apis: apiNames
-
+  Api: 'http://dev-user-api.us-east-2.elasticbeanstalk.com',
+  //Api: 'http://localhost:8081',
+  // AdminApi: 'http://localhost:8083',
+  AdminApi: 'http://dev-retailer-api.us-east-2.elasticbeanstalk.com',
+  apis: apiNames,
+  regex: regexPatterns
 };

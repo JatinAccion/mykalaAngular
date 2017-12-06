@@ -42,7 +42,7 @@ export interface IAlert {
 @Component({
   selector: 'app-retailer-add',
   templateUrl: './retailer-add.component.html',
-  styleUrls: ['./retailer-add.component.css'],
+  styleUrls: ['./../retailer.css'],
   encapsulation: ViewEncapsulation.None
 })
 export class RetailerAddComponent implements OnInit {
@@ -69,6 +69,7 @@ export class RetailerAddComponent implements OnInit {
   profileInfoObj = new RetailerProfileInfo();
   uploadFile: any;
   profileErrorMsgs: any;
+  profileSaveloader = true;
   // #endregion ProfileInfo
   // #region PaymentInfo
   paymentFG1 = new FormGroup({});
@@ -90,6 +91,7 @@ export class RetailerAddComponent implements OnInit {
     this.retailerId = route.snapshot.params['id'];
   }
   ngOnInit() {
+    //this.ngbTabSet.select('tab-Shipping');
     this.setActiveTab({ nextId: 'tab-Profile' });
   }
   setActiveTab(event) {
@@ -106,6 +108,13 @@ export class RetailerAddComponent implements OnInit {
         }
         break;
       case 'tab-Payment':
+        this.setPaymenInfoValidators();
+        this.getPaymentInfoDropdowndata();
+        if (this.retailerId) {
+          this.getPaymentInfo(this.retailerId);
+        }
+        break;
+        case 'tab-Shipping':
         this.setPaymenInfoValidators();
         this.getPaymentInfoDropdowndata();
         if (this.retailerId) {
@@ -197,6 +206,7 @@ export class RetailerAddComponent implements OnInit {
       this.profileInfoNext();
     }
     else {
+      this.profileSaveloader = true;
       this.retialerService
         .profileInfoSave(this.profileInfoObj)
         .then(res => {
@@ -211,6 +221,7 @@ export class RetailerAddComponent implements OnInit {
             message: 'Saved successfully',
             show: true
           };
+          this.profileSaveloader = false;
           return true;
         })
         .catch(err => {

@@ -9,6 +9,7 @@ import { RetailerAddComponent } from './retailer-add/retailer-add.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RetialerService } from './retialer.service';
 import { FieldErrorDisplayComponent } from '../../../../common/field-error-display/field-error-display.component';
+import { RetailerAddShippingComponent } from './retailer-add-shipping/retailer-add-shipping.component';
 
 @NgModule({
   imports: [
@@ -17,7 +18,13 @@ import { FieldErrorDisplayComponent } from '../../../../common/field-error-displ
     NgbModule,
     ReactiveFormsModule
   ],
-  declarations: [RetailerListComponent, RetailerEditComponent, RetailerAddComponent, FieldErrorDisplayComponent],
+  declarations: [
+    RetailerListComponent,
+    RetailerEditComponent,
+    RetailerAddComponent,
+    FieldErrorDisplayComponent,
+    RetailerAddShippingComponent
+  ],
   providers: [RetialerService]
 })
 export class RetailerModule { }

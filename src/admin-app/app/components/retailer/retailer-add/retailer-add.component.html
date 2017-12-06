@@ -1,4 +1,4 @@
-<!-- <ngb-alert *ngIf="alert.show"  [type]="alert.type" (close)="closeAlert(alert)">{{ alert.message }}</ngb-alert> -->
+<ngb-alert *ngIf="alert.show"  [type]="alert.type" (close)="closeAlert(alert)">{{ alert.message }}</ngb-alert>
 <div class="title col-sm-12">
     <h1>Account Info</h1>
 
@@ -210,6 +210,7 @@
                                 </div>
                                 <div class="col-sm-6 text-right" *ngIf="profileInfoStep==2">
                                     <a class="btn btn-default ancProfile1" (click)="profileInfoSave();">Save & Next</a>
+                                    <img src="/admin-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="profileSaveloader" />
                                 </div>
                             </div>
                             <!-- </form> -->
@@ -389,12 +390,21 @@
             </ngb-tab>
             <ngb-tab title="Product info" id="tab-Product">
                 <ng-template ngbTabContent>
-                    <div class="row backgroundWhite">inprogress</div>
+                    <div class="row backgroundWhite">
+                        <div class="col-sm-12 p-2">
+                        </div>
+                        <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
+                    </div>
                 </ng-template>
             </ngb-tab>
             <ngb-tab title="Shipping profile" id="tab-Shipping">
                 <ng-template ngbTabContent>
-                    <div class="row backgroundWhite"></div>
+                    <div class="row backgroundWhite">
+                        <div class="col-sm-12 p-2">
+                            <app-retailer-add-shipping></app-retailer-add-shipping>
+                        </div>
+                        <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
+                    </div>
                 </ng-template>
             </ngb-tab>
             <ngb-tab title="Return and Exchange policy" id="tab-Return">
@@ -408,6 +418,6 @@
                 </ng-template>
             </ngb-tab>
         </ngb-tabset>
-        
+
     </div>
 </div>

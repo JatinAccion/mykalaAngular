@@ -1,0 +1,753 @@
+<input type="button" (click)="addShipping()" />
+<ngb-tabset #tabs="ngbTabset" [orientation]="currentOrientation" [justify]="currentJustify" (tabChange)="setActiveTab($event)">
+
+    <ngb-tab title="{{idx}}" id="tab-Product{{idx}}" *ngFor="let shipping of shippings; let idx = index;">
+        <ng-template ngbTabContent>
+            <div class="row backgroundWhite">
+                <div class="col-sm-12 p-2">
+                    {{idx}}
+                    <div [formGroup]="profileFG1" [ngClass]="{'show': step==1, 'hide': step!==1 }">
+                        <label class="control-label" [ngClass]="displayFieldCss(profileFG1.controls.profileImage)">Business Logo</label>
+                        <div class="form-group">
+                            <div class="draglogo p-3 text-center">
+                                <div class=" text-center">Drag your Logo here</div>
+                                or
+                                <input formControlName="profileImage" (change)="fileChangeEvent($event, profileFG1)" type="file" class="form-control uploadImage" />
+                            </div>
+                            <app-field-error-display [field]="profileFG1.controls.profileImage" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" [ngClass]="displayFieldCss(profileFG1.controls.businessName)">Business name</label>
+                            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="businessName">
+                            <app-field-error-display [field]="profileFG1.controls.businessName" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" [ngClass]="displayFieldCss(profileFG1.controls.tin)">DNB/TIN</label>
+                            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="tin">
+                            <!--Validation-->
+                            <app-field-error-display [field]="profileFG1.controls.tin" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                            <!--Validation-->
+
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" [ngClass]="displayFieldCss(profileFG1.controls.businessSummary)">Business summary </label>
+                            <small class="float-right">300 characters left</small>
+                            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="businessSummary">
+                            <!--Validation-->
+                            <app-field-error-display [field]="profileFG1.controls.businessSummary" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                            <!--Validation-->
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" [ngClass]="displayFieldCss(profileFG1.controls.bussines_address)">Business Address</label>
+                            <input type="text" class="form-control" aria-describedby=" " placeholder="Address line 1" pattern formControlName="bussines_address">
+                            <!--Validation-->
+                            <app-field-error-display [field]="profileFG1.controls.bussines_address" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                            <!--Validation-->
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" aria-describedby=" " placeholder="Address line 2.(optional)" pattern formControlName="bussines_address2">
+                            <!--Validation-->
+                            <app-field-error-display [field]="profileFG1.controls.bussines_address2" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                            <!--Validation-->
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" aria-describedby=" " placeholder="City" pattern formControlName="city">
+                            <!--Validation-->
+                            <app-field-error-display [field]="profileFG1.controls.city" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                            <!--Validation-->
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" aria-describedby="" placeholder="State" pattern formControlName="state">
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="profileFG1.controls.state" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" aria-describedby="" placeholder="Zipcode" pattern formControlName="zipcode">
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="profileFG1.controls.zipcode" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" aria-describedby="" placeholder="Email" pattern formControlName="email">
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="profileFG1.controls.email" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" aria-describedby="" placeholder="Phone number" pattern formControlName="phone_number">
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="profileFG1.controls.phone_number" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label class="control-label" [ngClass]="displayFieldCss(profileFG1.controls.sellerTypeId)">Seller Type</label>
+                                <select class="ddl_default w-100 form-control" formControlName="sellerTypeId">
+                                    <option>Select Seller Type</option>
+                                    <option *ngFor="let option of sellerTypes" value="{{option.id}}">
+                                        {{option.value}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div [formGroup]="profileFG2" [ngClass]="{'show': step==2, 'hide': step!==2  }">
+                        <h5>Website details</h5>
+                        <div class="form-group">
+                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Website URL(optional) e.g.www.mykala.com" pattern formControlName="websiteUrl">
+                            <!--Validation-->
+                            <app-field-error-display [field]="profileFG2.controls.websiteUrl" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                            <!--Validation-->
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Username for acct. login (optional)" pattern formControlName="websiteUserName">
+                            <!--Validation-->
+                            <app-field-error-display [field]="profileFG2.controls.websiteUserName" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                            <!--Validation-->
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Password for acct. login (optional)" pattern formControlName="websitePassword">
+                            <!--Validation-->
+                            <app-field-error-display [field]="profileFG2.controls.websitePassword" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                            <!--Validation-->
+                        </div>
+                        <hr />
+                        <h5>Primary account contact</h5>
+                        <div class="form-group">
+                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Name" pattern formControlName="contact_name">
+                            <!--Validation-->
+                            <app-field-error-display [field]="profileFG2.controls.contact_name" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                            <!--Validation-->
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Position" pattern formControlName="contact_position">
+                            <!--Validation-->
+                            <app-field-error-display [field]="profileFG2.controls.contact_position" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                            <!--Validation-->
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Address line 1" pattern formControlName="contact_address1">
+                            <!--Validation-->
+                            <app-field-error-display [field]="profileFG2.controls.contact_address1" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                            <!--Validation-->
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Address line 2.(optional)" pattern formControlName="contact_address2">
+                            <!--Validation-->
+                            <app-field-error-display [field]="profileFG2.controls.contact_address2" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                            <!--Validation-->
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="City" pattern formControlName="contact_city">
+                            <!--Validation-->
+                            <app-field-error-display [field]="profileFG2.controls.contact_city" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                            <!--Validation-->
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="State" pattern formControlName="contact_state">
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="profileFG2.controls.contact_state" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Zipcode" pattern formControlName="contact_zipcode">
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="profileFG2.controls.contact_zipcode" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Email" pattern formControlName="contact_email">
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="profileFG2.controls.contact_email" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Phone number" pattern formControlName="contact_phone_number">
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="profileFG2.controls.contact_phone_number" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <a (click)="profileInfoBack()" class="ancDefault">back</a>
+                        </div>
+                        <div class="col-sm-6 text-right" *ngIf="step==1">
+                            <a class="btn btn-default ancProfile1" (click)="profileInfoNext()">Next</a>
+                        </div>
+                        <div class="col-sm-6 text-right" *ngIf="step==2">
+                            <a class="btn btn-default ancProfile1" (click)="profileInfoSave();">Save & Next</a>
+                            <img src="/admin-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="profileSaveloader" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
+            </div>
+        </ng-template>
+    </ngb-tab>
+</ngb-tabset>
+
+<div id="menu3" class="tab-pane fade">
+    <div class="row">
+        <div class="col-sm-8 p-2 shippingTabs">
+            <!-- Tab panes -->
+            <div class="tab-content backgroundWhite">
+                <div role="tabpanel" class="tab-pane fade in active show" id="profile">
+                    <div class="col-sm-12 p-3">
+                        <div class="divshipping1">
+                            <p>Profile name</p>
+                            <p>
+                                <input type="text" class="form-control" aria-describedby="" placeholder="">
+                            </p>
+                            <p>Delivery - Base options</p>
+                            <ul class="list-unstyled">
+                                <li>
+                                    <input type="radio" /> Free shipping</li>
+                                <li>
+                                    <input type="radio" /> Flat rate - single rate for all orders</li>
+                                <li>
+                                    <input type="radio" /> Price based</li>
+                                <li>
+                                    <input type="radio" /> Weight based</li>
+                                <li>
+                                    <input type="radio" /> Size based</li>
+                            </ul>
+                            <div class="col-sm-12">
+                                <div class="row border_outline">
+                                    <div class="col-sm-8 p-3">
+                                        <strong>Letter</strong>
+                                        <div>Minimum: 5” long, 3 ½” high, and 0.007” thick Maximum: 11-1/2” long, 6-1/8” high, and ¼” thick</div>
+                                    </div>
+                                    <div class="col-sm-4 text-center">
+                                        <img src="images/icon_letter.png" />
+                                    </div>
+                                </div>
+                                <div class="row border_outline">
+                                    <div class="col-sm-8 p-3">
+                                        <strong>Small</strong>
+                                        <div>Max. Size: Length + (2 x Width) + (2 x Height)
+                                            <=2 8”</div>
+                                        </div>
+                                        <div class="col-sm-4 text-center">
+                                            <img src="images/icon_small.png" />
+                                        </div>
+                                    </div>
+                                    <div class="row border_outline">
+                                        <div class="col-sm-8 p-3">
+                                            <strong>Medium</strong>
+                                            <div>Max. Size: Length + (2 x Width) + (2 x Height) > 28”,
+                                                <=8 4”</div>
+                                            </div>
+                                            <div class="col-sm-4 text-center">
+                                                <img src="images/icon_medium.png" />
+                                            </div>
+                                        </div>
+                                        <div class="row border_outline">
+                                            <div class="col-sm-8 p-3">
+                                                <strong>Large</strong>
+                                                <div>Max. Size: Length + (2 x Width) + (2 x Height) > 84”,
+                                                    <=1 65”</div>
+                                                </div>
+                                                <div class="col-sm-4 text-center">
+                                                    <img src="images/icon_Large.png" />
+                                                </div>
+                                            </div>
+                                            <div class="row border_outline">
+                                                <div class="col-sm-8 p-3">
+                                                    <strong>Oversized</strong>
+                                                    <div>Max. Size: Length + (2 x Width) + (2 x Height) > 165”</div>
+                                                </div>
+                                                <div class="col-sm-4 text-center">
+                                                    <img src="images/icon_oversize.png" />
+                                                </div>
+                                            </div>
+                                            <div class="row border_outline p-3 my-3">
+                                                <strong>Irregular</strong>
+                                                Assumes shipment can’t be sorted with mail processing equipment due to size, shape, or content issues. The longest side of the package is over 60 inches or the second longest side is over 30 inches. The package is encased in an external shipping container made of metal or wood. The package is a cylindrical item, such as a barrel, drum, pail, or tire that isn't fully encased in a corrugated cardboard shipping container.
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <a href="#" class="ancBackshipping0">Back</a>
+                                            </div>
+                                            <div class="col-sm-6 text-right">
+                                                <a class="btn btn-default ancshipping1" href="#">Next</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="divshipping2">
+                                        <div class="row m-0 shippingdelivery">
+                                            <div id="accordion" role="tablist" aria-multiselectable="true">
+                                                <div class="card">
+                                                    <h5>Available shipping methods</h5>
+                                                    <div class="card-header" role="tab" id="headingOne">
+                                                        <h5 class="mb-0">
+                                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                                Next day: 1 business day shipping
+                                                            </a>
+                                                        </h5>
+                                                    </div>
+                                                    <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+                                                        <div class="card-block pt-0">
+                                                            <div class="col-sm-12">
+                                                                <div class="row">
+                                                                    <div class="col-sm-6 p-2">
+                                                                        <input type="checkbox" /> Letter
+                                                                        <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
+                                                                        <div class="col-sm-12">
+                                                                            <div class="input-group">
+                                                                                <span class="input-group-addon" id="basic-addon1">$</span>
+                                                                                <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-6 p-2">
+                                                                        <input type="checkbox" /> Small
+                                                                        <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
+                                                                        <div class="col-sm-12">
+                                                                            <div class="input-group">
+                                                                                <span class="input-group-addon" id="basic-addon1">$</span>
+                                                                                <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-6 p-2">
+                                                                        <input type="checkbox" /> Letter
+                                                                        <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
+                                                                        <div class="col-sm-12">
+                                                                            <div class="input-group">
+                                                                                <span class="input-group-addon" id="basic-addon1">$</span>
+                                                                                <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-6 p-2">
+                                                                        <input type="checkbox" /> Medium
+                                                                        <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
+                                                                        <div class="col-sm-12">
+                                                                            <div class="input-group">
+                                                                                <span class="input-group-addon" id="basic-addon1">$</span>
+                                                                                <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-6 p-2">
+                                                                        <input type="checkbox" /> Letter
+                                                                        <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
+                                                                        <div class="col-sm-12">
+                                                                            <div class="input-group">
+                                                                                <span class="input-group-addon" id="basic-addon1">$</span>
+                                                                                <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-6 p-2">
+                                                                        <input type="checkbox" /> Large
+                                                                        <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
+                                                                        <div class="col-sm-12">
+                                                                            <div class="input-group">
+                                                                                <span class="input-group-addon" id="basic-addon1">$</span>
+                                                                                <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-6 p-2">
+                                                                        <input type="checkbox" /> Oversized
+                                                                        <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
+                                                                        <div class="col-sm-12">
+                                                                            <div class="input-group">
+                                                                                <span class="input-group-addon" id="basic-addon1">$</span>
+                                                                                <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-6 p-2">
+                                                                        <input type="checkbox" /> Irregular
+                                                                        <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
+                                                                        <div class="col-sm-12">
+                                                                            <div class="input-group">
+                                                                                <span class="input-group-addon" id="basic-addon1">$</span>
+                                                                                <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-6 p-2">
+                                                                        <input type="checkbox" /> Any
+                                                                        <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
+                                                                        <div class="col-sm-12">
+                                                                            <div class="input-group">
+                                                                                <span class="input-group-addon" id="basic-addon1">$</span>
+                                                                                <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card">
+                                                    <div class="card-header" role="tab" id="headingTwo">
+                                                        <h5 class="mb-0">
+                                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                                2 day: 2 business day shipping
+                                                            </a>
+                                                        </h5>
+                                                    </div>
+                                                    <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                                        <div class="card-block pt-0">
+                                                            <div class="col-sm-12">
+                                                                <div class="row">
+                                                                    <div class="col-sm-6 p-2">
+                                                                        <input type="checkbox" /> Letter
+                                                                        <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
+                                                                        <div class="col-sm-12">
+                                                                            <div class="input-group">
+                                                                                <span class="input-group-addon" id="basic-addon1">$</span>
+                                                                                <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-6 p-2">
+                                                                        <input type="checkbox" /> Small
+                                                                        <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
+                                                                        <div class="col-sm-12">
+                                                                            <div class="input-group">
+                                                                                <span class="input-group-addon" id="basic-addon1">$</span>
+                                                                                <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-6 p-2">
+                                                                        <input type="checkbox" /> Letter
+                                                                        <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
+                                                                        <div class="col-sm-12">
+                                                                            <div class="input-group">
+                                                                                <span class="input-group-addon" id="basic-addon1">$</span>
+                                                                                <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-6 p-2">
+                                                                        <input type="checkbox" /> Medium
+                                                                        <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
+                                                                        <div class="col-sm-12">
+                                                                            <div class="input-group">
+                                                                                <span class="input-group-addon" id="basic-addon1">$</span>
+                                                                                <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-6 p-2">
+                                                                        <input type="checkbox" /> Letter
+                                                                        <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
+                                                                        <div class="col-sm-12">
+                                                                            <div class="input-group">
+                                                                                <span class="input-group-addon" id="basic-addon1">$</span>
+                                                                                <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-6 p-2">
+                                                                        <input type="checkbox" /> Large
+                                                                        <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
+                                                                        <div class="col-sm-12">
+                                                                            <div class="input-group">
+                                                                                <span class="input-group-addon" id="basic-addon1">$</span>
+                                                                                <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-6 p-2">
+                                                                        <input type="checkbox" /> Oversized
+                                                                        <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
+                                                                        <div class="col-sm-12">
+                                                                            <div class="input-group">
+                                                                                <span class="input-group-addon" id="basic-addon1">$</span>
+                                                                                <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-6 p-2">
+                                                                        <input type="checkbox" /> Irregular
+                                                                        <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
+                                                                        <div class="col-sm-12">
+                                                                            <div class="input-group">
+                                                                                <span class="input-group-addon" id="basic-addon1">$</span>
+                                                                                <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-6 p-2">
+                                                                        <input type="checkbox" /> Any
+                                                                        <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
+                                                                        <div class="col-sm-12">
+                                                                            <div class="input-group">
+                                                                                <span class="input-group-addon" id="basic-addon1">$</span>
+                                                                                <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card">
+                                                    <div class="card-header" role="tab" id="headingThree">
+                                                        <h5 class="mb-0">
+                                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                                3 day: 5 business day
+                                                            </a>
+                                                        </h5>
+                                                    </div>
+                                                    <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
+                                                        <div class="card-block pt-0">
+                                                            <div class="col-sm-12">
+                                                                <div class="row">
+                                                                    <div class="col-sm-6  p-3">
+                                                                        <input type="checkbox" /> Letter
+                                                                        <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
+                                                                        <div class="col-sm-12">
+                                                                            <div class="input-group">
+                                                                                <span class="input-group-addon" id="basic-addon1">$</span>
+                                                                                <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-6  p-3">
+                                                                        <input type="checkbox" /> Small
+                                                                        <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
+                                                                        <div class="col-sm-12">
+                                                                            <div class="input-group">
+                                                                                <span class="input-group-addon" id="basic-addon1">$</span>
+                                                                                <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-6 p-2">
+                                                                        <input type="checkbox" /> Letter
+                                                                        <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
+                                                                        <div class="col-sm-12">
+                                                                            <div class="input-group">
+                                                                                <span class="input-group-addon" id="basic-addon1">$</span>
+                                                                                <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-6 p-2">
+                                                                        <input type="checkbox" /> Medium
+                                                                        <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
+                                                                        <div class="col-sm-12">
+                                                                            <div class="input-group">
+                                                                                <span class="input-group-addon" id="basic-addon1">$</span>
+                                                                                <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-612 p-2">
+                                                                        <input type="checkbox" /> Letter
+                                                                        <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
+                                                                        <div class="col-sm-12">
+                                                                            <div class="input-group">
+                                                                                <span class="input-group-addon" id="basic-addon1">$</span>
+                                                                                <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-6 p-2">
+                                                                        <input type="checkbox" /> Large
+                                                                        <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
+                                                                        <div class="col-sm-12">
+                                                                            <div class="input-group">
+                                                                                <span class="input-group-addon" id="basic-addon1">$</span>
+                                                                                <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-6 p-2">
+                                                                        <input type="checkbox" /> Oversized
+                                                                        <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
+                                                                        <div class="col-sm-12">
+                                                                            <div class="input-group">
+                                                                                <span class="input-group-addon" id="basic-addon1">$</span>
+                                                                                <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-6 p-2">
+                                                                        <input type="checkbox" /> Irregular
+                                                                        <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
+                                                                        <div class="col-sm-12">
+                                                                            <div class="input-group">
+                                                                                <span class="input-group-addon" id="basic-addon1">$</span>
+                                                                                <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-6 p-2">
+                                                                        <input type="checkbox" /> Any
+                                                                        <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
+                                                                        <div class="col-sm-12">
+                                                                            <div class="input-group">
+                                                                                <span class="input-group-addon" id="basic-addon1">$</span>
+                                                                                <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card">
+                                                    <div class="card-header" role="tab" id="headingFour">
+                                                        <h5 class="mb-0">
+                                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                                                Standard: 5 to 8 business days
+                                                            </a>
+                                                        </h5>
+                                                    </div>
+                                                    <div id="collapseFour" class="collapse" role="tabpanel" aria-labelledby="headingFour">
+                                                        <div class="card-block pt-0">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <a href="#" class="ancBackShipping1">Back</a>
+                                            </div>
+                                            <div class="col-sm-6 text-right">
+                                                <a class="btn btn-default ancshipping2" href="#">Next</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="divshipping3">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div>Allowable shipping destinations</div>
+                                                <div>
+                                                    <select class="ddl_default">
+                                                        <option>United States</option>
+                                                        <option>India</option>
+                                                        <option>China</option>
+                                                        <option>Mexico</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-12  p-3">
+                                                    <input type="checkbox" /> Continental US
+                                                    <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
+                                                    <div class="col-sm-12">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon" id="basic-addon1">$</span>
+                                                            <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12  p-3">
+                                                    <input type="checkbox" /> Alaska and Hawaii
+                                                    <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
+                                                    <div class="col-sm-12">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon" id="basic-addon1">$</span>
+                                                            <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12  p-3">
+                                                    <input type="checkbox" /> US Protectorates
+                                                    <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
+                                                    <div class="col-sm-12">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon" id="basic-addon1">$</span>
+                                                            <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <div>Handling cost</div>
+                                                    <div class="col-sm-12">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon" id="basic-addon1">$</span>
+                                                            <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <a href="#" class=" ancbackshipping2">Back</a>
+                                            </div>
+                                            <div class="col-sm-6 text-right">
+                                                <a class="btn btn-default ancadmin4" href="#ancadmin4">Next</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane fade" id="buzz">test1</div>
+                            <div role="tabpanel" class="tab-pane fade" id="references">test2</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 pl-2 pr-2"></div>
+                </div>
+
+            </div>
