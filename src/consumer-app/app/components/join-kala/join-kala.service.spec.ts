@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { JoinKalaService } from './join-kala.service';
+import { JoinKalaService } from '../../services/join-kala.service';
 
 describe('JoinKalaService', () => {
   beforeEach(() => {

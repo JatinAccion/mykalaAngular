@@ -29,10 +29,10 @@ import { cuiDirective } from './components/conversational/cui.directive';
 import { cListComponent } from './components/conversational/cList.component';
 import { JoinKalaComponent } from './components/join-kala/join-kala.component';
 import { ProfileInfoComponent } from './components/profile-info/profile-info.component';
-import { JoinKalaService } from './components/join-kala/join-kala.service';
-import { ProfileInfoService } from './components/profile-info/profile-info.service';
+import { JoinKalaService } from '../app/services/join-kala.service';
+import { ProfileInfoService } from '../app/services//profile-info.service';
 import { ThankMessageComponent } from './components/thank-message/thank-message.component';
-import { VerificationService } from './components/thank-message/verification.service';
+import { VerificationService } from '../app/services/verification.service';
 
 @NgModule({
   declarations: [
