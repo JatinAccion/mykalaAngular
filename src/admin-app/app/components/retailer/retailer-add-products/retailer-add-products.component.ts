@@ -16,12 +16,12 @@ import { IAlert, hasRequiredField } from '../retailer-add/retailer-add.component
 import { environment } from '../../../../environments/environment';
 
 @Component({
-  selector: 'app-retailer-add-shipping',
-  templateUrl: './retailer-add-shipping.component.html',
+  selector: 'app-retailer-add-products',
+  templateUrl: './retailer-add-products.component.html',
   styleUrls: ['./../retailer.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class RetailerAddShippingComponent implements OnInit {
+export class RetailerAddProductsComponent implements OnInit {
   // #region declarations
   currentOrientation = 'horizontal';
   currentJustify = 'start';

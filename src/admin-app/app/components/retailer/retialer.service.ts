@@ -115,6 +115,16 @@ export class RetialerService {
         .catch(this.handleError);
     }
   }
+
+  saveShipping(retailerProfileInfo: RetailerProfileInfo): Promise<any> {
+    this.headers = this.getHttpHeraders();
+    const url = `${this.BASE_URL}/${environment.apis.retailerProfileInfo.save}`;
+    return this.http
+      .post(url, retailerProfileInfo, { headers: this.headers })
+      .toPromise()
+      .catch(this.handleError);
+  }
+
   private handleError(error: Response) {
     // in a real world app, we may send the server to some remote logging infrastructure
     // instead of just logging it to the console

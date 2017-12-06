@@ -391,9 +391,12 @@
             <ngb-tab title="Product info" id="tab-Product">
                 <ng-template ngbTabContent>
                     <div class="row backgroundWhite">
-                        <div class="col-sm-12 p-2">
-                        </div>
-                        <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
+                            <div class="row backgroundWhite">
+                                    <div class="col-sm-12 p-2">
+                                        <app-retailer-add-products></app-retailer-add-products>
+                                    </div>
+                                    <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
+                                </div>
                     </div>
                 </ng-template>
             </ngb-tab>
@@ -409,12 +412,22 @@
             </ngb-tab>
             <ngb-tab title="Return and Exchange policy" id="tab-Return">
                 <ng-template ngbTabContent>
-                    <div class="row backgroundWhite"></div>
+                        <div class="row backgroundWhite">
+                                <div class="col-sm-12 p-2">
+                                    <app-retailer-add-returns></app-retailer-add-returns>
+                                </div>
+                                <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
+                            </div>
                 </ng-template>
             </ngb-tab>
             <ngb-tab title="Notifications" id="tab-Notifications">
                 <ng-template ngbTabContent>
-                    <div class="row backgroundWhite"></div>
+                        <div class="row backgroundWhite">
+                                <div class="col-sm-12 p-2">
+                                    <app-retailer-add-notifications></app-retailer-add-notifications>
+                                </div>
+                                <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
+                            </div>
                 </ng-template>
             </ngb-tab>
         </ngb-tabset>
