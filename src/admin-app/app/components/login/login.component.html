@@ -5,13 +5,12 @@
     <div class="form-signin">
         <h4>log into admin portal</h4>
         <div class="form-group">
-            <input pattern formControlName="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" 
-                placeholder="Email">
+            <input pattern formControlName="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email">
 
             <!--Validation-->
             <div *ngIf="loginKala.controls.email.dirty || loginKala.controls.email.touched">
-                <div *ngIf="!loginKala.controls.email.value" class="alert alert-danger errorMessages">Please enter the email</div>
-                <div *ngIf="loginKala.controls.email.value && loginKala.controls.email.errors" class="alert alert-danger errorMessages">Please enter the valid Username</div>
+                <div *ngIf="!loginKala.controls.email.value" class="alert alert-danger errorMessages">{{loginInputValidations.usernameRequired}}</div>
+                <div *ngIf="loginKala.controls.email.value && loginKala.controls.email.errors" class="alert alert-danger errorMessages">{{loginInputValidations.usernameInvalid}}</div>
             </div>
             <!--Validation-->
 
@@ -22,8 +21,7 @@
             <!--Validation-->
             <div *ngIf="loginKala.controls.password.dirty || loginKala.controls.password.touched">
                 <div *ngIf="!loginKala.controls.password.value" class="alert alert-danger errorMessages">Please enter the password</div>
-                <div *ngIf="loginKala.controls.password.value && !loginKala.controls.password.pattern && loginKala.controls.password.errors"
-                    class="alert alert-danger errorMessages">
+                <div *ngIf="loginKala.controls.password.value && !loginKala.controls.password.pattern && loginKala.controls.password.errors" class="alert alert-danger errorMessages">
                     Password length must be minimum 8 characters, 1 uppercase character, 1 lowercase character, 1 number, 1 special character
                 </div>
             </div>
@@ -39,5 +37,5 @@
     <hr />
     <div class="clearfix col-sm-12 text-center">
         <button type="button" class=" btn-nml width25" [ngClass]="{'btn disabled': !loginKala.valid  }" [disabled]="!loginKala.valid && loginKala.touched" (click)="onLogin()">log in</button>
-    </div> 
-</div>  
+    </div>
+</div>

@@ -6,193 +6,111 @@
             <div class="row backgroundWhite">
                 <div class="col-sm-12 p-2">
                     {{idx}}
-                    <div [formGroup]="profileFG1" [ngClass]="{'show': step==1, 'hide': step!==1 }">
-                        <label class="control-label" [ngClass]="displayFieldCss(profileFG1.controls.profileImage)">Business Logo</label>
+                    <div [formGroup]="shippingFG1" [ngClass]="{'show': step==1, 'hide': step!==1 }">
                         <div class="form-group">
-                            <div class="draglogo p-3 text-center">
-                                <div class=" text-center">Drag your Logo here</div>
-                                or
-                                <input formControlName="profileImage" (change)="fileChangeEvent($event, profileFG1)" type="file" class="form-control uploadImage" />
-                            </div>
-                            <app-field-error-display [field]="profileFG1.controls.profileImage" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                            <label class="control-label" [ngClass]="displayFieldCss(shippingFG1.controls.profileName)">Profile name</label>
+                            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="profileName">
+                            <app-field-error-display [field]="shippingFG1.controls.profileName" [errorMsg]="errorMsgs"> </app-field-error-display>
                         </div>
                         <div class="form-group">
-                            <label class="control-label" [ngClass]="displayFieldCss(profileFG1.controls.businessName)">Business name</label>
-                            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="businessName">
-                            <app-field-error-display [field]="profileFG1.controls.businessName" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label" [ngClass]="displayFieldCss(profileFG1.controls.tin)">DNB/TIN</label>
-                            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="tin">
+                            <label class="control-label" [ngClass]="displayFieldCss(shippingFG1.controls.deliveryOptions)">Delivery - Base options</label>
+                            <ul class="list-unstyled">
+                                <li>
+                                    <input type="radio" formControlName="deliveryOptions" value="0" name="deliveryOptions" /> Free shipping</li>
+                                <li>
+                                    <input type="radio" formControlName="deliveryOptions" value="1" name="deliveryOptions" /> Flat rate - single rate for all orders</li>
+                                <li>
+                                    <input type="radio" formControlName="deliveryOptions" value="2" name="deliveryOptions" /> Price based</li>
+                                <li>
+                                    <input type="radio" formControlName="deliveryOptions" value="3" name="deliveryOptions" /> Weight based</li>
+                                <li>
+                                    <input type="radio" formControlName="deliveryOptions" value="4" name="deliveryOptions" /> Size based</li>
+                            </ul>
+
                             <!--Validation-->
-                            <app-field-error-display [field]="profileFG1.controls.tin" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                            <app-field-error-display [field]="shippingFG1.controls.deliveryOptions" [errorMsg]="errorMsgs"> </app-field-error-display>
                             <!--Validation-->
 
                         </div>
-                        <div class="form-group">
-                            <label class="control-label" [ngClass]="displayFieldCss(profileFG1.controls.businessSummary)">Business summary </label>
-                            <small class="float-right">300 characters left</small>
-                            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="businessSummary">
-                            <!--Validation-->
-                            <app-field-error-display [field]="profileFG1.controls.businessSummary" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
-                            <!--Validation-->
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label" [ngClass]="displayFieldCss(profileFG1.controls.bussines_address)">Business Address</label>
-                            <input type="text" class="form-control" aria-describedby=" " placeholder="Address line 1" pattern formControlName="bussines_address">
-                            <!--Validation-->
-                            <app-field-error-display [field]="profileFG1.controls.bussines_address" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
-                            <!--Validation-->
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" aria-describedby=" " placeholder="Address line 2.(optional)" pattern formControlName="bussines_address2">
-                            <!--Validation-->
-                            <app-field-error-display [field]="profileFG1.controls.bussines_address2" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
-                            <!--Validation-->
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" aria-describedby=" " placeholder="City" pattern formControlName="city">
-                            <!--Validation-->
-                            <app-field-error-display [field]="profileFG1.controls.city" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
-                            <!--Validation-->
+                        *
+                        <span [ngSwitch]="shippingFG1.values.deliveryOptions">
+                            <div *ngSwitchCase="0">
 
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" aria-describedby="" placeholder="State" pattern formControlName="state">
-                                    <!--Validation-->
-                                    <app-field-error-display [field]="profileFG1.controls.state" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
-                                    <!--Validation-->
-                                </div>
                             </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" aria-describedby="" placeholder="Zipcode" pattern formControlName="zipcode">
-                                    <!--Validation-->
-                                    <app-field-error-display [field]="profileFG1.controls.zipcode" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
-                                    <!--Validation-->
-                                </div>
+                            <div *ngSwitchCase="1">
+
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" aria-describedby="" placeholder="Email" pattern formControlName="email">
-                                    <!--Validation-->
-                                    <app-field-error-display [field]="profileFG1.controls.email" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
-                                    <!--Validation-->
-                                </div>
+                            <div *ngSwitchCase="2">
+                                    <div class="priceBased deliveryDetails" style="">
+                                            <div class="col-sm-12 text-right"><a href="#">Add Tire +</a></div>
+                                            <div class="row border_outline m-3 p-2"> 
+                                                <div class="col-sm-3">
+                                                    Tier 1
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div>Min. Price</div>
+                                                    <div>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon" id="basic-addon1">$</span>
+                                                            <input class="form-control" placeholder="" aria-describedby="basic-addon1" type="text">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-1 pt-4">
+                                                    To
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div>Max. Price</div>
+                                                    <div>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon" id="basic-addon1">$</span>
+                                                            <input class="form-control" placeholder="" aria-describedby="basic-addon1" type="text">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                             </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" aria-describedby="" placeholder="Phone number" pattern formControlName="phone_number">
-                                    <!--Validation-->
-                                    <app-field-error-display [field]="profileFG1.controls.phone_number" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
-                                    <!--Validation-->
-                                </div>
+                            <div *ngSwitchCase="3">
+                                3
+                                    <div class="priceBased deliveryDetails" style="">
+                                            <div class="col-sm-12 text-right"><a href="#">Add Tire +</a></div>
+                                            <div class="row border_outline m-3 p-2"> 
+                                                <div class="col-sm-3">
+                                                    Tier 1
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div>Min. Price</div>
+                                                    <div>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon" id="basic-addon1">$</span>
+                                                            <input class="form-control" placeholder="" aria-describedby="basic-addon1" type="text">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-1 pt-4">
+                                                    To
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div>Max. Price</div>
+                                                    <div>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon" id="basic-addon1">$</span>
+                                                            <input class="form-control" placeholder="" aria-describedby="basic-addon1" type="text">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <label class="control-label" [ngClass]="displayFieldCss(profileFG1.controls.sellerTypeId)">Seller Type</label>
-                                <select class="ddl_default w-100 form-control" formControlName="sellerTypeId">
-                                    <option>Select Seller Type</option>
-                                    <option *ngFor="let option of sellerTypes" value="{{option.id}}">
-                                        {{option.value}}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
+                            <div *ngSwitchCase="4">
+
+                            </div>                          
+                        </span>
+                        
                     </div>
-                    <div [formGroup]="profileFG2" [ngClass]="{'show': step==2, 'hide': step!==2  }">
-                        <h5>Website details</h5>
-                        <div class="form-group">
-                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Website URL(optional) e.g.www.mykala.com" pattern formControlName="websiteUrl">
-                            <!--Validation-->
-                            <app-field-error-display [field]="profileFG2.controls.websiteUrl" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
-                            <!--Validation-->
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Username for acct. login (optional)" pattern formControlName="websiteUserName">
-                            <!--Validation-->
-                            <app-field-error-display [field]="profileFG2.controls.websiteUserName" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
-                            <!--Validation-->
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Password for acct. login (optional)" pattern formControlName="websitePassword">
-                            <!--Validation-->
-                            <app-field-error-display [field]="profileFG2.controls.websitePassword" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
-                            <!--Validation-->
-                        </div>
-                        <hr />
-                        <h5>Primary account contact</h5>
-                        <div class="form-group">
-                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Name" pattern formControlName="contact_name">
-                            <!--Validation-->
-                            <app-field-error-display [field]="profileFG2.controls.contact_name" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
-                            <!--Validation-->
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Position" pattern formControlName="contact_position">
-                            <!--Validation-->
-                            <app-field-error-display [field]="profileFG2.controls.contact_position" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
-                            <!--Validation-->
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Address line 1" pattern formControlName="contact_address1">
-                            <!--Validation-->
-                            <app-field-error-display [field]="profileFG2.controls.contact_address1" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
-                            <!--Validation-->
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Address line 2.(optional)" pattern formControlName="contact_address2">
-                            <!--Validation-->
-                            <app-field-error-display [field]="profileFG2.controls.contact_address2" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
-                            <!--Validation-->
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="City" pattern formControlName="contact_city">
-                            <!--Validation-->
-                            <app-field-error-display [field]="profileFG2.controls.contact_city" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
-                            <!--Validation-->
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="State" pattern formControlName="contact_state">
-                                    <!--Validation-->
-                                    <app-field-error-display [field]="profileFG2.controls.contact_state" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
-                                    <!--Validation-->
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Zipcode" pattern formControlName="contact_zipcode">
-                                    <!--Validation-->
-                                    <app-field-error-display [field]="profileFG2.controls.contact_zipcode" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
-                                    <!--Validation-->
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Email" pattern formControlName="contact_email">
-                                    <!--Validation-->
-                                    <app-field-error-display [field]="profileFG2.controls.contact_email" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
-                                    <!--Validation-->
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Phone number" pattern formControlName="contact_phone_number">
-                                    <!--Validation-->
-                                    <app-field-error-display [field]="profileFG2.controls.contact_phone_number" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
-                                    <!--Validation-->
-                                </div>
-                            </div>
-                        </div>
+                    <div [formGroup]="shippingFG2" [ngClass]="{'show': step==2, 'hide': step!==2  }">
+                       
                     </div>
                     <hr />
                     <div class="row">

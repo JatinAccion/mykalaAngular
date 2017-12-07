@@ -5,6 +5,7 @@ import { CoreService } from '../../services/core.service';
 import { User } from '../../../../models/user';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { LocalStorageService } from '../../services/LocalStorage.service';
+import { loginMessages, loginInputValidations } from './login.messages';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,8 @@ export class LoginComponent implements OnInit {
   passwordRegex = new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$');
   usernameRegex = new RegExp('^[a-zA-Z0-9_.-]*$');
   user: User = new User();
+  loginMessages = loginMessages;
+  loginInputValidations = loginInputValidations;
   @Input() hideNavi: string;
   constructor(private formBuilder: FormBuilder,
     private router: Router,

@@ -11,7 +11,6 @@ import { RetailerProfileInfo } from '../../../../models/retailer-profile-info';
 import { Observable } from 'rxjs/Observable';
 import { Retailer, RetailerReports } from '../../../../models/retailer';
 import { LocalStorageService } from '../../services/LocalStorage.service';
-import { tokenKey } from '@angular/core/src/view/util';
 import { nameValue } from '../../../../models/nameValue';
 import { RetailerPaymentInfo } from '../../../../models/retailer-payment-info';
 

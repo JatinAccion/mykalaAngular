@@ -3,7 +3,7 @@ export const apiNames = {
         login: 'login',
         register: 'register',
         status: 'status',
-        token: 'auth/oauth/token'
+        token: 'oauth/token'
     },
     retailers: {
         get: 'retailer/allRetailers',
@@ -21,8 +21,7 @@ export const apiNames = {
         delete: 'delete',
     }
 };
-
-export const regexPatterns = {
-    numberRegex: new RegExp('^[0-9_.-]*$'),
-    textRegex: new RegExp('^[a-zA-Z 0-9_.-]*$'),
+export const commonMessages = {
+    error404: 'Server is not available',
 };
+
