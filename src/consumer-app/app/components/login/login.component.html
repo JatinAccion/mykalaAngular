@@ -1,17 +1,49 @@
-<div class="row">
-  <div class="col-md-4">
-    <h1>Login</h1>
-    <hr><br>
-    <form (ngSubmit)="onLogin()" novalidate>
-     <div class="form-group">
-       <label for="email">Email</label>
-       <input type="text" class="form-control" id="email" placeholder="enter email" [(ngModel)]="user.email" name="email" required>
-     </div>
-     <div class="form-group">
-       <label for="password">Password</label>
-       <input type="password" class="form-control" id="password" placeholder="enter password" [(ngModel)]="user.password" name="password" required>
-     </div>
-     <button type="submit" class="btn btn-default">Submit</button>
-    </form>
-  </div>
+<div style="height:120px;width:100%;"></div>
+<div class="title">
+  <h2>Join Kala</h2>
+</div>
+<div class="col-sm-12 join_layout">
+  <form [formGroup]="loginKala">
+    <div class="join_content">
+      <h4 class="subtitle">login</h4>
+
+      <div class="form-group">
+        <input pattern formControlName="email" type="email" class="form-control" aria-describedby="emailHelp" placeholder="Email">
+
+        <!--Validation-->
+        <div *ngIf="loginKala.controls.email.dirty || loginKala.controls.email.touched">
+          <div *ngIf="!loginKala.controls.email.value" class="alert alert-danger errorMessages">{{loginInputValMsg.emailRequired}}</div>
+          <div *ngIf="loginKala.controls.email.value && loginKala.controls.email.errors" class="alert alert-danger errorMessages">{{loginInputValMsg.validEmail}}</div>
+        </div>
+        <!--Validation-->
+
+      </div>
+
+      <div class="form-group">
+        <input formControlName="password" type="password" class="form-control" placeholder="Password">
+
+        <!--Validation-->
+        <div *ngIf="loginKala.controls.password.dirty || loginKala.controls.password.touched">
+          <div *ngIf="!loginKala.controls.password.value" class="alert alert-danger errorMessages">{{loginInputValMsg.passwordRequired}}</div>
+        </div>
+        <!--Validation-->
+
+      </div>
+
+      <div class="form-check">
+        <label class="form-check-label">
+          <input type="checkbox" formControlName="remember" class="form-check-input"> remember me
+        </label>
+      </div>
+
+      <!--Loader-->
+      <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="loader" />
+      <!--Loader-->
+    </div>
+    <hr />
+    <div class="text-center">
+      <button (click)="onSubmit()" type="submit" [disabled]="!loginKala.valid" class="btn btn_red_right">login</button>
+    </div>
+  </form>
+  <div class="clearfix">&nbsp;</div>
 </div>

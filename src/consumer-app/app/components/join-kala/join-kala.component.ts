@@ -8,9 +8,9 @@ import { User } from '../../../../models/user';
 import { Conversation } from '../../models/conversation';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { JoinKalaService } from '../../services/join-kala.service';
-import { UserMessages } from '../../../../models/userMessages';
 import { RoleModel } from '../../../../models/userRole';
 import { ConsumerSignUp } from '../../../../models/consumer-signup';
+import { userMessages, inputValidation } from './join.message';
 
 @Component({
   selector: 'app-join-kala',
@@ -22,7 +22,9 @@ export class JoinKalaComponent implements OnInit, CuiComponent {
   loader: boolean = false;
   joinKala: FormGroup;
   passwordRegex = new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$');
-  usernameRegex = new RegExp('^[a-zA-Z0-9.-]*$');
+  fullname = new RegExp('^[a-zA-Z0-9.-]*$');
+  joinUserMsg = userMessages;
+  joinInputValMsg = inputValidation;
   userModel = new ConsumerSignUp();
   signUpResponse = {
     status: false,
@@ -38,7 +40,8 @@ export class JoinKalaComponent implements OnInit, CuiComponent {
     localStorage.removeItem('token');
     this.core.hide();
     this.joinKala = this.formBuilder.group({
-      username: ['', Validators.compose([Validators.required, Validators.pattern(this.usernameRegex)])],
+      firstname: ['', Validators.compose([Validators.required, Validators.pattern(this.fullname)])],
+      lastname: ['', Validators.compose([Validators.required, Validators.pattern(this.fullname)])],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.compose([Validators.pattern(this.passwordRegex), Validators.required, Validators.minLength(8)])]
     });
@@ -98,13 +101,13 @@ export class JoinKalaComponent implements OnInit, CuiComponent {
   onSubmit() {
     /*Request JSON*/
     this.loader = true;
-    this.userModel.username = this.joinKala.value.username;
+    this.userModel.firstName = this.joinKala.value.firstname;
+    this.userModel.lastName = this.joinKala.value.lastname;
     this.userModel.password = this.joinKala.value.password;
     this.userModel.emailId = this.joinKala.value.email;
     this.userModel.origin_source = "NA";
-    this.userModel.user_status = 1;
-    this.userModel.roles = new RoleModel();
-    this.userModel.roles.roleName = "consumer";
+    this.userModel.roles = new Array<RoleModel>();
+    this.userModel.roles.push(new RoleModel("consumer"));
 
     this.joinKalaService.joinKalaStepOne(this.userModel).subscribe(res => {
       console.log(res);
@@ -112,18 +115,18 @@ export class JoinKalaComponent implements OnInit, CuiComponent {
       this.userInfo = res;
       this.signUpResponse.status = true;
       if (this.userInfo.userCreateStatus === "success") {
-        this.signUpResponse.message = UserMessages.createAccount_success;
+        this.signUpResponse.message = this.joinUserMsg.success;
         window.localStorage['userInfo'] = JSON.stringify(this.userInfo);
         setTimeout((router: Router) => {
           this.router.navigateByUrl('/profile-info');
         }, 3000)
       }
-      else if (this.userInfo.userCreateStatus === "alreadyExists") this.signUpResponse.message = UserMessages.createAccount_aleadyExist;
-      else if (this.userInfo.userCreateStatus === "emailExists") this.signUpResponse.message = UserMessages.createAccount_emailExist
-      else this.signUpResponse.message = UserMessages.createAccount_Fail;
+      else if (this.userInfo.userCreateStatus === "alreadyExists") this.signUpResponse.message = this.joinUserMsg.accountExist;
+      else if (this.userInfo.userCreateStatus === "emailExists") this.signUpResponse.message = this.joinUserMsg.emailExists;
       this.joinKala.reset();
     }, err => {
-      console.log("Error occured");
+      this.loader = false;
+      this.signUpResponse.message = this.joinUserMsg.fail;
     });
   }
 }

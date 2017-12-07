@@ -17,7 +17,8 @@ const appRoutes: Routes = [
     {
         path: 'login',
         component: LoginComponent,
-        // canActivate: [LoginRedirect]
+        data: { header: 'header1' }
+        //canActivate: [LoginRedirect]
     },
     {
         path: 'join-kala',

@@ -3,7 +3,7 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { ProfileInfoService } from '../../services/profile-info.service';
 import { ConsumerProfileInfo } from '../../../../models/consumer-profile-info';
 import { ConsumerAddress } from '../../../../models/consumer-address';
-import { UserMessages } from '../../../../models/userMessages';
+import { userMessages, inputValidation } from './profile.messages';
 
 @Component({
   selector: 'app-profile-info',
@@ -18,6 +18,8 @@ export class ProfileInfoComponent implements OnInit {
   profileInfo: FormGroup;
   phoneRegex: '/^[(]{0,1}[0-9]{3}[)\.\- ]{0,1}[0-9]{3}[\.\- ]{0,1}[0-9]{4}$/;';
   zipCodeRegex: '^\d{5}(?:[-\s]\d{4})?$';
+  profileUserMsg = userMessages;
+  profileInputValMsg = inputValidation;
   fetchGeoCode: string;
   profileInformation = new ConsumerProfileInfo();
   getCSC: any;
@@ -36,9 +38,6 @@ export class ProfileInfoComponent implements OnInit {
   ngOnInit() {
     this.profileInfo = this.formBuilder.group({
       "profileImage": [''],
-      "username": [this.getUserInfo.username],
-      "firstname": [''],
-      "lastname": [''],
       "phoneno": ['', Validators.compose([Validators.pattern(this.phoneRegex), Validators.minLength(10), Validators.maxLength(10)])],
       "email": [this.getUserInfo.emailId],
       "gender": [''],
@@ -48,7 +47,7 @@ export class ProfileInfoComponent implements OnInit {
   }
 
   /*Geocode API Integration*/
-  onBlurMethod() {
+  getLocation() {
     this.profileInfoServ.getLocation(this.profileInfo.controls.location.value)
       .subscribe(data => {
         this.fetchGeoCode = data.results[0].formatted_address;
@@ -82,9 +81,9 @@ export class ProfileInfoComponent implements OnInit {
     this.loader = true;
     /*Request JSON*/
     this.profileInformation.userId = this.getUserInfo.userId;
-    this.profileInformation.userName = this.profileInfo.controls.username.value;
-    this.profileInformation.firstName = this.profileInfo.controls.firstname.value;
-    this.profileInformation.lastName = this.profileInfo.controls.lastname.value;
+    this.profileInformation.userName = "";
+    this.profileInformation.firstName = this.getUserInfo.firstName;
+    this.profileInformation.lastName = this.getUserInfo.lastName;
     this.profileInformation.consumerImagePath = this.profileInfo.controls.profileImage.value;
     this.profileInformation.phoneNo = this.profileInfo.controls.phoneno.value;
     this.profileInformation.email = this.profileInfo.controls.email.value;
@@ -111,9 +110,12 @@ export class ProfileInfoComponent implements OnInit {
         this.profileInfoResponse.response = 'success';
         this.savedImage = this.staticURL.concat('/' + res);
         window.localStorage['profileImage'] = this.savedImage;
-        this.profileInfoResponse.message = UserMessages.profileInfo_success;
+        this.profileInfoResponse.message = this.profileUserMsg.success;
       }
-      else this.profileInfoResponse.message = UserMessages.profileInfo_Fail;
+    }, err => {
+      this.loader = false;
+      this.profileInfoResponse.status = true;
+      this.profileInfoResponse.message = this.profileUserMsg.fail;
     });
   }
 

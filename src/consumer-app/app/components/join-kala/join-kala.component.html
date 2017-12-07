@@ -6,28 +6,40 @@
     <form [formGroup]="joinKala">
         <div class="join_content">
             <h4 class="subtitle">create account</h4>
-            <div class="form-group">
-                <input formControlName="username" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                    placeholder="User name">
+
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <input type="text" formControlName="firstname" class="form-control" id="" aria-describedby="" placeholder="User name">
+                </div>
+                
+                <div class="col-sm-6">
+                    <input type="text" formControlName="lastname" class="form-control" id="" aria-describedby="" placeholder="Last name">
+                </div>
 
                 <!--Validation-->
-                <div *ngIf="joinKala.controls.username.dirty || joinKala.controls.username.touched">
-                    <div *ngIf="!joinKala.controls.username.value" class="alert alert-danger errorMessages">Please enter the Username</div>
-                    <div *ngIf="joinKala.controls.username.value && !joinKala.controls.username.pattern && joinKala.controls.username.errors"
-                        class="alert alert-danger errorMessages">
-                        Username can contain only (dot, hypen)
+                <div class="col-sm-12 errorUser" *ngIf="joinKala.controls.firstname.dirty || joinKala.controls.firstname.touched">
+                    <div *ngIf="!joinKala.controls.firstname.value" class="alert alert-danger errorMessages">{{joinInputValMsg.firstNameRequired}}</div>
+                    <div *ngIf="joinKala.controls.firstname.value && !joinKala.controls.firstname.pattern && joinKala.controls.firstname.errors" class="alert alert-danger errorMessages">
+                        {{joinInputValMsg.validFirstName}}
+                    </div>
+                </div>
+
+                <div class="col-sm-12 errorUser" *ngIf="joinKala.controls.lastname.dirty || joinKala.controls.lastname.touched">
+                    <div *ngIf="!joinKala.controls.lastname.value" class="alert alert-danger errorMessages">{{joinInputValMsg.lastNameRequired}}</div>
+                    <div *ngIf="joinKala.controls.lastname.value && !joinKala.controls.lastname.pattern && joinKala.controls.lastname.errors" class="alert alert-danger errorMessages">
+                        {{joinInputValMsg.validLastName}}
                     </div>
                 </div>
                 <!--Validation-->
             </div>
+            
             <div class="form-group">
-                <input pattern formControlName="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                    placeholder="Email">
+                <input pattern formControlName="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email">
 
                 <!--Validation-->
                 <div *ngIf="joinKala.controls.email.dirty || joinKala.controls.email.touched">
-                    <div *ngIf="!joinKala.controls.email.value" class="alert alert-danger errorMessages">Please enter Email</div>
-                    <div *ngIf="joinKala.controls.email.value && joinKala.controls.email.errors" class="alert alert-danger errorMessages">Please enter valid Email</div>
+                    <div *ngIf="!joinKala.controls.email.value" class="alert alert-danger errorMessages">{{joinInputValMsg.emailRequired}}</div>
+                    <div *ngIf="joinKala.controls.email.value && joinKala.controls.email.errors" class="alert alert-danger errorMessages">{{joinInputValMsg.validEmail}}</div>
                 </div>
                 <!--Validation-->
 
@@ -37,18 +49,16 @@
 
                 <!--Validation-->
                 <div *ngIf="joinKala.controls.password.dirty || joinKala.controls.password.touched">
-                    <div *ngIf="!joinKala.controls.password.value" class="alert alert-danger errorMessages">Please enter the password</div>
-                    <div *ngIf="joinKala.controls.password.value && !joinKala.controls.password.pattern && joinKala.controls.password.errors"
-                        class="alert alert-danger errorMessages">
-                        Password length must be minimum 8 Characters, 1 Uppercase Character, 1 Lowercase Character, 1 Number, 1 Special Character
+                    <div *ngIf="!joinKala.controls.password.value" class="alert alert-danger errorMessages">{{joinInputValMsg.passwordRequired}}</div>
+                    <div *ngIf="joinKala.controls.password.value && !joinKala.controls.password.pattern && joinKala.controls.password.errors" class="alert alert-danger errorMessages">
+                        {{joinInputValMsg.validPassword}}
                     </div>
                 </div>
                 <!--Validation-->
             </div>
 
             <!--Response Message-->
-            <div *ngIf="signUpResponse.status" [ngClass]="userInfo.userCreateStatus == 'success' ? 'alert-success successMessage' : 'alert-danger errorMessages'"
-                class="alert">
+            <div *ngIf="signUpResponse.status" [ngClass]="userInfo.userCreateStatus == 'success' ? 'alert-success successMessage' : 'alert-danger errorMessages'" class="alert">
                 {{signUpResponse.message}}
             </div>
 

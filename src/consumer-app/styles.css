@@ -1153,3 +1153,6 @@ h4.subtitle{
     z-index: -1;
     cursor: pointer;
 }
+.errorUser .errorMessages{
+    margin-bottom: 0px !important;
+}
