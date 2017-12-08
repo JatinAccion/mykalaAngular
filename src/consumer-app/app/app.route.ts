@@ -37,6 +37,7 @@ const appRoutes: Routes = [
     {
         path: 'home',
         component: HomeComponent,
+        data: { header: 'header2' }
         // canActivate: [EnsureAuthenticated]
     },
     {
@@ -52,7 +53,7 @@ const appRoutes: Routes = [
     {
         path: 'thank',
         component: ThankMessageComponent,
-        data: { header: 'header2' }
+        data: { header: 'header1' }
     },
     {
         path: '**',

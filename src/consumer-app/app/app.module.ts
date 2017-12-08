@@ -33,6 +33,7 @@ import { JoinKalaService } from '../app/services/join-kala.service';
 import { ProfileInfoService } from '../app/services//profile-info.service';
 import { ThankMessageComponent } from './components/thank-message/thank-message.component';
 import { VerificationService } from '../app/services/verification.service';
+import { LocalStorageService } from '../app/services/LocalStorage.service';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,7 @@ import { VerificationService } from '../app/services/verification.service';
     AppRoutingModule,
     ReactiveFormsModule
   ],
-  providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, ConversationalService, JoinKalaService, ProfileInfoService, VerificationService],
+  providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, ConversationalService, JoinKalaService, ProfileInfoService, VerificationService, LocalStorageService],
   bootstrap: [AppComponent],
   entryComponents: [cmsgComponent, HomeComponent, cListComponent, JoinKalaComponent, LoginComponent]
 })

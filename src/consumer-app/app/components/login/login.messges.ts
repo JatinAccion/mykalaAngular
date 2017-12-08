@@ -1,7 +1,3 @@
-export const userMessages = {
-
-};
-
 export const inputValidation = {
     emailRequired: 'Please enter Email',
     validEmail: 'Please enter valid Email',

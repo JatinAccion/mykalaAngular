@@ -6,8 +6,9 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { CoreService } from '../../services/core.service';
 import { CuiComponent, MsgDirection } from '../conversational/cui.interface';
 import { Conversation } from '../../models/conversation';
-import { inputValidation, userMessages } from './login.messges';
+import { inputValidation } from './login.messges';
 import { RememberMe } from '../../../../models/rememberMe';
+import { LocalStorageService } from '../../services/LocalStorage.service';
 
 @Component({
   selector: 'app-login',
@@ -18,17 +19,23 @@ import { RememberMe } from '../../../../models/rememberMe';
 export class LoginComponent implements OnInit, CuiComponent {
   loginKala: FormGroup;
   loader: boolean = false;
-  loginUserMsg = userMessages;
   loginInputValMsg = inputValidation;
   getCredentials = window.localStorage['rememberMe'];
   credentialModal = new RememberMe();
+  userCredential: any;
 
   @Input() data: any;
   @Output() clicked = new EventEmitter<Conversation>();
   user: User = new User();
   @Input() hideNavi: string;
 
-  constructor(private router: Router, private auth: AuthService, private core: CoreService, private formBuilder: FormBuilder) { }
+  constructor(
+    private router: Router,
+    private auth: AuthService,
+    private core: CoreService,
+    private formBuilder: FormBuilder,
+    private localStorageService: LocalStorageService) { }
+
   ngOnInit() {
     localStorage.removeItem('token');
     this.core.hide();
@@ -62,9 +69,22 @@ export class LoginComponent implements OnInit, CuiComponent {
   }
 
   onSubmit() {
+    this.userCredential = new User(this.loginKala.controls.email.value, this.loginKala.controls.email.value, this.loginKala.controls.password.value)
     this.credentialModal.email = this.loginKala.controls.email.value;
     this.credentialModal.password = window.btoa(this.loginKala.controls.password.value);
     this.credentialModal.remember = this.loginKala.controls.remember.value;
+    this.auth.login(this.userCredential).then((res) => {
+      this.checkRememberMe();
+      const resJson = res.json();
+      this.localStorageService.setItem('token', `${resJson.token_type} ${resJson.access_token}`, resJson.expires_in);
+      this.core.show();
+      this.router.navigateByUrl('/home');
+    }).catch((err) => {
+      console.log(err);
+    });
+  }
+
+  checkRememberMe() {
     if (this.credentialModal.remember) {
       window.localStorage['rememberMe'] = JSON.stringify(this.credentialModal);
       console.log(JSON.parse(window.localStorage['rememberMe']));
