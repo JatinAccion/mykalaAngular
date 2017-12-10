@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { ProfileInfoService } from '../../services/profile-info.service';
 import { ConsumerProfileInfo } from '../../../../models/consumer-profile-info';
 import { ConsumerAddress } from '../../../../models/consumer-address';
 import { userMessages, inputValidation } from './profile.messages';
+import { CoreService } from '../../services/core.service';
 
 @Component({
   selector: 'app-profile-info',
@@ -12,6 +13,7 @@ import { userMessages, inputValidation } from './profile.messages';
   encapsulation: ViewEncapsulation.None
 })
 export class ProfileInfoComponent implements OnInit {
+  @Input() hideNavi: string;
   savedImage: string;
   loader: boolean = false;
   getUserInfo = JSON.parse(window.localStorage['userInfo']);
@@ -33,9 +35,10 @@ export class ProfileInfoComponent implements OnInit {
   };
   activationPath: string = window.location.origin + '/thank';
 
-  constructor(private profileInfoServ: ProfileInfoService, private formBuilder: FormBuilder) { }
+  constructor(private profileInfoServ: ProfileInfoService, private formBuilder: FormBuilder, private core: CoreService) { }
 
   ngOnInit() {
+    this.core.hide();
     this.profileInfo = this.formBuilder.group({
       "profileImage": [''],
       "phoneno": ['', Validators.compose([Validators.pattern(this.phoneRegex), Validators.minLength(10), Validators.maxLength(10)])],

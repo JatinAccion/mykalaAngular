@@ -11,7 +11,7 @@
                 <div class="col-sm-6">
                     <input type="text" formControlName="firstname" class="form-control" id="" aria-describedby="" placeholder="User name">
                 </div>
-                
+
                 <div class="col-sm-6">
                     <input type="text" formControlName="lastname" class="form-control" id="" aria-describedby="" placeholder="Last name">
                 </div>
@@ -32,7 +32,7 @@
                 </div>
                 <!--Validation-->
             </div>
-            
+
             <div class="form-group">
                 <input pattern formControlName="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email">
 
@@ -66,8 +66,13 @@
             <!--Response Message-->
         </div>
         <hr />
-        <div class="text-center">
-            <button (click)="onSubmit()" type="submit" [disabled]="!joinKala.valid" class="btn btn_red_right">create account</button>
+        <div class="text-center join_content">
+            <button (click)="onSubmit()" type="submit" [disabled]="!joinKala.valid" class="btn btn_red_right w-100">create account</button>
+        </div>
+        <div class="text-center p-3 colorlightGray">
+            <small>By creating an account you agree to Kala’s
+                <a href="#">Terms of Use</a>
+            </small>
         </div>
     </form>
     <div class="clearfix">&nbsp;</div>

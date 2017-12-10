@@ -26,6 +26,7 @@ export class JoinKalaComponent implements OnInit, CuiComponent {
   joinUserMsg = userMessages;
   joinInputValMsg = inputValidation;
   userModel = new ConsumerSignUp();
+  @Input() hideNavi: string;
   signUpResponse = {
     status: false,
     message: ""

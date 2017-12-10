@@ -12,7 +12,7 @@ export class HeaderComponent implements OnInit {
   getHeader: any;
   firstName: string;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private core: CoreService) { }
 
   ngOnInit() {
     this.router.events

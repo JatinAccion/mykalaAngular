@@ -12,6 +12,7 @@ import { ConversationalComponent } from './components/conversational/conversatio
 import { JoinKalaComponent } from './components/join-kala/join-kala.component';
 import { ProfileInfoComponent } from './components/profile-info/profile-info.component';
 import { ThankMessageComponent } from './components/thank-message/thank-message.component';
+import { ConsumerInterestComponent } from './components/consumer-interest/consumer-interest.component';
 
 const appRoutes: Routes = [
     {
@@ -28,6 +29,11 @@ const appRoutes: Routes = [
     {
         path: 'profile-info',
         component: ProfileInfoComponent,
+        data: { header: 'header2' }
+    },
+    {
+        path: 'interest',
+        component: ConsumerInterestComponent,
         data: { header: 'header2' }
     },
     {

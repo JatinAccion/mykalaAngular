@@ -58,7 +58,8 @@ export class LoginComponent implements OnInit, CuiComponent {
     this.auth.login(this.user)
       .then((user) => {
         localStorage.setItem('token', user.json().auth_token);
-        this.core.show();
+        this.core.hide();
+        this.core.showLogout();
         this.clicked.emit(new Conversation(MsgDirection.Out, "Login Completed"));
         this.clicked.emit(new Conversation(MsgDirection.In, "Hi, " + user.json().auth_token));
         this.router.navigateByUrl('/status');
