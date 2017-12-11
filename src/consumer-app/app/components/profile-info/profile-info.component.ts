@@ -5,6 +5,8 @@ import { ConsumerProfileInfo } from '../../../../models/consumer-profile-info';
 import { ConsumerAddress } from '../../../../models/consumer-address';
 import { userMessages, inputValidation } from './profile.messages';
 import { CoreService } from '../../services/core.service';
+import { Router, RouterOutlet } from '@angular/router';
+import { AbstractControl } from '@angular/forms/src/model';
 
 @Component({
   selector: 'app-profile-info',
@@ -18,7 +20,7 @@ export class ProfileInfoComponent implements OnInit {
   loader: boolean = false;
   getUserInfo = JSON.parse(window.localStorage['userInfo']);
   profileInfo: FormGroup;
-  phoneRegex: '/^[(]{0,1}[0-9]{3}[)\.\- ]{0,1}[0-9]{3}[\.\- ]{0,1}[0-9]{4}$/;';
+  phoneRegex: '^(\d{0,3})(\d{0,3})(\d{0,4})$';
   zipCodeRegex: '^\d{5}(?:[-\s]\d{4})?$';
   profileUserMsg = userMessages;
   profileInputValMsg = inputValidation;
@@ -33,20 +35,25 @@ export class ProfileInfoComponent implements OnInit {
     response: "",
     message: ""
   };
-  activationPath: string = window.location.origin + '/thank';
 
-  constructor(private profileInfoServ: ProfileInfoService, private formBuilder: FormBuilder, private core: CoreService) { }
+  constructor(private routerOutlet: RouterOutlet, private router: Router, private profileInfoServ: ProfileInfoService, private formBuilder: FormBuilder, private core: CoreService) { }
 
   ngOnInit() {
     this.core.hide();
     this.profileInfo = this.formBuilder.group({
       "profileImage": [''],
-      "phoneno": ['', Validators.compose([Validators.pattern(this.phoneRegex), Validators.minLength(10), Validators.maxLength(10)])],
+      "phoneno": ['', Validators.compose([Validators.pattern(this.phoneRegex), Validators.minLength(14), Validators.maxLength(14)])],
       "email": [this.getUserInfo.emailId],
       "gender": [''],
       "dateOfBirth": [''],
       "location": ['', Validators.compose([Validators.required, Validators.pattern(this.zipCodeRegex), Validators.minLength(5), Validators.maxLength(5)])]
     });
+  }
+
+  _keyPress(e: AbstractControl) {
+    var x = e.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+    let value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+    this.profileInfo.controls.phoneno.patchValue(value);
   }
 
   /*Geocode API Integration*/
@@ -88,10 +95,10 @@ export class ProfileInfoComponent implements OnInit {
     this.profileInformation.firstName = this.getUserInfo.firstName;
     this.profileInformation.lastName = this.getUserInfo.lastName;
     this.profileInformation.consumerImagePath = this.profileInfo.controls.profileImage.value;
-    this.profileInformation.phoneNo = this.profileInfo.controls.phoneno.value;
+    this.profileInformation.phoneNo = this.profileInfo.controls.phoneno.value.replace(/[^A-Z0-9]/ig, "");
     this.profileInformation.email = this.profileInfo.controls.email.value;
     this.profileInformation.gender = this.profileInfo.controls.gender.value;
-    this.profileInformation.dob = this.profileInfo.controls.dateOfBirth.value;
+    this.profileInformation.dob = this.profileInfo.controls.dateOfBirth.value.month + '-' + this.profileInfo.controls.dateOfBirth.value.day + '-' + this.profileInfo.controls.dateOfBirth.value.year;
     this.profileInformation.status = "";
     this.profileInformation.createdBy = "";
     this.profileInformation.modifiedBy = "";
@@ -114,6 +121,10 @@ export class ProfileInfoComponent implements OnInit {
         this.savedImage = this.staticURL.concat('/' + res);
         window.localStorage['profileImage'] = this.savedImage;
         this.profileInfoResponse.message = this.profileUserMsg.success;
+        setTimeout(() => {
+          if (this.routerOutlet.isActivated) this.routerOutlet.deactivate();
+          this.router.navigateByUrl('/interest');
+        }, 2000);
       }
     }, err => {
       this.loader = false;

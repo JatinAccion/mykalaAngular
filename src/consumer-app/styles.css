@@ -221,11 +221,12 @@ a:hover {
   width: 924px; }*/
 
 .title h2 {
-  color: #A7A9AB;
-  font-weight: lighter;
-  display: inline-block;
-  font-size: 30px;
-  font-family:open_sanslight;
+    color: #A7A9AB;
+    font-weight: lighter;
+    display: inline-block;
+    font-size: 40px;
+    font-family: open_sanslight;
+    margin-bottom: 10px;
 }
 
 .title > p {
@@ -570,10 +571,12 @@ a.ancRed:hover{
 }
  
 .sub_header > div {
-  width: 90%;
+  width: 80%;
   max-width: 1200px;
   min-width: 400px;
-  margin: 0 auto; }
+  margin: 0 auto; 
+  border-right: solid 2px #999999;
+}
 .noBackground{
     background-color:transparent !important;
 }
@@ -581,9 +584,9 @@ a.ancRed:hover{
     border:solid 1px #e06263;
     padding:3px 10px;
     display:inline-block;
-    background:#fff;
     border-radius:5px;
     font-size:13px;
+    background: #fff;
 }
 .categ_outline_gray{
     border:solid 1px #4d4d4d;
@@ -1043,6 +1046,11 @@ h4.subtitle{
 .width49{
     width:49% !important;
 }
+.img_holder { 
+    object-fit: fill; 
+    width: 100%;
+    position: relative;
+}
 @media only screen and (min-width: 800px) and (max-width: 1024px){
     .sub_header > div{
         width: 100%;
@@ -1122,7 +1130,16 @@ h4.subtitle{
     .category_list p{
         font-size:12px;
     }
-     
+}
+.aboluteImg{
+    position: absolute;
+    left: 0;
+    top: 0px;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -o-border-radius: 10px;
+    -ms-border-radius: 10px;
 }
 .errorMessages,
 .successMessage{
