@@ -1,6 +1,44 @@
-.tabShipping  .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{
+.accountsTabs .nav-tabs .nav-item.show .nav-link, .accountsTabs .nav-tabs .nav-link.active{
     border-color: #fff !important;
 }
-.tabShipping  .nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover{
-    
+.accountsTabs .nav-tabs .nav-link:focus, .accountsTabs .nav-tabs .nav-link:hover{
+    border-color: transparent !important;
+    display: inline-block !important;
+}
+.accountsTabs .nav-tabs{
+    border-bottom: 0px solid #ddd !important;
+}
+.tabShipping .nav-tabs .nav-item.show .nav-link, .tabShipping .nav-tabs .nav-link.active{
+    border-color: #dddddd !important;
+    border-bottom: 0px;
+    display: inline-block;
+    border-radius: 0px;
+}
+.tabShipping .nav-tabs .nav-link:focus, .tabShipping .nav-tabs .nav-link:hover{
+    border-color: #dddddd !important;
+    display: inline !important;
+    border-radius: 0px;
+    border-bottom: 0px;
+}
+.tabShipping .nav-item:link{ 
+    display: inline !important;
+    border-radius: 0px;
+    border-bottom: 0px;
+}
+.tabShipping .nav-item:hover{ 
+    display: inline-block !important;
+    border-radius: 0px;
+    border-bottom: 0px;
+}
+.tabShipping .nav-link {
+    display: inline-block;
+    padding: 0.5em 1em;
+    width: auto !important;
+}
+.tabShipping .nav-tabs{
+    /* padding-bottom: 5px;  */
+    border-bottom: 1px solid #ddd !important; 
+}
+.shippingdelivery .card{
+    margin-bottom: 10px;
 }
