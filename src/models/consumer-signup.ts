@@ -1,10 +1,11 @@
 import { RoleModel } from "./userRole";
 
 export class ConsumerSignUp {
-    public username: string;
+    public firstName: string;
+    public lastName: string;
     public password: string;
     public emailId: string;
     public origin_source: string;
     public user_status: number;
-    public roles: RoleModel;
+    public roles: Array<RoleModel>;
 }

@@ -4,7 +4,7 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class JoinKalaService {
-  signupURL: string = 'http://localhost:7090/login/user/';
+  signupURL: string = 'http://dev-user-signup.us-east-2.elasticbeanstalk.com/login/user/';
 
   constructor(private http: Http) { }
 

@@ -12,12 +12,14 @@ import { ConversationalComponent } from './components/conversational/conversatio
 import { JoinKalaComponent } from './components/join-kala/join-kala.component';
 import { ProfileInfoComponent } from './components/profile-info/profile-info.component';
 import { ThankMessageComponent } from './components/thank-message/thank-message.component';
+import { ConsumerInterestComponent } from './components/consumer-interest/consumer-interest.component';
 
 const appRoutes: Routes = [
     {
         path: 'login',
         component: LoginComponent,
-        // canActivate: [LoginRedirect]
+        data: { header: 'header1' }
+        //canActivate: [LoginRedirect]
     },
     {
         path: 'join-kala',
@@ -30,12 +32,18 @@ const appRoutes: Routes = [
         data: { header: 'header2' }
     },
     {
+        path: 'interest',
+        component: ConsumerInterestComponent,
+        data: { header: 'header2' }
+    },
+    {
         path: 'logout',
         component: LogoutComponent
     },
     {
         path: 'home',
         component: HomeComponent,
+        data: { header: 'header2' }
         // canActivate: [EnsureAuthenticated]
     },
     {
@@ -51,7 +59,7 @@ const appRoutes: Routes = [
     {
         path: 'thank',
         component: ThankMessageComponent,
-        data: { header: 'header2' }
+        data: { header: 'header1' }
     },
     {
         path: '**',

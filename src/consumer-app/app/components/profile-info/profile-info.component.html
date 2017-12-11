@@ -29,51 +29,6 @@
 
       <hr />
 
-      <!--Username-->
-      <div class="row">
-        <div class="col-sm-3">
-          <p class="colorlightGray">Username:</p>
-        </div>
-        <div class="col-sm-8">
-          <div class="form-group">
-            <input formControlName="username" readonly type="text" class="form-control" placeholder="User name">
-          </div>
-        </div>
-      </div>
-      <!--Username-->
-
-      <hr />
-
-      <!--Firstname-->
-      <div class="row">
-        <div class="col-sm-3">
-          <p class="colorlightGray">Firstname:</p>
-        </div>
-        <div class="col-sm-8">
-          <div class="form-group">
-            <input formControlName="firstname" type="text" class="form-control" placeholder="Firstname">
-          </div>
-        </div>
-      </div>
-      <!--Firstname-->
-
-      <hr />
-
-      <!--Lastname-->
-      <div class="row">
-        <div class="col-sm-3">
-          <p class="colorlightGray">Lastname:</p>
-        </div>
-        <div class="col-sm-8">
-          <div class="form-group">
-            <input formControlName="lastname" type="text" class="form-control" placeholder="Lastname">
-          </div>
-        </div>
-      </div>
-      <!--Lastname-->
-
-      <hr />
-
       <!--Phone No-->
       <div class="row">
         <div class="col-sm-3">
@@ -85,7 +40,7 @@
             <!--Validation-->
             <div *ngIf="profileInfo.controls.phoneno.value">
               <div *ngIf="profileInfo.controls.phoneno.value && profileInfo.controls.phoneno.errors && (!profileInfo.controls.phoneno.minlength || !profileInfo.controls.phoneno.maxlength)" class="alert alert-danger errorMessages">
-                Please enter the valid Phone No
+                {{profileInputValMsg.validPhone}}
               </div>
             </div>
             <!--Validation-->
@@ -164,12 +119,14 @@
         </div>
         <div class="col-sm-8">
           <div class="form-group">
-            <input formControlName="location" (blur)="onBlurMethod()" type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control" placeholder="Zipcode">
+            <input formControlName="location" type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control" placeholder="Zipcode">
+            <button [disabled]="!profileInfo.controls.location.valid" class="btn customBtn" (click)="getLocation()">get code</button>
+
             <!--Validation-->
             <div *ngIf="profileInfo.controls.location.dirty || profileInfo.controls.location.touched">
-              <div *ngIf="!profileInfo.controls.location.value" class="alert alert-danger errorMessages">Please enter the zip code</div>
+              <div *ngIf="!profileInfo.controls.location.value" class="alert alert-danger errorMessages">{{profileInputValMsg.zipRequired}}</div>
               <div *ngIf="profileInfo.controls.location.value && profileInfo.controls.location.errors && (!profileInfo.controls.location.minlength || !profileInfo.controls.location.maxlength)" class="alert alert-danger errorMessages">
-                Please enter the valid zip code
+                {{profileInputValMsg.validZip}}
               </div>
             </div>
             <!--Validation-->
@@ -184,7 +141,7 @@
 
     <div class="col-sm-4">
       <div class="joinScreen_right">
-        <h4 class="subtitle">Hello there, Shelley!</h4>
+        <h4 class="subtitle">Hello there, {{getUserInfo.firstName}}!</h4>
         <p>We just need to collect a few details from you to set up your profile.</p>
         <hr />
         <div class="col-sm-12">
@@ -194,11 +151,13 @@
         <div class="clearfix">&nbsp;</div>
 
         <!--Response Message-->
-        <div *ngIf="profileInfoResponse.status" style="margin-top: 0" [ngClass]="profileInfoResponse.response == 'success' ? 'alert-success successMessage' : 'alert-danger errorMessages'" class="alert">
-          {{profileInfoResponse.message}}
-        </div>
+        <div class="col-sm-12">
+          <div *ngIf="profileInfoResponse.status" style="margin-top: 0" [ngClass]="profileInfoResponse.response == 'success' ? 'alert-success successMessage' : 'alert-danger errorMessages'" class="alert">
+            {{profileInfoResponse.message}}
+          </div>
 
-        <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="loader" />
+          <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="loader" />
+        </div>
         <!--Response Message-->
       </div>
     </div>

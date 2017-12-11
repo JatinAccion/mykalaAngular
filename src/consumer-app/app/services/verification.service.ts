@@ -8,7 +8,7 @@ export class VerificationService {
     constructor(private http: Http) { }
 
     getVerified(token) {
-        this.url = 'http://localhost:7090/login/validateToken/' + token;
+        this.url = 'http://dev-user-signup.us-east-2.elasticbeanstalk.com/login/validateToken/' + token;
         return this.http.get(this.url).map((res) => res.text())
     }
 }

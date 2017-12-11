@@ -1,3 +1,3 @@
 export class RoleModel {
-    public roleName: string;
+    constructor(public roleName: string) { }
 }

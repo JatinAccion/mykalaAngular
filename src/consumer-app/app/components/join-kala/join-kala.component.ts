@@ -1,16 +1,16 @@
 import { Component, OnInit, ViewEncapsulation, EventEmitter, Output, Input } from '@angular/core';
 import { CuiComponent, MsgDirection } from '../conversational/cui.interface';
 import { ConversationalService } from '../conversational/conversational.service';
-import { Router } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CoreService } from '../../services/core.service';
 import { User } from '../../../../models/user';
 import { Conversation } from '../../models/conversation';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { JoinKalaService } from '../../services/join-kala.service';
-import { UserMessages } from '../../../../models/userMessages';
 import { RoleModel } from '../../../../models/userRole';
 import { ConsumerSignUp } from '../../../../models/consumer-signup';
+import { userMessages, inputValidation } from './join.message';
 
 @Component({
   selector: 'app-join-kala',
@@ -22,8 +22,11 @@ export class JoinKalaComponent implements OnInit, CuiComponent {
   loader: boolean = false;
   joinKala: FormGroup;
   passwordRegex = new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$');
-  usernameRegex = new RegExp('^[a-zA-Z0-9.-]*$');
+  fullname = new RegExp('^[a-zA-Z0-9.-]*$');
+  joinUserMsg = userMessages;
+  joinInputValMsg = inputValidation;
   userModel = new ConsumerSignUp();
+  @Input() hideNavi: string;
   signUpResponse = {
     status: false,
     message: ""
@@ -33,12 +36,13 @@ export class JoinKalaComponent implements OnInit, CuiComponent {
   @Output() clicked = new EventEmitter<Conversation>();
   step = 1;
   user: User = new User('', '', '');
-  constructor(private joinKalaService: JoinKalaService, private formBuilder: FormBuilder, private router: Router, private auth: AuthService, private core: CoreService) { }
+  constructor(private routerOutlet: RouterOutlet, private joinKalaService: JoinKalaService, private formBuilder: FormBuilder, private router: Router, private auth: AuthService, private core: CoreService) { }
   ngOnInit() {
     localStorage.removeItem('token');
-    this.core.hide();
+    this.core.show();
     this.joinKala = this.formBuilder.group({
-      username: ['', Validators.compose([Validators.required, Validators.pattern(this.usernameRegex)])],
+      firstname: ['', Validators.compose([Validators.required, Validators.pattern(this.fullname)])],
+      lastname: ['', Validators.compose([Validators.required, Validators.pattern(this.fullname)])],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.compose([Validators.pattern(this.passwordRegex), Validators.required, Validators.minLength(8)])]
     });
@@ -98,13 +102,13 @@ export class JoinKalaComponent implements OnInit, CuiComponent {
   onSubmit() {
     /*Request JSON*/
     this.loader = true;
-    this.userModel.username = this.joinKala.value.username;
+    this.userModel.firstName = this.joinKala.value.firstname;
+    this.userModel.lastName = this.joinKala.value.lastname;
     this.userModel.password = this.joinKala.value.password;
     this.userModel.emailId = this.joinKala.value.email;
     this.userModel.origin_source = "NA";
-    this.userModel.user_status = 1;
-    this.userModel.roles = new RoleModel();
-    this.userModel.roles.roleName = "consumer";
+    this.userModel.roles = new Array<RoleModel>();
+    this.userModel.roles.push(new RoleModel("consumer"));
 
     this.joinKalaService.joinKalaStepOne(this.userModel).subscribe(res => {
       console.log(res);
@@ -112,18 +116,19 @@ export class JoinKalaComponent implements OnInit, CuiComponent {
       this.userInfo = res;
       this.signUpResponse.status = true;
       if (this.userInfo.userCreateStatus === "success") {
-        this.signUpResponse.message = UserMessages.createAccount_success;
+        this.signUpResponse.message = this.joinUserMsg.success;
         window.localStorage['userInfo'] = JSON.stringify(this.userInfo);
-        setTimeout((router: Router) => {
+        setTimeout(() => {
+          if (this.routerOutlet.isActivated) this.routerOutlet.deactivate();
           this.router.navigateByUrl('/profile-info');
-        }, 3000)
+        }, 2000);
       }
-      else if (this.userInfo.userCreateStatus === "alreadyExists") this.signUpResponse.message = UserMessages.createAccount_aleadyExist;
-      else if (this.userInfo.userCreateStatus === "emailExists") this.signUpResponse.message = UserMessages.createAccount_emailExist
-      else this.signUpResponse.message = UserMessages.createAccount_Fail;
+      else if (this.userInfo.userCreateStatus === "alreadyExists") this.signUpResponse.message = this.joinUserMsg.accountExist;
+      else if (this.userInfo.userCreateStatus === "emailExists") this.signUpResponse.message = this.joinUserMsg.emailExists;
       this.joinKala.reset();
     }, err => {
-      console.log("Error occured");
+      this.loader = false;
+      this.signUpResponse.message = this.joinUserMsg.fail;
     });
   }
 }
