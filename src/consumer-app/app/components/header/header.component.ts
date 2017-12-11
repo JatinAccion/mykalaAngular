@@ -12,7 +12,7 @@ export class HeaderComponent implements OnInit {
   getHeader: any;
   firstName: string;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private core: CoreService) { }
 
   ngOnInit() {
     this.router.events
@@ -22,7 +22,9 @@ export class HeaderComponent implements OnInit {
           if (root.children && root.children.length) root = root.children[0]
           else if (root.data && root.data["header"]) {
             this.getHeader = root.data["header"];
-            this.firstName = JSON.parse(window.localStorage['userInfo']).firstName;
+            if (window.localStorage['userInfo'] != undefined) {
+              this.firstName = JSON.parse(window.localStorage['userInfo']).firstName;
+            }
             return;
           }
           else return;

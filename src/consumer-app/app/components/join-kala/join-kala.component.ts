@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, EventEmitter, Output, Input } from '@angular/core';
 import { CuiComponent, MsgDirection } from '../conversational/cui.interface';
 import { ConversationalService } from '../conversational/conversational.service';
-import { Router } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CoreService } from '../../services/core.service';
 import { User } from '../../../../models/user';
@@ -26,6 +26,7 @@ export class JoinKalaComponent implements OnInit, CuiComponent {
   joinUserMsg = userMessages;
   joinInputValMsg = inputValidation;
   userModel = new ConsumerSignUp();
+  @Input() hideNavi: string;
   signUpResponse = {
     status: false,
     message: ""
@@ -35,10 +36,10 @@ export class JoinKalaComponent implements OnInit, CuiComponent {
   @Output() clicked = new EventEmitter<Conversation>();
   step = 1;
   user: User = new User('', '', '');
-  constructor(private joinKalaService: JoinKalaService, private formBuilder: FormBuilder, private router: Router, private auth: AuthService, private core: CoreService) { }
+  constructor(private routerOutlet: RouterOutlet, private joinKalaService: JoinKalaService, private formBuilder: FormBuilder, private router: Router, private auth: AuthService, private core: CoreService) { }
   ngOnInit() {
     localStorage.removeItem('token');
-    this.core.hide();
+    this.core.show();
     this.joinKala = this.formBuilder.group({
       firstname: ['', Validators.compose([Validators.required, Validators.pattern(this.fullname)])],
       lastname: ['', Validators.compose([Validators.required, Validators.pattern(this.fullname)])],
@@ -117,9 +118,10 @@ export class JoinKalaComponent implements OnInit, CuiComponent {
       if (this.userInfo.userCreateStatus === "success") {
         this.signUpResponse.message = this.joinUserMsg.success;
         window.localStorage['userInfo'] = JSON.stringify(this.userInfo);
-        setTimeout((router: Router) => {
+        setTimeout(() => {
+          if (this.routerOutlet.isActivated) this.routerOutlet.deactivate();
           this.router.navigateByUrl('/profile-info');
-        }, 3000)
+        }, 2000);
       }
       else if (this.userInfo.userCreateStatus === "alreadyExists") this.signUpResponse.message = this.joinUserMsg.accountExist;
       else if (this.userInfo.userCreateStatus === "emailExists") this.signUpResponse.message = this.joinUserMsg.emailExists;

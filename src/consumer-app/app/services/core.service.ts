@@ -5,9 +5,13 @@ export class CoreService {
 
   navVisible: boolean = true;
 
+  logoutVisible: boolean = false;
+
   constructor() { }
 
   hide() { this.navVisible = false; }
+
+  showLogout() { this.logoutVisible = true; }
 
   show() { this.navVisible = true; }
 

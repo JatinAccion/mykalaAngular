@@ -1,4 +1,4 @@
-<ngb-alert *ngIf="alert.show"  [type]="alert.type" (close)="closeAlert(alert)">{{ alert.message }}</ngb-alert>
+<ngb-alert *ngIf="alert.show" [type]="alert.type" (close)="closeAlert(alert)">{{ alert.message }}</ngb-alert>
 <div class="title col-sm-12">
     <h1>Account Info</h1>
 
@@ -18,7 +18,8 @@
                                     <div class="draglogo p-3 text-center">
                                         <div class=" text-center">Drag your Logo here</div>
                                         or
-                                        <input formControlName="profileImage" (change)="fileChangeEvent($event, profileFG1)" type="file" class="form-control uploadImage" />
+                                        <input formControlName="profileImage" (change)="fileChangeEvent($event, profileFG1)" type="file" class="form-control uploadImage"
+                                        />
                                     </div>
                                     <app-field-error-display [field]="profileFG1.controls.profileImage" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
                                 </div>
@@ -117,19 +118,22 @@
                             <div [formGroup]="profileFG2" [ngClass]="{'show': profileInfoStep==2, 'hide': profileInfoStep!==2  }">
                                 <h5>Website details</h5>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Website URL(optional) e.g.www.mykala.com" pattern formControlName="websiteUrl">
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Website URL(optional) e.g.www.mykala.com"
+                                        pattern formControlName="websiteUrl">
                                     <!--Validation-->
                                     <app-field-error-display [field]="profileFG2.controls.websiteUrl" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
                                     <!--Validation-->
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Username for acct. login (optional)" pattern formControlName="websiteUserName">
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Username for acct. login (optional)" pattern
+                                        formControlName="websiteUserName">
                                     <!--Validation-->
                                     <app-field-error-display [field]="profileFG2.controls.websiteUserName" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
                                     <!--Validation-->
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Password for acct. login (optional)" pattern formControlName="websitePassword">
+                                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Password for acct. login (optional)" pattern
+                                        formControlName="websitePassword">
                                     <!--Validation-->
                                     <app-field-error-display [field]="profileFG2.controls.websitePassword" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
                                     <!--Validation-->
@@ -395,12 +399,12 @@
             <ngb-tab title="Product info" id="tab-Product">
                 <ng-template ngbTabContent>
                     <div class="row backgroundWhite">
-                            <div class="row backgroundWhite">
-                                    <div class="col-sm-12 p-2">
-                                        <app-retailer-add-products></app-retailer-add-products>
-                                    </div>
-                                    <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
-                                </div>
+
+                        <div class="col-sm-12 p-2">
+                            <app-retailer-add-products></app-retailer-add-products>
+                        </div>
+                        <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
+
                     </div>
                 </ng-template>
             </ngb-tab>
@@ -416,22 +420,22 @@
             </ngb-tab>
             <ngb-tab title="Return and Exchange policy" id="tab-Return">
                 <ng-template ngbTabContent>
-                        <div class="row backgroundWhite">
-                                <div class="col-sm-12 p-2">
-                                    <app-retailer-add-returns></app-retailer-add-returns>
-                                </div>
-                                <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
-                            </div>
+                    <div class="row backgroundWhite">
+                        <div class="col-sm-12 p-2">
+                            <app-retailer-add-returns></app-retailer-add-returns>
+                        </div>
+                        <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
+                    </div>
                 </ng-template>
             </ngb-tab>
             <ngb-tab title="Notifications" id="tab-Notifications">
                 <ng-template ngbTabContent>
-                        <div class="row backgroundWhite">
-                                <div class="col-sm-12 p-2">
-                                    <app-retailer-add-notifications></app-retailer-add-notifications>
-                                </div>
-                                <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
-                            </div>
+                    <div class="row backgroundWhite">
+                        <div class="col-sm-12 p-2">
+                            <app-retailer-add-notifications></app-retailer-add-notifications>
+                        </div>
+                        <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
+                    </div>
                 </ng-template>
             </ngb-tab>
         </ngb-tabset>

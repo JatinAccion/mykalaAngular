@@ -33,6 +33,9 @@ import { JoinKalaService } from '../app/services/join-kala.service';
 import { ProfileInfoService } from '../app/services//profile-info.service';
 import { ThankMessageComponent } from './components/thank-message/thank-message.component';
 import { VerificationService } from '../app/services/verification.service';
+import { LocalStorageService } from '../app/services/LocalStorage.service';
+import { ConsumerInterestComponent } from '../app/components/consumer-interest/consumer-interest.component';
+import { ConsumerInterestService } from './services/consumer-interest.service';
 
 @NgModule({
   declarations: [
@@ -49,7 +52,8 @@ import { VerificationService } from '../app/services/verification.service';
     cuiDirective,
     JoinKalaComponent,
     ProfileInfoComponent,
-    ThankMessageComponent
+    ThankMessageComponent,
+    ConsumerInterestComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +62,7 @@ import { VerificationService } from '../app/services/verification.service';
     AppRoutingModule,
     ReactiveFormsModule
   ],
-  providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, ConversationalService, JoinKalaService, ProfileInfoService, VerificationService],
+  providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, ConversationalService, JoinKalaService, ProfileInfoService, VerificationService, LocalStorageService, ConsumerInterestService],
   bootstrap: [AppComponent],
   entryComponents: [cmsgComponent, HomeComponent, cListComponent, JoinKalaComponent, LoginComponent]
 })

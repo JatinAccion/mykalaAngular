@@ -1,0 +1,34 @@
+<div style="height:120px;margin-top: 50px; width:100%;"></div>
+<div class="title">
+  <h2>What are your interests?</h2>
+</div>
+<div class="text-right">
+  <a href="#" class="colorred">skip</a>
+</div>
+<div class="row">
+  <div class="col-sm-8 joinScreen_layout">
+    <div class="row">
+      <div class="col-sm-12 p-0">
+        <div *ngFor="let interest of interestImages" class="img_holder banner p-2">
+          <img (click)="selectInterest($event, interest)" src="{{interest.imageUrl}}" title="{{interest.value}}" id="{{interest.id}}" class="img-fluid" alt="" />
+          <img src="/consumer-app/assets/images/select.png" *ngIf="interest.selectImg" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4 p-0">
+    <div class="joinScreen_right m-2 row">
+      <div class="col-sm-12 p-3">
+        By telling us what you like to buy, we can customize your experience!
+      </div>
+      <hr />
+      <div class="col-sm-12">
+        <button href="javascript:void" [disabled]="getInterest.length == 0" class="btn btn_red_right width100" (click)="saveInterest()">done</button>
+      </div>
+      <div class="col-sm-12 p-3" *ngIf="loader">
+        <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 46%" />
+      </div>
+      <div class="clearfix">&nbsp;</div>
+    </div>
+  </div>
+</div>
