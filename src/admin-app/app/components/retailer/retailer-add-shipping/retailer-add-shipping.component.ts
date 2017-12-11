@@ -81,12 +81,16 @@ export class RetailerAddShippingComponent implements OnInit {
     // currentTabIndex = event;
   }
   deliveryOptionsChange() {
+    let tiers = this.shippingFG1.get('tiers') as FormArray;
     switch (this.shippingFG1.controls.deliveryOptions.value) {
-      case 0: break;
-      case 1: break;
-      case 2: break;
-      case 3: break;
-      case 4: break;
+      case 'ship_by_size':
+        tiers = this.formBuilder.array([]);
+        tiers = this.createSizeBasedTiers();
+        break;
+      default:
+        tiers = this.formBuilder.array([]);
+        tiers.push(this.createTier());
+        break;
     }
   }
   addTier() {
@@ -104,10 +108,20 @@ export class RetailerAddShippingComponent implements OnInit {
       min: 0,
       max: 0,
     });
-
   }
-  createShippingMethods(shippingName) {
+  createSizeBasedTiers() {
+    return this.formBuilder.array([
+      { name: 'Letter', min: 0, max: 0 },
+      { name: 'Small', min: 0, max: 0 },
+      { name: 'Medium', min: 0, max: 0 },
+      { name: 'Large', min: 0, max: 0 },
+      { name: 'Oversized', min: 0, max: 0 },
+      { name: 'Irregular', min: 0, max: 0 },
+    ]);
+  }
+  createShippingMethods(shippingMethodId, shippingName) {
     const fg = this.formBuilder.group({
+      shippingMethodId: shippingMethodId,
       shippingName: shippingName,
       selected: true,
       disabled: false,
@@ -124,10 +138,11 @@ export class RetailerAddShippingComponent implements OnInit {
     }
     return fg;
   }
-  createShippingLocation(locationName) {
+  createShippingLocation(locationName, locationType) {
     return this.formBuilder.group({
       locationName: locationName,
-      locationType: true,
+      locationType: locationType,
+      locationStatus: true,
       locationFee: 0,
     });
 
@@ -153,9 +168,9 @@ export class RetailerAddShippingComponent implements OnInit {
       Validators.pattern(environment.regex.numberRegex), Validators.required]],
       countryName: ['', [Validators.required]],
       locationInclude: this.formBuilder.array([
-        this.createShippingLocation('Continental US'),
-        this.createShippingLocation('Alaska and Hawaii'),
-        this.createShippingLocation('US Protectorates')])
+        this.createShippingLocation('Continental US', 'state'),
+        this.createShippingLocation('Alaska and Hawaii', 'state'),
+        this.createShippingLocation('US Protectorates', 'territory')])
     });
     this.errorMsgs = {
       'profileName': { required: 'Please enter Business Name ', error: 'Please enter valid Business Name' },
@@ -186,11 +201,11 @@ export class RetailerAddShippingComponent implements OnInit {
   setValidatorsFG2() {
     this.shippingFG2 = this.formBuilder.group({
       shippingMethods: this.formBuilder.array([
-        this.createShippingMethods('Next day: 1 business day shipping'),
-        this.createShippingMethods('2 day: 2 business day shipping'),
-        this.createShippingMethods('3 day: 5 business day'),
-        this.createShippingMethods('Standard: 5 to 8 business days'),
-        this.createShippingMethods('Custom')
+        this.createShippingMethods(0, 'Next day: 1 business day shipping'),
+        this.createShippingMethods(1, '2 day: 2 business day shipping'),
+        this.createShippingMethods(2, '3 day: 5 business day'),
+        this.createShippingMethods(3, 'Standard: 5 to 8 business days'),
+        this.createShippingMethods(4, 'Custom')
       ])
     });
   }
@@ -268,6 +283,7 @@ export class RetailerAddShippingComponent implements OnInit {
       const locationInclude = new ShippingSubLocation();
       locationInclude.locationName = element.value.locationName;
       locationInclude.locationType = element.value.locationType;
+      locationInclude.locationStatus = element.value.locationStatus;
       locationInclude.locationFee = element.value.locationFee;
       this.shippingObj.shipLocations.locationInclude.push(locationInclude);
     });
@@ -275,19 +291,21 @@ export class RetailerAddShippingComponent implements OnInit {
     let tierSequence = 0;
     (this.shippingFG1.get('tiers') as FormArray).controls.forEach(element => {
       const deliveryTier = new ShippingDeliveryTier();
-      deliveryTier.tierName = element.value.tierName;
+      deliveryTier.tierName = element.value.name;
       deliveryTier.minValue = element.value.min;
       deliveryTier.maxValue = element.value.max;
-      deliveryTier.sequence = tierSequence++;
+      deliveryTier.sequence = tierSequence;
       deliveryTier.shippingMethod = new Array<RetailerShippingMethodFee>();
-      let tierIndex = 0;
       (this.shippingFG2.get('shippingMethods') as FormArray).controls.forEach(subElement => {
         const fee = new RetailerShippingMethodFee();
+        fee.shipMethodId = subElement.value.shipppingMethodId;
         fee.shipMethodName = subElement.value.shippingName;
-        fee.deliveryFee = (subElement.get('charges') as FormArray).at(tierIndex++).value.charge;
+        fee.deliveryFee = (subElement.get('charges') as FormArray).at(tierSequence).value.charge;
         deliveryTier.shippingMethod.push(fee);
       });
       this.shippingObj.deliveryTier.push(deliveryTier);
+      tierSequence++;
+
     });
     return this.shippingObj;
   }

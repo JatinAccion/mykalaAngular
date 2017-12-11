@@ -27,9 +27,11 @@ export class ShippingLocations {
 export class ShippingSubLocation {
     public locationName: string;
     public locationType: string;
+    public locationStatus: boolean;
     public locationFee: number;
 }
 export class RetailerShippingMethodFee {
+    public shipMethodId: number;
     public shipMethodName: string;
     public deliveryFee: number;
 }

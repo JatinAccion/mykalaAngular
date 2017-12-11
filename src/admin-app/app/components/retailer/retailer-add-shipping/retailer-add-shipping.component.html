@@ -5,7 +5,7 @@
         <ng-template ngbTabContent>
             <div class="row p-3">
                 <div class="col-sm-12 p-2">
-                    {{idx}}
+                    <!-- {{idx}} -->
                     <div [formGroup]="shippingFG1">
                         <div class="form-group">
                             <label class="control-label" [ngClass]="validatorExt.displayFieldCss(shippingFG1.controls.profileName)">Profile name</label>
@@ -18,15 +18,15 @@
                             <label class="control-label" [ngClass]="validatorExt.displayFieldCss(shippingFG1.controls.deliveryOptions)">Delivery - Base options</label>
                             <ul class="list-unstyled">
                                 <li>
-                                    <input type="radio" formControlName="deliveryOptions" value="0" name="deliveryOptions" /> Free shipping</li>
+                                    <input type="radio" formControlName="deliveryOptions" value="freeshipping" name="deliveryOptions" /> Free shipping</li>
                                 <li>
-                                    <input type="radio" formControlName="deliveryOptions" value="1" name="deliveryOptions" /> Flat rate - single rate for all orders</li>
+                                    <input type="radio" formControlName="deliveryOptions" value="ship_by_flat_rate" name="deliveryOptions" /> Flat rate - single rate for all orders</li>
                                 <li>
-                                    <input type="radio" formControlName="deliveryOptions" value="2" name="deliveryOptions" /> Price based</li>
+                                    <input type="radio" formControlName="deliveryOptions" value="ship_by_price" name="deliveryOptions" /> Price based</li>
                                 <li>
-                                    <input type="radio" formControlName="deliveryOptions" value="3" name="deliveryOptions" /> Weight based</li>
+                                    <input type="radio" formControlName="deliveryOptions" value="ship_by_weight" name="deliveryOptions" /> Weight based</li>
                                 <li>
-                                    <input type="radio" formControlName="deliveryOptions" value="4" name="deliveryOptions" /> Size based</li>
+                                    <input type="radio" formControlName="deliveryOptions" value="ship_by_size" name="deliveryOptions" /> Size based</li>
                             </ul>
                             <!--Validation-->
                             <app-field-error-display [field]="shippingFG1.controls.deliveryOptions" [errorMsg]="errorMsgs"> </app-field-error-display>
@@ -288,7 +288,7 @@
                                     <div class="col-sm-12  p-3">
                                         <div formArrayName="locationInclude" class="well well-lg col-md-12" *ngFor="let item of shippingFG3.get('locationInclude').controls; let i = index;">
                                             <div [formGroupName]="i">
-                                                <input type="checkbox" formControlName="locationType" /> {{item.value.locationName}}
+                                                <input type="checkbox" formControlName="locationStatus" /> {{item.value.locationName}}
                                                 <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
                                                 <div class="col-sm-12">
                                                     <div class="input-group">
