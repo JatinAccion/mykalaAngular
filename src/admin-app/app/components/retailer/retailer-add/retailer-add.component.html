@@ -1,11 +1,10 @@
 <ngb-alert *ngIf="alert.show" [type]="alert.type" (close)="closeAlert(alert)">{{ alert.message }}</ngb-alert>
 <div class="title col-sm-12">
-    <h1>Account Info</h1>
-
+    <h1>Account Info</h1> 
 </div>
 <div class="row">
     <div class="col-sm-12 signup">
-        <ngb-tabset #tabs="ngbTabset" [orientation]="currentOrientation" [justify]="currentJustify" (tabChange)="setActiveTab($event)">
+        <ngb-tabset #tabs="ngbTabset" class="accountsTabs" [orientation]="currentOrientation" [justify]="currentJustify" (tabChange)="setActiveTab($event)">
             <ngb-tab title="Profile info" id="tab-Profile">
                 <ng-template ngbTabContent>
                     <div class="row backgroundWhite">

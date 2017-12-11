@@ -252,6 +252,15 @@ a.categ_close{
 .colorlightGray{
     color:#c8cdd8;
 }
+.colorBlue{
+    color:#4580d2 !important;
+}
+.colorDarkBlue{
+    color:#446786;
+}
+.colorRed{
+    color:red;
+}
 .height-100{
     height:100px;
 }
@@ -345,12 +354,15 @@ a.ancDefault.hover{
     color: #1c75bc;
     text-decoration: none;
 }
-.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{
+/* .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{
     border-color: #fff !important;
 }
 .nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover{
-    border-color: transparent !important;
+    border-color: #fff !important;
+    display: inline-block !important;
 }
+  */
+
 .alert-danger{
     background-color: transparent !important;
      border-color: transparent !important;
@@ -364,4 +376,7 @@ a.ancDefault.hover{
     color:#231F20;
     width: 100%;
     height: 100px;
+} 
+a{
+    cursor: pointer;
 }

@@ -1,7 +1,10 @@
-<input type="button" (click)="addShipping()" />
-<ngb-tabset #tabs="ngbTabset" [orientation]="currentOrientation" [justify]="currentJustify" (tabChange)="setActiveTab($event)">
 
-    <ngb-tab title="{{idx}}" id="tab-shipping{{idx}}" class="tabShipping" *ngFor="let shipping of shippings; let idx = index;" (tabChange)="setActiveTab($event)">
+<div class="float-right"> 
+    <a class="colorBlue pr-2 m-0" (click)="addShipping()"><h3>+</h3></a>
+</div>
+<ngb-tabset #tabs="ngbTabset" [orientation]="currentOrientation" class="tabShipping" [justify]="currentJustify" (tabChange)="setActiveTab($event)">
+
+    <ngb-tab title="{{idx}}" id="tab-shipping{{idx}}" *ngFor="let shipping of shippings; let idx = index;" (tabChange)="setActiveTab($event)">
         <ng-template ngbTabContent>
             <div class="row p-3">
                 <div class="col-sm-12 p-2">
@@ -207,14 +210,13 @@
                                 <ngb-accordion #acc="ngbAccordion" [closeOthers]="true">
                                     <ngb-panel id="toggle-{{i}}" class="row border_outline m-3 p-2" *ngFor="let option of shippingFG2.get('shippingMethods').controls; let i=index;" [formGroupName]="i" [disabled]="option.value.disabled">
                                         <ng-template ngbPanelTitle>
-                                            <input class="form-control" placeholder="" aria-describedby="basic-addon1" formControlName="selected" type="checkbox">
-                                            <span>{{option.value.shippingName}}
-                                            </span>
+                                            <div class="float-left mt-1"> <input class="form-control" placeholder="" aria-describedby="basic-addon1" formControlName="selected" type="checkbox"> </div>
+                                            <div class="float-left"><span>&nbsp;{{option.value.shippingName}} </span></div>  
                                         </ng-template>
                                         <ng-template ngbPanelContent>
                                             <!-- {{i}} -->
                                             <div formArrayName="charges" class="row col-md-12">
-                                                <div *ngFor="let chargeoption of option.get('charges').controls; let chargeId=index;" [formGroupName]="chargeId" class="col-md-6">
+                                                <div *ngFor="let chargeoption of option.get('charges').controls; let chargeId=index;" [formGroupName]="chargeId" class="col-md-6 m-2">
                                                     <div class="col-sm-12">
                                                         {{chargeoption.value.tierName}}
                                                         <!-- {{chargeId}} -->
@@ -233,60 +235,63 @@
                                     </ngb-panel>
                                 </ngb-accordion>
                             </div>
-                        </div>
-                        <hr />
+                        </div> 
                     </div>
                     <div [formGroup]="shippingFG3" [ngClass]="{'show': step==3, 'hide': step!==3  }">
                         <div class="row m-0 shippingdelivery">
-                            <div class="form-group">
+                            <div class="col-sm-12">
                                 <label class="control-label" [ngClass]="validatorExt.displayFieldCss(shippingFG3.controls.addressLine1)">Shipping Origin Address</label>
+                            </div>
+                            <div class="col-sm-12 p-0 form-group">
                                 <input type="text" class="form-control" aria-describedby=" " placeholder="Address line 1" pattern formControlName="addressLine1">
                                 <!--Validation-->
                                 <app-field-error-display [field]="shippingFG3.controls.addressLine1" [errorMsg]="errorMsgs"> </app-field-error-display>
                                 <!--Validation-->
-                            </div>
-                            <div class="form-group">
+                            </div> 
+                            <div class="col-sm-12 p-0 form-group">
                                 <input type="text" class="form-control" aria-describedby=" " placeholder="Address line 2.(optional)" pattern formControlName="addressLine2">
                                 <!--Validation-->
                                 <app-field-error-display [field]="shippingFG3.controls.addressLine2" [errorMsg]="errorMsgs"> </app-field-error-display>
                                 <!--Validation-->
                             </div>
-                            <div class="form-group">
+                            <div class="col-sm-12 p-0 form-group">
                                 <input type="text" class="form-control" aria-describedby=" " placeholder="City" pattern formControlName="city">
                                 <!--Validation-->
                                 <app-field-error-display [field]="shippingFG3.controls.city" [errorMsg]="errorMsgs"> </app-field-error-display>
                                 <!--Validation-->
 
                             </div>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" aria-describedby="" placeholder="State" pattern formControlName="state">
-                                        <!--Validation-->
-                                        <app-field-error-display [field]="shippingFG3.controls.state" [errorMsg]="errorMsgs"> </app-field-error-display>
-                                        <!--Validation-->
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" aria-describedby="" placeholder="Zipcode" pattern formControlName="zipcode">
-                                        <!--Validation-->
-                                        <app-field-error-display [field]="shippingFG3.controls.zipcode" [errorMsg]="errorMsgs"> </app-field-error-display>
-                                        <!--Validation-->
-                                    </div>
-                                </div>
+                            <div class="col-sm-12 p-0">
+                                <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" aria-describedby="" placeholder="State" pattern formControlName="state">
+                                                <!--Validation-->
+                                                <app-field-error-display [field]="shippingFG3.controls.state" [errorMsg]="errorMsgs"> </app-field-error-display>
+                                                <!--Validation-->
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" aria-describedby="" placeholder="Zipcode" pattern formControlName="zipcode">
+                                                <!--Validation-->
+                                                <app-field-error-display [field]="shippingFG3.controls.zipcode" [errorMsg]="errorMsgs"> </app-field-error-display>
+                                                <!--Validation-->
+                                            </div>
+                                        </div>
+                                </div> 
                             </div>
                             <div class="row">
 
                                 <div class="col-sm-12">
                                     <div>Allowable shipping destinations</div>
                                     <div>
-                                        <select class="ddl_default" formControlName='countryName'>
+                                        <select class="ddl_default w-100 form-control" formControlName='countryName'>
                                             <option>United States</option>
                                         </select>
                                     </div>
-                                    <div class="col-sm-12  p-3">
-                                        <div formArrayName="locationInclude" class="well well-lg col-md-12" *ngFor="let item of shippingFG3.get('locationInclude').controls; let i = index;">
+                                    <div class="col-sm-12  p-2">
+                                        <div formArrayName="locationInclude" class="well well-lg col-md-12 p-2" *ngFor="let item of shippingFG3.get('locationInclude').controls; let i = index;">
                                             <div [formGroupName]="i">
                                                 <input type="checkbox" formControlName="locationType" /> {{item.value.locationName}}
                                                 <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
@@ -309,7 +314,7 @@
                         <div class="col-sm-6" *ngIf="step==2 || step==3">
                             <a (click)="shippingBack()" class="ancDefault">back</a>
                         </div>
-                        <div class="col-sm-6 text-right" *ngIf="step==1 || step==2">
+                        <div class="col-sm-12 text-right" *ngIf="step==1 || step==2">
                             <a class="btn btn-default ancProfile1" (click)="shippingNext()">Next</a>
                         </div>
                         <div class="col-sm-6 text-right" *ngIf="step==3">
