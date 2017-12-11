@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { hasRequiredField, getControlName } from '../../admin-app/app/components/retailer/retailer-add/retailer-add.component';
+import { ValidatorExt } from '../ValidatorExtensions';
 
 @Component({
   selector: 'app-field-error-display',
@@ -11,19 +11,19 @@ import { hasRequiredField, getControlName } from '../../admin-app/app/components
 export class FieldErrorDisplayComponent implements OnInit {
   @Input() errorMsg: any;
   @Input() field: any;
-  constructor() { }
+  constructor(private validatorExt: ValidatorExt) { }
   getHasRequired() {
-    return hasRequiredField(this.field);
+    return this.validatorExt.hasRequiredField(this.field);
   }
   getRequiredMsg() {
-    const name = getControlName(this.field);
+    const name = this.validatorExt.getControlName(this.field);
     const errorMsg = this.errorMsg[name];
     if (errorMsg && errorMsg.required) {
       return errorMsg.required;
     } else { return `Please enter the ${name}`; }
   }
   getErrorMsg() {
-    const name = getControlName(this.field);
+    const name = this.validatorExt.getControlName(this.field);
     const errorMsg = this.errorMsg[name];
     if (errorMsg && errorMsg.error) {
       return errorMsg.error;

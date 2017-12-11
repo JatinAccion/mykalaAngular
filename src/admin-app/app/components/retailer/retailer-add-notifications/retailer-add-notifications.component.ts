@@ -12,8 +12,9 @@ import { RetailerBuinessAddress } from '../../../../../models/retailer-business-
 import { RetailerPrimaryContact } from '../../../../../models/retailer-contact';
 import { RetailerPaymentInfo, BankDetails } from '../../../../../models/retailer-payment-info';
 import { RetialerShippingProfile } from '../../../../../models/retailer-shipping-profile';
-import { IAlert, hasRequiredField } from '../retailer-add/retailer-add.component';
+import { IAlert } from '../retailer-add/retailer-add.component';
 import { environment } from '../../../../environments/environment';
+import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 
 @Component({
   selector: 'app-retailer-add-notifications',
@@ -42,7 +43,7 @@ export class RetailerAddNotificationsComponent implements OnInit {
   profileFG2 = new FormGroup({});
   sellerTypes: Array<nameValue> = new Array<nameValue>();
   step = 1;
-  shippingObj = new RetailerProfileInfo();
+  shippingObj = new RetialerShippingProfile();
   uploadFile: any;
   profileErrorMsgs: any;
   saveLoader = true;
@@ -54,7 +55,8 @@ export class RetailerAddNotificationsComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     route: ActivatedRoute,
-    private retialerService: RetialerService
+    private retialerService: RetialerService,
+    private validatorExt: ValidatorExt
   ) {
     this.retailerId = route.snapshot.params['id'];
   }
@@ -147,11 +149,9 @@ export class RetailerAddNotificationsComponent implements OnInit {
     this.validateAllFormFields(this.profileFG2);
     if (!this.profileFG1.valid) {
       this.shippingBack();
-    }
-    else if (!this.profileFG2.valid) {
+    } else if (!this.profileFG2.valid) {
       this.shippingNext();
-    }
-    else {
+    } else {
       this.saveLoader = true;
       this.retialerService
         .saveShipping(this.shippingObj)
@@ -200,7 +200,7 @@ export class RetailerAddNotificationsComponent implements OnInit {
     return {
       'has-error': this.isFieldValid(field),
       'has-feedback': this.isFieldValid(field),
-      'required': hasRequiredField(field)
+      'required': this.validatorExt.hasRequiredField(field)
     };
   }
   getValidators(_f) {
@@ -215,38 +215,38 @@ export class RetailerAddNotificationsComponent implements OnInit {
   }
 
   readShipping() {
-    this.shippingObj.retailerProfile = new ProfileInfo();
-    this.shippingObj.retailerProfile.businessLogoPath = this.profileFG1.value.profileImage;
-    this.shippingObj.retailerProfile.businessName = this.profileFG1.value.businessName;
-    this.shippingObj.retailerProfile.tin = this.profileFG1.value.tin;
-    this.shippingObj.retailerProfile.businessSummary = this.profileFG1.value.businessSummary;
-    this.shippingObj.retailerProfile.sellerTypeId = this.profileFG1.value.sellerTypeId;
+    // this.shippingObj.retailerProfile = new ProfileInfo();
+    // this.shippingObj.retailerProfile.businessLogoPath = this.profileFG1.value.profileImage;
+    // this.shippingObj.retailerProfile.businessName = this.profileFG1.value.businessName;
+    // this.shippingObj.retailerProfile.tin = this.profileFG1.value.tin;
+    // this.shippingObj.retailerProfile.businessSummary = this.profileFG1.value.businessSummary;
+    // this.shippingObj.retailerProfile.sellerTypeId = this.profileFG1.value.sellerTypeId;
 
-    this.shippingObj.retailerProfile.websiteUrl = this.profileFG2.value.websiteUrl;
-    this.shippingObj.retailerProfile.websiteUserName = this.profileFG2.value.websiteUserName;
-    this.shippingObj.retailerProfile.websitePassword = this.profileFG2.value.websitePassword;
+    // this.shippingObj.retailerProfile.websiteUrl = this.profileFG2.value.websiteUrl;
+    // this.shippingObj.retailerProfile.websiteUserName = this.profileFG2.value.websiteUserName;
+    // this.shippingObj.retailerProfile.websitePassword = this.profileFG2.value.websitePassword;
 
-    this.shippingObj.businessAddress = new RetailerBuinessAddress();
-    this.shippingObj.businessAddress.addressLine1 = this.profileFG1.value.bussines_address;
-    this.shippingObj.businessAddress.addressLine2 = this.profileFG1.value.bussines_address2;
-    this.shippingObj.businessAddress.city = this.profileFG1.value.city;
-    this.shippingObj.businessAddress.state = this.profileFG1.value.state;
-    this.shippingObj.businessAddress.zipcode = this.profileFG1.value.zipcode;
-    this.shippingObj.businessAddress.email = this.profileFG1.value.email;
-    this.shippingObj.businessAddress.phoneNo = this.profileFG1.value.phone_number;
+    // this.shippingObj.businessAddress = new RetailerBuinessAddress();
+    // this.shippingObj.businessAddress.addressLine1 = this.profileFG1.value.bussines_address;
+    // this.shippingObj.businessAddress.addressLine2 = this.profileFG1.value.bussines_address2;
+    // this.shippingObj.businessAddress.city = this.profileFG1.value.city;
+    // this.shippingObj.businessAddress.state = this.profileFG1.value.state;
+    // this.shippingObj.businessAddress.zipcode = this.profileFG1.value.zipcode;
+    // this.shippingObj.businessAddress.email = this.profileFG1.value.email;
+    // this.shippingObj.businessAddress.phoneNo = this.profileFG1.value.phone_number;
 
-    this.shippingObj.primaryContact = new RetailerPrimaryContact();
+    // this.shippingObj.primaryContact = new RetailerPrimaryContact();
 
-    this.shippingObj.primaryContact.personName = this.profileFG2.value.contact_name;
-    this.shippingObj.primaryContact.position = this.profileFG2.value.contact_position;
-    this.shippingObj.primaryContact.addressLine1 = this.profileFG2.value.contact_address1;
-    this.shippingObj.primaryContact.addressLine2 = this.profileFG2.value.contact_address2;
-    this.shippingObj.primaryContact.city = this.profileFG2.value.contact_city;
-    this.shippingObj.primaryContact.state = this.profileFG2.value.contact_state;
-    this.shippingObj.primaryContact.zipcode = this.profileFG2.value.contact_zipcode;
-    this.shippingObj.primaryContact.email = this.profileFG2.value.contact_email;
-    this.shippingObj.primaryContact.phoneNo = this.profileFG2.value.contact_phone_number;
-    return this.shippingObj;
+    // this.shippingObj.primaryContact.personName = this.profileFG2.value.contact_name;
+    // this.shippingObj.primaryContact.position = this.profileFG2.value.contact_position;
+    // this.shippingObj.primaryContact.addressLine1 = this.profileFG2.value.contact_address1;
+    // this.shippingObj.primaryContact.addressLine2 = this.profileFG2.value.contact_address2;
+    // this.shippingObj.primaryContact.city = this.profileFG2.value.contact_city;
+    // this.shippingObj.primaryContact.state = this.profileFG2.value.contact_state;
+    // this.shippingObj.primaryContact.zipcode = this.profileFG2.value.contact_zipcode;
+    // this.shippingObj.primaryContact.email = this.profileFG2.value.contact_email;
+    // this.shippingObj.primaryContact.phoneNo = this.profileFG2.value.contact_phone_number;
+    // return this.shippingObj;
   }
 
   callUpload() {
@@ -269,37 +269,37 @@ export class RetailerAddNotificationsComponent implements OnInit {
     this.retialerService
       .profileInfoGet(this.retailerId)
       .subscribe((res: RetailerProfileInfo) => {
-        this.shippingObj = res;
-        this.profileFG1.patchValue({
-          businessName: this.shippingObj.retailerProfile.businessName,
-          tin: this.shippingObj.retailerProfile.tin,
-          businessSummary: this.shippingObj.retailerProfile.businessSummary,
-          sellerTypeId: this.shippingObj.retailerProfile.sellerTypeId,
+        // this.shippingObj = res;
+        // this.profileFG1.patchValue({
+        //   businessName: this.shippingObj.retailerProfile.businessName,
+        //   tin: this.shippingObj.retailerProfile.tin,
+        //   businessSummary: this.shippingObj.retailerProfile.businessSummary,
+        //   sellerTypeId: this.shippingObj.retailerProfile.sellerTypeId,
 
-          bussines_address: this.shippingObj.businessAddress.addressLine1,
-          bussines_address2: this.shippingObj.businessAddress.addressLine2,
-          city: this.shippingObj.businessAddress.city,
-          state: this.shippingObj.businessAddress.state,
-          zipcode: this.shippingObj.businessAddress.zipcode,
-          email: this.shippingObj.businessAddress.email,
-          phone_number: this.shippingObj.businessAddress.phoneNo
-        });
+        //   bussines_address: this.shippingObj.businessAddress.addressLine1,
+        //   bussines_address2: this.shippingObj.businessAddress.addressLine2,
+        //   city: this.shippingObj.businessAddress.city,
+        //   state: this.shippingObj.businessAddress.state,
+        //   zipcode: this.shippingObj.businessAddress.zipcode,
+        //   email: this.shippingObj.businessAddress.email,
+        //   phone_number: this.shippingObj.businessAddress.phoneNo
+        // });
 
-        this.profileFG2.patchValue({
-          websiteUrl: this.shippingObj.retailerProfile.websiteUrl,
-          websiteUserName: this.shippingObj.retailerProfile.websiteUserName,
-          websitePassword: this.shippingObj.retailerProfile.websitePassword,
+        // this.profileFG2.patchValue({
+        //   websiteUrl: this.shippingObj.retailerProfile.websiteUrl,
+        //   websiteUserName: this.shippingObj.retailerProfile.websiteUserName,
+        //   websitePassword: this.shippingObj.retailerProfile.websitePassword,
 
-          contact_name: this.shippingObj.primaryContact.personName,
-          contact_position: this.shippingObj.primaryContact.position,
-          contact_address1: this.shippingObj.primaryContact.addressLine1,
-          contact_address2: this.shippingObj.primaryContact.addressLine2,
-          contact_city: this.shippingObj.primaryContact.city,
-          contact_state: this.shippingObj.primaryContact.state,
-          contact_zipcode: this.shippingObj.primaryContact.zipcode,
-          contact_email: this.shippingObj.primaryContact.email,
-          contact_phone_number: this.shippingObj.primaryContact.phoneNo
-        });
+        //   contact_name: this.shippingObj.primaryContact.personName,
+        //   contact_position: this.shippingObj.primaryContact.position,
+        //   contact_address1: this.shippingObj.primaryContact.addressLine1,
+        //   contact_address2: this.shippingObj.primaryContact.addressLine2,
+        //   contact_city: this.shippingObj.primaryContact.city,
+        //   contact_state: this.shippingObj.primaryContact.state,
+        //   contact_zipcode: this.shippingObj.primaryContact.zipcode,
+        //   contact_email: this.shippingObj.primaryContact.email,
+        //   contact_phone_number: this.shippingObj.primaryContact.phoneNo
+        // });
       });
   }
 

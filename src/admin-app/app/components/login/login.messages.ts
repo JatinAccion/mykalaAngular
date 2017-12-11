@@ -3,6 +3,6 @@ export const loginMessages = {
     error: ''
 };
 export const loginInputValidations = {
-    usernameRequired: 'Please enter the Email',
-    usernameInvalid: 'Please enter the valid Email'
+    emailRequired: 'Please enter the Email',
+    emailInvalid: 'Please enter the valid Email'
 };

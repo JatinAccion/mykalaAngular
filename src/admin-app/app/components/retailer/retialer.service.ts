@@ -13,6 +13,7 @@ import { Retailer, RetailerReports } from '../../../../models/retailer';
 import { LocalStorageService } from '../../services/LocalStorage.service';
 import { nameValue } from '../../../../models/nameValue';
 import { RetailerPaymentInfo } from '../../../../models/retailer-payment-info';
+import { RetialerShippingProfile } from '../../../../models/retailer-shipping-profile';
 
 @Injectable()
 export class RetialerService {
@@ -114,12 +115,18 @@ export class RetialerService {
         .catch(this.handleError);
     }
   }
-
-  saveShipping(retailerProfileInfo: RetailerProfileInfo): Promise<any> {
-    this.headers = this.getHttpHeraders();
-    const url = `${this.BASE_URL}/${environment.apis.retailerProfileInfo.save}`;
+  shippingProfileGet(retailerId: number): Observable<RetialerShippingProfile> {
+    const url = `${this.BASE_URL}/${environment.apis.retailerProfileInfo.get}`;
     return this.http
-      .post(url, retailerProfileInfo, { headers: this.headers })
+      .get(`${url}/${retailerId}`, { headers: this.headers })
+      .map(res => res.json())
+      .catch(this.handleError);
+  }
+  saveShipping(shippingProfile: RetialerShippingProfile): Promise<any> {
+    this.headers = this.getHttpHeraders();
+    const url = `${this.BASE_URL}/${environment.apis.retailerShippingInfo.save}`;
+    return this.http
+      .post(url, shippingProfile, { headers: this.headers })
       .toPromise()
       .catch(this.handleError);
   }

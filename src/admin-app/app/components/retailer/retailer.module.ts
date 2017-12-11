@@ -13,6 +13,7 @@ import { RetailerAddShippingComponent } from './retailer-add-shipping/retailer-a
 import { RetailerAddNotificationsComponent } from './retailer-add-notifications/retailer-add-notifications.component';
 import { RetailerAddProductsComponent } from './retailer-add-products/retailer-add-products.component';
 import { RetailerAddReturnsComponent } from './retailer-add-returns/retailer-add-returns.component';
+import { ValidatorExt } from '../../../../common/ValidatorExtensions';
 
 @NgModule({
   imports: [
@@ -31,6 +32,6 @@ import { RetailerAddReturnsComponent } from './retailer-add-returns/retailer-add
     RetailerAddProductsComponent,
     RetailerAddReturnsComponent
   ],
-  providers: [RetialerService]
+  providers: [RetialerService, ValidatorExt]
 })
 export class RetailerModule { }

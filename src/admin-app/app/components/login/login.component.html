@@ -9,8 +9,8 @@
 
             <!--Validation-->
             <div *ngIf="loginKala.controls.email.dirty || loginKala.controls.email.touched">
-                <div *ngIf="!loginKala.controls.email.value" class="alert alert-danger errorMessages">{{loginInputValidations.usernameRequired}}</div>
-                <div *ngIf="loginKala.controls.email.value && loginKala.controls.email.errors" class="alert alert-danger errorMessages">{{loginInputValidations.usernameInvalid}}</div>
+                <div *ngIf="!loginKala.controls.email.value" class="alert alert-danger errorMessages">{{loginInputValidations.emailRequired}}</div>
+                <div *ngIf="loginKala.controls.email.value && loginKala.controls.email.errors" class="alert alert-danger errorMessages">{{loginInputValidations.emailInvalid}}</div>
             </div>
             <!--Validation-->
 
@@ -20,19 +20,18 @@
 
             <!--Validation-->
             <div *ngIf="loginKala.controls.password.dirty || loginKala.controls.password.touched">
-                <div *ngIf="!loginKala.controls.password.value" class="alert alert-danger errorMessages">Please enter the password</div>
-                <div *ngIf="loginKala.controls.password.value && !loginKala.controls.password.pattern && loginKala.controls.password.errors" class="alert alert-danger errorMessages">
-                    Password length must be minimum 8 characters, 1 uppercase character, 1 lowercase character, 1 number, 1 special character
-                </div>
+                <div *ngIf="!loginKala.controls.password.value" class="alert alert-danger errorMessages">Please enter the password</div> 
             </div>
             <!--Validation-->
 
         </div>
         <div class="form-check">
             <label class="form-check-label">
-                <input type="checkbox" class="form-check-input"> remember me
+                <input type="checkbox" formControlName="remember"  class="form-check-input"> remember me
             </label>
         </div>
+
+        <img src="/admin-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="loader" />
     </div>
     <hr />
     <div class="clearfix col-sm-12 text-center">

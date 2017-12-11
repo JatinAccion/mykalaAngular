@@ -10,29 +10,10 @@ import { RetailerPrimaryContact } from '../../../../../models/retailer-contact';
 import { RetialerService } from '../retialer.service';
 import { RetailerPaymentInfo, BankDetails } from '../../../../../models/retailer-payment-info';
 import { NgbTabset } from '@ng-bootstrap/ng-bootstrap/tabset/tabset';
+import { environment } from '../../../../environments/environment';
+import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 // #endregion imports
-export const hasRequiredField = (abstractControl: AbstractControl): boolean => {
-  if (abstractControl.validator) {
-    const validator = abstractControl.validator({} as AbstractControl);
-    if (validator && validator.required) {
-      return true;
-    }
-  }
-  if (abstractControl['controls']) {
-    for (const controlName in abstractControl['controls']) {
-      if (abstractControl['controls'][controlName]) {
-        if (hasRequiredField(abstractControl['controls'][controlName])) {
-          return true;
-        }
-      }
-    }
-  }
-  return false;
-};
-export const getControlName = (abstractControl: AbstractControl): string | null => {
-  const formGroup = abstractControl.parent.controls;
-  return Object.keys(formGroup).find(name => abstractControl === formGroup[name]) || null;
-};
+
 export interface IAlert {
   id: number;
   type: string;
@@ -51,8 +32,6 @@ export class RetailerAddComponent implements OnInit {
   currentJustify = 'end';
 
   retailer: Retailer;
-  numberRegex = new RegExp('^[0-9_.-]*$');
-  textRegex = new RegExp('^[a-zA-Z 0-9_.-]*$');
   retailerId = 1;
   @ViewChild('tabs') ngbTabSet: NgbTabset;
   alert: IAlert = {
@@ -69,7 +48,7 @@ export class RetailerAddComponent implements OnInit {
   profileInfoObj = new RetailerProfileInfo();
   uploadFile: any;
   profileErrorMsgs: any;
-  profileSaveloader = true;
+  profileSaveloader = false;
   // #endregion ProfileInfo
   // #region PaymentInfo
   paymentFG1 = new FormGroup({});
@@ -79,6 +58,7 @@ export class RetailerAddComponent implements OnInit {
   paymentInfoStep = 1;
   paymentInfoObj = new RetailerPaymentInfo();
   paymentErrorMsgs: any;
+  paymentSaveloader = false;
   // #endregion PaymentInfo
   // #endregion declaration
   // tslint:disable-next-line:whitespace
@@ -86,15 +66,16 @@ export class RetailerAddComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     route: ActivatedRoute,
-    private retialerService: RetialerService
+    private retialerService: RetialerService,
+    private validatorExt: ValidatorExt
   ) {
-    this.retailerId = route.snapshot.params['id'];
+    //this.retailerId = route.snapshot.params['id'];
   }
   ngOnInit() {
-    //this.ngbTabSet.select('tab-Shipping');
     this.setActiveTab({ nextId: 'tab-Profile' });
   }
   setActiveTab(event) {
+    if (!this.retailerId && event.nextId !== 'tab-Profile') { event.preventDefault(); return; }
     this.profileFG1 = new FormGroup({});
     this.profileFG2 = new FormGroup({});
     this.paymentFG1 = new FormGroup({});
@@ -114,13 +95,14 @@ export class RetailerAddComponent implements OnInit {
           this.getPaymentInfo(this.retailerId);
         }
         break;
-        case 'tab-Shipping':
+      case 'tab-Shipping':
         this.setPaymenInfoValidators();
         this.getPaymentInfoDropdowndata();
         if (this.retailerId) {
           this.getPaymentInfo(this.retailerId);
         }
         break;
+
     }
   }
   closeAlert(alert: IAlert) {
@@ -130,38 +112,39 @@ export class RetailerAddComponent implements OnInit {
   setProfileInfoValidators() {
     this.profileFG1 = this.formBuilder.group({
       profileImage: [''],
-      businessName: ['', [Validators.pattern(this.textRegex), Validators.maxLength(255), Validators.required]],
-      tin: ['', [Validators.maxLength(255), Validators.pattern(this.textRegex), Validators.required]],
-      businessSummary: ['', [Validators.maxLength(255), Validators.pattern(this.textRegex), Validators.required]],
-      bussines_address: ['', [Validators.maxLength(255), Validators.pattern(this.textRegex), Validators.required]],
-      bussines_address2: ['', [Validators.maxLength(255), Validators.pattern(this.textRegex)]],
-      city: ['', [Validators.maxLength(255), Validators.pattern(this.textRegex)]],
-      state: ['', [Validators.maxLength(255), Validators.pattern(this.textRegex)]],
-      zipcode: ['', [Validators.maxLength(5), Validators.minLength(5), Validators.pattern(this.numberRegex)]],
-      email: ['', [Validators.maxLength(255), Validators.email]],
-      phone_number: ['', [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(this.numberRegex)]],
+      businessName: ['', [Validators.pattern(environment.regex.nameRegex), Validators.maxLength(255), Validators.required]],
+      tin: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
+      businessSummary: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
+      bussines_address: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
+      bussines_address2: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
+      city: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
+      state: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
+      zipcode: ['', [Validators.maxLength(5), Validators.minLength(5),
+      Validators.pattern(environment.regex.numberRegex), Validators.required]],
+      email: ['', [Validators.maxLength(255), Validators.email, Validators.required]],
+      phone_number: ['', [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(environment.regex.numberRegex)]],
       sellerTypeId: ['', [Validators.required]]
     });
     this.profileFG2 = this.formBuilder.group({
-      websiteUrl: ['', [Validators.maxLength(255), Validators.pattern(this.textRegex)]],
-      websiteUserName: ['', [Validators.maxLength(255), Validators.pattern(this.textRegex)]],
-      websitePassword: ['', [Validators.maxLength(255), Validators.pattern(this.textRegex)]],
-      contact_name: ['', [Validators.maxLength(255), Validators.pattern(this.textRegex)]],
-      contact_position: ['', [Validators.maxLength(255), Validators.pattern(this.textRegex)]],
-      contact_address1: ['', [Validators.maxLength(255), Validators.pattern(this.textRegex)]],
-      contact_address2: ['', [Validators.maxLength(255), Validators.pattern(this.textRegex)]],
-      contact_city: ['', [Validators.maxLength(255), Validators.pattern(this.textRegex)]],
-      contact_state: ['', [Validators.maxLength(255), Validators.pattern(this.textRegex)]],
-      contact_zipcode: ['', [Validators.maxLength(5), Validators.minLength(5), Validators.pattern(this.numberRegex)]],
+      websiteUrl: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
+      websiteUserName: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
+      websitePassword: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
+      contact_name: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
+      contact_position: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
+      contact_address1: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
+      contact_address2: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
+      contact_city: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
+      contact_state: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
+      contact_zipcode: ['', [Validators.maxLength(5), Validators.minLength(5), Validators.pattern(environment.regex.numberRegex)]],
       contact_email: ['', [Validators.maxLength(255), Validators.email]],
-      contact_phone_number: ['', [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(this.numberRegex)]]
+      contact_phone_number: ['', [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(environment.regex.numberRegex)]]
     });
     this.profileErrorMsgs = {
       'profileImage': { required: 'Please select  Business Logo', error: 'Please select Business Logo' },
       'businessName': { required: 'Please enter Business Name ', error: 'Please enter valid Business Name' },
       'tin': { required: 'Please enter Tin', error: 'Please enter valid TIN' },
       'businessSummary': { required: 'Please enter Business Summary', error: 'Please enter valid Business Summary' },
-      'bussines_address': { required: 'Please enter Address line Address line 2', error: 'Please enter valid Address line Address line 2' },
+      'bussines_address': { required: 'Please enter Address line Address line', error: 'Please enter valid Address line Address line' },
       'bussines_address2': { required: 'Please enter Address line 2', error: 'Please enter valid Address line 2' },
       'city': { required: 'Please enter City', error: 'Please enter valid City' },
       'state': { required: 'Please enter State', error: 'Please enter valid State' },
@@ -201,11 +184,9 @@ export class RetailerAddComponent implements OnInit {
     this.validateAllFormFields(this.profileFG2);
     if (!this.profileFG1.valid) {
       this.profileInfoBack();
-    }
-    else if (!this.profileFG2.valid) {
+    } else if (!this.profileFG2.valid) {
       this.profileInfoNext();
-    }
-    else {
+    } else {
       this.profileSaveloader = true;
       this.retialerService
         .profileInfoSave(this.profileInfoObj)
@@ -254,7 +235,7 @@ export class RetailerAddComponent implements OnInit {
     return {
       'has-error': this.isFieldValid(field),
       'has-feedback': this.isFieldValid(field),
-      'required': hasRequiredField(field)
+      'required': this.validatorExt.hasRequiredField(field)
     };
   }
   getValidators(_f) {
@@ -364,41 +345,44 @@ export class RetailerAddComponent implements OnInit {
     this.paymentFG1 = this.formBuilder.group({
       paymentMethod: ['', [Validators.required]],
       paymentVehicle: ['', [Validators.required]],
-      bankname: ['', [Validators.pattern(this.textRegex)]],
-      addressLine1: ['', [Validators.pattern(this.textRegex)]],
-      addressLine2: ['', [Validators.pattern(this.textRegex)]],
-      city: ['', [Validators.pattern(this.textRegex)]],
-      state: ['', [Validators.pattern(this.textRegex)]],
-      zipcode: ['', [Validators.maxLength(5), Validators.minLength(5), Validators.pattern(this.numberRegex)]]
+      bankname: ['', [Validators.pattern(environment.regex.textRegex)]],
+      addressLine1: ['', [Validators.pattern(environment.regex.textRegex), Validators.required]],
+      addressLine2: ['', [Validators.pattern(environment.regex.textRegex)]],
+      city: ['', [Validators.pattern(environment.regex.textRegex), Validators.required]],
+      state: ['', [Validators.pattern(environment.regex.textRegex), Validators.required]],
+      zipcode: ['', [Validators.maxLength(5), Validators.minLength(5),
+      Validators.pattern(environment.regex.numberRegex), Validators.required]]
     });
     this.paymentFG2 = this.formBuilder.group({
-      accountName: ['', [Validators.pattern(this.textRegex)]],
-      accountNumber: ['', [Validators.pattern(this.numberRegex)]],
-      routingNumber: ['', [Validators.pattern(this.numberRegex)]],
-      swiftCode: ['', [Validators.pattern(this.textRegex)]],
-      name: ['', [Validators.pattern(this.textRegex)]],
-      addressLine1: ['', [Validators.pattern(this.textRegex)]],
-      addressLine2: ['', [Validators.pattern(this.textRegex)]],
-      city: ['', [Validators.pattern(this.textRegex)]],
-      state: ['', [Validators.pattern(this.textRegex)]],
-      zipcode: ['', [Validators.maxLength(5), Validators.minLength(5), Validators.pattern(this.numberRegex)]]
+      accountName: ['', [Validators.pattern(environment.regex.textRegex)]],
+      accountNumber: ['', [Validators.pattern(environment.regex.numberRegex)]],
+      routingNumber: ['', [Validators.pattern(environment.regex.numberRegex)]],
+      swiftCode: ['', [Validators.pattern(environment.regex.textRegex)]],
+      name: ['', [Validators.pattern(environment.regex.textRegex)]],
+      addressLine1: ['', [Validators.pattern(environment.regex.textRegex), Validators.required]],
+      addressLine2: ['', [Validators.pattern(environment.regex.textRegex)]],
+      city: ['', [Validators.pattern(environment.regex.textRegex), Validators.required]],
+      state: ['', [Validators.pattern(environment.regex.textRegex), Validators.required]],
+      zipcode: ['', [Validators.maxLength(5), Validators.minLength(5),
+      Validators.pattern(environment.regex.numberRegex), Validators.required]]
     });
     this.paymentErrorMsgs = {
       'paymentMethod': { required: 'Please select Payment Method', error: 'Please select valid Payment Method' },
       'paymentVehicle': { required: 'Please select Payment Vehicle', error: 'Please select valid Payment Vehicle' },
       'bankname': { required: 'Please enter Bank name', error: 'Please enter valid Bank name' },
-      'accountName': { required: 'Please enter me', error: 'Please enter valid me' },
-      'accountNumber': { required: 'Please enter me', error: 'Please enter valid me' },
-      'routingNumber': { required: 'Please enter me', error: 'Please enter valid me' },
-      'swiftCode': { required: 'Please enter me', error: 'Please enter valid me' },
-      'name': { required: 'Please enter me', error: 'Please enter valid me' },
-      'addressLine1': { required: 'Please enter me', error: 'Please enter valid me' },
-      'addressLine2': { required: 'Please enter me', error: 'Please enter valid me' },
-      'city': { required: 'Please enter me', error: 'Please enter valid me' },
-      'state': { required: 'Please enter me', error: 'Please enter valid me' },
-      'zipcode': { required: 'Please enter me', error: 'Please enter valid me' },
-      'email': { required: 'Please enter me', error: 'Please enter valid me' },
-      'phone_number': { required: 'Please enter me', error: 'Please enter valid me' },
+      'accountName': { required: 'Please enter Account Name', error: 'Please enter valid Account Name' },
+      'accountNumber': { required: 'Please enter Account Number', error: 'Please enter valid Account Number' },
+      'routingNumber': { required: 'Please enter Routing Number', error: 'Please enter valid Routing Number' },
+      'swiftCode': { required: 'Please enter Swift Code', error: 'Please enter valid Swift Code' },
+      'name': { required: 'Please enter Name', error: 'Please enter valid Name' },
+
+      'email': { required: 'Please enter Email', error: 'Please enter valid Email' },
+      'phone_number': { required: 'Please enter Phone No.', error: 'Please enter valid Phone No.' },
+      'addressLine1': { required: 'Please enter Address line Address line', error: 'Please enter valid Address line Address line' },
+      'addressLine2': { required: 'Please enter Address line 2', error: 'Please enter valid Address line 2' },
+      'city': { required: 'Please enter City', error: 'Please enter valid City' },
+      'state': { required: 'Please enter State', error: 'Please enter valid State' },
+      'zipcode': { required: 'Please enter Zipcode', error: 'Please enter valid Zipcode' },
     };
 
   }
@@ -425,23 +409,23 @@ export class RetailerAddComponent implements OnInit {
     this.readPaymenInfo();
     this.validateAllFormFields(this.paymentFG1);
     this.validateAllFormFields(this.paymentFG2);
-    if (!this.profileFG1.valid) {
-      this.profileInfoBack();
-    }
-    else if (!this.profileFG2.valid) {
-      this.profileInfoNext();
-    }
-    else {
+    if (!this.paymentFG1.valid) {
+      this.paymentInfoBack();
+    } else if (!this.paymentFG2.valid) {
+      this.paymentInfoNext();
+    } else {
+      this.paymentSaveloader = true;
       this.retialerService
         .paymentInfoSave(this.paymentInfoObj)
         .then(res => {
-          this.ngbTabSet.select('tab-Payment');
+          this.ngbTabSet.select('tab-Product');
           this.alert = {
             id: 1,
             type: 'success',
             message: 'Saved successfully',
             show: true
           };
+          this.paymentSaveloader = false;
           return true;
         })
         .catch(err => {
@@ -452,7 +436,7 @@ export class RetailerAddComponent implements OnInit {
             message: 'Not able to Save',
             show: true
           };
-
+          this.paymentSaveloader = false;
         });
       return false;
     }

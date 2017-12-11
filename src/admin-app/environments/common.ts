@@ -19,6 +19,11 @@ export const apiNames = {
         get: 'retailerPaymentInfo/get',
         save: 'retailer/saveBankDetails',
         delete: 'delete',
+    },
+    retailerShippingInfo: {
+        get: 'retailerShippingInfo/get',
+        save: 'retailer/saveShippingInfo',
+        delete: 'delete',
     }
 };
 export const commonMessages = {

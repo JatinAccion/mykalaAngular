@@ -1,7 +1,7 @@
 // #region imports
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { Retailer } from '../../../../../models/retailer';
-import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl, FormArray } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgbTabset } from '@ng-bootstrap/ng-bootstrap/tabset/tabset';
 import { nameValue } from '../../../../../models/nameValue';
@@ -11,9 +11,11 @@ import { RetailerProfileInfo, ProfileInfo } from '../../../../../models/retailer
 import { RetailerBuinessAddress } from '../../../../../models/retailer-business-adress';
 import { RetailerPrimaryContact } from '../../../../../models/retailer-contact';
 import { RetailerPaymentInfo, BankDetails } from '../../../../../models/retailer-payment-info';
-import { RetialerShippingProfile } from '../../../../../models/retailer-shipping-profile';
-import { IAlert, hasRequiredField } from '../retailer-add/retailer-add.component';
+import { RetialerShippingProfile, ShippingDeliveryTier, RetailerAddress, ShippingLocations, ShippingSubLocation, RetailerShippingMethodFee } from '../../../../../models/retailer-shipping-profile';
+import { IAlert } from '../retailer-add/retailer-add.component';
 import { environment } from '../../../../environments/environment';
+import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
+import { filterQueryId } from '@angular/core/src/view/util';
 
 @Component({
   selector: 'app-retailer-add-shipping',
@@ -25,8 +27,7 @@ export class RetailerAddShippingComponent implements OnInit {
   // #region declarations
   currentOrientation = 'horizontal';
   currentJustify = 'start';
-
-  numberRegex = new RegExp('^[0-9_.-]*$');
+  currentTabIndex = 0;
   textRegex = new RegExp('^[a-zA-Z 0-9_.-]*$');
   retailerId = 1;
   @ViewChild('tabs') ngbTabSet: NgbTabset;
@@ -40,12 +41,16 @@ export class RetailerAddShippingComponent implements OnInit {
   shippings = new Array<RetialerShippingProfile>();
   shippingFG1 = new FormGroup({});
   shippingFG2 = new FormGroup({});
+  shippingFG3 = new FormGroup({});
   sellerTypes: Array<nameValue> = new Array<nameValue>();
   step = 1;
-  shippingObj = new RetailerProfileInfo();
+  shippingObj = new RetialerShippingProfile();
   uploadFile: any;
   errorMsgs: any;
   saveLoader = true;
+  tiers = new Array<ShippingDeliveryTier>();
+
+
   // #endregion Shipping
 
   // #endregion declaration
@@ -54,20 +59,78 @@ export class RetailerAddShippingComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     route: ActivatedRoute,
-    private retialerService: RetialerService
+    private retialerService: RetialerService,
+    private validatorExt: ValidatorExt
   ) {
     this.retailerId = route.snapshot.params['id'];
   }
   ngOnInit() {
     this.shippings.push(new RetialerShippingProfile());
-    this.shippings.push(new RetialerShippingProfile());
-    this.shippings.push(new RetialerShippingProfile());
-    this.shippings.push(new RetialerShippingProfile());
-    this.shippings.push(new RetialerShippingProfile());
+
     this.setValidators();
+    this.shippingFG1.valueChanges.subscribe(() => {
+      this.deliveryOptionsChange();
+    });
+
   }
   addShipping() {
     this.shippings.push(new RetialerShippingProfile());
+  }
+  setActiveTab(event) {
+    console.log(event);
+    // currentTabIndex = event;
+  }
+  deliveryOptionsChange() {
+    switch (this.shippingFG1.controls.deliveryOptions.value) {
+      case 0: break;
+      case 1: break;
+      case 2: break;
+      case 3: break;
+      case 4: break;
+    }
+  }
+  addTier() {
+    const tiers = this.shippingFG1.get('tiers') as FormArray;
+    tiers.push(this.createTier());
+  }
+  createTier() {
+    const tiers = this.shippingFG1.get('tiers') as FormArray;
+    let length = 0;
+    if (tiers !== null) {
+      length = tiers.length;
+    }
+    return this.formBuilder.group({
+      name: 'Tier' + ++length,
+      min: 0,
+      max: 0,
+    });
+
+  }
+  createShippingMethods(shippingName) {
+    const fg = this.formBuilder.group({
+      shippingName: shippingName,
+      selected: true,
+      disabled: false,
+      charges: this.formBuilder.array([])
+    });
+    if ((this.shippingFG1.controls.tiers as FormArray) !== null) {
+      (this.shippingFG1.controls.tiers as FormArray).controls.forEach(element => {
+        (fg.get('charges') as FormArray).push(this.formBuilder.group({
+          tierName: element.value.name,
+          charge: 0
+        })
+        );
+      });
+    }
+    return fg;
+  }
+  createShippingLocation(locationName) {
+    return this.formBuilder.group({
+      locationName: locationName,
+      locationType: true,
+      locationFee: 0,
+    });
+
   }
   closeAlert(alert: IAlert) {
     this.alert.show = false;
@@ -78,10 +141,21 @@ export class RetailerAddShippingComponent implements OnInit {
       profileName: ['', [Validators.pattern(environment.regex.textRegex), Validators.maxLength(255), Validators.required]],
       deliveryOptions: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
       businessSummary: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
-
+      tiers: this.formBuilder.array([this.createTier()])
     });
-    this.shippingFG2 = this.formBuilder.group({
-
+    this.setValidatorsFG2();
+    this.shippingFG3 = this.formBuilder.group({
+      addressLine1: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
+      addressLine2: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
+      city: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
+      state: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
+      zipcode: ['', [Validators.maxLength(5), Validators.minLength(5),
+      Validators.pattern(environment.regex.numberRegex), Validators.required]],
+      countryName: ['', [Validators.required]],
+      locationInclude: this.formBuilder.array([
+        this.createShippingLocation('Continental US'),
+        this.createShippingLocation('Alaska and Hawaii'),
+        this.createShippingLocation('US Protectorates')])
     });
     this.errorMsgs = {
       'profileName': { required: 'Please enter Business Name ', error: 'Please enter valid Business Name' },
@@ -109,30 +183,39 @@ export class RetailerAddShippingComponent implements OnInit {
       'contact_phone_number': { required: 'Please enter Phone number', error: 'Please enter valid Phone number' }
     };
   }
-  getProfileInfoDropdowndata() {
-    this.retialerService.getSellerTypes().subscribe(res => {
-      this.sellerTypes = res;
+  setValidatorsFG2() {
+    this.shippingFG2 = this.formBuilder.group({
+      shippingMethods: this.formBuilder.array([
+        this.createShippingMethods('Next day: 1 business day shipping'),
+        this.createShippingMethods('2 day: 2 business day shipping'),
+        this.createShippingMethods('3 day: 5 business day'),
+        this.createShippingMethods('Standard: 5 to 8 business days'),
+        this.createShippingMethods('Custom')
+      ])
     });
   }
+
   shippingNext() {
 
     this.step++;
+    if (this.step === 2) { this.setValidatorsFG2(); }
+    if (this.step === 4) { this.step = 3; }
     this.readShipping();
+
   }
   shippingBack() {
-    this.step = 1;
+    this.step--;
+    if (this.step === 0) { this.step = 1; }
   }
   saveShipping() {
     this.readShipping();
-    this.validateAllFormFields(this.shippingFG1);
-    this.validateAllFormFields(this.shippingFG2);
+    this.validatorExt.validateAllFormFields(this.shippingFG1);
+    this.validatorExt.validateAllFormFields(this.shippingFG2);
     if (!this.shippingFG1.valid) {
       this.shippingBack();
-    }
-    else if (!this.shippingFG2.valid) {
+    } else if (!this.shippingFG2.valid) {
       this.shippingNext();
-    }
-    else {
+    } else {
       this.saveLoader = true;
       this.retialerService
         .saveShipping(this.shippingObj)
@@ -164,92 +247,55 @@ export class RetailerAddShippingComponent implements OnInit {
     }
     return false;
   }
-  validateAllFormFields(formGroup: FormGroup) {
-    Object.keys(formGroup.controls).forEach(field => {
-      const control = formGroup.get(field);
-      if (control instanceof FormControl) {
-        control.markAsTouched({ onlySelf: true });
-      } else if (control instanceof FormGroup) {
-        this.validateAllFormFields(control);
-      }
-    });
-  }
-  isFieldValid(field: FormControl) {
-    return field.valid && field.touched;
-  }
-  displayFieldCss(field: FormControl) {
-    return {
-      'has-error': this.isFieldValid(field),
-      'has-feedback': this.isFieldValid(field),
-      'required': hasRequiredField(field)
-    };
-  }
-  getValidators(_f) {
-    return Object.keys(_f).reduce((a, b) => {
-      const v = _f[b][1];
-      if (v && (v === Validators.required || v.indexOf(Validators.required) > -1)) {
-        if (!a[b]) { a[b] = {}; }
-        a[b]['required'] = true;
-      }
-      return a;
-    }, {});
-  }
+
+
 
   readShipping() {
-    // this.shippingObj.retailerProfile = new ProfileInfo();
-    // this.shippingObj.retailerProfile.businessLogoPath = this.shippingFG1.value.profileImage;
-    // this.shippingObj.retailerProfile.businessName = this.shippingFG1.value.profileName;
-    // this.shippingObj.retailerProfile.tin = this.shippingFG1.value.deliveryOptions;
-    // this.shippingObj.retailerProfile.businessSummary = this.shippingFG1.value.businessSummary;
-    // this.shippingObj.retailerProfile.sellerTypeId = this.shippingFG1.value.sellerTypeId;
+    this.shippingObj.sequence = this.currentTabIndex;
+    this.shippingObj.profileName = this.shippingFG1.value.profileName;
+    this.shippingObj.deliveryOption = this.shippingFG1.value.deliveryOptions;
+    this.shippingObj.shipOriginAddress = new RetailerAddress();
+    this.shippingObj.shipOriginAddress.addressLine1 = this.shippingFG3.value.addressLine1;
+    this.shippingObj.shipOriginAddress.addressLine2 = this.shippingFG3.value.addressLine2;
+    this.shippingObj.shipOriginAddress.city = this.shippingFG3.value.city;
+    this.shippingObj.shipOriginAddress.state = this.shippingFG3.value.state;
+    this.shippingObj.shipOriginAddress.zipcode = this.shippingFG3.value.zipcode;
 
-    // this.shippingObj.retailerProfile.websiteUrl = this.shippingFG2.value.websiteUrl;
-    // this.shippingObj.retailerProfile.websiteUserName = this.shippingFG2.value.websiteUserName;
-    // this.shippingObj.retailerProfile.websitePassword = this.shippingFG2.value.websitePassword;
-
-    // this.shippingObj.businessAddress = new RetailerBuinessAddress();
-    // this.shippingObj.businessAddress.addressLine1 = this.shippingFG1.value.bussines_address;
-    // this.shippingObj.businessAddress.addressLine2 = this.shippingFG1.value.bussines_address2;
-    // this.shippingObj.businessAddress.city = this.shippingFG1.value.city;
-    // this.shippingObj.businessAddress.state = this.shippingFG1.value.state;
-    // this.shippingObj.businessAddress.zipcode = this.shippingFG1.value.zipcode;
-    // this.shippingObj.businessAddress.email = this.shippingFG1.value.email;
-    // this.shippingObj.businessAddress.phoneNo = this.shippingFG1.value.phone_number;
-
-    // this.shippingObj.primaryContact = new RetailerPrimaryContact();
-
-    // this.shippingObj.primaryContact.personName = this.shippingFG2.value.contact_name;
-    // this.shippingObj.primaryContact.position = this.shippingFG2.value.contact_position;
-    // this.shippingObj.primaryContact.addressLine1 = this.shippingFG2.value.contact_address1;
-    // this.shippingObj.primaryContact.addressLine2 = this.shippingFG2.value.contact_address2;
-    // this.shippingObj.primaryContact.city = this.shippingFG2.value.contact_city;
-    // this.shippingObj.primaryContact.state = this.shippingFG2.value.contact_state;
-    // this.shippingObj.primaryContact.zipcode = this.shippingFG2.value.contact_zipcode;
-    // this.shippingObj.primaryContact.email = this.shippingFG2.value.contact_email;
-    // this.shippingObj.primaryContact.phoneNo = this.shippingFG2.value.contact_phone_number;
-    // return this.shippingObj;
+    this.shippingObj.shipLocations = new ShippingLocations();
+    this.shippingObj.shipLocations.countryName = this.shippingFG3.value.countryName;
+    this.shippingObj.shipLocations.locationInclude = new Array<ShippingSubLocation>();
+    (this.shippingFG3.get('locationInclude') as FormArray).controls.forEach(element => {
+      const locationInclude = new ShippingSubLocation();
+      locationInclude.locationName = element.value.locationName;
+      locationInclude.locationType = element.value.locationType;
+      locationInclude.locationFee = element.value.locationFee;
+      this.shippingObj.shipLocations.locationInclude.push(locationInclude);
+    });
+    this.shippingObj.deliveryTier = new Array<ShippingDeliveryTier>();
+    let tierSequence = 0;
+    (this.shippingFG1.get('tiers') as FormArray).controls.forEach(element => {
+      const deliveryTier = new ShippingDeliveryTier();
+      deliveryTier.tierName = element.value.tierName;
+      deliveryTier.minValue = element.value.min;
+      deliveryTier.maxValue = element.value.max;
+      deliveryTier.sequence = tierSequence++;
+      deliveryTier.shippingMethod = new Array<RetailerShippingMethodFee>();
+      let tierIndex = 0;
+      (this.shippingFG2.get('shippingMethods') as FormArray).controls.forEach(subElement => {
+        const fee = new RetailerShippingMethodFee();
+        fee.shipMethodName = subElement.value.shippingName;
+        fee.deliveryFee = (subElement.get('charges') as FormArray).at(tierIndex++).value.charge;
+        deliveryTier.shippingMethod.push(fee);
+      });
+      this.shippingObj.deliveryTier.push(deliveryTier);
+    });
+    return this.shippingObj;
   }
 
-  callUpload() {
-    this.uploadFile = document.getElementsByClassName('uploadImage');
-    this.uploadFile[0].click();
-  }
-
-  fileChangeEvent(fileInput: any, profileInfo) {
-    if (fileInput.target.files && fileInput.target.files[0]) {
-      const reader = new FileReader();
-
-      reader.onload = function (e: any) {
-        profileInfo.controls.profileImage.value = e.target.result;
-      };
-
-      reader.readAsDataURL(fileInput.target.files[0]);
-    }
-  }
   getProfileInfo(retailerId) {
     this.retialerService
-      .profileInfoGet(this.retailerId)
-      .subscribe((res: RetailerProfileInfo) => {
+      .shippingProfileGet(this.retailerId)
+      .subscribe((res: RetialerShippingProfile) => {
         this.shippingObj = res;
         // this.shippingFG1.patchValue({
         //   profileName: this.shippingObj.retailerProfile.businessName,

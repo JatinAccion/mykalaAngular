@@ -13,7 +13,7 @@
 
                             <!-- <form class="divProfile"> -->
                             <div [formGroup]="profileFG1" [ngClass]="{'show': profileInfoStep==1, 'hide': profileInfoStep!==1 }">
-                                <label class="control-label" [ngClass]="displayFieldCss(profileFG1.controls.profileImage)">Business Logo</label>
+                                <label class="control-label" [ngClass]="validatorExt.displayFieldCss(profileFG1.controls.profileImage)">Business Logo</label>
                                 <div class="form-group">
                                     <div class="draglogo p-3 text-center">
                                         <div class=" text-center">Drag your Logo here</div>
@@ -23,12 +23,12 @@
                                     <app-field-error-display [field]="profileFG1.controls.profileImage" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label" [ngClass]="displayFieldCss(profileFG1.controls.businessName)">Business name</label>
+                                    <label class="control-label" [ngClass]="validatorExt.displayFieldCss(profileFG1.controls.businessName)">Business name</label>
                                     <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="businessName">
                                     <app-field-error-display [field]="profileFG1.controls.businessName" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label" [ngClass]="displayFieldCss(profileFG1.controls.tin)">DNB/TIN</label>
+                                    <label class="control-label" [ngClass]="validatorExt.displayFieldCss(profileFG1.controls.tin)">DNB/TIN</label>
                                     <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="tin">
                                     <!--Validation-->
                                     <app-field-error-display [field]="profileFG1.controls.tin" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
@@ -36,7 +36,7 @@
 
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label" [ngClass]="displayFieldCss(profileFG1.controls.businessSummary)">Business summary </label>
+                                    <label class="control-label" [ngClass]="validatorExt.displayFieldCss(profileFG1.controls.businessSummary)">Business summary </label>
                                     <small class="float-right">300 characters left</small>
                                     <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="businessSummary">
                                     <!--Validation-->
@@ -44,7 +44,7 @@
                                     <!--Validation-->
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label" [ngClass]="displayFieldCss(profileFG1.controls.bussines_address)">Business Address</label>
+                                    <label class="control-label" [ngClass]="validatorExt.displayFieldCss(profileFG1.controls.bussines_address)">Business Address</label>
                                     <input type="text" class="form-control" aria-describedby=" " placeholder="Address line 1" pattern formControlName="bussines_address">
                                     <!--Validation-->
                                     <app-field-error-display [field]="profileFG1.controls.bussines_address" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
@@ -101,13 +101,16 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <label class="control-label" [ngClass]="displayFieldCss(profileFG1.controls.sellerTypeId)">Seller Type</label>
+                                        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(profileFG1.controls.sellerTypeId)">Seller Type</label>
                                         <select class="ddl_default w-100 form-control" formControlName="sellerTypeId">
                                             <option>Select Seller Type</option>
                                             <option *ngFor="let option of sellerTypes" value="{{option.id}}">
                                                 {{option.value}}
                                             </option>
                                         </select>
+                                        <!--Validation-->
+                                        <app-field-error-display [field]="profileFG1.controls.sellerTypeId" [errorMsg]="profileErrorMsgs"> </app-field-error-display>
+                                        <!--Validation-->
                                     </div>
                                 </div>
                             </div>
@@ -225,7 +228,7 @@
                             <!-- <form class="divPayemnt1"> -->
                             <div [formGroup]="paymentFG1" [ngClass]="{'show': paymentInfoStep==1, 'hide': paymentInfoStep!==1 }">
                                 <div class="form-group">
-                                    <label class="control-label" [ngClass]="displayFieldCss(paymentFG1.controls.paymentMethod)">Payment Method</label>
+                                    <label class="control-label" [ngClass]="validatorExt.displayFieldCss(paymentFG1.controls.paymentMethod)">Payment Method</label>
                                     <select class="ddl_default w-100 form-control" formControlName="paymentMethod" (change)="paymentMethodChange()">
                                         <option>Select payment Method</option>
                                         <option *ngFor="let option of paymentMethods" value="{{option.name}}">
@@ -296,7 +299,7 @@
                                 </div>
                                 <hr />
                             </div>
-                            <div [formGroup]="paymentFG2" [ngClass]="{'show': paymentInfoStep==2, 'hide': paymentInfoStep!==2  }">
+                            <div [formGroup]="paymentFG2" [ngClass]="{'show': paymentInfoStep==2, 'hide': paymentInfoStep!==2  }"validatorExt.>
                                 <div class="form-group">
                                     <label class="control-label" [ngClass]="displayFieldCss(paymentFG2.controls.accountName)">Account Name</label>
                                     <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="" pattern formControlName="accountName">
@@ -379,7 +382,8 @@
                                     <a class="btn btn-default ancProfile1" (click)="paymentInfoNext()">Next</a>
                                 </div>
                                 <div class="col-sm-6 text-right" [ngClass]="{'show': paymentInfoStep==2, 'hide': paymentInfoStep!==2  }">
-                                    <a class="btn btn-default ancProfile1" (click)="paymentInfoSave();tabs.select('tab-Product')">Save & Next</a>
+                                    <a class="btn btn-default ancProfile1" (click)="paymentInfoSave()">Save & Next</a>
+                                    <img src="/admin-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="paymentSaveloader" />
                                 </div>
                             </div>
                             <!-- </form> -->
