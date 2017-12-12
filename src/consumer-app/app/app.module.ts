@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Route } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.route';
@@ -37,6 +37,7 @@ import { VerificationService } from '../app/services/verification.service';
 import { LocalStorageService } from '../app/services/LocalStorage.service';
 import { ConsumerInterestComponent } from '../app/components/consumer-interest/consumer-interest.component';
 import { ConsumerInterestService } from './services/consumer-interest.service';
+import { NgbDateFRParserFormatter } from '../../common/ngb-date-fr-parser-formatter';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,9 @@ import { ConsumerInterestService } from './services/consumer-interest.service';
     ReactiveFormsModule,
     NgbModule.forRoot()
   ],
-  providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, ConversationalService, JoinKalaService, ProfileInfoService, VerificationService, LocalStorageService, ConsumerInterestService],
+  providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, ConversationalService, JoinKalaService,
+    ProfileInfoService, VerificationService, LocalStorageService, ConsumerInterestService,
+    { provide: NgbDateParserFormatter, useClass: NgbDateFRParserFormatter }],
   bootstrap: [AppComponent],
   entryComponents: [cmsgComponent, HomeComponent, cListComponent, JoinKalaComponent, LoginComponent]
 })
