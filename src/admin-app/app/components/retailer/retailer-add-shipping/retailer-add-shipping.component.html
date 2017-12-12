@@ -1,6 +1,6 @@
 
 <div class="float-right"> 
-    <a class="colorBlue" (click)="addShipping()"><h3>+</h3></a>
+    <a class="colorBlue" (click)="addShipping()"><h3 class="shippingtab-gray">+</h3></a>
 </div>
 <ngb-tabset #tabs="ngbTabset" [orientation]="currentOrientation" class="tabShipping" [justify]="currentJustify" (tabChange)="setActiveTab($event)">
 
@@ -8,7 +8,7 @@
         <ng-template ngbTabContent>
             <div class="row p-3">
                 <div class="col-sm-12 p-2">
-                    <!-- {{idx}} -->
+                    {{idx}}
                     <div [formGroup]="shippingFG1">
                         <div class="form-group">
                             <label class="control-label" [ngClass]="validatorExt.displayFieldCss(shippingFG1.controls.profileName)">Profile name</label>
@@ -21,23 +21,23 @@
                             <label class="control-label" [ngClass]="validatorExt.displayFieldCss(shippingFG1.controls.deliveryOptions)">Delivery - Base options</label>
                             <ul class="list-unstyled">
                                 <li>
-                                    <input type="radio" formControlName="deliveryOptions" value="freeshipping" name="deliveryOptions" /> Free shipping</li>
+                                    <input type="radio" formControlName="deliveryOptions" value="0" name="deliveryOptions" /> Free shipping</li>
                                 <li>
-                                    <input type="radio" formControlName="deliveryOptions" value="ship_by_flat_rate" name="deliveryOptions" /> Flat rate - single rate for all orders</li>
+                                    <input type="radio" formControlName="deliveryOptions" value="1" name="deliveryOptions" /> Flat rate - single rate for all orders</li>
                                 <li>
-                                    <input type="radio" formControlName="deliveryOptions" value="ship_by_price" name="deliveryOptions" /> Price based</li>
+                                    <input type="radio" formControlName="deliveryOptions" value="2" name="deliveryOptions" /> Price based</li>
                                 <li>
-                                    <input type="radio" formControlName="deliveryOptions" value="ship_by_weight" name="deliveryOptions" /> Weight based</li>
+                                    <input type="radio" formControlName="deliveryOptions" value="3" name="deliveryOptions" /> Weight based</li>
                                 <li>
-                                    <input type="radio" formControlName="deliveryOptions" value="ship_by_size" name="deliveryOptions" /> Size based</li>
+                                    <input type="radio" formControlName="deliveryOptions" value="4" name="deliveryOptions" /> Size based</li>
                             </ul>
                             <!--Validation-->
                             <app-field-error-display [field]="shippingFG1.controls.deliveryOptions" [errorMsg]="errorMsgs"> </app-field-error-display>
                             <!--Validation-->
                         </div>
                         <span [ngSwitch]="shippingFG1.value.deliveryOptions">
-                            <div *ngSwitchCase="'freeshipping'"> </div>
-                            <div *ngSwitchCase="'ship_by_flat_rate'">
+                            <div *ngSwitchCase="0"> </div>
+                            <div *ngSwitchCase="1">
                                 <div class="priceBased deliveryDetails">
                                     <div class="col-sm-12 text-right">
                                         <a (click)="addTier()">Add Tier +</a>
@@ -54,7 +54,11 @@
                                                         <span class="input-group-addon" id="basic-addon1">&nbsp;</span>
                                                         <input class="form-control" placeholder="" aria-describedby="basic-addon1" formControlName="min" type="number">
                                                         <app-field-error-display [field]="tier.controls.min" [errorMsg]="errorMsgs"> </app-field-error-display>
+                                                       
                                                     </div>
+                                                </div>
+                                                <div class="row p-2">
+                                                    <app-field-error-display [field]="tier.controls.min" [errorMsg]="errorMsgs"> </app-field-error-display>
                                                 </div>
                                             </div>
                                             <div class="col-sm-1 pt-4">
@@ -65,18 +69,23 @@
                                                 <div>
                                                     <div class="input-group">
                                                         <span class="input-group-addon" id="basic-addon1">&nbsp;</span>
+
                                                         <input class="form-control" placeholder="" aria-describedby="basic-addon1" formControlName="max" type="number">
                                                         <app-field-error-display [field]="tier.controls.max" [errorMsg]="errorMsgs"> </app-field-error-display>
+
+                                                        
                                                     </div>
                                                 </div>
-                                                <input (click) ="removeTier()" value="-" type="button"/>
+                                                <div class="row">
+                                                    <app-field-error-display [field]="tier.controls.max" [errorMsg]="errorMsgs"> </app-field-error-display>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
 
                                 </div>
                             </div>
-                            <div *ngSwitchCase="'ship_by_price'">
+                            <div *ngSwitchCase="2">
                                 <div class="priceBased deliveryDetails">
                                     <div class="col-sm-12 text-right">
                                         <a (click)="addTier()">Add Tier +</a>
@@ -112,7 +121,7 @@
 
                                 </div>
                             </div>
-                            <div *ngSwitchCase="'ship_by_weight'">
+                            <div *ngSwitchCase="3">
                                 <div class="priceBased deliveryDetails">
                                     <div class="col-sm-12 text-right">
                                         <a (click)="addTier()">Add Tier +</a>
@@ -148,7 +157,7 @@
 
                                 </div>
                             </div>
-                            <div *ngSwitchCase="'ship_by_size'">
+                            <div *ngSwitchCase="4">
                                 <div class="col-sm-12">
                                     <div class="row border_outline">
                                         <div class="col-sm-8 p-3">
@@ -216,8 +225,8 @@
                                         </ng-template>
                                         <ng-template ngbPanelContent>
                                             <!-- {{i}} -->
-                                            <div formArrayName="charges" class="row col-md-12">
-                                                <div *ngFor="let chargeoption of option.get('charges').controls; let chargeId=index;" [formGroupName]="chargeId" class="col-md-6 m-2">
+                                            <div formArrayName="charges" class="row">
+                                                <div *ngFor="let chargeoption of option.get('charges').controls; let chargeId=index;" [formGroupName]="chargeId" class="col-md-6 p-2">
                                                     <div class="col-sm-12">
                                                         {{chargeoption.value.tierName}}
                                                         <!-- {{chargeId}} -->
@@ -228,6 +237,9 @@
                                                             <input class="form-control" placeholder="" aria-describedby="basic-addon1" formControlName="charge" type="number">
                                                             <app-field-error-display [field]="chargeoption.controls.charge" [errorMsg]="errorMsgs"> </app-field-error-display>
                                                             <!-- entry: {{chargeoption.value.charge}}:  -->
+                                                        </div>
+                                                        <div class="col-sm-12">
+                                                            <app-field-error-display [field]="chargeoption.controls.charge" [errorMsg]="errorMsgs"> </app-field-error-display>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -294,7 +306,7 @@
                                     <div class="col-sm-12  p-2">
                                         <div formArrayName="locationInclude" class="well well-lg col-md-12 p-2" *ngFor="let item of shippingFG3.get('locationInclude').controls; let i = index;">
                                             <div [formGroupName]="i">
-                                                <input type="checkbox" formControlName="locationStatus" /> {{item.value.locationName}}
+                                                <input type="checkbox" formControlName="locationType" /> {{item.value.locationName}}
                                                 <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
                                                 <div class="col-sm-12">
                                                     <div class="input-group">
