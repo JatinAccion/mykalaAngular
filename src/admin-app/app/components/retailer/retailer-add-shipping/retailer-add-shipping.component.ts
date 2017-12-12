@@ -122,8 +122,8 @@ export class RetailerAddShippingComponent implements OnInit {
     if (!tierName) { tierName = 'Tier' + 1; }
     return this.formBuilder.group({
       name: [tierName, [Validators.required]],
-      min: [0, [Validators.min(-1), Validators.max(10000), Validators.pattern(environment.regex.numberRegex), Validators.required]],
-      max: [0, [Validators.min(0), Validators.max(10000), Validators.pattern(environment.regex.numberRegex), Validators.required]],
+      min: ['', [Validators.min(0), Validators.max(10000), Validators.required]],
+      max: ['', [Validators.min(0), Validators.max(10000), Validators.required]],
     });
   }
 
@@ -139,7 +139,7 @@ export class RetailerAddShippingComponent implements OnInit {
       (this.shippingFG1.controls.tiers as FormArray).controls.forEach(element => {
         (fg.get('charges') as FormArray).push(this.formBuilder.group({
           tierName: element.value.name,
-          charge: [0, [Validators.min(0), Validators.max(10000), Validators.pattern(environment.regex.numberRegex), Validators.required]],
+          charge: ['', [Validators.min(0), Validators.max(10000), Validators.required]],
         })
         );
       });
@@ -151,7 +151,7 @@ export class RetailerAddShippingComponent implements OnInit {
       locationName: locationName,
       locationType: locationType,
       locationStatus: true,
-      locationFee: [0, [Validators.min(0), Validators.max(10000), Validators.pattern(environment.regex.numberRegex), Validators.required]],
+      locationFee: ['', [Validators.min(0), Validators.max(10000), Validators.required]],
     });
 
   }
@@ -172,7 +172,7 @@ export class RetailerAddShippingComponent implements OnInit {
       city: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
       state: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
       zipcode: ['', [Validators.maxLength(5), Validators.minLength(5),
-      Validators.pattern(environment.regex.numberRegex), Validators.required]],
+      Validators.pattern(environment.regex.numberValueRegex), Validators.required]],
       countryName: ['', [Validators.required]],
       locationInclude: this.formBuilder.array([
         this.createShippingLocation('Continental US', 'state'),
