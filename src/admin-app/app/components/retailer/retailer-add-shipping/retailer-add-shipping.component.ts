@@ -42,7 +42,6 @@ export class RetailerAddShippingComponent implements OnInit {
   shippingFG1 = new FormGroup({});
   shippingFG2 = new FormGroup({});
   shippingFG3 = new FormGroup({});
-  sellerTypes: Array<nameValue> = new Array<nameValue>();
   step = 1;
   shippingObj = new RetialerShippingProfile();
   uploadFile: any;
@@ -68,7 +67,7 @@ export class RetailerAddShippingComponent implements OnInit {
     this.shippings.push(new RetialerShippingProfile());
 
     this.setValidators();
-    this.shippingFG1.valueChanges.subscribe(() => {
+    this.shippingFG1.controls.deliveryOptions.valueChanges.subscribe(() => {
       this.deliveryOptionsChange();
     });
 
@@ -81,44 +80,53 @@ export class RetailerAddShippingComponent implements OnInit {
     // currentTabIndex = event;
   }
   deliveryOptionsChange() {
-    let tiers = this.shippingFG1.get('tiers') as FormArray;
     switch (this.shippingFG1.controls.deliveryOptions.value) {
-      case 'ship_by_size':
-        tiers = this.formBuilder.array([]);
-        tiers = this.createSizeBasedTiers();
+      case 'freeshipping':
+        this.shippingFG1.controls.tiers = this.formBuilder.array([]);
         break;
+      case 'ship_by_size':
+        this.shippingFG1.controls.tiers = this.createSizeBasedTiers();
+        break;
+      case 'ship_by_flat_rate':
+      case 'ship_by_price':
+      case 'ship_by_weight':
       default:
-        tiers = this.formBuilder.array([]);
-        tiers.push(this.createTier());
+        this.shippingFG1.controls.tiers = this.formBuilder.array([this.createTier()]);
         break;
     }
   }
   addTier() {
     const tiers = this.shippingFG1.get('tiers') as FormArray;
-    tiers.push(this.createTier());
-  }
-  createTier() {
-    const tiers = this.shippingFG1.get('tiers') as FormArray;
     let length = 0;
     if (tiers !== null) {
       length = tiers.length;
     }
-    return this.formBuilder.group({
-      name: 'Tier' + ++length,
-      min: 0,
-      max: 0,
-    });
+    tiers.push(this.createTier('Tier' + ++length));
+  }
+  removeTier() {
+    const tiers = this.shippingFG1.get('tiers') as FormArray;
+    tiers.removeAt(tiers.length - 1);
   }
   createSizeBasedTiers() {
     return this.formBuilder.array([
-      { name: 'Letter', min: 0, max: 0 },
-      { name: 'Small', min: 0, max: 0 },
-      { name: 'Medium', min: 0, max: 0 },
-      { name: 'Large', min: 0, max: 0 },
-      { name: 'Oversized', min: 0, max: 0 },
-      { name: 'Irregular', min: 0, max: 0 },
+      this.createTier('Letter'),
+      this.createTier('Small'),
+      this.createTier('Medium'),
+      this.createTier('Large'),
+      this.createTier('Oversized'),
+      this.createTier('Irregular'),
     ]);
   }
+
+  createTier(tierName?: string) {
+    if (!tierName) { tierName = 'Tier' + 1; }
+    return this.formBuilder.group({
+      name: [tierName, [Validators.required]],
+      min: [0, [Validators.min(-1), Validators.max(10000), Validators.pattern(environment.regex.numberRegex), Validators.required]],
+      max: [0, [Validators.min(0), Validators.max(10000), Validators.pattern(environment.regex.numberRegex), Validators.required]],
+    });
+  }
+
   createShippingMethods(shippingMethodId, shippingName) {
     const fg = this.formBuilder.group({
       shippingMethodId: shippingMethodId,
@@ -131,7 +139,7 @@ export class RetailerAddShippingComponent implements OnInit {
       (this.shippingFG1.controls.tiers as FormArray).controls.forEach(element => {
         (fg.get('charges') as FormArray).push(this.formBuilder.group({
           tierName: element.value.name,
-          charge: 0
+          charge: [0, [Validators.min(0), Validators.max(10000), Validators.pattern(environment.regex.numberRegex), Validators.required]],
         })
         );
       });
@@ -143,7 +151,7 @@ export class RetailerAddShippingComponent implements OnInit {
       locationName: locationName,
       locationType: locationType,
       locationStatus: true,
-      locationFee: 0,
+      locationFee: [0, [Validators.min(0), Validators.max(10000), Validators.pattern(environment.regex.numberRegex), Validators.required]],
     });
 
   }
@@ -154,8 +162,7 @@ export class RetailerAddShippingComponent implements OnInit {
   setValidators() {
     this.shippingFG1 = this.formBuilder.group({
       profileName: ['', [Validators.pattern(environment.regex.textRegex), Validators.maxLength(255), Validators.required]],
-      deliveryOptions: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
-      businessSummary: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
+      deliveryOptions: ['', [Validators.maxLength(255), Validators.required]],
       tiers: this.formBuilder.array([this.createTier()])
     });
     this.setValidatorsFG2();
@@ -175,27 +182,17 @@ export class RetailerAddShippingComponent implements OnInit {
     this.errorMsgs = {
       'profileName': { required: 'Please enter Business Name ', error: 'Please enter valid Business Name' },
       'deliveryOptions': { required: 'Please enter deliveryOptions', error: 'Please enter valid deliveryOptions' },
-      'businessSummary': { required: 'Please enter Business Summary', error: 'Please enter valid Business Summary' },
-      'bussines_address': { required: 'Please enter Address line Address line 2', error: 'Please enter valid Address line Address line 2' },
-      'bussines_address2': { required: 'Please enter Address line 2', error: 'Please enter valid Address line 2' },
+      'min': { required: 'Please enter min value', error: 'Please enter valid min value' },
+      'max': { required: 'Please enter max value', error: 'Please enter valid max value' },
+      'charge': { required: 'Please enter charge value', error: 'Please enter valid charge value' },
+      'locationFee': { required: 'Please enter location Fee value', error: 'Please enter valid location Fee value' },
+
+      'address1': { required: 'Please enter Address line 1', error: 'Please enter valid Address line 1' },
+      'address2': { required: 'Please enter Address line 2', error: 'Please enter valid Address line 2' },
       'city': { required: 'Please enter City', error: 'Please enter valid City' },
       'state': { required: 'Please enter State', error: 'Please enter valid State' },
       'zipcode': { required: 'Please enter Zipcode', error: 'Please enter valid Zipcode' },
-      'email': { required: 'Please enter Email', error: 'Please enter valid Email' },
-      'phone_number': { required: 'Please enter Phone number', error: 'Please enter valid Phone number' },
-      'sellerTypeId': { required: 'Please select Seller Type', error: 'Please select valid Seller Type' },
-      'websiteUrl': { required: 'Please enter Website URL', error: 'Please enter valid Website URL' },
-      'websiteUserName': { required: 'Please enter Username', error: 'Please enter valid Username' },
-      'websitePassword': { required: 'Please enter Password', error: 'Please enter valid Password' },
-      'contact_name': { required: 'Please enter Name', error: 'Please enter valid Name' },
-      'contact_position': { required: 'Please enter Position', error: 'Please enter valid Position' },
-      'contact_address1': { required: 'Please enter Address line 1', error: 'Please enter valid Address line 1' },
-      'contact_address2': { required: 'Please enter Address line 2', error: 'Please enter valid Address line 2' },
-      'contact_city': { required: 'Please enter City', error: 'Please enter valid City' },
-      'contact_state': { required: 'Please enter State', error: 'Please enter valid State' },
-      'contact_zipcode': { required: 'Please enter Zipcode', error: 'Please enter valid Zipcode' },
-      'contact_email': { required: 'Please enter Email', error: 'Please enter valid Email' },
-      'contact_phone_number': { required: 'Please enter Phone number', error: 'Please enter valid Phone number' }
+
     };
   }
   setValidatorsFG2() {
@@ -222,15 +219,20 @@ export class RetailerAddShippingComponent implements OnInit {
     this.step--;
     if (this.step === 0) { this.step = 1; }
   }
+
   saveShipping() {
     this.readShipping();
     this.validatorExt.validateAllFormFields(this.shippingFG1);
     this.validatorExt.validateAllFormFields(this.shippingFG2);
+    this.validatorExt.validateAllFormFields(this.shippingFG3);
     if (!this.shippingFG1.valid) {
-      this.shippingBack();
+      this.step = 1;
     } else if (!this.shippingFG2.valid) {
-      this.shippingNext();
+      this.step = 2;
+    } else if (!this.shippingFG3.valid) {
+      this.step = 3;
     } else {
+      this.readShipping();
       this.saveLoader = true;
       this.retialerService
         .saveShipping(this.shippingObj)

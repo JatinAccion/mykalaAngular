@@ -36,8 +36,8 @@
                             <!--Validation-->
                         </div>
                         <span [ngSwitch]="shippingFG1.value.deliveryOptions">
-                            <div *ngSwitchCase="0"> </div>
-                            <div *ngSwitchCase="1">
+                            <div *ngSwitchCase="'freeshipping'"> </div>
+                            <div *ngSwitchCase="'ship_by_flat_rate'">
                                 <div class="priceBased deliveryDetails">
                                     <div class="col-sm-12 text-right">
                                         <a (click)="addTier()">Add Tier +</a>
@@ -69,13 +69,14 @@
                                                         <app-field-error-display [field]="tier.controls.max" [errorMsg]="errorMsgs"> </app-field-error-display>
                                                     </div>
                                                 </div>
+                                                <input (click) ="removeTier()" value="-" type="button"/>
                                             </div>
                                         </div>
                                     </div>
 
                                 </div>
                             </div>
-                            <div *ngSwitchCase="2">
+                            <div *ngSwitchCase="'ship_by_price'">
                                 <div class="priceBased deliveryDetails">
                                     <div class="col-sm-12 text-right">
                                         <a (click)="addTier()">Add Tier +</a>
@@ -111,7 +112,7 @@
 
                                 </div>
                             </div>
-                            <div *ngSwitchCase="3">
+                            <div *ngSwitchCase="'ship_by_weight'">
                                 <div class="priceBased deliveryDetails">
                                     <div class="col-sm-12 text-right">
                                         <a (click)="addTier()">Add Tier +</a>
@@ -147,7 +148,7 @@
 
                                 </div>
                             </div>
-                            <div *ngSwitchCase="4">
+                            <div *ngSwitchCase="'ship_by_size'">
                                 <div class="col-sm-12">
                                     <div class="row border_outline">
                                         <div class="col-sm-8 p-3">
