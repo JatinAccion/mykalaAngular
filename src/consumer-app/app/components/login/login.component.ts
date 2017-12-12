@@ -59,7 +59,6 @@ export class LoginComponent implements OnInit, CuiComponent {
       .then((user) => {
         localStorage.setItem('token', user.json().auth_token);
         this.core.hide();
-        this.core.showLogout();
         this.clicked.emit(new Conversation(MsgDirection.Out, "Login Completed"));
         this.clicked.emit(new Conversation(MsgDirection.In, "Hi, " + user.json().auth_token));
         this.router.navigateByUrl('/status');
@@ -70,15 +69,18 @@ export class LoginComponent implements OnInit, CuiComponent {
   }
 
   onSubmit() {
+    this.loader = true;
     this.userCredential = new User(this.loginKala.controls.email.value, this.loginKala.controls.email.value, this.loginKala.controls.password.value)
     this.credentialModal.email = this.loginKala.controls.email.value;
     this.credentialModal.password = window.btoa(this.loginKala.controls.password.value);
     this.credentialModal.remember = this.loginKala.controls.remember.value;
     this.auth.login(this.userCredential).then((res) => {
+      this.loader = false;
       this.checkRememberMe();
       const resJson = res.json();
       this.localStorageService.setItem('token', `${resJson.token_type} ${resJson.access_token}`, resJson.expires_in);
       this.core.show();
+      this.core.showLogout();
       this.router.navigateByUrl('/home');
     }).catch((err) => {
       console.log(err);

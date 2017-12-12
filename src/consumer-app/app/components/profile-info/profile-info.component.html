@@ -36,7 +36,7 @@
         </div>
         <div class="col-sm-8">
           <div class="form-group">
-            <input formControlName="phoneno" type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control" placeholder="Phone No">
+            <input formControlName="phoneno" id="phone" type="text" (keyup)='_keyPress(profileInfo.controls.phoneno)' class="form-control" placeholder="Phone No">
             <!--Validation-->
             <div *ngIf="profileInfo.controls.phoneno.value">
               <div *ngIf="profileInfo.controls.phoneno.value && profileInfo.controls.phoneno.errors && (!profileInfo.controls.phoneno.minlength || !profileInfo.controls.phoneno.maxlength)" class="alert alert-danger errorMessages">
@@ -104,7 +104,7 @@
         </div>
         <div class="col-sm-8">
           <div class="form-group">
-            <input formControlName="dateOfBirth" type="date" class="form-control" placeholder="Date of Birth">
+            <input formControlName="dateOfBirth" (focus)="d.open()" ngbDatepicker #d="ngbDatepicker" class="form-control" placeholder="mm-dd-yyyy">
           </div>
         </div>
       </div>
