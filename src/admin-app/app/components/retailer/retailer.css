@@ -14,14 +14,17 @@
     display: inline-block;
     border-radius: 0px;
 }
+.nav-tabs .nav-item{
+    margin-bottom: -2px;
+}
 .tabShipping .nav-tabs .nav-link:focus, .tabShipping .nav-tabs .nav-link:hover{
     border-color: #dddddd !important;
-    display: inline !important;
+    display: inline-block !important;
     border-radius: 0px;
     border-bottom: 0px;
 }
 .tabShipping .nav-item:link{ 
-    display: inline !important;
+    display: inline-block !important;
     border-radius: 0px;
     border-bottom: 0px;
 }
