@@ -20,7 +20,7 @@ import { StatusComponent } from './components/status/status.component';
 import { LoginRedirect } from './services/login-redirect.service';
 import { LogoutComponent } from './components/logout/logout.component';
 
-import { HomeService } from './components/home/home.service';
+import { HomeService } from './services/home.service';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ConversationalComponent } from './components/conversational/conversational.component';

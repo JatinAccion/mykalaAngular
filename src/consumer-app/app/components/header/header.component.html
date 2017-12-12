@@ -49,7 +49,9 @@
 
   <div class="lounge_menu displayblock">
     <img src="/consumer-app/assets/images/logo.png">
-    <a *ngIf="core.logoutVisible" routerLink="/logout" class="anc_topIcon">&nbsp; logout</a>
+    <a *ngIf="core.showLogout()" routerLink="/logout" class="anc_topIcon">&nbsp;
+      <img src="/consumer-app/assets/images/signout.png" />
+    </a>
     <br />
     <br />
     <span>

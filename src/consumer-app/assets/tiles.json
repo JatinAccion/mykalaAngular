@@ -1,0 +1,62 @@
+[
+    {
+        "id":"1",
+        "value":"kitchen",
+        "imageUrl":"/consumer-app/assets/images/icon_kitchen.png"
+    },
+    {
+        "id":"2",
+        "value":"appliances",
+        "imageUrl":"/consumer-app/assets/images/icon_applicances.png"
+    },
+    {
+        "id":"3",
+        "value":"furniture",
+        "imageUrl":"/consumer-app/assets/images/icon_fuiniture.png"
+    },
+    {
+        "id":"4",
+        "value":"lighting",
+        "imageUrl":"/consumer-app/assets/images/icon_lighting.png"
+    },
+    {
+        "id":"5",
+        "value":"garden",
+        "imageUrl":"/consumer-app/assets/images/icon_garden.png"
+    },
+    {
+        "id":"6",
+        "value":"supplies",
+        "imageUrl":"/consumer-app/assets/images/icon_supplies.png"
+    },
+    {
+        "id":"7",
+        "value":"pool & spa",
+        "imageUrl":"/consumer-app/assets/images/icon_poolSpa.png"
+    },
+    {
+        "id":"8",
+        "value":"pest control",
+        "imageUrl":"/consumer-app/assets/images/icon_pestControl.png"
+    },
+    {
+        "id":"9",
+        "value":"linens",
+        "imageUrl":"/consumer-app/assets/images/icon_linens.png"
+    },
+    {
+        "id":"10",
+        "value":"safety",
+        "imageUrl":"/consumer-app/assets/images/icon_safety.png"
+    },
+    {
+        "id":"11",
+        "value":"DIY",
+        "imageUrl":"/consumer-app/assets/images/icon_diy.png"
+    },
+    {
+        "id":"12",
+        "value":"explore more",
+        "imageUrl":"/consumer-app/assets/images/icon_group.png"
+    }
+]

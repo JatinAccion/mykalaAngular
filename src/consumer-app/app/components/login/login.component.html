@@ -37,6 +37,10 @@
       </div>
 
       <!--Loader-->
+      <div *ngIf="loginError" class="alert alert-danger errorMessages">
+        {{loginUserMessage.error}}
+      </div>
+
       <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="loader" />
       <!--Loader-->
     </div>

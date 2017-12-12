@@ -7,3 +7,6 @@
     border-radius: 3px;
     cursor: pointer;
 }
+.categ_outline_red > #genderFemale:checked {
+    border:solid 1px green;
+}

@@ -6,7 +6,7 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { CoreService } from '../../services/core.service';
 import { CuiComponent, MsgDirection } from '../conversational/cui.interface';
 import { Conversation } from '../../models/conversation';
-import { inputValidation } from './login.messges';
+import { userMessages, inputValidation } from './login.messges';
 import { RememberMe } from '../../../../models/rememberMe';
 import { LocalStorageService } from '../../services/LocalStorage.service';
 
@@ -19,6 +19,8 @@ import { LocalStorageService } from '../../services/LocalStorage.service';
 export class LoginComponent implements OnInit, CuiComponent {
   loginKala: FormGroup;
   loader: boolean = false;
+  loginError: boolean;
+  loginUserMessage = userMessages;
   loginInputValMsg = inputValidation;
   getCredentials = window.localStorage['rememberMe'];
   credentialModal = new RememberMe();
@@ -69,20 +71,27 @@ export class LoginComponent implements OnInit, CuiComponent {
   }
 
   onSubmit() {
+    this.loginError = false;
     this.loader = true;
     this.userCredential = new User(this.loginKala.controls.email.value, this.loginKala.controls.email.value, this.loginKala.controls.password.value)
     this.credentialModal.email = this.loginKala.controls.email.value;
     this.credentialModal.password = window.btoa(this.loginKala.controls.password.value);
     this.credentialModal.remember = this.loginKala.controls.remember.value;
     this.auth.login(this.userCredential).then((res) => {
-      this.loader = false;
       this.checkRememberMe();
       const resJson = res.json();
-      this.localStorageService.setItem('token', `${resJson.token_type} ${resJson.access_token}`, resJson.expires_in);
-      this.core.show();
-      this.core.showLogout();
-      this.router.navigateByUrl('/home');
+      this.localStorageService.setItem('token', resJson.access_token, resJson.expires_in);
+      this.auth.getUserInfo(resJson.access_token).subscribe(res => {
+        this.loader = false;
+        window.localStorage['userInfo'] = JSON.stringify(res);
+        this.core.setUser(res);
+        this.router.navigateByUrl('/home');
+      }, err => {
+        console.log(err);
+      })
     }).catch((err) => {
+      this.loader = false;
+      this.loginError = true;
       console.log(err);
     });
   }
