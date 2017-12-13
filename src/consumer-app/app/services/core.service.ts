@@ -15,7 +15,7 @@ export class CoreService {
 
   hide() { this.navVisible = false; }
 
-  showLogout() { return this.user !== null; }
+  showLogout() { return this.user !== null }
 
   show() { this.navVisible = true; }
 

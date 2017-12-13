@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit, CuiComponent {
 
   ngOnInit() {
     localStorage.removeItem('token');
-    this.core.hide();
+    this.core.clearUser();
     if (this.getCredentials != '' && this.getCredentials != undefined) {
       this.loginKala = this.formBuilder.group({
         email: [JSON.parse(this.getCredentials).email, [Validators.required, Validators.email]],

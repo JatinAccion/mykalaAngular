@@ -43,7 +43,7 @@ export class ProfileInfoComponent implements OnInit {
     this.profileInfo = this.formBuilder.group({
       "profileImage": [''],
       "phoneno": ['', Validators.compose([Validators.pattern(this.phoneRegex), Validators.minLength(14), Validators.maxLength(14)])],
-      "email": [this.getUserInfo.email],
+      "email": [this.getUserInfo.emailId],
       "gender": [''],
       "dateOfBirth": [''],
       "location": ['', Validators.compose([Validators.required, Validators.pattern(this.zipCodeRegex), Validators.minLength(5), Validators.maxLength(5)])]

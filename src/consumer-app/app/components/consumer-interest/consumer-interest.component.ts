@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { ConsumerInterestService } from '../../services/consumer-interest.service';
 import { userMessages } from './interest.message';
 import { CoreService } from '../../services/core.service';
+import { Router, RouterOutlet } from '@angular/router';
 import { PostInterest, ConsumerInterest } from '../../../../models/consumer-interest';
 
 @Component({
@@ -23,7 +24,7 @@ export class ConsumerInterestComponent implements OnInit {
   resMessage: string;
   resType: string;
 
-  constructor(private interest: ConsumerInterestService, private core: CoreService) { }
+  constructor(private routerOutlet: RouterOutlet, private router: Router, private interest: ConsumerInterestService, private core: CoreService) { }
 
   ngOnInit() {
     this.loadInterest = true;
@@ -51,20 +52,24 @@ export class ConsumerInterestComponent implements OnInit {
   saveInterest() {
     this.loader = true;
     this.resStatus = false;
-    this.postInterest.consumerId = JSON.parse(window.localStorage['userInfo']).userid;
+    this.postInterest.consumerId = JSON.parse(window.localStorage['userInfo']).userId;
     this.postInterest.consumerInterest = this.getInterest;
     console.log(this.postInterest)
     this.interest.postInterest(this.postInterest).subscribe(res => {
+      console.log(res);
       this.loader = false;
       this.resStatus = true;
-      this.resMessage = userMessages.success;
       this.resType = "success";
-      console.log(res);
+      this.resMessage = userMessages.success;
+      setTimeout(() => {
+        if (this.routerOutlet.isActivated) this.routerOutlet.deactivate();
+        this.router.navigateByUrl('/home');
+      }, 2000);
     }, err => {
       this.loader = false;
       this.resStatus = true;
-      this.resMessage = userMessages.fail;
       this.resType = "fail";
+      this.resMessage = userMessages.fail;
       console.log(err);
     });
   }

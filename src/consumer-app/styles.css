@@ -1200,6 +1200,83 @@ h4.subtitle{
         font-size:12px;
     }
 }
+.rdoMale{
+    border:solid 1px #999;
+    display:inline-block;  
+    background:#fff;
+}
+.rdoFemale{
+    border:solid 1px #999;
+    display:inline-block;  
+    background:#fff;
+}
+.register-switch { 
+  margin-bottom: 20px;
+  padding: 4px;
+}
+.register-switch-input {
+  display: none;
+} 
+.rdoMale .register-switch-label span{
+    top: 54px;
+    position: relative;
+    font-size: 12px;
+}
+.rdoFemale .register-switch-label_female span{
+    top: 54px;
+    position: relative;
+    font-size: 12px;
+}
+.register-switch-input:checked + .register-switch-label {
+    font-weight: normal;
+    color: #e06263; 
+    line-height: 32px;
+    border-radius: 2px;
+    background:#fff url("/consumer-app/assets/images/male_red.png") no-repeat;  
+    background-size: 100%;  
+    width: 68px;
+    height: 80px; 
+    margin-bottom:0px;
+}
+.register-switch-label {
+    float: left; 
+    line-height: 32px;
+    color: #999;
+    text-align: center;
+    cursor: pointer;
+    background:#f3f3f4 url("/consumer-app/assets/images/male_gray.png") no-repeat; 
+    background-size: 100%;  
+    width: 68px;
+    height: 80px; 
+    margin-bottom:0px;
+}
+.register-switch-label_female {
+    float: left; 
+    line-height: 32px;
+    color: #999;
+    text-align: center;
+    cursor: pointer;
+    background:#f3f3f4 url("/consumer-app/assets/images/female_gray.png") no-repeat;
+    background-size: 100%; 
+    background-position: 100%;
+    width: 68px;
+    height: 80px; 
+    margin-bottom:0px;
+}
+.register-switch-input:checked + .register-switch-label_female {
+    font-weight: normal;
+    color: #e06263;
+    line-height: 32px;
+    background: #999;
+    border-radius: 2px;
+    background:#fff url("/consumer-app/assets/images/female_red.png") no-repeat; 
+    background-size:50%; 
+    background-size: 100%; 
+    background-position: 100%;
+    width: 68px;
+    height: 80px; 
+    margin-bottom:0px;
+}
 .aboluteImg{
     position: absolute;
     left: 0;
