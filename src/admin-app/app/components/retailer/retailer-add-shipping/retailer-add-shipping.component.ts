@@ -48,7 +48,7 @@ export class RetailerAddShippingComponent implements OnInit {
   errorMsgs: any;
   saveLoader = true;
   tiers = new Array<ShippingDeliveryTier>();
-
+  modified = true;
 
   // #endregion Shipping
 
@@ -70,14 +70,30 @@ export class RetailerAddShippingComponent implements OnInit {
     this.shippingFG1.controls.deliveryOptions.valueChanges.subscribe(() => {
       this.deliveryOptionsChange();
     });
+    this.shippingFG1.valueChanges.subscribe(() => {
+      this.modified = true;
+    });
+    this.shippingFG2.valueChanges.subscribe(() => {
+      this.modified = true;
+    });
+    this.shippingFG3.valueChanges.subscribe(() => {
+      this.modified = true;
+    });
 
   }
+
   addShipping() {
-    this.shippings.push(new RetialerShippingProfile());
+    if (this.modified) {
+      alert('Please save first');
+    } else {
+      this.shippings.push(new RetialerShippingProfile());
+    }
   }
   setActiveTab(event) {
-    console.log(event);
-    // currentTabIndex = event;
+    if (this.modified) {
+      alert('Please save first');
+      event.preventDefault();
+    } else { }
   }
   deliveryOptionsChange() {
     switch (this.shippingFG1.controls.deliveryOptions.value) {
@@ -122,8 +138,8 @@ export class RetailerAddShippingComponent implements OnInit {
     if (!tierName) { tierName = 'Tier' + 1; }
     return this.formBuilder.group({
       name: [tierName, [Validators.required]],
-      min: ['', [Validators.min(0), Validators.max(10000), Validators.required]],
-      max: ['', [Validators.min(0), Validators.max(10000), Validators.required]],
+      min: ['0', [Validators.min(0), Validators.max(10000), Validators.required]],
+      max: ['0', [Validators.min(0), Validators.max(10000), Validators.required]],
     });
   }
 
@@ -139,7 +155,7 @@ export class RetailerAddShippingComponent implements OnInit {
       (this.shippingFG1.controls.tiers as FormArray).controls.forEach(element => {
         (fg.get('charges') as FormArray).push(this.formBuilder.group({
           tierName: element.value.name,
-          charge: ['', [Validators.min(0), Validators.max(10000), Validators.required]],
+          charge: ['0', [Validators.min(0), Validators.max(10000), Validators.required]],
         })
         );
       });
@@ -151,7 +167,7 @@ export class RetailerAddShippingComponent implements OnInit {
       locationName: locationName,
       locationType: locationType,
       locationStatus: true,
-      locationFee: ['', [Validators.min(0), Validators.max(10000), Validators.required]],
+      locationFee: ['0', [Validators.min(0), Validators.max(10000), Validators.required]],
     });
 
   }

@@ -24,6 +24,8 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { RetailerModule } from './components/retailer/retailer.module';
 import { LocalStorageService } from './services/LocalStorage.service';
+import { ProductModule } from './components/product/product.module';
+
 
 @NgModule({
   declarations: [
@@ -33,7 +35,7 @@ import { LocalStorageService } from './services/LocalStorage.service';
     StatusComponent,
     LogoutComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,7 +43,9 @@ import { LocalStorageService } from './services/LocalStorage.service';
     FormsModule, ReactiveFormsModule,
     NgbModule.forRoot(),
     AppRoutingModule,
-    RetailerModule
+    RetailerModule,
+    ProductModule,
+    
   ],
   providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, LocalStorageService],
   bootstrap: [AppComponent],

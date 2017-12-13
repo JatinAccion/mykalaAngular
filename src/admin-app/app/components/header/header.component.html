@@ -1,6 +1,5 @@
 <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse fixed-top">
-  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
-    aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <a class="navbar-brand" href="#">
@@ -11,43 +10,43 @@
       <li ngbDropdown class="nav-item dropdown active">
         <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>Accounts</a>
         <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown01">
-          <a class="dropdown-item active" routerLink="/retailer-list" routerLinkActive="retailer-list">Seller Accounts</a>
+          <a class="dropdown-item active" routerLink="/retailer-list">Seller Accounts</a>
           <a class="dropdown-item " href="#">Accounts Info</a>
-          <a class="dropdown-item" href="#">Shipping Profiles</a>
+          <a class="dropdown-item " routerLink="/retailer-list">Shipping Profiles</a>
         </div>
       </li>
       <li ngbDropdown class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>Products</a>
         <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown01">
-          <a class="dropdown-item" href="#">View Products</a>
-          <a class="dropdown-item" href="#">Products Files</a>
+          <a class="dropdown-item " routerLink="/product-list">View Products</a>
+          <a class="dropdown-item " routerLink="/retailer-list">Products Files</a>
         </div>
       </li>
       <li ngbDropdown class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>Support</a>
         <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown01">
-          <a class="dropdown-item" href="#">Orders</a>
-          <a class="dropdown-item" href="#">Inquiries</a>
+          <a class="dropdown-item " routerLink="/retailer-list">Orders</a>
+          <a class="dropdown-item " routerLink="/retailer-list">Inquiries</a>
         </div>
       </li>
       <li ngbDropdown class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>Reports</a>
         <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown01">
-          <a class="dropdown-item" href="#">Sales</a>
-          <a class="dropdown-item" href="#">Customers</a>
-          <a class="dropdown-item" href="#">Reviews</a>
-          <a class="dropdown-item" href="#">Inquiries</a>
-          <a class="dropdown-item" href="#">Payments</a>
+          <a class="dropdown-item " routerLink="/retailer-list">Sales</a>
+          <a class="dropdown-item " routerLink="/retailer-list">Customers</a>
+          <a class="dropdown-item " routerLink="/retailer-list">Reviews</a>
+          <a class="dropdown-item " routerLink="/retailer-list">Inquiries</a>
+          <a class="dropdown-item " routerLink="/retailer-list">Payments</a>
         </div>
       </li>
-      <li class="nav-item active">
+      <li class="nav-item ">
         <a class="nav-link" href="#">Users</a>
       </li>
     </ul>
     <div class="mr-3 mt-2">Admin</div>
     <div class="form-inline my-2 my-lg-0 ancUser">
-      <a href="#" class="">Hi, Shelley!</a>
-      <a class="nav-link" routerLink="/logout" routerLinkActive="logout">log out</a>
+      <a href="#" class="">Hi, {{'User'}}!</a>
+      <a class="nav-link" routerLink="/logout">logout</a>
     </div>
   </div>
 </nav>
