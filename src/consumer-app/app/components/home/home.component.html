@@ -1,9 +1,4 @@
 <div style="height:120px; margin-top:20px;width:100%;"></div>
-<div class="category_home_list">
-  <ul class="category_list">
-    <li *ngFor="let levelOne of loadLevelOne" [id]="levelOne.id" (click)="loadLevelTwo(levelOne)">
-      <img [src]="levelOne.imageUrl" />
-      <p class="text-center">{{levelOne.value}}</p>
-    </li>
-  </ul>
+<div>
+  <app-tiles [tilesData]='tiles' (selectTile)="tileSelected($event)"></app-tiles>
 </div>

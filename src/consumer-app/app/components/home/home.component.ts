@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { HomeService } from '../../services/home.service';
-import { CuiComponent } from '../conversational/cui.interface';
-import { Conversation } from '../../models/conversation';
 import { CoreService } from '../../services/core.service';
+import { of } from 'rxjs/observable/of';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-home',
@@ -10,31 +10,47 @@ import { CoreService } from '../../services/core.service';
   styleUrls: ['./home.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class HomeComponent implements OnInit, CuiComponent {
-  @Input() data: any;
-  @Output() clicked = new EventEmitter<Conversation>();
-  loadLevelOne: any;
+export class HomeComponent implements OnInit {
+  tiles: any;
+  searchData = [];
+  userResponse = { place: '', type: '', category: '', subcategory: '' };
+  response: any;
 
   customers: any = [];
   constructor(private homeService: HomeService, private core: CoreService) { }
 
   ngOnInit() {
     this.core.hide();
-    this.homeService.getCustomers().subscribe(customers => {
-      this.customers = customers;
-    });
-
-    this.homeService.getLevelOne().subscribe(
-      res => {
-        console.log(res);
-        this.loadLevelOne = res;
-      },
-      err => {
-        console.log('Error Occured');
-      })
+    this.tileSelected({ name: '' });
   }
 
-  loadLevelTwo(element) {
-    console.log(element)
+  getNextMsg(name) {
+    const search = this.searchData.filter(p => p.name === name);
+    if (search && search.length > 0) {
+      this.userResponse[search[0].level] = search[0].name;
+      if (search[0].parent) {
+        this.getNextMsg(search[0].parent);
+      }
+      return this.response = this.searchData.filter(p => p.parent === name);
+    } else {
+      return this.searchData.filter(p => p.parent === name);
+    }
+  }
+
+  tileSelected(tile) {
+    this.homeService.getTiles(tile.name).subscribe(res => {
+      console.log(res);
+      this.searchData = res;
+      if (tile.name != '') {
+        this.getNextMsg(tile.name);
+        this.tiles = this.response;
+      }
+      else {
+        this.getNextMsg('');
+        this.tiles = this.searchData;
+      }
+    }, err => {
+      console.log('Error Occured');
+    });
   }
 }
