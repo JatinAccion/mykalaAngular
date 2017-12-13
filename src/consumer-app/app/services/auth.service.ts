@@ -37,6 +37,11 @@ export class AuthService {
     return this.http.get(url, { headers: headers }).toPromise();
   }
 
+  getUserInfo(token) {
+    const url = `${this.BASE_URL}/${environment.apis.Auth.userInfo}?access_token=${token}`;
+    return this.http.get(url).map((res) => res.json());
+  }
+
   /* For Mobile/Conversational UI
   login(user: User): Promise<any> {
     let url: string = `${this.BASE_URL}/login`;

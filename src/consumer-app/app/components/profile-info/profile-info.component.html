@@ -2,6 +2,9 @@
 <div class="title">
   <h2>Just a few more details...</h2>
 </div>
+<div class="text-right">
+  <a routerLink="/interest" class="colorred">skip</a>
+</div>
 <form [formGroup]="profileInfo">
   <div class="row">
     <div class="col-sm-8 joinScreen_layout">
@@ -72,7 +75,22 @@
           <p class="colorlightGray">Gender:</p>
         </div>
         <div class="col-sm-9">
-          <div class="categ_outline_red">
+          <div class="register-switch">
+            <div class="rdoMale">
+              <input type="radio" name="gender" formControlName="gender" value="male" id="sex-m" class="register-switch-input" checked>
+              <label for="sex-m" class="register-switch-label">
+                <span>male</span>
+              </label>
+            </div>
+            <div class="rdoFemale">
+              <input type="radio" name="gender" formControlName="gender" value="female" id="sex-f" class="register-switch-input">
+              <label for="sex-f" class="register-switch-label_female">
+                <span>female</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- <div class="categ_outline_red">
             <input type="radio" id="genderFemale" formControlName="gender" value="female" name="gender" />
             <div style="margin: 0" class="form-group">
               <div class="text-center">
@@ -90,7 +108,7 @@
               </div>
               <label class="colorred text-center" for="genderMale">male</label>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
       <!--Gender-->

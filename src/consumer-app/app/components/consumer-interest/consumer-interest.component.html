@@ -3,16 +3,20 @@
   <h2>What are your interests?</h2>
 </div>
 <div class="text-right">
-  <a href="#" class="colorred">skip</a>
+  <a routerLink="/home" class="colorred">skip</a>
 </div>
 <div class="row">
   <div class="col-sm-8 joinScreen_layout">
     <div class="row">
+      <div class="col-sm-12 p-3" *ngIf="loadInterest">
+        <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 46%" />
+      </div>
+
       <!--Block 1-->
       <div class="col-sm-5 p-0">
         <div *ngFor="let interest of interestImages; let i=index">
-          <div *ngIf="i<=2" class="img_holder banner p-2">
-            <img (click)="selectInterest($event, interest)" style="cursor: pointer" src="{{interest.imageUrl}}" title="{{interest.value}}" id="{{interest.id}}" class="img-fluid" alt="" />
+          <div *ngIf="i<=1" class="img_holder banner p-2">
+            <img (click)="selectInterest($event, interest)" style="cursor: pointer" src="{{interest.consumerInterestsImagePath}}" title="{{interest.consumerInterestsImageName}}" id="{{interest.consumerInterestsImageId}}" class="img-fluid" alt="" />
             <img class="aboluteImg" src="/consumer-app/assets/images/select.png" *ngIf="interest.selectImg" />
           </div>
         </div>
@@ -22,8 +26,8 @@
       <!--Block 2-->
       <div class="col-sm-4 p-0 center-block">
         <div *ngFor="let interest of interestImages; let i=index">
-          <div *ngIf="i>2 && i<=7" class="img_holder banner p-2">
-            <img (click)="selectInterest($event, interest)" style="cursor: pointer" src="{{interest.imageUrl}}" title="{{interest.value}}" id="{{interest.id}}" class="img-fluid" alt="" />
+          <div *ngIf="i>1 && i<=5" class="img_holder banner p-2">
+            <img (click)="selectInterest($event, interest)" style="cursor: pointer" src="{{interest.consumerInterestsImagePath}}" title="{{interest.consumerInterestsImageName}}" id="{{interest.consumerInterestsImageId}}" class="img-fluid" alt="" />
             <img class="aboluteImg" src="/consumer-app/assets/images/select.png" *ngIf="interest.selectImg" />
           </div>
         </div>
@@ -33,8 +37,8 @@
       <!--Block 3-->
       <div class="col-sm-3 p-0 center-block">
         <div *ngFor="let interest of interestImages; let i=index">
-          <div *ngIf="i>7 && i<=12" class="img_holder banner p-2">
-            <img (click)="selectInterest($event, interest)" style="cursor: pointer" src="{{interest.imageUrl}}" title="{{interest.value}}" id="{{interest.id}}" class="img-fluid" alt="" />
+          <div *ngIf="i>5 && i<=12" class="img_holder banner p-2">
+            <img (click)="selectInterest($event, interest)" style="cursor: pointer" src="{{interest.consumerInterestsImagePath}}" title="{{interest.consumerInterestsImageName}}" id="{{interest.consumerInterestsImageId}}" class="img-fluid" alt="" />
             <img class="aboluteImg" src="/consumer-app/assets/images/select.png" *ngIf="interest.selectImg" />
           </div>
         </div>
@@ -51,9 +55,19 @@
       <div class="col-sm-12">
         <button href="javascript:void" [disabled]="getInterest.length == 0" class="btn btn_red_right width100" (click)="saveInterest()">done</button>
       </div>
+      <!--Loader-->
       <div class="col-sm-12 p-3" *ngIf="loader">
         <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 46%" />
       </div>
+      <!--Loader-->
+
+      <!--Validation Message-->
+      <div class="col-sm-12 p-3" *ngIf="resStatus">
+        <div [ngClass]="resType == 'success' ? 'alert-success successMessage' : 'alert-danger errorMessages'" class="alert col-sm-12 p-2 m-0">
+          {{resMessage}}
+        </div>
+      </div>
+      <!--Validation Message-->
       <div class="clearfix">&nbsp;</div>
     </div>
   </div>

@@ -98,7 +98,7 @@ export class ProfileInfoComponent implements OnInit {
     this.profileInformation.phoneNo = this.profileInfo.controls.phoneno.value.replace(/[^A-Z0-9]/ig, "");
     this.profileInformation.email = this.profileInfo.controls.email.value;
     this.profileInformation.gender = this.profileInfo.controls.gender.value;
-    this.profileInformation.dob = this.profileInfo.controls.dateOfBirth.value.month + '-' + this.profileInfo.controls.dateOfBirth.value.day + '-' + this.profileInfo.controls.dateOfBirth.value.year;
+    this.profileInformation.dob = this.profileInfo.controls.dateOfBirth.value.month+'-'+this.profileInfo.controls.dateOfBirth.value.day+'-'+this.profileInfo.controls.dateOfBirth.value.year;
     this.profileInformation.status = "";
     this.profileInformation.createdBy = "";
     this.profileInformation.modifiedBy = "";

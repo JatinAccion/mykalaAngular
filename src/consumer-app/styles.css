@@ -200,6 +200,11 @@ a:hover {
   color: #231F20;
   border-top-left-radius: 0; }
 
+.dialogue_right_Gray {
+  background-color: #231F20; 
+  color: #fff;
+  border-top-left-radius: 0; }
+
 #intro_initial .dialogue {
   margin: 0 auto; }
 
@@ -209,7 +214,9 @@ a:hover {
   margin-left: 12px;
   color: #ffffff;
   font-weight: lighter;
-  width: 80%; }
+  width: 80%;
+  font-family:open_sansregular;
+}
 
 .dialogue input:focus {
   outline: none; }
@@ -221,12 +228,13 @@ a:hover {
   width: 924px; }*/
 
 .title h2 {
-    color: #A7A9AB;
-    font-weight: lighter;
-    display: inline-block;
-    font-size: 40px;
-    font-family: open_sanslight;
-    margin-bottom: 10px;
+  color: #A7A9AB;
+  font-weight: lighter;
+  display: inline-block;
+  font-size: 40px;
+  font-family:open_sanslight;
+  margin-bottom:50px;
+  margin-top:20px;
 }
 
 .title > p {
@@ -482,6 +490,7 @@ ul.category_list{
     display:inline-block;
     margin:0px;
     text-align:center;
+    background: #615754;
     margin-bottom: 5px;
 }
 .dialogue_outerline{ 
@@ -521,6 +530,9 @@ ul.category_list{
 .colorwhite{
     color:#fff !important;
 }
+.colorblack{
+    color:#000 !important;
+}
 .backgroundWhite{
     background:#fff !important;
 }
@@ -540,10 +552,7 @@ ul.category_list{
     padding:25px 0px;
     border-bottom:solid 1px #999999; 
 }
-.get_Offer_list .clearfix{
-    padding:25px 0px;
-    border-bottom:solid 1px #999999;
-}
+ 
 .get_Offer_list p{
     color:#999999; 
 }
@@ -571,22 +580,27 @@ a.ancRed:hover{
 }
  
 .sub_header > div {
-  width: 80%;
+  width: 75%;
   max-width: 1200px;
   min-width: 400px;
-  margin: 0 auto; 
-  border-right: solid 2px #999999;
+  margin: 0 auto;
+  border-right:solid 2px #999999; 
 }
 .noBackground{
     background-color:transparent !important;
 }
+.addWidth{
+    padding:3px 20px !important;
+    border-radius:0px !important;
+}
 .categ_outline_red{
     border:solid 1px #e06263;
-    padding:3px 10px;
+    padding:3px 15px;
     display:inline-block;
+    background:#fff;
     border-radius:5px;
     font-size:13px;
-    background: #fff;
+    color:#e06263;
 }
 .categ_outline_gray{
     border:solid 1px #4d4d4d;
@@ -594,6 +608,7 @@ a.ancRed:hover{
     display:inline-block; 
     border-radius:5px;
     font-size:13px;
+    color:#999999;
 }
 a.categ_close{
     color:#e06263;
@@ -649,6 +664,7 @@ a.categ_close{
 }
 .catg_kitchen{
     background:  linear-gradient( rgba(0,0,0, .6),  rgba(0,0,0, .6) ), url(/consumer-app/assets/images/catg-1.png); 
+    background-size:cover;
 }
 .category_list p{
     color:#fff;
@@ -657,39 +673,51 @@ a.categ_close{
 }
 .catg_appliances{
     background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ), url(/consumer-app/assets/images/catg-2.png);  
+    background-size:cover;
 }
 .catg_appliances{
     background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ),url(/consumer-app/assets/images/catg-3.png); 
+    background-size:cover;
 }
 .catg_furniture{
     background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ),url(/consumer-app/assets/images/catg-4.png); 
+    background-size:cover;
 }
 .catg_lighting{
     background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ),url(/consumer-app/assets/images/catg-5.png); 
+    background-size:cover;
 }
 .catg_garden{
     background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ),url(/consumer-app/assets/images/catg-6.png); 
+    background-size:cover;
 }
 .catg_supplies{
     background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ),url(/consumer-app/assets/images/catg-7.png); 
+    background-size:cover;
 }
 .catg_poolspa{
     background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ),url(/consumer-app/assets/images/catg-8.png); 
+    background-size:cover;
 }
 .catg_pestcontrol{
     background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ),url(/consumer-app/assets/images/catg-9.png); 
+    background-size:cover;
 } 
 .catg_linens1{
     background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ),url(/consumer-app/assets/images/catg-10.png); 
+    background-size:cover;
 }
 .catg_safety{
     background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ),url(/consumer-app/assets/images/catg-11.png); 
+    background-size:cover;
 }
 .catg_DIY{
     background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ),url(/consumer-app/assets/images/catg-1.png); 
+    background-size:cover;
 }
 .catg_linens{
     background:  linear-gradient( rgba(1,1,1,0.5),  rgba(1,1,1,0.5) ),url(/consumer-app/assets/images/catg-2.png); 
+    background-size:cover;
 }
 .productDtl-right{
     background:#fff;
@@ -957,15 +985,59 @@ ul.prd_Soc_icon li{
     position:relative;
     top:7px;
 }
-
-
-
-
-
-
-
-
-
+.img_holder { 
+    object-fit: fill; 
+    width: 100%;
+    position: relative;
+}
+.cardlist li{
+    list-style:none;
+    padding:1px;
+    display:inline-block;
+}
+.cardlist li img{
+    width:50px;
+}
+.sub_Menu{
+    position: fixed;  
+    top: 114px;
+    background: #fff;
+    width: 100%;
+    left: 0px;
+    z-index: 999;
+}
+.sub_Menu ul li{
+    list-style:none; 
+    display:inline-block;
+    padding:8px 20px 8px 8px;  
+}
+.sub_Menu ul li a{
+    color:#999999;
+}
+.sub_Menu img{
+    width:14px;
+}
+.sub_Menu ul li.active{
+    background:red url(/consumer-app/assets/images/bottom-arrow.png) no-repeat bottom center !important;
+    background-color:transparent !important; 
+    font-weight:bold;
+}
+ 
+.product_hover{
+    display: block;
+    position:relative;
+    z-index:1
+}
+.hover_panel {
+    position: absolute;
+    bottom: 22px;
+    left: 22px;
+    width: 200px;
+    height: 140px;
+    background: rgba(151, 185, 69, 0.7);
+    padding: 10px; 
+    z-index:100;
+}
 
  
 
@@ -1026,6 +1098,8 @@ hr{
 h4.subtitle{
     color:#999999;
     margin-bottom:20px;
+    font-family:open_sanslight;
+    font-size:20px;
 }
 .nopadding{
     padding-left:0px !important;
@@ -1045,11 +1119,6 @@ h4.subtitle{
 }
 .width49{
     width:49% !important;
-}
-.img_holder { 
-    object-fit: fill; 
-    width: 100%;
-    position: relative;
 }
 @media only screen and (min-width: 800px) and (max-width: 1024px){
     .sub_header > div{
@@ -1130,6 +1199,83 @@ h4.subtitle{
     .category_list p{
         font-size:12px;
     }
+}
+.rdoMale{
+    border:solid 1px #999;
+    display:inline-block;  
+    background:#fff;
+}
+.rdoFemale{
+    border:solid 1px #999;
+    display:inline-block;  
+    background:#fff;
+}
+.register-switch { 
+  margin-bottom: 20px;
+  padding: 4px;
+}
+.register-switch-input {
+  display: none;
+} 
+.rdoMale .register-switch-label span{
+    top: 54px;
+    position: relative;
+    font-size: 12px;
+}
+.rdoFemale .register-switch-label_female span{
+    top: 54px;
+    position: relative;
+    font-size: 12px;
+}
+.register-switch-input:checked + .register-switch-label {
+    font-weight: normal;
+    color: #e06263; 
+    line-height: 32px;
+    border-radius: 2px;
+    background:#fff url("/consumer-app/assets/images/male_red.png") no-repeat;  
+    background-size: 100%;  
+    width: 68px;
+    height: 80px; 
+    margin-bottom:0px;
+}
+.register-switch-label {
+    float: left; 
+    line-height: 32px;
+    color: #999;
+    text-align: center;
+    cursor: pointer;
+    background:#f3f3f4 url("/consumer-app/assets/images/male_gray.png") no-repeat; 
+    background-size: 100%;  
+    width: 68px;
+    height: 80px; 
+    margin-bottom:0px;
+}
+.register-switch-label_female {
+    float: left; 
+    line-height: 32px;
+    color: #999;
+    text-align: center;
+    cursor: pointer;
+    background:#f3f3f4 url("/consumer-app/assets/images/female_gray.png") no-repeat;
+    background-size: 100%; 
+    background-position: 100%;
+    width: 68px;
+    height: 80px; 
+    margin-bottom:0px;
+}
+.register-switch-input:checked + .register-switch-label_female {
+    font-weight: normal;
+    color: #e06263;
+    line-height: 32px;
+    background: #999;
+    border-radius: 2px;
+    background:#fff url("/consumer-app/assets/images/female_red.png") no-repeat; 
+    background-size:50%; 
+    background-size: 100%; 
+    background-position: 100%;
+    width: 68px;
+    height: 80px; 
+    margin-bottom:0px;
 }
 .aboluteImg{
     position: absolute;

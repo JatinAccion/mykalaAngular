@@ -4,11 +4,15 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class ConsumerInterestService {
-  url: string = '../consumer-app/assets/interest.json';
-
   constructor(private http: Http) { }
 
   getInterest() {
-    return this.http.get(this.url).map((res) => res.json())
+    const url: string = 'http://dev-consumer-profile.us-east-2.elasticbeanstalk.com/profile/getCatalogs';
+    return this.http.get(url).map((res) => res.json());
+  }
+
+  postInterest(interest) {
+    const url: string = 'http://dev-consumer-profile.us-east-2.elasticbeanstalk.com/profile/addConsumerCatalogs';
+    return this.http.post(url, interest).map((res) => res.json());
   }
 }
