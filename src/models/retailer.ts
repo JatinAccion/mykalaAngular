@@ -37,3 +37,13 @@ export class RetailerReports {
         this.reviews = obj.reviews;
     }
 }
+export class RetailerReturnPolicy {
+    constructor(public retailerId: number, public policyDetails: string) { }
+}
+export class RetailerNotification {
+    public retailerId: number;
+    public orderEmail: string;
+    public shipEmail: string;
+    constructor() { }
+}
+
