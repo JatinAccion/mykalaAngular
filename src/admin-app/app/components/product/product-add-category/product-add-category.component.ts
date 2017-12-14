@@ -5,19 +5,19 @@ import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl } from
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgbTabset } from '@ng-bootstrap/ng-bootstrap/tabset/tabset';
 import { nameValue } from '../../../../../models/nameValue';
-import { IAlert } from '../../../../../models/IAlert';
 import { environment } from '../../../../environments/environment';
 import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
-import { RetialerService } from '../retialer.service';
+import { IAlert } from '../../../../../models/IAlert';
+import { ProductService } from '../product.service';
 
 
 @Component({
-  selector: 'app-retailer-add-notifications',
-  templateUrl: './retailer-add-notifications.component.html',
+  selector: 'app-product-add-category.component',
+  templateUrl: './product-add-category.component.component.html',
   styleUrls: ['./../retailer.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class RetailerAddNotificationsComponent implements OnInit {
+export class ProductAddCategoryComponent implements OnInit {
   // #region declarations
 
   retailerId = 1;
@@ -39,7 +39,7 @@ export class RetailerAddNotificationsComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     route: ActivatedRoute,
-    private retialerService: RetialerService,
+    private retialerService: ProductService,
     private validatorExt: ValidatorExt
   ) {
     this.retailerId = route.snapshot.params['id'];

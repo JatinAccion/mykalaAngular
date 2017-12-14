@@ -12,7 +12,7 @@ import { RetailerBuinessAddress } from '../../../../../models/retailer-business-
 import { RetailerPrimaryContact } from '../../../../../models/retailer-contact';
 import { RetailerPaymentInfo, BankDetails } from '../../../../../models/retailer-payment-info';
 import { RetialerShippingProfile } from '../../../../../models/retailer-shipping-profile';
-import { IAlert } from '../retailer-add/retailer-add.component';
+import { IAlert } from '../../../../../models/IAlert';
 import { environment } from '../../../../environments/environment';
 import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 

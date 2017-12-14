@@ -8,16 +8,16 @@ import { nameValue } from '../../../../../models/nameValue';
 import { IAlert } from '../../../../../models/IAlert';
 import { environment } from '../../../../environments/environment';
 import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
-import { RetialerService } from '../retialer.service';
+import { ProductService } from '../product.service';
 
 
 @Component({
-  selector: 'app-retailer-add-notifications',
-  templateUrl: './retailer-add-notifications.component.html',
+  selector: 'app-product-add-delivery.component',
+  templateUrl: './product-add-delivery.component.component.html',
   styleUrls: ['./../retailer.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class RetailerAddNotificationsComponent implements OnInit {
+export class ProductAddDeliveryComponent implements OnInit {
   // #region declarations
 
   retailerId = 1;
@@ -39,7 +39,7 @@ export class RetailerAddNotificationsComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     route: ActivatedRoute,
-    private retialerService: RetialerService,
+    private retialerService: ProductService,
     private validatorExt: ValidatorExt
   ) {
     this.retailerId = route.snapshot.params['id'];

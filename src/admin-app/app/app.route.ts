@@ -9,6 +9,7 @@ import { StatusComponent } from './components/status/status.component';
 
 import { LogoutComponent } from './components/logout/logout.component';
 import { RetailerRoutingModule } from './components/retailer/retailer-routing.module';
+import { ProductRoutingModule } from './components/product/product-routing.module';
 
 const appRoutes: Routes = [
     {
@@ -42,7 +43,9 @@ const appRoutes: Routes = [
 ];
 
 @NgModule({
-    imports: [RetailerRoutingModule, RouterModule.forRoot(appRoutes, { useHash: true })],
+    imports: [RetailerRoutingModule,
+        ProductRoutingModule,
+        RouterModule.forRoot(appRoutes, { useHash: true })],
     exports: [RouterModule]
 })
 export class AppRoutingModule { }

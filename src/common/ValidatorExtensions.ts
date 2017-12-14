@@ -1,8 +1,27 @@
-import { Validators, FormGroup, FormControl, AbstractControl } from '@angular/forms';
+import { Validators, FormGroup, FormControl, AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ValidatorExt {
+    // static number(prms: any): ValidatorFn {
+    //     return (control: FormControl): ValidationErrors => {
+    //         if (isPresent(Validators.required(control))) {
+    //             return null;
+    //         }
+    //         const val: number = control.value;
+    //         if (isNaN(val) || /\D/.test(val.toString())) {
+    //             return { 'number': true };
+    //         } else if (!isNaN(prms.min) && !isNaN(prms.max)) {
+    //             return val < prms.min || val > prms.max ? { 'number': true } : null;
+    //         } else if (!isNaN(prms.min)) {
+    //             return val < prms.min ? { 'number': true } : null;
+    //         } else if (!isNaN(prms.max)) {
+    //             return val > prms.max ? { 'number': true } : null;
+    //         } else {
+    //             return null;
+    //         }
+    //     };
+    // }
     getValidators(_f) {
         return Object.keys(_f).reduce((a, b) => {
             const v = _f[b][1];
@@ -54,5 +73,6 @@ export class ValidatorExt {
     getControlName = (abstractControl: AbstractControl): string | null => {
         const formGroup = abstractControl.parent.controls;
         return Object.keys(formGroup).find(name => abstractControl === formGroup[name]) || null;
-    }   
-}
+    }
+
+};
