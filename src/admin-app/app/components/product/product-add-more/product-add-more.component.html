@@ -1,28 +1,290 @@
-<div class="col-sm-12 p-0">
-    Notifications
+<div class="row p-3">
+    Product dimensions
 </div>
-<div [formGroup]="fG1">
-    <div class="form-group row p-2">
-        <div class="col-sm-4">
-            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.orderEmail)">Order email:</label>
+<div class="row p-2">
+    <div class="col-sm-2 p-2 colorlightGray">
+        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.Length)">Length:</label>
+    </div>
+    <div class="col-sm-10">
+        <div class="input-group">
+            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="Length">
+            <span class="input-group-addon" id="basic-addon1">
+                <select class="ddl_Product">
+                    <option>inches</option>
+                    <option>centimeters</option>
+                    <option>feet</option>
+                </select>
+            </span>
         </div>
-        <div class="col-sm-8">
-            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="orderEmail">
-            <app-field-error-display [field]="fG1.controls.orderEmail" [errorMsg]="errorMsgs"> </app-field-error-display>
+        <app-field-error-display [field]="fG1.controls.Length" [errorMsg]="errorMsgs"> </app-field-error-display>
+    </div>
+</div>
+<div class="row p-2">
+    <div class="col-sm-2 p-2 colorlightGray">
+        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.Height)">Height:</label>
+    </div>
+    <div class="col-sm-10">
+        <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="Height">
+        <app-field-error-display [field]="fG1.controls.Height" [errorMsg]="errorMsgs"> </app-field-error-display>
+    </div>
+</div>
+<div class="row p-2">
+    <div class="col-sm-2 p-2 colorlightGray">
+        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.Width)">Width:</label>
+    </div>
+    <div class="col-sm-10">
+        <div class="input-group">
+            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="Width">
+            <app-field-error-display [field]="fG1.controls.Width" [errorMsg]="errorMsgs"> </app-field-error-display>
         </div>
     </div>
-    <div class="form-group row p-2">
-        <div class="col-sm-4">
-            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.shipEmail)">Shipping email:</label>
+</div>
+<div class="row pr-3 pl-3">
+    Diameter:
+</div>
+<div class="row p-2">
+    <div class="col-sm-12">
+        <div class="input-group">
+            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="Length">
+            <span class="input-group-addon" id="basic-addon1">
+                <select class="ddl_Product">
+                    <option>inches</option>
+                    <option>centimeters</option>
+                    <option>feet</option>
+                </select>
+            </span>
         </div>
-        <div class="col-sm-8">
-            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="shipEmail">
-            <!--Validation-->
-            <app-field-error-display [field]="fG1.controls.shipEmail" [errorMsg]="errorMsgs"> </app-field-error-display>
-            <!--Validation-->
+        <app-field-error-display [field]="fG1.controls.Length" [errorMsg]="errorMsgs"> </app-field-error-display>
+    </div>
+</div>
+<div class="row pr-3 pl-3">
+    Product weight :
+</div>
+<div class="row p-2">
+    <div class="col-sm-2 p-2 colorlightGray">
+        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.prodectWeight)">weight:</label>
+    </div>
+    <div class="col-sm-10">
+        <div class="input-group">
+            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="prodectWeight">
+            <span class="input-group-addon" id="basic-addon1">
+                <select class="ddl_Product">
+                    <option>pounds</option>
+                    <option>ounces</option> 
+                </select>
+            </span>
+        </div>
+        <app-field-error-display [field]="fG1.controls.prodectWeight" [errorMsg]="errorMsgs"> </app-field-error-display>
+    </div>
+</div>
+<div class="row pr-3 pl-3">
+    Shipping weight :
+</div>
+<div class="row p-2">
+    <div class="col-sm-2 p-2 colorlightGray">
+        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.shippingWeight)">weight:</label>
+    </div>
+    <div class="col-sm-10">
+        <div class="input-group">
+            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="shippingWeight">
+            <span class="input-group-addon" id="basic-addon1">
+                <select class="ddl_Product">
+                        <option>pounds</option>
+                        <option>ounces</option> 
+                </select>
+            </span>
+        </div>
+        <app-field-error-display [field]="fG1.controls.shippingWeight" [errorMsg]="errorMsgs"> </app-field-error-display>
+    </div>
+</div>
+<div class="row pr-3 pl-3">
+    Package dimensions :
+</div>
+<div class="row p-2">
+    <div class="col-sm-2 p-2 colorlightGray">
+        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.packageLength)">Length:</label>
+    </div>
+    <div class="col-sm-10">
+        <div class="input-group">
+            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="packageLength">
+            <span class="input-group-addon" id="basic-addon1">
+                <select class="ddl_Product">
+                    <option>inches</option>
+                    <option>centimeters</option>
+                    <option>feet</option>
+                </select>
+            </span>
+        </div>
+        <app-field-error-display [field]="fG1.controls.packageLength" [errorMsg]="errorMsgs"> </app-field-error-display>
+    </div>
+</div>
+<div class="row p-2">
+    <div class="col-sm-2 p-2 colorlightGray">
+        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.packageHeight)">Height:</label>
+    </div>
+    <div class="col-sm-10">
+        <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="packageHeight">
+        <app-field-error-display [field]="fG1.controls.packageHeight" [errorMsg]="errorMsgs"> </app-field-error-display>
+    </div>
+</div>
+<div class="row p-2">
+    <div class="col-sm-2 p-2 colorlightGray">
+        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.packageWidth)">Width:</label>
+    </div>
+    <div class="col-sm-10">
+        <div class="input-group">
+            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="packageWidth">
+            <app-field-error-display [field]="fG1.controls.packageWidth" [errorMsg]="errorMsgs"> </app-field-error-display>
         </div>
     </div>
-    <div class="p-5">&nbsp;</div>
+</div>
+<div class="row pr-3 pl-3">
+    Maximum compatible wattage:
+</div>
+<div class="row p-2">
+    <div class="col-sm-12">
+        <div class="input-group">
+            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="maxWatts">
+            <span class="input-group-addon" id="basic-addon1"> watts </span>
+        </div>
+        <app-field-error-display [field]="fG1.controls.maxWatts" [errorMsg]="errorMsgs"> </app-field-error-display>
+    </div>
+</div>
+<div class="row pr-3 pl-3">
+    Included components:
+</div>
+<div class="row p-2">
+    <div class="col-sm-12">
+        <div class="input-group">
+            <select class="ddl_default form-control w-100">
+                <option>select any option</option>
+                <option>select any option</option>
+                <option>select any option</option>
+            </select>
+        </div>
+    </div>
+</div>
+<div class="row pr-3 pl-3">
+    Additional features:
+</div>
+<div class="row p-2">
+    <div class="col-sm-12">
+        <div class="input-group">
+            <input type="text" class="form-control" aria-describedby=" " placeholder="Wood" pattern formControlName="additonalFeature">
+            <span class="input-group-addon" id="basic-addon1"> X </span>
+        </div>
+        <app-field-error-display [field]="fG1.controls.additonalFeature" [errorMsg]="errorMsgs"> </app-field-error-display>
+    </div>
+</div>
+<div class="row p-2">
+    <div class="col-sm-12">
+        <div class="input-group">
+            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="additonalext">
+            <span class="input-group-addon" id="basic-addon1"> watts </span>
+        </div>
+        <app-field-error-display [field]="fG1.controls.additonalext" [errorMsg]="errorMsgs"> </app-field-error-display>
+    </div>
+</div>
+<div class="row pr-3 pl-3">
+    <div class="col-sm-12 p-3 text-right">
+        <a class="btn btn-default ancProfile1">Add feature</a>
+    </div> 
+</div>
+<div class="row pr-3 pl-3">
+    Number of lights:
+</div>
+<div class="row p-2">
+    <div class="col-sm-12">
+        <div class="input-group">
+            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="noLights">
+        </div>
+        <app-field-error-display [field]="fG1.controls.noLights" [errorMsg]="errorMsgs"> </app-field-error-display>
+    </div>
+</div>
+<div class="row pr-3 pl-3">
+    Voltage:
+</div>
+<div class="row p-2">
+    <div class="col-sm-12">
+        <div class="input-group">
+            <input type="text" class="form-control" aria-describedby=" " placeholder="Wood" pattern formControlName="voltage">
+            <span class="input-group-addon" id="basic-addon1"> Volts </span>
+        </div>
+        <app-field-error-display [field]="fG1.controls.voltage" [errorMsg]="errorMsgs"> </app-field-error-display>
+    </div>
+</div>
+<div class="row pr-3 pl-3">
+    Switch type:
+</div>
+<div class="row p-2">
+    <div class="col-sm-12">
+        <div class="input-group">
+            <select class="ddl_default w-100">
+                <option>select any option</option>
+                <option>select any option</option>
+                <option>select any option</option>
+            </select>
+        </div>
+
+    </div>
+</div>
+<div class="row pr-3 pl-3">
+    Base diameter:
+</div>
+<div class="row p-2">
+    <div class="col-sm-12">
+        <div class="input-group">
+            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="basediameter">
+            <span class="input-group-addon" id="basic-addon1">
+                <select class="ddl_Product">
+                    <option>inches</option>
+                    <option>centimeters</option>
+                    <option>feet</option>
+                </select>
+            </span>
+        </div>
+        <app-field-error-display [field]="fG1.controls.basediameter" [errorMsg]="errorMsgs"> </app-field-error-display>
+    </div>
+</div> 
+<div class="row pr-3 pl-3">
+    Material type:
+</div>
+<div class="row pr-3 pl-3"> 
+    <div class="col-sm-12">
+        <input type="checkbox">
+        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.furniture)"> Crystal </label>
+    </div>
+    <div class="col-sm-12">
+        <input type="checkbox">
+        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.smallitem)"> Bamboo </label>
+    </div>
+    <div class="col-sm-12">
+        <input type="checkbox">
+        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.bussshipping)"> Ceramic </label>
+    </div>
+    <div class="col-sm-12">
+        <input type="checkbox">
+        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.bussshipping)"> Metal </label>
+    </div>
+    <div class="col-sm-12">
+        <input type="checkbox">
+        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.bussshipping)"> Wood </label>
+    </div>
+    <div class="col-sm-12">
+        <input type="checkbox">
+        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.bussshipping)"> Glass </label>
+    </div>
+</div>
+<div class="row p-2">
+    <div class="col-sm-12">
+        <div class="input-group">
+            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="materialType">
+            <span class="input-group-addon" id="basic-addon1">
+                +
+            </span>
+        </div>
+        <app-field-error-display [field]="fG1.controls.materialType" [errorMsg]="errorMsgs"> </app-field-error-display>
+    </div>
 </div>
 <hr />
 <div class="row p-2">

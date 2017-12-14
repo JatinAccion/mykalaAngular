@@ -62,3 +62,12 @@
     background: red;
     color: #fff !important;
 }
+.product_Tab .tab-content{
+    width: 900px !important;
+    background: #f2f2f2  !important;
+}
+.ddl_Product {
+    background: #eceeef;
+    color: #464a4c;
+    border: solid 0px;
+}
