@@ -2,59 +2,73 @@
 <div class="title col-sm-12">
     <h1>Account Info</h1> 
 </div>
-<div class="row">
-    <div class="col-sm-12 signup">
+<div class="row ">
+    <div class="col-sm-12 signup product_Tab">
         <ngb-tabset #tabs="ngbTabset" class="accountsTabs" [orientation]="currentOrientation" [justify]="currentJustify" (tabChange)="setActiveTab($event)">
-            <ngb-tab title="Profile info" id="tab-Profile">
+            <ngb-tab title="Product category" id="tab-Profile">
                 <ng-template ngbTabContent>
-                    <div class="row backgroundWhite">
-                      
-                    </div>
-                </ng-template>
-            </ngb-tab>
-            <ngb-tab title="Payment info" id="tab-Payment">
-                <ng-template ngbTabContent>
-                    <div class="row backgroundWhite">
-                       
-                    </div>
-                </ng-template>
-            </ngb-tab>
-            <ngb-tab title="Product info" id="tab-Product">
-                <ng-template ngbTabContent>
-                    <div class="row backgroundWhite">
-
-                        <div class="col-sm-12 p-2">
+                    <div class="row">
+                        <div class="col-sm-8 backgroundWhite">
+                            <app-product-add-category></app-product-add-category>
                         </div>
-                        <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
-
-                    </div>
+                        <div class="col-sm-4 backgroundGray"></div>
+                    </div> 
                 </ng-template>
             </ngb-tab>
-            <ngb-tab title="Shipping profile" id="tab-Shipping">
-                <ng-template ngbTabContent>
-                    <div class="row backgroundWhite">
-                        
-                         
-                        <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
-                    </div>
+            <ngb-tab title="Basic Info" id="tab-Payment">
+                <ng-template ngbTabContent> 
+                        <div class="row">
+                            <div class="col-sm-8 backgroundWhite">
+                                <app-product-add-basic></app-product-add-basic>  
+                            </div>
+                            <div class="col-sm-4 backgroundGray"></div>
+                        </div>  
                 </ng-template>
             </ngb-tab>
-            <ngb-tab title="Return and Exchange policy" id="tab-Return">
-                <ng-template ngbTabContent>
-                    <div class="row backgroundWhite">
-                        <div class="col-sm-12 p-2">
+            <ngb-tab title="Pricing" id="tab-Product">
+                <ng-template ngbTabContent> 
+                    <div class="row">
+                        <div class="col-sm-8 backgroundWhite">
+                            <app-product-add-pricing></app-product-add-pricing>
                         </div>
-                        <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
-                    </div>
+                        <div class="col-sm-4 backgroundGray"> 
+                            <p><strong>Kala price:</strong> Per unit price that product is selling for on Kala. When Kala price is lower than ‘Retail Price', the consumer is able to see that the price is discounted from full retail price.</p>
+                            <p><strong>Retail price:</strong> Per unit price ($0.00) that product normally sells for.</p>
+                            <p><strong>Lowest offer price :</strong> Lowest offer price: Lowest acceptable per unit price that Kala will make offer and sell the product for.</p>
+                        </div>
+                    </div>  
                 </ng-template>
             </ngb-tab>
-            <ngb-tab title="Notifications" id="tab-Notifications">
+            <ngb-tab title="Delivery" id="tab-Shipping">
                 <ng-template ngbTabContent>
-                    <div class="row backgroundWhite">
-                        <div class="col-sm-12 p-2">
+                    <div class="row">
+                        <div class="col-sm-8 backgroundWhite">
+                            <app-product-add-delivery></app-product-add-delivery>  
                         </div>
-                        <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
-                    </div>
+                        <div class="col-sm-4 backgroundGray"></div>
+                    </div>  
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Images" id="tab-Return">
+                <ng-template ngbTabContent>
+                    <div class="row">
+                        <div class="col-sm-8 backgroundWhite">
+                            <app-product-add-images></app-product-add-images> 
+                        </div>
+                        <div class="col-sm-4 backgroundGray"> 
+                            The images are often the most important thing a customer looks at when they’re thinking about purchasing a product.
+                        </div>
+                    </div>  
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="More details" id="tab-Notifications">
+                <ng-template ngbTabContent>
+                    <div class="row">
+                        <div class="col-sm-8 backgroundWhite">
+                            <app-product-add-more></app-product-add-more> 
+                        </div>
+                        <div class="col-sm-4 backgroundGray"></div>
+                    </div>  
                 </ng-template>
             </ngb-tab>
         </ngb-tabset>
