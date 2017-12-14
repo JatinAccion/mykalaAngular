@@ -12,9 +12,9 @@ import { ProductService } from '../product.service';
 
 
 @Component({
-  selector: 'app-product-add-pricing.component',
-  templateUrl: './product-add-pricing.component.component.html',
-  styleUrls: ['./../retailer.css'],
+  selector: 'app-product-add-pricing',
+  templateUrl: './product-add-pricing.component.html',
+  styleUrls: ['./../product.css'],
   encapsulation: ViewEncapsulation.None
 })
 export class ProductAddPricingComponent implements OnInit {

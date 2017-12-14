@@ -12,9 +12,9 @@ import { ProductService } from '../product.service';
 
 
 @Component({
-  selector: 'app-product-add-category.component',
-  templateUrl: './product-add-category.component.component.html',
-  styleUrls: ['./../retailer.css'],
+  selector: 'app-product-add-category',
+  templateUrl: './product-add-category.component.html',
+  styleUrls: ['./../product.css'],
   encapsulation: ViewEncapsulation.None
 })
 export class ProductAddCategoryComponent implements OnInit {
