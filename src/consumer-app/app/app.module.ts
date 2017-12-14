@@ -16,6 +16,8 @@ import { EnsureAuthenticated } from './services/ensure-authenticated.service';
 
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
+import { TilesComponent } from './components/home/tiles/tiles.component';
+import { BreadcrumsComponent } from './components/home/breadcrums/breadcrums.component';
 import { StatusComponent } from './components/status/status.component';
 import { LoginRedirect } from './services/login-redirect.service';
 import { LogoutComponent } from './components/logout/logout.component';
@@ -55,7 +57,9 @@ import { NgbDateFRParserFormatter } from '../../common/ngb-date-fr-parser-format
     JoinKalaComponent,
     ProfileInfoComponent,
     ThankMessageComponent,
-    ConsumerInterestComponent
+    ConsumerInterestComponent,
+    TilesComponent,
+    BreadcrumsComponent
   ],
   imports: [
     BrowserModule,
