@@ -1,0 +1,18 @@
+[
+    {
+        "placeName": "Appliances",
+        "placeId": "Place 1"
+    },
+    {
+        "placeName": "Bedding & Linens",
+        "placeId": "Place 2"
+    },
+    {
+        "placeName": "Emergency & Safety",
+        "placeId": "Place 3"
+    },
+    {
+        "placeName": "Furniture & Patio",
+        "placeId": "Place 4"
+    }
+]

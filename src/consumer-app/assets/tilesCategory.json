@@ -1,0 +1,27 @@
+[
+    {
+        "categoryName": "Air Conditioners",
+        "categoryId": "Category 1",
+        "placeId": "Place 1"
+    },
+    {
+        "categoryName": "Heaters",
+        "categoryId": "Category 2",
+        "placeId": "Place 1"
+    },
+    {
+        "categoryName": "Fans",
+        "categoryId": "Category 3",
+        "placeId": "Place 1"
+    },
+    {
+        "categoryName": "Humidifiers",
+        "categoryId": "Category 4",
+        "placeId": "Place 1"
+    },
+    {
+        "categoryName": "Air Purifiers",
+        "categoryId": "Category 5",
+        "placeId": "Place 1"
+    }
+]

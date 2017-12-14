@@ -1,13 +1,15 @@
 <div class="category_home_list">
   <ul class="category_list">
+    <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="loader" />
+
     <li *ngFor="let tile of tilesData" [id]="tile.id" (click)="getSelectedTile(tile)">
       <span class="bg">
-        <img src="/consumer-app/assets/images/{{tile.name}}.png" />
+        <img src="/consumer-app/assets/images/kitchen.png" />
       </span>
       <span class="overlayBg"></span>
       <span class="iconText">
-        <img [src]="tile.imageUrl" />
-        <p class="text-center">{{tile.name}}</p>
+        <img src="/consumer-app/assets/images/icon_kitchen.png" />
+        <p class="text-center">{{tile.text}}</p>
       </span>
     </li>
   </ul>

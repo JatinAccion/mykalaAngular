@@ -4,10 +4,20 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class HomeService {
-  url: string = '../consumer-app/assets/tiles.json';
   constructor(private http: Http) { }
 
-  getTiles(tilename) {
-    return this.http.get(this.url).map((res) => res.json());
+  getTilesPlace() {
+    const url: string = '../consumer-app/assets/tilesPlace.json';
+    return this.http.get(url).map((res) => res.json());
+  }
+
+  getTilesCategory(placeId) {
+    const url: string = '../consumer-app/assets/tilesCategory.json';
+    return this.http.get(url).map((res) => res.json());
+  }
+
+  getTilesSubCategory(categoryId) {
+    const url: string = '../consumer-app/assets/tilesSubCategory.json';
+    return this.http.get(url).map((res) => res.json());
   }
 }
