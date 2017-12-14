@@ -144,44 +144,44 @@ export class RetailerAddProductsComponent implements OnInit {
     this.step = 1;
   }
   saveShipping() {
-    this.readShipping();
-    this.validateAllFormFields(this.profileFG1);
-    this.validateAllFormFields(this.profileFG2);
-    if (!this.profileFG1.valid) {
-      this.shippingBack();
-    }    else if (!this.profileFG2.valid) {
-      this.shippingNext();
-    }    else {
-      this.saveLoader = true;
-      this.retialerService
-        .saveShipping(this.shippingObj)
-        .then(res => {
-          // todo correct response
-          this.retailerId = res._body;
-          this.shippingObj.retailerId = this.retailerId;
-          this.ngbTabSet.select('tab-Payment');
-          // this.router.navigateByUrl('/retailer-list');
-          this.alert = {
-            id: 1,
-            type: 'success',
-            message: 'Saved successfully',
-            show: true
-          };
-          this.saveLoader = false;
-          return true;
-        })
-        .catch(err => {
-          console.log(err);
-          this.alert = {
-            id: 1,
-            type: 'danger',
-            message: 'Not able to Save',
-            show: true
-          };
+    // this.readShipping();
+    // this.validateAllFormFields(this.profileFG1);
+    // this.validateAllFormFields(this.profileFG2);
+    // if (!this.profileFG1.valid) {
+    //   this.shippingBack();
+    // }    else if (!this.profileFG2.valid) {
+    //   this.shippingNext();
+    // }    else {
+    //   this.saveLoader = true;
+    //   this.retialerService
+    //     .saveShipping(this.shippingObj)
+    //     .then(res => {
+    //       // todo correct response
+    //       this.retailerId = res._body;
+    //       this.shippingObj.retailerId = this.retailerId;
+    //       this.ngbTabSet.select('tab-Payment');
+    //       // this.router.navigateByUrl('/retailer-list');
+    //       this.alert = {
+    //         id: 1,
+    //         type: 'success',
+    //         message: 'Saved successfully',
+    //         show: true
+    //       };
+    //       this.saveLoader = false;
+    //       return true;
+    //     })
+    //     .catch(err => {
+    //       console.log(err);
+    //       this.alert = {
+    //         id: 1,
+    //         type: 'danger',
+    //         message: 'Not able to Save',
+    //         show: true
+    //       };
 
-        });
-    }
-    return false;
+    //     });
+    // }
+    // return false;
   }
   validateAllFormFields(formGroup: FormGroup) {
     Object.keys(formGroup.controls).forEach(field => {

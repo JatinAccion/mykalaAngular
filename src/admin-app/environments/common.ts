@@ -22,7 +22,17 @@ export const apiNames = {
     },
     retailerShippingInfo: {
         get: 'retailerShippingInfo/get',
-        save: 'retailer/saveShippingInfo',
+        save: 'retailer/saveShippingProfile',
+        delete: 'delete',
+    },
+    retailerShippingNotification: {
+        get: 'retailer/getShippingNotifications',
+        save: 'retailer/saveShippingNotifications',
+        delete: 'delete',
+    },
+    retailerShippingReturnPolicy: {
+        get: 'retailer/getShippingReturnPolicy',
+        save: 'retailer/saveShippingReturnPolicy',
         delete: 'delete',
     }
 };

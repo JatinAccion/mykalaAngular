@@ -7,11 +7,16 @@ import { NgbTabset } from '@ng-bootstrap/ng-bootstrap/tabset/tabset';
 import { nameValue } from '../../../../../models/nameValue';
 
 import { RetialerService } from '../retialer.service';
-import { RetailerProfileInfo, ProfileInfo } from '../../../../../models/retailer-profile-info';
 import { RetailerBuinessAddress } from '../../../../../models/retailer-business-adress';
-import { RetailerPrimaryContact } from '../../../../../models/retailer-contact';
-import { RetailerPaymentInfo, BankDetails } from '../../../../../models/retailer-payment-info';
-import { RetialerShippingProfile, ShippingDeliveryTier, RetailerAddress, ShippingLocations, ShippingSubLocation, RetailerShippingMethodFee } from '../../../../../models/retailer-shipping-profile';
+import {
+  RetialerShippingProfile,
+  ShippingDeliveryTier,
+  RetailerAddress,
+  ShippingLocations,
+  ShippingSubLocation,
+  ShippingProfile,
+  RetailerShippingMethodFee
+} from '../../../../../models/retailer-shipping-profile';
 import { IAlert } from '../../../../../models/IAlert';
 import { environment } from '../../../../environments/environment';
 import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
@@ -61,7 +66,7 @@ export class RetailerAddShippingComponent implements OnInit {
     private retialerService: RetialerService,
     private validatorExt: ValidatorExt
   ) {
-    this.retailerId = route.snapshot.params['id'];
+    // this.retailerId = route.snapshot.params['id'];
   }
   ngOnInit() {
     this.shippings.push(new RetialerShippingProfile());
@@ -254,8 +259,9 @@ export class RetailerAddShippingComponent implements OnInit {
         .saveShipping(this.shippingObj)
         .then(res => {
           // todo correct response
-          this.retailerId = res._body;
-          this.shippingObj.retailerId = this.retailerId;
+          // this.retailerId = res._body;
+          this.shippingObj.shippingProfile = new ShippingProfile();
+          this.shippingObj.shippingProfile.retailerId = this.retailerId;
           this.ngbTabSet.select('tab-Payment');
           // this.router.navigateByUrl('/retailer-list');
           this.alert = {
@@ -284,9 +290,11 @@ export class RetailerAddShippingComponent implements OnInit {
 
 
   readShipping() {
-    this.shippingObj.sequence = this.currentTabIndex;
-    this.shippingObj.profileName = this.shippingFG1.value.profileName;
-    this.shippingObj.deliveryOption = this.shippingFG1.value.deliveryOptions;
+    this.shippingObj.shippingProfile = new ShippingProfile();
+    this.shippingObj.shippingProfile.retailerId = this.retailerId;
+    this.shippingObj.shippingProfile.sequence = this.currentTabIndex;
+    this.shippingObj.shippingProfile.profileName = this.shippingFG1.value.profileName;
+    this.shippingObj.shippingProfile.deliveryOption = this.shippingFG1.value.deliveryOptions;
     this.shippingObj.shipOriginAddress = new RetailerAddress();
     this.shippingObj.shipOriginAddress.addressLine1 = this.shippingFG3.value.addressLine1;
     this.shippingObj.shipOriginAddress.addressLine2 = this.shippingFG3.value.addressLine2;
@@ -305,7 +313,7 @@ export class RetailerAddShippingComponent implements OnInit {
       locationInclude.locationFee = element.value.locationFee;
       this.shippingObj.shipLocations.locationInclude.push(locationInclude);
     });
-    this.shippingObj.deliveryTier = new Array<ShippingDeliveryTier>();
+    this.shippingObj.deliveryTiers = new Array<ShippingDeliveryTier>();
     let tierSequence = 0;
     (this.shippingFG1.get('tiers') as FormArray).controls.forEach(element => {
       const deliveryTier = new ShippingDeliveryTier();
@@ -321,7 +329,7 @@ export class RetailerAddShippingComponent implements OnInit {
         fee.deliveryFee = (subElement.get('charges') as FormArray).at(tierSequence).value.charge;
         deliveryTier.shippingMethod.push(fee);
       });
-      this.shippingObj.deliveryTier.push(deliveryTier);
+      this.shippingObj.deliveryTiers.push(deliveryTier);
       tierSequence++;
 
     });

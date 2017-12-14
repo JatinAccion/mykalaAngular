@@ -152,34 +152,34 @@ export class RetailerAddReturnsComponent implements OnInit {
     } else if (!this.profileFG2.valid) {
       this.shippingNext();
     } else {
-      this.saveLoader = true;
-      this.retialerService
-        .saveShipping(this.shippingObj)
-        .then(res => {
-          // todo correct response
-          this.retailerId = res._body;
-          this.shippingObj.retailerId = this.retailerId;
-          this.ngbTabSet.select('tab-Payment');
-          // this.router.navigateByUrl('/retailer-list');
-          this.alert = {
-            id: 1,
-            type: 'success',
-            message: 'Saved successfully',
-            show: true
-          };
-          this.saveLoader = false;
-          return true;
-        })
-        .catch(err => {
-          console.log(err);
-          this.alert = {
-            id: 1,
-            type: 'danger',
-            message: 'Not able to Save',
-            show: true
-          };
+      // this.saveLoader = true;
+      // this.retialerService
+      //   .saveShipping(this.shippingObj)
+      //   .then(res => {
+      //     // todo correct response
+      //     this.retailerId = res._body;
+      //     this.shippingObj.retailerId = this.retailerId;
+      //     this.ngbTabSet.select('tab-Payment');
+      //     // this.router.navigateByUrl('/retailer-list');
+      //     this.alert = {
+      //       id: 1,
+      //       type: 'success',
+      //       message: 'Saved successfully',
+      //       show: true
+      //     };
+      //     this.saveLoader = false;
+      //     return true;
+      //   })
+      //   .catch(err => {
+      //     console.log(err);
+      //     this.alert = {
+      //       id: 1,
+      //       type: 'danger',
+      //       message: 'Not able to Save',
+      //       show: true
+      //     };
 
-        });
+      //   });
     }
     return false;
   }

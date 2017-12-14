@@ -1,14 +1,17 @@
 import { PostalAddress } from './retailer-business-adress';
 
 export class RetialerShippingProfile {
+    shippingProfile: ShippingProfile;
+    deliveryTiers: Array<ShippingDeliveryTier>;
+    shipOriginAddress: RetailerAddress;
+    shipLocations: ShippingLocations;
+}
+export class ShippingProfile {
     retailerId: number;
     shipId: number;
     sequence: number;
     profileName: string;
     deliveryOption: string;
-    deliveryTier: Array<ShippingDeliveryTier>;
-    shipOriginAddress: RetailerAddress;
-    shipLocations: ShippingLocations;
 }
 export class ShippingDeliveryTier {
     constructor() { }
