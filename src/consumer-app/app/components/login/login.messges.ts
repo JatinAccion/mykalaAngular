@@ -3,7 +3,7 @@ export const userMessages = {
 };
 
 export const inputValidation = {
-    emailRequired: 'Please enter email',
-    validEmail: 'Please enter valid email',
+    emailRequired: 'Please enter the email',
+    validEmail: 'Please enter the valid email',
     passwordRequired: 'Please enter the password'
 };

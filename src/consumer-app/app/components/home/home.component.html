@@ -1,5 +1,5 @@
 <div style="height:120px; margin-top:20px;width:100%;"></div>
 <div>
-  <app-breadcrums [breadCrums]="breadCrums"></app-breadcrums>
+  <app-breadcrums [breadCrums]="breadCrums" (selectTile)="tileSelected($event, 'IsBc')"></app-breadcrums>
   <app-tiles [tilesData]="tiles" (selectTile)="tileSelected($event)"></app-tiles>
 </div>

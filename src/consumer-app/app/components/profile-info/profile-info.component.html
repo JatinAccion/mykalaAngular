@@ -2,9 +2,6 @@
 <div class="title">
   <h2>Just a few more details...</h2>
 </div>
-<div class="text-right">
-  <a routerLink="/interest" class="colorred">skip</a>
-</div>
 <form [formGroup]="profileInfo">
   <div class="row">
     <div class="col-sm-8 joinScreen_layout">
@@ -15,16 +12,16 @@
         </div>
         <div class="col-sm-8">
           <div class="form-group">
-            <div class="categ_outline_red" (click)="callUpload()">
-              <h2 class="colorred text-center">+</h2>
-              <div class="colorred">add</div>
-            </div>
-            <input formControlName="profileImage" (change)="fileChangeEvent($event, profileInfo)" type="file" class="form-control uploadImage" />
             <!--Images Area-->
             <span class="profImageWrapper" *ngIf="profileInfo.controls.profileImage.value">
               <img src="{{profileInfo.controls.profileImage.value}}" />
             </span>
             <!--Images Area-->
+            <div class="categ_outline_red" (click)="callUpload()">
+              <h2 class="colorred text-center">+</h2>
+              <div class="colorred">add</div>
+            </div>
+            <input formControlName="profileImage" (change)="fileChangeEvent($event, profileInfo)" type="file" class="form-control uploadImage" />
           </div>
         </div>
       </div>
@@ -149,7 +146,7 @@
             </div>
             <!--Validation-->
           </div>
-          <p class="clearfix">
+          <p class="clearfix colorlightGray">
             {{fetchGeoCode}}
           </p>
         </div>
@@ -158,7 +155,10 @@
     </div>
 
     <div class="col-sm-4">
-      <div class="joinScreen_right">
+      <div class="joinScreen_right sidebar_sticky">
+        <div class="text-right backgroundlightGray bgColor">
+          <a routerLink="/interest" class="colorred">skip</a>
+        </div>
         <h4 class="subtitle">Hello there, {{getUserInfo.firstName}}!</h4>
         <p>We just need to collect a few details from you to set up your profile.</p>
         <hr />

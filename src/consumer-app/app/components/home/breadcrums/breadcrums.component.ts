@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-breadcrums',
@@ -8,9 +8,14 @@ import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 })
 export class BreadcrumsComponent implements OnInit {
   @Input() breadCrums: Array<any>;
+  @Output() selectTile = new EventEmitter<any>();
   constructor() { }
 
   ngOnInit() {
+  }
+
+  sendBreadCrum(tile, IsBc) {
+    this.selectTile.emit({ tile, IsBc })
   }
 
 }

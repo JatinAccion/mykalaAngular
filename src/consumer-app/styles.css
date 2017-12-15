@@ -523,6 +523,7 @@ ul.category_list{
     position:absolute;
     left:50%;
     top:50%;
+    width: 100%;
     z-index: 4;
     transform: translate(-50%, -50%);
     -moz-transform: translate(-50%, -50%);
@@ -621,7 +622,6 @@ a.ancRed:hover{
   max-width: 1200px;
   min-width: 400px;
   margin: 0 auto;
-  border-right:solid 2px #999999; 
 }
 .noBackground{
     background-color:transparent !important;
@@ -1332,9 +1332,9 @@ h4.subtitle{
 }
 
 .profImageWrapper{
-    display: block;
+    display: inline-block;
     width: 100px;
-    margin-top: 20px;
+    margin-right: 20px;
 }
 
 .profImageWrapper img{
@@ -1355,4 +1355,20 @@ h4.subtitle{
 }
 .errorUser .errorMessages{
     margin-bottom: 0px !important;
+}
+.sidebar_sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 130px;
+}
+.sidebar_sticky_2{
+    top: 170px;
+}
+.bgColor{
+    margin: -10px;
+    margin-bottom: 10px;
+    width: 289px;
+}
+.bcpointer{
+    cursor: pointer;
 }

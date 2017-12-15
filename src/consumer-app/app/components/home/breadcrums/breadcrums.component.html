@@ -1,4 +1,4 @@
 <p>
-  Home
-  <span *ngFor="let bc of breadCrums">> {{bc}} </span>
+  <span class="bcpointer" (click)="sendBreadCrum()">Home</span>
+  <span class="bcpointer" *ngFor="let bc of breadCrums" [id]="bc.id" (click)="sendBreadCrum(bc, 'IsBc')">> {{bc.name}} </span>
 </p>

@@ -15,7 +15,7 @@ export class TilesComponent implements OnInit {
   }
 
   getSelectedTile(tile) {
-    this.selectTile.emit(tile)
+    this.selectTile.emit({ tile })
   }
 
 }
