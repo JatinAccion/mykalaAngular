@@ -9,7 +9,7 @@ import 'rxjs/add/operator/catch';
 import { environment } from './../../../environments/environment';
 import { RetailerProfileInfo } from '../../../../models/retailer-profile-info';
 import { Observable } from 'rxjs/Observable';
-import { Retailer, RetailerReports } from '../../../../models/retailer';
+import { Retailer, RetailerReports, RetailerNotification, RetailerReturnPolicy } from '../../../../models/retailer';
 import { LocalStorageService } from '../../services/LocalStorage.service';
 import { nameValue } from '../../../../models/nameValue';
 import { RetailerPaymentInfo } from '../../../../models/retailer-payment-info';
@@ -130,7 +130,36 @@ export class RetialerService {
       .toPromise()
       .catch(this.handleError);
   }
-
+  notificationGet(retailerId: number): Observable<RetailerNotification> {
+    const url = `${this.BASE_URL}/${environment.apis.retailerShippingNotification.get}`;
+    return this.http
+      .get(`${url}/${retailerId}`, { headers: this.headers })
+      .map(res => res.json())
+      .catch(this.handleError);
+  }
+  saveNotifications(notification: RetailerNotification): Promise<any> {
+    this.headers = this.getHttpHeraders();
+    const url = `${this.BASE_URL}/${environment.apis.retailerShippingNotification.save}`;
+    return this.http
+      .post(url, notification, { headers: this.headers })
+      .toPromise()
+      .catch(this.handleError);
+  }
+  returnPolicyGet(retailerId: number): Observable<RetailerReturnPolicy> {
+    const url = `${this.BASE_URL}/${environment.apis.retailerShippingReturnPolicy.get}`;
+    return this.http
+      .get(`${url}/${retailerId}`, { headers: this.headers })
+      .map(res => res.json())
+      .catch(this.handleError);
+  }
+  saveReturnPolicy(returnPolicy: RetailerReturnPolicy): Promise<any> {
+    this.headers = this.getHttpHeraders();
+    const url = `${this.BASE_URL}/${environment.apis.retailerShippingReturnPolicy.save}`;
+    return this.http
+      .post(url, returnPolicy, { headers: this.headers })
+      .toPromise()
+      .catch(this.handleError);
+  }
   private handleError(error: Response) {
     // in a real world app, we may send the server to some remote logging infrastructure
     // instead of just logging it to the console

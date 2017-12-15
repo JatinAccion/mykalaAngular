@@ -9,8 +9,8 @@ export class HomeService {
   constructor(private http: Http) { }
 
   getCustomers() {
-    return this.http.get('http://awsbootpoc-env.us-east-1.elasticbeanstalk.com/sample/customer/').map(res => res.json());
-    // return Observable.create(o => { o.next(this.customers); o.complete(); });
+    //return this.http.get('http://awsbootpoc-env.us-east-1.elasticbeanstalk.com/sample/customer/').map(res => res.json());
+     return Observable.create(o => { o.next(this.customers); o.complete(); });
   }
 
 }

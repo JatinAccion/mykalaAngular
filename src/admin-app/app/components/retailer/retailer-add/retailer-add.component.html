@@ -400,7 +400,7 @@
                     <div class="row backgroundWhite">
 
                         <div class="col-sm-12 p-2">
-                            <app-retailer-add-products></app-retailer-add-products>
+                            <app-retailer-add-products [retailerId]="retailerId"></app-retailer-add-products>
                         </div>
                         <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
 
@@ -411,7 +411,7 @@
                 <ng-template ngbTabContent>
                     <div class="row backgroundWhite">
                         
-                            <app-retailer-add-shipping class="w-100"></app-retailer-add-shipping>
+                            <app-retailer-add-shipping class="w-100" [retailerId]="retailerId"></app-retailer-add-shipping>
                          
                         <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
                     </div>
@@ -421,7 +421,7 @@
                 <ng-template ngbTabContent>
                     <div class="row backgroundWhite">
                         <div class="col-sm-12 p-2">
-                            <app-retailer-add-returns></app-retailer-add-returns>
+                            <app-retailer-add-returns [retailerId]="retailerId"></app-retailer-add-returns>
                         </div>
                         <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
                     </div>
@@ -431,7 +431,7 @@
                 <ng-template ngbTabContent>
                     <div class="row backgroundWhite">
                         <div class="col-sm-12 p-2">
-                            <app-retailer-add-notifications></app-retailer-add-notifications>
+                        <app-retailer-add-notifications [retailerId]="retailerId"></app-retailer-add-notifications>
                         </div>
                         <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
                     </div>

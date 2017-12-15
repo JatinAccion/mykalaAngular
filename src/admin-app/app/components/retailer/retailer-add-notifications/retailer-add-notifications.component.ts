@@ -1,5 +1,5 @@
 // #region imports
-import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, Input } from '@angular/core';
 import { Retailer, RetailerNotification } from '../../../../../models/retailer';
 import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -18,10 +18,9 @@ import { RetialerService } from '../retialer.service';
   encapsulation: ViewEncapsulation.None
 })
 export class RetailerAddNotificationsComponent implements OnInit {
+  @Input() retailerId: number;
   // #region declarations
 
-  retailerId = 1;
-  @ViewChild('tabs') ngbTabSet: NgbTabset;
   alert: IAlert = {
     id: 1,
     type: 'success',
@@ -69,33 +68,33 @@ export class RetailerAddNotificationsComponent implements OnInit {
     if (!this.fG1.valid) {
     } else {
       this.saveLoader = true;
-      // this.retialerService
-      //   .saveNotifications(this.Obj)
-      //   .then(res => {
-      //     // todo correct response
-      //     this.retailerId = res._body;
-      //     this.Obj.retailerId = this.retailerId;
-      //     this.ngbTabSet.select('tab-Payment');
-      //     // this.router.navigateByUrl('/retailer-list');
-      //     this.alert = {
-      //       id: 1,
-      //       type: 'success',
-      //       message: 'Saved successfully',
-      //       show: true
-      //     };
-      //     this.saveLoader = false;
-      //     return true;
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-      //     this.alert = {
-      //       id: 1,
-      //       type: 'danger',
-      //       message: 'Not able to Save',
-      //       show: true
-      //     };
+      this.retialerService
+        .saveNotifications(this.Obj)
+        .then(res => {
+          // todo correct response
+          // this.retailerId = res._body;
+          // this.Obj.retailerId = this.retailerId;
+          // this.ngbTabSet.select('tab-Payment');
+          // this.router.navigateByUrl('/retailer-list');
+          this.alert = {
+            id: 1,
+            type: 'success',
+            message: 'Saved successfully',
+            show: true
+          };
+          this.saveLoader = false;
+          return true;
+        })
+        .catch(err => {
+          console.log(err);
+          this.alert = {
+            id: 1,
+            type: 'danger',
+            message: 'Not able to Save',
+            show: true
+          };
 
-      //   });
+        });
     }
     return false;
   }
@@ -103,6 +102,7 @@ export class RetailerAddNotificationsComponent implements OnInit {
 
   readForm() {
     this.Obj = new RetailerNotification();
+    this.Obj.retailerId = this.retailerId;
     this.Obj.orderEmail = this.fG1.value.orderEmail;
     this.Obj.shipEmail = this.fG1.value.shipEmail;
     return this.Obj;

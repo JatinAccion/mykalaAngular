@@ -38,7 +38,9 @@ export class RetailerReports {
     }
 }
 export class RetailerReturnPolicy {
-    constructor(public retailerId: number, public policyDetails: string) { }
+    constructor() { }
+    public retailerId: number;
+    public returnPolicy: string;
 }
 export class RetailerNotification {
     public retailerId: number;

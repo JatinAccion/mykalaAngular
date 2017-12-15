@@ -1,5 +1,5 @@
 // #region imports
-import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, Input } from '@angular/core';
 import { Retailer } from '../../../../../models/retailer';
 import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl, FormArray } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -34,7 +34,7 @@ export class RetailerAddShippingComponent implements OnInit {
   currentJustify = 'start';
   currentTabIndex = 0;
   textRegex = new RegExp('^[a-zA-Z 0-9_.-]*$');
-  retailerId = 1;
+  @Input() retailerId: number;
   @ViewChild('tabs') ngbTabSet: NgbTabset;
   alert: IAlert = {
     id: 1,
