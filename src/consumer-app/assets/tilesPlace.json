@@ -1,6 +1,6 @@
 [
     {
-        "placeName": "Appliances",
+        "placeName": "Home & Appliances",
         "placeId": "Place 1"
     },
     {
@@ -14,5 +14,37 @@
     {
         "placeName": "Furniture & Patio",
         "placeId": "Place 4"
+    },
+    {
+        "placeName": "Garage",
+        "placeId": "Place 5"
+    },
+    {
+        "placeName": "Hardware",
+        "placeId": "Place 6"
+    },
+    {
+        "placeName": "Kitchen & Dining",
+        "placeId": "Place 7"
+    },
+    {
+        "placeName": "Lawn & Garden",
+        "placeId": "Place 8"
+    },
+    {
+        "placeName": "Lighting",
+        "placeId": "Place 9"
+    },
+    {
+        "placeName": "Pest Control",
+        "placeId": "Place 10"
+    },
+    {
+        "placeName": "Pool & Spa",
+        "placeId": "Place 11"
+    },
+    {
+        "placeName": "Supplies",
+        "placeId": "Place 12"
     }
 ]

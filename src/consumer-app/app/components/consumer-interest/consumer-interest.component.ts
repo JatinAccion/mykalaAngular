@@ -27,6 +27,7 @@ export class ConsumerInterestComponent implements OnInit {
   constructor(private routerOutlet: RouterOutlet, private router: Router, private interest: ConsumerInterestService, private core: CoreService) { }
 
   ngOnInit() {
+    if (window.localStorage['token'] == undefined) this.core.clearUser();
     this.loadInterest = true;
     this.core.show();
     this.interest.getInterest().subscribe(res => {

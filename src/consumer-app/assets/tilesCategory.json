@@ -1,11 +1,11 @@
 [
     {
-        "categoryName": "Air Conditioners",
+        "categoryName": "Heaters",
         "categoryId": "Category 1",
         "placeId": "Place 1"
     },
     {
-        "categoryName": "Heaters",
+        "categoryName": "Air Conditioners",
         "categoryId": "Category 2",
         "placeId": "Place 1"
     },

@@ -39,6 +39,7 @@ export class JoinKalaComponent implements OnInit, CuiComponent {
   constructor(private routerOutlet: RouterOutlet, private joinKalaService: JoinKalaService, private formBuilder: FormBuilder, private router: Router, private auth: AuthService, private core: CoreService) { }
   ngOnInit() {
     localStorage.removeItem('token');
+    if (window.localStorage['token'] == undefined) this.core.clearUser();
     this.core.show();
     this.joinKala = this.formBuilder.group({
       firstname: ['', Validators.compose([Validators.required, Validators.pattern(this.fullname)])],
