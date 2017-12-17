@@ -1,7 +1,7 @@
 <div class="title col-sm-12">
     <h1>Log In</h1>
 </div>
-<div [formGroup]="loginKala" class="login_layout col-sm-12">
+<form [formGroup]="loginKala" class="login_layout col-sm-12">
     <div class="form-signin">
         <h4>log into admin portal</h4>
         <div class="form-group">
@@ -20,21 +20,23 @@
 
             <!--Validation-->
             <div *ngIf="loginKala.controls.password.dirty || loginKala.controls.password.touched">
-                <div *ngIf="!loginKala.controls.password.value" class="alert alert-danger errorMessages">Please enter the password</div> 
+                <div *ngIf="!loginKala.controls.password.value" class="alert alert-danger errorMessages">Please enter the password</div>
             </div>
             <!--Validation-->
 
         </div>
         <div class="form-check">
             <label class="form-check-label">
-                <input type="checkbox" formControlName="remember"  class="form-check-input"> remember me
+                <input type="checkbox" formControlName="remember" class="form-check-input"> remember me
             </label>
         </div>
-
+        <div *ngIf="loginError" class="alert alert-danger errorMessages">
+            {{userMessages.error}}
+        </div>
         <img src="/admin-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="loader" />
     </div>
     <hr />
     <div class="clearfix col-sm-12 text-center">
-        <button type="button" class=" btn-nml width25" [ngClass]="{'btn disabled': !loginKala.valid  }" [disabled]="!loginKala.valid && loginKala.touched" (click)="onLogin()">log in</button>
+        <button type="submit" class=" btn-nml width25" [ngClass]="{'btn disabled': !loginKala.valid  }" [disabled]="!loginKala.valid && loginKala.touched" (click)="onLogin()">log in</button>
     </div>
-</div>
+</form>

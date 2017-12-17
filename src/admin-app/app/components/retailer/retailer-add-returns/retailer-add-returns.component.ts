@@ -1,5 +1,5 @@
 // #region imports
-import { Component, OnInit, ViewEncapsulation, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { Retailer, RetailerReturnPolicy } from '../../../../../models/retailer';
 import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -9,6 +9,7 @@ import { IAlert } from '../../../../../models/IAlert';
 import { environment } from '../../../../environments/environment';
 import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 import { RetialerService } from '../retialer.service';
+import { inputValidations } from './messages';
 
 
 @Component({
@@ -19,6 +20,7 @@ import { RetialerService } from '../retialer.service';
 })
 export class RetailerAddReturnsComponent implements OnInit {
   @Input() retailerId: number;
+  @Output() SaveData = new EventEmitter<any>();
   // #region declarations
 
   alert: IAlert = {
@@ -30,18 +32,15 @@ export class RetailerAddReturnsComponent implements OnInit {
   fG1 = new FormGroup({});
   step = 1;
   Obj: RetailerReturnPolicy;
-  errorMsgs: any;
+  errorMsgs = inputValidations;
   saveLoader = true;
 
   // #endregion declaration
   constructor(
     private formBuilder: FormBuilder,
-    private router: Router,
-    route: ActivatedRoute,
     private retialerService: RetialerService,
     private validatorExt: ValidatorExt
   ) {
-    this.retailerId = route.snapshot.params['id'];
   }
   ngOnInit() {
     this.setFormValidators();
@@ -54,10 +53,6 @@ export class RetailerAddReturnsComponent implements OnInit {
     this.fG1 = this.formBuilder.group({
       returnPolicy: ['', [Validators.maxLength(500), Validators.pattern(environment.regex.textRegex), Validators.required]],
     });
-
-    this.errorMsgs = {
-      'returnPolicy': { required: 'Please enter return Policy ', error: 'Please enter valid return Policy' },
-    };
   }
 
   saveData() {
@@ -74,6 +69,7 @@ export class RetailerAddReturnsComponent implements OnInit {
           // this.Obj.retailerId = this.retailerId;
           // this.ngbTabSet.select('tab-Payment');
           // this.router.navigateByUrl('/retailer-list');
+          this.SaveData.emit('tab-Return');
           this.alert = {
             id: 1,
             type: 'success',

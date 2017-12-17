@@ -5,7 +5,7 @@ import { CoreService } from '../../services/core.service';
 import { User } from '../../../../models/user';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { LocalStorageService } from '../../services/LocalStorage.service';
-import { loginMessages, loginInputValidations } from './login.messages';
+import { userMessages, loginInputValidations } from './login.messages';
 import { RememberMe } from '../../../../models/rememberMe';
 import { fail } from 'assert';
 
@@ -20,11 +20,12 @@ export class LoginComponent implements OnInit {
   passwordRegex = new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$');
   usernameRegex = new RegExp('^[a-zA-Z0-9_.-]*$');
   user: User = new User();
-  loginMessages = loginMessages;
+  userMessages = userMessages;
   loginInputValidations = loginInputValidations;
   credentialModal = new RememberMe();
   getCredentials = window.localStorage['rememberMe'];
   loader = false;
+  loginError = false;
   @Input() hideNavi: string;
   constructor(private formBuilder: FormBuilder,
     private router: Router,
@@ -62,6 +63,7 @@ export class LoginComponent implements OnInit {
       })
       .catch((err) => {
         this.loader = false;
+        this.loginError = true;
         console.log(err);
       });
   }

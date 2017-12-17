@@ -5,6 +5,12 @@ export class RetialerShippingProfile {
     deliveryTiers: Array<ShippingDeliveryTier>;
     shipOriginAddress: RetailerAddress;
     shipLocations: ShippingLocations;
+    constructor() {
+        this.shippingProfile = new ShippingProfile();
+        this.deliveryTiers = new Array<ShippingDeliveryTier>();
+        this.shipOriginAddress = new RetailerAddress();
+        this.shipLocations = new ShippingLocations();
+    }
 }
 export class ShippingProfile {
     retailerId: number;

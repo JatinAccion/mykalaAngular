@@ -14,6 +14,8 @@ import { RetailerAddProductsComponent } from './retailer-add-products/retailer-a
 import { RetailerAddReturnsComponent } from './retailer-add-returns/retailer-add-returns.component';
 import { ValidatorExt } from '../../../../common/ValidatorExtensions';
 import { SharedModule } from '../../../../common/shared.module';
+import { RetailerAddProfileComponent } from './retailer-add-profile/retailer-add-profile.component';
+import { RetailerAddPaymentComponent } from './retailer-add-payment/retailer-add-payment.component';
 
 @NgModule({
   imports: [
@@ -27,6 +29,8 @@ import { SharedModule } from '../../../../common/shared.module';
     RetailerListComponent,
     RetailerEditComponent,
     RetailerAddComponent,
+    RetailerAddProfileComponent,
+    RetailerAddPaymentComponent,
     RetailerAddShippingComponent,
     RetailerAddNotificationsComponent,
     RetailerAddProductsComponent,

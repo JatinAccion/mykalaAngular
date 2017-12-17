@@ -4,7 +4,7 @@
     </a>
 </div>
 <ngb-tabset #tabs="ngbTabset" [orientation]="currentOrientation" class="tabShipping" [justify]="currentJustify" (tabChange)="setActiveTab($event)">
-    <ngb-tab title="{{idx}}" id="tab-shipping{{idx}}" *ngFor="let shipping of shippings; let idx = index;">
+    <ngb-tab title="{{ idx + 1 }}" id="tab-shipping{{idx}}" *ngFor="let shipping of shippings; let idx = index;">
         <ng-template ngbTabContent>
             <div class="row p-3">
                 <div class="col-sm-12 p-2">
@@ -12,7 +12,7 @@
                     <div [formGroup]="shippingFG1">
                         <div class="form-group">
                             <label class="control-label" [ngClass]="validatorExt.displayFieldCss(shippingFG1.controls.profileName)">Profile name</label>
-                            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="profileName">
+                            <input type="text" class="form-control" placeholder="" pattern formControlName="profileName">
                             <app-field-error-display [field]="shippingFG1.controls.profileName" [errorMsg]="errorMsgs"> </app-field-error-display>
                         </div>
                     </div>
@@ -73,7 +73,7 @@
                                                 <div class="row">
                                                     <app-field-error-display [field]="tier.controls.max" [errorMsg]="errorMsgs"> </app-field-error-display>
                                                 </div>
-                                                <div class="float-right" *ngIf="i === shippingFG1.get('tiers').length-1 ">
+                                                <div class="float-right" *ngIf="i === shippingFG1.get('tiers').length-1 && i>0">
                                                     <a (click)="removeTier()" class="tier-remove">X</a>
                                                 </div>
                                             </div>
@@ -93,7 +93,7 @@
                                                 {{tier.value.name}}
                                             </div>
                                             <div class="col-sm-4">
-                                                <div>Min. Items</div>
+                                                <div>Min. Price</div>
                                                 <div>
                                                     <div class="input-group">
                                                         <span class="input-group-addon" id="basic-addon1">$</span>
@@ -108,7 +108,7 @@
                                                 To
                                             </div>
                                             <div class="col-sm-4">
-                                                <div>Max. Items</div>
+                                                <div>Max. Price</div>
                                                 <div>
                                                     <div class="input-group">
                                                         <span class="input-group-addon" id="basic-addon1">$</span>
@@ -118,7 +118,7 @@
                                                         <app-field-error-display [field]="tier.controls.max" [errorMsg]="errorMsgs"> </app-field-error-display>
                                                     </div>
                                                 </div>
-                                                <div class="float-right" *ngIf="i === shippingFG1.get('tiers').length-1 ">
+                                                <div class="float-right" *ngIf="i === shippingFG1.get('tiers').length-1 && i>0">
                                                     <a (click)="removeTier()" class="tier-remove">X</a>
                                                 </div>
                                             </div>
@@ -138,7 +138,7 @@
                                                 {{tier.value.name}}
                                             </div>
                                             <div class="col-sm-4">
-                                                <div>Min. Items</div>
+                                                <div>Min. Weight</div>
                                                 <div>
                                                     <div class="input-group">
                                                         <span class="input-group-addon" id="basic-addon1">lbs.</span>
@@ -153,7 +153,7 @@
                                                 To
                                             </div>
                                             <div class="col-sm-4">
-                                                <div>Max. Items</div>
+                                                <div>Max. Weight</div>
                                                 <div>
                                                     <div class="input-group">
                                                         <span class="input-group-addon" id="basic-addon1">lbs.</span>
@@ -163,7 +163,7 @@
                                                         <app-field-error-display [field]="tier.controls.max" [errorMsg]="errorMsgs"> </app-field-error-display>
                                                     </div>
                                                 </div>
-                                                <div class="float-right" *ngIf="i === shippingFG1.get('tiers').length-1 ">
+                                                <div class="float-right" *ngIf="i === shippingFG1.get('tiers').length-1 && i>0">
                                                     <a (click)="removeTier()" class="tier-remove">X</a>
                                                 </div>
                                             </div>
@@ -180,7 +180,7 @@
                                             <div>Minimum: 5” long, 3 ½” high, and 0.007” thick Maximum: 11-1/2” long, 6-1/8” high, and ¼” thick</div>
                                         </div>
                                         <div class="col-sm-4 text-center">
-                                            <img src="images/icon_letter.png" />
+                                            <img src="/admin-app/assets/images/icon_letter.png" />
                                         </div>
                                     </div>
                                     <div class="row border_outline">
@@ -189,7 +189,7 @@
                                             <div>Max. Size: Length + (2 x Width) + (2 x Height) &lt;=2 8” </div>
                                         </div>
                                         <div class="col-sm-4 text-center">
-                                            <img src="images/icon_small.png" />
+                                            <img src="/admin-app/assets/images/icon_small.png" />
                                         </div>
                                     </div>
 
@@ -197,18 +197,18 @@
                                         <div class="col-sm-8 p-3">
                                             <strong>Medium</strong>
                                             <div>Max. Size: Length + (2 x Width) + (2 x Height) &gt; 28”, &lt;=8 4” </div>
-                                            <div class="col-sm-4 text-center">
-                                                <img src="images/icon_medium.png" />
-                                            </div>
+                                        </div>
+                                        <div class="col-sm-4 text-center">
+                                            <img src="/admin-app/assets/images/icon_medium.png" />
                                         </div>
                                     </div>
                                     <div class="row border_outline">
                                         <div class="col-sm-8 p-3">
                                             <strong>Large</strong>
                                             <div>Max. Size: Length + (2 x Width) + (2 x Height) &gt; 84”, &lt;=1 65” </div>
-                                            <div class="col-sm-4 text-center">
-                                                <img src="images/icon_Large.png" />
-                                            </div>
+                                        </div>
+                                        <div class="col-sm-4 text-center">
+                                            <img src="/admin-app/assets/images/icon_Large.png" />
                                         </div>
                                     </div>
                                     <div class="row border_outline">
@@ -216,9 +216,9 @@
                                             <strong>Oversized</strong>
                                             <div>Max. Size: Length + (2 x Width) + (2 x Height) &gt; 165”
                                             </div>
-                                            <div class="col-sm-4 text-center">
-                                                <img src="images/icon_oversize.png" />
-                                            </div>
+                                        </div>
+                                        <div class="col-sm-4 text-center">
+                                            <img src="/admin-app/assets/images/icon_oversize.png" />
                                         </div>
                                     </div>
                                     <div class="row border_outline p-3 my-3">
@@ -230,7 +230,7 @@
                         </span>
                     </div>
                     <div [formGroup]="shippingFG2" [ngClass]="{'show': step==2, 'hide': step!==2  }">
-                        <div class="row m-0 shippingdelivery">
+                        <div class="row m-0 shippingdelivery" [ngClass]="{'show': shippingFG1.value.deliveryOptions !== 'freeshipping', 'hide': shippingFG1.value.deliveryOptions === 'freeshipping' }">
                             <div formArrayName="shippingMethods" class="well well-lg col-md-12">
                                 <ngb-accordion #acc="ngbAccordion" [closeOthers]="true">
                                     <ngb-panel id="toggle-{{i}}" class="row border_outline m-3 p-2" *ngFor="let option of shippingFG2.get('shippingMethods').controls; let i=index;" [formGroupName]="i" [disabled]="option.value.disabled">
@@ -266,26 +266,27 @@
                                 </ngb-accordion>
                             </div>
                         </div>
+                        <div class="row m-0 shippingdelivery" [ngClass]="{'show': shippingFG1.value.deliveryOptions === 'freeshipping', 'hide': shippingFG1.value.deliveryOptions !== 'freeshipping'}">
+                            no options available
+                        </div>
                     </div>
                     <div [formGroup]="shippingFG3" [ngClass]="{'show': step==3, 'hide': step!==3  }">
                         <div class="row m-0 shippingdelivery">
-                            <div class="col-sm-12">
-                                <label class="control-label" [ngClass]="validatorExt.displayFieldCss(shippingFG3.controls.addressLine1)">Shipping Origin Address</label>
-                            </div>
+                            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(shippingFG3.controls.addressLine1)">Shipping Origin Address</label>
                             <div class="col-sm-12 p-0 form-group">
-                                <input type="text" class="form-control" aria-describedby=" " placeholder="Address line 1" pattern formControlName="addressLine1">
+                                <input type="text" class="form-control" placeholder="Address line 1" pattern formControlName="addressLine1">
                                 <!--Validation-->
                                 <app-field-error-display [field]="shippingFG3.controls.addressLine1" [errorMsg]="errorMsgs"> </app-field-error-display>
                                 <!--Validation-->
                             </div>
                             <div class="col-sm-12 p-0 form-group">
-                                <input type="text" class="form-control" aria-describedby=" " placeholder="Address line 2.(optional)" pattern formControlName="addressLine2">
+                                <input type="text" class="form-control" placeholder="Address line 2.(optional)" pattern formControlName="addressLine2">
                                 <!--Validation-->
                                 <app-field-error-display [field]="shippingFG3.controls.addressLine2" [errorMsg]="errorMsgs"> </app-field-error-display>
                                 <!--Validation-->
                             </div>
                             <div class="col-sm-12 p-0 form-group">
-                                <input type="text" class="form-control" aria-describedby=" " placeholder="City" pattern formControlName="city">
+                                <input type="text" class="form-control" placeholder="City" pattern formControlName="city">
                                 <!--Validation-->
                                 <app-field-error-display [field]="shippingFG3.controls.city" [errorMsg]="errorMsgs"> </app-field-error-display>
                                 <!--Validation-->
@@ -295,7 +296,7 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" aria-describedby="" placeholder="State" pattern formControlName="state">
+                                            <input type="text" class="form-control" placeholder="State" pattern formControlName="state">
                                             <!--Validation-->
                                             <app-field-error-display [field]="shippingFG3.controls.state" [errorMsg]="errorMsgs"> </app-field-error-display>
                                             <!--Validation-->
@@ -303,7 +304,7 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" aria-describedby="" placeholder="Zipcode" pattern formControlName="zipcode">
+                                            <input type="text" class="form-control" placeholder="Zipcode" pattern formControlName="zipcode">
                                             <!--Validation-->
                                             <app-field-error-display [field]="shippingFG3.controls.zipcode" [errorMsg]="errorMsgs"> </app-field-error-display>
                                             <!--Validation-->
@@ -314,12 +315,10 @@
                             <div class="row">
 
                                 <div class="col-sm-12">
-                                    <div class="col-sm-12">
-                                        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(shippingFG3.controls.countryName)">Allowable shipping destinations</label>
-                                    </div>
+                                    <label class="control-label" [ngClass]="validatorExt.displayFieldCss(shippingFG3.controls.countryName)">Allowable shipping destinations</label>
                                     <div>
                                         <select class="ddl_default w-100 form-control" formControlName='countryName'>
-                                            <option>United States</option>
+                                            <option value='US'>United States</option>
                                         </select>
                                         <!--Validation-->
                                         <app-field-error-display [field]="shippingFG3.controls.countryName" [errorMsg]="errorMsgs"> </app-field-error-display>
@@ -349,10 +348,10 @@
                     </div>
                     <hr />
                     <div class="row">
-                        <div class="col-sm-6" *ngIf="step==2 || step==3">
-                            <a (click)="shippingBack()" class="ancDefault">back</a>
+                        <div class="col-sm-6">
+                            <a (click)="shippingBack()" class="ancDefault" *ngIf="step!==1">back</a>
                         </div>
-                        <div class="col-sm-12 text-right" *ngIf="step==1 || step==2">
+                        <div class="col-sm-6 text-right" *ngIf="step==1 || step==2">
                             <a class="btn btn-default ancProfile1" (click)="shippingNext()">Next</a>
                         </div>
                         <div class="col-sm-6 text-right" *ngIf="step==3">

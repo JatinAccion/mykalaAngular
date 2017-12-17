@@ -1,5 +1,5 @@
 // #region imports
-import { Component, OnInit, ViewEncapsulation, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, Input, EventEmitter, Output } from '@angular/core';
 import { Retailer, RetailerNotification } from '../../../../../models/retailer';
 import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -9,6 +9,7 @@ import { IAlert } from '../../../../../models/IAlert';
 import { environment } from '../../../../environments/environment';
 import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 import { RetialerService } from '../retialer.service';
+import { inputValidations } from './messages';
 
 
 @Component({
@@ -19,6 +20,7 @@ import { RetialerService } from '../retialer.service';
 })
 export class RetailerAddNotificationsComponent implements OnInit {
   @Input() retailerId: number;
+  @Output() SaveData= new EventEmitter<any>();
   // #region declarations
 
   alert: IAlert = {
@@ -30,18 +32,15 @@ export class RetailerAddNotificationsComponent implements OnInit {
   fG1 = new FormGroup({});
   step = 1;
   Obj: RetailerNotification;
-  errorMsgs: any;
+  errorMsgs= inputValidations;
   saveLoader = true;
 
   // #endregion declaration
   constructor(
     private formBuilder: FormBuilder,
-    private router: Router,
-    route: ActivatedRoute,
     private retialerService: RetialerService,
     private validatorExt: ValidatorExt
   ) {
-    this.retailerId = route.snapshot.params['id'];
   }
   ngOnInit() {
     this.setFormValidators();
@@ -55,11 +54,6 @@ export class RetailerAddNotificationsComponent implements OnInit {
       orderEmail: ['', [Validators.email, Validators.maxLength(255), Validators.required]],
       shipEmail: ['', [Validators.maxLength(255), Validators.email, Validators.required]],
     });
-
-    this.errorMsgs = {
-      'orderEmail': { required: 'Please enter order email ', error: 'Please enter valid order email' },
-      'shipEmail': { required: 'Please enter shipping email', error: 'Please enter valid shipping email' },
-    };
   }
 
   saveData() {
@@ -76,6 +70,7 @@ export class RetailerAddNotificationsComponent implements OnInit {
           // this.Obj.retailerId = this.retailerId;
           // this.ngbTabSet.select('tab-Payment');
           // this.router.navigateByUrl('/retailer-list');
+          this.SaveData.emit('tab-Notifications');
           this.alert = {
             id: 1,
             type: 'success',
