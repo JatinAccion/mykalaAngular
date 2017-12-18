@@ -1,367 +1,376 @@
-<div class="float-right">
-    <a class="colorBlue" (click)="addShipping()">
-        <span class="shippingtab-gray">+</span>
-    </a>
-</div>
-<ngb-tabset #tabs="ngbTabset" [orientation]="currentOrientation" class="tabShipping" [justify]="currentJustify" (tabChange)="setActiveTab($event)">
-    <ngb-tab title="{{ idx + 1 }}" id="tab-shipping{{idx}}" *ngFor="let shipping of shippings; let idx = index;">
-        <ng-template ngbTabContent>
-            <div class="row p-3">
-                <div class="col-sm-12 p-2">
-                    <!-- {{idx}} -->
-                    <div [formGroup]="shippingFG1">
-                        <div class="form-group">
-                            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(shippingFG1.controls.profileName)">Profile name</label>
-                            <input type="text" class="form-control" placeholder="" pattern formControlName="profileName">
-                            <app-field-error-display [field]="shippingFG1.controls.profileName" [errorMsg]="errorMsgs"> </app-field-error-display>
-                        </div>
-                    </div>
-                    <div [formGroup]="shippingFG1" [ngClass]="{'show': step==1, 'hide': step!==1 }">
-                        <div class="form-group">
-                            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(shippingFG1.controls.deliveryOptions)">Delivery - Base options</label>
-                            <ul class="list-unstyled">
-                                <li>
-                                    <input type="radio" formControlName="deliveryOptions" value="freeshipping" name="deliveryOptions" /> Free shipping</li>
-                                <li>
-                                    <input type="radio" formControlName="deliveryOptions" value="ship_by_flat_rate" name="deliveryOptions" /> Flat rate - single rate for all orders</li>
-                                <li>
-                                    <input type="radio" formControlName="deliveryOptions" value="ship_by_price" name="deliveryOptions" /> Price based</li>
-                                <li>
-                                    <input type="radio" formControlName="deliveryOptions" value="ship_by_weight" name="deliveryOptions" /> Weight based</li>
-                                <li>
-                                    <input type="radio" formControlName="deliveryOptions" value="ship_by_size" name="deliveryOptions" /> Size based</li>
-                            </ul>
-                            <!--Validation-->
-                            <app-field-error-display [field]="shippingFG1.controls.deliveryOptions" [errorMsg]="errorMsgs"> </app-field-error-display>
-                            <!--Validation-->
-                        </div>
-                        <span [ngSwitch]="shippingFG1.value.deliveryOptions">
-                            <div *ngSwitchCase="'freeshipping'"> </div>
-                            <div *ngSwitchCase="'ship_by_flat_rate'">
-                                <div class="priceBased deliveryDetails">
-                                    <div class="col-sm-12 text-right">
-                                        <a (click)="addTier()">Add Tier +</a>
-                                    </div>
-                                    <div formArrayName="tiers" class="well well-lg">
-                                        <div class="row border_outline m-3 p-2" *ngFor="let tier of shippingFG1.get('tiers').controls; let i=index;" [formGroupName]="i">
-                                            <div class="col-sm-3">
-                                                {{tier.value.name}}
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <div>Min. Items</div>
-                                                <div>
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon" id="basic-addon1">&nbsp;</span>
-                                                        <input class="form-control" placeholder="" aria-describedby="basic-addon1" formControlName="min" type="number">
-                                                    </div>
-                                                </div>
-                                                <div class="row p-2">
-                                                    <app-field-error-display [field]="tier.controls.min" [errorMsg]="errorMsgs"> </app-field-error-display>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-1 pt-4">
-                                                To
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <div>Max. Items</div>
-                                                <div>
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon" id="basic-addon1">&nbsp;</span>
-                                                        <input class="form-control" placeholder="" aria-describedby="basic-addon1" formControlName="max" type="number">
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <app-field-error-display [field]="tier.controls.max" [errorMsg]="errorMsgs"> </app-field-error-display>
-                                                </div>
-                                                <div class="float-right" *ngIf="i === shippingFG1.get('tiers').length-1 && i>0">
-                                                    <a (click)="removeTier()" class="tier-remove">X</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
+<div class="row">
+    <div class="col-sm-12">
+        <ngb-tabset #tabs="ngbTabset" [orientation]="currentOrientation" class="tabShipping" [justify]="currentJustify" (tabChange)="setActiveTab($event)">
+            <ngb-tab title="{{ idx + 1 }}" id="tab-shipping{{idx}}" *ngFor="let shipping of shippings; let idx = index;">
+                <ng-template ngbTabContent>
+                    <div class="row p-3">
+                        <div class="col-sm-12 p-2">
+                            <!-- {{idx}} -->
+                            <div [formGroup]="shippingFG1">
+                                <div class="form-group">
+                                    <label class="control-label" [ngClass]="validatorExt.displayFieldCss(shippingFG1.controls.profileName)">Profile name</label>
+                                    <input type="text" class="form-control" placeholder="" pattern formControlName="profileName">
+                                    <app-field-error-display [field]="shippingFG1.controls.profileName" [errorMsg]="errorMsgs"> </app-field-error-display>
                                 </div>
                             </div>
-                            <div *ngSwitchCase="'ship_by_price'">
-                                <div class="priceBased deliveryDetails">
-                                    <div class="col-sm-12 text-right">
-                                        <a (click)="addTier()">Add Tier +</a>
-                                    </div>
-                                    <div formArrayName="tiers" class="well well-lg">
-                                        <div class="row border_outline m-3 p-2" *ngFor="let tier of shippingFG1.get('tiers').controls; let i=index;" [formGroupName]="i">
-                                            <div class="col-sm-3">
-                                                {{tier.value.name}}
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <div>Min. Price</div>
-                                                <div>
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon" id="basic-addon1">$</span>
-                                                        <input class="form-control" placeholder="" aria-describedby="basic-addon1" formControlName="min" type="number">
-                                                    </div>
-                                                    <div class="row">
-                                                        <app-field-error-display [field]="tier.controls.min" [errorMsg]="errorMsgs"> </app-field-error-display>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-1 pt-4">
-                                                To
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <div>Max. Price</div>
-                                                <div>
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon" id="basic-addon1">$</span>
-                                                        <input class="form-control" placeholder="" aria-describedby="basic-addon1" formControlName="max" type="number">
-                                                    </div>
-                                                    <div class="row">
-                                                        <app-field-error-display [field]="tier.controls.max" [errorMsg]="errorMsgs"> </app-field-error-display>
-                                                    </div>
-                                                </div>
-                                                <div class="float-right" *ngIf="i === shippingFG1.get('tiers').length-1 && i>0">
-                                                    <a (click)="removeTier()" class="tier-remove">X</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
+                            <div [formGroup]="shippingFG1" [ngClass]="{'show': step==1, 'hide': step!==1 }">
+                                <div class="form-group">
+                                    <label class="control-label" [ngClass]="validatorExt.displayFieldCss(shippingFG1.controls.deliveryOptions)">Delivery - Base options</label>
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <input type="radio" formControlName="deliveryOptions" value="freeshipping" name="deliveryOptions" /> Free shipping</li>
+                                        <li>
+                                            <input type="radio" formControlName="deliveryOptions" value="ship_by_flat_rate" name="deliveryOptions" /> Flat rate - single rate for all orders</li>
+                                        <li>
+                                            <input type="radio" formControlName="deliveryOptions" value="ship_by_price" name="deliveryOptions" /> Price based</li>
+                                        <li>
+                                            <input type="radio" formControlName="deliveryOptions" value="ship_by_weight" name="deliveryOptions" /> Weight based</li>
+                                        <li>
+                                            <input type="radio" formControlName="deliveryOptions" value="ship_by_size" name="deliveryOptions" /> Size based</li>
+                                    </ul>
+                                    <!--Validation-->
+                                    <app-field-error-display [field]="shippingFG1.controls.deliveryOptions" [errorMsg]="errorMsgs"> </app-field-error-display>
+                                    <!--Validation-->
                                 </div>
-                            </div>
-                            <div *ngSwitchCase="'ship_by_weight'">
-                                <div class="priceBased deliveryDetails">
-                                    <div class="col-sm-12 text-right">
-                                        <a (click)="addTier()">Add Tier +</a>
-                                    </div>
-                                    <div formArrayName="tiers" class="well well-lg">
-                                        <div class="row border_outline m-3 p-2" *ngFor="let tier of shippingFG1.get('tiers').controls; let i=index;" [formGroupName]="i">
-                                            <div class="col-sm-3">
-                                                {{tier.value.name}}
+                                <span [ngSwitch]="shippingFG1.value.deliveryOptions">
+                                    <div *ngSwitchCase="'freeshipping'"> </div>
+                                    <div *ngSwitchCase="'ship_by_flat_rate'">
+                                        <div class="priceBased deliveryDetails">
+                                            <div class="col-sm-12 text-right">
+                                                <a (click)="addTier()">Add Tier +</a>
                                             </div>
-                                            <div class="col-sm-4">
-                                                <div>Min. Weight</div>
-                                                <div>
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon" id="basic-addon1">lbs.</span>
-                                                        <input class="form-control" placeholder="" aria-describedby="basic-addon1" formControlName="min" type="number">
+                                            <div formArrayName="tiers" class="well well-lg">
+                                                <div class="row border_outline m-3 p-2" *ngFor="let tier of shippingFG1.get('tiers').controls; let i=index;" [formGroupName]="i">
+                                                    <div class="col-sm-3">
+                                                        {{tier.value.name}}
                                                     </div>
-                                                    <div class="row">
-                                                        <app-field-error-display [field]="tier.controls.min" [errorMsg]="errorMsgs"> </app-field-error-display>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-1 pt-4">
-                                                To
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <div>Max. Weight</div>
-                                                <div>
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon" id="basic-addon1">lbs.</span>
-                                                        <input class="form-control" placeholder="" aria-describedby="basic-addon1" formControlName="max" type="number">
-                                                    </div>
-                                                    <div class="row">
-                                                        <app-field-error-display [field]="tier.controls.max" [errorMsg]="errorMsgs"> </app-field-error-display>
-                                                    </div>
-                                                </div>
-                                                <div class="float-right" *ngIf="i === shippingFG1.get('tiers').length-1 && i>0">
-                                                    <a (click)="removeTier()" class="tier-remove">X</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div *ngSwitchCase="'ship_by_size'">
-                                <div class="col-sm-12">
-                                    <div class="row border_outline">
-                                        <div class="col-sm-8 p-3">
-                                            <strong>Letter</strong>
-                                            <div>Minimum: 5” long, 3 ½” high, and 0.007” thick Maximum: 11-1/2” long, 6-1/8” high, and ¼” thick</div>
-                                        </div>
-                                        <div class="col-sm-4 text-center">
-                                            <img src="/admin-app/assets/images/icon_letter.png" />
-                                        </div>
-                                    </div>
-                                    <div class="row border_outline">
-                                        <div class="col-sm-8 p-3">
-                                            <strong>Small</strong>
-                                            <div>Max. Size: Length + (2 x Width) + (2 x Height) &lt;=2 8” </div>
-                                        </div>
-                                        <div class="col-sm-4 text-center">
-                                            <img src="/admin-app/assets/images/icon_small.png" />
-                                        </div>
-                                    </div>
-
-                                    <div class="row border_outline">
-                                        <div class="col-sm-8 p-3">
-                                            <strong>Medium</strong>
-                                            <div>Max. Size: Length + (2 x Width) + (2 x Height) &gt; 28”, &lt;=8 4” </div>
-                                        </div>
-                                        <div class="col-sm-4 text-center">
-                                            <img src="/admin-app/assets/images/icon_medium.png" />
-                                        </div>
-                                    </div>
-                                    <div class="row border_outline">
-                                        <div class="col-sm-8 p-3">
-                                            <strong>Large</strong>
-                                            <div>Max. Size: Length + (2 x Width) + (2 x Height) &gt; 84”, &lt;=1 65” </div>
-                                        </div>
-                                        <div class="col-sm-4 text-center">
-                                            <img src="/admin-app/assets/images/icon_Large.png" />
-                                        </div>
-                                    </div>
-                                    <div class="row border_outline">
-                                        <div class="col-sm-8 p-3">
-                                            <strong>Oversized</strong>
-                                            <div>Max. Size: Length + (2 x Width) + (2 x Height) &gt; 165”
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4 text-center">
-                                            <img src="/admin-app/assets/images/icon_oversize.png" />
-                                        </div>
-                                    </div>
-                                    <div class="row border_outline p-3 my-3">
-                                        <strong>Irregular</strong>
-                                        Assumes shipment can’t be sorted with mail processing equipment due to size, shape, or content issues. The longest side of the package is over 60 inches or the second longest side is over 30 inches. The package is encased in an external shipping container made of metal or wood. The package is a cylindrical item, such as a barrel, drum, pail, or tier that isn't fully encased in a corrugated cardboard shipping container.
-                                    </div>
-                                </div>
-                            </div>
-                        </span>
-                    </div>
-                    <div [formGroup]="shippingFG2" [ngClass]="{'show': step==2, 'hide': step!==2  }">
-                        <div class="row m-0 shippingdelivery" [ngClass]="{'show': shippingFG1.value.deliveryOptions !== 'freeshipping', 'hide': shippingFG1.value.deliveryOptions === 'freeshipping' }">
-                            <div formArrayName="shippingMethods" class="well well-lg col-md-12">
-                                <ngb-accordion #acc="ngbAccordion" [closeOthers]="true">
-                                    <ngb-panel id="toggle-{{i}}" class="row border_outline m-3 p-2" *ngFor="let option of shippingFG2.get('shippingMethods').controls; let i=index;" [formGroupName]="i" [disabled]="option.value.disabled">
-                                        <ng-template ngbPanelTitle>
-                                            <div class="float-left mt-1">
-                                                <input class="form-control" placeholder="" aria-describedby="basic-addon1" formControlName="selected" type="checkbox"> </div>
-                                            <div class="float-left">
-                                                <span>&nbsp;{{option.value.shippingName}} </span>
-                                            </div>
-                                        </ng-template>
-                                        <ng-template ngbPanelContent>
-                                            <!-- {{i}} -->
-                                            <div formArrayName="charges" class="row">
-                                                <div *ngFor="let chargeoption of option.get('charges').controls; let chargeId=index;" [formGroupName]="chargeId" class="col-md-6 p-2">
-                                                    <div class="col-sm-12">
-                                                        {{chargeoption.value.tierName}}
-                                                        <!-- {{chargeId}} -->
-                                                    </div>
-                                                    <div class="col-sm-12">
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon" id="basic-addon1">$</span>
-                                                            <input class="form-control" placeholder="" aria-describedby="basic-addon1" formControlName="charge" type="number">
-                                                            <!-- entry: {{chargeoption.value.charge}}:  -->
+                                                    <div class="col-sm-4">
+                                                        <div>Min. Items</div>
+                                                        <div>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon" id="basic-addon1">&nbsp;</span>
+                                                                <input class="form-control" placeholder="" aria-describedby="basic-addon1" formControlName="min" type="number">
+                                                            </div>
                                                         </div>
+                                                        <div class="row p-2">
+                                                            <app-field-error-display [field]="tier.controls.min" [errorMsg]="errorMsgs"> </app-field-error-display>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-1 pt-4">
+                                                        To
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div>Max. Items</div>
+                                                        <div>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon" id="basic-addon1">&nbsp;</span>
+                                                                <input class="form-control" placeholder="" aria-describedby="basic-addon1" formControlName="max" type="number">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <app-field-error-display [field]="tier.controls.max" [errorMsg]="errorMsgs"> </app-field-error-display>
+                                                        </div>
+                                                        <div class="float-right" *ngIf="i === shippingFG1.get('tiers').length-1 && i>0">
+                                                            <a (click)="removeTier()" class="tier-remove">X</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                        </div>
+                                    </div>
+                                    <div *ngSwitchCase="'ship_by_price'">
+                                        <div class="priceBased deliveryDetails">
+                                            <div class="col-sm-12 text-right">
+                                                <a (click)="addTier()">Add Tier +</a>
+                                            </div>
+                                            <div formArrayName="tiers" class="well well-lg">
+                                                <div class="row border_outline m-3 p-2" *ngFor="let tier of shippingFG1.get('tiers').controls; let i=index;" [formGroupName]="i">
+                                                    <div class="col-sm-3">
+                                                        {{tier.value.name}}
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div>Min. Price</div>
+                                                        <div>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon" id="basic-addon1">$</span>
+                                                                <input class="form-control" placeholder="" aria-describedby="basic-addon1" formControlName="min" type="number">
+                                                            </div>
+                                                            <div class="row">
+                                                                <app-field-error-display [field]="tier.controls.min" [errorMsg]="errorMsgs"> </app-field-error-display>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-1 pt-4">
+                                                        To
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div>Max. Price</div>
+                                                        <div>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon" id="basic-addon1">$</span>
+                                                                <input class="form-control" placeholder="" aria-describedby="basic-addon1" formControlName="max" type="number">
+                                                            </div>
+                                                            <div class="row">
+                                                                <app-field-error-display [field]="tier.controls.max" [errorMsg]="errorMsgs"> </app-field-error-display>
+                                                            </div>
+                                                        </div>
+                                                        <div class="float-right" *ngIf="i === shippingFG1.get('tiers').length-1 && i>0">
+                                                            <a (click)="removeTier()" class="tier-remove">X</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                        </div>
+                                    </div>
+                                    <div *ngSwitchCase="'ship_by_weight'">
+                                        <div class="priceBased deliveryDetails">
+                                            <div class="col-sm-12 text-right">
+                                                <a (click)="addTier()">Add Tier +</a>
+                                            </div>
+                                            <div formArrayName="tiers" class="well well-lg">
+                                                <div class="row border_outline m-3 p-2" *ngFor="let tier of shippingFG1.get('tiers').controls; let i=index;" [formGroupName]="i">
+                                                    <div class="col-sm-3">
+                                                        {{tier.value.name}}
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div>Min. Weight</div>
+                                                        <div>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon" id="basic-addon1">lbs.</span>
+                                                                <input class="form-control" placeholder="" aria-describedby="basic-addon1" formControlName="min" type="number">
+                                                            </div>
+                                                            <div class="row">
+                                                                <app-field-error-display [field]="tier.controls.min" [errorMsg]="errorMsgs"> </app-field-error-display>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-1 pt-4">
+                                                        To
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div>Max. Weight</div>
+                                                        <div>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon" id="basic-addon1">lbs.</span>
+                                                                <input class="form-control" placeholder="" aria-describedby="basic-addon1" formControlName="max" type="number">
+                                                            </div>
+                                                            <div class="row">
+                                                                <app-field-error-display [field]="tier.controls.max" [errorMsg]="errorMsgs"> </app-field-error-display>
+                                                            </div>
+                                                        </div>
+                                                        <div class="float-right" *ngIf="i === shippingFG1.get('tiers').length-1 && i>0">
+                                                            <a (click)="removeTier()" class="tier-remove">X</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                        </div>
+                                    </div>
+                                    <div *ngSwitchCase="'ship_by_size'">
+                                        <div class="col-sm-12">
+                                            <div class="row border_outline">
+                                                <div class="col-sm-8 p-3">
+                                                    <strong>Letter</strong>
+                                                    <div>Minimum: 5” long, 3 ½” high, and 0.007” thick Maximum: 11-1/2” long, 6-1/8”
+                                                        high, and ¼” thick</div>
+                                                </div>
+                                                <div class="col-sm-4 text-center">
+                                                    <img src="/admin-app/assets/images/icon_letter.png" />
+                                                </div>
+                                            </div>
+                                            <div class="row border_outline">
+                                                <div class="col-sm-8 p-3">
+                                                    <strong>Small</strong>
+                                                    <div>Max. Size: Length + (2 x Width) + (2 x Height) &lt;=2 8” </div>
+                                                </div>
+                                                <div class="col-sm-4 text-center">
+                                                    <img src="/admin-app/assets/images/icon_small.png" />
+                                                </div>
+                                            </div>
+    
+                                            <div class="row border_outline">
+                                                <div class="col-sm-8 p-3">
+                                                    <strong>Medium</strong>
+                                                    <div>Max. Size: Length + (2 x Width) + (2 x Height) &gt; 28”, &lt;=8 4” </div>
+                                                </div>
+                                                <div class="col-sm-4 text-center">
+                                                    <img src="/admin-app/assets/images/icon_medium.png" />
+                                                </div>
+                                            </div>
+                                            <div class="row border_outline">
+                                                <div class="col-sm-8 p-3">
+                                                    <strong>Large</strong>
+                                                    <div>Max. Size: Length + (2 x Width) + (2 x Height) &gt; 84”, &lt;=1 65” </div>
+                                                </div>
+                                                <div class="col-sm-4 text-center">
+                                                    <img src="/admin-app/assets/images/icon_Large.png" />
+                                                </div>
+                                            </div>
+                                            <div class="row border_outline">
+                                                <div class="col-sm-8 p-3">
+                                                    <strong>Oversized</strong>
+                                                    <div>Max. Size: Length + (2 x Width) + (2 x Height) &gt; 165”
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 text-center">
+                                                    <img src="/admin-app/assets/images/icon_oversize.png" />
+                                                </div>
+                                            </div>
+                                            <div class="row border_outline p-3 my-3">
+                                                <strong>Irregular</strong>
+                                                Assumes shipment can’t be sorted with mail processing equipment due to size, shape, or content issues. The longest side of
+                                                the package is over 60 inches or the second longest side is over 30 inches. The
+                                                package is encased in an external shipping container made of metal or wood. The
+                                                package is a cylindrical item, such as a barrel, drum, pail, or tier that isn't
+                                                fully encased in a corrugated cardboard shipping container.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </span>
+                            </div>
+                            <div [formGroup]="shippingFG2" [ngClass]="{'show': step==2, 'hide': step!==2  }">
+                                <div class="row m-0 shippingdelivery" [ngClass]="{'show': shippingFG1.value.deliveryOptions !== 'freeshipping', 'hide': shippingFG1.value.deliveryOptions === 'freeshipping' }">
+                                    <div formArrayName="shippingMethods" class="well well-lg col-md-12">
+                                        <ngb-accordion #acc="ngbAccordion" [closeOthers]="true">
+                                            <ngb-panel id="toggle-{{i}}" class="row border_outline m-3 p-2" *ngFor="let option of shippingFG2.get('shippingMethods').controls; let i=index;"
+                                                [formGroupName]="i" [disabled]="option.value.disabled">
+                                                <ng-template ngbPanelTitle>
+                                                    <div class="float-left mt-1">
+                                                        <input class="form-control" placeholder="" aria-describedby="basic-addon1" formControlName="selected" type="checkbox"> </div>
+                                                    <div class="float-left">
+                                                        <span>&nbsp;{{option.value.shippingName}} </span>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template ngbPanelContent>
+                                                    <!-- {{i}} -->
+                                                    <div formArrayName="charges" class="row">
+                                                        <div *ngFor="let chargeoption of option.get('charges').controls; let chargeId=index;" [formGroupName]="chargeId" class="col-md-6 p-2">
+                                                            <div class="col-sm-12">
+                                                                {{chargeoption.value.tierName}}
+                                                                <!-- {{chargeId}} -->
+                                                            </div>
+                                                            <div class="col-sm-12">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon" id="basic-addon1">$</span>
+                                                                    <input class="form-control" placeholder="" aria-describedby="basic-addon1" formControlName="charge" type="number">
+                                                                    <!-- entry: {{chargeoption.value.charge}}:  -->
+                                                                </div>
+                                                                <div class="col-sm-12">
+                                                                    <app-field-error-display [field]="chargeoption.controls.charge" [errorMsg]="errorMsgs"> </app-field-error-display>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </ng-template>
+                                            </ngb-panel>
+                                        </ngb-accordion>
+                                    </div>
+                                </div>
+                                <div class="row m-0 shippingdelivery" [ngClass]="{'show': shippingFG1.value.deliveryOptions === 'freeshipping', 'hide': shippingFG1.value.deliveryOptions !== 'freeshipping'}">
+                                    no options available
+                                </div>
+                            </div>
+                            <div [formGroup]="shippingFG3" [ngClass]="{'show': step==3, 'hide': step!==3  }">
+                                <div class="row m-0 shippingdelivery">
+                                    <label class="control-label" [ngClass]="validatorExt.displayFieldCss(shippingFG3.controls.addressLine1)">Shipping Origin Address</label>
+                                    <div class="col-sm-12 p-0 form-group">
+                                        <input type="text" class="form-control" placeholder="Address line 1" pattern formControlName="addressLine1">
+                                        <!--Validation-->
+                                        <app-field-error-display [field]="shippingFG3.controls.addressLine1" [errorMsg]="errorMsgs"> </app-field-error-display>
+                                        <!--Validation-->
+                                    </div>
+                                    <div class="col-sm-12 p-0 form-group">
+                                        <input type="text" class="form-control" placeholder="Address line 2.(optional)" pattern formControlName="addressLine2">
+                                        <!--Validation-->
+                                        <app-field-error-display [field]="shippingFG3.controls.addressLine2" [errorMsg]="errorMsgs"> </app-field-error-display>
+                                        <!--Validation-->
+                                    </div>
+                                    <div class="col-sm-12 p-0 form-group">
+                                        <input type="text" class="form-control" placeholder="City" pattern formControlName="city">
+                                        <!--Validation-->
+                                        <app-field-error-display [field]="shippingFG3.controls.city" [errorMsg]="errorMsgs"> </app-field-error-display>
+                                        <!--Validation-->
+    
+                                    </div>
+                                    <div class="col-sm-12 p-0">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" placeholder="State" pattern formControlName="state">
+                                                    <!--Validation-->
+                                                    <app-field-error-display [field]="shippingFG3.controls.state" [errorMsg]="errorMsgs"> </app-field-error-display>
+                                                    <!--Validation-->
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" placeholder="Zipcode" pattern formControlName="zipcode">
+                                                    <!--Validation-->
+                                                    <app-field-error-display [field]="shippingFG3.controls.zipcode" [errorMsg]="errorMsgs"> </app-field-error-display>
+                                                    <!--Validation-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+    
+                                        <div class="col-sm-12">
+                                            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(shippingFG3.controls.countryName)">Allowable shipping destinations</label>
+                                            <div>
+                                                <select class="ddl_default w-100 form-control" formControlName='countryName'>
+                                                    <option value='US'>United States</option>
+                                                </select>
+                                                <!--Validation-->
+                                                <app-field-error-display [field]="shippingFG3.controls.countryName" [errorMsg]="errorMsgs"> </app-field-error-display>
+                                                <!--Validation-->
+                                            </div>
+                                            <div class="col-sm-12  p-2">
+                                                <div formArrayName="locationInclude" class="well well-lg col-md-12 p-2" *ngFor="let item of shippingFG3.get('locationInclude').controls; let i = index;">
+                                                    <div [formGroupName]="i">
+                                                        <input type="checkbox" formControlName="locationType" />
+                                                        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(item.controls.locationFee)">{{item.value.locationName}}</label>
+                                                        <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
                                                         <div class="col-sm-12">
-                                                            <app-field-error-display [field]="chargeoption.controls.charge" [errorMsg]="errorMsgs"> </app-field-error-display>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon" id="basic-addon1">$</span>
+                                                                <input type="number" class="form-control" placeholder="" aria-describedby="basic-addon1" formControlName="locationFee">
+                                                            </div>
+                                                            <app-field-error-display [field]="item.controls.locationFee" [errorMsg]="errorMsgs"> </app-field-error-display>
+    
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </ng-template>
-                                    </ngb-panel>
-                                </ngb-accordion>
-                            </div>
-                        </div>
-                        <div class="row m-0 shippingdelivery" [ngClass]="{'show': shippingFG1.value.deliveryOptions === 'freeshipping', 'hide': shippingFG1.value.deliveryOptions !== 'freeshipping'}">
-                            no options available
-                        </div>
-                    </div>
-                    <div [formGroup]="shippingFG3" [ngClass]="{'show': step==3, 'hide': step!==3  }">
-                        <div class="row m-0 shippingdelivery">
-                            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(shippingFG3.controls.addressLine1)">Shipping Origin Address</label>
-                            <div class="col-sm-12 p-0 form-group">
-                                <input type="text" class="form-control" placeholder="Address line 1" pattern formControlName="addressLine1">
-                                <!--Validation-->
-                                <app-field-error-display [field]="shippingFG3.controls.addressLine1" [errorMsg]="errorMsgs"> </app-field-error-display>
-                                <!--Validation-->
-                            </div>
-                            <div class="col-sm-12 p-0 form-group">
-                                <input type="text" class="form-control" placeholder="Address line 2.(optional)" pattern formControlName="addressLine2">
-                                <!--Validation-->
-                                <app-field-error-display [field]="shippingFG3.controls.addressLine2" [errorMsg]="errorMsgs"> </app-field-error-display>
-                                <!--Validation-->
-                            </div>
-                            <div class="col-sm-12 p-0 form-group">
-                                <input type="text" class="form-control" placeholder="City" pattern formControlName="city">
-                                <!--Validation-->
-                                <app-field-error-display [field]="shippingFG3.controls.city" [errorMsg]="errorMsgs"> </app-field-error-display>
-                                <!--Validation-->
-
-                            </div>
-                            <div class="col-sm-12 p-0">
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="State" pattern formControlName="state">
-                                            <!--Validation-->
-                                            <app-field-error-display [field]="shippingFG3.controls.state" [errorMsg]="errorMsgs"> </app-field-error-display>
-                                            <!--Validation-->
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="Zipcode" pattern formControlName="zipcode">
-                                            <!--Validation-->
-                                            <app-field-error-display [field]="shippingFG3.controls.zipcode" [errorMsg]="errorMsgs"> </app-field-error-display>
-                                            <!--Validation-->
+    
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <hr />
                             <div class="row">
-
-                                <div class="col-sm-12">
-                                    <label class="control-label" [ngClass]="validatorExt.displayFieldCss(shippingFG3.controls.countryName)">Allowable shipping destinations</label>
-                                    <div>
-                                        <select class="ddl_default w-100 form-control" formControlName='countryName'>
-                                            <option value='US'>United States</option>
-                                        </select>
-                                        <!--Validation-->
-                                        <app-field-error-display [field]="shippingFG3.controls.countryName" [errorMsg]="errorMsgs"> </app-field-error-display>
-                                        <!--Validation-->
-                                    </div>
-                                    <div class="col-sm-12  p-2">
-                                        <div formArrayName="locationInclude" class="well well-lg col-md-12 p-2" *ngFor="let item of shippingFG3.get('locationInclude').controls; let i = index;">
-                                            <div [formGroupName]="i">
-                                                <input type="checkbox" formControlName="locationType" />
-                                                <label class="control-label" [ngClass]="validatorExt.displayFieldCss(item.controls.locationFee)">{{item.value.locationName}}</label>
-                                                <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
-                                                <div class="col-sm-12">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon" id="basic-addon1">$</span>
-                                                        <input type="number" class="form-control" placeholder="" aria-describedby="basic-addon1" formControlName="locationFee">
-                                                    </div>
-                                                    <app-field-error-display [field]="item.controls.locationFee" [errorMsg]="errorMsgs"> </app-field-error-display>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
+                                <div class="col-sm-6">
+                                    <a (click)="shippingBack()" class="ancDefault" *ngIf="step!==1">back</a>
+                                </div>
+                                <div class="col-sm-6 text-right" *ngIf="step==1 || step==2">
+                                    <a class="btn btn-default ancProfile1" (click)="shippingNext()">Next</a>
+                                </div>
+                                <div class="col-sm-6 text-right" *ngIf="step==3">
+                                    <a class="btn btn-default ancProfile1" (click)="saveShipping();">Save & Next</a>
+                                    <img src="/admin-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="profileSaveloader" />
                                 </div>
                             </div>
                         </div>
+                        <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
                     </div>
-                    <hr />
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <a (click)="shippingBack()" class="ancDefault" *ngIf="step!==1">back</a>
-                        </div>
-                        <div class="col-sm-6 text-right" *ngIf="step==1 || step==2">
-                            <a class="btn btn-default ancProfile1" (click)="shippingNext()">Next</a>
-                        </div>
-                        <div class="col-sm-6 text-right" *ngIf="step==3">
-                            <a class="btn btn-default ancProfile1" (click)="saveShipping();">Save & Next</a>
-                            <img src="/admin-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="profileSaveloader" />
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
-            </div>
-        </ng-template>
-    </ngb-tab>
-</ngb-tabset>
+                </ng-template>
+            </ngb-tab>
+        </ngb-tabset>
+        <a class="colorBlue" (click)="addShipping()">
+            <span class="shippingtab-gray">+</span>
+        </a>
+    </div> 
+</div>
+ 
