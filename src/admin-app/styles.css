@@ -123,9 +123,9 @@ header{
 .form-inline{
     border-left:solid 1px #999;
 } 
-.fixed-top{
+/* .fixed-top{
     position:relative !important;
-}
+} */
 .container-fluid{
     padding:0px 15px !important; 
 }
@@ -322,7 +322,7 @@ a.categ_close{
 
 /* angular extra */
 .navbar-nav li .dropdown-menu{ 
-    left: -30px !important;
+    left: -15px !important;
     width: calc(100% + 60px);
 }
 .errorMessages{
@@ -379,4 +379,12 @@ a.ancDefault.hover{
 } 
 a{
     cursor: pointer;
+}
+.productSelect_gray {
+    border: solid 1px #999999;
+    padding: 3px 10px;
+    display: inline-block;
+    border-radius: 5px;
+    font-size: 13px;
+    color: #999999;
 }
