@@ -70,7 +70,7 @@
     <div class="row">
         <div class="col-sm-6">
             <div class="form-group">
-                <input type="text" class="form-control" aria-describedby="" placeholder="Email" pattern formControlName="email">
+                <input type="email" class="form-control" aria-describedby="" placeholder="Email" pattern formControlName="email">
                 <!--Validation-->
                 <app-field-error-display [field]="profileFG1.controls.email" [errorMsg]="errorMsgs"> </app-field-error-display>
                 <!--Validation-->
@@ -173,7 +173,7 @@
     <div class="row">
         <div class="col-sm-6">
             <div class="form-group">
-                <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Email" pattern formControlName="contact_email">
+                <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Email" pattern formControlName="contact_email">
                 <!--Validation-->
                 <app-field-error-display [field]="profileFG2.controls.contact_email" [errorMsg]="errorMsgs"> </app-field-error-display>
                 <!--Validation-->
