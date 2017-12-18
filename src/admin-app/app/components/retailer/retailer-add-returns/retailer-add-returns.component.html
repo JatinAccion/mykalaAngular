@@ -1,3 +1,4 @@
+<ngb-alert *ngIf="alert.show" [type]="alert.type" (close)="closeAlert(alert)">{{ alert.message }}</ngb-alert>
 <div [formGroup]="fG1">
     <div class="form-group">
         <label class="control-label required" [ngClass]="validatorExt.displayFieldCss(fG1.controls.returnPolicy)">Returns and Exchange policy</label>

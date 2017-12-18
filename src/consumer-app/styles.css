@@ -1335,6 +1335,7 @@ h4.subtitle{
     display: inline-block;
     width: 100px;
     margin-right: 20px;
+    position: relative;
 }
 
 .profImageWrapper img{
@@ -1371,4 +1372,21 @@ h4.subtitle{
 }
 .bcpointer{
     cursor: pointer;
+}
+.profile_Edit{
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    padding: 5px;
+    cursor: pointer;
+    display: inline-flex;
+    opacity: 0.5;
+    background: #fff;
+    border-radius: 5px 0px 0px 0px;
+}
+.profile_Edit img{
+    border: none;
+}
+.profile_Edit:hover{
+    opacity: 0.8;
 }

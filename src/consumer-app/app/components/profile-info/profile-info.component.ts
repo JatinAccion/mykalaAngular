@@ -7,6 +7,7 @@ import { userMessages, inputValidation } from './profile.messages';
 import { CoreService } from '../../services/core.service';
 import { Router, RouterOutlet } from '@angular/router';
 import { AbstractControl } from '@angular/forms/src/model';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-profile-info',
@@ -35,8 +36,14 @@ export class ProfileInfoComponent implements OnInit {
     response: "",
     message: ""
   };
+  minDate;
+  maxDate;
+  today = new Date();
 
-  constructor(private routerOutlet: RouterOutlet, private router: Router, private profileInfoServ: ProfileInfoService, private formBuilder: FormBuilder, private core: CoreService) { }
+  constructor(private routerOutlet: RouterOutlet, private router: Router, private profileInfoServ: ProfileInfoService, private formBuilder: FormBuilder, private core: CoreService) {
+    this.minDate = { year: 1950, month: 1, day: 1 };
+    this.maxDate = { year: this.today.getFullYear(), month: this.today.getMonth() + 1, day: this.today.getDate() };
+  }
 
   ngOnInit() {
     this.core.hide();
@@ -99,7 +106,7 @@ export class ProfileInfoComponent implements OnInit {
     this.profileInformation.phoneNo = this.profileInfo.controls.phoneno.value.replace(/[^A-Z0-9]/ig, "");
     this.profileInformation.email = this.profileInfo.controls.email.value;
     this.profileInformation.gender = this.profileInfo.controls.gender.value;
-    this.profileInformation.dob = this.profileInfo.controls.dateOfBirth.value.month+'-'+this.profileInfo.controls.dateOfBirth.value.day+'-'+this.profileInfo.controls.dateOfBirth.value.year;
+    this.profileInformation.dob = this.profileInfo.controls.dateOfBirth.value.month + '-' + this.profileInfo.controls.dateOfBirth.value.day + '-' + this.profileInfo.controls.dateOfBirth.value.year;
     this.profileInformation.status = "";
     this.profileInformation.createdBy = "";
     this.profileInformation.modifiedBy = "";

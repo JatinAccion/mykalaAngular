@@ -273,7 +273,7 @@ export class RetailerAddShippingComponent implements OnInit {
             .then(res => {
               this.shippingObj.shippingProfile = new ShippingProfile();
               this.shippingObj.shippingProfile.retailerId = this.retailerId;
-              // this.SaveData.emit('tab-Shipping');
+              this.SaveData.emit('tab-Shipping');
               this.modified = false;
               this.alert = {
                 id: 1,

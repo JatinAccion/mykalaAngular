@@ -66,14 +66,24 @@ export class RetailerAddComponent implements OnInit {
     if (!this.retailerId && event.nextId !== 'tab-Profile') { event.preventDefault(); return; }
   }
   showNextTab(prevTab) {
+    this.alert = {
+      id: 1,
+      type: 'success',
+      message: 'Saved successfully',
+      show: true
+    };
     if (this.retailerId) {
       switch (prevTab) {
         case 'tab-Profile': this.status.Profile = true; this.ngbTabSet.select('tab-Payment'); break;
         case 'tab-Payment': this.status.Payment = true; this.ngbTabSet.select('tab-Product'); break;
         case 'tab-Product': this.status.Product = true; this.ngbTabSet.select('tab-Shipping'); break;
-        case 'tab-Shipping': this.status.Shipping = true; this.ngbTabSet.select('tab-Return'); break;
+        case 'tab-Shipping': this.status.Shipping = true;
+          // this.ngbTabSet.select('tab-Return');
+          break;
         case 'tab-Return': this.status.Return = true; this.ngbTabSet.select('tab-Notifications'); break;
-        case 'tab-Notifications': this.status.Notifications = true; this.router.navigateByUrl('/retailer-list'); break;
+        case 'tab-Notifications': this.status.Notifications = true;
+          // this.router.navigateByUrl('/retailer-list'); 
+          break;
       }
     }
   }

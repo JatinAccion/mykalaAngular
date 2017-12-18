@@ -24,8 +24,9 @@ import { inputValidations } from './messages';
   encapsulation: ViewEncapsulation.None
 })
 export class RetailerAddProfileComponent implements OnInit {
-  @Input() retailerId: any;
-  @Output() SaveData= new EventEmitter<any>();
+  @Input() retailerId: number;
+  @Output() retailerIdChange = new EventEmitter<number>();
+  @Output() SaveData = new EventEmitter<any>();
   // #region declarations
 
   alert: IAlert = {
@@ -40,7 +41,7 @@ export class RetailerAddProfileComponent implements OnInit {
   profileInfoStep = 1;
   profileInfoObj = new RetailerProfileInfo();
   uploadFile: any;
-  errorMsgs= inputValidations;
+  errorMsgs = inputValidations;
   profileSaveloader = false;
 
   // #endregion declaration
@@ -71,7 +72,7 @@ export class RetailerAddProfileComponent implements OnInit {
       state: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
       zipcode: ['', [Validators.maxLength(5), Validators.minLength(5),
       Validators.pattern(environment.regex.numberRegex), Validators.required]],
-      email: ['', [Validators.maxLength(255), Validators.email, Validators.required]],
+      email: ['', [Validators.maxLength(255), Validators.email]],
       phone_number: ['', [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(environment.regex.numberRegex)]],
       sellerTypeId: ['', [Validators.required]]
     });
@@ -118,6 +119,7 @@ export class RetailerAddProfileComponent implements OnInit {
           // todo correct response
           this.retailerId = res._body;
           this.profileInfoObj.retailerId = this.retailerId;
+          this.retailerIdChange.emit(this.retailerId);
           this.SaveData.emit('tab-Profile');
           // this.router.navigateByUrl('/retailer-list');
           this.alert = {
