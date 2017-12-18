@@ -68,7 +68,7 @@ header{
     display: inline-block;
     font-size: 30px;
     font-family:open_sanslight;
-    margin:20px 0px;
+    margin:70px 0px 20px;
 }
 .login_layout{
     background:#fff;
@@ -387,4 +387,12 @@ a{
     border-radius: 5px;
     font-size: 13px;
     color: #999999;
+}
+.product_search li{
+    list-style:none;
+    padding:5px;
+    display:inline-block;
+}
+.topRightHeader{
+    margin:70px 0px 20px !important;
 }

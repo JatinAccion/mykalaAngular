@@ -1,15 +1,4 @@
-<div class="title col-sm-12">
-    <h1>Admin Account</h1>
-</div>
-<div class="row">
-    <div class="col-sm-4">
-        <input type="text" placeholder="search for seller by name" class="form-control" />
-    </div>
-    <div class="col-sm-8 text-right">
-        <a class="btn btn-default" routerLink="/product-add" routerLinkActive="retailer-add">+ New Account</a>
-    </div>
-</div>
-<div class="AdminAcct_Row" *ngFor="let retailer of retailers">
+ <div class="AdminAcct_Row" *ngFor="let retailer of retailers">
     <div class="row">
         <div class="col-sm-2 pl-4 pt-3">
             <img src="{{retailer.businessLogoPath}}" class="img-fluid" />
@@ -53,6 +42,57 @@
             <div class="colorlightGray">complaints</div>
         </div>
     </div>
+</div>
+<div class="row">
+    <div class="col-sm-6 title">
+        <h1>Products</h1>
+    </div>
+    <div class="col-sm-6 mt-3 topRightHeader">
+        <input placeholder="search for seller by name" class="form-control txt_Search" type="text">
+    </div>
+</div>
+
+<div class=" col-sm-12 text-right">
+    <ul class="product_search m-0  mt-4">
+        <li>
+            <select class="ddl_default form-control">
+                <option>Status</option>
+                <option>Status1</option>
+                <option>Status2</option>
+            </select>
+        </li>
+        <li>
+            <select class="ddl_default form-control">
+                <option>Place</option>
+                <option>Place1</option>
+                <option>Place2</option>
+            </select>
+        </li>
+        <li>
+            <select class="ddl_default form-control">
+                <option>category</option>
+                <option>category1</option>
+                <option>category2</option>
+            </select>
+        </li>
+        <li>
+            <select class="ddl_default form-control">
+                <option>Sub-category</option>
+                <option>Sub-category1</option>
+                <option>Sub-category2</option>
+            </select>
+        </li>
+        <li>
+            <select class="ddl_default form-control">
+                <option>Seller</option>
+                <option>Seller1</option>
+                <option>Seller2</option>
+            </select>
+        </li>
+        <li>
+            <a class="btn btn-default" routerLink="/product-add" routerLinkActive="retailer-add">+ Add a product</a>
+        </li>
+    </ul>
 </div>
 <div class="row mt-3">
     <div class="col-sm-2 colorlightGray">Previous</div>
