@@ -123,9 +123,9 @@ header{
 .form-inline{
     border-left:solid 1px #999;
 } 
-.fixed-top{
+/* .fixed-top{
     position:relative !important;
-}
+} */
 .container-fluid{
     padding:0px 15px !important; 
 }
