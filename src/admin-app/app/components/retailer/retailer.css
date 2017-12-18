@@ -46,9 +46,10 @@
     margin-bottom: 10px;
 }
 .shippingtab-gray{
-    background: #fafafa;
-    line-height: 1.24;
+    background: #fafafa; 
     border-bottom: solid 1px #ddd;
+    padding: 4px 8px 2px;
+    font-size: 24px;  
 }
 .tier-remove{
     position: absolute;
@@ -62,3 +63,8 @@
     background: red;
     color: #fff !important;
 }
+@-moz-document url-prefix() { 
+    .shippingtab-gray{ 
+        padding: 4px 8px 1px !important;
+    }
+ } 
