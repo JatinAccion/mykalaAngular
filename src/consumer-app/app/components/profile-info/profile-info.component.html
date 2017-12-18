@@ -15,9 +15,12 @@
             <!--Images Area-->
             <span class="profImageWrapper" *ngIf="profileInfo.controls.profileImage.value">
               <img src="{{profileInfo.controls.profileImage.value}}" />
+              <span class="profile_Edit" (click)="callUpload()">
+                <img src="/consumer-app/assets/images/icon_edit.png" />
+              </span>
             </span>
             <!--Images Area-->
-            <div class="categ_outline_red" (click)="callUpload()">
+            <div *ngIf="!profileInfo.controls.profileImage.value" class="categ_outline_red" (click)="callUpload()">
               <h2 class="colorred text-center">+</h2>
               <div class="colorred">add</div>
             </div>
@@ -119,7 +122,7 @@
         </div>
         <div class="col-sm-8">
           <div class="form-group">
-            <input formControlName="dateOfBirth" (focus)="d.open()" ngbDatepicker #d="ngbDatepicker" class="form-control" placeholder="mm-dd-yyyy">
+            <input formControlName="dateOfBirth" (focus)="d.open()" [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker #d="ngbDatepicker" class="form-control" placeholder="mm-dd-yyyy">
           </div>
         </div>
       </div>
