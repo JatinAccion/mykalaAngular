@@ -10,12 +10,14 @@ import { ProductService } from '../product.service';
 })
 export class ProductListComponent implements OnInit {
   products: Array<Product>;
+  isCollapsed=true;
   constructor(private retialerService: ProductService) {
     this.products = new Array<Product>();
   }
 
   ngOnInit() {
     this.getData();
+
   }
   getData() {
     this.retialerService.get(null).subscribe((res) => {

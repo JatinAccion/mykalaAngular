@@ -205,7 +205,7 @@ a.categ_close{
 .dropup, .dropdown{
     position:inherit !important; 
 }
-.dropdown-menu{
+.headerMenu .dropdown-menu{
     width:105%;
     border: 0px solid rgba(0, 0, 0, 0.15) !important;
     border-radius: 0px !important;
@@ -213,7 +213,7 @@ a.categ_close{
     box-shadow:0px 2px 2px #999;
     left: -29px;
 }
-.dropdown-menu a.dropdown-item{
+.headerMenu .dropdown-menu a.dropdown-item{
     display:inline-block; 
     width:auto !important
 }
@@ -395,4 +395,7 @@ a{
 }
 .topRightHeader{
     margin:70px 0px 20px !important;
+}
+.table thead th{
+    background: #fafafa;
 }

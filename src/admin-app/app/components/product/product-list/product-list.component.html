@@ -48,7 +48,7 @@
         <h1>Products</h1>
     </div>
     <div class="col-sm-6 mt-3 topRightHeader">
-        <input placeholder="search for seller by name" class="form-control txt_Search" type="text">
+        <input placeholder="search for seller by name" class="form-control txt_Search" type="search">
     </div>
 </div>
 
@@ -121,105 +121,113 @@
                 <td><input type="checkbox"></td>
                 <td>Active</td>
                 <td>Ada</td>
-                <td><a class="ancProductDetails" data-panel="0" href="#">Wood Floral Ceiling Lamp</a></td>
+                <td> 
+                    <a type="button" class="colorBlue" (click)="isCollapsed = !isCollapsed"
+                            [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+                            Wood Floral Ceiling Lamp
+                    </a>
+                </td>
                 <td>Adesso</td>
                 <td><img src="/admin-app/assets/images/lamp1.png" width="40"></td>
                 <td>0720MPK29QV</td>
                 <td>$210.00</td>
                 <td>530</td>
                 <td>130</td>
-                <td> 
-                    <div class="dd_list"> 
-                        <i class="fa fa-caret-down drop down-toggle" data-toggle="dropdown"></i> 
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">Activate/Deactivate</a>
-                            <a class="dropdown-item" href="#">Delete</a>
-                            <a class="dropdown-item" href="#">Edit Product</a>
-                        </div>
-                    </div>
+                <td>  
+                 
+                        <div ngbDropdown class="">
+                                <a class="" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></a>
+                                <div ngbDropdownMenu   aria-labelledby="dropdown01">
+                                    <button class="dropdown-item">Activate/Deactivate</button>
+                                    <button class="dropdown-item">Delete</button>
+                                    <button class="dropdown-item">Edit Product</button>
+                                </div>
+                            </div>
                 </td>
             </tr>    
-            <tr>
-                <td colspan="11" class="td_Sublist_Product" style="display: none;">
-                    <table class="sub-table table" width="100">
-                        <thead>
-                            <tr>
-                                <th>Deactivate</th>
-                                <th>Delete</th>
-                                <th colspan="2" class="text-right"><a class="btn btn-default" href="#">Edit Product</a></th> 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="colorlightGray" width="20%">Kala Place:</td>
-                                <td width="30%">Home&amp;Garden</td> 
-                                <td class="colorlightGray" width="20%">Product category:</td>
-                                <td width="30%">Lighting</td>
-                            </tr> 
-                            <tr>
-                                <td class="colorlightGray">Product type:</td>
-                                <td>Lamps</td> 
-                                <td class="colorlightGray">Kala Product ID:</td>
-                                <td>1</td>
-                            </tr> 
-                            <tr>
-                                <td class="colorlightGray">Kala Unique ID:</td>
-                                <td>hll145527373</td>
-                                <td class="colorlightGray">Product SKU code: </td>
-                                <td>WD0000ABCD</td>
-                            </tr> 
-                            <tr>
-                                <td class="colorlightGray">Product UPC code: </td>
-                                <td>71234500022</td>
-                                <td class="colorlightGray">Retail price:</td>
-                                <td>$220.00</td>
-                            </tr> 
-                            <tr>
-                                <td class="colorlightGray">Make a bid:</td>
-                                <td>Y</td>
-                                <td class="colorlightGray">Lowest “Make a bid” price:</td>
-                                <td>$180.00</td>
-                            </tr> 
-                            <tr>
-                                <td class="colorlightGray">Added date:</td>
-                                <td>Apr 5, 2015 9:47:25 PM EST</td>
-                                <td class="colorlightGray">Product description:</td>
-                                <td>The wood ceiling lamp has a very simply floral shape design to create a modern and elegant home decoration. It perfectly goes with either Edison light bulb or LED bulb.</td>
-                            </tr> 
-                            <tr>
-                                <td class="colorlightGray">Special features:</td>
-                                <td>Wood</td>
-                                <td class="colorlightGray">Color/Finish:</td>
-                                <td>N/A</td>
-                            </tr> 
-                            <tr>
-                                <td class="colorlightGray">Size:</td>
-                                <td> 20cm / 30cm / 40cm</td>
-                                <td class="colorlightGray">Size-fit category: </td>
-                                <td>N/A</td>
-                            </tr> 
-                            <tr>
-                                <td class="colorlightGray">Size country: </td>
-                                <td>China</td>
-                                <td class="colorlightGray">Dimensions:</td>
-                                <td> 20cm x 20cm x 60cmH</td>
-                            </tr> 
-                            <tr>
-                                <td class="colorlightGray">Weight: </td>
-                                <td>10 lbs</td>
-                                <td class="colorlightGray">Availability indicator:</td>
-                                <td> N/A</td>
-                            </tr> 
-                            <tr>
-                                <td class="colorlightGray">Shipping profile:</td>
-                                <td>Furniture shipping</td>
-                                <td class="colorlightGray">Other images:</td>
-                                <td>
-                                    <img src="images/lamp1.png"> <img src="images/lamp2.png"> <img src="images/lamp3.png">
-                                </td>
-                            </tr> 
-                        </tbody>
-                    </table>
+            <tr *ngIf="!isCollapsed">
+                <td colspan="11">  
+                    <div class="card-body" id="collapseExample" >
+                            <table class="sub-table table" width="100">
+                                    <thead>
+                                        <tr>
+                                            <th>Deactivate</th>
+                                            <th>Delete</th>
+                                            <th colspan="2" class="text-right"><a class="btn btn-default" href="#">Edit Product</a></th> 
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="colorlightGray" width="20%">Kala Place:</td>
+                                            <td width="30%">Home&amp;Garden</td> 
+                                            <td class="colorlightGray" width="20%">Product category:</td>
+                                            <td width="30%">Lighting</td>
+                                        </tr> 
+                                        <tr>
+                                            <td class="colorlightGray">Product type:</td>
+                                            <td>Lamps</td> 
+                                            <td class="colorlightGray">Kala Product ID:</td>
+                                            <td>1</td>
+                                        </tr> 
+                                        <tr>
+                                            <td class="colorlightGray">Kala Unique ID:</td>
+                                            <td>hll145527373</td>
+                                            <td class="colorlightGray">Product SKU code: </td>
+                                            <td>WD0000ABCD</td>
+                                        </tr> 
+                                        <tr>
+                                            <td class="colorlightGray">Product UPC code: </td>
+                                            <td>71234500022</td>
+                                            <td class="colorlightGray">Retail price:</td>
+                                            <td>$220.00</td>
+                                        </tr> 
+                                        <tr>
+                                            <td class="colorlightGray">Make a bid:</td>
+                                            <td>Y</td>
+                                            <td class="colorlightGray">Lowest “Make a bid” price:</td>
+                                            <td>$180.00</td>
+                                        </tr> 
+                                        <tr>
+                                            <td class="colorlightGray">Added date:</td>
+                                            <td>Apr 5, 2015 9:47:25 PM EST</td>
+                                            <td class="colorlightGray">Product description:</td>
+                                            <td>The wood ceiling lamp has a very simply floral shape design to create a modern and elegant home decoration. It perfectly goes with either Edison light bulb or LED bulb.</td>
+                                        </tr> 
+                                        <tr>
+                                            <td class="colorlightGray">Special features:</td>
+                                            <td>Wood</td>
+                                            <td class="colorlightGray">Color/Finish:</td>
+                                            <td>N/A</td>
+                                        </tr> 
+                                        <tr>
+                                            <td class="colorlightGray">Size:</td>
+                                            <td> 20cm / 30cm / 40cm</td>
+                                            <td class="colorlightGray">Size-fit category: </td>
+                                            <td>N/A</td>
+                                        </tr> 
+                                        <tr>
+                                            <td class="colorlightGray">Size country: </td>
+                                            <td>China</td>
+                                            <td class="colorlightGray">Dimensions:</td>
+                                            <td> 20cm x 20cm x 60cmH</td>
+                                        </tr> 
+                                        <tr>
+                                            <td class="colorlightGray">Weight: </td>
+                                            <td>10 lbs</td>
+                                            <td class="colorlightGray">Availability indicator:</td>
+                                            <td> N/A</td>
+                                        </tr> 
+                                        <tr>
+                                            <td class="colorlightGray">Shipping profile:</td>
+                                            <td>Furniture shipping</td>
+                                            <td class="colorlightGray">Other images:</td>
+                                            <td>
+                                                <img src="/admin-app/assets/images/lamp1.png"> <img src="/admin-app/assets/images/lamp2.png"> <img src="/admin-app/assets/images/lamp3.png">
+                                            </td>
+                                        </tr> 
+                                    </tbody>
+                                </table>
+                    </div> 
                 </td>
             </tr>
             <tr>
