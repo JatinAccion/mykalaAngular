@@ -1137,7 +1137,7 @@ a.anc_topIcon:hover{
     color:#231F20;
 }
 hr{
-    border-top: 1px solid #999 !important;
+    border-top: 1px solid #e0e0e0 !important
 }
 h4.subtitle{
     color:#999999;
@@ -1331,6 +1331,11 @@ h4.subtitle{
     -o-border-radius: 10px;
     -ms-border-radius: 10px;
 }
+.absoluteImg_2{
+    position: absolute;
+    right: 22px;
+    top: 6px;
+}
 .errorMessages,
 .successMessage{
     font-size: 14px;
@@ -1341,6 +1346,7 @@ h4.subtitle{
 .profImageWrapper{
     display: inline-block;
     width: 100px;
+    height: 100px;
     margin-right: 20px;
     position: relative;
 }
@@ -1348,6 +1354,11 @@ h4.subtitle{
 .profImageWrapper img{
     width: 100%;
     border: 1px solid #2d2d2d;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -o-border-radius: 5px;
+    -ms-border-radius: 5px;
 }
 
 .uploadImage{
@@ -1355,6 +1366,7 @@ h4.subtitle{
     width: 0px;
     height: 0px;
     border: none;
+    display: none;
     left: 25px;
     top: 0px;
     padding: 0px;
@@ -1396,4 +1408,11 @@ h4.subtitle{
 }
 .profile_Edit:hover{
     opacity: 0.8;
+}
+.categ_outline_red_fixed{
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+    text-align: center;
+    padding: 15px;
 }

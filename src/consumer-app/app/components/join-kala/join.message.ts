@@ -6,12 +6,12 @@ export const userMessages = {
 };
 
 export const inputValidation = {
-    firstNameRequired: 'Please enter the first name',
-    lastNameRequired: 'Please enter the last name',
+    firstNameRequired: 'Please enter your first name',
+    lastNameRequired: 'Please enter your last name',
     validFirstName: 'First name can contain only (dot, hypen)',
     validLastName: 'Last name can contain only (dot, hypen)',
-    emailRequired: 'Please enter the email',
-    validEmail: 'Please enter the valid email',
-    passwordRequired: 'Please enter the password',
-    validPassword: 'Password length must be minimum 8 Characters, 1 Uppercase Character, 1 Lowercase Character, 1 Number, 1 Special Character'
+    emailRequired: 'Please enter your email address',
+    validEmail: 'Please enter your valid email address',
+    passwordRequired: 'Please enter your password',
+    validPassword: 'Password length must be at least 8 characters: 1 Uppercase Character, 1 Lowercase Character, 1 Number and 1 Special Character'
 };
