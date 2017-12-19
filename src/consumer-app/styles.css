@@ -396,16 +396,16 @@ a:hover {
 
 .img_clutter > div:hover {
   cursor: pointer; }
-
+ng-sidebar-container[_nghost-c2]{
+    z-index: 10;
+}
 #sidebar {
-  width: 224px;
+  width: 250px;
   position: fixed;
   right: 0;
-  top: 0;
-  z-index: 990;
-  background-color: #F1F1F2;
-  height: 100%;
-  display: none;
+  top: 0; 
+  background-color: #ffffff;
+  height: 100%; 
   border-left: 1px solid #E6E6E8; }
 
 #sidebar > div:first-child {
@@ -438,11 +438,13 @@ a:hover {
 
 #sidebar table img {
   margin-right: 8px;
-  margin-left: 12px; }
+  margin-left: 12px; 
+  width: 18px;
+ }
 
 #sidebar table tbody tr td {
   height: 52px;
-  line-height: 52px;
+  line-height: 40px;
   font-size:14px;
 }
 
@@ -454,6 +456,17 @@ a:hover {
   color: #ffffff;
   text-align: center;
   width: 60px; }
+#sidebar table a{
+    color: #23150F;
+    text-decoration: none;
+}
+#sidebar table a:hover{
+    color: #23150F;
+    text-decoration: none;
+}
+#sidebar .table td, .table th{
+    border-bottom: 1px solid #eceeef;
+}
 
 /* code */
 .sub_cntPage {
@@ -465,14 +478,8 @@ a:hover {
     width: 100%;
     z-index: 999;
 }
-.mobile_view{ 
-      
-}
 .mobile_home{
     padding:50px 0px;
-}
-.category_home_list{
-
 }
 .category_list{
     margin-top:10px !important;

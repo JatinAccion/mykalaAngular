@@ -40,6 +40,7 @@ import { LocalStorageService } from '../app/services/LocalStorage.service';
 import { ConsumerInterestComponent } from '../app/components/consumer-interest/consumer-interest.component';
 import { ConsumerInterestService } from './services/consumer-interest.service';
 import { NgbDateFRParserFormatter } from '../../common/ngb-date-fr-parser-formatter';
+import { SidebarModule } from 'ng-sidebar';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import { NgbDateFRParserFormatter } from '../../common/ngb-date-fr-parser-format
     FormsModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    SidebarModule.forRoot()
   ],
   providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, ConversationalService, JoinKalaService,
     ProfileInfoService, VerificationService, LocalStorageService, ConsumerInterestService,
