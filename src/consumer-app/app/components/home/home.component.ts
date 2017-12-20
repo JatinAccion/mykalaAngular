@@ -1,8 +1,6 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
 import { HomeService } from '../../services/home.service';
 import { CoreService } from '../../services/core.service';
-import { of } from 'rxjs/observable/of';
-import { Observable } from 'rxjs/Observable';
 import { SearchDataModal } from './searchData.modal';
 
 @Component({
@@ -15,8 +13,9 @@ export class HomeComponent implements OnInit {
   loader: boolean;
   tiles: any;
   searchData = [];
+  showTilesLayout: boolean = true;
 
-  userResponse = { place: '', type: '', category: '', subcategory: '' };
+  userResponse = { place: [], type: [], category: [], subcategory: [] };
   response: any;
   breadCrums = [];
   customers: any = [];
@@ -24,6 +23,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.core.hide();
+    this.core.searchMsgToggle();
     if (window.localStorage['token'] == undefined) this.core.clearUser();
     this.loader = true;
     this.getPlace();
@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit {
 
     //Get Category
     if (tile && tile.level == "1") {
-      this.userResponse.place = tile.name;
+      this.userResponse.place = tile;
       this.homeService.getTilesCategory(tile.id).subscribe((res) => {
         for (var i = 0; i < res.length; i++) this.searchData.push(new SearchDataModal(res[i].categoryId, res[i].categoryName, res[i].categoryName, "2"));
         this.tiles = this.searchData;
@@ -58,9 +58,18 @@ export class HomeComponent implements OnInit {
     }
     //Get Sub Category
     else if (tile && tile.level == "2") {
-      this.userResponse.category = tile.name;
+      this.userResponse.category = tile;
       this.homeService.getTilesSubCategory(tile.id).subscribe((res) => {
         for (var i = 0; i < res.length; i++) this.searchData.push(new SearchDataModal(res[i].subCategoryId, res[i].subCategoryName, res[i].subCategoryName, "3"));
+        this.tiles = this.searchData;
+      });
+    }
+    //Get Type
+    else if (tile && tile.level == "3") {
+      this.userResponse.subcategory = tile;
+      this.homeService.getTilesType(tile.id).subscribe((res) => {
+        for (var i = 0; i < res.length; i++) this.searchData.push(new SearchDataModal(res[i].typeId, res[i].typeName, res[i].typeName, "4"));
+        this.showTilesLayout = false;
         this.tiles = this.searchData;
       });
     }

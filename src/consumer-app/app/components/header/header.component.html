@@ -36,13 +36,16 @@
       <span class="dialogue dialogue_left">Hi, {{firstName}}!</span>
     </div>
     <div class="col-sm-12 mb-3 p-0" *ngIf="core.navVisible">
-      <span class="dialogue dialogue_left">Almost done! Just one more step to go.</span>
+      <span class="dialogue dialogue_left">{{core.showHeaderMessage}}</span>
     </div>
-    <div class="dialogue dialogue_right clearfix">
+    <div *ngIf="core.showSearch" class="dialogue dialogue_right clearfix">
       <input type="text" placeholder="What can we help you find?">
       <span>
         <img src="/consumer-app/assets/images/voice.png">
       </span>
+    </div>
+    <div *ngIf="!core.showSearch" class="col-sm-12 mb-3 p-0 text-right pr-3">
+      <a class="dialogue dialogue_right colorwhite">{{core.searchMessage}}</a>
     </div>
   </div>
 
@@ -67,7 +70,7 @@
 <div class="row">
   <ng-sidebar-container>
     <!-- A sidebar -->
-    <ng-sidebar [closeOnClickOutside]="_closeOnClickOutside" [(opened)]="_opened" >
+    <ng-sidebar [closeOnClickOutside]="_closeOnClickOutside" [(opened)]="_opened">
       <div id="sidebar">
         <div class="clearfix">
           <img src="/consumer-app/assets/images/avatar.jpg">

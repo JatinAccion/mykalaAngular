@@ -365,13 +365,15 @@ a:hover {
 
 .hover_panel {
   position: absolute;
-  bottom: 22px;
-  left: 22px;
-  width: 220px;
-  height: 140px;
+  bottom: 20px;
+  left: 20px;
+  width: 200px;
+  height: 100px;
   background: rgba(151, 185, 69, 0.7);
   padding: 10px;
-  display: none; }
+  visibility: hidden; 
+  z-index:100;
+}
 
 .hover_panel h5 {
   color: #23150F;
@@ -629,6 +631,10 @@ a.ancRed:hover{
   max-width: 1200px;
   min-width: 400px;
   margin: 0 auto;
+  border-right: solid 2px #999999;
+}
+.sub_header > div:last-child {
+    border-right: none;
 }
 .noBackground{
     background-color:transparent !important;
@@ -1072,21 +1078,6 @@ ul.prd_Soc_icon li{
     position:relative;
     z-index:1
 }
-.hover_panel {
-    position: absolute;
-    bottom: 22px;
-    left: 22px;
-    width: 200px;
-    height: 140px;
-    background: rgba(151, 185, 69, 0.7);
-    padding: 10px; 
-    z-index:100;
-}
-
- 
-
-
-
 .gender_icon{
     height:40px;
     padding:0px 10px; 
@@ -1415,4 +1406,7 @@ h4.subtitle{
     cursor: pointer;
     text-align: center;
     padding: 15px;
+}
+.example:hover .hover_panel{
+    visibility: visible;
 }

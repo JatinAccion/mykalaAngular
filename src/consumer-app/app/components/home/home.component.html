@@ -1,5 +1,6 @@
 <div style="height:120px; margin-top:20px;width:100%;"></div>
 <div>
-  <app-breadcrums [breadCrums]="breadCrums" (selectTile)="tileSelected($event, 'IsBc')"></app-breadcrums>
-  <app-tiles [tilesData]="tiles" (selectTile)="tileSelected($event)"></app-tiles>
+  <app-breadcrums *ngIf="showTilesLayout" [breadCrums]="breadCrums" (selectTile)="tileSelected($event, 'IsBc')"></app-breadcrums>
+  <app-tiles *ngIf="showTilesLayout" [tilesData]="tiles" (selectTile)="tileSelected($event)"></app-tiles>
+  <app-browse-product [selectedTilesData]="userResponse" [tilesData]="tiles" *ngIf="!showTilesLayout"></app-browse-product>
 </div>
