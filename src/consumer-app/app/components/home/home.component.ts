@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation, Output, EventEmitter } from '@ang
 import { HomeService } from '../../services/home.service';
 import { CoreService } from '../../services/core.service';
 import { SearchDataModal } from './searchData.modal';
+import { Router, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -13,13 +14,12 @@ export class HomeComponent implements OnInit {
   loader: boolean;
   tiles: any;
   searchData = [];
-  showTilesLayout: boolean = true;
 
   userResponse = { place: [], type: [], category: [], subcategory: [] };
   response: any;
   breadCrums = [];
   customers: any = [];
-  constructor(private homeService: HomeService, private core: CoreService) { }
+  constructor(private routerOutlet: RouterOutlet, private router: Router, private homeService: HomeService, private core: CoreService) { }
 
   ngOnInit() {
     this.core.hide();
@@ -67,11 +67,9 @@ export class HomeComponent implements OnInit {
     //Get Type
     else if (tile && tile.level == "3") {
       this.userResponse.subcategory = tile;
-      this.homeService.getTilesType(tile.id).subscribe((res) => {
-        for (var i = 0; i < res.length; i++) this.searchData.push(new SearchDataModal(res[i].typeId, res[i].typeName, res[i].typeName, "4"));
-        this.showTilesLayout = false;
-        this.tiles = this.searchData;
-      });
+      window.localStorage['levelSelections'] = JSON.stringify(this.userResponse);
+      if (this.routerOutlet.isActivated) this.routerOutlet.deactivate();
+      this.router.navigateByUrl('/browse-product');
     }
     //Get Place
     else this.getPlace();

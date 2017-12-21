@@ -13,7 +13,7 @@ import { JoinKalaComponent } from './components/join-kala/join-kala.component';
 import { ProfileInfoComponent } from './components/profile-info/profile-info.component';
 import { ThankMessageComponent } from './components/thank-message/thank-message.component';
 import { ConsumerInterestComponent } from './components/consumer-interest/consumer-interest.component';
-import { BrowseProductComponent } from './components/home/browse-product/browse-product.component';
+import { BrowseProductComponent } from './components/browse-product/browse-product.component';
 
 const appRoutes: Routes = [
     {
@@ -30,6 +30,11 @@ const appRoutes: Routes = [
     {
         path: 'profile-info',
         component: ProfileInfoComponent,
+        data: { header: 'header2' }
+    },
+    {
+        path: 'browse-product',
+        component: BrowseProductComponent,
         data: { header: 'header2' }
     },
     {

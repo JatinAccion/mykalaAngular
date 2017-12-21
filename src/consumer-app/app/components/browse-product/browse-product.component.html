@@ -1,0 +1,66 @@
+<div style="height:120px; margin-top:20px;width:100%;"></div>
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
+    <ul class="category_tiles">
+        <li>
+            <a class="cat_Kitchen">
+                <span class="pr-3">Kitchen</span>
+            </a>
+            <ul class="cat_subMenu">
+                <li>Lighting Fixtures</li>
+                <li>Track Lighting</li>
+                <li>Landscape Lighting</li>
+                <li>Emergency Lighting</li>
+                <li>Flood & Spot lights</li>
+            </ul>
+        </li>
+        <li>
+            <span class="pr-3">Appliances</span>
+        </li>
+        <li>
+            <span class="pr-3">Furniture</span>
+        </li>
+        <li>
+            <span class="pr-3">Lighting</span>
+        </li>
+        <li>
+            <span class="pr-3">Garden</span>
+        </li>
+        <li>
+            <span class="pr-3">Supplies</span>
+        </li>
+        <li>
+            <span class="pr-3">pool & spa</span>
+        </li>
+        <li>
+            <span class="pr-3">pest control</span>
+        </li>
+        <li>
+            <span class="pr-3">linens</span>
+        </li>
+    </ul>
+</div>
+<div class="title">
+    <h2>
+        {{selectedTilesData.place.name}}
+        <span class="colorGray">{{selectedTilesData.subcategory.name}} |
+            <span routerLink="/home" style="cursor: pointer" class="btnClose">X</span>
+        </span>
+    </h2>
+    <span class="float-right mt-4">
+        <a (click)="openNav()">
+            <img src="/consumer-app/assets/images/category.png" />
+        </a>
+    </span>
+</div>
+<div class="row">
+    <div class="example col-sm-3" *ngFor="let tile of tilesData">
+        <img src="/consumer-app/assets/images/img_03.jpg" class="product_hover img-fluid">
+        <div class="hover_panel">
+            <h5>{{tile.name}}</h5>
+            <span style="font-size:14px;margin-right:10px;">$15.00</span>
+            <span style="font-size:11px;text-decoration:line-through;margin-right:100px;">$21</span>
+            <span style="font-size:11px;">{{selectedTilesData.category.name}}</span>
+        </div>
+    </div>
+</div>

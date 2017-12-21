@@ -18,7 +18,7 @@ import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { TilesComponent } from './components/home/tiles/tiles.component';
 import { BreadcrumsComponent } from './components/home/breadcrums/breadcrums.component';
-import { BrowseProductComponent } from './components/home/browse-product/browse-product.component';
+import { BrowseProductComponent } from './components/browse-product/browse-product.component';
 import { StatusComponent } from './components/status/status.component';
 import { LoginRedirect } from './services/login-redirect.service';
 import { LogoutComponent } from './components/logout/logout.component';
