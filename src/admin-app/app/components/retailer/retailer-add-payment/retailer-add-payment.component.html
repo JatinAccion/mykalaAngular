@@ -26,7 +26,7 @@
                 </div>
                 <hr />
                 <div class="form-group">
-                    <label class="control-label" [ngClass]="validatorExt.displayFieldCss(paymentFG1.controls.bankname)">Bank name</label>
+                    <label class="control-label" [ngClass]="validatorExt.displayFieldCss(paymentFG1.controls.bankname)">Bank Name</label>
                     <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="" pattern formControlName="bankname">
                     <!--Validation-->
                     <app-field-error-display [field]="paymentFG1.controls.bankname" [errorMsg]="errorMsgs"> </app-field-error-display>
@@ -102,7 +102,7 @@
                     <!--Validation-->
                 </div>
                 <div class="form-group">
-                    <label class="control-label" [ngClass]="validatorExt.displayFieldCss(paymentFG2.controls.name)">Retailer address on account</label>
+                    <label class="control-label" [ngClass]="validatorExt.displayFieldCss(paymentFG2.controls.name)">Retailer address on Account</label>
                     <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Position" pattern formControlName="name">
                     <!--Validation-->
                     <app-field-error-display [field]="paymentFG2.controls.name" [errorMsg]="errorMsgs"> </app-field-error-display>

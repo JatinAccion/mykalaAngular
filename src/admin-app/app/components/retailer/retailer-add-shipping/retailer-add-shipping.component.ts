@@ -1,10 +1,7 @@
 // #region imports
 import { Component, OnInit, ViewEncapsulation, ViewChild, Input, Output, EventEmitter } from '@angular/core';
-import { Retailer } from '../../../../../models/retailer';
 import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl, FormArray } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
 import { NgbTabset } from '@ng-bootstrap/ng-bootstrap/tabset/tabset';
-import { nameValue } from '../../../../../models/nameValue';
 
 import { RetialerService } from '../retialer.service';
 import { RetailerBuinessAddress } from '../../../../../models/retailer-business-adress';
@@ -20,9 +17,7 @@ import {
 import { IAlert } from '../../../../../models/IAlert';
 import { environment } from '../../../../environments/environment';
 import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
-import { filterQueryId } from '@angular/core/src/view/util';
 import { inputValidations } from './messages';
-import { element } from 'protractor';
 
 
 @Component({
@@ -77,7 +72,7 @@ export class RetailerAddShippingComponent implements OnInit {
     if (this.modified) {
       // alert('Please save first');
       const shipping = new RetialerShippingProfile();
-      shipping.shippingProfile.deliveryOption = 'freeshipping';
+      // shipping.shippingProfile.deliveryOption = 'freeshipping';
       shipping.shipLocations.countryName = 'US';
       this.shippings.push(shipping);
     } else {
@@ -137,8 +132,8 @@ export class RetailerAddShippingComponent implements OnInit {
     return this.formBuilder.group({
       name: [tierName, [Validators.required]],
       sequence: sequence ? sequence : 0,
-      min: [minValue ? minValue : 0, [Validators.min(0), Validators.max(10000), Validators.required]],
-      max: [maxValue ? maxValue : 0, [Validators.min(0), Validators.max(10000), Validators.required]],
+      min: [minValue ? minValue : 0.00, [Validators.min(0.00), Validators.max(10000.00), Validators.required]],
+      max: [maxValue ? maxValue : 0.00, [Validators.min(0.00), Validators.max(10000.00), Validators.required]],
     });
   }
   createShippingMethods(shippingMethodId, shippingName) {
@@ -153,7 +148,7 @@ export class RetailerAddShippingComponent implements OnInit {
       this.shippingObj.deliveryTiers.forEach(ele => {
         (fg.get('charges') as FormArray).push(this.formBuilder.group({
           tierName: ele.tierName,
-          charge: [ele.shippingMethod && ele.shippingMethod[shippingMethodId] ? ele.shippingMethod[shippingMethodId].deliveryFee : 0
+          charge: [ele.shippingMethod && ele.shippingMethod[shippingMethodId] ? ele.shippingMethod[shippingMethodId].deliveryFee : 0.00
             , [Validators.min(0), Validators.max(10000), Validators.required]],
         }));
       });
@@ -242,7 +237,7 @@ export class RetailerAddShippingComponent implements OnInit {
       shippingMethods: this.formBuilder.array([
         this.createShippingMethods(0, 'Next day: 1 business day shipping'),
         this.createShippingMethods(1, '2 day: 2 business day shipping'),
-        this.createShippingMethods(2, '3 day: 5 business day'),
+        this.createShippingMethods(2, 'Express: 3 to 5 business days'),
         this.createShippingMethods(3, 'Standard: 5 to 8 business days'),
         this.createShippingMethods(4, 'Custom')
       ])

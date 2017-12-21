@@ -5,7 +5,7 @@ import { CoreService } from '../../services/core.service';
 import { User } from '../../../../models/user';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { LocalStorageService } from '../../services/LocalStorage.service';
-import { userMessages, loginInputValidations } from './login.messages';
+import { userMessages, loginInputValidations } from './messages';
 import { RememberMe } from '../../../../models/rememberMe';
 import { fail } from 'assert';
 

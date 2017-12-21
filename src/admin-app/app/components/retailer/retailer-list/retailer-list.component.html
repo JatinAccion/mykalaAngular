@@ -26,15 +26,15 @@
                 <a class=" btn_redouter_right w-100" [routerLink]="['../retailer-edit', retailer.retailerId]">edit account</a>
             </p>
             <p class="clearfix">
-                <a class=" btn_red_right w-100" (click)="deactivate()">deactive</a>
+                <a class=" btn_red_right w-100" (click)="deactivate()">deactivate</a>
             </p>
         </div>
     </div>
     <hr />
-    <div class="row">
+    <div class="row"> 
         <div class="col-sm-2 text-center">
             <h5>{{retailer.reports.products|number}}</h5>
-            <div class="colorlightGray">Products</div>
+            <div class="colorlightGray">products</div>
         </div>
         <div class="col-sm-3 text-center">
             <h5>{{retailer.reports.transactions}}</h5>

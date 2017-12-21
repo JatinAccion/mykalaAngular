@@ -6,7 +6,7 @@ import { RetailerRoutingModule } from './retailer-routing.module';
 import { RetailerListComponent } from './retailer-list/retailer-list.component';
 import { RetailerEditComponent } from './retailer-edit/retailer-edit.component';
 import { RetailerAddComponent } from './retailer-add/retailer-add.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RetialerService } from './retialer.service';
 import { RetailerAddShippingComponent } from './retailer-add-shipping/retailer-add-shipping.component';
 import { RetailerAddNotificationsComponent } from './retailer-add-notifications/retailer-add-notifications.component';
@@ -16,6 +16,7 @@ import { ValidatorExt } from '../../../../common/ValidatorExtensions';
 import { SharedModule } from '../../../../common/shared.module';
 import { RetailerAddProfileComponent } from './retailer-add-profile/retailer-add-profile.component';
 import { RetailerAddPaymentComponent } from './retailer-add-payment/retailer-add-payment.component';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import { RetailerAddPaymentComponent } from './retailer-add-payment/retailer-add
     RetailerRoutingModule,
     NgbModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule, FormsModule,
+    AngularMultiSelectModule
   ],
   declarations: [
     RetailerListComponent,

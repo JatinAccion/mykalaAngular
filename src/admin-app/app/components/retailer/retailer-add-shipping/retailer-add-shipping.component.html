@@ -9,7 +9,7 @@
                             <div [formGroup]="shippingFG1">
                                 <div class="form-group">
                                     <label class="control-label" [ngClass]="validatorExt.displayFieldCss(shippingFG1.controls.profileName)">Profile name</label>
-                                    <input type="text" class="form-control" placeholder="" pattern formControlName="profileName">
+                                    <input type="text" class="form-control" step="{0.01}" value="{0.00}"  pattern formControlName="profileName">
                                     <app-field-error-display [field]="shippingFG1.controls.profileName" [errorMsg]="errorMsgs"> </app-field-error-display>
                                 </div>
                             </div>
@@ -49,7 +49,7 @@
                                                         <div>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon" id="basic-addon1">&nbsp;</span>
-                                                                <input class="form-control" placeholder="" aria-describedby="basic-addon1" formControlName="min" type="number">
+                                                                <input class="form-control" step="{0.01}" value="{0.00}"  aria-describedby="basic-addon1" formControlName="min" type="number" >
                                                             </div>
                                                         </div>
                                                         <div class="row p-2">
@@ -64,7 +64,7 @@
                                                         <div>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon" id="basic-addon1">&nbsp;</span>
-                                                                <input class="form-control" placeholder="" aria-describedby="basic-addon1" formControlName="max" type="number">
+                                                                <input class="form-control" step="{0.01}" value="{0.00}"  aria-describedby="basic-addon1" formControlName="max" type="number">
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -93,7 +93,7 @@
                                                         <div>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon" id="basic-addon1">$</span>
-                                                                <input class="form-control" placeholder="" aria-describedby="basic-addon1" formControlName="min" type="number">
+                                                                <input class="form-control" step="{0.01}" value="{0.00}"  aria-describedby="basic-addon1" formControlName="min" type="number">
                                                             </div>
                                                             <div class="row">
                                                                 <app-field-error-display [field]="tier.controls.min" [errorMsg]="errorMsgs"> </app-field-error-display>
@@ -108,7 +108,7 @@
                                                         <div>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon" id="basic-addon1">$</span>
-                                                                <input class="form-control" placeholder="" aria-describedby="basic-addon1" formControlName="max" type="number">
+                                                                <input class="form-control" step="{0.01}" value="{0.00}"  aria-describedby="basic-addon1" formControlName="max" type="number">
                                                             </div>
                                                             <div class="row">
                                                                 <app-field-error-display [field]="tier.controls.max" [errorMsg]="errorMsgs"> </app-field-error-display>
@@ -137,7 +137,7 @@
                                                         <div>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon" id="basic-addon1">lbs.</span>
-                                                                <input class="form-control" placeholder="" aria-describedby="basic-addon1" formControlName="min" type="number">
+                                                                <input class="form-control" step="{0.01}" value="{0.00}"  aria-describedby="basic-addon1" formControlName="min" type="number">
                                                             </div>
                                                             <div class="row">
                                                                 <app-field-error-display [field]="tier.controls.min" [errorMsg]="errorMsgs"> </app-field-error-display>
@@ -152,7 +152,7 @@
                                                         <div>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon" id="basic-addon1">lbs.</span>
-                                                                <input class="form-control" placeholder="" aria-describedby="basic-addon1" formControlName="max" type="number">
+                                                                <input class="form-control" step="{0.01}" value="{0.00}"  aria-describedby="basic-addon1" formControlName="max" type="number">
                                                             </div>
                                                             <div class="row">
                                                                 <app-field-error-display [field]="tier.controls.max" [errorMsg]="errorMsgs"> </app-field-error-display>
@@ -229,7 +229,7 @@
                                             <ngb-panel id="toggle-{{i}}" class="row border_outline m-3 p-2" *ngFor="let option of shippingFG2.get('shippingMethods').controls; let i=index;" [formGroupName]="i" [disabled]="option.value.disabled">
                                                 <ng-template ngbPanelTitle>
                                                     <div class="float-left mt-1">
-                                                        <input class="form-control" placeholder="" aria-describedby="basic-addon1" formControlName="selected" type="checkbox"> </div>
+                                                        <input class="form-control" step="{0.01}" value="{0.00}"  aria-describedby="basic-addon1" formControlName="selected" type="checkbox"> </div>
                                                     <div class="float-left">
                                                         <span>&nbsp;{{option.value.shippingName}} </span>
                                                     </div>
@@ -245,7 +245,7 @@
                                                             <div class="col-sm-12">
                                                                 <div class="input-group">
                                                                     <span class="input-group-addon" id="basic-addon1">$</span>
-                                                                    <input class="form-control" placeholder="" aria-describedby="basic-addon1" formControlName="charge" type="number">
+                                                                    <input class="form-control" step="{0.01}" value="{0.00}"  aria-describedby="basic-addon1" formControlName="charge" type="number">
                                                                     <!-- entry: {{chargeoption.value.charge}}:  -->
                                                                 </div>
                                                                 <div class="col-sm-12">
@@ -260,7 +260,7 @@
                                     </div>
                                 </div>
                                 <div class="row m-0 shippingdelivery" [ngClass]="{'show': shippingFG1.value.deliveryOptions === 'freeshipping', 'hide': shippingFG1.value.deliveryOptions !== 'freeshipping'}">
-                                    no options available
+                                    No options available
                                 </div>
                             </div>
                             <div [formGroup]="shippingFG3" [ngClass]="{'show': step==3, 'hide': step!==3  }">
@@ -324,7 +324,7 @@
                                                         <div class="col-sm-12">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon" id="basic-addon1">$</span>
-                                                                <input type="number" class="form-control" placeholder="" aria-describedby="basic-addon1" formControlName="locationFee">
+                                                                <input type="number" class="form-control" step="{0.01}" value="{0.00}"  aria-describedby="basic-addon1" formControlName="locationFee">
                                                             </div>
                                                             <app-field-error-display [field]="item.controls.locationFee" [errorMsg]="errorMsgs"> </app-field-error-display>
                                                         </div>
@@ -344,7 +344,7 @@
                                     <a class="btn btn-default ancProfile1" (click)="shippingNext()">Next</a>
                                 </div>
                                 <div class="col-sm-6 text-right" *ngIf="step==3">
-                                    <a class="btn btn-default ancProfile1" (click)="saveShipping();">Save & Next</a>
+                                    <a class="btn btn-default ancProfile1" (click)="saveShipping();">Save</a>
                                     <img src="/admin-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="profileSaveloader" />
                                 </div>
                             </div>
