@@ -36,26 +36,26 @@
       <span class="dialogue dialogue_left">Hi, {{firstName}}!</span>
     </div>
     <div class="col-sm-12 mb-3 p-0" *ngIf="core.navVisible">
-      <span class="dialogue dialogue_left">Almost done! Just one more step to go.</span>
+      <span class="dialogue dialogue_left">{{core.showHeaderMessage}}</span>
     </div>
-    <div class="dialogue dialogue_right clearfix">
+    <div *ngIf="core.showSearch" class="dialogue dialogue_right clearfix">
       <input type="text" placeholder="What can we help you find?">
       <span>
         <img src="/consumer-app/assets/images/voice.png">
       </span>
+    </div>
+    <div *ngIf="!core.showSearch" class="col-sm-12 mb-3 p-0 text-right pr-3">
+      <a class="dialogue dialogue_right colorwhite">{{core.searchMessage}}</a>
     </div>
   </div>
 
 
   <div class="lounge_menu displayblock">
     <img src="/consumer-app/assets/images/logo.png">
-    <a *ngIf="core.showLogout()" routerLink="/logout" class="anc_topIcon">&nbsp;
-      <img width="16" src="/consumer-app/assets/images/signout.png" />
-    </a>
     <br />
     <br />
-    <span>
-      <a href="javascript:void(0)" class="lounge_trigger">lounge&nbsp;&nbsp;
+    <span ng-sidebar-content>
+      <a href="javascript:void(0)" (click)="_toggleSidebar()" class="lounge_trigger">lounge&nbsp;&nbsp;
         <span class="glyphicon glyphicon-triangle-bottom">
           <img src="/consumer-app/assets/images/consumer_menu.png" width="24" />
         </span>
@@ -63,63 +63,93 @@
     </span>
   </div>
 </div>
+
 <!--Header 2-->
 
 <!--Sidebar-->
-<div id="sidebar">
-  <div class="clearfix">
-    <img src="/consumer-app/assets/images/avatar.jpg">
-    <div>
-      <p>shelleym</p>
-      <p>smyers@mykala.com</p>
-      <p>139 points</p>
-    </div>
-  </div>
-  <table class='table'>
-    <tbody>
-      <tr>
-        <td>
-          <img src="/consumer-app/assets/images/icon_my_cart.png">
-          <span>My cart</span>
-        </td>
-        <td class="right">3</td>
-      </tr>
-      <tr>
-        <td>
-          <img src="/consumer-app/assets/images/icon_my_orders.png">
-          <span>My orders</span>
-        </td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>
-          <img src="/consumer-app/assets/images/icon_my_bids.png">
-          <span>My bids</span>
-        </td>
-        <td class="right">3</td>
-      </tr>
-      <tr>
-        <td>
-          <img src="/consumer-app/assets/images/icon_news_alerts.png">
-          <span>News & Alerts</span>
-        </td>
-        <td class="right">3</td>
-      </tr>
-      <tr>
-        <td>
-          <img src="/consumer-app/assets/images/icon_my_favorites.png">
-          <span>My favorites</span>
-        </td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>
-          <img src="/consumer-app/assets/images/icon_my_community.png">
-          <span>My commmunity</span>
-        </td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
+<div class="row">
+  <ng-sidebar-container>
+    <!-- A sidebar -->
+    <ng-sidebar [closeOnClickOutside]="_closeOnClickOutside" [(opened)]="_opened">
+      <div id="sidebar">
+        <div class="clearfix">
+          <img src="/consumer-app/assets/images/avatar.jpg">
+          <div>
+            <p>shelleym</p>
+            <p>smyers@mykala.com</p>
+            <p>139 points</p>
+          </div>
+        </div>
+        <table class='table'>
+          <tbody>
+            <tr>
+              <td>
+                <a href="#">
+                  <img src="/consumer-app/assets/images/icon_my_cart.png">
+                  <span>My cart</span>
+                </a>
+              </td>
+              <td class="right">3</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="#">
+                  <img src="/consumer-app/assets/images/icon_my_orders.png">
+                  <span>My orders</span>
+                </a>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>
+                <a href="#">
+                  <img src="/consumer-app/assets/images/icon_my_bids.png">
+                  <span>My bids</span>
+                </a>
+              </td>
+              <td class="right">3</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="#">
+                  <img src="/consumer-app/assets/images/icon_news_alerts.png">
+                  <span>News & Alerts</span>
+                </a>
+              </td>
+              <td class="right">3</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="#">
+                  <img src="/consumer-app/assets/images/icon_my_favorites.png">
+                  <span>My favorites</span>
+                </a>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>
+                <a href="#">
+                  <img src="/consumer-app/assets/images/icon_my_community.png">
+                  <span>My commmunity</span>
+                </a>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>
+                <a *ngIf="core.showLogout()" routerLink="/logout">
+                  <img src="/consumer-app/assets/images/signout.png">
+                  <span>Sign out</span>
+                </a>
+              </td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ng-sidebar>
+  </ng-sidebar-container>
 </div>
+
 <!--Sidebar-->

@@ -68,7 +68,7 @@ header{
     display: inline-block;
     font-size: 30px;
     font-family:open_sanslight;
-    margin:20px 0px;
+    margin:70px 0px 20px;
 }
 .login_layout{
     background:#fff;
@@ -205,7 +205,7 @@ a.categ_close{
 .dropup, .dropdown{
     position:inherit !important; 
 }
-.dropdown-menu{
+.headerMenu .dropdown-menu{
     width:105%;
     border: 0px solid rgba(0, 0, 0, 0.15) !important;
     border-radius: 0px !important;
@@ -213,7 +213,7 @@ a.categ_close{
     box-shadow:0px 2px 2px #999;
     left: -29px;
 }
-.dropdown-menu a.dropdown-item{
+.headerMenu .dropdown-menu a.dropdown-item{
     display:inline-block; 
     width:auto !important
 }
@@ -387,4 +387,15 @@ a{
     border-radius: 5px;
     font-size: 13px;
     color: #999999;
+}
+.product_search li{
+    list-style:none;
+    padding:5px;
+    display:inline-block;
+}
+.topRightHeader{
+    margin:70px 0px 20px !important;
+}
+.table thead th{
+    background: #fafafa;
 }

@@ -23,13 +23,16 @@ export class ConsumerInterestComponent implements OnInit {
   resStatus: boolean;
   resMessage: string;
   resType: string;
+  headerMessage: string;
 
   constructor(private routerOutlet: RouterOutlet, private router: Router, private interest: ConsumerInterestService, private core: CoreService) { }
 
   ngOnInit() {
+    this.core.searchMsgToggle();
     if (window.localStorage['token'] == undefined) this.core.clearUser();
     this.loadInterest = true;
-    this.core.show();
+    this.headerMessage = 'Almost done! Just one more step to go.';
+    this.core.show(this.headerMessage);
     this.interest.getInterest().subscribe(res => {
       this.loadInterest = false;
       this.interestImages = res;

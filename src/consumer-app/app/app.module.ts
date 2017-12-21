@@ -18,6 +18,7 @@ import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { TilesComponent } from './components/home/tiles/tiles.component';
 import { BreadcrumsComponent } from './components/home/breadcrums/breadcrums.component';
+import { BrowseProductComponent } from './components/home/browse-product/browse-product.component';
 import { StatusComponent } from './components/status/status.component';
 import { LoginRedirect } from './services/login-redirect.service';
 import { LogoutComponent } from './components/logout/logout.component';
@@ -40,6 +41,7 @@ import { LocalStorageService } from '../app/services/LocalStorage.service';
 import { ConsumerInterestComponent } from '../app/components/consumer-interest/consumer-interest.component';
 import { ConsumerInterestService } from './services/consumer-interest.service';
 import { NgbDateFRParserFormatter } from '../../common/ngb-date-fr-parser-formatter';
+import { SidebarModule } from 'ng-sidebar';
 
 @NgModule({
   declarations: [
@@ -59,7 +61,8 @@ import { NgbDateFRParserFormatter } from '../../common/ngb-date-fr-parser-format
     ThankMessageComponent,
     ConsumerInterestComponent,
     TilesComponent,
-    BreadcrumsComponent
+    BreadcrumsComponent,
+    BrowseProductComponent
   ],
   imports: [
     BrowserModule,
@@ -67,7 +70,8 @@ import { NgbDateFRParserFormatter } from '../../common/ngb-date-fr-parser-format
     FormsModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    SidebarModule.forRoot()
   ],
   providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, ConversationalService, JoinKalaService,
     ProfileInfoService, VerificationService, LocalStorageService, ConsumerInterestService,

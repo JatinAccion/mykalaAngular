@@ -9,15 +9,29 @@ export class CoreService {
 
   logoutVisible: boolean = false;
 
+  showSearch: boolean = true;
+
+  showHeaderMessage: string;
+
+  searchMessage: string;
+
   user: User;
 
   constructor(private http: Http) { }
 
   hide() { this.navVisible = false; }
 
+  searchMsgToggle(msg?: any) { 
+    if(msg != undefined){
+      this.showSearch = false; 
+      this.searchMessage = msg;
+    }
+    else this.showSearch = true; 
+   }
+
   showLogout() { return this.user !== null }
 
-  show() { this.navVisible = true; }
+  show(msg?: any) { this.navVisible = true; this.showHeaderMessage = msg; }
 
   toggle() { this.navVisible = !this.navVisible; }
 

@@ -115,20 +115,19 @@ export class JoinKalaComponent implements OnInit, CuiComponent {
       console.log(res);
       this.loader = false;
       this.userInfo = res;
-      this.signUpResponse.status = true;
       if (this.userInfo.userCreateStatus === "success") {
-        this.signUpResponse.message = this.joinUserMsg.success;
         window.localStorage['userInfo'] = JSON.stringify(this.userInfo);
         setTimeout(() => {
           if (this.routerOutlet.isActivated) this.routerOutlet.deactivate();
           this.router.navigateByUrl('/profile-info');
-        }, 2000);
+        }, 1000);
       }
       else if (this.userInfo.userCreateStatus === "alreadyExists") this.signUpResponse.message = this.joinUserMsg.accountExist;
       else if (this.userInfo.userCreateStatus === "emailExists") this.signUpResponse.message = this.joinUserMsg.emailExists;
       this.joinKala.reset();
     }, err => {
       this.loader = false;
+      this.signUpResponse.status = true;
       this.signUpResponse.message = this.joinUserMsg.fail;
     });
   }

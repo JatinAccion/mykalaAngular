@@ -20,4 +20,9 @@ export class HomeService {
     const url: string = '../consumer-app/assets/tilesSubCategory.json';
     return this.http.get(url).map((res) => res.json());
   }
+
+  getTilesType(subCategoryId) {
+    const url: string = '../consumer-app/assets/tilesType.json';
+    return this.http.get(url).map((res) => res.json());
+  }
 }

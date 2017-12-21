@@ -365,13 +365,15 @@ a:hover {
 
 .hover_panel {
   position: absolute;
-  bottom: 22px;
-  left: 22px;
-  width: 220px;
-  height: 140px;
+  bottom: 20px;
+  left: 20px;
+  width: 200px;
+  height: 100px;
   background: rgba(151, 185, 69, 0.7);
   padding: 10px;
-  display: none; }
+  visibility: hidden; 
+  z-index:100;
+}
 
 .hover_panel h5 {
   color: #23150F;
@@ -396,16 +398,16 @@ a:hover {
 
 .img_clutter > div:hover {
   cursor: pointer; }
-
+ng-sidebar-container[_nghost-c2]{
+    z-index: 10;
+}
 #sidebar {
-  width: 224px;
+  width: 250px;
   position: fixed;
   right: 0;
-  top: 0;
-  z-index: 990;
-  background-color: #F1F1F2;
-  height: 100%;
-  display: none;
+  top: 0; 
+  background-color: #ffffff;
+  height: 100%; 
   border-left: 1px solid #E6E6E8; }
 
 #sidebar > div:first-child {
@@ -438,11 +440,13 @@ a:hover {
 
 #sidebar table img {
   margin-right: 8px;
-  margin-left: 12px; }
+  margin-left: 12px; 
+  width: 18px;
+ }
 
 #sidebar table tbody tr td {
   height: 52px;
-  line-height: 52px;
+  line-height: 40px;
   font-size:14px;
 }
 
@@ -454,6 +458,17 @@ a:hover {
   color: #ffffff;
   text-align: center;
   width: 60px; }
+#sidebar table a{
+    color: #23150F;
+    text-decoration: none;
+}
+#sidebar table a:hover{
+    color: #23150F;
+    text-decoration: none;
+}
+#sidebar .table td, .table th{
+    border-bottom: 1px solid #eceeef;
+}
 
 /* code */
 .sub_cntPage {
@@ -465,14 +480,8 @@ a:hover {
     width: 100%;
     z-index: 999;
 }
-.mobile_view{ 
-      
-}
 .mobile_home{
     padding:50px 0px;
-}
-.category_home_list{
-
 }
 .category_list{
     margin-top:10px !important;
@@ -622,6 +631,10 @@ a.ancRed:hover{
   max-width: 1200px;
   min-width: 400px;
   margin: 0 auto;
+  border-right: solid 2px #999999;
+}
+.sub_header > div:last-child {
+    border-right: none;
 }
 .noBackground{
     background-color:transparent !important;
@@ -1065,21 +1078,6 @@ ul.prd_Soc_icon li{
     position:relative;
     z-index:1
 }
-.hover_panel {
-    position: absolute;
-    bottom: 22px;
-    left: 22px;
-    width: 200px;
-    height: 140px;
-    background: rgba(151, 185, 69, 0.7);
-    padding: 10px; 
-    z-index:100;
-}
-
- 
-
-
-
 .gender_icon{
     height:40px;
     padding:0px 10px; 
@@ -1130,7 +1128,7 @@ a.anc_topIcon:hover{
     color:#231F20;
 }
 hr{
-    border-top: 1px solid #999 !important;
+    border-top: 1px solid #e0e0e0 !important
 }
 h4.subtitle{
     color:#999999;
@@ -1324,6 +1322,11 @@ h4.subtitle{
     -o-border-radius: 10px;
     -ms-border-radius: 10px;
 }
+.absoluteImg_2{
+    position: absolute;
+    right: 22px;
+    top: 6px;
+}
 .errorMessages,
 .successMessage{
     font-size: 14px;
@@ -1334,6 +1337,7 @@ h4.subtitle{
 .profImageWrapper{
     display: inline-block;
     width: 100px;
+    height: 100px;
     margin-right: 20px;
     position: relative;
 }
@@ -1341,6 +1345,11 @@ h4.subtitle{
 .profImageWrapper img{
     width: 100%;
     border: 1px solid #2d2d2d;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -o-border-radius: 5px;
+    -ms-border-radius: 5px;
 }
 
 .uploadImage{
@@ -1348,6 +1357,7 @@ h4.subtitle{
     width: 0px;
     height: 0px;
     border: none;
+    display: none;
     left: 25px;
     top: 0px;
     padding: 0px;
@@ -1389,4 +1399,14 @@ h4.subtitle{
 }
 .profile_Edit:hover{
     opacity: 0.8;
+}
+.categ_outline_red_fixed{
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+    text-align: center;
+    padding: 15px;
+}
+.example:hover .hover_panel{
+    visibility: visible;
 }

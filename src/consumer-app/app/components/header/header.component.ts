@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { CoreService } from '../../services/core.service';
 import { Router, NavigationEnd } from '@angular/router';
+import { SidebarModule } from 'ng-sidebar';
 
 @Component({
   selector: 'app-header',
@@ -11,6 +12,13 @@ import { Router, NavigationEnd } from '@angular/router';
 export class HeaderComponent implements OnInit {
   getHeader: any;
   firstName: string;
+  private _opened: boolean = false;
+  private _closeOnClickOutside: boolean = false; 
+  
+  
+  private _toggleSidebar() {
+    this._opened = !this._opened;
+  }
 
   constructor(private router: Router, private core: CoreService) { }
 

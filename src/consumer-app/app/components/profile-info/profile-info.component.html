@@ -20,7 +20,7 @@
               </span>
             </span>
             <!--Images Area-->
-            <div *ngIf="!profileInfo.controls.profileImage.value" class="categ_outline_red" (click)="callUpload()">
+            <div *ngIf="!profileInfo.controls.profileImage.value" class="categ_outline_red categ_outline_red_fixed" (click)="callUpload()">
               <h2 class="colorred text-center">+</h2>
               <div class="colorred">add</div>
             </div>
@@ -29,43 +29,6 @@
         </div>
       </div>
       <!--Profile Image-->
-
-      <hr />
-
-      <!--Phone No-->
-      <div class="row">
-        <div class="col-sm-3">
-          <p class="colorlightGray">Phone No:</p>
-        </div>
-        <div class="col-sm-8">
-          <div class="form-group">
-            <input formControlName="phoneno" id="phone" type="text" (keyup)='_keyPress(profileInfo.controls.phoneno)' class="form-control" placeholder="Phone No">
-            <!--Validation-->
-            <div *ngIf="profileInfo.controls.phoneno.value">
-              <div *ngIf="profileInfo.controls.phoneno.value && profileInfo.controls.phoneno.errors && (!profileInfo.controls.phoneno.minlength || !profileInfo.controls.phoneno.maxlength)" class="alert alert-danger errorMessages">
-                {{profileInputValMsg.validPhone}}
-              </div>
-            </div>
-            <!--Validation-->
-          </div>
-        </div>
-      </div>
-      <!--Phone No-->
-
-      <hr />
-
-      <!--Email-->
-      <div class="row">
-        <div class="col-sm-3">
-          <p class="colorlightGray">Email:</p>
-        </div>
-        <div class="col-sm-8">
-          <div class="form-group">
-            <input formControlName="email" readonly type="email" class="form-control" placeholder="Email">
-          </div>
-        </div>
-      </div>
-      <!--Email-->
 
       <hr />
 
@@ -89,29 +52,8 @@
               </label>
             </div>
           </div>
-
-          <!-- <div class="categ_outline_red">
-            <input type="radio" id="genderFemale" formControlName="gender" value="female" name="gender" />
-            <div style="margin: 0" class="form-group">
-              <div class="text-center">
-                <img src="/consumer-app/assets/images/female_red.png" class="gender_icon" />
-              </div>
-              <label class="colorred text-center" for="genderFemale">female</label>
-            </div>
-          </div>
-
-          <div class="categ_outline_gray">
-            <input type="radio" id="genderMale" formControlName="gender" value="male" name="gender" />
-            <div style="margin: 0" class="form-group">
-              <div class="text-center">
-                <img src="/consumer-app/assets/images/male_gray.png" class="gender_icon" />
-              </div>
-              <label class="colorred text-center" for="genderMale">male</label>
-            </div>
-          </div> -->
         </div>
       </div>
-      <!--Gender-->
 
       <hr />
 
@@ -137,8 +79,8 @@
         </div>
         <div class="col-sm-8">
           <div class="form-group">
-            <input formControlName="location" type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control" placeholder="Zipcode">
-            <button [disabled]="!profileInfo.controls.location.valid" class="btn customBtn" (click)="getLocation()">get code</button>
+            <input formControlName="location" type="text" (keyup)="_keuyp($event)" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control" placeholder="Zipcode">
+            <img src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2" *ngIf="loaderLocation" />
 
             <!--Validation-->
             <div *ngIf="profileInfo.controls.location.dirty || profileInfo.controls.location.touched">

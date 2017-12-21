@@ -4,7 +4,6 @@ export const userMessages = {
 };
 
 export const inputValidation = {
-    validPhone: 'Please enter the valid Phone No',
     zipRequired: 'Please enter the zip code',
     validZip: 'Please enter the valid zip code'
 };

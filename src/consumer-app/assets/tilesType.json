@@ -1,0 +1,26 @@
+[
+    {
+        "typeName": "Type 1",
+        "subCategoryId": "Sub Category 1",
+        "typeId": "Type 1",
+        "productId": ""
+    },
+    {
+        "typeName": "Type 2",
+        "subCategoryId": "Sub Category 2",
+        "typeId": "Type 2",
+        "productId": ""
+    },
+    {
+        "typeName": "Type 3",
+        "subCategoryId": "Sub Category 3",
+        "typeId": "Type 3",
+        "productId": ""
+    },
+    {
+        "typeName": "Type 4",
+        "subCategoryId": "Sub Category 4",
+        "typeId": "Type 4",
+        "productId": ""
+    }
+]
