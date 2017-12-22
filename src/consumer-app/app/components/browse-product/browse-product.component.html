@@ -1,42 +1,10 @@
 <div style="height:120px; margin-top:20px;width:100%;"></div>
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
-    <ul class="category_tiles">
+    <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="loader" />
+    <ul class="category_tiles" *ngFor="let category of categoryList">
         <li>
-            <a class="cat_Kitchen">
-                <span class="pr-3">Kitchen</span>
-            </a>
-            <ul class="cat_subMenu">
-                <li>Lighting Fixtures</li>
-                <li>Track Lighting</li>
-                <li>Landscape Lighting</li>
-                <li>Emergency Lighting</li>
-                <li>Flood & Spot lights</li>
-            </ul>
-        </li>
-        <li>
-            <span class="pr-3">Appliances</span>
-        </li>
-        <li>
-            <span class="pr-3">Furniture</span>
-        </li>
-        <li>
-            <span class="pr-3">Lighting</span>
-        </li>
-        <li>
-            <span class="pr-3">Garden</span>
-        </li>
-        <li>
-            <span class="pr-3">Supplies</span>
-        </li>
-        <li>
-            <span class="pr-3">pool & spa</span>
-        </li>
-        <li>
-            <span class="pr-3">pest control</span>
-        </li>
-        <li>
-            <span class="pr-3">linens</span>
+            <span class="pr-3">{{category.categoryName}}</span>
         </li>
     </ul>
 </div>

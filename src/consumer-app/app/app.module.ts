@@ -41,7 +41,11 @@ import { LocalStorageService } from '../app/services/LocalStorage.service';
 import { ConsumerInterestComponent } from '../app/components/consumer-interest/consumer-interest.component';
 import { ConsumerInterestService } from './services/consumer-interest.service';
 import { NgbDateFRParserFormatter } from '../../common/ngb-date-fr-parser-formatter';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { SidebarModule } from 'ng-sidebar';
+import { ResetPasswordService } from './services/resetPassword.service';
+import { ForgotPasswordService } from './services/forgotPassword.service';
 
 @NgModule({
   declarations: [
@@ -62,7 +66,9 @@ import { SidebarModule } from 'ng-sidebar';
     ConsumerInterestComponent,
     TilesComponent,
     BreadcrumsComponent,
-    BrowseProductComponent
+    BrowseProductComponent,
+    ResetPasswordComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -74,7 +80,7 @@ import { SidebarModule } from 'ng-sidebar';
     SidebarModule.forRoot()
   ],
   providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, ConversationalService, JoinKalaService,
-    ProfileInfoService, VerificationService, LocalStorageService, ConsumerInterestService,
+    ProfileInfoService, VerificationService, LocalStorageService, ConsumerInterestService, ResetPasswordService, ForgotPasswordService,
     { provide: NgbDateParserFormatter, useClass: NgbDateFRParserFormatter }],
   bootstrap: [AppComponent],
   entryComponents: [cmsgComponent, HomeComponent, cListComponent, JoinKalaComponent, LoginComponent]
