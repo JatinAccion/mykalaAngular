@@ -229,7 +229,7 @@
                                             <ngb-panel id="toggle-{{i}}" class="row border_outline m-3 p-2" *ngFor="let option of shippingFG2.get('shippingMethods').controls; let i=index;" [formGroupName]="i" [disabled]="option.value.disabled">
                                                 <ng-template ngbPanelTitle>
                                                     <div class="float-left mt-1">
-                                                        <input class="form-control" step="{0.01}" value="{0.00}"  aria-describedby="basic-addon1" formControlName="selected" type="checkbox"> </div>
+                                                        <input   type="checkbox" (click)="paymentOptionClick( $event)"> </div>
                                                     <div class="float-left">
                                                         <span>&nbsp;{{option.value.shippingName}} </span>
                                                     </div>

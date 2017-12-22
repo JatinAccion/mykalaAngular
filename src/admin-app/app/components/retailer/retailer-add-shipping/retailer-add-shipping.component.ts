@@ -140,7 +140,7 @@ export class RetailerAddShippingComponent implements OnInit {
     const fg = this.formBuilder.group({
       shippingMethodId: shippingMethodId,
       shippingName: shippingName,
-      selected: true,
+      selected: false,
       disabled: false,
       charges: this.formBuilder.array([])
     });
@@ -343,5 +343,9 @@ export class RetailerAddShippingComponent implements OnInit {
     this.shippingObj = this.shippings[this.currentTabIndex];
     this.step = 1;
     this.setValidators();
+  }
+  paymentOptionClick( $event) {
+    $event.stopPropagation();
+    return false;
   }
 }
