@@ -4,6 +4,8 @@ import { RouterModule, Route } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawesome';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.route';
@@ -45,6 +47,8 @@ import { ProductModule } from './components/product/product.module';
     AppRoutingModule,
     RetailerModule,
     ProductModule,
+    Angular2FontawesomeModule,
+    AngularMultiSelectModule
     
   ],
   providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, LocalStorageService],

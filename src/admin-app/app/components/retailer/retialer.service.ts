@@ -11,7 +11,7 @@ import { RetailerProfileInfo } from '../../../../models/retailer-profile-info';
 import { Observable } from 'rxjs/Observable';
 import { Retailer, RetailerReports, RetailerNotification, RetailerReturnPolicy } from '../../../../models/retailer';
 import { LocalStorageService } from '../../services/LocalStorage.service';
-import { nameValue } from '../../../../models/nameValue';
+import { nameValue, IdNameParent } from '../../../../models/nameValue';
 import { RetailerPaymentInfo } from '../../../../models/retailer-payment-info';
 import { RetialerShippingProfile } from '../../../../models/retailer-shipping-profile';
 
@@ -160,6 +160,36 @@ export class RetialerService {
       .toPromise()
       .catch(this.handleError);
   }
+
+  getPlaces(): Observable<Array<IdNameParent>> {
+    const url = `${this.BASE_URL}/${environment.apis.retailerProduct.getPlaces}`;
+    return this.http
+      .get(`${url}`, { headers: this.headers })
+      .map(res => res.json())
+      .catch(this.handleError);
+  }
+  getCatagories(ids: string[]): Observable<Array<IdNameParent>> {
+    const url = `${this.BASE_URL}/${environment.apis.retailerProduct.getCategories}`;
+    return this.http
+      .post(`${url}`, ids, { headers: this.headers })
+      .map(res => res.json())
+      .catch(this.handleError);
+  }
+  getSubCatagories(ids: string[]): Observable<Array<IdNameParent>> {
+    const url = `${this.BASE_URL}/${environment.apis.retailerProduct.getSubCategories}`;
+    return this.http
+      .post(`${url}`, ids, { headers: this.headers })
+      .map(res => res.json())
+      .catch(this.handleError);
+  }
+  getTypes(ids: string[]): Observable<Array<IdNameParent>> {
+    const url = `${this.BASE_URL}/${environment.apis.retailerProduct.getTypes}`;
+    return this.http
+      .post(`${url}`, ids, { headers: this.headers })
+      .map(res => res.json())
+      .catch(this.handleError);
+  }
+
   private handleError(error: Response) {
     // in a real world app, we may send the server to some remote logging infrastructure
     // instead of just logging it to the console

@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawesome';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 
 import { RetailerRoutingModule } from './retailer-routing.module';
 import { RetailerListComponent } from './retailer-list/retailer-list.component';
@@ -16,7 +18,8 @@ import { ValidatorExt } from '../../../../common/ValidatorExtensions';
 import { SharedModule } from '../../../../common/shared.module';
 import { RetailerAddProfileComponent } from './retailer-add-profile/retailer-add-profile.component';
 import { RetailerAddPaymentComponent } from './retailer-add-payment/retailer-add-payment.component';
-import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
+
+
 
 @NgModule({
   imports: [
@@ -25,6 +28,7 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2
     NgbModule,
     ReactiveFormsModule,
     SharedModule, FormsModule,
+    Angular2FontawesomeModule,
     AngularMultiSelectModule
   ],
   declarations: [

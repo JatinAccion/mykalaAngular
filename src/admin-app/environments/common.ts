@@ -34,7 +34,17 @@ export const apiNames = {
         get: 'retailer/getShippingReturnPolicy',
         save: 'retailer/saveShippingReturnPolicy',
         delete: 'delete',
+    },
+    retailerProduct: {
+        getPlaces: 'retailer/getShippingReturnPolicy',
+        getCategories: 'retailer/getShippingReturnPolicy',
+        getSubCategories: 'retailer/getShippingReturnPolicy',
+        getTypes: 'retailer/getShippingReturnPolicy',
+
+        save: 'retailer/saveShippingReturnPolicy',
+        delete: 'delete',
     }
+
 };
 export const commonMessages = {
     error404: 'Server is not available',

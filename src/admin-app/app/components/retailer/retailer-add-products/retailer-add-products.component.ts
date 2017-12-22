@@ -1,10 +1,10 @@
 // #region imports
-import { Component, OnInit, ViewEncapsulation, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, Input, EventEmitter, Output } from '@angular/core';
 import { Retailer } from '../../../../../models/retailer';
 import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgbTabset } from '@ng-bootstrap/ng-bootstrap/tabset/tabset';
-import { nameValue } from '../../../../../models/nameValue';
+import { nameValue, IdNameParent } from '../../../../../models/nameValue';
 
 import { RetialerService } from '../retialer.service';
 import { RetailerProfileInfo, ProfileInfo } from '../../../../../models/retailer-profile-info';
@@ -24,259 +24,188 @@ import { inputValidations } from './messages';
   encapsulation: ViewEncapsulation.None
 })
 export class RetailerAddProductsComponent implements OnInit {
-  // #region declarations
-  currentOrientation = 'horizontal';
-  currentJustify = 'start';
-
-  numberRegex = new RegExp('^[0-9_.-]*$');
-  textRegex = new RegExp('^[a-zA-Z 0-9_.-]*$');
   @Input() retailerId: number;
-  @ViewChild('tabs') ngbTabSet: NgbTabset;
-  alert: IAlert = {
-    id: 1,
-    type: 'success',
-    message: '',
-    show: false
-  };
-  // #region Shipping
-  shippings = new Array<RetialerShippingProfile>();
-  profileFG1 = new FormGroup({});
-  profileFG2 = new FormGroup({});
-  sellerTypes: Array<nameValue> = new Array<nameValue>();
-  step = 1;
-  shippingObj = new RetialerShippingProfile();
-  uploadFile: any;
-  errorMsgs= inputValidations;
-  saveLoader = true;
-  // #endregion Shipping
+  @Output() SaveData = new EventEmitter<any>();
+  places = new Array<IdNameParent>();
+  selectedPlaces = new Array<IdNameParent>();
+  allCategories = new Array<IdNameParent>();
+  categories = new Array<IdNameParent>();
+  selectedCategories = new Array<IdNameParent>();
+  allSubCategories = new Array<IdNameParent>();
+  subCategories = new Array<IdNameParent>();
+  selectedSubCategories = new Array<IdNameParent>();
+  allProductTypes = new Array<IdNameParent>();
+  productTypes = new Array<IdNameParent>();
+  selectedProductTypes = new Array<IdNameParent>();
 
-  // #endregion declaration
-  // tslint:disable-next-line:whitespace
+  placesSettings = {};
+  categorySettings = {};
+  subCategorySettings = {};
+  productTypeSettings = {};
+  FG1: FormGroup;
   constructor(
     private formBuilder: FormBuilder,
-    private router: Router,
-    route: ActivatedRoute,
     private retialerService: RetialerService,
     private validatorExt: ValidatorExt
   ) {
-    this.retailerId = route.snapshot.params['id'];
   }
   ngOnInit() {
-    this.shippings.push(new RetialerShippingProfile());
-    this.shippings.push(new RetialerShippingProfile());
-    this.shippings.push(new RetialerShippingProfile());
-    this.shippings.push(new RetialerShippingProfile());
-    this.shippings.push(new RetialerShippingProfile());
-  }
-  addShipping() {
-    this.shippings.push(new RetialerShippingProfile());
-  }
-  closeAlert(alert: IAlert) {
-    this.alert.show = false;
-  }
+    this.FG1 = this.formBuilder.group({
+      name: '',
+      email: ['', Validators.required],
+      place: [[], Validators.required],
+      category: [[], Validators.required],
+      subCategory: [[], Validators.required],
+      productType: [[], Validators.required],
+    });
 
-  setProfileInfoValidators() {
-    this.profileFG1 = this.formBuilder.group({
-      profileImage: [''],
-      businessName: ['', [Validators.pattern(environment.regex.textRegex), Validators.maxLength(255), Validators.required]],
-      tin: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
-      businessSummary: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
-      bussines_address: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
-      bussines_address2: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
-      city: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
-      state: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
-      zipcode: ['', [Validators.maxLength(5), Validators.minLength(5), Validators.pattern(environment.regex.numberRegex)]],
-      email: ['', [Validators.maxLength(255), Validators.email]],
-      phone_number: ['', [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(environment.regex.numberRegex)]],
-      sellerTypeId: ['', [Validators.required]]
-    });
-    this.profileFG2 = this.formBuilder.group({
-      websiteUrl: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
-      websiteUserName: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
-      websitePassword: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
-      contact_name: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
-      contact_position: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
-      contact_address1: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
-      contact_address2: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
-      contact_city: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
-      contact_state: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
-      contact_zipcode: ['', [Validators.maxLength(5), Validators.minLength(5), Validators.pattern(environment.regex.numberRegex)]],
-      contact_email: ['', [Validators.maxLength(255), Validators.email]],
-      contact_phone_number: ['', [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(environment.regex.numberRegex)]]
-    });
-  }
-  getProfileInfoDropdowndata() {
-    this.retialerService.getSellerTypes().subscribe(res => {
-      this.sellerTypes = res;
-    });
-  }
-  shippingNext() {
+    this.places = [
+      new IdNameParent('1', 'Home & Garden (546)', '', ''),
+      new IdNameParent('2', 'Electronics', '', ''),
+      new IdNameParent('3', 'Health & Fitness (321)', '', ''),
+      new IdNameParent('4', 'Travel', '', ''),
+    ];
+    this.selectedPlaces = [
+      new IdNameParent('2', 'Electronics', '', ''),
+    ];
+    this.placesSettings = {
+      singleSelection: false,
+      text: 'Select Places',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      searchPlaceholderText: 'Search Fields',
+      enableSearchFilter: true,
+      badgeShowLimit: 5,
+      classes: 'myclass custom-class'
+    };
+    this.allCategories = [
+      new IdNameParent('1', 'Furniture & Patio (162)', '1', 'Home & Garden (546)'),
+      new IdNameParent('2', 'Lighting (27)', '1', 'Home & Garden (546)'),
+      new IdNameParent('3', 'Lawn & Garden (43)', '1', 'Home & Garden (546)'),
+      new IdNameParent('4', 'Supplies (50)', '1', 'Home & Garden (546)'),
+      new IdNameParent('5', 'Bedding & Linens (13)', '1', 'Home & Garden (546)'),
+      new IdNameParent('6', 'Emergency & Safety (11)', '1', 'Home & Garden (546)'),
 
-    this.step++;
-    this.readShipping();
-  }
-  shippingBack() {
-    this.step = 1;
-  }
-  saveShipping() {
-    // this.readShipping();
-    // this.validateAllFormFields(this.profileFG1);
-    // this.validateAllFormFields(this.profileFG2);
-    // if (!this.profileFG1.valid) {
-    //   this.shippingBack();
-    // }    else if (!this.profileFG2.valid) {
-    //   this.shippingNext();
-    // }    else {
-    //   this.saveLoader = true;
-    //   this.retialerService
-    //     .saveShipping(this.shippingObj)
-    //     .then(res => {
-    //       // todo correct response
-    //       this.retailerId = res._body;
-    //       this.shippingObj.retailerId = this.retailerId;
-    //       this.ngbTabSet.select('tab-Payment');
-    //       // this.router.navigateByUrl('/retailer-list');
-    //       this.alert = {
-    //         id: 1,
-    //         type: 'success',
-    //         message: 'Saved successfully',
-    //         show: true
-    //       };
-    //       this.saveLoader = false;
-    //       return true;
-    //     })
-    //     .catch(err => {
-    //       console.log(err);
-    //       this.alert = {
-    //         id: 1,
-    //         type: 'danger',
-    //         message: 'Not able to Save',
-    //         show: true
-    //       };
+      new IdNameParent('7', 'TV and Home Theater (27)', '2', 'Electronics (546)'),
+      new IdNameParent('8', 'Movies & Gaming (27)', '2', 'Electronics (546)'),
+      new IdNameParent('9', 'Computers (27)', '2', 'Electronics (546)'),
+      new IdNameParent('10', 'Tablets (27)', '2', 'Electronics (546)'),
+      new IdNameParent('11', 'Phones (27)', '2', 'Electronics (546)'),
+      new IdNameParent('12', 'GPS Navigation (27)', '2', 'Electronics (546)'),
+      new IdNameParent('13', 'Cameras & Camcorders (27)', '2', 'Electronics (546)'),
+      new IdNameParent('14', 'Wearable Technology (27)', '2', 'Electronics (546)'),
+      new IdNameParent('15', 'Audio (27)', '2', 'Electronics (546)'),
+      new IdNameParent('16', 'Home Automation & Security (27)', '2', 'Electronics (546)'),
+      new IdNameParent('17', 'Automotive (27)', '2', 'Electronics (546)'),
 
-    //     });
-    // }
-    // return false;
-  }
-  validateAllFormFields(formGroup: FormGroup) {
-    Object.keys(formGroup.controls).forEach(field => {
-      const control = formGroup.get(field);
-      if (control instanceof FormControl) {
-        control.markAsTouched({ onlySelf: true });
-      } else if (control instanceof FormGroup) {
-        this.validateAllFormFields(control);
-      }
-    });
-  }
-  isFieldValid(field: FormControl) {
-    return field.valid && field.touched;
-  }
-  displayFieldCss(field: FormControl) {
-    return {
-      'has-error': this.isFieldValid(field),
-      'has-feedback': this.isFieldValid(field),
-      'required': this.validatorExt.hasRequiredField(field)
+    ];
+    this.allSubCategories = [
+      new IdNameParent('1', 'TVs', '7', 'TV and Home Theater (27)'),
+      new IdNameParent('2', 'TV Mounts', '7', 'TV and Home Theater (27)'),
+      new IdNameParent('3', 'Blu-Ray & DVD Players', '7', 'TV and Home Theater (27)'),
+      new IdNameParent('4', 'Projectors', '7', 'TV and Home Theater (27)'),
+      new IdNameParent('5', 'Media Streaming', '7', 'TV and Home Theater (27)'),
+      new IdNameParent('6', 'Home Audio', '7', 'TV and Home Theater (27)'),
+      new IdNameParent('7', 'Home Theater Accessories', '7', 'TV and Home Theater (27)'),
+      new IdNameParent('8', 'Headphones', '15', 'Audio (27)'),
+      new IdNameParent('9', 'MP3 Players', '15', 'Audio (27)'),
+      new IdNameParent('10', 'Speakers', '15', 'Audio (27)'),
+      new IdNameParent('11', 'Receivers & Amps', '15', 'Audio (27)'),
+      new IdNameParent('12', 'Docks and Radios', '15', 'Audio (27)'),
+      new IdNameParent('13', 'CDs', '15', 'Audio (27)'),
+      new IdNameParent('14', 'Vinyl', '15', 'Audio (27)'),
+      new IdNameParent('15', 'Digital Music', '15', 'Audio (27)'),
+      new IdNameParent('16', 'Accessories', '15', 'Audio (27)'),
+
+      new IdNameParent('17', 'GPS', '17', 'Automotive (27)'),
+      new IdNameParent('18', 'Amplifiers', '17', 'Automotive (27)'),
+      new IdNameParent('19', 'Receivers', '17', 'Automotive (27)'),
+      new IdNameParent('20', 'Subwoofers & Enclosures', '17', 'Automotive (27)'),
+      new IdNameParent('21', 'Speakers', '17', 'Automotive (27)'),
+      new IdNameParent('22', 'Satellite Radio', '17', 'Automotive (27)'),
+      new IdNameParent('23', 'Back-up & Dash Cameras', '17', 'Automotive (27)'),
+      new IdNameParent('24', 'Radar Detectors', '17', 'Automotive (27)'),
+      new IdNameParent('25', 'Remote Start', '17', 'Automotive (27)'),
+      new IdNameParent('26', 'Smartphone & MP3 Connectors', '17', 'Automotive (27)'),
+      new IdNameParent('27', 'Bluetooth Car Kits', '17', 'Automotive (27)'),
+      new IdNameParent('28', 'Security Systems', '17', 'Automotive (27)'),
+      new IdNameParent('29', 'Breathalyzers', '17', 'Automotive (27)'),
+
+    ];
+
+    this.categorySettings = {
+      singleSelection: false,
+      text: 'Select Categories',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      searchPlaceholderText: 'Search Fields',
+      enableSearchFilter: true,
+      badgeShowLimit: 5,
+      groupBy: 'parent',
+      classes: 'myclass custom-class'
+    };
+    this.subCategorySettings = {
+      singleSelection: false,
+      text: 'Select Sub Categories',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      searchPlaceholderText: 'Search Fields',
+      enableSearchFilter: true,
+      badgeShowLimit: 5,
+      groupBy: 'parent',
+      classes: 'myclass custom-class'
+    };
+    this.productTypeSettings = {
+      singleSelection: false,
+      text: 'Select Types',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      searchPlaceholderText: 'Search Fields',
+      enableSearchFilter: true,
+      badgeShowLimit: 5,
+      groupBy: 'parent',
+      classes: 'myclass custom-class'
     };
   }
-  getValidators(_f) {
-    return Object.keys(_f).reduce((a, b) => {
-      const v = _f[b][1];
-      if (v && (v === Validators.required || v.indexOf(Validators.required) > -1)) {
-        if (!a[b]) { a[b] = {}; }
-        a[b]['required'] = true;
-      }
-      return a;
-    }, {});
-  }
-
-  readShipping() {
-    // this.shippingObj.retailerProfile = new ProfileInfo();
-    // this.shippingObj.retailerProfile.businessLogoPath = this.profileFG1.value.profileImage;
-    // this.shippingObj.retailerProfile.businessName = this.profileFG1.value.businessName;
-    // this.shippingObj.retailerProfile.tin = this.profileFG1.value.tin;
-    // this.shippingObj.retailerProfile.businessSummary = this.profileFG1.value.businessSummary;
-    // this.shippingObj.retailerProfile.sellerTypeId = this.profileFG1.value.sellerTypeId;
-
-    // this.shippingObj.retailerProfile.websiteUrl = this.profileFG2.value.websiteUrl;
-    // this.shippingObj.retailerProfile.websiteUserName = this.profileFG2.value.websiteUserName;
-    // this.shippingObj.retailerProfile.websitePassword = this.profileFG2.value.websitePassword;
-
-    // this.shippingObj.businessAddress = new RetailerBuinessAddress();
-    // this.shippingObj.businessAddress.addressLine1 = this.profileFG1.value.bussines_address;
-    // this.shippingObj.businessAddress.addressLine2 = this.profileFG1.value.bussines_address2;
-    // this.shippingObj.businessAddress.city = this.profileFG1.value.city;
-    // this.shippingObj.businessAddress.state = this.profileFG1.value.state;
-    // this.shippingObj.businessAddress.zipcode = this.profileFG1.value.zipcode;
-    // this.shippingObj.businessAddress.email = this.profileFG1.value.email;
-    // this.shippingObj.businessAddress.phoneNo = this.profileFG1.value.phone_number;
-
-    // this.shippingObj.primaryContact = new RetailerPrimaryContact();
-
-    // this.shippingObj.primaryContact.personName = this.profileFG2.value.contact_name;
-    // this.shippingObj.primaryContact.position = this.profileFG2.value.contact_position;
-    // this.shippingObj.primaryContact.addressLine1 = this.profileFG2.value.contact_address1;
-    // this.shippingObj.primaryContact.addressLine2 = this.profileFG2.value.contact_address2;
-    // this.shippingObj.primaryContact.city = this.profileFG2.value.contact_city;
-    // this.shippingObj.primaryContact.state = this.profileFG2.value.contact_state;
-    // this.shippingObj.primaryContact.zipcode = this.profileFG2.value.contact_zipcode;
-    // this.shippingObj.primaryContact.email = this.profileFG2.value.contact_email;
-    // this.shippingObj.primaryContact.phoneNo = this.profileFG2.value.contact_phone_number;
-    return this.shippingObj;
-  }
-
-  callUpload() {
-    this.uploadFile = document.getElementsByClassName('uploadImage');
-    this.uploadFile[0].click();
-  }
-
-  fileChangeEvent(fileInput: any, profileInfo) {
-    if (fileInput.target.files && fileInput.target.files[0]) {
-      const reader = new FileReader();
-
-      reader.onload = function (e: any) {
-        profileInfo.controls.profileImage.value = e.target.result;
-      };
-
-      reader.readAsDataURL(fileInput.target.files[0]);
+  refreshCategories() {
+    if (this.selectedPlaces.length > 0) {
+      this.categories = [];
+      this.selectedPlaces.forEach(p => {
+        return this.allCategories.filter(c => c.parentId === p.id).forEach(res => this.categories.push(res));
+      });
     }
   }
-  getProfileInfo(retailerId) {
-    this.retialerService
-      .profileInfoGet(this.retailerId)
-      .subscribe((res: RetailerProfileInfo) => {
-        // this.shippingObj = res;
-        // this.profileFG1.patchValue({
-        //   businessName: this.shippingObj.retailerProfile.businessName,
-        //   tin: this.shippingObj.retailerProfile.tin,
-        //   businessSummary: this.shippingObj.retailerProfile.businessSummary,
-        //   sellerTypeId: this.shippingObj.retailerProfile.sellerTypeId,
+  onPlaceSelect(item: any) { this.refreshCategories(); }
+  onPlaceDeSelect(item: any) { this.refreshCategories(); }
+  onPlaceSelectAll(items: any) { this.refreshCategories(); }
+  onPlaceDeSelectAll(items: any) { this.refreshCategories(); }
 
-        //   bussines_address: this.shippingObj.businessAddress.addressLine1,
-        //   bussines_address2: this.shippingObj.businessAddress.addressLine2,
-        //   city: this.shippingObj.businessAddress.city,
-        //   state: this.shippingObj.businessAddress.state,
-        //   zipcode: this.shippingObj.businessAddress.zipcode,
-        //   email: this.shippingObj.businessAddress.email,
-        //   phone_number: this.shippingObj.businessAddress.phoneNo
-        // });
-
-        // this.profileFG2.patchValue({
-        //   websiteUrl: this.shippingObj.retailerProfile.websiteUrl,
-        //   websiteUserName: this.shippingObj.retailerProfile.websiteUserName,
-        //   websitePassword: this.shippingObj.retailerProfile.websitePassword,
-
-        //   contact_name: this.shippingObj.primaryContact.personName,
-        //   contact_position: this.shippingObj.primaryContact.position,
-        //   contact_address1: this.shippingObj.primaryContact.addressLine1,
-        //   contact_address2: this.shippingObj.primaryContact.addressLine2,
-        //   contact_city: this.shippingObj.primaryContact.city,
-        //   contact_state: this.shippingObj.primaryContact.state,
-        //   contact_zipcode: this.shippingObj.primaryContact.zipcode,
-        //   contact_email: this.shippingObj.primaryContact.email,
-        //   contact_phone_number: this.shippingObj.primaryContact.phoneNo
-        // });
+  refreshSubCategories() {
+    if (this.selectedCategories.length > 0) {
+      this.subCategories = [];
+      this.selectedCategories.forEach(p => {
+        return this.allSubCategories.filter(c => c.parentId === p.id).forEach(res => this.subCategories.push(res));
       });
+    }
   }
+  onCategoryItemSelect(item: any) { this.refreshSubCategories(); }
+  onCategoryItemDeSelect(item: any) { this.refreshSubCategories(); }
+  onCategorySelectAll(items: any) { this.refreshSubCategories(); }
+  onCategoryDeSelectAll(items: any) { this.refreshSubCategories(); }
+
+  refreshProductTypes() {
+    if (this.selectedSubCategories.length > 0) {
+      this.productTypes = [];
+      this.selectedSubCategories.forEach(p => {
+        return this.allSubCategories.filter(c => c.parentId === p.id).forEach(res => this.productTypes.push(res));
+      });
+    }
+  }
+  onSubCategoryItemSelect(item: any) { this.refreshProductTypes(); }
+  onSubCategoryItemDeSelect(item: any) { this.refreshProductTypes(); }
+  onSubCategorySelectAll(items: any) { this.refreshProductTypes(); }
+  onSubCategoryDeSelectAll(items: any) { this.refreshProductTypes(); }
+
 
 
 }
