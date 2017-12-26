@@ -72,7 +72,7 @@ export class RetailerAddProfileComponent implements OnInit {
       state: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
       zipcode: ['', [Validators.maxLength(5), Validators.minLength(5),
       Validators.pattern(environment.regex.numberRegex), Validators.required]],
-      email: ['', [Validators.maxLength(255), Validators.email]],
+      email: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.emailRegex)]],
       phone_number: ['', [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(environment.regex.numberRegex)]],
       sellerTypeId: ['', [Validators.required]]
     });
@@ -87,7 +87,7 @@ export class RetailerAddProfileComponent implements OnInit {
       contact_city: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
       contact_state: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
       contact_zipcode: ['', [Validators.maxLength(5), Validators.minLength(5), Validators.pattern(environment.regex.numberRegex)]],
-      contact_email: ['', [Validators.maxLength(255), Validators.email]],
+      contact_email: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.emailRegex)]],
       contact_phone_number: ['', [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(environment.regex.numberRegex)]]
     });
   }

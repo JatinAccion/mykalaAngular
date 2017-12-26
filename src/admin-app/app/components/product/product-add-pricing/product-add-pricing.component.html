@@ -1,37 +1,36 @@
- <div class="row"> 
+<div [formGroup]="fG1">
+    <div class="row">
         <div class="form-group col-sm-12 pt-2">
-            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.kalaprice)">Kala price:</label>
+            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.kalaPrice)">Kala price:</label>
             <div class="row">
-                <div class="col-sm-6"> 
+                <div class="col-sm-6">
                     <div class="input-group">
                         <span class="input-group-addon" id="basic-addon1">$</span>
-                        <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="kalaprice">
+                        <input type="number" step="0.01" class="form-control" [(ngModel)]="product.kalaPrice" placeholder="" pattern formControlName="kalaPrice">
                     </div>
                 </div>
                 <div class="col-sm-6 mt-2 colorlightGray">Tip: $135.00</div>
-            </div> 
-            <app-field-error-display [field]="fG1.controls.kalaprice" [errorMsg]="errorMsgs"> </app-field-error-display>
+            </div>
+            <app-field-error-display [field]="fG1.controls.kalaPrice" [errorMsg]="errorMsgs"> </app-field-error-display>
         </div>
         <div class="form-group col-sm-12 pt-2">
-            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.retailprice)">Retail price:</label>
+            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.retailPrice)">Retail price:</label>
             <div class="row">
-                    <div class="col-sm-6">
-                        <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon1">$</span>
-                            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="retailprice">
-                        </div> 
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">$</span>
+                        <input type="number" step="0.01" class="form-control" [(ngModel)]="product.retailPrice" placeholder="" pattern formControlName="retailPrice">
                     </div>
-                    <div class="col-sm-6"></div>
-                </div>  
-            <app-field-error-display [field]="fG1.controls.retailprice" [errorMsg]="errorMsgs"> </app-field-error-display>
+                </div>
+                <div class="col-sm-6"></div>
+            </div>
+            <app-field-error-display [field]="fG1.controls.retailPrice" [errorMsg]="errorMsgs"> </app-field-error-display>
         </div>
- </div>
-<hr />
-<div class="row p-2">
-    <div class="col-sm-12 text-right show">
-        <a class="btn btn-default ancProfile1">Next</a>
-    </div> 
-    <div class="col-sm-12 text-right hide">
-        <a class="btn btn-default ancProfile1">Save &amp; Next</a>
+    </div>
+    <hr />
+    <div class="row p-2">
+        <div class="col-sm-12 text-right show">
+            <a class="btn btn-default ancProfile1" (click)="saveData()">Next</a>
+        </div>
     </div>
 </div>

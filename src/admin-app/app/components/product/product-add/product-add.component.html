@@ -1,74 +1,95 @@
 <ngb-alert *ngIf="alert.show" [type]="alert.type" (close)="closeAlert(alert)">{{ alert.message }}</ngb-alert>
 <div class="title col-sm-12">
-    <h1>Account Info</h1> 
+    <h1>Account Info</h1>
 </div>
 <div class="row ">
     <div class="col-sm-12 signup product_Tab">
         <ngb-tabset #tabs="ngbTabset" class="accountsTabs" [orientation]="currentOrientation" [justify]="currentJustify" (tabChange)="setActiveTab($event)">
-            <ngb-tab title="Product category" id="tab-Profile">
+            <ngb-tab id="tab-category">
+                <ng-template ngbTabTitle>Product category
+                    <img src="/admin-app/assets/images/tick_icon.png" class="float-right mr-2" *ngIf="status.category" />
+                </ng-template>
                 <ng-template ngbTabContent>
                     <div class="row">
                         <div class="col-sm-8 backgroundWhite">
-                            <app-product-add-category></app-product-add-category>
+                            <app-product-add-category [(product)]="product" (SaveData)="showNextTab($event)"></app-product-add-category>
                         </div>
                         <div class="col-sm-4 backgroundGray"></div>
-                    </div> 
+                    </div>
                 </ng-template>
             </ngb-tab>
-            <ngb-tab title="Basic Info" id="tab-Payment">
-                <ng-template ngbTabContent> 
-                        <div class="row">
-                            <div class="col-sm-8 backgroundWhite">
-                                <app-product-add-basic></app-product-add-basic>  
-                            </div>
-                            <div class="col-sm-4 backgroundGray"></div>
-                        </div>  
+            <ngb-tab id="tab-basic">
+                <ng-template ngbTabTitle>Basic Info
+                    <img src="/admin-app/assets/images/tick_icon.png" class="float-right mr-2" *ngIf="status.basic" />
                 </ng-template>
-            </ngb-tab>
-            <ngb-tab title="Pricing" id="tab-Product">
-                <ng-template ngbTabContent> 
-                    <div class="row">
-                        <div class="col-sm-8 backgroundWhite">
-                            <app-product-add-pricing></app-product-add-pricing>
-                        </div>
-                        <div class="col-sm-4 backgroundGray"> 
-                            <p><strong>Kala price:</strong> Per unit price that product is selling for on Kala. When Kala price is lower than ‘Retail Price', the consumer is able to see that the price is discounted from full retail price.</p>
-                            <p><strong>Retail price:</strong> Per unit price ($0.00) that product normally sells for.</p>
-                            <p><strong>Lowest offer price :</strong> Lowest offer price: Lowest acceptable per unit price that Kala will make offer and sell the product for.</p>
-                        </div>
-                    </div>  
-                </ng-template>
-            </ngb-tab>
-            <ngb-tab title="Delivery" id="tab-Shipping">
                 <ng-template ngbTabContent>
                     <div class="row">
                         <div class="col-sm-8 backgroundWhite">
-                            <app-product-add-delivery></app-product-add-delivery>  
+                            <app-product-add-basic [(product)]="product" (SaveData)="showNextTab($event)"></app-product-add-basic>
                         </div>
                         <div class="col-sm-4 backgroundGray"></div>
-                    </div>  
+                    </div>
                 </ng-template>
             </ngb-tab>
-            <ngb-tab title="Images" id="tab-Return">
+            <ngb-tab id="tab-pricing">
+                <ng-template ngbTabTitle>Pricing
+                    <img src="/admin-app/assets/images/tick_icon.png" class="float-right mr-2" *ngIf="status.pricing" />
+                </ng-template>
                 <ng-template ngbTabContent>
                     <div class="row">
                         <div class="col-sm-8 backgroundWhite">
-                            <app-product-add-images></app-product-add-images> 
+                            <app-product-add-pricing [(product)]="product" (SaveData)="showNextTab($event)"></app-product-add-pricing>
                         </div>
-                        <div class="col-sm-4 backgroundGray"> 
+                        <div class="col-sm-4 backgroundGray">
+                            <p>
+                                <strong>Kala price:</strong> Per unit price that product is selling for on Kala. When Kala price is lower than ‘Retail Price', the consumer is able to see that the price is discounted from full retail price.</p>
+                            <p>
+                                <strong>Retail price:</strong> Per unit price ($0.00) that product normally sells for.</p>
+                            <p>
+                                <strong>Lowest offer price :</strong> Lowest offer price: Lowest acceptable per unit price that Kala will make offer and sell the product for.</p>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab id="tab-delivery">
+                <ng-template ngbTabTitle>Delivery
+                    <img src="/admin-app/assets/images/tick_icon.png" class="float-right mr-2" *ngIf="status.delivery" />
+                </ng-template>
+                <ng-template ngbTabContent>
+                    <div class="row">
+                        <div class="col-sm-8 backgroundWhite">
+                            <app-product-add-delivery [(product)]="product" (SaveData)="showNextTab($event)"></app-product-add-delivery>
+                        </div>
+                        <div class="col-sm-4 backgroundGray"></div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab id="tab-images">
+                <ng-template ngbTabTitle>Images
+                    <img src="/admin-app/assets/images/tick_icon.png" class="float-right mr-2" *ngIf="status.images" />
+                </ng-template>
+                <ng-template ngbTabContent>
+                    <div class="row">
+                        <div class="col-sm-8 backgroundWhite">
+                            <app-product-add-images></app-product-add-images>
+                        </div>
+                        <div class="col-sm-4 backgroundGray">
                             The images are often the most important thing a customer looks at when they’re thinking about purchasing a product.
                         </div>
-                    </div>  
+                    </div>
                 </ng-template>
             </ngb-tab>
-            <ngb-tab title="More details" id="tab-Notifications">
+            <ngb-tab id="tab-more">
+                <ng-template ngbTabTitle>More details
+                    <img src="/admin-app/assets/images/tick_icon.png" class="float-right mr-2" *ngIf="status.more" />
+                </ng-template>
                 <ng-template ngbTabContent>
                     <div class="row">
                         <div class="col-sm-8 backgroundWhite">
-                            <app-product-add-more></app-product-add-more> 
+                            <app-product-add-more></app-product-add-more>
                         </div>
                         <div class="col-sm-4 backgroundGray"></div>
-                    </div>  
+                    </div>
                 </ng-template>
             </ngb-tab>
         </ngb-tabset>

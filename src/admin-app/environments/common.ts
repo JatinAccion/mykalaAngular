@@ -8,7 +8,6 @@ export const apiNames = {
     retailers: {
         get: 'retailer/allRetailers',
         sellerTypes: 'retailer/sellerType',
-
     },
     retailerProfileInfo: {
         get: 'retailerProfileInfo/get',
@@ -43,7 +42,14 @@ export const apiNames = {
 
         save: 'retailer/saveShippingReturnPolicy',
         delete: 'delete',
-    }
+    },
+    product: {
+        get: 'product/getproduct',
+        save: 'product/saveProduct',
+        saveImage: 'product/saveImages',
+        changeMainImage: 'product/changeMainImage',
+        delete: 'delete',
+    },
 
 };
 export const commonMessages = {

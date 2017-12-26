@@ -74,9 +74,9 @@ export class ValidatorExt {
         const formGroup = abstractControl.parent.controls;
         return Object.keys(formGroup).find(name => abstractControl === formGroup[name]) || null;
     }
-    remainingCharacters = (abstractControl: AbstractControl, requiredCharacters: number): string | null => {
-        const valuelength = abstractControl.value.length;
-        return requiredCharacters - valuelength || null;
+    remainingCharacters = (abstractControl: AbstractControl, requiredCharacters: number): number | null => {
+        const valuelength = abstractControl && abstractControl.value ? abstractControl.value.length : 0;
+        return requiredCharacters > valuelength ? requiredCharacters - valuelength : 0 || null;
     }
 
 };

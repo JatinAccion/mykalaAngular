@@ -5,7 +5,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProductRoutingModule } from './product-routing.module';
 import { ProductListComponent } from './product-list/product-list.component';
 import { ProductAddComponent } from './product-add/product-add.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ProductService } from './product.service';
 
 import { ValidatorExt } from '../../../../common/ValidatorExtensions';
@@ -23,7 +23,7 @@ import { ProductAddPricingComponent } from './product-add-pricing/product-add-pr
     ProductRoutingModule,
     NgbModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule, FormsModule
   ],
   declarations: [
     ProductListComponent,

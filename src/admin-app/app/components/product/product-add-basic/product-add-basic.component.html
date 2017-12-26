@@ -1,44 +1,43 @@
-<div class="row">
+<div [formGroup]="fG1">
+    <div class="row">
         <div class="form-group col-sm-12 pt-2">
-            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.productname)">Product name:</label><small class="float-right">250 characters left</small>
-            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="productname">
-            <app-field-error-display [field]="fG1.controls.productname" [errorMsg]="errorMsgs"> </app-field-error-display>
-        </div>
-        <div class="form-group col-sm-12 pt-2">
-            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.brandname)">Brand name:</label><small class="float-right">50 characters left</small>
-            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="brandname">
-            <app-field-error-display [field]="fG1.controls.brandname" [errorMsg]="errorMsgs"> </app-field-error-display>
+            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.productName)">Product name:</label>
+            <small class="float-right">{{ validatorExt.remainingCharacters(fG1.controls.productName, 250) }} characters left</small>
+            <input type="text" class="form-control" placeholder="" pattern [(ngModel)]="product.productName" formControlName="productName">
+            <app-field-error-display [field]="fG1.controls.productName" [errorMsg]="errorMsgs"> </app-field-error-display>
         </div>
         <div class="form-group col-sm-12 pt-2">
-                <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.skucode)">SKU code:</label>
-                <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="skucode">
-                <app-field-error-display [field]="fG1.controls.skucode" [errorMsg]="errorMsgs"> </app-field-error-display> 
+            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.brandName)">Brand name:</label>
+            <small class="float-right">{{ validatorExt.remainingCharacters(fG1.controls.brandName, 50) }} characters left</small>
+            <input type="text" class="form-control" [(ngModel)]="product.brandName" placeholder="" pattern formControlName="brandName">
+            <app-field-error-display [field]="fG1.controls.brandName" [errorMsg]="errorMsgs"> </app-field-error-display>
         </div>
         <div class="form-group col-sm-12 pt-2">
-                <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.upccode)">UPC code:</label>
-                <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="upccode">
-                <app-field-error-display [field]="fG1.controls.upccode" [errorMsg]="errorMsgs"> </app-field-error-display>
+            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.productSkuCode)">SKU code:</label>
+            <input type="text" class="form-control" [(ngModel)]="product.productSkuCode" placeholder="" pattern formControlName="productSkuCode">
+            <app-field-error-display [field]="fG1.controls.productSkuCode" [errorMsg]="errorMsgs"> </app-field-error-display>
         </div>
         <div class="form-group col-sm-12 pt-2">
-                <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.description)">Description:</label>
-                <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="description">
-                <app-field-error-display [field]="fG1.controls.description" [errorMsg]="errorMsgs"> </app-field-error-display>
+            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.productUpcCode)">UPC code:</label>
+            <input type="text" class="form-control" [(ngModel)]="product.productUpcCode" placeholder="" pattern formControlName="productUpcCode">
+            <app-field-error-display [field]="fG1.controls.productUpcCode" [errorMsg]="errorMsgs"> </app-field-error-display>
         </div>
         <div class="form-group col-sm-12 pt-2">
-                <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.avlquantity)">Available quantity:</label>
-                <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="avlquantity">
-                <app-field-error-display [field]="fG1.controls.avlquantity" [errorMsg]="errorMsgs"> </app-field-error-display>
-        </div> 
-    </div> 
-    <hr />
-    <div class="row p-2">
-        <div class="col-sm-12 text-right hide">
-            <a class="btn btn-default ancProfile1">Next</a>
+            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.productDescription)">Description:</label>
+            <textarea class="form-control" [(ngModel)]="product.productDescription" placeholder="" pattern formControlName="productDescription"></textarea>
+            <app-field-error-display [field]="fG1.controls.productDescription" [errorMsg]="errorMsgs"> </app-field-error-display>
         </div>
-        <div class="col-sm-12 text-right hide">
-            <a class="btn btn-default ancProfile1">Save &amp; Next</a>
-        </div>
-        <div class="col-sm-12 text-right show">
-            <a class="btn btn-default ancProfile1">Next</a>
+        <div class="form-group col-sm-12 pt-2">
+            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.quantity)">Available quantity:</label>
+            <input type="text" class="form-control" [(ngModel)]="product.quantity" placeholder="" pattern formControlName="quantity">
+            <app-field-error-display [field]="fG1.controls.quantity" [errorMsg]="errorMsgs"> </app-field-error-display>
         </div>
     </div>
+    <hr />
+    <div class="row p-2">        
+        <div class="col-sm-12 text-right show">
+            <a class="btn btn-default ancProfile1" (click) ="saveData()">Next</a>
+        </div>
+    </div>
+
+</div>

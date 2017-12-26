@@ -1,27 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
-
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
 
-import { environment } from './../../../environments/environment';
-import { RetailerProfileInfo } from '../../../../models/retailer-profile-info';
-import { Observable } from 'rxjs/Observable';
-import { Retailer, RetailerReports } from '../../../../models/retailer';
 import { LocalStorageService } from '../../services/LocalStorage.service';
+import { environment } from './../../../environments/environment';
 import { nameValue } from '../../../../models/nameValue';
-import { RetailerPaymentInfo } from '../../../../models/retailer-payment-info';
-import { RetialerShippingProfile } from '../../../../models/retailer-shipping-profile';
+import { Product } from '../../../../models/Product';
 
 @Injectable()
 export class ProductService {
-  private BASE_URL: string = environment.AdminApi;
+  private BASE_URL: string = environment.productApi;
   headers: Headers;
 
-  paymentMethods = new Array<nameValue>();
-  paymentVehicles = new Array<nameValue>();
+  shippingProfiles = new Array<nameValue>();
   getHttpHeraders() {
     const token = this.localStorageService.getItem('token');
     const headers = new Headers({
@@ -37,12 +32,9 @@ export class ProductService {
     this.seedStaticData();
   }
   seedStaticData() {
-    this.paymentMethods.push(new nameValue('1', 'Manual'));
-    this.paymentMethods.push(new nameValue('2', 'Automated'));
-
-    this.paymentVehicles.push(new nameValue('1', 'Stripe', '2'));
-    this.paymentVehicles.push(new nameValue('2', 'Invoice', '1'));
-    this.paymentVehicles.push(new nameValue('3', 'Credit Card', '1'));
+    this.shippingProfiles.push(new nameValue('1', 'Furniture delivery'));
+    this.shippingProfiles.push(new nameValue('2', 'Small item delivery'));
+    this.shippingProfiles.push(new nameValue('3', '1-5 business days shipping'));
   }
   get(query: any): Observable<any[]> {
     this.headers = this.getHttpHeraders();
@@ -51,86 +43,28 @@ export class ProductService {
       .get(url, { search: query, headers: this.headers })
       .map(p => p.json())
       .catch(this.handleError);
-
-  }
-  profileInfoGet(retailerId: number): Observable<RetailerProfileInfo> {
-    const url = `${this.BASE_URL}/${environment.apis.retailerProfileInfo.get}`;
-    return this.http
-      .get(`${url}/${retailerId}`, { headers: this.headers })
-      .map(res => res.json())
-      .catch(this.handleError);
-  }
-  profileInfoSave(retailerProfileInfo: RetailerProfileInfo): Promise<any> {
+  } 
+  saveProduct(product: Product): Promise<any> {
     this.headers = this.getHttpHeraders();
-    const url = `${this.BASE_URL}/${environment.apis.retailerProfileInfo.save}`;
+    const url = `${this.BASE_URL}/${environment.apis.product.save}`;
     return this.http
-      .post(url, retailerProfileInfo, { headers: this.headers })
+      .post(url, product, { headers: this.headers })
       .toPromise()
       .catch(this.handleError);
   }
-  getSellerTypes(): Observable<nameValue[]> {
-    this.headers = this.getHttpHeraders();
-    const url = `${this.BASE_URL}/${environment.apis.retailers.sellerTypes}`;
-    return this.http
-      .get(url, { headers: this.headers })
-      .map(res => res.json())
-      .catch(this.handleError);
-  }
-
-  paymentInfoGet(retailerId: number): Observable<RetailerPaymentInfo> {
-    const url = `${this.BASE_URL}/${environment.apis.retailerPaymentInfo.get}`;
-    return this.http
-      .get(`${url}/${retailerId}`, { headers: this.headers })
-      .map(res => res.json())
-      .catch(this.handleError);
-  }
-  paymentInfoSave(paymentInfo: RetailerPaymentInfo): Promise<any> {
-    this.headers = this.getHttpHeraders();
-    const url = `${this.BASE_URL}/${environment.apis.retailerPaymentInfo.save}`;
-    return this.http
-      .post(url, paymentInfo, { headers: this.headers })
-      .toPromise()
-      .catch(this.handleError);
-  }
-
-  public getPaymentMethods(): Observable<nameValue[]> {
-    if (this.paymentMethods != null) {
-      return Observable.of(this.paymentMethods);
+ 
+  public getShippingProfiles(): Observable<nameValue[]> {
+    if (this.shippingProfiles != null) {
+      return Observable.of(this.shippingProfiles);
     } else {
       return this.http
         .get('')
         .map(res => <nameValue[]>res.json())
-        .do(res => (this.paymentMethods = res))
+        .do(res => (this.shippingProfiles = res))
         .catch(this.handleError);
     }
   }
-  public getPaymentVehicles(): Observable<nameValue[]> {
-    if (this.paymentVehicles != null) {
-      return Observable.of(this.paymentVehicles);
-    } else {
-      return this.http
-        .get('')
-        .map(res => <nameValue[]>res.json())
-        .do(res => (this.paymentVehicles = res))
-        .catch(this.handleError);
-    }
-  }
-  shippingProfileGet(retailerId: number): Observable<RetialerShippingProfile> {
-    const url = `${this.BASE_URL}/${environment.apis.retailerProfileInfo.get}`;
-    return this.http
-      .get(`${url}/${retailerId}`, { headers: this.headers })
-      .map(res => res.json())
-      .catch(this.handleError);
-  }
-  saveShipping(shippingProfile: RetialerShippingProfile): Promise<any> {
-    this.headers = this.getHttpHeraders();
-    const url = `${this.BASE_URL}/${environment.apis.retailerShippingInfo.save}`;
-    return this.http
-      .post(url, shippingProfile, { headers: this.headers })
-      .toPromise()
-      .catch(this.handleError);
-  }
-
+  
   private handleError(error: Response) {
     // in a real world app, we may send the server to some remote logging infrastructure
     // instead of just logging it to the console

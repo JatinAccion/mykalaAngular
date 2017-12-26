@@ -1,26 +1,24 @@
-<div class="row p-3">
-    <div class="col-sm-12">
-        Shipping Profile
+<div [formGroup]="fG1">
+    <div class="row p-3">
+        <div class="col-sm-12">
+            Shipping Profile
+        </div>
+        <div class="form-group">
+            <ul class="list-unstyled">
+                <li *ngFor="let shipping of shippingProfiles; let idx=index; ">
+                    <input type="radio" [(ngModel)]="product.shipProfileId"  value="{{shipping.name}}" name="shippingId" formControlName="shippingId" /> {{shipping.value}}
+                </li>
+            </ul>
+           
+        </div>
     </div>
-    <div class="col-sm-12"> 
-        <input type="checkbox"><label class="control-label p-1" [ngClass]="validatorExt.displayFieldCss(fG1.controls.furniture)"> Furniture delivery </label>
-        <app-field-error-display [field]="fG1.controls.furniture" [errorMsg]="errorMsgs"> </app-field-error-display>
-    </div>
-    <div class="col-sm-12"> 
-        <input type="checkbox"><label class="control-label p-1" [ngClass]="validatorExt.displayFieldCss(fG1.controls.smallitem)"> Small item delivery </label>
-        <app-field-error-display [field]="fG1.controls.smallitem" [errorMsg]="errorMsgs"> </app-field-error-display>
-    </div>
-    <div class="col-sm-12"> 
-        <input type="checkbox"><label class="control-label p-1" [ngClass]="validatorExt.displayFieldCss(fG1.controls.bussshipping)">  1-5 business days shipping </label>
-        <app-field-error-display [field]="fG1.controls.bussshipping" [errorMsg]="errorMsgs"> </app-field-error-display>
-    </div>
-</div> 
-<hr />
-<div class="row p-2">
-    <div class="col-sm-12 text-right hide">
-        <a class="btn btn-default ancProfile1">Next</a>
-    </div>
-    <div class="col-sm-12 text-right show">
-        <a class="btn btn-default ancProfile1">Save &amp; Next</a>
+    <hr />
+    <div class="row p-2">
+        <div class="col-sm-12 text-right hide">
+            <a class="btn btn-default ancProfile1">Next</a>
+        </div>
+        <div class="col-sm-12 text-right show">
+            <a class="btn btn-default ancProfile1" (click)="saveData()">Save &amp; Next</a>
+        </div>
     </div>
 </div>

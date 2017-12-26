@@ -16,8 +16,8 @@ export class Product {
     public shipProfileId: number;
 
 
-    constructor(obj: any) {
-        if (obj !== null) {
+    constructor(obj?: any) {
+        if (obj) {
             this.retailerId = obj.retailerId;
             this.kalaUniqueId = obj.kalaUniqueId;
             this.productSkuCode = obj.productSkuCode;

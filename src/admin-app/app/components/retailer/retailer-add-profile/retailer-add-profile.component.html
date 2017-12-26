@@ -24,7 +24,9 @@
     <div class="form-group">
         <label class="control-label" [ngClass]="validatorExt.displayFieldCss(profileFG1.controls.businessSummary)">Business summary </label>
         <small class="float-right">{{ validatorExt.remainingCharacters(profileFG1.controls.businessSummary, 300) }} characters left</small>
-        <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="businessSummary">
+        <!-- <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="businessSummary"> -->
+        <textarea  class="form-control h-50 txt w-100" pattern formControlName="businessSummary" ></textarea>
+
         <!--Validation-->
         <app-field-error-display [field]="profileFG1.controls.businessSummary" [errorMsg]="errorMsgs"> </app-field-error-display>
         <!--Validation-->

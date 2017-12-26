@@ -10,6 +10,7 @@ export const environment = {
   production: false,
   Api: 'http://dev-user-service.us-east-2.elasticbeanstalk.com',
   AdminApi: 'http://dev-retailer-api.us-east-2.elasticbeanstalk.com',
+  productApi: 'http://192.168.168.205:8085',
   apis: apiNames,
   regex: regexPatterns,
   commonMsg: commonMessages

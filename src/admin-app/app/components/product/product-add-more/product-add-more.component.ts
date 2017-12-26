@@ -1,14 +1,13 @@
 // #region imports
-import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
-import { Retailer, RetailerNotification } from '../../../../../models/retailer';
+import { Component, OnInit, ViewEncapsulation, ViewChild, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
 import { NgbTabset } from '@ng-bootstrap/ng-bootstrap/tabset/tabset';
 import { nameValue } from '../../../../../models/nameValue';
 import { IAlert } from '../../../../../models/IAlert';
 import { environment } from '../../../../environments/environment';
 import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 import { ProductService } from '../product.service';
+import { Product } from '../../../../../models/Product';
 
 
 @Component({
@@ -20,7 +19,9 @@ import { ProductService } from '../product.service';
 export class ProductAddMoreComponent implements OnInit {
   // #region declarations
 
-  retailerId = 1;
+  @Input() product: Product;
+  @Output() productChange = new EventEmitter<Product>();
+  @Output() SaveData = new EventEmitter<any>();
   @ViewChild('tabs') ngbTabSet: NgbTabset;
   alert: IAlert = {
     id: 1,
@@ -30,19 +31,15 @@ export class ProductAddMoreComponent implements OnInit {
   };
   fG1 = new FormGroup({});
   step = 1;
-  Obj: RetailerNotification;
   errorMsgs: any;
   saveLoader = true;
 
   // #endregion declaration
   constructor(
     private formBuilder: FormBuilder,
-    private router: Router,
-    route: ActivatedRoute,
     private retialerService: ProductService,
     private validatorExt: ValidatorExt
   ) {
-    this.retailerId = route.snapshot.params['id'];
   }
   ngOnInit() {
     this.setFormValidators();
@@ -69,56 +66,18 @@ export class ProductAddMoreComponent implements OnInit {
     if (!this.fG1.valid) {
     } else {
       this.saveLoader = true;
-      // this.retialerService
-      //   .saveNotifications(this.Obj)
-      //   .then(res => {
-      //     // todo correct response
-      //     this.retailerId = res._body;
-      //     this.Obj.retailerId = this.retailerId;
-      //     this.ngbTabSet.select('tab-Payment');
-      //     // this.router.navigateByUrl('/retailer-list');
-      //     this.alert = {
-      //       id: 1,
-      //       type: 'success',
-      //       message: 'Saved successfully',
-      //       show: true
-      //     };
-      //     this.saveLoader = false;
-      //     return true;
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-      //     this.alert = {
-      //       id: 1,
-      //       type: 'danger',
-      //       message: 'Not able to Save',
-      //       show: true
-      //     };
-
-      //   });
+      this.productChange.emit(this.product);
+      this.SaveData.emit('tab-delivery');
     }
     return false;
   }
 
 
   readForm() {
-    this.Obj = new RetailerNotification();
-    this.Obj.orderEmail = this.fG1.value.orderEmail;
-    this.Obj.shipEmail = this.fG1.value.shipEmail;
-    return this.Obj;
+    return this.product;
   }
 
-  getData(retailerId) {
-    // this.retialerService
-    //   .profileInfoGet(this.retailerId)
-    //   .subscribe((res) => {
-    //     this.Obj = res;
-    //     this.fG1.patchValue({
-
-    //       orderEmail: this.Obj.orderEmail,
-    //       shipEmail: this.Obj.shipEmail,
-    //   });
-  }
+  getData(retailerId) { }
 
 
 }
