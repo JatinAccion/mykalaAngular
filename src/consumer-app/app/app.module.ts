@@ -46,6 +46,11 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { SidebarModule } from 'ng-sidebar';
 import { ResetPasswordService } from './services/resetPassword.service';
 import { ForgotPasswordService } from './services/forgotPassword.service';
+import { GetoffersComponent } from './components/getoffers/getoffers.component';
+import { Step1Component } from './components/getoffers/step1/step1.component';
+import { Step2Component } from './components/getoffers/step2/step2.component';
+import { Step3Component } from './components/getoffers/step3/step3.component';
+import { Step4Component } from './components/getoffers/step4/step4.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +73,12 @@ import { ForgotPasswordService } from './services/forgotPassword.service';
     BreadcrumsComponent,
     BrowseProductComponent,
     ResetPasswordComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    GetoffersComponent,
+    Step1Component,
+    Step2Component,
+    Step3Component,
+    Step4Component
   ],
   imports: [
     BrowserModule,
