@@ -45,7 +45,7 @@
       </span>
     </div>
     <div *ngIf="!core.showSearch" class="col-sm-12 mb-3 p-0 text-right pr-3">
-      <a class="dialogue dialogue_right colorwhite">{{core.searchMessage}}</a>
+      <a class="dialogue dialogue_right colorwhite" [routerLink]="['/getoffer', 'step1']">{{core.searchMessage}}</a>
     </div>
   </div>
 

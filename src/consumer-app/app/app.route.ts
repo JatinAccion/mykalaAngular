@@ -16,6 +16,11 @@ import { ConsumerInterestComponent } from './components/consumer-interest/consum
 import { BrowseProductComponent } from './components/browse-product/browse-product.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { GetoffersComponent } from './components/getoffers/getoffers.component';
+import { Step1Component } from './components/getoffers/step1/step1.component';
+import { Step2Component } from './components/getoffers/step2/step2.component';
+import { Step3Component } from './components/getoffers/step3/step3.component';
+import { Step4Component } from './components/getoffers/step4/step4.component';
 
 const appRoutes: Routes = [
     {
@@ -53,6 +58,17 @@ const appRoutes: Routes = [
         path: 'interest',
         component: ConsumerInterestComponent,
         data: { header: 'header2' }
+    },
+    {
+        path: 'getoffer',
+        component: GetoffersComponent,
+        children: [
+            { path: '', redirectTo: 'step1', pathMatch: 'full', data: { header: 'header2' } },
+            { path: 'step1', component: Step1Component, data: { header: 'header2' } },
+            { path: 'step2', component: Step2Component, data: { header: 'header2' } },
+            { path: 'step3', component: Step3Component, data: { header: 'header2' } },
+            { path: 'step4', component: Step4Component, data: { header: 'header2' } }
+        ]
     },
     {
         path: 'logout',
