@@ -1,4 +1,4 @@
-import { OfferInfo1, OfferInfo2, OfferInfo3, OfferInfo4 } from "./step1.modal";
+import { OfferInfo1, OfferInfo2, OfferInfo3, OfferInfo4 } from "./steps.modal";
 
 export class GetOfferModal {
     public getoffer_1: Array<OfferInfo1>;

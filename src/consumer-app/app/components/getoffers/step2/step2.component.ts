@@ -14,10 +14,14 @@ export class Step2Component implements OnInit {
   ) { }
 
   ngOnInit() {
-  }
+  };
 
   prev() {
     this.route.navigate(['/getoffer', 'step1']);
-  }
+  };
+
+  next(){
+    this.route.navigate(['/getoffer', 'step3']);
+  };
 
 }
