@@ -37,8 +37,11 @@ export class Step1Component implements OnInit {
       this.viewSavedData = JSON.parse(window.localStorage['GetOfferModal']).getoffer_1;
       for (var i = 0; i < this.viewSavedData.length; i++) {
         this.userResponse.place.push(this.viewSavedData[i].place);
+        this.Step1SelectedValues.place = this.viewSavedData[i].place;
         this.userResponse.category.push(this.viewSavedData[i].category);
+        this.Step1SelectedValues.category = this.viewSavedData[i].category;
         this.userResponse.subcategory.push(this.viewSavedData[i].subCategory);
+        this.Step1SelectedValues.subcategory = this.viewSavedData[i].subCategory
         for (var j = 0; j < this.viewSavedData[i].type.length; j++) {
           this.userResponse.type.push(this.viewSavedData[i].type[j]);
         }
@@ -55,7 +58,6 @@ export class Step1Component implements OnInit {
   getPlaces() {
     this.userResponse.place = [];
     this.homeService.getTilesPlace().subscribe(res => {
-      this.getPlaceId = res.placeId;
       for (var i = 0; i < res.length; i++) this.userResponse.place.push(new SearchDataModal(res[i].placeId, res[i].placeName, res[i].placeName, "1"));
     })
   };
@@ -63,7 +65,6 @@ export class Step1Component implements OnInit {
   getCategory() {
     this.userResponse.category = [];
     this.homeService.getTilesCategory(this.getPlaceId).subscribe(res => {
-      this.getCategoryId = res.categoryId;
       for (var i = 0; i < res.length; i++) this.userResponse.category.push(new SearchDataModal(res[i].categoryId, res[i].categoryName, res[i].categoryName, "2"));
     });
   };
@@ -71,7 +72,6 @@ export class Step1Component implements OnInit {
   getSubCategory() {
     this.userResponse.subcategory = [];
     this.homeService.getTilesSubCategory(this.getCategoryId).subscribe(res => {
-      this.getSubcategoryId = res.subCategoryId;
       for (var i = 0; i < res.length; i++) this.userResponse.subcategory.push(new SearchDataModal(res[i].subCategoryId, res[i].subCategoryName, res[i].subCategoryName, "3"));
     });
   };
@@ -108,7 +108,7 @@ export class Step1Component implements OnInit {
     else {
       e.currentTarget.className = "categ_outline_red mr-2";
       for (var i = 0; i < this.Step1SelectedValues.type.length; i++) {
-        if (this.Step1SelectedValues.type[i] == obj.name) {
+        if (this.Step1SelectedValues.type[i].name == obj.name) {
           this.Step1SelectedValues.type.splice(i, 1);
           e.currentTarget.className = "categ_outline_gray mr-2";
           return false;
