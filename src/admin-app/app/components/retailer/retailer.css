@@ -92,3 +92,9 @@
   .selected-list[_ngcontent-c10] .c-list[_ngcontent-c10] .c-token[_ngcontent-c10]{
     background: #e06263 !important;
   }
+  .pure-checkbox[_ngcontent-c10] input[type="checkbox"][_ngcontent-c10] + label[_ngcontent-c10]::before{
+    border: 2px solid #e06263 !important;
+  }
+  .pure-checkbox[_ngcontent-c10] input[type="checkbox"][_ngcontent-c10]:checked + label[_ngcontent-c10]::before{
+    background: #e06263 !important;
+  }
