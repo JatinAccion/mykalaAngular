@@ -89,4 +89,6 @@
     background-color: white !important;
     cursor: text !important;
   }
- 
+  .selected-list[_ngcontent-c10] .c-list[_ngcontent-c10] .c-token[_ngcontent-c10]{
+    background: #e06263 !important;
+  }
