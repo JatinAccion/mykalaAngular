@@ -22,6 +22,7 @@ export class Step1Component implements OnInit {
   spliceElem;
   Step1SelectedValues = { place: "", type: [], category: "", subcategory: "" };
   Step1Modal = new GetOfferModal();
+  viewSavedData;
 
   constructor(
     private homeService: HomeService,
@@ -32,10 +33,23 @@ export class Step1Component implements OnInit {
   ngOnInit() {
     this.headerMessage = 'get offers';
     this.core.show(this.headerMessage);
-    this.userResponse.place.push(this.levelSelection.place);
-    this.userResponse.type.push(this.levelSelection.type);
-    this.userResponse.category.push(this.levelSelection.category);
-    this.userResponse.subcategory.push(this.levelSelection.subcategory);
+    if (window.localStorage['GetOfferModal'] != undefined) {
+      this.viewSavedData = JSON.parse(window.localStorage['GetOfferModal']).getoffer_1;
+      for (var i = 0; i < this.viewSavedData.length; i++) {
+        this.userResponse.place.push(this.viewSavedData[i].place);
+        this.userResponse.category.push(this.viewSavedData[i].category);
+        this.userResponse.subcategory.push(this.viewSavedData[i].subCategory);
+        for (var j = 0; j < this.viewSavedData[i].type.length; j++) {
+          this.userResponse.type.push(this.viewSavedData[i].type[j]);
+        }
+      }
+    }
+    else {
+      this.userResponse.place.push(this.levelSelection.place);
+      this.userResponse.type.push(this.levelSelection.type);
+      this.userResponse.category.push(this.levelSelection.category);
+      this.userResponse.subcategory.push(this.levelSelection.subcategory);
+    }
   }
 
   getPlaces() {
@@ -75,21 +89,21 @@ export class Step1Component implements OnInit {
       this.getCategory();
       this.clearItems(elemName);
       this.userResponse.place = [obj];
-      this.Step1SelectedValues.place = obj.name;
+      this.Step1SelectedValues.place = obj;
     }
     else if (elemName == 'category') {
       this.getCategoryId = obj.id;
       this.getSubCategory();
       this.clearItems(elemName);
       this.userResponse.category = [obj];
-      this.Step1SelectedValues.category = obj.name;
+      this.Step1SelectedValues.category = obj;
     }
     else if (elemName == 'subcategory') {
       this.getSubcategoryId = obj.id;
       this.getType();
       this.clearItems(elemName);
       this.userResponse.subcategory = [obj];
-      this.Step1SelectedValues.subcategory = obj.name;
+      this.Step1SelectedValues.subcategory = obj;
     }
     else {
       e.currentTarget.className = "categ_outline_red mr-2";
@@ -100,7 +114,7 @@ export class Step1Component implements OnInit {
           return false;
         }
       }
-      this.Step1SelectedValues.type.push(obj.name);
+      this.Step1SelectedValues.type.push(obj);
     }
   };
 

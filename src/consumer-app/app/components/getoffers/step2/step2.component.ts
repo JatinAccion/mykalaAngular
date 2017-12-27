@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-step2',
@@ -8,9 +9,15 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 })
 export class Step2Component implements OnInit {
 
-  constructor() { }
+  constructor(
+    private route: Router
+  ) { }
 
   ngOnInit() {
+  }
+
+  prev() {
+    this.route.navigate(['/getoffer', 'step1']);
   }
 
 }
