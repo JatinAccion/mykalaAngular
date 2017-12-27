@@ -69,27 +69,38 @@ export class Step1Component implements OnInit {
     });
   };
 
-  loadData(obj, elemName) {
+  loadData(obj, elemName, e?: any) {
     if (elemName == 'place') {
       this.getPlaceId = obj.id;
       this.getCategory();
       this.clearItems(elemName);
+      this.userResponse.place = [obj];
       this.Step1SelectedValues.place = obj.name;
     }
     else if (elemName == 'category') {
       this.getCategoryId = obj.id;
       this.getSubCategory();
       this.clearItems(elemName);
+      this.userResponse.category = [obj];
       this.Step1SelectedValues.category = obj.name;
     }
     else if (elemName == 'subcategory') {
       this.getSubcategoryId = obj.id;
       this.getType();
       this.clearItems(elemName);
+      this.userResponse.subcategory = [obj];
       this.Step1SelectedValues.subcategory = obj.name;
     }
     else {
-      this.Step1SelectedValues.type.push(obj.name)
+      e.currentTarget.className = "categ_outline_red mr-2";
+      for (var i = 0; i < this.Step1SelectedValues.type.length; i++) {
+        if (this.Step1SelectedValues.type[i] == obj.name) {
+          this.Step1SelectedValues.type.splice(i, 1);
+          e.currentTarget.className = "categ_outline_gray mr-2";
+          return false;
+        }
+      }
+      this.Step1SelectedValues.type.push(obj.name);
     }
   };
 

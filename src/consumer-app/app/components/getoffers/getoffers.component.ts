@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { CoreService } from '../../services/core.service';
 
 @Component({
   selector: 'app-getoffers',
@@ -8,9 +9,10 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 })
 export class GetoffersComponent implements OnInit {
 
-  constructor() { }
+  constructor(private core: CoreService) { }
 
   ngOnInit() {
+    this.core.searchMsgToggle();
   }
 
 }
