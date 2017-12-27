@@ -43,6 +43,7 @@ export class RetailerAddProfileComponent implements OnInit {
   uploadFile: any;
   errorMsgs = inputValidations;
   profileSaveloader = false;
+  fileName = '';
 
   // #endregion declaration
   constructor(
@@ -194,6 +195,7 @@ export class RetailerAddProfileComponent implements OnInit {
       };
 
       reader.readAsDataURL(fileInput.target.files[0]);
+     this.fileName = fileInput.target.files[0].name;
     }
   }
   getProfileInfo(retailerId) {

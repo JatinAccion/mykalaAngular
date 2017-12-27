@@ -1,11 +1,21 @@
 <div [formGroup]="profileFG1" [ngClass]="{'show': profileInfoStep==1, 'hide': profileInfoStep!==1 }">
     <label class="control-label" [ngClass]="validatorExt.displayFieldCss(profileFG1.controls.profileImage)">Business Logo</label>
     <div class="form-group">
-        <div class="draglogo p-3 text-center">
-            <div class=" text-center">Drag your Logo here</div>
-            or
-            <input formControlName="profileImage" (change)="fileChangeEvent($event, profileFG1)" type="file" class="form-control uploadImage" />
-        </div>
+    </div>
+    <div class="input-group">
+        <span class="input-group-btn w-100">
+            <span class="btn btn-file draglogo">
+                <div class="p-3 text-center">
+                    <div class=" text-center">Drag your Logo here</div>
+                    or
+                    <div class=" text-center">Select..
+                        <p> {{ fileName}} </p>
+                    </div>
+                </div>
+                <input formControlName="profileImage" accept="image/jpeg" (change)="fileChangeEvent($event, profileFG1)" type="file" class="uploadImage" />
+            </span>
+        </span>
+        <input readonly="readonly" placeholder="Picture file" class="form-control hide" name="filename" type="text">
         <app-field-error-display [field]="profileFG1.controls.profileImage" [errorMsg]="errorMsgs"> </app-field-error-display>
     </div>
     <div class="form-group">
@@ -25,7 +35,7 @@
         <label class="control-label" [ngClass]="validatorExt.displayFieldCss(profileFG1.controls.businessSummary)">Business summary </label>
         <small class="float-right">{{ validatorExt.remainingCharacters(profileFG1.controls.businessSummary, 300) }} characters left</small>
         <!-- <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="businessSummary"> -->
-        <textarea  class="form-control h-50 txt w-100" pattern formControlName="businessSummary" ></textarea>
+        <textarea class="form-control h-50 txt w-100" pattern formControlName="businessSummary"></textarea>
 
         <!--Validation-->
         <app-field-error-display [field]="profileFG1.controls.businessSummary" [errorMsg]="errorMsgs"> </app-field-error-display>
@@ -193,7 +203,7 @@
 </div>
 <hr />
 <div class="row">
-    <div class="col-sm-6" >
+    <div class="col-sm-6">
         <a (click)="profileInfoBack()" class="ancDefault" *ngIf="profileInfoStep!==1">back</a>
     </div>
     <div class="col-sm-6 text-right" *ngIf="profileInfoStep==1">
