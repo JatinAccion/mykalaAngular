@@ -4,16 +4,16 @@ import { Retailer } from '../../../../../models/retailer';
 import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { nameValue } from '../../../../../models/nameValue';
-import { RetailerProfileInfo, ProfileInfo } from '../../../../../models/retailer-profile-info';
+import { RetailerProfileInfo } from '../../../../../models/retailer-profile-info';
 import { RetailerBuinessAddress } from '../../../../../models/retailer-business-adress';
-import { RetailerPrimaryContact } from '../../../../../models/retailer-contact';
+import { RetailerContact } from '../../../../../models/retailer-contact';
 import { RetialerService } from '../retialer.service';
-import { RetailerPaymentInfo, BankDetails } from '../../../../../models/retailer-payment-info';
 import { NgbTabset } from '@ng-bootstrap/ng-bootstrap/tabset/tabset';
 import { environment } from '../../../../environments/environment';
 import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 import { IAlert } from '../../../../../models/IAlert';
 import { inputValidations } from './messages';
+import { templateJitUrl } from '@angular/compiler';
 // #endregion imports
 
 
@@ -89,7 +89,8 @@ export class RetailerAddProfileComponent implements OnInit {
       contact_state: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
       contact_zipcode: ['', [Validators.maxLength(5), Validators.minLength(5), Validators.pattern(environment.regex.numberRegex)]],
       contact_email: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.emailRegex)]],
-      contact_phone_number: ['', [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(environment.regex.numberRegex)]]
+      contact_phone_number: ['', [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(environment.regex.numberRegex)]],
+      contactType: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
     });
   }
   getProfileInfoDropdowndata() {
@@ -147,16 +148,15 @@ export class RetailerAddProfileComponent implements OnInit {
   }
 
   readProfileInfo() {
-    this.profileInfoObj.retailerProfile = new ProfileInfo();
-    this.profileInfoObj.retailerProfile.businessLogoPath = this.profileFG1.value.profileImage;
-    this.profileInfoObj.retailerProfile.businessName = this.profileFG1.value.businessName;
-    this.profileInfoObj.retailerProfile.tin = this.profileFG1.value.tin;
-    this.profileInfoObj.retailerProfile.businessSummary = this.profileFG1.value.businessSummary;
-    this.profileInfoObj.retailerProfile.sellerTypeId = this.profileFG1.value.sellerTypeId;
+    this.profileInfoObj.businessLogoPath = this.profileFG1.value.profileImage;
+    this.profileInfoObj.businessName = this.profileFG1.value.businessName;
+    this.profileInfoObj.tin = this.profileFG1.value.tin;
+    this.profileInfoObj.businessSummary = this.profileFG1.value.businessSummary;
+    this.profileInfoObj.sellerTypeId = this.profileFG1.value.sellerTypeId;
 
-    this.profileInfoObj.retailerProfile.websiteUrl = this.profileFG2.value.websiteUrl;
-    this.profileInfoObj.retailerProfile.websiteUserName = this.profileFG2.value.websiteUserName;
-    this.profileInfoObj.retailerProfile.websitePassword = this.profileFG2.value.websitePassword;
+    this.profileInfoObj.websiteUrl = this.profileFG2.value.websiteUrl;
+    this.profileInfoObj.websiteUserName = this.profileFG2.value.websiteUserName;
+    this.profileInfoObj.websitePassword = this.profileFG2.value.websitePassword;
 
     this.profileInfoObj.businessAddress = new RetailerBuinessAddress();
     this.profileInfoObj.businessAddress.addressLine1 = this.profileFG1.value.bussines_address;
@@ -167,17 +167,19 @@ export class RetailerAddProfileComponent implements OnInit {
     this.profileInfoObj.businessAddress.email = this.profileFG1.value.email;
     this.profileInfoObj.businessAddress.phoneNo = this.profileFG1.value.phone_number;
 
-    this.profileInfoObj.primaryContact = new RetailerPrimaryContact();
-
-    this.profileInfoObj.primaryContact.personName = this.profileFG2.value.contact_name;
-    this.profileInfoObj.primaryContact.position = this.profileFG2.value.contact_position;
-    this.profileInfoObj.primaryContact.addressLine1 = this.profileFG2.value.contact_address1;
-    this.profileInfoObj.primaryContact.addressLine2 = this.profileFG2.value.contact_address2;
-    this.profileInfoObj.primaryContact.city = this.profileFG2.value.contact_city;
-    this.profileInfoObj.primaryContact.state = this.profileFG2.value.contact_state;
-    this.profileInfoObj.primaryContact.zipcode = this.profileFG2.value.contact_zipcode;
-    this.profileInfoObj.primaryContact.email = this.profileFG2.value.contact_email;
-    this.profileInfoObj.primaryContact.phoneNo = this.profileFG2.value.contact_phone_number;
+    this.profileInfoObj.contactPerson = new Array<RetailerContact>();
+    const contact = new RetailerContact();
+    contact.personName = this.profileFG2.value.contact_name;
+    contact.position = this.profileFG2.value.contact_position;
+    contact.addressLine1 = this.profileFG2.value.contact_address1;
+    contact.addressLine2 = this.profileFG2.value.contact_address2;
+    contact.city = this.profileFG2.value.contact_city;
+    contact.state = this.profileFG2.value.contact_state;
+    contact.zipcode = this.profileFG2.value.contact_zipcode;
+    contact.email = this.profileFG2.value.contact_email;
+    contact.phoneNo = this.profileFG2.value.contact_phone_number;
+    contact.contactType = this.profileFG2.value.contactType;
+    this.profileInfoObj.contactPerson.push(contact);
     return this.profileInfoObj;
   }
 
@@ -195,7 +197,7 @@ export class RetailerAddProfileComponent implements OnInit {
       };
 
       reader.readAsDataURL(fileInput.target.files[0]);
-     this.fileName = fileInput.target.files[0].name;
+      this.fileName = fileInput.target.files[0].name;
     }
   }
   getProfileInfo(retailerId) {
@@ -204,10 +206,10 @@ export class RetailerAddProfileComponent implements OnInit {
       .subscribe((res: RetailerProfileInfo) => {
         this.profileInfoObj = res;
         this.profileFG1.patchValue({
-          businessName: this.profileInfoObj.retailerProfile.businessName,
-          tin: this.profileInfoObj.retailerProfile.tin,
-          businessSummary: this.profileInfoObj.retailerProfile.businessSummary,
-          sellerTypeId: this.profileInfoObj.retailerProfile.sellerTypeId,
+          businessName: this.profileInfoObj.businessName,
+          tin: this.profileInfoObj.tin,
+          businessSummary: this.profileInfoObj.businessSummary,
+          sellerTypeId: this.profileInfoObj.sellerTypeId,
 
           bussines_address: this.profileInfoObj.businessAddress.addressLine1,
           bussines_address2: this.profileInfoObj.businessAddress.addressLine2,
@@ -219,19 +221,21 @@ export class RetailerAddProfileComponent implements OnInit {
         });
 
         this.profileFG2.patchValue({
-          websiteUrl: this.profileInfoObj.retailerProfile.websiteUrl,
-          websiteUserName: this.profileInfoObj.retailerProfile.websiteUserName,
-          websitePassword: this.profileInfoObj.retailerProfile.websitePassword,
+          websiteUrl: this.profileInfoObj.websiteUrl,
+          websiteUserName: this.profileInfoObj.websiteUserName,
+          websitePassword: this.profileInfoObj.websitePassword,
 
-          contact_name: this.profileInfoObj.primaryContact.personName,
-          contact_position: this.profileInfoObj.primaryContact.position,
-          contact_address1: this.profileInfoObj.primaryContact.addressLine1,
-          contact_address2: this.profileInfoObj.primaryContact.addressLine2,
-          contact_city: this.profileInfoObj.primaryContact.city,
-          contact_state: this.profileInfoObj.primaryContact.state,
-          contact_zipcode: this.profileInfoObj.primaryContact.zipcode,
-          contact_email: this.profileInfoObj.primaryContact.email,
-          contact_phone_number: this.profileInfoObj.primaryContact.phoneNo
+          contact_name: this.profileInfoObj.contactPerson[0].personName,
+          contact_position: this.profileInfoObj.contactPerson[0].position,
+          contact_address1: this.profileInfoObj.contactPerson[0].addressLine1,
+          contact_address2: this.profileInfoObj.contactPerson[0].addressLine2,
+          contact_city: this.profileInfoObj.contactPerson[0].city,
+          contact_state: this.profileInfoObj.contactPerson[0].state,
+          contact_zipcode: this.profileInfoObj.contactPerson[0].zipcode,
+          contact_email: this.profileInfoObj.contactPerson[0].email,
+          contact_phone_number: this.profileInfoObj.contactPerson[0].phoneNo,
+          contactType: this.profileInfoObj.contactPerson[0].contactType
+
         });
       });
   }

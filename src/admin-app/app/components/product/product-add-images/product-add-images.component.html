@@ -1,16 +1,99 @@
-<div class="col-sm-12 p-3"> 
-    <div class="form-group">
-        <div class="draglogo text-center">
-            <div class=" text-center">Drag your Logo here</div>
-            or <a href="#">Select file from computer</a>
+<div [formGroup]="fG1" class="col-sm-12 p-3">
+    <div class="input-group">
+        <span class="input-group-btn w-100">
+            <span class="btn btn-file draglogo">
+                <div class="p-3 text-center">
+                    <div class=" text-center">Drag your Logo here</div>
+                    or
+                    <div class=" text-center">Select..
+
+                    </div>
+                </div>
+                <input formControlName="productImage" accept="image/jpeg" (change)="fileChangeEvent($event, profileFG1)" type="file" class="uploadImage" multiple />
+            </span>
+        </span>
+        <app-field-error-display [field]="fG1.controls.productImage" [errorMsg]="errorMsgs"> </app-field-error-display>
+        <div>
+            <h3>Upload queue</h3>
+            <p>Queue length: {{ productImages.length }}</p>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th width="50%">Name</th>
+                        <th>Size</th>
+                        <th>Progress</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of productImages">
+                        <td>
+                            <strong>{{ item?.imageurl?.name }}</strong>
+                        </td>
+                        <td nowrap>{{ item?.imageurl?.size/1024/1024 | number:'.2' }} MB</td>
+                        <td>
+                            <div class="progress" style="margin-bottom: 0;">
+                                <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <span *ngIf="item.isSuccess">
+                                <i class="fa fa-ok"></i>
+                            </span>
+                            <span *ngIf="item.isCancel">
+                                <i class="fa fa-ban-circle"></i>
+                            </span>
+                            <span *ngIf="item.isError">
+                                <i class="fa fa-remove"></i>
+                            </span>
+                        </td>
+                        <td nowrap>
+                            <button type="button" class="btn btn-success btn-xs" (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                                <span class="fa fa-upload"></span> 
+                            </button>
+                            <button type="button" class="btn btn-warning btn-xs" (click)="item.cancel()" [disabled]="!item.isUploading">
+                                <span class="fa fa-ban-circle"></span> C
+                            </button>
+                            <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
+                                <span class="fa fa-trash"></span> 
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div>
+                <div>
+                    Queue progress:
+                    <!-- <div class="progress" style="">
+                        <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
+                    </div> -->
+                </div>
+                <button type="button" class="btn btn-success btn-s" (click)="saveData()" [disabled]="!getNotUploadedItems().length">
+                    <span class="fa fa-upload"></span> Upload all
+                </button>
+                <button type="button" class="btn btn-warning btn-s" (click)="cancelAll()" [disabled]="!isUploading">
+                    <span class="fa fa-ban-circle"></span> Cancel all
+                </button>
+                <button type="button" class="btn btn-danger btn-s" (click)="clearQueue()" [disabled]="!queue.length">
+                    <span class="fa fa-trash"></span> Remove all
+                </button>
+            </div>
+
         </div>
     </div>
-    <p>Main Image<span class="float-right colorlightGray">Drag to change main image</span></p> 
+
+    <p>Main Image
+        <span class="float-right colorlightGray">Drag to change main image</span>
+    </p>
     <div>
-        <img src="images/lamp1.png">
+        <img src="/admin-app/assets/images/lamp1.png">
     </div>
     <p>Other Images</p>
     <div>
-        <img src="images/lamp2.png"> <img src="images/lamp3.png">
-    </div>  
+        <img src="/admin-app/assets/images/lamp2.png">
+        <img src="/admin-app/assets/images/lamp3.png">
+    </div>
 </div>

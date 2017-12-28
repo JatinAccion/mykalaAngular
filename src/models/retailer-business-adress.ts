@@ -5,7 +5,15 @@ export class PostalAddress {
     public state: string;
     public zipcode: string;
 }
-export class RetailerBuinessAddress extends PostalAddress {
+
+export class ContactDetails {
     public email: string;
     public phoneNo: string;
+}
+export class PostalAddressWithContact extends PostalAddress {
+    public email: string;
+    public phoneNo: string;
+}
+export class RetailerBuinessAddress extends PostalAddressWithContact {
+
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
+import { HttpClient, HttpRequest, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/observable/of';
@@ -27,7 +28,8 @@ export class ProductService {
   }
   constructor(
     private http: Http,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private httpc: HttpClient
   ) {
     this.seedStaticData();
   }
@@ -43,7 +45,7 @@ export class ProductService {
       .get(url, { search: query, headers: this.headers })
       .map(p => p.json())
       .catch(this.handleError);
-  } 
+  }
   saveProduct(product: Product): Promise<any> {
     this.headers = this.getHttpHeraders();
     const url = `${this.BASE_URL}/${environment.apis.product.save}`;
@@ -52,7 +54,7 @@ export class ProductService {
       .toPromise()
       .catch(this.handleError);
   }
- 
+
   public getShippingProfiles(): Observable<nameValue[]> {
     if (this.shippingProfiles != null) {
       return Observable.of(this.shippingProfiles);
@@ -64,11 +66,73 @@ export class ProductService {
         .catch(this.handleError);
     }
   }
-  
+  saveProductImages(images: any): Promise<any> {
+    this.headers = this.getHttpHeraders();
+    const url = `${this.BASE_URL}/${environment.apis.product.saveImage}`;
+
+    const formData = this.objectToFormData(images);
+    const headers = new Headers({
+      'Content-Type': 'multipart/form-data'
+      //  Authorization: token //`Bearer ${token}`
+    });
+    return this.http
+      .post(url, formData, { headers: headers })
+      .toPromise()
+      .catch(this.handleError);
+  }
+
+  // saveProductImages(images: any): Observable<any> {
+  //   // const formdata: FormData = new FormData();
+  //   // formdata.append('images', images.Images.productImages[0].imageurl);
+  //   const formdata = this.objectToFormData(images);
+  //   const url = `${this.BASE_URL}/${environment.apis.product.saveImage}`;
+  //   const req = new HttpRequest('POST', url, formdata, {
+  //     reportProgress: true,
+  //     responseType: 'text'
+  //   });
+
+  //   return this.httpc.request(req);
+  // }
   private handleError(error: Response) {
     // in a real world app, we may send the server to some remote logging infrastructure
     // instead of just logging it to the console
     console.error(error);
     return Observable.throw(error.json().error || 'Server error');
   }
+
+  // check formdata
+  //   for (var pair of formData.entries()) {
+  //     console.log(pair[0]+ ', ' + pair[1]); 
+  // }
+  objectToFormData = function (obj, form?, namespace?) {
+
+    const fd = form || new FormData();
+    let formKey;
+    for (const property in obj) {
+      if (obj.hasOwnProperty(property)) {
+
+        if (namespace) {
+          formKey = namespace + '[' + property + ']';
+        } else {
+          formKey = property;
+        }
+
+        // if the property is an object, but not a File,
+        // use recursivity.
+        if (typeof obj[property] === 'object' && !(obj[property] instanceof File)) {
+
+          this.objectToFormData(obj[property], fd, property);
+
+        } else {
+
+          // if it's a string or a File object
+          fd.append(formKey, obj[property]);
+        }
+
+      }
+    }
+
+    return fd;
+
+  };
 }

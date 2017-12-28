@@ -9,7 +9,7 @@ import { IAlert } from '../../../../../models/IAlert';
 import { environment } from '../../../../environments/environment';
 import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 import { RetialerService } from '../retialer.service';
-import { RetailerPaymentInfo, BankDetails } from '../../../../../models/retailer-payment-info';
+import { RetailerPaymentInfo, BankAddress } from '../../../../../models/retailer-payment-info';
 import { inputValidations } from './messages';
 
 
@@ -90,7 +90,7 @@ export class RetailerAddPaymentComponent implements OnInit {
   paymentMethodChange() {
     this.readPaymenInfo();
     this.retialerService.getPaymentVehicles().subscribe(res => {
-      this.paymentVehicles = res.filter(p => p.parent === this.paymentInfoObj.bankDetails.paymentMethod);
+      this.paymentVehicles = res.filter(p => p.parent === this.paymentInfoObj.paymentMethod);
     });
 
   }
@@ -139,28 +139,27 @@ export class RetailerAddPaymentComponent implements OnInit {
   }
   readPaymenInfo() {
     this.paymentInfoObj.retailerId = this.retailerId;
-    this.paymentInfoObj.bankDetails = new BankDetails();
-    this.paymentInfoObj.bankDetails.retailerId = this.retailerId;
-    this.paymentInfoObj.bankDetails.paymentMethod = this.paymentFG1.value.paymentMethod;
-    this.paymentInfoObj.bankDetails.paymentVehicle = this.paymentFG1.value.paymentVehicle;
-    this.paymentInfoObj.bankDetails.bankName = this.paymentFG1.value.bankname;
-    this.paymentInfoObj.bankDetails.addressLine1 = this.paymentFG1.value.addressLine1;
-    this.paymentInfoObj.bankDetails.addressLine2 = this.paymentFG1.value.addressLine2;
-    this.paymentInfoObj.bankDetails.city = this.paymentFG1.value.city;
-    this.paymentInfoObj.bankDetails.state = this.paymentFG1.value.state;
-    this.paymentInfoObj.bankDetails.zipcode = this.paymentFG1.value.zipcode;
+    this.paymentInfoObj.paymentMethod = this.paymentFG1.value.paymentMethod;
+    this.paymentInfoObj.paymentVehicle = this.paymentFG1.value.paymentVehicle;
+    this.paymentInfoObj.bankName = this.paymentFG1.value.bankname;
+    this.paymentInfoObj.addressLine1 = this.paymentFG1.value.addressLine1;
+    this.paymentInfoObj.addressLine2 = this.paymentFG1.value.addressLine2;
+    this.paymentInfoObj.city = this.paymentFG1.value.city;
+    this.paymentInfoObj.state = this.paymentFG1.value.state;
+    this.paymentInfoObj.zipcode = this.paymentFG1.value.zipcode;
 
-    this.paymentInfoObj.bankDetails.accountName = this.paymentFG2.value.accountName;
-    this.paymentInfoObj.bankDetails.accountNumber = this.paymentFG2.value.accountNumber;
-    this.paymentInfoObj.bankDetails.routingNumber = this.paymentFG2.value.routingNumber;
-    this.paymentInfoObj.bankDetails.swiftCode = this.paymentFG2.value.swiftCode;
+    this.paymentInfoObj.accountName = this.paymentFG2.value.accountName;
+    this.paymentInfoObj.accountNumber = this.paymentFG2.value.accountNumber;
+    this.paymentInfoObj.routingNumber = this.paymentFG2.value.routingNumber;
+    this.paymentInfoObj.swiftCode = this.paymentFG2.value.swiftCode;
 
-    this.paymentInfoObj.name = this.paymentFG2.value.name;
-    this.paymentInfoObj.addressLine1 = this.paymentFG2.value.addressLine1;
-    this.paymentInfoObj.addressLine2 = this.paymentFG2.value.addressLine2;
-    this.paymentInfoObj.city = this.paymentFG2.value.city;
-    this.paymentInfoObj.state = this.paymentFG2.value.state;
-    this.paymentInfoObj.zipcode = this.paymentFG2.value.zipcode;
+    this.paymentInfoObj.bankAddress = new BankAddress();
+    this.paymentInfoObj.bankAddress.name = this.paymentFG2.value.name;
+    this.paymentInfoObj.bankAddress.addressLine1 = this.paymentFG2.value.addressLine1;
+    this.paymentInfoObj.bankAddress.addressLine2 = this.paymentFG2.value.addressLine2;
+    this.paymentInfoObj.bankAddress.city = this.paymentFG2.value.city;
+    this.paymentInfoObj.bankAddress.state = this.paymentFG2.value.state;
+    this.paymentInfoObj.bankAddress.zipcode = this.paymentFG2.value.zipcode;
 
     return this.paymentInfoObj;
   }
@@ -170,28 +169,28 @@ export class RetailerAddPaymentComponent implements OnInit {
       .subscribe((res: RetailerPaymentInfo) => {
         this.paymentInfoObj = res;
         this.paymentFG1.patchValue({
-          paymentMethod: this.paymentInfoObj.bankDetails.paymentMethod,
-          paymentVehicle: this.paymentInfoObj.bankDetails.paymentVehicle,
-          bankname: this.paymentInfoObj.bankDetails.bankName,
-          addressLine1: this.paymentInfoObj.bankDetails.addressLine1,
-          addressLine2: this.paymentInfoObj.bankDetails.addressLine2,
-          city: this.paymentInfoObj.bankDetails.city,
-          state: this.paymentInfoObj.bankDetails.state,
-          zipcode: this.paymentInfoObj.bankDetails.zipcode
-        });
-
-        this.paymentFG2.patchValue({
-          accountName: this.paymentInfoObj.bankDetails.accountName,
-          accountNumber: this.paymentInfoObj.bankDetails.accountNumber,
-          routingNumber: this.paymentInfoObj.bankDetails.routingNumber,
-          swiftCode: this.paymentInfoObj.bankDetails.swiftCode,
-
-          name: this.paymentInfoObj.name,
+          paymentMethod: this.paymentInfoObj.paymentMethod,
+          paymentVehicle: this.paymentInfoObj.paymentVehicle,
+          bankname: this.paymentInfoObj.bankName,
           addressLine1: this.paymentInfoObj.addressLine1,
           addressLine2: this.paymentInfoObj.addressLine2,
           city: this.paymentInfoObj.city,
           state: this.paymentInfoObj.state,
           zipcode: this.paymentInfoObj.zipcode
+        });
+
+        this.paymentFG2.patchValue({
+          accountName: this.paymentInfoObj.accountName,
+          accountNumber: this.paymentInfoObj.accountNumber,
+          routingNumber: this.paymentInfoObj.routingNumber,
+          swiftCode: this.paymentInfoObj.swiftCode,
+
+          name: this.paymentInfoObj.bankAddress.name,
+          addressLine1: this.paymentInfoObj.bankAddress.addressLine1,
+          addressLine2: this.paymentInfoObj.bankAddress.addressLine2,
+          city: this.paymentInfoObj.bankAddress.city,
+          state: this.paymentInfoObj.bankAddress.state,
+          zipcode: this.paymentInfoObj.bankAddress.zipcode
         });
       });
   }

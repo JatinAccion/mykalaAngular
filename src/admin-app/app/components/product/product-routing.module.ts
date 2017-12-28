@@ -4,6 +4,7 @@ import { ProductListComponent } from './product-list/product-list.component';
 import { ProductAddComponent } from './product-add/product-add.component';
 import { LoginRedirect } from '../../services/login-redirect.service';
 import { EnsureAuthenticated } from '../../services/ensure-authenticated.service';
+import { ProductMetaComponent } from './product-meta/product-meta.component';
 
 const appRoutes: Routes = [
   {
@@ -19,6 +20,11 @@ const appRoutes: Routes = [
   {
     path: 'product-edit/:id',
     component: ProductAddComponent,
+    canActivate: [EnsureAuthenticated]
+  },
+  {
+    path: 'product-meta',
+    component: ProductMetaComponent,
     canActivate: [EnsureAuthenticated]
   }
 ];

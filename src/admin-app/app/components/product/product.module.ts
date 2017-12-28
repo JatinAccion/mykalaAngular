@@ -16,6 +16,8 @@ import { ProductAddDeliveryComponent } from './product-add-delivery/product-add-
 import { ProductAddImagesComponent } from './product-add-images/product-add-images.component';
 import { ProductAddMoreComponent } from './product-add-more/product-add-more.component';
 import { ProductAddPricingComponent } from './product-add-pricing/product-add-pricing.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ProductMetaComponent } from './product-meta/product-meta.component';
 
 @NgModule({
   imports: [
@@ -23,7 +25,7 @@ import { ProductAddPricingComponent } from './product-add-pricing/product-add-pr
     ProductRoutingModule,
     NgbModule,
     ReactiveFormsModule,
-    SharedModule, FormsModule
+    SharedModule, FormsModule, HttpClientModule
   ],
   declarations: [
     ProductListComponent,
@@ -33,7 +35,8 @@ import { ProductAddPricingComponent } from './product-add-pricing/product-add-pr
     ProductAddDeliveryComponent,
     ProductAddImagesComponent,
     ProductAddMoreComponent,
-    ProductAddPricingComponent
+    ProductAddPricingComponent,
+    ProductMetaComponent
   ],
   providers: [ProductService, ValidatorExt]
 })

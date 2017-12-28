@@ -53,7 +53,7 @@ export class ProductAddComponent implements OnInit {
     if (!this.productId) {
       switch (event.nextId) {
         case 'tab-images':
-        case 'tab-more': event.preventDefault();
+        case 'tab-more': // event.preventDefault();
           break;
       }
     }
@@ -62,16 +62,19 @@ export class ProductAddComponent implements OnInit {
     if (prevTab === 'tab-delivery') {
       this.saveProduct().then(res => { });
     }
-    if (this.productId) {
-      switch (prevTab) {
-        case 'tab-category': this.status.category = true; this.ngbTabSet.select('tab-basic'); break;
-        case 'tab-basic': this.status.basic = true; this.ngbTabSet.select('tab-pricing'); break;
-        case 'tab-pricing': this.status.pricing = true; this.ngbTabSet.select('tab-delivery'); break;
-        case 'tab-delivery': this.status.delivery = true; this.ngbTabSet.select('tab-images'); break;
-        case 'tab-images': this.status.images = true; this.ngbTabSet.select('tab-more'); break;
-        case 'tab-more': this.status.more = true;
-          this.router.navigateByUrl('/product-list');
-          break;
+    switch (prevTab) {
+      case 'tab-category': this.status.category = true; this.ngbTabSet.select('tab-basic'); break;
+      case 'tab-basic': this.status.basic = true; this.ngbTabSet.select('tab-pricing'); break;
+      case 'tab-pricing': this.status.pricing = true; this.ngbTabSet.select('tab-delivery'); break;
+      case 'tab-delivery': this.status.delivery = true; this.ngbTabSet.select('tab-images'); break;
+
+      case 'tab-images': if (this.productId) {
+        this.status.images = true; this.ngbTabSet.select('tab-more');
+      } break;
+      case 'tab-more': if (this.productId) {
+        this.status.more = true;
+        this.router.navigateByUrl('/product-list');
+        break;
       }
     }
   }
@@ -82,6 +85,7 @@ export class ProductAddComponent implements OnInit {
         .saveProduct(this.product)
         .then(res => {
           this.productId = res.json().kalaUniqueId;
+          this.product.kalaUniqueId = this.productId;
           this.alert = { id: 1, type: 'success', message: 'Saved successfully', show: true };
           this.saveloader = false;
           resolve(this.productId);

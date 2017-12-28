@@ -1,24 +1,21 @@
 import { PostalAddress } from './retailer-business-adress';
 
 export class RetialerShippingProfile {
-    shippingProfile: ShippingProfile;
-    deliveryTiers: Array<ShippingDeliveryTier>;
-    shipOriginAddress: RetailerAddress;
-    shipLocations: ShippingLocations;
-    constructor() {
-        this.shippingProfile = new ShippingProfile();
-        this.deliveryTiers = new Array<ShippingDeliveryTier>();
-        this.shipOriginAddress = new RetailerAddress();
-        this.shipLocations = new ShippingLocations();
-    }
-}
-export class ShippingProfile {
     retailerId: number;
     shipId: number;
     sequence: number;
     profileName: string;
     deliveryOption: string;
+    deliveryTiers: Array<ShippingDeliveryTier>;
+    shipOriginAddress: RetailerAddress;
+    shipLocations: ShippingLocations;
+    constructor() {
+        this.deliveryTiers = new Array<ShippingDeliveryTier>();
+        this.shipOriginAddress = new RetailerAddress();
+        this.shipLocations = new ShippingLocations();
+    }
 }
+
 export class ShippingDeliveryTier {
     constructor() { }
     public tierName: string;

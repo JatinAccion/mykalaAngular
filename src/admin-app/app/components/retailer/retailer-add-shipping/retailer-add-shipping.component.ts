@@ -10,8 +10,7 @@ import {
   ShippingDeliveryTier,
   RetailerAddress,
   ShippingLocations,
-  ShippingSubLocation,
-  ShippingProfile,
+  ShippingSubLocation,  
   RetailerShippingMethodFee
 } from '../../../../../models/retailer-shipping-profile';
 import { IAlert } from '../../../../../models/IAlert';
@@ -198,9 +197,9 @@ export class RetailerAddShippingComponent implements OnInit {
       this.shippingObj.shipLocations.locationInclude.push(sublocation3);
     }
     this.shippingFG1 = this.formBuilder.group({
-      profileName: [this.shippingObj.shippingProfile.profileName,
+      profileName: [this.shippingObj.profileName,
       [Validators.pattern(environment.regex.textRegex), Validators.maxLength(255), Validators.required]],
-      deliveryOptions: [this.shippingObj.shippingProfile.deliveryOption, [Validators.maxLength(255), Validators.required]],
+      deliveryOptions: [this.shippingObj.deliveryOption, [Validators.maxLength(255), Validators.required]],
       tiers: this.formBuilder.array([])
     });
     this.shippingObj.deliveryTiers.forEach(ele => {
@@ -266,8 +265,7 @@ export class RetailerAddShippingComponent implements OnInit {
           this.retialerService
             .saveShipping(this.shippingObj)
             .then(res => {
-              this.shippingObj.shippingProfile = new ShippingProfile();
-              this.shippingObj.shippingProfile.retailerId = this.retailerId;
+              this.shippingObj.retailerId = this.retailerId;
               this.SaveData.emit('tab-Shipping');
               this.modified = false;
               this.alert = {
@@ -292,11 +290,10 @@ export class RetailerAddShippingComponent implements OnInit {
     return false;
   }
   readShipping() {
-    this.shippingObj.shippingProfile = new ShippingProfile();
-    this.shippingObj.shippingProfile.retailerId = this.retailerId;
-    this.shippingObj.shippingProfile.sequence = this.currentTabIndex;
-    this.shippingObj.shippingProfile.profileName = this.shippingFG1.value.profileName;
-    this.shippingObj.shippingProfile.deliveryOption = this.shippingFG1.value.deliveryOptions;
+    this.shippingObj.retailerId = this.retailerId;
+    this.shippingObj.sequence = this.currentTabIndex;
+    this.shippingObj.profileName = this.shippingFG1.value.profileName;
+    this.shippingObj.deliveryOption = this.shippingFG1.value.deliveryOptions;
     this.shippingObj.shipOriginAddress = new RetailerAddress();
     this.shippingObj.shipOriginAddress.addressLine1 = this.shippingFG3.value.addressLine1;
     this.shippingObj.shipOriginAddress.addressLine2 = this.shippingFG3.value.addressLine2;

@@ -1,0 +1,212 @@
+<div class="col-sm-12 p-0 " [formGroup]="fG1">
+    <div class="row">
+        <div class="col-sm-6 title">
+            <h1>Products Meta data</h1>
+        </div>
+        <div class="col-sm-6 mt-3 ">
+            <input placeholder="search for product by name" class="form-control txt_Search hide" type="search">
+        </div>
+    </div>
+    <div class="row">
+        <table class="table w-50 col-sm-6">
+            <tbody>
+                <tr>
+                    <td class="border-0">
+                        <select class="ddl_default form-control" [(ngModel)]="product.productPlaceName" formControlName="productPlaceName">
+                            <option>Home & Garden (546)</option>
+                            <option>Health & Fitness (321)</option>
+                        </select>
+                        <app-field-error-display [field]="fG1.controls.productPlaceName" [errorMsg]="errorMsgs"> </app-field-error-display>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border-0">
+                        <select class="ddl_default form-control" [(ngModel)]="product.productCategoryName" formControlName="productCategoryName">
+                            <option>Furniture &amp; Patio (162)</option>
+                            <option>Lighting (27)</option>
+                            <option>Lawn &amp; Garden (43)</option>
+                            <option>Supplies (50)</option>
+                            <option>Bedding &amp; Linens (13)</option>
+                            <option>Emergency &amp; Safety (11)</option>
+                            <option>Pool &amp; Spa (15)</option>
+                        </select>
+                        <app-field-error-display [field]="fG1.controls.productCategoryName" [errorMsg]="errorMsgs"> </app-field-error-display>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border-0">
+                        <select class="ddl_default form-control" [(ngModel)]="product.productSubCategoryName" formControlName="productSubCategoryName">
+                            <option>Lamps (3)</option>
+                            <option>Light Bulbs (3)</option>
+                            <option>Nightlights</option>
+                            <option>Light Ropes &amp; Srings</option>
+                            <option>Lighting Fixtures (4)</option>
+                            <option>Track Lighting</option>
+                            <option>Landscape Lighting (4)</option>
+                            <option>Emergency Lighting</option>
+                            <option>Flood &amp; Spot lights</option>
+                            <option>Lamp Shades</option>
+                            <option>Timers &amp; Accessories</option>
+                        </select>
+                        <app-field-error-display [field]="fG1.controls.productSubCategoryName" [errorMsg]="errorMsgs"> </app-field-error-display>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border-0">
+                        <select class="ddl_default form-control" [(ngModel)]="product.productTypeName" formControlName="productTypeName">
+                            <option>Table Lamps</option>
+                            <option>Floor Lamps</option>
+                            <option>Ceiling Lamps</option>
+                        </select>
+                        <app-field-error-display [field]="fG1.controls.productTypeName" [errorMsg]="errorMsgs"> </app-field-error-display>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row col-sm-6">
+            <div class="col-sm-12 mt-3 ">
+                <select class="ddl_default form-control" [(ngModel)]="product.productCategoryName" formControlName="productNextLevel">
+                    <option value=''>select</option>
+                    <option value='0'>Furniture &amp; Patio (162)</option>
+                    <option value='1'>Lighting (27)</option>
+                    <option value='2'>Lawn &amp; Garden (43)</option>
+                    <option value='3'>Supplies (50)</option>
+                    <option value='4'>Bedding &amp; Linens (13)</option>
+                    <option value='5'>Emergency &amp; Safety (11)</option>
+                    <option value='6'>Pool &amp; Spa (15)</option>
+                </select>
+                <app-field-error-display [field]="fG1.controls.productNextLevel" [errorMsg]="errorMsgs"> </app-field-error-display>
+            </div>
+            <div class="col-sm-8 mt-3 ">
+                <input placeholder="enter value" class="form-control " type="text">
+            </div>
+            <div class="col-sm-4 mt-3 ">
+                <input type="checkbox" />Searchable
+            </div>
+            <hr/>
+            <div class="text-right pb-3 col-sm-6">
+                <a class="btn btn-default" (click)="saveData()">Save</a>
+            </div>
+            <table class="table ">
+                <thead>
+                    <th>value</th>
+                    <th>searchable</th>
+                    <th colspan="3">actions</th>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td class="border-0">
+                            value1
+                        </td>
+                        <td>Yes/No</td>
+                        <td>
+                            <button type="button" class="btn btn-success btn-xs" (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                                <span class="fa fa-pencil"></span> edit
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-warning btn-xs" (click)="item.cancel()" [disabled]="!item.isUploading">
+                                <span class="fa fa-upload"></span> add child
+
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
+                                <span class="fa fa-trash"></span> delete
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border-0">
+                            value1
+                        </td>
+                        <td>Yes/No</td>
+                        <td>
+                            <button type="button" class="btn btn-success btn-xs" (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                                <span class="fa fa-pencil"></span> edit
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-warning btn-xs" (click)="item.cancel()" [disabled]="!item.isUploading">
+                                <span class="fa fa-upload"></span> add child
+
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
+                                <span class="fa fa-trash"></span> delete
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border-0">
+                            value1
+                        </td>
+                        <td>Yes/No</td>
+                        <td>
+                            <button type="button" class="btn btn-success btn-xs" (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                                <span class="fa fa-pencil"></span> edit
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-warning btn-xs" (click)="item.cancel()" [disabled]="!item.isUploading">
+                                <span class="fa fa-upload"></span> add child
+
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
+                                <span class="fa fa-trash"></span> delete
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border-0">
+                            value1
+                        </td>
+                        <td>Yes/No</td>
+                        <td>
+                            <button type="button" class="btn btn-success btn-xs" (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                                <span class="fa fa-pencil"></span> edit
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-warning btn-xs" (click)="item.cancel()" [disabled]="!item.isUploading">
+                                <span class="fa fa-upload"></span> add child
+
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
+                                <span class="fa fa-trash"></span> delete
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border-0">
+                            value1
+                        </td>
+                        <td>Yes/No</td>
+                        <td>
+                            <button type="button" class="btn btn-success btn-xs" (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                                <span class="fa fa-pencil"></span> edit
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-warning btn-xs" (click)="item.cancel()" [disabled]="!item.isUploading">
+                                <span class="fa fa-upload"></span> add child
+
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
+                                <span class="fa fa-trash"></span> delete
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

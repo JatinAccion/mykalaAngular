@@ -7,11 +7,6 @@ import { NgbTabset } from '@ng-bootstrap/ng-bootstrap/tabset/tabset';
 import { nameValue, IdNameParent } from '../../../../../models/nameValue';
 
 import { RetialerService } from '../retialer.service';
-import { RetailerProfileInfo, ProfileInfo } from '../../../../../models/retailer-profile-info';
-import { RetailerBuinessAddress } from '../../../../../models/retailer-business-adress';
-import { RetailerPrimaryContact } from '../../../../../models/retailer-contact';
-import { RetailerPaymentInfo, BankDetails } from '../../../../../models/retailer-payment-info';
-import { RetialerShippingProfile } from '../../../../../models/retailer-shipping-profile';
 import { IAlert } from '../../../../../models/IAlert';
 import { environment } from '../../../../environments/environment';
 import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
