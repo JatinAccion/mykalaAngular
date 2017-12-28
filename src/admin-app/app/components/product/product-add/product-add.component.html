@@ -1,6 +1,16 @@
 <ngb-alert *ngIf="alert.show" [type]="alert.type" (close)="closeAlert(alert)">{{ alert.message }}</ngb-alert>
-<div class="title col-sm-12">
-    <h1>Account Info</h1>
+<div class="title row">
+    <div class="col-sm-6">
+        <h1>Product Info</h1>
+    </div>
+    <div class="col-sm-3 mt-5 pr-4 topRightHeader"> 
+        <select class="ddl_default form-control">
+            <option>select seller</option>
+            <option>select seller1</option>
+            <option>select seller2</option>
+        </select> 
+    </div> 
+    <div class="col-sm-3"> </div> 
 </div>
 <div class="row ">
     <div class="col-sm-12 signup product_Tab">

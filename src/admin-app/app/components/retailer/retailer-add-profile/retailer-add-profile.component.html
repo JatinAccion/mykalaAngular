@@ -1,7 +1,5 @@
 <div [formGroup]="profileFG1" [ngClass]="{'show': profileInfoStep==1, 'hide': profileInfoStep!==1 }">
-    <label class="control-label" [ngClass]="validatorExt.displayFieldCss(profileFG1.controls.profileImage)">Business Logo</label>
-    <div class="form-group">
-    </div>
+    <label class="control-label" [ngClass]="validatorExt.displayFieldCss(profileFG1.controls.profileImage)">Business Logo</label> 
     <div class="input-group">
         <span class="input-group-btn w-100">
             <span class="btn btn-file draglogo">
@@ -18,7 +16,7 @@
         <input readonly="readonly" placeholder="Picture file" class="form-control hide" name="filename" type="text">
         <app-field-error-display [field]="profileFG1.controls.profileImage" [errorMsg]="errorMsgs"> </app-field-error-display>
     </div>
-    <div class="form-group">
+    <div class="form-group pt-2">
         <label class="control-label" [ngClass]="validatorExt.displayFieldCss(profileFG1.controls.businessName)">Business name</label>
         <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="businessName">
         <app-field-error-display [field]="profileFG1.controls.businessName" [errorMsg]="errorMsgs"> </app-field-error-display>
