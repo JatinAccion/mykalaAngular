@@ -4,7 +4,7 @@ import { SearchDataModal } from '../../home/searchData.modal';
 import { CoreService } from '../../../services/core.service';
 import { GetOfferModal } from '../getOffer.modal';
 import { Router } from '@angular/router';
-import { OfferInfo1 } from '../step1.modal';
+import { OfferInfo1 } from '../steps.modal';
 
 @Component({
   selector: 'app-step1',
@@ -23,6 +23,7 @@ export class Step1Component implements OnInit {
   Step1SelectedValues = { place: "", type: [], category: "", subcategory: "" };
   Step1Modal = new GetOfferModal();
   viewSavedData;
+  checkIfStored: boolean = false;
 
   constructor(
     private homeService: HomeService,
@@ -34,24 +35,36 @@ export class Step1Component implements OnInit {
     this.headerMessage = 'get offers';
     this.core.show(this.headerMessage);
     if (window.localStorage['GetOfferModal'] != undefined) {
+      this.checkIfStored = true;
       this.viewSavedData = JSON.parse(window.localStorage['GetOfferModal']).getoffer_1;
       for (var i = 0; i < this.viewSavedData.length; i++) {
         this.userResponse.place.push(this.viewSavedData[i].place);
         this.Step1SelectedValues.place = this.viewSavedData[i].place;
+        this.getPlaceId = this.viewSavedData[i].place.id;
         this.userResponse.category.push(this.viewSavedData[i].category);
         this.Step1SelectedValues.category = this.viewSavedData[i].category;
+        this.getCategoryId = this.viewSavedData[i].category.id;
         this.userResponse.subcategory.push(this.viewSavedData[i].subCategory);
-        this.Step1SelectedValues.subcategory = this.viewSavedData[i].subCategory
+        this.Step1SelectedValues.subcategory = this.viewSavedData[i].subCategory;
+        this.getSubcategoryId = this.viewSavedData[i].subCategory.id;
         for (var j = 0; j < this.viewSavedData[i].type.length; j++) {
           this.userResponse.type.push(this.viewSavedData[i].type[j]);
+          this.Step1SelectedValues.type.push(this.viewSavedData[i].type[j]);
         }
       }
     }
     else {
       this.userResponse.place.push(this.levelSelection.place);
+      this.Step1SelectedValues.place = this.levelSelection.place;
       this.userResponse.type.push(this.levelSelection.type);
       this.userResponse.category.push(this.levelSelection.category);
+      this.Step1SelectedValues.category = this.levelSelection.category;
       this.userResponse.subcategory.push(this.levelSelection.subcategory);
+      this.Step1SelectedValues.subcategory = this.levelSelection.subcategory;
+      this.Step1SelectedValues.type.push(this.levelSelection.type);
+      this.getPlaceId = this.levelSelection.place.id;
+      this.getCategoryId = this.levelSelection.category.id;
+      this.getSubcategoryId = this.levelSelection.subcategory.id;
     }
   }
 
@@ -99,6 +112,7 @@ export class Step1Component implements OnInit {
       this.Step1SelectedValues.category = obj;
     }
     else if (elemName == 'subcategory') {
+      this.checkIfStored = false;
       this.getSubcategoryId = obj.id;
       this.getType();
       this.clearItems(elemName);
@@ -154,10 +168,12 @@ export class Step1Component implements OnInit {
     }
     else if (elemName == 'subcategory') {
       this.userResponse.type = [];
+      this.Step1SelectedValues.type = [];
     }
   };
 
   next() {
+    this.checkIfStored = true;
     this.Step1Modal.getoffer_1 = new Array<OfferInfo1>();
     this.Step1Modal.getoffer_1.push(new OfferInfo1(this.Step1SelectedValues.place, this.Step1SelectedValues.category, this.Step1SelectedValues.subcategory, this.Step1SelectedValues.type));
     window.localStorage['GetOfferModal'] = JSON.stringify(this.Step1Modal);

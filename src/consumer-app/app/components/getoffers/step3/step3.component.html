@@ -1,3 +1,82 @@
-<p>
-  step3 works!
-</p>
+<div class="title mb-4">
+  <h2>get offers
+    <span class="colorGray"> Step 3/4: basic info</span> |
+    <span class="btnClose">
+      <a routerLink="/browse-product" onclick="activate()">X</a>
+    </span>
+  </h2>
+</div>
+
+<div class="col-sm-12 p-0">
+  <div class="row">
+    <div class="col-sm-2 colorlightGray">
+      <p>Price range:</p>
+    </div>
+    <div class="col-sm-8">
+      <div class="categ_outline_gray mr-2">$ 0</div>
+      <div class="categ_outline_red mr-2">$ 150</div>
+    </div>
+    <div class="col-sm-2"></div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-10">
+      <input id="ex16b" type="text" />
+    </div>
+  </div>
+
+  <hr />
+
+  <div class="row">
+    <div class="col-sm-2 colorlightGray">
+      <p>Delivery:</p>
+    </div>
+    <div class="col-sm-8">
+      <div class="categ_outline_gray mr-2">in-store pick up</div>
+      <div class="categ_outline_red mr-2">1 - 5 days delivery</div>
+      <div class="categ_outline_gray mr-2">2 business days delivery</div>
+    </div>
+    <div class="col-sm-2"></div>
+  </div>
+
+  <hr />
+
+  <div class="row">
+    <div class="col-sm-2 colorlightGray">
+      <p>Zip code:</p>
+    </div>
+    <div class="col-sm-8">
+      <div>
+        <div class="categ_outline_red mr-2">02476</div>
+        <div class="categ_outline_red mr-2 noBackground colorred">+</div>
+      </div>
+    </div>
+    <div class="col-sm-2"></div>
+  </div>
+
+  <hr />
+
+  <div class="row">
+    <div class="col-sm-2 colorlightGray">
+      <p>Special instructions:</p>
+    </div>
+    <div class="col-sm-8">
+      <textarea class="splInst_getoffer" placeholder="message the retailer..."> </textarea>
+    </div>
+    <div class="col-sm-2"></div>
+  </div>
+
+  <hr />
+</div>
+
+<div class="clearfix">&nbsp;</div>
+
+<div class="row">
+  <div class="col-sm-6">
+    <a (click)="prev()" class="colorred">back</a>
+  </div>
+  <div class="col-sm-6 text-right">
+    <a (click)="next()" class="btn btn_red_right pr-5 pl-5">next step</a>
+  </div>
+</div>

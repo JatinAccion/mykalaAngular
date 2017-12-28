@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-step4',
@@ -8,9 +9,19 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 })
 export class Step4Component implements OnInit {
 
-  constructor() { }
+  constructor(
+    private route: Router
+  ) { }
 
   ngOnInit() {
   }
+
+  prev() {
+    this.route.navigate(['/getoffer', 'step3']);
+  };
+
+  next() {
+    console.log("Confirmed:::::::::::::::::")
+  };
 
 }
