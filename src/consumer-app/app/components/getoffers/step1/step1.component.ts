@@ -34,9 +34,9 @@ export class Step1Component implements OnInit {
   ngOnInit() {
     this.headerMessage = 'get offers';
     this.core.show(this.headerMessage);
-    if (window.localStorage['GetOfferModal'] != undefined) {
+    if (window.localStorage['GetOfferStep_1'] != undefined) {
       this.checkIfStored = true;
-      this.viewSavedData = JSON.parse(window.localStorage['GetOfferModal']).getoffer_1;
+      this.viewSavedData = JSON.parse(window.localStorage['GetOfferStep_1']);
       for (var i = 0; i < this.viewSavedData.length; i++) {
         this.userResponse.place.push(this.viewSavedData[i].place);
         this.Step1SelectedValues.place = this.viewSavedData[i].place;
@@ -65,6 +65,7 @@ export class Step1Component implements OnInit {
       this.getPlaceId = this.levelSelection.place.id;
       this.getCategoryId = this.levelSelection.category.id;
       this.getSubcategoryId = this.levelSelection.subcategory.id;
+      this.getType();
     }
   }
 
@@ -122,7 +123,8 @@ export class Step1Component implements OnInit {
     else {
       e.currentTarget.className = "categ_outline_red mr-2";
       for (var i = 0; i < this.Step1SelectedValues.type.length; i++) {
-        if (this.Step1SelectedValues.type[i].name == obj.name) {
+        if(this.Step1SelectedValues.type[i].length == 0) this.Step1SelectedValues.type.splice(i, 1);
+        else if (this.Step1SelectedValues.type[i].name == obj.name) {
           this.Step1SelectedValues.type.splice(i, 1);
           e.currentTarget.className = "categ_outline_gray mr-2";
           return false;
@@ -176,7 +178,7 @@ export class Step1Component implements OnInit {
     this.checkIfStored = true;
     this.Step1Modal.getoffer_1 = new Array<OfferInfo1>();
     this.Step1Modal.getoffer_1.push(new OfferInfo1(this.Step1SelectedValues.place, this.Step1SelectedValues.category, this.Step1SelectedValues.subcategory, this.Step1SelectedValues.type));
-    window.localStorage['GetOfferModal'] = JSON.stringify(this.Step1Modal);
+    window.localStorage['GetOfferStep_1'] = JSON.stringify(this.Step1Modal.getoffer_1);
     this.route.navigate(['/getoffer', 'step2']);
   };
 

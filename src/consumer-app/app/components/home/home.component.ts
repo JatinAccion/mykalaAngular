@@ -22,7 +22,10 @@ export class HomeComponent implements OnInit {
   constructor(private routerOutlet: RouterOutlet, private router: Router, private homeService: HomeService, private core: CoreService) { }
 
   ngOnInit() {
-    localStorage.removeItem('GetOfferModal');
+    localStorage.removeItem('GetOfferStep_1');
+    localStorage.removeItem('GetOfferStep_2');
+    localStorage.removeItem('GetOfferStep_3');
+    localStorage.removeItem('GetOfferStep_4');
     this.core.hide();
     this.core.searchMsgToggle();
     if (window.localStorage['token'] == undefined) this.core.clearUser();

@@ -7,68 +7,95 @@
   </h2>
 </div>
 
-<div class="col-sm-12 p-0">
-  <div class="row">
-    <div class="col-sm-2 colorlightGray">
-      <p>Price range:</p>
-    </div>
-    <div class="col-sm-8">
-      <div class="categ_outline_gray mr-2">$ 0</div>
-      <div class="categ_outline_red mr-2">$ 150</div>
-    </div>
-    <div class="col-sm-2"></div>
-  </div>
-
-  <div class="row">
-    <div class="col-sm-2"></div>
-    <div class="col-sm-10">
-      <input id="ex16b" type="text" />
-    </div>
-  </div>
-
-  <hr />
-
-  <div class="row">
-    <div class="col-sm-2 colorlightGray">
-      <p>Delivery:</p>
-    </div>
-    <div class="col-sm-8">
-      <div class="categ_outline_gray mr-2">in-store pick up</div>
-      <div class="categ_outline_red mr-2">1 - 5 days delivery</div>
-      <div class="categ_outline_gray mr-2">2 business days delivery</div>
-    </div>
-    <div class="col-sm-2"></div>
-  </div>
-
-  <hr />
-
-  <div class="row">
-    <div class="col-sm-2 colorlightGray">
-      <p>Zip code:</p>
-    </div>
-    <div class="col-sm-8">
-      <div>
-        <div class="categ_outline_red mr-2">02476</div>
-        <div class="categ_outline_red mr-2 noBackground colorred">+</div>
+<form [formGroup]="getOffer_orderInfo">
+  <div class="col-sm-12 p-0">
+    <div class="row">
+      <div class="col-sm-2 colorlightGray">
+        <p>Price range:</p>
       </div>
+      <div class="col-sm-8">
+        <span style="position: relative">
+          <span class="currencySymbol">$</span>
+          <input formControlName="minPrice" onkeypress='return event.charCode >= 48 && event.charCode <= 57' type="text" style="padding-left: 30px" class="categ_outline_red w-20 mr-2" />
+        </span>
+        <span style="position: relative">
+          <span class="currencySymbol">$</span>
+          <input formControlName="maxPrice" onkeypress='return event.charCode >= 48 && event.charCode <= 57' type="text" style="padding-left: 30px" class="categ_outline_red w-20 mr-2" />
+        </span>
+      </div>
+      <div class="col-sm-2"></div>
     </div>
-    <div class="col-sm-2"></div>
+
+    <!-- <div class="row">
+      <div class="col-sm-2"></div>
+      <div class="col-sm-10">
+        <input formControlName="range" type="range" multiple min="0" step="1" max="10" data-value="1 9">
+      </div>
+    </div> -->
+
+    <hr />
+
+    <div class="row">
+      <div class="col-sm-2 colorlightGray">
+        <p>Delivery:</p>
+      </div>
+      <div class="col-sm-8">
+        <input id="instorepickup" type="radio" formControlName="delivery" name="delivery" value="in-store pick up" />
+        <label class="categ_outline_gray mr-2" for="instorepickup">in-store pick up</label>
+        <input id="onefivedaysdelivery" type="radio" formControlName="delivery" name="delivery" value="1 - 5 days delivery" />
+        <label class="categ_outline_gray mr-2" for="onefivedaysdelivery">1 - 5 days delivery</label>
+        <input id="twobusinessdaysdelivery" type="radio" formControlName="delivery" name="delivery" value="2 business days delivery" />
+        <label class="categ_outline_gray mr-2" for="twobusinessdaysdelivery">2 business days delivery</label>
+      </div>
+      <div class="col-sm-2"></div>
+    </div>
+
+    <hr />
+
+    <div class="row">
+      <div class="col-sm-2 colorlightGray">
+        <p>Zip code:</p>
+      </div>
+      <div class="col-sm-8">
+        <div>
+          <div class="categ_outline_red text-center mr-2">02476</div>
+          <span *ngIf="inputNewLocation" style="position: relative;">
+            <input (keyup)="_keuyp($event)" onkeypress='return event.charCode >= 48 && event.charCode <= 57' formControlName="zipCode" type="text" class="categ_outline_red text-center w-15 mr-2" />
+            <img style="top:5px; right:20px" width="15" src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2" *ngIf="loaderLocation" />
+          </span>
+          <div style="cursor: pointer" (click)="addNewLocation($event)" class="categ_outline_red mr-2 noBackground colorred">+</div>
+          
+          <p class="clearfix colorlightGray">
+            {{fetchGeoCode}}
+          </p>
+          
+          <!--Validation-->
+          <div *ngIf="getOffer_orderInfo.controls.zipCode.dirty || getOffer_orderInfo.controls.zipCode.touched">
+            <div *ngIf="getOffer_orderInfo.controls.zipCode.value && getOffer_orderInfo.controls.zipCode.errors && (!getOffer_orderInfo.controls.zipCode.minlength || !getOffer_orderInfo.controls.zipCode.maxlength)" class="alert alert-danger errorMessages">
+              Please enter the valid zip code
+            </div>
+          </div>
+          <!--Validation-->
+        </div>
+      </div>
+      <div class="col-sm-2"></div>
+    </div>
+
+    <hr />
+
+    <div class="row">
+      <div class="col-sm-2 colorlightGray">
+        <p>Special instructions:</p>
+      </div>
+      <div class="col-sm-8">
+        <textarea formControlName="instruction" class="splInst_getoffer"></textarea>
+      </div>
+      <div class="col-sm-2"></div>
+    </div>
+
+    <hr />
   </div>
-
-  <hr />
-
-  <div class="row">
-    <div class="col-sm-2 colorlightGray">
-      <p>Special instructions:</p>
-    </div>
-    <div class="col-sm-8">
-      <textarea class="splInst_getoffer" placeholder="message the retailer..."> </textarea>
-    </div>
-    <div class="col-sm-2"></div>
-  </div>
-
-  <hr />
-</div>
+</form>
 
 <div class="clearfix">&nbsp;</div>
 
