@@ -3,21 +3,20 @@
     <div class="input-group">
         <span class="input-group-btn w-100">
             <span class="btn btn-file draglogo">
-                <div class="p-3 text-center">
-                    <div class=" text-center">Drag your Logo here</div>
-                    or
-                    <div class=" text-center">Select..
-                        <p> {{ fileName}} </p>
-                    </div>
+                <div class="row p-2 text-center">
+                    <div class="col-sm-12 text-center">Drag your Logo here</div>
+                    <div class="col-sm-12 text-center">or</div> 
+                    <div class="col-sm-12  text-center">Select..</div>
+                    <div class="col-sm-12 text-center"> {{ fileName}} </div> 
                 </div>
                 <input formControlName="profileImage" accept="image/jpeg" (change)="fileChangeEvent($event, profileFG1)" type="file" class="uploadImage" />
             </span>
         </span>
         <input readonly="readonly" placeholder="Picture file" class="form-control hide" name="filename" type="text">
-        <app-field-error-display [field]="profileFG1.controls.fileName" [errorMsg]="errorMsgs"> </app-field-error-display>
     </div>
+    <div class="col-sm-12 p-0"><app-field-error-display [field]="profileFG1.controls.fileName" [errorMsg]="errorMsgs"> </app-field-error-display></div>
     <div class="form-group pt-2">
-        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(profileFG1.controls.businessName)">Business name</label>
+        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(profileFG1.controls.businessName)">Business Name</label>
         <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="businessName">
         <app-field-error-display [field]="profileFG1.controls.businessName" [errorMsg]="errorMsgs"> </app-field-error-display>
     </div>
@@ -30,7 +29,7 @@
 
     </div>
     <div class="form-group">
-        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(profileFG1.controls.businessSummary)">Business summary </label>
+        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(profileFG1.controls.businessSummary)">Business Summary </label>
         <small class="float-right">{{ validatorExt.remainingCharacters(profileFG1.controls.businessSummary, 300) }} characters left</small>
         <!-- <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="businessSummary"> -->
         <textarea class="form-control h-50 txt w-100" pattern formControlName="businessSummary"></textarea>
@@ -131,7 +130,23 @@
         <!--Validation-->
     </div>
     <hr />
-    <h5>Primary account contact</h5>
+    <h5>
+        Contacts 
+    </h5>
+    <div class="form-group">
+        <div class="input-group">
+            <input aria-describedby=" " class="form-control" formcontrolname="Length" pattern="" placeholder="" type="text">
+            <span class="input-group-addon" id="basic-addon1">
+                <select class="ddl_Product">
+                    <option>Primary contact</option>
+                    <option>General contact</option>
+                    <option>Billing contact</option>
+                    <option>Shipping contact</option>
+                    <option>Others</option>
+                </select>
+            </span>
+        </div>
+    </div>
     <div class="form-group">
         <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Name" pattern formControlName="contact_name">
         <!--Validation-->
