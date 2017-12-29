@@ -81,7 +81,7 @@ export class Step3Component implements OnInit {
   };
 
   prev() {
-    //this.route.navigate(['/getoffer', 'step2']);
+    this.route.navigate(['/getoffer', 'step2']);
   };
 
   next() {

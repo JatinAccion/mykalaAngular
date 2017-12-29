@@ -16,6 +16,7 @@ export class BrowseProductComponent implements OnInit {
   categoryList = [];
   loader: boolean = false;
   loaderCategory: boolean;
+  loadersubCategory: boolean;
   @Output() selectTile = new EventEmitter<any>();
   headerMessage: string;
   showSubMenu: boolean;
@@ -40,11 +41,12 @@ export class BrowseProductComponent implements OnInit {
   }
 
   openNav() {
+    this.categoryList = [];
     this.loaderCategory = true;
     document.getElementById("mySidenav").style.width = "300px";
     this.homeService.getTilesCategory(this.selectedTilesData.place.id).subscribe(res => {
       this.loaderCategory = false;
-      this.categoryList = res;
+      for (var i = 0; i < res.length; i++) this.categoryList.push(new SearchDataModal(res[i].categoryId, res[i].categoryName, res[i].categoryName, "2"));
     });
   };
 
@@ -53,13 +55,14 @@ export class BrowseProductComponent implements OnInit {
   };
 
   loadSubcategory(e, object) {
+    this.loadersubCategory = true;
     this.selectedCategoryData = object;
     this.subCategory = [];
-    var cat_subMenu = <HTMLElement>document.getElementsByClassName('cat_subMenu')[0];
-    cat_subMenu.style.display = 'none';
-    if (e.currentTarget.nextElementSibling.style.display == 'block') e.currentTarget.nextElementSibling.style.display = 'none';
-    else e.currentTarget.nextElementSibling.style.display = 'block';
-    this.homeService.getTilesSubCategory(object.categoryId).subscribe(res => {
+    e.currentTarget.nextElementSibling.style.display = 'block';
+    e.currentTarget.parentElement.parentElement.previousElementSibling.firstElementChild.lastElementChild.style.display = 'none';
+    e.currentTarget.parentElement.parentElement.nextElementSibling.firstElementChild.lastElementChild.style.display = 'none';
+    this.homeService.getTilesSubCategory(object.id).subscribe(res => {
+      this.loadersubCategory = false;
       for (var i = 0; i < res.length; i++) this.subCategory.push(new SearchDataModal(res[i].subCategoryId, res[i].subCategoryName, res[i].subCategoryName, "3"));
     });
   };
@@ -69,10 +72,11 @@ export class BrowseProductComponent implements OnInit {
     updateStorage.subcategory.id = subcategory.id;
     updateStorage.subcategory.name = subcategory.name;
     updateStorage.subcategory.text = subcategory.text;
-    updateStorage.category.id = this.selectedCategoryData.categoryId;
-    updateStorage.category.name = this.selectedCategoryData.categoryName;
-    updateStorage.category.text = this.selectedCategoryData.categoryName;
+    updateStorage.category.id = this.selectedCategoryData.id;
+    updateStorage.category.name = this.selectedCategoryData.name;
+    updateStorage.category.text = this.selectedCategoryData.text;
     window.localStorage['levelSelections'] = JSON.stringify(updateStorage);
+    this.subCategory = [];
     this.closeNav();
     this.loadTypes();
   }

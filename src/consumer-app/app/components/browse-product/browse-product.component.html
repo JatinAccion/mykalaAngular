@@ -5,8 +5,9 @@
     <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
     <ul class="category_tiles" *ngFor="let category of categoryList">
         <li>
-            <span (click)="loadSubcategory($event, category)" class="pr-3">{{category.categoryName}}</span>
+            <span (click)="loadSubcategory($event, category)" class="pr-3">{{category.name}}</span>
             <ul class="cat_subMenu">
+                    <img src="/consumer-app/assets/images/loader_2.gif" style="margin: 10% 46% 0%" *ngIf="loadersubCategory" />
                 <li *ngFor="let subcategory of subCategory" (click)="refreshSubcategory(subcategory)">{{subcategory.name}}</li>
             </ul>
         </li>
