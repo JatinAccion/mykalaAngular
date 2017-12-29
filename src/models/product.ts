@@ -1,5 +1,7 @@
 export class Product {
     public retailerId: number;
+    public retailerName: string;
+
     public kalaUniqueId: string;
     public productSkuCode: string;
     public productUpcCode: string;

@@ -3,14 +3,19 @@
     <div class="col-sm-6">
         <h1>Product Info</h1>
     </div>
-    <div class="col-sm-3 mt-5 pr-4 topRightHeader"> 
-        <select class="ddl_default form-control">
-            <option>select seller</option>
-            <option>select seller1</option>
-            <option>select seller2</option>
-        </select> 
-    </div> 
-    <div class="col-sm-3"> </div> 
+    <div [formGroup]="fG1" class="col-sm-3 mt-5 pr-4 topRightHeader">
+        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.retailer)">Seller</label>
+        <select class="ddl_default w-100 form-control" formControlName="retailer" [(ngModel)]="retailer" (change)="selectSeller($event)">
+            <option [ngValue]="null">Select Seller</option>
+            <option *ngFor="let option of retailers" [ngValue]="option">
+                {{option.businessName}}
+            </option>
+        </select>
+        <!--Validation-->
+        <app-field-error-display [field]="fG1.controls.retailer" [errorMsg]="errorMsgs"> </app-field-error-display>
+        <!--Validation-->
+    </div>
+    <div class="col-sm-3"> </div>
 </div>
 <div class="row ">
     <div class="col-sm-12 signup product_Tab">

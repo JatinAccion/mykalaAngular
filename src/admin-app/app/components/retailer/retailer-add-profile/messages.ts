@@ -4,6 +4,7 @@ export const userMessages = {
 };
 export const inputValidations = {
     'profileImage': { required: 'Please select  Business Logo', error: 'Please select Business Logo' },
+    'fileName': { required: 'Please select  Business Logo', error: 'Please select Business Logo' },
     'businessName': { required: 'Please enter Business Name ', error: 'Please enter valid Business Name' },
     'tin': { required: 'Please enter Tin', error: 'Please enter valid TIN' },
     'businessSummary': { required: 'Please enter Business Summary', error: 'Please enter valid Business Summary' },

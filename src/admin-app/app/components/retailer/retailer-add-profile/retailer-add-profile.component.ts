@@ -64,6 +64,7 @@ export class RetailerAddProfileComponent implements OnInit {
   setFormValidators() {
     this.profileFG1 = this.formBuilder.group({
       profileImage: [''],
+      fileName: ['', [Validators.required]],
       businessName: ['', [Validators.pattern(environment.regex.nameRegex), Validators.maxLength(255), Validators.required]],
       tin: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
       businessSummary: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
@@ -99,8 +100,11 @@ export class RetailerAddProfileComponent implements OnInit {
     });
   }
   profileInfoNext() {
-    this.profileInfoStep = 2;
     this.readProfileInfo();
+    this.validatorExt.validateAllFormFields(this.profileFG1);
+    if (this.profileFG1.valid) {
+      this.profileInfoStep = 2;
+    }
   }
   profileInfoBack() {
     this.profileInfoStep = 1;
@@ -198,6 +202,7 @@ export class RetailerAddProfileComponent implements OnInit {
 
       reader.readAsDataURL(fileInput.target.files[0]);
       this.fileName = fileInput.target.files[0].name;
+      this.profileFG1.controls.fileName.patchValue(this.fileName);
     }
   }
   getProfileInfo(retailerId) {

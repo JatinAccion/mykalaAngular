@@ -4,7 +4,7 @@
             <tr>
                 <td class="border-0">
                     <select class="ddl_default form-control" [(ngModel)]="product.productPlaceName" formControlName="productPlaceName">
-                        <option>Home & Garden (546)</option>
+                        <option value=''>Home & Garden (546)</option>
                         <option>Health & Fitness (321)</option>
                     </select>
                     <app-field-error-display [field]="fG1.controls.productPlaceName" [errorMsg]="errorMsgs"> </app-field-error-display>
@@ -13,7 +13,7 @@
             <tr>
                 <td class="border-0">
                     <select class="ddl_default form-control" [(ngModel)]="product.productCategoryName" formControlName="productCategoryName">
-                        <option>Furniture &amp; Patio (162)</option>
+                        <option value=''>Furniture &amp; Patio (162)</option>
                         <option>Lighting (27)</option>
                         <option>Lawn &amp; Garden (43)</option>
                         <option>Supplies (50)</option>
@@ -27,7 +27,7 @@
             <tr>
                 <td class="border-0">
                     <select class="ddl_default form-control" [(ngModel)]="product.productSubCategoryName" formControlName="productSubCategoryName">
-                        <option>Lamps (3)</option>
+                        <option value=''>Lamps (3)</option>
                         <option>Light Bulbs (3)</option>
                         <option>Nightlights</option>
                         <option>Light Ropes &amp; Srings</option>
@@ -45,7 +45,7 @@
             <tr>
                 <td class="border-0">
                     <select class="ddl_default form-control" [(ngModel)]="product.productTypeName" formControlName="productTypeName">
-                        <option>Table Lamps</option>
+                        <option value=''>Table Lamps</option>
                         <option>Floor Lamps</option>
                         <option>Ceiling Lamps</option>
                     </select>

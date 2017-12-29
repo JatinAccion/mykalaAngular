@@ -4,14 +4,16 @@ import { ProductInfo } from './product-info';
 import { RetialerShippingProfile } from './retailer-shipping-profile';
 
 export class Retailer {
-    constructor(obj: any) {
-        this.retailerId = obj.retailerId;
-        this.businessName = obj.businessName;
-        this.businessLogoPath = `https://s3.us-east-2.amazonaws.com/${obj.businessLogoPath}`;
-        this.city = obj.city;
-        this.state = obj.state;
-        this.country = obj.country;
-        this.reports = new RetailerReports(obj.reports);
+    constructor(obj?: any) {
+        if (obj) {
+            this.retailerId = obj.retailerId;
+            this.businessName = obj.businessName;
+            this.businessLogoPath = `https://s3.us-east-2.amazonaws.com/${obj.businessLogoPath}`;
+            this.city = obj.city;
+            this.state = obj.state;
+            this.country = obj.country;
+            this.reports = new RetailerReports(obj.reports);
+        }
     }
     public retailerId: number;
     public businessName: string;

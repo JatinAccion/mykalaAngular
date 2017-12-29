@@ -10,6 +10,9 @@ import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 import { IAlert } from '../../../../../models/IAlert';
 import { Product } from '../../../../../models/Product';
 import { Promise } from 'q';
+import { RetialerService } from '../../retailer/retialer.service';
+import { Retailer } from '../../../../../models/retailer';
+import { inputValidations } from './messages';
 // #endregion imports
 
 
@@ -20,12 +23,16 @@ import { Promise } from 'q';
   encapsulation: ViewEncapsulation.None
 })
 export class ProductAddComponent implements OnInit {
+  retailers: Array<Retailer>;
+  retailer = new Retailer();
+  fG1: FormGroup;
   saveloader: boolean;
   // #region declarations
   productId = '';
   product = new Product();
   @ViewChild('tabs') ngbTabSet: NgbTabset;
   alert: IAlert = { id: 1, type: 'success', message: '', show: false };
+  errorMsgs = inputValidations;
   status = {
     category: false,
     basic: false,
@@ -41,12 +48,35 @@ export class ProductAddComponent implements OnInit {
     private router: Router,
     route: ActivatedRoute,
     private productService: ProductService,
+    private retialerService: RetialerService,
     private validatorExt: ValidatorExt
   ) {
     //this.productId = route.snapshot.params['id'];
+    this.retailers = new Array<Retailer>();
   }
   ngOnInit() {
     this.setActiveTab({ nextId: 'tab-category' });
+    this.setFormValidators();
+    this.getRetailersData();
+  }
+  setFormValidators() {
+    this.fG1 = this.formBuilder.group({
+      retailer: ['', [Validators.required]],
+    });
+  }
+  getRetailersData() {
+    this.retialerService.get(null).subscribe((res) => {
+      return res.forEach(obj => { this.retailers.push(new Retailer(obj)); });
+    });
+  }
+  selectSeller(e) {
+    if (this.retailer) {
+      this.product.retailerId = this.retailer.retailerId;
+      this.product.retailerName = this.retailer.businessName;
+    } else {
+      this.product.retailerId = null;
+      this.product.retailerName = '';
+    }
   }
   setActiveTab(event) {
     // if (!this.productId && event.nextId !== 'tab-category') { event.preventDefault(); return; }
@@ -58,10 +88,14 @@ export class ProductAddComponent implements OnInit {
       }
     }
   }
-  showNextTab(prevTab) {
+  saveProductAndShowNext(prevTab) {
     if (prevTab === 'tab-delivery') {
-      this.saveProduct().then(res => { });
+      this.saveProduct().then(res => {
+        this.showNextTab(prevTab);
+       });
     }
+  }
+  showNextTab(prevTab) {   
     switch (prevTab) {
       case 'tab-category': this.status.category = true; this.ngbTabSet.select('tab-basic'); break;
       case 'tab-basic': this.status.basic = true; this.ngbTabSet.select('tab-pricing'); break;

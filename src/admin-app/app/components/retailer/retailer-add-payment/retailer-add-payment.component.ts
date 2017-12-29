@@ -95,8 +95,11 @@ export class RetailerAddPaymentComponent implements OnInit {
 
   }
   paymentInfoNext() {
-    this.paymentInfoStep = 2;
     this.readPaymenInfo();
+    this.validatorExt.validateAllFormFields(this.paymentFG1);
+    if (this.paymentFG1.valid) {
+      this.paymentInfoStep = 2;      
+    }
   }
   paymentInfoBack() {
     this.paymentInfoStep = 1;
