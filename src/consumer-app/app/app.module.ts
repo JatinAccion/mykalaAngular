@@ -51,6 +51,7 @@ import { Step1Component } from './components/getoffers/step1/step1.component';
 import { Step2Component } from './components/getoffers/step2/step2.component';
 import { Step3Component } from './components/getoffers/step3/step3.component';
 import { Step4Component } from './components/getoffers/step4/step4.component';
+import { GetOfferService } from './services/getOffer.service';
 
 @NgModule({
   declarations: [
@@ -90,7 +91,7 @@ import { Step4Component } from './components/getoffers/step4/step4.component';
     SidebarModule.forRoot()
   ],
   providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, ConversationalService, JoinKalaService,
-    ProfileInfoService, VerificationService, LocalStorageService, ConsumerInterestService, ResetPasswordService, ForgotPasswordService,
+    ProfileInfoService, VerificationService, LocalStorageService, ConsumerInterestService, ResetPasswordService, ForgotPasswordService, GetOfferService,
     { provide: NgbDateParserFormatter, useClass: NgbDateFRParserFormatter }],
   bootstrap: [AppComponent],
   entryComponents: [cmsgComponent, HomeComponent, cListComponent, JoinKalaComponent, LoginComponent]

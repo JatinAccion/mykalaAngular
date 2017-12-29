@@ -14,15 +14,8 @@ export class OfferInfo2 {
 }
 export class OfferInfo3 {
     constructor(
-        public place: string,
-        public category: string,
-        public subCategory: string,
-        public type: Array<any>) { }
-}
-export class OfferInfo4 {
-    constructor(
-        public place: string,
-        public category: string,
-        public subCategory: string,
-        public type: Array<any>) { }
+        public priceRange: any,
+        public delivery: string,
+        public instruction: string,
+        public location: Array<any>) { }
 }
