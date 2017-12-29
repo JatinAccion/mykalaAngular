@@ -4,7 +4,7 @@
             <tr>
                 <td class="border-0">
                     <angular2-multiselect [data]="places" [(ngModel)]="selectedPlaces" 
-                        [settings]="placeSettings" 
+                        [settings]="placesSettings" 
                         (onSelect)="onPlaceSelect($event)"
                         (onDeSelect)="onPlaceDeSelect($event)" 
                         (onSelectAll)="onPlaceSelectAll($event)" 
@@ -50,9 +50,10 @@
             </tr>
             <tr>
                 <td colspan="2" class="border-0">
-                    <span class="productSelect_gray">Table Lamps
-                        <a href="#" class="categ_close">x</a>
-                    </span>
+                    <div *ngFor="let item of selectedProductTypes" >
+                        <span class="productSelect_gray">{{item.itemName}}
+                        </span>
+                    </div>
                 </td>
             </tr>
         </tbody>

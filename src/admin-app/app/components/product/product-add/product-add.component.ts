@@ -92,10 +92,10 @@ export class ProductAddComponent implements OnInit {
     if (prevTab === 'tab-delivery') {
       this.saveProduct().then(res => {
         this.showNextTab(prevTab);
-       });
+      });
     }
   }
-  showNextTab(prevTab) {   
+  showNextTab(prevTab) {
     switch (prevTab) {
       case 'tab-category': this.status.category = true; this.ngbTabSet.select('tab-basic'); break;
       case 'tab-basic': this.status.basic = true; this.ngbTabSet.select('tab-pricing'); break;

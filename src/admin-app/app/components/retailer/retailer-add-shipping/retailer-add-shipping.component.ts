@@ -10,7 +10,7 @@ import {
   ShippingDeliveryTier,
   RetailerAddress,
   ShippingLocations,
-  ShippingSubLocation,  
+  ShippingSubLocation,
   RetailerShippingMethodFee
 } from '../../../../../models/retailer-shipping-profile';
 import { IAlert } from '../../../../../models/IAlert';
@@ -44,7 +44,6 @@ export class RetailerAddShippingComponent implements OnInit {
   shippingFG1 = new FormGroup({});
   shippingFG2 = new FormGroup({});
   shippingFG3 = new FormGroup({});
-  step = 1;
   shippingObj = new RetialerShippingProfile();
   errorMsgs = inputValidations;
   saveLoader = true;
@@ -139,7 +138,7 @@ export class RetailerAddShippingComponent implements OnInit {
     const fg = this.formBuilder.group({
       shippingMethodId: shippingMethodId,
       shippingName: shippingName,
-      selected: false,
+      selected: true,
       disabled: false,
       charges: this.formBuilder.array([])
     });
@@ -243,23 +242,29 @@ export class RetailerAddShippingComponent implements OnInit {
     });
   }
   shippingNext() {
-    this.step++;
     this.readShipping();
-    if (this.step === 2) { this.setValidatorsFG2(); }
-    if (this.step === 4) { this.step = 3; }
+    if (this.shippingObj.step === 1) {
+      this.validatorExt.validateAllFormFields(this.shippingFG1);
+      if (this.shippingFG1.valid) { this.shippingObj.step++; }
+    } else if (this.shippingObj.step === 2) {
+      this.validatorExt.validateAllFormFields(this.shippingFG2);
+      if (this.shippingFG2.valid) { this.shippingObj.step++; }
+    }
+    if (this.shippingObj.step === 2) { this.setValidatorsFG2(); }
+    if (this.shippingObj.step === 4) { this.shippingObj.step = 3; }
   }
   shippingBack() {
-    this.step--;
-    if (this.step === 0) { this.step = 1; }
+    this.shippingObj.step--;
+    if (this.shippingObj.step === 0) { this.shippingObj.step = 1; }
   }
   saveShipping() {
     this.readShipping();
     this.validatorExt.validateAllFormFields(this.shippingFG1);
     this.validatorExt.validateAllFormFields(this.shippingFG2);
     this.validatorExt.validateAllFormFields(this.shippingFG3);
-    if (!this.shippingFG1.valid) { this.step = 1; } else
-      if (!this.shippingFG2.valid) { this.step = 2; } else
-        if (!this.shippingFG3.valid) { this.step = 3; } else {
+    if (!this.shippingFG1.valid) { this.shippingObj.step = 1; } else
+      if (!this.shippingFG2.valid) { this.shippingObj.step = 2; } else
+        if (!this.shippingFG3.valid) { this.shippingObj.step = 3; } else {
           this.readShipping();
           this.saveLoader = true;
           this.retialerService
@@ -338,11 +343,15 @@ export class RetailerAddShippingComponent implements OnInit {
   }
   setShipping() {
     this.shippingObj = this.shippings[this.currentTabIndex];
-    this.step = 1;
+    // this.shippingObj.step = 1;
     this.setValidators();
   }
-  paymentOptionClick( $event) {
+  paymentOptionClick($event) {
     $event.stopPropagation();
-    return false;
+    // return false;
+  }
+  setoptionSelected(event, index) {
+    const val = (this.shippingFG2.get('shippingMethods') as FormArray).controls[index].get('selected').value;
+    (this.shippingFG2.get('shippingMethods') as FormArray).controls[index].get('selected').patchValue(!val);
   }
 }

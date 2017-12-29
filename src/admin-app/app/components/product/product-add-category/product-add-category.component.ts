@@ -10,6 +10,7 @@ import { IAlert } from '../../../../../models/IAlert';
 import { ProductService } from '../product.service';
 import { Product } from '../../../../../models/Product';
 import { inputValidations } from './messages';
+import { ProductPlace, ProductCategory, ProductSubCategory, ProductType } from '../../../../../models/product-info';
 // #endregion imports
 
 @Component({
@@ -29,6 +30,14 @@ export class ProductAddCategoryComponent implements OnInit {
     message: '',
     show: false
   };
+  places = new Array<ProductPlace>();
+  categories = new Array<ProductCategory>();
+  subCategories = new Array<ProductSubCategory>();
+  productTypes = new Array<ProductType>();
+  productPlace = new ProductPlace();
+  productCategory = new ProductCategory();
+  productSubCategory = new ProductSubCategory();
+  productType = new ProductType();
   fG1 = new FormGroup({});
   step = 1;
   errorMsgs = inputValidations;
@@ -43,6 +52,7 @@ export class ProductAddCategoryComponent implements OnInit {
   }
   ngOnInit() {
     this.setFormValidators();
+    this.getPlaces();
   }
   closeAlert(alert: IAlert) {
     this.alert.show = false;
@@ -55,7 +65,6 @@ export class ProductAddCategoryComponent implements OnInit {
       productSubCategoryName: ['', [Validators.required]],
       productTypeName: ['', [Validators.required]],
     });
-
   }
 
   saveData() {
@@ -75,7 +84,53 @@ export class ProductAddCategoryComponent implements OnInit {
     return this.product;
   }
 
-  getData(retailerId) { }
+  getData(retailerId) {
 
+  }
+  getPlaces() {
+    this.productService.getProductPlaces().subscribe(res => {
+      this.places = res;
+    });
+  }
+
+  placeChanged(event) {
+    this.product.productPlaceName = this.productPlace.PlaceName;
+    this.categories = new Array<ProductCategory>();
+    this.subCategories = new Array<ProductSubCategory>();
+    this.productTypes = new Array<ProductType>();
+    this.productCategory = new ProductCategory();
+    this.productSubCategory = new ProductSubCategory();
+    this.productType = new ProductType();
+    this.product.productCategoryName = '';
+    this.product.productSubCategoryName = '';
+    this.product.productTypeName = '';
+    this.productService.getProductCategories([this.productPlace.PlaceId]).subscribe(res => {
+      this.categories = res;
+    });
+  }
+  categoryChanged(event) {
+    this.product.productCategoryName = this.productCategory.CategoryName;
+    this.subCategories = new Array<ProductSubCategory>();
+    this.productTypes = new Array<ProductType>();
+    this.productSubCategory = new ProductSubCategory();
+    this.productType = new ProductType();
+    this.product.productSubCategoryName = '';
+    this.product.productTypeName = '';
+    this.productService.getProductSubCategories([this.productCategory.CategoryId]).subscribe(res => {
+      this.subCategories = res;
+    });
+  }
+  subCategoryChanged(event) {
+    this.product.productSubCategoryName = this.productSubCategory.SubCategoryName;
+    this.productTypes = new Array<ProductType>();
+    this.productType = new ProductType();
+    this.product.productTypeName = '';
+    this.productService.getProductTypes([this.productSubCategory.SubCategoryId]).subscribe(res => {
+      this.productTypes = res;
+    });
+  }
+  typeChanged(event) {
+    this.product.productTypeName = this.productType.TypeName;
+  }
 
 }

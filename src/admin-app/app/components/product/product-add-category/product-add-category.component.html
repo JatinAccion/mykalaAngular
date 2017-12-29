@@ -3,51 +3,44 @@
         <tbody>
             <tr>
                 <td class="border-0">
-                    <select class="ddl_default form-control" [(ngModel)]="product.productPlaceName" formControlName="productPlaceName">
-                        <option value=''>Home & Garden (546)</option>
-                        <option>Health & Fitness (321)</option>
+                    <select class="ddl_default form-control" [(ngModel)]="productPlace" formControlName="productPlaceName" (change)="placeChanged($event)" >
+                            <option value=''>Select Place</option>
+                            <option *ngFor="let option of places" [ngValue]="option">
+                                {{option.PlaceName}}
+                            </option>
                     </select>
                     <app-field-error-display [field]="fG1.controls.productPlaceName" [errorMsg]="errorMsgs"> </app-field-error-display>
                 </td>
             </tr>
             <tr>
                 <td class="border-0">
-                    <select class="ddl_default form-control" [(ngModel)]="product.productCategoryName" formControlName="productCategoryName">
-                        <option value=''>Furniture &amp; Patio (162)</option>
-                        <option>Lighting (27)</option>
-                        <option>Lawn &amp; Garden (43)</option>
-                        <option>Supplies (50)</option>
-                        <option>Bedding &amp; Linens (13)</option>
-                        <option>Emergency &amp; Safety (11)</option>
-                        <option>Pool &amp; Spa (15)</option>
+                    <select class="ddl_default form-control" [(ngModel)]="productCategory" formControlName="productCategoryName" (change)="categoryChanged($event)" >
+                            <option value=''>Select Category</option>
+                            <option *ngFor="let option of categories" [ngValue]="option">
+                                {{option.CategoryName}}
+                            </option>
                     </select>
                     <app-field-error-display [field]="fG1.controls.productCategoryName" [errorMsg]="errorMsgs"> </app-field-error-display>
                 </td>
             </tr>
             <tr>
                 <td class="border-0">
-                    <select class="ddl_default form-control" [(ngModel)]="product.productSubCategoryName" formControlName="productSubCategoryName">
-                        <option value=''>Lamps (3)</option>
-                        <option>Light Bulbs (3)</option>
-                        <option>Nightlights</option>
-                        <option>Light Ropes &amp; Srings</option>
-                        <option>Lighting Fixtures (4)</option>
-                        <option>Track Lighting</option>
-                        <option>Landscape Lighting (4)</option>
-                        <option>Emergency Lighting</option>
-                        <option>Flood &amp; Spot lights</option>
-                        <option>Lamp Shades</option>
-                        <option>Timers &amp; Accessories</option>
+                    <select class="ddl_default form-control" [(ngModel)]="productSubCategory" formControlName="productSubCategoryName" (change)="subCategoryChanged($event)" >
+                            <option value=''>Select Sub Catetory</option>
+                            <option *ngFor="let option of subCategories" [ngValue]="option">
+                                {{option.SubCategoryName}}
+                            </option>
                     </select>
                     <app-field-error-display [field]="fG1.controls.productSubCategoryName" [errorMsg]="errorMsgs"> </app-field-error-display>
                 </td>
             </tr>
             <tr>
                 <td class="border-0">
-                    <select class="ddl_default form-control" [(ngModel)]="product.productTypeName" formControlName="productTypeName">
-                        <option value=''>Table Lamps</option>
-                        <option>Floor Lamps</option>
-                        <option>Ceiling Lamps</option>
+                    <select class="ddl_default form-control" [(ngModel)]="productType" formControlName="productTypeName" (change)="typeChanged($event)" >
+                            <option value=''>Select Type</option>
+                            <option *ngFor="let option of productTypes" [ngValue]="option">
+                                {{option.TypeName}}
+                            </option>
                     </select>
                     <app-field-error-display [field]="fG1.controls.productTypeName" [errorMsg]="errorMsgs"> </app-field-error-display>
                 </td>

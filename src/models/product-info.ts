@@ -5,10 +5,11 @@ export class ProductPlace {
     public PlaceName: string;
     constructor(obj?: any) {
         if (obj) {
-            this.PlaceId = obj.PlaceId;
-            this.PlaceName = obj.PlaceName;
+            this.PlaceId = obj.placeId;
+            this.PlaceName = obj.placeName;
         }
     }
+    
 }
 export class ProductCategory extends ProductPlace {
     public CategoryId: string;
@@ -16,8 +17,8 @@ export class ProductCategory extends ProductPlace {
     constructor(obj?: any) {
         if (obj) {
             super(obj);
-            this.CategoryId = obj.CategoryId;
-            this.CategoryName = obj.CategoryName;
+            this.CategoryId = obj.categoryId;
+            this.CategoryName = obj.categoryName;
         }
     }
 }
@@ -27,8 +28,8 @@ export class ProductSubCategory extends ProductCategory {
     constructor(obj?: any) {
         if (obj) {
             super(obj);
-            this.SubCategoryId = obj.SubCategoryId;
-            this.SubCategoryName = obj.SubCategoryName;
+            this.SubCategoryId = obj.subCategoryId;
+            this.SubCategoryName = obj.subCategoryName;
         }
     }
 }
@@ -38,8 +39,10 @@ export class ProductType extends ProductSubCategory {
     constructor(obj?: any) {
         if (obj) {
             super(obj);
-            this.TypeId = obj.TypeId;
-            this.TypeName = obj.TypeName;
+            this.TypeId = obj.productTypeId;
+            this.TypeName = obj.productTypeName;
+            this.SubCategoryId = obj.parentId;
+            this.SubCategoryName = obj.parentName;
         }
     }
 }

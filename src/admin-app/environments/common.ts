@@ -44,11 +44,15 @@ export const apiNames = {
         delete: 'delete',
     },
     product: {
-        get: 'product/getproduct',
-        save: 'product/saveProduct',
-        saveImage: 'product/saveImages',
-        changeMainImage: 'product/changeMainImage',
+        get: 'getproduct',
+        save: 'save',
+        saveImage: 'saveImages',
+        changeMainImage: 'changeMainImage',
         delete: 'delete',
+        places: 'places',
+        categories: 'categoriesList',
+        subCategories: 'subCategoriesList',
+        types: 'typesList'
     },
 
 };

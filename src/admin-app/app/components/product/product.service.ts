@@ -11,6 +11,7 @@ import { LocalStorageService } from '../../services/LocalStorage.service';
 import { environment } from './../../../environments/environment';
 import { nameValue } from '../../../../models/nameValue';
 import { Product } from '../../../../models/Product';
+import { ProductPlace, ProductType, ProductSubCategory, ProductCategory } from '../../../../models/product-info';
 
 @Injectable()
 export class ProductService {
@@ -18,6 +19,7 @@ export class ProductService {
   headers: Headers;
 
   shippingProfiles = new Array<nameValue>();
+  productPlaces = new Array<ProductPlace>();
   getHttpHeraders() {
     const token = this.localStorageService.getItem('token');
     const headers = new Headers({
@@ -102,7 +104,7 @@ export class ProductService {
 
   // check formdata
   //   for (var pair of formData.entries()) {
-  //     console.log(pair[0]+ ', ' + pair[1]); 
+  //     console.log(pair[0]+ ', ' + pair[1]);
   // }
   objectToFormData = function (obj, form?, namespace?) {
 
@@ -135,4 +137,41 @@ export class ProductService {
     return fd;
 
   };
+
+  getProductPlaces(): Observable<Array<ProductPlace>> {
+    if (this.productPlaces != null && this.productPlaces.length !== 0) {
+      return Observable.of(this.productPlaces);
+    } else {
+      const url = `${this.BASE_URL}/${environment.apis.product.places}`;
+      return this.http
+        .get(`${url}`, { headers: this.headers })
+        .map(res => {
+          const resArr = <Array<any>>res.json();
+          resArr.forEach(obj => this.productPlaces.push(new ProductPlace(obj)));
+          return this.productPlaces;
+        })
+        .catch(this.handleError);
+    }
+  }
+  getProductCategories(placeIds: string[]): Observable<Array<ProductCategory>> {
+    const url = `${this.BASE_URL}/${environment.apis.product.categories}`;
+    return this.http
+      .post(`${url}`, { fieldValues: placeIds }, { headers: this.headers })
+      .map(res => <Array<any>>res.json().map(obj => new ProductCategory(obj)))
+      .catch(this.handleError);
+  }
+  getProductSubCategories(categoryIds: string[]): Observable<Array<ProductSubCategory>> {
+    const url = `${this.BASE_URL}/${environment.apis.product.subCategories}`;
+    return this.http
+      .post(`${url}`, { fieldValues: categoryIds }, { headers: this.headers })
+      .map(res => <Array<any>>res.json().map(obj => new ProductSubCategory(obj)))
+      .catch(this.handleError);
+  }
+  getProductTypes(subCategoryIds: string[]): Observable<Array<ProductType>> {
+    const url = `${this.BASE_URL}/${environment.apis.product.types}`;
+    return this.http
+      .post(`${url}`, { fieldValues: subCategoryIds }, { headers: this.headers })
+      .map(res => <Array<any>>res.json().map(obj => new ProductType(obj)))
+      .catch(this.handleError);
+  }
 }

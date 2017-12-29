@@ -11,6 +11,7 @@ import { IAlert } from '../../../../../models/IAlert';
 import { environment } from '../../../../environments/environment';
 import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 import { inputValidations } from './messages';
+import { ProductService } from '../../product/product.service';
 
 @Component({
   selector: 'app-retailer-add-products',
@@ -41,6 +42,7 @@ export class RetailerAddProductsComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private retialerService: RetialerService,
+    private productService: ProductService,
     private validatorExt: ValidatorExt
   ) {
   }
@@ -54,15 +56,18 @@ export class RetailerAddProductsComponent implements OnInit {
       productType: [[], Validators.required],
     });
 
-    this.places = [
-      new IdNameParent('1', 'Home & Garden (546)', '', ''),
-      new IdNameParent('2', 'Electronics', '', ''),
-      new IdNameParent('3', 'Health & Fitness (321)', '', ''),
-      new IdNameParent('4', 'Travel', '', ''),
-    ];
-    this.selectedPlaces = [
-      new IdNameParent('2', 'Electronics', '', ''),
-    ];
+    // this.places = [
+    //   new IdNameParent('1', 'Home & Garden (546)', '', ''),
+    //   new IdNameParent('2', 'Electronics', '', ''),
+    //   new IdNameParent('3', 'Health & Fitness (321)', '', ''),
+    //   new IdNameParent('4', 'Travel', '', ''),
+    // ];
+    // this.selectedPlaces = [
+    //   new IdNameParent('2', 'Electronics', '', ''),
+    // ];
+    this.productService.getProductPlaces().subscribe(res =>
+      this.places = res.map(p => new IdNameParent(p.PlaceId, p.PlaceName, '', ''))
+    );
     this.placesSettings = {
       singleSelection: false,
       text: 'Select Places',
@@ -73,61 +78,6 @@ export class RetailerAddProductsComponent implements OnInit {
       badgeShowLimit: 5,
       classes: 'myclass custom-class'
     };
-    this.allCategories = [
-      new IdNameParent('1', 'Furniture & Patio (162)', '1', 'Home & Garden (546)'),
-      new IdNameParent('2', 'Lighting (27)', '1', 'Home & Garden (546)'),
-      new IdNameParent('3', 'Lawn & Garden (43)', '1', 'Home & Garden (546)'),
-      new IdNameParent('4', 'Supplies (50)', '1', 'Home & Garden (546)'),
-      new IdNameParent('5', 'Bedding & Linens (13)', '1', 'Home & Garden (546)'),
-      new IdNameParent('6', 'Emergency & Safety (11)', '1', 'Home & Garden (546)'),
-
-      new IdNameParent('7', 'TV and Home Theater (27)', '2', 'Electronics (546)'),
-      new IdNameParent('8', 'Movies & Gaming (27)', '2', 'Electronics (546)'),
-      new IdNameParent('9', 'Computers (27)', '2', 'Electronics (546)'),
-      new IdNameParent('10', 'Tablets (27)', '2', 'Electronics (546)'),
-      new IdNameParent('11', 'Phones (27)', '2', 'Electronics (546)'),
-      new IdNameParent('12', 'GPS Navigation (27)', '2', 'Electronics (546)'),
-      new IdNameParent('13', 'Cameras & Camcorders (27)', '2', 'Electronics (546)'),
-      new IdNameParent('14', 'Wearable Technology (27)', '2', 'Electronics (546)'),
-      new IdNameParent('15', 'Audio (27)', '2', 'Electronics (546)'),
-      new IdNameParent('16', 'Home Automation & Security (27)', '2', 'Electronics (546)'),
-      new IdNameParent('17', 'Automotive (27)', '2', 'Electronics (546)'),
-
-    ];
-    this.allSubCategories = [
-      new IdNameParent('1', 'TVs', '7', 'TV and Home Theater (27)'),
-      new IdNameParent('2', 'TV Mounts', '7', 'TV and Home Theater (27)'),
-      new IdNameParent('3', 'Blu-Ray & DVD Players', '7', 'TV and Home Theater (27)'),
-      new IdNameParent('4', 'Projectors', '7', 'TV and Home Theater (27)'),
-      new IdNameParent('5', 'Media Streaming', '7', 'TV and Home Theater (27)'),
-      new IdNameParent('6', 'Home Audio', '7', 'TV and Home Theater (27)'),
-      new IdNameParent('7', 'Home Theater Accessories', '7', 'TV and Home Theater (27)'),
-      new IdNameParent('8', 'Headphones', '15', 'Audio (27)'),
-      new IdNameParent('9', 'MP3 Players', '15', 'Audio (27)'),
-      new IdNameParent('10', 'Speakers', '15', 'Audio (27)'),
-      new IdNameParent('11', 'Receivers & Amps', '15', 'Audio (27)'),
-      new IdNameParent('12', 'Docks and Radios', '15', 'Audio (27)'),
-      new IdNameParent('13', 'CDs', '15', 'Audio (27)'),
-      new IdNameParent('14', 'Vinyl', '15', 'Audio (27)'),
-      new IdNameParent('15', 'Digital Music', '15', 'Audio (27)'),
-      new IdNameParent('16', 'Accessories', '15', 'Audio (27)'),
-
-      new IdNameParent('17', 'GPS', '17', 'Automotive (27)'),
-      new IdNameParent('18', 'Amplifiers', '17', 'Automotive (27)'),
-      new IdNameParent('19', 'Receivers', '17', 'Automotive (27)'),
-      new IdNameParent('20', 'Subwoofers & Enclosures', '17', 'Automotive (27)'),
-      new IdNameParent('21', 'Speakers', '17', 'Automotive (27)'),
-      new IdNameParent('22', 'Satellite Radio', '17', 'Automotive (27)'),
-      new IdNameParent('23', 'Back-up & Dash Cameras', '17', 'Automotive (27)'),
-      new IdNameParent('24', 'Radar Detectors', '17', 'Automotive (27)'),
-      new IdNameParent('25', 'Remote Start', '17', 'Automotive (27)'),
-      new IdNameParent('26', 'Smartphone & MP3 Connectors', '17', 'Automotive (27)'),
-      new IdNameParent('27', 'Bluetooth Car Kits', '17', 'Automotive (27)'),
-      new IdNameParent('28', 'Security Systems', '17', 'Automotive (27)'),
-      new IdNameParent('29', 'Breathalyzers', '17', 'Automotive (27)'),
-
-    ];
-
     this.categorySettings = {
       singleSelection: false,
       text: 'Select Categories',
@@ -163,10 +113,12 @@ export class RetailerAddProductsComponent implements OnInit {
     };
   }
   refreshCategories() {
+    this.categories = [];
+    this.subCategories = [];
+    this.productTypes = [];
     if (this.selectedPlaces.length > 0) {
-      this.categories = [];
-      this.selectedPlaces.forEach(p => {
-        return this.allCategories.filter(c => c.parentId === p.id).forEach(res => this.categories.push(res));
+      this.productService.getProductCategories(this.selectedPlaces.map(p => p.id)).subscribe(res => {
+        this.categories = res.map(p => new IdNameParent(p.CategoryId, p.CategoryName, p.PlaceId, p.PlaceName));
       });
     }
   }
@@ -176,28 +128,29 @@ export class RetailerAddProductsComponent implements OnInit {
   onPlaceDeSelectAll(items: any) { this.refreshCategories(); }
 
   refreshSubCategories() {
+    this.subCategories = [];
+    this.productTypes = [];
     if (this.selectedCategories.length > 0) {
-      this.subCategories = [];
-      this.selectedCategories.forEach(p => {
-        return this.allSubCategories.filter(c => c.parentId === p.id).forEach(res => this.subCategories.push(res));
+      this.productService.getProductSubCategories(this.selectedCategories.map(p => p.id)).subscribe(res => {
+        this.subCategories = res.map(p => new IdNameParent(p.SubCategoryId, p.SubCategoryName, p.CategoryId, p.CategoryName));
       });
     }
   }
-  onCategoryItemSelect(item: any) { this.refreshSubCategories(); }
-  onCategoryItemDeSelect(item: any) { this.refreshSubCategories(); }
+  onCategorySelect(item: any) { this.refreshSubCategories(); }
+  onCategoryDeSelect(item: any) { this.refreshSubCategories(); }
   onCategorySelectAll(items: any) { this.refreshSubCategories(); }
   onCategoryDeSelectAll(items: any) { this.refreshSubCategories(); }
 
   refreshProductTypes() {
+    this.productTypes = [];
     if (this.selectedSubCategories.length > 0) {
-      this.productTypes = [];
-      this.selectedSubCategories.forEach(p => {
-        return this.allSubCategories.filter(c => c.parentId === p.id).forEach(res => this.productTypes.push(res));
+      this.productService.getProductTypes(this.selectedSubCategories.map(p => p.id)).subscribe(res => {
+        this.productTypes = res.map(p => new IdNameParent(p.TypeId, p.TypeName, p.SubCategoryId, p.SubCategoryName));
       });
     }
   }
-  onSubCategoryItemSelect(item: any) { this.refreshProductTypes(); }
-  onSubCategoryItemDeSelect(item: any) { this.refreshProductTypes(); }
+  onSubCategorySelect(item: any) { this.refreshProductTypes(); }
+  onSubCategoryDeSelect(item: any) { this.refreshProductTypes(); }
   onSubCategorySelectAll(items: any) { this.refreshProductTypes(); }
   onSubCategoryDeSelectAll(items: any) { this.refreshProductTypes(); }
 

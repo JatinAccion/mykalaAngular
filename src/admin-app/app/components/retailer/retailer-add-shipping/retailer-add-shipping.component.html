@@ -1,7 +1,10 @@
 <div class="row">
     <div class="col-sm-12">
         <ngb-tabset #tabs="ngbTabset" [orientation]="currentOrientation" class="tabShipping" [justify]="currentJustify" (tabChange)="setActiveTab($event)">
-            <ngb-tab title="{{ idx + 1 }}" id="tab-shipping{{idx}}" *ngFor="let shipping of shippings; let idx = index;">
+            <ngb-tab id="tab-shipping{{idx}}" *ngFor="let shipping of shippings; let idx = index;">
+                <ng-template ngbTabTitle>{{ idx + 1 }}
+                    <img src="/admin-app/assets/images/tick_icon.png" class="float-right mr-2" *ngIf="shipping.status" />
+                </ng-template>
                 <ng-template ngbTabContent>
                     <div class="row p-3">
                         <div class="col-sm-12 p-2">
@@ -9,11 +12,11 @@
                             <div [formGroup]="shippingFG1">
                                 <div class="form-group">
                                     <label class="control-label" [ngClass]="validatorExt.displayFieldCss(shippingFG1.controls.profileName)">Profile name</label>
-                                    <input type="text" class="form-control" step="{0.01}" value="{0.00}"  pattern formControlName="profileName">
+                                    <input type="text" class="form-control" step="{0.01}" value="{0.00}" pattern formControlName="profileName">
                                     <app-field-error-display [field]="shippingFG1.controls.profileName" [errorMsg]="errorMsgs"> </app-field-error-display>
                                 </div>
                             </div>
-                            <div [formGroup]="shippingFG1" [ngClass]="{'show': step==1, 'hide': step!==1 }">
+                            <div [formGroup]="shippingFG1" [ngClass]="{'show': shipping.step==1, 'hide': shipping.step!==1 }">
                                 <div class="form-group">
                                     <label class="control-label" [ngClass]="validatorExt.displayFieldCss(shippingFG1.controls.deliveryOptions)">Delivery - Base options</label>
                                     <ul class="list-unstyled">
@@ -49,7 +52,7 @@
                                                         <div>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon" id="basic-addon1">&nbsp;</span>
-                                                                <input class="form-control" step="{0.01}" value="{0.00}"  aria-describedby="basic-addon1" formControlName="min" type="number" >
+                                                                <input class="form-control" step="{0.01}" value="{0.00}" aria-describedby="basic-addon1" formControlName="min" type="number">
                                                             </div>
                                                         </div>
                                                         <div class="row p-2">
@@ -64,7 +67,7 @@
                                                         <div>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon" id="basic-addon1">&nbsp;</span>
-                                                                <input class="form-control" step="{0.01}" value="{0.00}"  aria-describedby="basic-addon1" formControlName="max" type="number">
+                                                                <input class="form-control" step="{0.01}" value="{0.00}" aria-describedby="basic-addon1" formControlName="max" type="number">
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -93,7 +96,7 @@
                                                         <div>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon" id="basic-addon1">$</span>
-                                                                <input class="form-control" step="{0.01}" value="{0.00}"  aria-describedby="basic-addon1" formControlName="min" type="number">
+                                                                <input class="form-control" step="{0.01}" value="{0.00}" aria-describedby="basic-addon1" formControlName="min" type="number">
                                                             </div>
                                                             <div class="row">
                                                                 <app-field-error-display [field]="tier.controls.min" [errorMsg]="errorMsgs"> </app-field-error-display>
@@ -108,7 +111,7 @@
                                                         <div>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon" id="basic-addon1">$</span>
-                                                                <input class="form-control" step="{0.01}" value="{0.00}"  aria-describedby="basic-addon1" formControlName="max" type="number">
+                                                                <input class="form-control" step="{0.01}" value="{0.00}" aria-describedby="basic-addon1" formControlName="max" type="number">
                                                             </div>
                                                             <div class="row">
                                                                 <app-field-error-display [field]="tier.controls.max" [errorMsg]="errorMsgs"> </app-field-error-display>
@@ -137,7 +140,7 @@
                                                         <div>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon" id="basic-addon1">lbs.</span>
-                                                                <input class="form-control" step="{0.01}" value="{0.00}"  aria-describedby="basic-addon1" formControlName="min" type="number">
+                                                                <input class="form-control" step="{0.01}" value="{0.00}" aria-describedby="basic-addon1" formControlName="min" type="number">
                                                             </div>
                                                             <div class="row">
                                                                 <app-field-error-display [field]="tier.controls.min" [errorMsg]="errorMsgs"> </app-field-error-display>
@@ -152,7 +155,7 @@
                                                         <div>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon" id="basic-addon1">lbs.</span>
-                                                                <input class="form-control" step="{0.01}" value="{0.00}"  aria-describedby="basic-addon1" formControlName="max" type="number">
+                                                                <input class="form-control" step="{0.01}" value="{0.00}" aria-describedby="basic-addon1" formControlName="max" type="number">
                                                             </div>
                                                             <div class="row">
                                                                 <app-field-error-display [field]="tier.controls.max" [errorMsg]="errorMsgs"> </app-field-error-display>
@@ -222,15 +225,20 @@
                                     </div>
                                 </span>
                             </div>
-                            <div [formGroup]="shippingFG2" [ngClass]="{'show': step==2, 'hide': step!==2  }">
+                            <div [formGroup]="shippingFG2" [ngClass]="{'show': shipping.step==2, 'hide': shipping.step!==2  }">
                                 <div class="row m-0 shippingdelivery" [ngClass]="{'show': shippingFG1.value.deliveryOptions !== 'freeshipping', 'hide': shippingFG1.value.deliveryOptions === 'freeshipping' }">
                                     <div formArrayName="shippingMethods" class="well well-lg col-md-12">
                                         <ngb-accordion #acc="ngbAccordion" [closeOthers]="true">
                                             <ngb-panel id="toggle-{{i}}" class="row border_outline m-3 p-2" *ngFor="let option of shippingFG2.get('shippingMethods').controls; let i=index;" [formGroupName]="i" [disabled]="option.value.disabled">
                                                 <ng-template ngbPanelTitle>
                                                     <div class="float-left mt-1">
-                                                        <input   type="checkbox" (click)="paymentOptionClick( $event)"> </div>
-                                                    <div class="float-left">
+                                                        
+                                                    <button  (click)="setoptionSelected($event, i)" > 
+                                                        <input type="checkbox"   formControlName="selected" > 
+                                                        <!-- <i [ngClass]="{'fa fa-check ': option.value.selected, 'fa fa-square ': !option.value.selected}" aria-hidden="true"></i> -->
+                                                    </button>
+                                                    </div>
+                                                    <div class="float-left">    
                                                         <span>&nbsp;{{option.value.shippingName}} </span>
                                                     </div>
                                                 </ng-template>
@@ -245,7 +253,7 @@
                                                             <div class="col-sm-12">
                                                                 <div class="input-group">
                                                                     <span class="input-group-addon" id="basic-addon1">$</span>
-                                                                    <input class="form-control" step="{0.01}" value="{0.00}"  aria-describedby="basic-addon1" formControlName="charge" type="number">
+                                                                    <input class="form-control" step="{0.01}" value="{0.00}" aria-describedby="basic-addon1" formControlName="charge" type="number">
                                                                     <!-- entry: {{chargeoption.value.charge}}:  -->
                                                                 </div>
                                                                 <div class="col-sm-12">
@@ -263,7 +271,7 @@
                                     No options available
                                 </div>
                             </div>
-                            <div [formGroup]="shippingFG3" [ngClass]="{'show': step==3, 'hide': step!==3  }">
+                            <div [formGroup]="shippingFG3" [ngClass]="{'show': shipping.step==3, 'hide': shipping.step!==3  }">
                                 <div class="row m-0 shippingdelivery">
                                     <label class="control-label" [ngClass]="validatorExt.displayFieldCss(shippingFG3.controls.addressLine1)">Shipping Origin Address</label>
                                     <div class="col-sm-12 p-0 form-group">
@@ -324,7 +332,7 @@
                                                         <div class="col-sm-12">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon" id="basic-addon1">$</span>
-                                                                <input type="number" class="form-control" step="{0.01}" value="{0.00}"  aria-describedby="basic-addon1" formControlName="locationFee">
+                                                                <input type="number" class="form-control" step="{0.01}" value="{0.00}" aria-describedby="basic-addon1" formControlName="locationFee">
                                                             </div>
                                                             <app-field-error-display [field]="item.controls.locationFee" [errorMsg]="errorMsgs"> </app-field-error-display>
                                                         </div>
@@ -338,12 +346,12 @@
                             <hr />
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <a (click)="shippingBack()" class="ancDefault" *ngIf="step!==1">back</a>
+                                    <a (click)="shippingBack()" class="ancDefault" *ngIf="shipping.step!==1">back</a>
                                 </div>
-                                <div class="col-sm-6 text-right" *ngIf="step==1 || step==2">
+                                <div class="col-sm-6 text-right" *ngIf="shipping.step==1 || shipping.step==2">
                                     <a class="btn btn-default ancProfile1" (click)="shippingNext()">Next</a>
                                 </div>
-                                <div class="col-sm-6 text-right" *ngIf="step==3">
+                                <div class="col-sm-6 text-right" *ngIf="shipping.step==3">
                                     <a class="btn btn-default ancProfile1" (click)="saveShipping();">Save</a>
                                     <img src="/admin-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="profileSaveloader" />
                                 </div>

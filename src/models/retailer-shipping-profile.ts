@@ -9,10 +9,13 @@ export class RetialerShippingProfile {
     deliveryTiers: Array<ShippingDeliveryTier>;
     shipOriginAddress: RetailerAddress;
     shipLocations: ShippingLocations;
+    step: number;
+    status: boolean;
     constructor() {
         this.deliveryTiers = new Array<ShippingDeliveryTier>();
         this.shipOriginAddress = new RetailerAddress();
         this.shipLocations = new ShippingLocations();
+        this.step = 1;
     }
 }
 
