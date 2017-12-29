@@ -1,13 +1,20 @@
 <div style="height:120px; margin-top:20px;width:100%;"></div>
+<!--Side Bar-->
 <div id="mySidenav" class="sidenav">
+    <img src="/consumer-app/assets/images/loader_2.gif" class="absoluteImg_2" style="left: 20px; top: 20px" *ngIf="loaderCategory" />
     <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
-    <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="loader" />
     <ul class="category_tiles" *ngFor="let category of categoryList">
         <li>
-            <span class="pr-3">{{category.categoryName}}</span>
+            <span (click)="loadSubcategory($event, category)" class="pr-3">{{category.categoryName}}</span>
+            <ul class="cat_subMenu">
+                <li *ngFor="let subcategory of subCategory" (click)="refreshSubcategory(subcategory)">{{subcategory.name}}</li>
+            </ul>
         </li>
     </ul>
 </div>
+<!--Side Bar-->
+
+<!--Type Section-->
 <div class="title">
     <h2>
         {{selectedTilesData.place.name}}
@@ -21,8 +28,11 @@
         </a>
     </span>
 </div>
+<!--Type Section-->
+
 <div class="row">
-    <div class="example col-sm-3" *ngFor="let tile of tilesData">
+    <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="loader" />
+    <div class="example col-sm-3" style="margin-bottom: 25px" *ngFor="let tile of tilesData">
         <img src="/consumer-app/assets/images/img_03.jpg" class="product_hover img-fluid">
         <div class="hover_panel">
             <h5>{{tile.name}}</h5>

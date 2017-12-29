@@ -13,6 +13,10 @@ import { OfferInfo1 } from '../steps.modal';
   encapsulation: ViewEncapsulation.None
 })
 export class Step1Component implements OnInit {
+  loader_place: boolean;
+  loader_category: boolean;
+  loader_subCategory: boolean;
+  loader_Type: boolean;
   levelSelection = JSON.parse(window.localStorage['levelSelections']);
   userResponse = { place: [], type: [], category: [], subcategory: [] };
   headerMessage: string;
@@ -70,30 +74,38 @@ export class Step1Component implements OnInit {
   }
 
   getPlaces() {
+    this.loader_place = true;
     this.userResponse.place = [];
     this.homeService.getTilesPlace().subscribe(res => {
+      this.loader_place = false;
       for (var i = 0; i < res.length; i++) this.userResponse.place.push(new SearchDataModal(res[i].placeId, res[i].placeName, res[i].placeName, "1"));
     })
   };
 
   getCategory() {
+    this.loader_category= true;
     this.userResponse.category = [];
     this.homeService.getTilesCategory(this.getPlaceId).subscribe(res => {
+      this.loader_category = false;
       for (var i = 0; i < res.length; i++) this.userResponse.category.push(new SearchDataModal(res[i].categoryId, res[i].categoryName, res[i].categoryName, "2"));
     });
   };
 
   getSubCategory() {
+    this.loader_subCategory = true;
     this.userResponse.subcategory = [];
     this.homeService.getTilesSubCategory(this.getCategoryId).subscribe(res => {
+      this.loader_subCategory = false;
       for (var i = 0; i < res.length; i++) this.userResponse.subcategory.push(new SearchDataModal(res[i].subCategoryId, res[i].subCategoryName, res[i].subCategoryName, "3"));
     });
   };
 
   getType() {
+    this.loader_Type = true;
     this.userResponse.type = [];
     this.homeService.getTilesType(this.getSubcategoryId).subscribe(res => {
-      for (var i = 0; i < res.length; i++) this.userResponse.type.push(new SearchDataModal(res[i].typeId, res[i].typeName, res[i].typeName, "4"));
+      this.loader_Type = false;
+      for (var i = 0; i < res.length; i++) this.userResponse.type.push(new SearchDataModal(res[i].productTypeId, res[i].productTypeName, res[i].productTypeName, "4"));
     });
   };
 
@@ -121,12 +133,12 @@ export class Step1Component implements OnInit {
       this.Step1SelectedValues.subcategory = obj;
     }
     else {
-      e.currentTarget.className = "categ_outline_red mr-2";
+      e.currentTarget.className = "categ_outline_red m-2";
       for (var i = 0; i < this.Step1SelectedValues.type.length; i++) {
-        if(this.Step1SelectedValues.type[i].length == 0) this.Step1SelectedValues.type.splice(i, 1);
+        if (this.Step1SelectedValues.type[i].length == 0) this.Step1SelectedValues.type.splice(i, 1);
         else if (this.Step1SelectedValues.type[i].name == obj.name) {
           this.Step1SelectedValues.type.splice(i, 1);
-          e.currentTarget.className = "categ_outline_gray mr-2";
+          e.currentTarget.className = "categ_outline_gray m-2";
           return false;
         }
       }

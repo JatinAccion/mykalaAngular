@@ -1,5 +1,6 @@
 <div style="height:120px; margin-top:20px;width:100%;"></div>
-<div>
+<div style="position: relative;">
+  <img src="/consumer-app/assets/images/loader.gif" style="right: 28px; width: 20px;" class="absoluteImg_2" *ngIf="loader" />
   <app-breadcrums [breadCrums]="breadCrums" (selectTile)="tileSelected($event, 'IsBc')"></app-breadcrums>
   <app-tiles [tilesData]="tiles" (selectTile)="tileSelected($event)"></app-tiles>
   <!-- <app-browse-product [selectedTilesData]="userResponse" [tilesData]="tiles" *ngIf="!showTilesLayout" (selectTile)="tileSelected($event)"></app-browse-product> -->

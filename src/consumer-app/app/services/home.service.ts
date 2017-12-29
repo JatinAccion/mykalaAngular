@@ -7,22 +7,22 @@ export class HomeService {
   constructor(private http: Http) { }
 
   getTilesPlace() {
-    const url: string = '../consumer-app/assets/tilesPlace.json';
+    const url: string = 'http://dev-product-service.us-east-2.elasticbeanstalk.com/api/products/places';
     return this.http.get(url).map((res) => res.json());
   }
 
   getTilesCategory(placeId) {
-    const url: string = '../consumer-app/assets/tilesCategory.json';
+    const url: string = 'http://dev-product-service.us-east-2.elasticbeanstalk.com/api/products/places/' + placeId + '/categories';
     return this.http.get(url).map((res) => res.json());
   }
 
   getTilesSubCategory(categoryId) {
-    const url: string = '../consumer-app/assets/tilesSubCategory.json';
+    const url: string = 'http://dev-product-service.us-east-2.elasticbeanstalk.com/api/products/category/' + categoryId + '/subCategories';
     return this.http.get(url).map((res) => res.json());
   }
 
   getTilesType(subCategoryId) {
-    const url: string = '../consumer-app/assets/tilesType.json';
+    const url: string = 'http://dev-product-service.us-east-2.elasticbeanstalk.com/api/products/subCategory/' + subCategoryId + '/types';
     return this.http.get(url).map((res) => res.json());
   }
 }

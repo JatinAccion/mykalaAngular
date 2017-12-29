@@ -1,6 +1,6 @@
 export const userMessages = {
-    success: "",
-    fail: "",
+    success: "Your password has been reset successfully.",
+    fail: "Something went worng, please try again.",
 };
 
 export const inputValidation = {

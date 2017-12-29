@@ -1548,8 +1548,8 @@ h4.subtitle{
 }*/
 .cat_subMenu{
     margin:0px;
+    display: none;
     padding:0px;
-    display:none;
     border-top:solid 1px #999999;
 }
 .cat_subMenu li{

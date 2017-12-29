@@ -29,12 +29,12 @@ export class HomeComponent implements OnInit {
     this.core.hide();
     this.core.searchMsgToggle();
     if (window.localStorage['token'] == undefined) this.core.clearUser();
-    this.loader = true;
     this.getPlace();
   }
 
   //Get All Places
   getPlace() {
+    this.loader = true;
     this.homeService.getTilesPlace().subscribe(res => {
       this.loader = false;
       for (var i = 0; i < res.length; i++) this.searchData.push(new SearchDataModal(res[i].placeId, res[i].placeName, res[i].placeName, "1"));
@@ -54,16 +54,20 @@ export class HomeComponent implements OnInit {
 
     //Get Category
     if (tile && tile.level == "1") {
+      this.loader = true;
       this.userResponse.place = tile;
       this.homeService.getTilesCategory(tile.id).subscribe((res) => {
+        this.loader = false;
         for (var i = 0; i < res.length; i++) this.searchData.push(new SearchDataModal(res[i].categoryId, res[i].categoryName, res[i].categoryName, "2"));
         this.tiles = this.searchData;
       });
     }
     //Get Sub Category
     else if (tile && tile.level == "2") {
+      this.loader = true;
       this.userResponse.category = tile;
       this.homeService.getTilesSubCategory(tile.id).subscribe((res) => {
+        this.loader = false;
         for (var i = 0; i < res.length; i++) this.searchData.push(new SearchDataModal(res[i].subCategoryId, res[i].subCategoryName, res[i].subCategoryName, "3"));
         this.tiles = this.searchData;
       });

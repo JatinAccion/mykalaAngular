@@ -1,6 +1,6 @@
 export const userMessages = {
-    success: "",
-    fail: ""
+    success: "A temporary reset password link has been sent to the email address you have provided. Please reset at the earliest.",
+    fail: "Something went worng, please try again."
 };
 
 export const inputValidation = {
