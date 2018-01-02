@@ -25,6 +25,26 @@
           <span class="currencySymbol">$</span>
           <input formControlName="maxPrice" onkeypress='return event.charCode >= 48 && event.charCode <= 57' type="text" style="padding-left: 30px" class="categ_outline_red w-20 mr-2" />
         </span>
+        <!--Range Slider-->
+        <div class="dx-fieldset">
+          <div class="dx-fieldset-header">Event Handling and API</div>
+          <div class="dx-field">
+            <dx-range-slider #rangeSlider [min]="0" [max]="100" [start]="10" [end]="90"></dx-range-slider>
+          </div>
+          <div class="dx-field">
+            <div class="dx-field-label">Start value</div>
+            <div class="dx-field-value">
+              <dx-number-box [min]="0" [max]="100" [showSpinButtons]="true" [(value)]="rangeSlider.start"></dx-number-box>
+            </div>
+          </div>
+          <div class="dx-field">
+            <div class="dx-field-label">End value</div>
+            <div class="dx-field-value">
+              <dx-number-box [min]="0" [max]="100" [showSpinButtons]="true" [(value)]="rangeSlider.end"></dx-number-box>
+            </div>
+          </div>
+        </div>
+        <!--Range Slider-->
       </div>
       <div class="col-sm-2"></div>
     </div>

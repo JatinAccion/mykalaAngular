@@ -13,6 +13,9 @@ import { CoreService } from '../../../services/core.service';
   encapsulation: ViewEncapsulation.None
 })
 export class Step3Component implements OnInit {
+  label: any;
+  tooltip: any;
+  tooltipEnabled: any;
   pageLabel: string;
   headerMessage: string;
   zipCodeRegex: '^\d{5}(?:[-\s]\d{4})?$';
@@ -30,7 +33,26 @@ export class Step3Component implements OnInit {
     private formBuilder: FormBuilder,
     private goService: GetOfferService,
     private core: CoreService
-  ) { }
+  ) {
+    this.label = {
+      visible: true,
+      format: (value) => {
+        return this.format(value);
+      },
+      position: "top"
+    };
+    this.tooltip = {
+      enabled: true,
+      format: (value) => {
+        return this.format(value);
+      },
+      showMode: "always",
+      position: "bottom"
+    };
+    this.tooltipEnabled = {
+      enabled: true
+    };
+  }
 
   ngOnInit() {
     this.headerMessage = 'get offers';
@@ -60,6 +82,10 @@ export class Step3Component implements OnInit {
       });
     }
   };
+
+  format(value) {
+    return value + "%";
+  }
 
   addNewLocation(e) {
     this.inputNewLocation = !this.inputNewLocation;
