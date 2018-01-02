@@ -3,7 +3,7 @@ export const userMessages = {
     error: '',
 };
 export const inputValidations = {
-    'profileName': { required: 'Please enter Business Name ', error: 'Please enter valid Business Name' },
+    'profileName': { required: 'Please enter profile Name ', error: 'Please enter valid profile Name' },
     'deliveryOptions': { required: 'Please enter deliveryOptions', error: 'Please enter valid deliveryOptions' },
     'min': { required: 'Please enter min value', error: 'Please enter valid min value' },
     'max': { required: 'Please enter max value', error: 'Please enter valid max value' },

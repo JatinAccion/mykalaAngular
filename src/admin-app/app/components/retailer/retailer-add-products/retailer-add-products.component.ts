@@ -112,6 +112,7 @@ export class RetailerAddProductsComponent implements OnInit {
     this.categories = [];
     this.subCategories = [];
     this.productTypes = [];
+    this.selectedProductTypes = [];
     if (this.selectedPlaces.length > 0) {
       this.productService.getProductCategories(this.selectedPlaces.map(p => p.id)).subscribe(res => {
         this.categories = res.map(p => new IdNameParent(p.CategoryId, p.CategoryName, p.PlaceId, p.PlaceName));
@@ -126,6 +127,7 @@ export class RetailerAddProductsComponent implements OnInit {
   refreshSubCategories() {
     this.subCategories = [];
     this.productTypes = [];
+    this.selectedProductTypes = [];
     if (this.selectedCategories.length > 0) {
       this.productService.getProductSubCategories(this.selectedCategories.map(p => p.id)).subscribe(res => {
         this.subCategories = res.map(p => new IdNameParent(p.SubCategoryId, p.SubCategoryName, p.CategoryId, p.CategoryName));
@@ -139,6 +141,7 @@ export class RetailerAddProductsComponent implements OnInit {
 
   refreshProductTypes() {
     this.productTypes = [];
+    this.selectedProductTypes = [];
     if (this.selectedSubCategories.length > 0) {
       this.productService.getProductTypes(this.selectedSubCategories.map(p => p.id)).subscribe(res => {
         this.productTypes = res.map(p => new IdNameParent(p.TypeId, p.TypeName, p.SubCategoryId, p.SubCategoryName));
@@ -150,26 +153,27 @@ export class RetailerAddProductsComponent implements OnInit {
   onSubCategorySelectAll(items: any) { this.refreshProductTypes(); }
   onSubCategoryDeSelectAll(items: any) { this.refreshProductTypes(); }
   saveData() {
-    this.readForm();
-    this.validatorExt.validateAllFormFields(this.fG1);
-    if (!this.fG1.valid) {
-    } else {
-      // this.saveLoader = true;
-      // this.retialerService
-      //   .saveReturnPolicy(this.Obj)
-      //   .then(res => {
-          this.SaveData.emit('tab-products');
-        //   this.alert = { id: 1, type: 'success', message: 'Saved successfully', show: true };
-        //   this.saveLoader = false;
-        //   return true;
-        // })
-        // .catch(err => {
-        //   console.log(err);
-        //   this.alert = { id: 1, type: 'danger', message: 'Not able to Save', show: true };
+    this.SaveData.emit('tab-Product');
+    // this.readForm();
+    // this.validatorExt.validateAllFormFields(this.fG1);
+    // if (!this.fG1.valid) {
+    // } else {
+    //   // this.saveLoader = true;
+    //   // this.retialerService
+    //   //   .saveReturnPolicy(this.Obj)
+    //   //   .then(res => {
+    //   this.SaveData.emit('tab-product');
+    //   //   this.alert = { id: 1, type: 'success', message: 'Saved successfully', show: true };
+    //   //   this.saveLoader = false;
+    //   //   return true;
+    //   // })
+    //   // .catch(err => {
+    //   //   console.log(err);
+    //   //   this.alert = { id: 1, type: 'danger', message: 'Not able to Save', show: true };
 
-        // });
-    }
-    return false;
+    //   // });
+    // }
+    // return false;
   }
 
   readForm() { }

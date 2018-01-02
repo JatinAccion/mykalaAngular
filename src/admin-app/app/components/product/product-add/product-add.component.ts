@@ -24,7 +24,8 @@ import { inputValidations } from './messages';
 })
 export class ProductAddComponent implements OnInit {
   retailers: Array<Retailer>;
-  retailer = new Retailer();
+  retailer: Retailer;
+  reatileDummy: Retailer;
   fG1: FormGroup;
   saveloader: boolean;
   // #region declarations
@@ -61,7 +62,7 @@ export class ProductAddComponent implements OnInit {
   }
   setFormValidators() {
     this.fG1 = this.formBuilder.group({
-      retailer: ['', [Validators.required]],
+      retailer: [null, [Validators.required]],
     });
   }
   getRetailersData() {
@@ -80,6 +81,12 @@ export class ProductAddComponent implements OnInit {
   }
   setActiveTab(event) {
     // if (!this.productId && event.nextId !== 'tab-category') { event.preventDefault(); return; }
+    if (event.nextId === 'tab-delivery') {
+      this.validatorExt.validateAllFormFields(this.fG1);
+      if (this.fG1.invalid) {
+        event.preventDefault(); return;
+      }
+    }
     if (!this.productId) {
       switch (event.nextId) {
         case 'tab-images':

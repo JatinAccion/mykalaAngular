@@ -1,5 +1,5 @@
 // #region imports
-import { Component, OnInit, ViewEncapsulation, ViewChild, Input, EventEmitter, Output  } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, Input, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { nameValue } from '../../../../../models/nameValue';
 import { IAlert } from '../../../../../models/IAlert';
@@ -49,8 +49,8 @@ export class ProductAddPricingComponent implements OnInit {
 
   setFormValidators() {
     this.fG1 = this.formBuilder.group({
-      kalaPrice: ['0', [Validators.required, Validators.min(5)]],
-      retailPrice: ['0', [Validators.required]],
+      kalaPrice: ['0', [Validators.required, Validators.min(0)]],
+      retailPrice: ['0', [Validators.required, Validators.min(0)]],
     });
   }
 

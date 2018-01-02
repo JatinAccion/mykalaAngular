@@ -40,4 +40,8 @@ export class AuthService {
     });
     return this.http.get(url, { headers: headers }).toPromise();
   }
+  forgotPassword(fpModal) {
+    const url = 'http://dev-user-signup.us-east-2.elasticbeanstalk.com/login/user/forgotPassword';
+    return this.http.post(url, fpModal).map((res) => res.json())
+  }
 }

@@ -4,7 +4,7 @@
             <tr>
                 <td class="border-0">
                     <select class="ddl_default form-control" [(ngModel)]="productPlace" formControlName="productPlaceName" (change)="placeChanged($event)" >
-                            <option value=''>Select Place</option>
+                            <option [ngValue]="productPlaceDummy">Select Place</option>
                             <option *ngFor="let option of places" [ngValue]="option">
                                 {{option.PlaceName}}
                             </option>
@@ -15,7 +15,7 @@
             <tr>
                 <td class="border-0">
                     <select class="ddl_default form-control" [(ngModel)]="productCategory" formControlName="productCategoryName" (change)="categoryChanged($event)" >
-                            <option value=''>Select Category</option>
+                            <option [ngValue]="productCategoryDummy">Select Category</option>
                             <option *ngFor="let option of categories" [ngValue]="option">
                                 {{option.CategoryName}}
                             </option>
@@ -26,7 +26,7 @@
             <tr>
                 <td class="border-0">
                     <select class="ddl_default form-control" [(ngModel)]="productSubCategory" formControlName="productSubCategoryName" (change)="subCategoryChanged($event)" >
-                            <option value=''>Select Sub Catetory</option>
+                            <option [ngValue]="productSubCategoryDummy">Select Sub Catetory</option>
                             <option *ngFor="let option of subCategories" [ngValue]="option">
                                 {{option.SubCategoryName}}
                             </option>
@@ -37,7 +37,7 @@
             <tr>
                 <td class="border-0">
                     <select class="ddl_default form-control" [(ngModel)]="productType" formControlName="productTypeName" (change)="typeChanged($event)" >
-                            <option value=''>Select Type</option>
+                            <option [ngValue]="productTypeDummy">Select Type</option>
                             <option *ngFor="let option of productTypes" [ngValue]="option">
                                 {{option.TypeName}}
                             </option>

@@ -10,6 +10,7 @@ import { StatusComponent } from './components/status/status.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { RetailerRoutingModule } from './components/retailer/retailer-routing.module';
 import { ProductRoutingModule } from './components/product/product-routing.module';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 
 const appRoutes: Routes = [
     {
@@ -30,6 +31,10 @@ const appRoutes: Routes = [
         path: 'status',
         component: StatusComponent,
         canActivate: [EnsureAuthenticated]
+    },
+    {
+        path: 'forgot-password',
+        component: ForgotPasswordComponent,
     },
     {
         path: '**',

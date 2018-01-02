@@ -29,6 +29,9 @@
             <label class="form-check-label">
                 <input type="checkbox" formControlName="remember" class="form-check-input"> remember me
             </label>
+            <small style="margin-top: 4px" class="float-right">
+                <a routerLink="/forgot-password" class="colorlightGray">forgot password?</a>
+            </small>
         </div>
         <div *ngIf="loginError" class="alert alert-danger errorMessages">
             {{userMessages.error}}

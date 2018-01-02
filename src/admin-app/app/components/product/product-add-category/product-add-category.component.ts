@@ -34,10 +34,14 @@ export class ProductAddCategoryComponent implements OnInit {
   categories = new Array<ProductCategory>();
   subCategories = new Array<ProductSubCategory>();
   productTypes = new Array<ProductType>();
-  productPlace = new ProductPlace();
-  productCategory = new ProductCategory();
-  productSubCategory = new ProductSubCategory();
-  productType = new ProductType();
+  productPlace: ProductPlace;
+  productCategory: ProductCategory;
+  productSubCategory: ProductSubCategory;
+  productType: ProductType;
+  productPlaceDummy: ProductPlace;
+  productCategoryDummy: ProductCategory;
+  productSubCategoryDummy: ProductSubCategory;
+  productTypeDummy: ProductType;
   fG1 = new FormGroup({});
   step = 1;
   errorMsgs = inputValidations;
@@ -98,9 +102,9 @@ export class ProductAddCategoryComponent implements OnInit {
     this.categories = new Array<ProductCategory>();
     this.subCategories = new Array<ProductSubCategory>();
     this.productTypes = new Array<ProductType>();
-    this.productCategory = new ProductCategory();
-    this.productSubCategory = new ProductSubCategory();
-    this.productType = new ProductType();
+    delete this.productCategory;
+    delete this.productSubCategory;
+    delete this.productType;
     this.product.productCategoryName = '';
     this.product.productSubCategoryName = '';
     this.product.productTypeName = '';
@@ -112,8 +116,8 @@ export class ProductAddCategoryComponent implements OnInit {
     this.product.productCategoryName = this.productCategory.CategoryName;
     this.subCategories = new Array<ProductSubCategory>();
     this.productTypes = new Array<ProductType>();
-    this.productSubCategory = new ProductSubCategory();
-    this.productType = new ProductType();
+    delete this.productSubCategory;
+    delete this.productType;
     this.product.productSubCategoryName = '';
     this.product.productTypeName = '';
     this.productService.getProductSubCategories([this.productCategory.CategoryId]).subscribe(res => {
@@ -123,7 +127,7 @@ export class ProductAddCategoryComponent implements OnInit {
   subCategoryChanged(event) {
     this.product.productSubCategoryName = this.productSubCategory.SubCategoryName;
     this.productTypes = new Array<ProductType>();
-    this.productType = new ProductType();
+    delete this.productType;
     this.product.productTypeName = '';
     this.productService.getProductTypes([this.productSubCategory.SubCategoryId]).subscribe(res => {
       this.productTypes = res;

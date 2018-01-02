@@ -27,6 +27,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { RetailerModule } from './components/retailer/retailer.module';
 import { LocalStorageService } from './services/LocalStorage.service';
 import { ProductModule } from './components/product/product.module';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { ProductModule } from './components/product/product.module';
     LogoutComponent,
     HeaderComponent,
     FooterComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     BrowserModule,
