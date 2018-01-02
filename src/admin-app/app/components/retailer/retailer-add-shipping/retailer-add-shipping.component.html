@@ -240,8 +240,11 @@
                                                         <i class="fa empty" aria-hidden="true" *ngIf="!option.value.selected"></i>
                                                     </button>
                                                     </div>
-                                                    <div class="float-left">    
+                                                    <div class="float-left" *ngIf="i !== 4" >    
                                                         <span>&nbsp;{{option.value.shippingName}} </span>
+                                                    </div>
+                                                    <div class="float-left" *ngIf="i == 4" >    
+                                                            <span><input class="form-control"  aria-describedby="basic-addon1" [(ngModel)]="shippingMethodCustomName" formControlName="shippingName" ></span>
                                                     </div>
                                                 </ng-template>
                                                 <ng-template ngbPanelContent>

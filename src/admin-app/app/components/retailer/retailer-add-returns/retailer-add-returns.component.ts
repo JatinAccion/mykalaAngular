@@ -21,6 +21,8 @@ import { inputValidations } from './messages';
 export class RetailerAddReturnsComponent implements OnInit {
   @Input() retailerId: number;
   @Output() SaveData = new EventEmitter<any>();
+  @Input() returnData: RetailerReturnPolicy;
+  @Output() returnDataChange = new EventEmitter<RetailerReturnPolicy>();
   // #region declarations
 
   alert: IAlert = {

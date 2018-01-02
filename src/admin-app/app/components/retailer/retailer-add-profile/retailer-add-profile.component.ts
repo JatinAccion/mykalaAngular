@@ -27,6 +27,8 @@ export class RetailerAddProfileComponent implements OnInit {
   @Input() retailerId: number;
   @Output() retailerIdChange = new EventEmitter<number>();
   @Output() SaveData = new EventEmitter<any>();
+  @Input() profileData: RetailerProfileInfo;
+  @Output() profileDataChange = new EventEmitter<RetailerProfileInfo>();
   // #region declarations
 
   alert: IAlert = {
@@ -184,6 +186,7 @@ export class RetailerAddProfileComponent implements OnInit {
     contact.phoneNo = this.profileFG2.value.contact_phone_number;
     contact.contactType = this.profileFG2.value.contactType;
     this.profileInfoObj.contactPerson.push(contact);
+    this.profileDataChange.emit(this.profileInfoObj);
     return this.profileInfoObj;
   }
 
@@ -210,39 +213,43 @@ export class RetailerAddProfileComponent implements OnInit {
       .profileInfoGet(this.retailerId)
       .subscribe((res: RetailerProfileInfo) => {
         this.profileInfoObj = res;
-        this.profileFG1.patchValue({
-          businessName: this.profileInfoObj.businessName,
-          tin: this.profileInfoObj.tin,
-          businessSummary: this.profileInfoObj.businessSummary,
-          sellerTypeId: this.profileInfoObj.sellerTypeId,
-
-          bussines_address: this.profileInfoObj.businessAddress.addressLine1,
-          bussines_address2: this.profileInfoObj.businessAddress.addressLine2,
-          city: this.profileInfoObj.businessAddress.city,
-          state: this.profileInfoObj.businessAddress.state,
-          zipcode: this.profileInfoObj.businessAddress.zipcode,
-          email: this.profileInfoObj.businessAddress.email,
-          phone_number: this.profileInfoObj.businessAddress.phoneNo
-        });
-
-        this.profileFG2.patchValue({
-          websiteUrl: this.profileInfoObj.websiteUrl,
-          websiteUserName: this.profileInfoObj.websiteUserName,
-          websitePassword: this.profileInfoObj.websitePassword,
-
-          contact_name: this.profileInfoObj.contactPerson[0].personName,
-          contact_position: this.profileInfoObj.contactPerson[0].position,
-          contact_address1: this.profileInfoObj.contactPerson[0].addressLine1,
-          contact_address2: this.profileInfoObj.contactPerson[0].addressLine2,
-          contact_city: this.profileInfoObj.contactPerson[0].city,
-          contact_state: this.profileInfoObj.contactPerson[0].state,
-          contact_zipcode: this.profileInfoObj.contactPerson[0].zipcode,
-          contact_email: this.profileInfoObj.contactPerson[0].email,
-          contact_phone_number: this.profileInfoObj.contactPerson[0].phoneNo,
-          contactType: this.profileInfoObj.contactPerson[0].contactType
-
-        });
+        this.setData(this.profileInfoObj);
       });
+  }
+  setData(obj: RetailerProfileInfo) {
+    if (!obj) { return; }
+    this.profileFG1.patchValue({
+      businessName: obj.businessName,
+      tin: obj.tin,
+      businessSummary: obj.businessSummary,
+      sellerTypeId: obj.sellerTypeId,
+
+      bussines_address: obj.businessAddress.addressLine1,
+      bussines_address2: obj.businessAddress.addressLine2,
+      city: obj.businessAddress.city,
+      state: obj.businessAddress.state,
+      zipcode: obj.businessAddress.zipcode,
+      email: obj.businessAddress.email,
+      phone_number: obj.businessAddress.phoneNo
+    });
+
+    this.profileFG2.patchValue({
+      websiteUrl: obj.websiteUrl,
+      websiteUserName: obj.websiteUserName,
+      websitePassword: obj.websitePassword,
+
+      contact_name: obj.contactPerson[0].personName,
+      contact_position: obj.contactPerson[0].position,
+      contact_address1: obj.contactPerson[0].addressLine1,
+      contact_address2: obj.contactPerson[0].addressLine2,
+      contact_city: obj.contactPerson[0].city,
+      contact_state: obj.contactPerson[0].state,
+      contact_zipcode: obj.contactPerson[0].zipcode,
+      contact_email: obj.contactPerson[0].email,
+      contact_phone_number: obj.contactPerson[0].phoneNo,
+      contactType: obj.contactPerson[0].contactType
+
+    });
   }
   // #endregion ProfileInfo
 

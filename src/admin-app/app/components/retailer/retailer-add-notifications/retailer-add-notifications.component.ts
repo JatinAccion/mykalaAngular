@@ -20,7 +20,9 @@ import { inputValidations } from './messages';
 })
 export class RetailerAddNotificationsComponent implements OnInit {
   @Input() retailerId: number;
-  @Output() SaveData= new EventEmitter<any>();
+  @Output() SaveData = new EventEmitter<any>();
+  @Input() notificationData: RetailerNotification;
+  @Output() notificationDataChange = new EventEmitter<RetailerNotification>();
   // #region declarations
 
   alert: IAlert = {
