@@ -1,5 +1,5 @@
 <div [formGroup]="fG1" class="col-sm-12 p-3">
-    <div class="input-group">
+    <div class="input-group row">
         <span class="input-group-btn w-100">
             <span class="btn btn-file draglogo">
                 <div class="p-3 text-center">
@@ -13,10 +13,11 @@
             </span>
         </span>
         <app-field-error-display [field]="fG1.controls.productImage" [errorMsg]="errorMsgs"> </app-field-error-display>
-        <div>
-            <h3>Upload queue</h3>
-            <p>Queue length: {{ productImages.length }}</p>
-
+        <div class="col-sm-12 p-0">Main Image
+            <span class="float-right colorlightGray">Drag to change main image</span>
+        </div>
+        <div class="col-sm-12 p-0"> 
+            <p class="pt-2 pb-2">Count: {{ productImages.length }}</p> 
             <table class="table">
                 <thead>
                     <tr>
@@ -43,7 +44,7 @@
                                 <i class="fa fa-ok"></i>
                             </span>
                             <span *ngIf="item.isCancel">
-                                <i class="fa fa-ban-circle"></i>
+                                <i class="fa fa-times"></i>
                             </span>
                             <span *ngIf="item.isError">
                                 <i class="fa fa-remove"></i>
@@ -54,7 +55,7 @@
                                 <span class="fa fa-upload"></span> 
                             </button>
                             <button type="button" class="btn btn-warning btn-xs" (click)="item.cancel()" [disabled]="!item.isUploading">
-                                <span class="fa fa-ban-circle"></span> C
+                                <span class="fa fa-times"></span>
                             </button>
                             <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
                                 <span class="fa fa-trash"></span> 
@@ -75,7 +76,7 @@
                     <span class="fa fa-upload"></span> Upload all
                 </button>
                 <button type="button" class="btn btn-warning btn-s" (click)="cancelAll()" [disabled]="!isUploading">
-                    <span class="fa fa-ban-circle"></span> Cancel all
+                    <span class="fa fa-times"></span> Cancel all
                 </button>
                 <button type="button" class="btn btn-danger btn-s" (click)="clearQueue()" [disabled]="!queue.length">
                     <span class="fa fa-trash"></span> Remove all
@@ -83,16 +84,12 @@
             </div>
 
         </div>
-    </div>
-
-    <p>Main Image
-        <span class="float-right colorlightGray">Drag to change main image</span>
-    </p>
-    <div>
+    </div> 
+    <div class="row pt-3">
         <img src="/admin-app/assets/images/lamp1.png">
     </div>
-    <p>Other Images</p>
-    <div>
+    <p class="row">Other Images</p>
+    <div class="row">
         <img src="/admin-app/assets/images/lamp2.png">
         <img src="/admin-app/assets/images/lamp3.png">
     </div>

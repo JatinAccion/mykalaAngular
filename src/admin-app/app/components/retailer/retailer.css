@@ -89,4 +89,14 @@
     background-color: white !important;
     cursor: text !important;
   }
- 
+ .shippingCheck{
+    border: solid 1px #999;
+    background: transparent;
+    padding: 0px 1px;
+    font-size: 11px;
+    position: relative;
+    top: -4px;
+ }
+ .shippingCheck .fa.empty{
+     padding:6px 6px 6px 5px; 
+ }
