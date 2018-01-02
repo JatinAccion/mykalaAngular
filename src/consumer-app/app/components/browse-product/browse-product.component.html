@@ -33,7 +33,7 @@
 
 <div class="row">
     <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="loader" />
-    <div class="example col-sm-3" style="margin-bottom: 25px" *ngFor="let tile of tilesData">
+    <div class="example col-sm-3" style="margin-bottom: 25px" *ngFor="let tile of tilesData" routerLink="/view-product">
         <img src="/consumer-app/assets/images/img_03.jpg" class="product_hover img-fluid">
         <div class="hover_panel">
             <h5>{{tile.name}}</h5>

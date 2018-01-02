@@ -1,9 +1,9 @@
 <div class="title">
   <h2>get offers
     <span class="colorGray"> Step 4/4: basic info</span> |
-    <span class="btnClose">
-      <a routerLink="/browse-product" onclick="activate()">X</a>
-    </span>
+    <a routerLink="/browse-product">
+      <span class="btnClose">X</span>
+    </a>
   </h2>
 </div>
 
@@ -73,7 +73,7 @@
   <!--Step 2 View-->
 
   <!--Step 3 View-->
-  <div class="row" *ngIf="Step3Data != undefined">
+  <div class="row" *ngIf="Step3Data != undefined && Step3Data != ''">
     <div class="col-sm-4"></div>
     <div class="col-sm-2 colorlightGray">
       <p>Price range:</p>
@@ -81,7 +81,7 @@
     <div class="col-sm-6 text-left">$ {{Step4Summary.priceRange.minPrice}} - $ {{Step4Summary.priceRange.maxPrice}}</div>
   </div>
 
-  <div class="row" *ngIf="Step3Data != undefined">
+  <div class="row" *ngIf="Step3Data != undefined && Step3Data != ''">
     <div class="col-sm-4"></div>
     <div class="col-sm-2 colorlightGray">
       <p>Delivery:</p>
@@ -89,7 +89,7 @@
     <div class="col-sm-6 text-left">{{Step4Summary.delivery}}</div>
   </div>
 
-  <div class="row" *ngIf="Step3Data != undefined">
+  <div class="row" *ngIf="Step3Data != undefined && Step3Data != ''">
     <div class="col-sm-4"></div>
     <div class="col-sm-2 colorlightGray">
       <p>Zip code:</p>

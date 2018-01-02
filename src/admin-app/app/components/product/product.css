@@ -112,7 +112,7 @@
     width: 100%;
     opacity: 0;
     transition: .5s ease;
-    background-color: #3c3c3c;
+    background-color:rgba(35, 21, 15, 0.7);
   } 
  .anc_otherImg:hover .overlay {
     opacity: 1;
