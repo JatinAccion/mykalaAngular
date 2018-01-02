@@ -1,5 +1,5 @@
 // #region imports
-import { Component, OnInit, ViewEncapsulation, ViewChild, Input, EventEmitter, Output  } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, Input, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { nameValue } from '../../../../../models/nameValue';
 import { IAlert } from '../../../../../models/IAlert';
@@ -24,17 +24,12 @@ export class ProductAddDeliveryComponent implements OnInit {
   @Output() SaveData = new EventEmitter<any>();
   shippingProfiles: nameValue[];
   productId = 1;
-  alert: IAlert = {
-    id: 1,
-    type: 'success',
-    message: '',
-    show: false
-  };
+  alert: IAlert = { id: 1, type: 'success', message: '', show: false };
   fG1 = new FormGroup({});
   step = 1;
-  errorMsgs= inputValidations;
+  errorMsgs = inputValidations;
   saveLoader = true;
-
+  getDataloader = true;
   // #endregion declaration
   constructor(
     private formBuilder: FormBuilder,
@@ -44,7 +39,11 @@ export class ProductAddDeliveryComponent implements OnInit {
   }
   ngOnInit() {
     this.setFormValidators();
-    this.productService.getShippingProfiles().subscribe(res => { this.shippingProfiles = res; });
+    this.getDataloader = true;
+    this.productService.getShippingProfiles(this.product.retailerId).subscribe(res => {
+      this.shippingProfiles = res;
+      this.getDataloader = false;
+    });
   }
   closeAlert(alert: IAlert) {
     this.alert.show = false;
@@ -74,6 +73,4 @@ export class ProductAddDeliveryComponent implements OnInit {
   }
 
   getData(retailerId) { }
-
-
 }

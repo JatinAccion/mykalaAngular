@@ -1,15 +1,19 @@
 <div [formGroup]="fG1">
     <div class="row p-3">
-        <div class="col-sm-12">
+        <div class="col-sm-12 p-0">
             Shipping Profile
+            <img src="/admin-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="getDataloader" />
         </div>
         <div class="form-group">
             <ul class="list-unstyled">
                 <li *ngFor="let shipping of shippingProfiles; let idx=index; ">
-                    <input type="radio" [(ngModel)]="product.shipProfileId"  value="{{shipping.name}}" name="shippingId" formControlName="shippingId" /> {{shipping.value}}
+                    <input type="radio" [(ngModel)]="product.shipProfileId" value="{{shipping.name}}" name="shippingId" formControlName="shippingId" /> {{shipping.value}}
                 </li>
             </ul>
-           
+            <div *ngIf="!shippingProfiles && getDataloader">
+                The Seller does not setup any Delivery
+            </div>
+
         </div>
     </div>
     <hr />

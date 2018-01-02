@@ -36,9 +36,9 @@ export class ProductService {
     this.seedStaticData();
   }
   seedStaticData() {
-    this.shippingProfiles.push(new nameValue('1', 'Furniture delivery'));
-    this.shippingProfiles.push(new nameValue('2', 'Small item delivery'));
-    this.shippingProfiles.push(new nameValue('3', '1-5 business days shipping'));
+    // this.shippingProfiles.push(new nameValue('1', 'Furniture delivery'));
+    // this.shippingProfiles.push(new nameValue('2', 'Small item delivery'));
+    // this.shippingProfiles.push(new nameValue('3', '1-5 business days shipping'));
   }
   get(query: any): Observable<any[]> {
     this.headers = this.getHttpHeraders();
@@ -57,14 +57,15 @@ export class ProductService {
       .catch(this.handleError);
   }
 
-  public getShippingProfiles(): Observable<nameValue[]> {
-    if (this.shippingProfiles != null) {
+  public getShippingProfiles(retailerId: number): Observable<nameValue[]> {
+    if (this.shippingProfiles != null && this.shippingProfiles.length > 0) {
       return Observable.of(this.shippingProfiles);
     } else {
+      this.headers = this.getHttpHeraders();
+      const url = `${ environment.AdminApi}/${environment.apis.retailers.getShippingProfileNames}`;
       return this.http
-        .get('')
-        .map(res => <nameValue[]>res.json())
-        .do(res => (this.shippingProfiles = res))
+        .get(`${url}`, { search: { retailerId: retailerId }, headers: this.headers })
+        .map(res => <Array<any>>res.json().map(obj => new nameValue(obj.shipProfileId, obj.profileName)))
         .catch(this.handleError);
     }
   }
