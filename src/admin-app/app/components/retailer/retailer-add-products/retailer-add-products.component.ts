@@ -12,6 +12,7 @@ import { environment } from '../../../../environments/environment';
 import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 import { inputValidations } from './messages';
 import { ProductService } from '../../product/product.service';
+import { RetailerProductInfo } from '../../../../../models/retailer-product-info';
 
 @Component({
   selector: 'app-retailer-add-products',
@@ -22,6 +23,11 @@ import { ProductService } from '../../product/product.service';
 export class RetailerAddProductsComponent implements OnInit {
   @Input() retailerId: number;
   @Output() SaveData = new EventEmitter<any>();
+  @Input() productData: RetailerProductInfo;
+  @Output() productDataChange = new EventEmitter<RetailerProductInfo>();
+  alert: IAlert = { id: 1, type: 'success', message: '', show: false };
+
+
   places = new Array<IdNameParent>();
   selectedPlaces = new Array<IdNameParent>();
   allCategories = new Array<IdNameParent>();
@@ -38,7 +44,8 @@ export class RetailerAddProductsComponent implements OnInit {
   categorySettings = {};
   subCategorySettings = {};
   productTypeSettings = {};
-  FG1: FormGroup;
+  saveLoader = true;
+  fG1: FormGroup;
   constructor(
     private formBuilder: FormBuilder,
     private retialerService: RetialerService,
@@ -47,24 +54,13 @@ export class RetailerAddProductsComponent implements OnInit {
   ) {
   }
   ngOnInit() {
-    this.FG1 = this.formBuilder.group({
-      name: '',
-      email: ['', Validators.required],
+    this.fG1 = this.formBuilder.group({
       place: [[], Validators.required],
       category: [[], Validators.required],
       subCategory: [[], Validators.required],
       productType: [[], Validators.required],
     });
 
-    // this.places = [
-    //   new IdNameParent('1', 'Home & Garden (546)', '', ''),
-    //   new IdNameParent('2', 'Electronics', '', ''),
-    //   new IdNameParent('3', 'Health & Fitness (321)', '', ''),
-    //   new IdNameParent('4', 'Travel', '', ''),
-    // ];
-    // this.selectedPlaces = [
-    //   new IdNameParent('2', 'Electronics', '', ''),
-    // ];
     this.productService.getProductPlaces().subscribe(res =>
       this.places = res.map(p => new IdNameParent(p.PlaceId, p.PlaceName, '', ''))
     );
@@ -153,7 +149,29 @@ export class RetailerAddProductsComponent implements OnInit {
   onSubCategoryDeSelect(item: any) { this.refreshProductTypes(); }
   onSubCategorySelectAll(items: any) { this.refreshProductTypes(); }
   onSubCategoryDeSelectAll(items: any) { this.refreshProductTypes(); }
+  saveData() {
+    this.readForm();
+    this.validatorExt.validateAllFormFields(this.fG1);
+    if (!this.fG1.valid) {
+    } else {
+      // this.saveLoader = true;
+      // this.retialerService
+      //   .saveReturnPolicy(this.Obj)
+      //   .then(res => {
+          this.SaveData.emit('tab-products');
+        //   this.alert = { id: 1, type: 'success', message: 'Saved successfully', show: true };
+        //   this.saveLoader = false;
+        //   return true;
+        // })
+        // .catch(err => {
+        //   console.log(err);
+        //   this.alert = { id: 1, type: 'danger', message: 'Not able to Save', show: true };
 
+        // });
+    }
+    return false;
+  }
 
+  readForm() { }
 
 }

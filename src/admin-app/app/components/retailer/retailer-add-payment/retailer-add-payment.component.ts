@@ -22,6 +22,8 @@ import { inputValidations } from './messages';
 export class RetailerAddPaymentComponent implements OnInit {
   @Input() retailerId: number;
   @Output() SaveData = new EventEmitter<any>();
+  @Input() paymentData: RetailerPaymentInfo;
+  @Output() paymentDataChange = new EventEmitter<RetailerPaymentInfo>();
   // #region declarations
 
   alert: IAlert = {

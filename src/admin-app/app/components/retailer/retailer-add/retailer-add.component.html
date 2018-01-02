@@ -7,24 +7,24 @@
         <ngb-tabset #tabs="ngbTabset" class="accountsTabs" [orientation]="currentOrientation" [justify]="currentJustify" (tabChange)="setActiveTab($event)">
             <ngb-tab id="tab-Profile">
                 <ng-template ngbTabTitle>Profile info
-                        <img src="/admin-app/assets/images/tick_icon.png" class="float-right mr-2" *ngIf="status.Profile" />
+                    <img src="/admin-app/assets/images/tick_icon.png" class="float-right mr-2" *ngIf="status.Profile" />
                 </ng-template>
                 <ng-template ngbTabContent>
                     <div class="row backgroundWhite">
                         <div class="col-sm-12 p-2">
-                            <app-retailer-add-profile [(retailerId)]="retailerId" (SaveData)="showNextTab($event)"></app-retailer-add-profile>
+                            <app-retailer-add-profile [(retailerId)]="retailerId" (SaveData)="showNextTab($event)" [(profileData)]="profileData"></app-retailer-add-profile>
                         </div>
                     </div>
                 </ng-template>
             </ngb-tab>
             <ngb-tab id="tab-Payment">
                 <ng-template ngbTabTitle>Payment info
-                        <img src="/admin-app/assets/images/tick_icon.png" class="float-right mr-2" *ngIf="status.Payment" />
+                    <img src="/admin-app/assets/images/tick_icon.png" class="float-right mr-2" *ngIf="status.Payment" />
                 </ng-template>
                 <ng-template ngbTabContent>
                     <div class="row backgroundWhite">
                         <div class="col-sm-12 p-2">
-                            <app-retailer-add-payment [retailerId]="retailerId" (SaveData)="showNextTab($event)" (SetRetailerId)=setRetailerId($event)></app-retailer-add-payment>
+                            <app-retailer-add-payment [retailerId]="retailerId" (SaveData)="showNextTab($event)" (SetRetailerId)=setRetailerId($event) [(paymentData)]="paymentData"></app-retailer-add-payment>
                         </div>
                         <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
                     </div>
@@ -32,13 +32,13 @@
             </ngb-tab>
             <ngb-tab id="tab-Product">
                 <ng-template ngbTabTitle>Product info
-                        <img src="/admin-app/assets/images/tick_icon.png" class="float-right mr-2" *ngIf="status.Product" />
+                    <img src="/admin-app/assets/images/tick_icon.png" class="float-right mr-2" *ngIf="status.Product" />
                 </ng-template>
                 <ng-template ngbTabContent>
                     <div class="row backgroundWhite">
 
                         <div class="col-sm-12 p-2">
-                            <app-retailer-add-products [retailerId]="retailerId" (SaveData)="showNextTab($event)"></app-retailer-add-products>
+                            <app-retailer-add-products [retailerId]="retailerId" (SaveData)="showNextTab($event)" [(productData)]="productData"></app-retailer-add-products>
                         </div>
                         <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
 
@@ -47,12 +47,12 @@
             </ngb-tab>
             <ngb-tab id="tab-Shipping">
                 <ng-template ngbTabTitle>Shipping profile
-                        <img src="/admin-app/assets/images/tick_icon.png" class="float-right mr-2" *ngIf="status.Shipping" />
+                    <img src="/admin-app/assets/images/tick_icon.png" class="float-right mr-2" *ngIf="status.Shipping" />
                 </ng-template>
                 <ng-template ngbTabContent>
                     <div class="row backgroundWhite">
 
-                        <app-retailer-add-shipping class="w-100" [retailerId]="retailerId" (SaveData)="showNextTab($event)"></app-retailer-add-shipping>
+                        <app-retailer-add-shipping class="w-100" [retailerId]="retailerId" (SaveData)="showNextTab($event)" [(shippingsData)]="shippingsData"></app-retailer-add-shipping>
 
                         <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
                     </div>
@@ -60,12 +60,12 @@
             </ngb-tab>
             <ngb-tab id="tab-Return">
                 <ng-template ngbTabTitle>Return and Exchange policy
-                        <img src="/admin-app/assets/images/tick_icon.png" class="float-right mr-2" *ngIf="status.Return" />
+                    <img src="/admin-app/assets/images/tick_icon.png" class="float-right mr-2" *ngIf="status.Return" />
                 </ng-template>
                 <ng-template ngbTabContent>
                     <div class="row backgroundWhite">
                         <div class="col-sm-12 p-2">
-                            <app-retailer-add-returns [retailerId]="retailerId" (SaveData)="showNextTab($event)"></app-retailer-add-returns>
+                            <app-retailer-add-returns [retailerId]="retailerId" (SaveData)="showNextTab($event)" [(returnData)]="returnData"></app-retailer-add-returns>
                         </div>
                         <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
                     </div>
@@ -73,12 +73,12 @@
             </ngb-tab>
             <ngb-tab id="tab-Notifications">
                 <ng-template ngbTabTitle>Notifications
-                        <img src="/admin-app/assets/images/tick_icon.png" class="float-right mr-2" *ngIf="status.Notifications" />
+                    <img src="/admin-app/assets/images/tick_icon.png" class="float-right mr-2" *ngIf="status.Notifications" />
                 </ng-template>
                 <ng-template ngbTabContent>
                     <div class="row backgroundWhite">
                         <div class="col-sm-12 p-2">
-                            <app-retailer-add-notifications [retailerId]="retailerId" (SaveData)="showNextTab($event)"></app-retailer-add-notifications>
+                            <app-retailer-add-notifications [retailerId]="retailerId" (SaveData)="showNextTab($event)" [(notificationData)]="notificationData"></app-retailer-add-notifications>
                         </div>
                         <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
                     </div>

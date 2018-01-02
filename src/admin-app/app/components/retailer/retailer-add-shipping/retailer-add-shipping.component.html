@@ -233,13 +233,17 @@
                                                 <ng-template ngbPanelTitle>
                                                     <div class="float-left mt-1">
                                                         
+                                                    <!-- <input type="checkbox"   formControlName="selected" (click)="paymentOptionClick($event,option.controls.selected)" >  -->
                                                     <button  (click)="setoptionSelected($event, i)" > 
-                                                        <input type="checkbox"   formControlName="selected" > 
+                                                            <input type="checkbox" [disabled]="true"  formControlName="selected">
                                                         <!-- <i [ngClass]="{'fa fa-check ': option.value.selected, 'fa fa-square ': !option.value.selected}" aria-hidden="true"></i> -->
                                                     </button>
                                                     </div>
-                                                    <div class="float-left">    
+                                                    <div class="float-left" *ngIf="i !== 4" >    
                                                         <span>&nbsp;{{option.value.shippingName}} </span>
+                                                    </div>
+                                                    <div class="float-left" *ngIf="i == 4" >    
+                                                            <span><input class="form-control"  aria-describedby="basic-addon1" [(ngModel)]="shippingMethodCustomName" formControlName="shippingName" ></span>
                                                     </div>
                                                 </ng-template>
                                                 <ng-template ngbPanelContent>

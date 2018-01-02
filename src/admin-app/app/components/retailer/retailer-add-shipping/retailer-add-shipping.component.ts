@@ -33,6 +33,8 @@ export class RetailerAddShippingComponent implements OnInit {
   currentTabIndex = 0;
   @Output() SaveData = new EventEmitter<any>();
   @Input() retailerId: number;
+  @Input() shippingsData: Array<RetialerShippingProfile>;
+  @Output() shippingsDataChange = new EventEmitter<Array<RetialerShippingProfile>>();
   alert: IAlert = {
     id: 1,
     type: 'success',
@@ -49,7 +51,7 @@ export class RetailerAddShippingComponent implements OnInit {
   saveLoader = true;
   tiers = new Array<ShippingDeliveryTier>();
   modified = true;
-
+  shippingMethodCustomName = '';
   // #endregion Shipping
 
   // #endregion declaration
@@ -330,6 +332,9 @@ export class RetailerAddShippingComponent implements OnInit {
         const fee = new RetailerShippingMethodFee();
         fee.shipMethodId = subElement.value.shipppingMethodId;
         fee.shipMethodName = subElement.value.shippingName;
+        if (subElement.value.shippingName === 'Custom') {
+          fee.shipMethodName = this.shippingMethodCustomName;
+        }
         fee.deliveryFee = (subElement.get('charges') as FormArray).length > tierSequence ?
           (subElement.get('charges') as FormArray).at(tierSequence).value.charge : 0;
         deliveryTier.shippingMethod.push(fee);
@@ -346,12 +351,18 @@ export class RetailerAddShippingComponent implements OnInit {
     // this.shippingObj.step = 1;
     this.setValidators();
   }
-  paymentOptionClick($event) {
+  paymentOptionClick($event, ctrl) {
+    // ctrl.patchValue(ctrl.value);
+    const val = (this.shippingFG2.get('shippingMethods') as FormArray).controls[0].get('selected').value;
+    (this.shippingFG2.get('shippingMethods') as FormArray).controls[0].get('selected').patchValue(!val);
     $event.stopPropagation();
+    $event.preventDefault();
     // return false;
   }
-  setoptionSelected(event, index) {
+  setoptionSelected($event, index) {
     const val = (this.shippingFG2.get('shippingMethods') as FormArray).controls[index].get('selected').value;
     (this.shippingFG2.get('shippingMethods') as FormArray).controls[index].get('selected').patchValue(!val);
+    $event.stopPropagation();
+    $event.preventDefault();
   }
 }

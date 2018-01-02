@@ -2,7 +2,7 @@
 <div [formGroup]="fG1">
     <div class="form-group">
         <label class="control-label required" [ngClass]="validatorExt.displayFieldCss(fG1.controls.returnPolicy)">Returns and Exchange policy</label>
-        <small class="float-right">500 characters left</small>
+        <small class="float-right">{{ validatorExt.remainingCharacters(fG1.controls.returnPolicy, 500) }}  characters left</small>
         <textarea ng-model="myTextarea" class="txtarea" maxlength="500" pattern formControlName="returnPolicy"></textarea>        
         <app-field-error-display [field]="fG1.controls.returnPolicy" [errorMsg]="errorMsgs"> </app-field-error-display>
     </div>
