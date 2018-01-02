@@ -13,6 +13,7 @@ import { OfferInfo1 } from '../steps.modal';
   encapsulation: ViewEncapsulation.None
 })
 export class Step1Component implements OnInit {
+  pageLabel: string;
   loader_place: boolean;
   loader_category: boolean;
   loader_subCategory: boolean;
@@ -38,6 +39,9 @@ export class Step1Component implements OnInit {
   ngOnInit() {
     this.headerMessage = 'get offers';
     this.core.show(this.headerMessage);
+    this.pageLabel = window.localStorage['browseProductSearch'];
+    this.core.hideUserInfo(true);
+    this.core.pageLabel(this.pageLabel);
     if (window.localStorage['GetOfferStep_1'] != undefined) {
       this.checkIfStored = true;
       this.viewSavedData = JSON.parse(window.localStorage['GetOfferStep_1']);
@@ -83,7 +87,7 @@ export class Step1Component implements OnInit {
   };
 
   getCategory() {
-    this.loader_category= true;
+    this.loader_category = true;
     this.userResponse.category = [];
     this.homeService.getTilesCategory(this.getPlaceId).subscribe(res => {
       this.loader_category = false;

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { GetOfferModal } from '../getOffer.modal';
 import { OfferInfo3 } from '../steps.modal';
 import { GetOfferService } from '../../../services/getOffer.service';
+import { CoreService } from '../../../services/core.service';
 
 @Component({
   selector: 'app-step3',
@@ -12,6 +13,8 @@ import { GetOfferService } from '../../../services/getOffer.service';
   encapsulation: ViewEncapsulation.None
 })
 export class Step3Component implements OnInit {
+  pageLabel: string;
+  headerMessage: string;
   zipCodeRegex: '^\d{5}(?:[-\s]\d{4})?$';
   getOffer_orderInfo: FormGroup;
   inputNewLocation: boolean;
@@ -25,11 +28,17 @@ export class Step3Component implements OnInit {
   constructor(
     private route: Router,
     private formBuilder: FormBuilder,
-    private goService: GetOfferService
+    private goService: GetOfferService,
+    private core: CoreService
   ) { }
 
   ngOnInit() {
-    if (window.localStorage['GetOfferStep_3'] != undefined) {
+    this.headerMessage = 'get offers';
+    this.core.show(this.headerMessage);
+    this.pageLabel = 'What\'s your budget and delivery preference for this item?';
+    this.core.hideUserInfo(true);
+    this.core.pageLabel(this.pageLabel);
+    if (window.localStorage['GetOfferStep_3'] != undefined && window.localStorage['GetOfferStep_3'] != "") {
       this.viewSavedData = JSON.parse(window.localStorage['GetOfferStep_3']);
       for (var i = 0; i < this.viewSavedData.length; i++) {
         this.getOffer_orderInfo = this.formBuilder.group({
@@ -79,6 +88,11 @@ export class Step3Component implements OnInit {
         });
     }
   };
+
+  skip() {
+    window.localStorage['GetOfferStep_3'] = "";
+    this.route.navigate(['/getoffer', 'step4']);
+  }
 
   prev() {
     this.route.navigate(['/getoffer', 'step2']);

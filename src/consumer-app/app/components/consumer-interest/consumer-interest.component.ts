@@ -29,6 +29,8 @@ export class ConsumerInterestComponent implements OnInit {
 
   ngOnInit() {
     this.core.searchMsgToggle();
+    this.core.hideUserInfo();
+    this.core.pageLabel();
     if (window.localStorage['token'] == undefined) this.core.clearUser();
     this.loadInterest = true;
     this.headerMessage = 'Almost done! Just one more step to go.';
