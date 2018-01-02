@@ -26,9 +26,12 @@ export class BrowseProductComponent implements OnInit {
   ngOnInit() {
     this.loader = true;
     this.loadTypes();
+    this.core.hideUserInfo();
+    this.core.pageLabel();
   }
 
   loadTypes() {
+    this.loader = true;
     this.tilesData = [];
     this.selectedTilesData = JSON.parse(window.localStorage['levelSelections']);
     this.homeService.getTilesType(this.selectedTilesData.subcategory.id).subscribe(res => {
@@ -37,6 +40,7 @@ export class BrowseProductComponent implements OnInit {
       this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' ' + this.selectedTilesData.subcategory.name;
       this.core.show(this.headerMessage);
       this.core.searchMsgToggle('get offers');
+      window.localStorage['browseProductSearch'] = this.headerMessage;
     });
   }
 
@@ -59,8 +63,14 @@ export class BrowseProductComponent implements OnInit {
     this.selectedCategoryData = object;
     this.subCategory = [];
     e.currentTarget.nextElementSibling.style.display = 'block';
-    e.currentTarget.parentElement.parentElement.previousElementSibling.firstElementChild.lastElementChild.style.display = 'none';
-    e.currentTarget.parentElement.parentElement.nextElementSibling.firstElementChild.lastElementChild.style.display = 'none';
+    //If Previous Siblings is Present
+    if (e.currentTarget.parentElement.parentElement.previousElementSibling.className == 'category_tiles') {
+      e.currentTarget.parentElement.parentElement.previousElementSibling.firstElementChild.lastElementChild.style.display = 'none';
+    }
+    //If Next Siblings is Present
+    if (e.currentTarget.parentElement.parentElement.nextElementSibling == null) { }
+    else e.currentTarget.parentElement.parentElement.nextElementSibling.firstElementChild.lastElementChild.style.display = 'none';
+
     this.homeService.getTilesSubCategory(object.id).subscribe(res => {
       this.loadersubCategory = false;
       for (var i = 0; i < res.length; i++) this.subCategory.push(new SearchDataModal(res[i].subCategoryId, res[i].subCategoryName, res[i].subCategoryName, "3"));

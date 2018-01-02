@@ -52,6 +52,7 @@ import { Step2Component } from './components/getoffers/step2/step2.component';
 import { Step3Component } from './components/getoffers/step3/step3.component';
 import { Step4Component } from './components/getoffers/step4/step4.component';
 import { GetOfferService } from './services/getOffer.service';
+import { ViewProductComponent } from './components/view-product/view-product.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +80,8 @@ import { GetOfferService } from './services/getOffer.service';
     Step1Component,
     Step2Component,
     Step3Component,
-    Step4Component
+    Step4Component,
+    ViewProductComponent
   ],
   imports: [
     BrowserModule,

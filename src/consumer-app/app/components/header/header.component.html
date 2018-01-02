@@ -32,8 +32,11 @@
 <!--Header 2-->
 <div *ngIf="getHeader == 'header2'" class="clearfix sub_header" style="display:block;">
   <div class="row">
-    <div class="col-sm-12 mb-3 p-0">
+    <div *ngIf="core.userName" class="col-sm-12 mb-3 p-0">
       <span class="dialogue dialogue_left">Hi, {{firstName}}!</span>
+    </div>
+    <div *ngIf="core.showPageMsg" class="col-sm-12 mb-3 p-0">
+      <span class="dialogue dialogue_left">{{core.pageMsg}}</span>
     </div>
     <div class="col-sm-12 mb-3 p-0" *ngIf="core.navVisible">
       <span class="dialogue dialogue_left">{{core.showHeaderMessage}}</span>

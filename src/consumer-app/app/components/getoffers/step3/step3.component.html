@@ -1,9 +1,12 @@
 <div class="title mb-4">
   <h2>get offers
     <span class="colorGray"> Step 3/4: basic info</span> |
-    <span class="btnClose">
-      <a routerLink="/browse-product" onclick="activate()">X</a>
-    </span>
+    <a routerLink="/browse-product">
+      <span class="btnClose">X</span>
+    </a>
+    <small class="text-right mt-2 bgColor float-right">
+      <a (click)="skip()" class="colorred">skip</a>
+    </small>
   </h2>
 </div>
 
@@ -64,11 +67,11 @@
             <img style="top:5px; right:20px" width="15" src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2" *ngIf="loaderLocation" />
           </span>
           <div style="cursor: pointer" (click)="addNewLocation($event)" class="categ_outline_red mr-2 noBackground colorred">+</div>
-          
+
           <p class="clearfix colorlightGray">
             {{fetchGeoCode}}
           </p>
-          
+
           <!--Validation-->
           <div *ngIf="getOffer_orderInfo.controls.zipCode.dirty || getOffer_orderInfo.controls.zipCode.touched">
             <div *ngIf="getOffer_orderInfo.controls.zipCode.value && getOffer_orderInfo.controls.zipCode.errors && (!getOffer_orderInfo.controls.zipCode.minlength || !getOffer_orderInfo.controls.zipCode.maxlength)" class="alert alert-danger errorMessages">

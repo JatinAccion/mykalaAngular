@@ -21,6 +21,7 @@ import { Step1Component } from './components/getoffers/step1/step1.component';
 import { Step2Component } from './components/getoffers/step2/step2.component';
 import { Step3Component } from './components/getoffers/step3/step3.component';
 import { Step4Component } from './components/getoffers/step4/step4.component';
+import { ViewProductComponent } from './components/view-product/view-product.component';
 
 const appRoutes: Routes = [
     {
@@ -69,6 +70,12 @@ const appRoutes: Routes = [
             { path: 'step3', component: Step3Component, data: { header: 'header2' } },
             { path: 'step4', component: Step4Component, data: { header: 'header2' } }
         ]
+    },
+    {
+        path: 'view-product',
+        component: ViewProductComponent,
+        data: { header: 'header2' }
+        // canActivate: [EnsureAuthenticated]
     },
     {
         path: 'logout',

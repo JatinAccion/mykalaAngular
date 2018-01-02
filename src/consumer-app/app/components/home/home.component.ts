@@ -28,6 +28,8 @@ export class HomeComponent implements OnInit {
     localStorage.removeItem('GetOfferStep_4');
     this.core.hide();
     this.core.searchMsgToggle();
+    this.core.hideUserInfo();
+    this.core.pageLabel();
     if (window.localStorage['token'] == undefined) this.core.clearUser();
     this.getPlace();
   }

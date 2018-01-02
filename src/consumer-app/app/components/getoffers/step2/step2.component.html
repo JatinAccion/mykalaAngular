@@ -1,9 +1,12 @@
 <div class="title mb-4">
   <h2>get offers
     <span class="colorGray"> Step 2/4: basic info</span> |
-    <span class="btnClose">
-      <a href="#" onclick="activate()">X</a>
-    </span>
+    <a routerLink="/browse-product">
+      <span class="btnClose">X</span>
+    </a>
+    <small class="text-right mt-2 bgColor float-right">
+      <a (click)="skip()" class="colorred">skip</a>
+    </small>
   </h2>
 </div>
 <div class="col-sm-12 p-0">
