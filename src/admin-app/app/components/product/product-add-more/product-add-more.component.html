@@ -18,16 +18,147 @@
         </div>
         <app-field-error-display [field]="fG1.controls.Length" [errorMsg]="errorMsgs"> </app-field-error-display>
     </div>
-</div>
-<div class="row p-2">
     <div class="col-sm-2 p-2 colorlightGray">
-        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.Height)">Height:</label>
+        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.height)">Height:</label>
     </div>
     <div class="col-sm-10">
-        <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="Height">
-        <app-field-error-display [field]="fG1.controls.Height" [errorMsg]="errorMsgs"> </app-field-error-display>
+        <div class="input-group">
+            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="height"> 
+        </div>
+        <app-field-error-display [field]="fG1.controls.height" [errorMsg]="errorMsgs"> </app-field-error-display>
     </div>
+    <div class="col-sm-2 p-2 colorlightGray">
+        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.Weight)">Weight:</label>
+    </div>
+    <div class="col-sm-10">
+        <div class="input-group">
+            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="Weight"> 
+        </div>
+        <app-field-error-display [field]="fG1.controls.Weight" [errorMsg]="errorMsgs"> </app-field-error-display>
+    </div>
+</div> 
+<div class="row p-3">
+    Product weight
 </div>
+<div class="row pb-2 pr-4 pl-3"> 
+    <div class="input-group">
+        <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="prodectWeight">
+        <span class="input-group-addon" id="basic-addon1">
+            <select class="ddl_Product">
+                <option>pounds</option>
+                <option>ounces</option> 
+            </select>
+        </span>
+    </div> 
+</div> 
+<div class="row p-3">
+    Shipping weight
+</div>
+<div class="row pb-2 pr-4 pl-3"> 
+    <div class="input-group">
+        <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="shippingWeight">
+        <span class="input-group-addon" id="basic-addon1">
+            <select class="ddl_Product">
+                <option>pounds</option>
+                <option>ounces</option> 
+            </select>
+        </span>
+    </div> 
+</div>
+<div class="row p-3">
+    Package dimensions
+</div>
+<div class="row">
+        <table class="table table-borderless">
+            <tr>
+                <td width="5%"><input type="radio" value="1" name="select" /></td>
+                <td width="95%">
+                    <div class="border_outline row mr-3">
+                        <div class="col-sm-8 p-3 ">
+                            <strong>Letter</strong>
+                            <div>Minimum: 5” long, 3 ½” high, and 0.007” thick Maximum: 11-1/2” long, 6-1/8” high, and ¼” thick</div>
+                        </div>
+                        <div class="col-sm-4 text-center">
+                            <img src="/admin-app/assets/images/icon_letter.png" />
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td width="5%"><input type="radio" value="1" name="select" /></td>
+                <td width="95%"> 
+                    <div class="row border_outline mr-3">
+                        <div class="col-sm-8 p-3">
+                            <strong>Small</strong>
+                            <div>Max. Size: Length + (2 x Width) + (2 x Height) <= 28”</div>
+                        </div>
+                        <div class="col-sm-4 text-center">
+                            <img src="/admin-app/assets/images/icon_small.png" />
+                        </div>
+                    </div> 
+                </td>
+            </tr>
+            <tr>
+                <td width="5%"><input type="radio" value="1" name="select" /></td>
+                <td width="95%">
+                    <div class="row border_outline mr-3">
+                        <div class="col-sm-8 p-3">
+                            <strong>Medium</strong>
+                            <div>Max. Size: Length + (2 x Width) + (2 x Height) > 28”, <= 84”</div>
+                        </div>
+                        <div class="col-sm-4 text-center">
+                            <img src="/admin-app/assets/images/icon_medium.png" />
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td width="5%"><input type="radio" value="1" name="select" /></td>
+                <td width="95%">
+                    <div class="row border_outline mr-3">
+                        <div class="col-sm-8 p-3">
+                            <strong>Large</strong>
+                            <div>Max. Size: Length + (2 x Width) + (2 x Height) > 84”, <= 165”</div>
+                        </div>
+                        <div class="col-sm-4 text-center">
+                            <img src="/admin-app/assets/images/icon_Large.png" />
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td width="5%"><input type="radio" value="1" name="select" /></td>
+                <td width="95%">
+                    <div class="row border_outline mr-3">
+                        <div class="col-sm-8 p-3">
+                            <strong>Oversized</strong>
+                            <div>Max. Size: Length + (2 x Width) + (2 x Height) > 165”</div>
+                        </div>
+                        <div class="col-sm-4 text-center">
+                            <img src="/admin-app/assets/images/icon_oversize.png" />
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td width="5%"><input type="radio" value="1" name="select" /></td>
+                <td width="95%">
+                    <div class="row border_outline p-3 mr-3">
+                        <strong>Irregular</strong>
+                        Assumes shipment can’t be sorted with mail processing equipment due to size,
+                        shape, or content issues.
+                        The longest side of the package is over 60 inches or the second longest side is
+                        over 30 inches.
+                        The package is encased in an external shipping container made of metal or
+                        wood.
+                        The package is a cylindrical item, such as a barrel, drum, pail, or tire that isn't
+                        fully encased in a corrugated cardboard shipping container.
+                    </div>
+                </td>
+            </tr>
+        </table> 
+   </div>
+<!--
 <div class="row p-2">
     <div class="col-sm-2 p-2 colorlightGray">
         <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.Width)">Width:</label>
@@ -285,7 +416,7 @@
         </div>
         <app-field-error-display [field]="fG1.controls.materialType" [errorMsg]="errorMsgs"> </app-field-error-display>
     </div>
-</div>
+</div> -->
 <hr />
 <div class="row p-2">
     <div class="col-sm-12 text-right hide">
