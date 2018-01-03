@@ -53,6 +53,7 @@ import { Step3Component } from './components/getoffers/step3/step3.component';
 import { Step4Component } from './components/getoffers/step4/step4.component';
 import { GetOfferService } from './services/getOffer.service';
 import { ViewProductComponent } from './components/view-product/view-product.component';
+import { DxRangeSliderModule, DxNumberBoxModule } from 'devextreme-angular';
 
 @NgModule({
   declarations: [
@@ -89,6 +90,8 @@ import { ViewProductComponent } from './components/view-product/view-product.com
     FormsModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    DxRangeSliderModule,
+    DxNumberBoxModule,
     NgbModule.forRoot(),
     SidebarModule.forRoot()
   ],
