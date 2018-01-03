@@ -62,15 +62,19 @@ export class Step3Component implements OnInit {
     this.pageLabel = 'What\'s your budget and delivery preference for this item?';
     this.core.hideUserInfo(true);
     this.core.pageLabel(this.pageLabel);
-    this.goService.getExistingLocations().subscribe(res => {
-      this.existingLocation.push({
-        "zipcode": res.consumerAddress.zipcode,
-        "country": res.consumerAddress.country,
-        "state": res.consumerAddress.state
+    if (window.localStorage['userInfo'] === undefined) this.showExistingLocation = false;
+    else {
+      this.goService.getExistingLocations().subscribe(res => {
+        this.existingLocation.push({
+          "zipcode": res.consumerAddress.zipcode,
+          "country": res.consumerAddress.country,
+          "state": res.consumerAddress.state
+        });
+        this.showExistingLocation = true;
+        console.log(this.existingLocation);
       });
-      this.showExistingLocation = true;
-      console.log(this.existingLocation);
-    });
+    }
+
     this.showExistingLocation = true;
     if (window.localStorage['GetOfferStep_3'] != undefined && window.localStorage['GetOfferStep_3'] != "") {
       this.viewSavedData = JSON.parse(window.localStorage['GetOfferStep_3']);
@@ -86,8 +90,8 @@ export class Step3Component implements OnInit {
     }
     else {
       this.getOffer_orderInfo = this.formBuilder.group({
-        "minPrice": [''],
-        "maxPrice": [''],
+        "minPrice": ['0'],
+        "maxPrice": ['100'],
         "delivery": [''],
         "zipCode": ['', Validators.compose([Validators.pattern(this.zipCodeRegex), Validators.minLength(5), Validators.maxLength(5)])],
         "instruction": ['']

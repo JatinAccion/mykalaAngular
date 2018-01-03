@@ -37,7 +37,7 @@
             </div>
           </div>
           <div class="dx-field">
-            <dx-range-slider #rangeSlider [min]="0" [max]="100" [start]="0" [end]="100"></dx-range-slider>
+            <dx-range-slider #rangeSlider [min]="0" [max]="100" [start]="getOffer_orderInfo.controls.minPrice.value" [end]="getOffer_orderInfo.controls.maxPrice.value"></dx-range-slider>
           </div>
         </div>
       </div>
