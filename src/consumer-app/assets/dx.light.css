@@ -4861,11 +4861,10 @@
   border-color: #f4f4f4;
 }
 .dx-texteditor.dx-state-hover {
-  border-color: rgba(51, 122, 183, 0.4);
+  
 }
 .dx-texteditor.dx-state-focused,
 .dx-texteditor.dx-state-active {
-  border-color: #337ab7;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
@@ -10608,7 +10607,7 @@
 }
 .dx-field-value:not(.dx-switch):not(.dx-checkbox):not(.dx-button),
 .dx-field-value-static {
-  width: 60%;
+  width: 100%;
 }
 .dx-field-label {
   padding: 8px 15px 9px 0;
@@ -10653,8 +10652,7 @@
 .dx-field-value-static {
   padding: 8px 10px 9px;
 }
-.dx-fieldset {
-  margin: 30px 20px;
+.dx-fieldset { 
   padding: 0;
 }
 .dx-rtl.dx-fieldset .dx-field-value:not(.dx-widget) > .dx-button,

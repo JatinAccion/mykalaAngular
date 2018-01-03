@@ -95,6 +95,7 @@ export class Step3Component implements OnInit {
 
   /*Geocode API Integration*/
   _keuyp(e) {
+    this.getCSC = [];
     this.fetchGeoCode = '';
     let input = e.currentTarget;
     if (this.getOffer_orderInfo.controls.zipCode.value.length == 5) {

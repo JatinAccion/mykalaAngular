@@ -1648,11 +1648,12 @@ input[formControlName="delivery"] ~ label{
     position: absolute;
     background: #dadada;
     color: #545454;
-    padding: 0px 7px;
-    line-height: 25px;
+    padding: 0px 10px;
+    line-height: 34px;
     border-radius: 4px 0px 0px 4px;
     left: 1px;
-    top: 0;
+    top: 1px;
+    z-index: 1;
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
