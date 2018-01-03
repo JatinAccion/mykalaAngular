@@ -70,7 +70,9 @@
       <div class="col-sm-8">
         <div>
           <!--Predefined Zipcodes-->
-          <span class="categ_outline_red text-center mr-2">02476</span>
+          <span *ngIf="showExistingLocation">
+              <span class="categ_outline_red text-center mr-2" *ngFor="let location of existingLocation">{{location.zipcode}}</span>
+          </span>
           <!--Predefined Zipcodes-->
 
           <!--Custom Zipcodes Entry-->
