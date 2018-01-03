@@ -3,7 +3,7 @@
         <tbody>
             <tr>
                 <td class="border-0">
-                    <select class="ddl_default form-control" [(ngModel)]="productPlace" formControlName="productPlaceName" (change)="placeChanged($event)" >
+                    <select class="ddl_default form-control" [(ngModel)]="product.productPlace" formControlName="productPlaceName" (change)="placeChanged($event)" >
                             <option [ngValue]="productPlaceDummy">Select Place</option>
                             <option *ngFor="let option of places" [ngValue]="option">
                                 {{option.PlaceName}}
@@ -14,7 +14,7 @@
             </tr>
             <tr>
                 <td class="border-0">
-                    <select class="ddl_default form-control" [(ngModel)]="productCategory" formControlName="productCategoryName" (change)="categoryChanged($event)" >
+                    <select class="ddl_default form-control" [(ngModel)]="product.productCategory" formControlName="productCategoryName" (change)="categoryChanged($event)" >
                             <option [ngValue]="productCategoryDummy">Select Category</option>
                             <option *ngFor="let option of categories" [ngValue]="option">
                                 {{option.CategoryName}}
@@ -25,7 +25,7 @@
             </tr>
             <tr>
                 <td class="border-0">
-                    <select class="ddl_default form-control" [(ngModel)]="productSubCategory" formControlName="productSubCategoryName" (change)="subCategoryChanged($event)" >
+                    <select class="ddl_default form-control" [(ngModel)]="product.productSubCategory" formControlName="productSubCategoryName" (change)="subCategoryChanged($event)" >
                             <option [ngValue]="productSubCategoryDummy">Select Sub Catetory</option>
                             <option *ngFor="let option of subCategories" [ngValue]="option">
                                 {{option.SubCategoryName}}
@@ -36,7 +36,7 @@
             </tr>
             <tr>
                 <td class="border-0">
-                    <select class="ddl_default form-control" [(ngModel)]="productType" formControlName="productTypeName" (change)="typeChanged($event)" >
+                    <select class="ddl_default form-control" [(ngModel)]="product.productType" formControlName="productTypeName" (change)="typeChanged($event)" >
                             <option [ngValue]="productTypeDummy">Select Type</option>
                             <option *ngFor="let option of productTypes" [ngValue]="option">
                                 {{option.TypeName}}
@@ -47,6 +47,7 @@
             </tr>
         </tbody>
     </table>
+    {{product|json}}
     <hr />
     <div class="text-right pb-3">
         <a class="btn btn-default" (click)="saveData()">Save</a>

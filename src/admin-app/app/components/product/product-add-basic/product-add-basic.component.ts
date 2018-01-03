@@ -9,6 +9,7 @@ import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 import { ProductService } from '../product.service';
 import { Product } from '../../../../../models/Product';
 import { inputValidations } from './messages';
+import { CoreService } from '../../../services/core.service';
 
 
 @Component({
@@ -38,7 +39,8 @@ export class ProductAddBasicComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private productService: ProductService,
-    private validatorExt: ValidatorExt
+    private validatorExt: ValidatorExt,
+    private core: CoreService
   ) {
   }
   ngOnInit() {
@@ -65,6 +67,7 @@ export class ProductAddBasicComponent implements OnInit {
     if (!this.fG1.valid) {
     } else {
       this.saveLoader = true;
+      this.core.showSpinner();
       this.productChange.emit(this.product);
       this.SaveData.emit('tab-basic');
     }

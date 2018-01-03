@@ -1,3 +1,5 @@
+import { ProductPlace, ProductCategory, ProductSubCategory, ProductType } from './product-info';
+
 export class Product {
     public retailerId: number;
     public retailerName: string;
@@ -17,6 +19,10 @@ export class Product {
     public quantity: number;
     public shipProfileId: number;
 
+    public productPlace: ProductPlace;
+    public productCategory: ProductCategory;
+    public productSubCategory: ProductSubCategory;
+    public productType: ProductType;
 
     constructor(obj?: any) {
         if (obj) {

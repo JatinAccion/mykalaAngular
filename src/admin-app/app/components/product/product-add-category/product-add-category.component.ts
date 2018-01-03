@@ -34,10 +34,10 @@ export class ProductAddCategoryComponent implements OnInit {
   categories = new Array<ProductCategory>();
   subCategories = new Array<ProductSubCategory>();
   productTypes = new Array<ProductType>();
-  productPlace: ProductPlace;
-  productCategory: ProductCategory;
-  productSubCategory: ProductSubCategory;
-  productType: ProductType;
+  // productPlace: ProductPlace;
+  // productCategory: ProductCategory;
+  // productSubCategory: ProductSubCategory;
+  // productType: ProductType;
   productPlaceDummy: ProductPlace;
   productCategoryDummy: ProductCategory;
   productSubCategoryDummy: ProductSubCategory;
@@ -64,10 +64,10 @@ export class ProductAddCategoryComponent implements OnInit {
 
   setFormValidators() {
     this.fG1 = this.formBuilder.group({
-      productPlaceName: ['', [Validators.required]],
-      productCategoryName: ['', [Validators.required]],
-      productSubCategoryName: ['', [Validators.required]],
-      productTypeName: ['', [Validators.required]],
+      productPlaceName: [this.product.productPlace, [Validators.required]],
+      productCategoryName: [this.product.productCategory, [Validators.required]],
+      productSubCategoryName: [this.product.productSubCategory, [Validators.required]],
+      productTypeName: [this.product.productType, [Validators.required]],
     });
   }
 
@@ -94,47 +94,59 @@ export class ProductAddCategoryComponent implements OnInit {
   getPlaces() {
     this.productService.getProductPlaces().subscribe(res => {
       this.places = res;
+      this.getCategories();
     });
   }
 
   placeChanged(event) {
-    this.product.productPlaceName = this.productPlace.PlaceName;
+    this.product.productPlaceName = this.product.productPlace.PlaceName;
     this.categories = new Array<ProductCategory>();
     this.subCategories = new Array<ProductSubCategory>();
     this.productTypes = new Array<ProductType>();
-    delete this.productCategory;
-    delete this.productSubCategory;
-    delete this.productType;
+    delete this.product.productCategory;
+    delete this.product.productSubCategory;
+    delete this.product.productType;
     this.product.productCategoryName = '';
     this.product.productSubCategoryName = '';
     this.product.productTypeName = '';
-    this.productService.getProductCategories([this.productPlace.PlaceId]).subscribe(res => {
+    this.getCategories();
+  }
+  getCategories() {
+    this.productService.getProductCategories([this.product.productPlace.PlaceId]).subscribe(res => {
       this.categories = res;
+      this.getSubCategories();
     });
   }
   categoryChanged(event) {
-    this.product.productCategoryName = this.productCategory.CategoryName;
+    this.product.productCategoryName = this.product.productCategory.CategoryName;
     this.subCategories = new Array<ProductSubCategory>();
     this.productTypes = new Array<ProductType>();
-    delete this.productSubCategory;
-    delete this.productType;
+    delete this.product.productSubCategory;
+    delete this.product.productType;
     this.product.productSubCategoryName = '';
     this.product.productTypeName = '';
-    this.productService.getProductSubCategories([this.productCategory.CategoryId]).subscribe(res => {
+    this.getSubCategories();
+  }
+  getSubCategories() {
+    this.productService.getProductSubCategories([this.product.productCategory.CategoryId]).subscribe(res => {
       this.subCategories = res;
+      this.getTypes();
     });
   }
   subCategoryChanged(event) {
-    this.product.productSubCategoryName = this.productSubCategory.SubCategoryName;
+    this.product.productSubCategoryName = this.product.productSubCategory.SubCategoryName;
     this.productTypes = new Array<ProductType>();
-    delete this.productType;
+    delete this.product.productType;
     this.product.productTypeName = '';
-    this.productService.getProductTypes([this.productSubCategory.SubCategoryId]).subscribe(res => {
+    this.getTypes();
+  }
+  getTypes() {
+    this.productService.getProductTypes([this.product.productSubCategory.SubCategoryId]).subscribe(res => {
       this.productTypes = res;
     });
   }
   typeChanged(event) {
-    this.product.productTypeName = this.productType.TypeName;
+    this.product.productTypeName = this.product.productType.TypeName;
   }
 
 }
