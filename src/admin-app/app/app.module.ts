@@ -28,6 +28,7 @@ import { RetailerModule } from './components/retailer/retailer.module';
 import { LocalStorageService } from './services/LocalStorage.service';
 import { ProductModule } from './components/product/product.module';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
     LogoutComponent,
     HeaderComponent,
     FooterComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +53,6 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
     ProductModule,
     Angular2FontawesomeModule,
     AngularMultiSelectModule
-    
   ],
   providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, LocalStorageService],
   bootstrap: [AppComponent],

@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class CoreService {
 
-  navVisible: boolean = true;
+  navVisible = true;
+  spinnerVisible = false;
 
   constructor() { }
 
@@ -12,5 +13,12 @@ export class CoreService {
   show() { this.navVisible = true; }
 
   toggle() { this.navVisible = !this.navVisible; }
+
+
+  hideSpinner() { this.spinnerVisible = false; }
+
+  showSpinner() { this.spinnerVisible = true; }
+
+  toggleSpinner() { this.spinnerVisible = !this.spinnerVisible; }
 
 }
