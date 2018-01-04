@@ -283,6 +283,10 @@ a.categ_close{
     padding:5px;
     margin:20px 0px;
 }
+.AdminAcct_Row img, .AdminAcct_Row i{
+    width:100%;
+    box-shadow:2px 2px 5px rgba(0, 0, 0, 0.1);
+}
 .btn-outer{ 
     padding: 7px 20px;
     border-radius: 12px; 
