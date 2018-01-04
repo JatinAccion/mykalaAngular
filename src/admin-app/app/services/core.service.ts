@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class CoreService {
 
   navVisible = true;
   spinnerVisible = false;
+  message = this.toastr;
 
-  constructor() { }
+  constructor(private toastr: ToastrService) { }
 
   hide() { this.navVisible = false; }
 

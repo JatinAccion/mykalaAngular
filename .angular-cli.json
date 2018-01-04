@@ -22,13 +22,15 @@
       "styles": [
         "../node_modules/bootstrap/dist/css/bootstrap.min.css",
         "../node_modules/font-awesome/css/font-awesome.css",
-        "admin-app/styles.css"
+        "admin-app/styles.css",
+        "../node_modules/ngx-toastr/toastr.css"
       ],
-      "scripts": [ ],
+      "scripts": [],
       "environmentSource": "admin-app/environments/environment.ts",
       "environments": {
         "dev": "admin-app/environments/environment.ts",
-        "prod": "admin-app/environments/environment.prod.ts"
+        "prod": "admin-app/environments/environment.prod.ts",
+        "local": "admin-app/environments/environment.local.ts"
       }
     },
     {

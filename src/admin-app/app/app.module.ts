@@ -29,7 +29,7 @@ import { LocalStorageService } from './services/LocalStorage.service';
 import { ProductModule } from './components/product/product.module';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
-
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -52,7 +52,8 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
     RetailerModule,
     ProductModule,
     Angular2FontawesomeModule,
-    AngularMultiSelectModule
+    AngularMultiSelectModule,
+    ToastrModule.forRoot({ timeOut: 3000, progressBar: true, closeButton: true })
   ],
   providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, LocalStorageService],
   bootstrap: [AppComponent],
