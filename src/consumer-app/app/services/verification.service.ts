@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class VerificationService {
-    url: string;
+    private BASE_URL: string = environment.userService;
     constructor(private http: Http) { }
 
     getVerified(token) {
-        this.url = 'http://dev-user-signup.us-east-2.elasticbeanstalk.com/login/validateToken/' + token;
-        return this.http.get(this.url).map((res) => res.text())
+        const url: string = `${this.BASE_URL}/${environment.apis.userService.validateToken}/${token}`;
+        return this.http.get(url).map((res) => res.text())
     }
 }

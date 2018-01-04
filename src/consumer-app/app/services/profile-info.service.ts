@@ -1,21 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class ProfileInfoService {
-    url: string;
+    private BASE_URL: string = environment.profileInterest;
     constructor(private http: Http) { }
 
-    /*Geocode API Integration*/
     getLocation(term: string) {
-        this.url = 'https://maps.googleapis.com/maps/api/geocode/json?address= ' + term + '&key=AIzaSyDPSk91ksjR47kqdFbElVwL7eM8FgIZEHw';
-        return this.http.get(this.url).map(res => res.json());
+        const url: string = `${environment.geoCode}?address=${term}${environment.apis.geoCode.key}`;
+        return this.http.get(url).map(res => res.json());
     }
 
-    /*Profile Completion API*/
     completeProfile(profileInformation) {
-        this.url = 'http://dev-consumer-profile.us-east-2.elasticbeanstalk.com/profile/userDetail/';
-        return this.http.post(this.url, profileInformation).map((res) => res.text())
+        const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.saveProfile}`;
+        return this.http.post(url, profileInformation).map((res) => res.text())
     }
 }

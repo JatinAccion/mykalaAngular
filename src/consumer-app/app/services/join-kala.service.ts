@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class JoinKalaService {
-  signupURL: string = 'http://dev-user-signup.us-east-2.elasticbeanstalk.com/login/user/';
+  private BASE_URL: string = environment.userService;
 
   constructor(private http: Http) { }
 
   joinKalaStepOne(userModel) {
-    return this.http.post(this.signupURL, userModel).map((res) => res.json())
+    const url: string = `${this.BASE_URL}/${environment.apis.userService.createAccount}`;
+    return this.http.post(url, userModel).map((res) => res.json())
   }
 }

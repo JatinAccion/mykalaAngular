@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class ForgotPasswordService {
-    url: string;
+    private BASE_URL: string = environment.userService;
     constructor(private http: Http) { }
 
     forgotPassword(fpModal) {
-        this.url = 'http://dev-user-signup.us-east-2.elasticbeanstalk.com/login/user/forgotPassword';
-        return this.http.post(this.url, fpModal).map((res) => res.json())
+        const url: string = `${this.BASE_URL}/${environment.apis.userService.forgotPassword}`;
+        return this.http.post(url, fpModal).map((res) => res.json())
     }
 }
