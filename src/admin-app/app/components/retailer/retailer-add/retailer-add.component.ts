@@ -12,6 +12,8 @@ import { RetailerProfileInfo } from '../../../../../models/retailer-profile-info
 import { RetailerPaymentInfo } from '../../../../../models/retailer-payment-info';
 import { RetialerShippingProfile } from '../../../../../models/retailer-shipping-profile';
 import { RetailerProductInfo } from '../../../../../models/retailer-product-info';
+import { CoreService } from '../../../services/core.service';
+import { userMessages } from './messages';
 // #endregion imports
 
 export interface IAlert {
@@ -38,6 +40,7 @@ export class RetailerAddComponent implements OnInit {
   notificationData = new RetailerNotification();
   retailer: Retailer;
   retailerId = 1;
+  userMsgs = userMessages;
   @ViewChild('tabs') ngbTabSet: NgbTabset;
   alert: IAlert = {
     id: 1,
@@ -60,7 +63,8 @@ export class RetailerAddComponent implements OnInit {
     private router: Router,
     route: ActivatedRoute,
     private retialerService: RetialerService,
-    private validatorExt: ValidatorExt
+    private validatorExt: ValidatorExt,
+    private core: CoreService
   ) {
     // this.retailerId = route.snapshot.params['id'];
   }
@@ -88,7 +92,9 @@ export class RetailerAddComponent implements OnInit {
             case this.status.Product: this.ngbTabSet.select('tab-Product'); break;
             case this.status.Shipping: this.ngbTabSet.select('tab-Shipping'); break;
             case this.status.Return: this.ngbTabSet.select('tab-Return'); break;
-            default: this.router.navigateByUrl('/retailer-list'); break;
+            default:
+              this.core.message.success(this.userMsgs.success);
+              this.router.navigateByUrl('/retailer-list'); break;
           }
           break;
       }

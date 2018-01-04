@@ -5,7 +5,7 @@
     </div>
     <div [formGroup]="fG1" class="col-sm-3 mt-5 pr-4 topRightHeader">
         <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.retailer)">Seller</label>
-        <select class="ddl_default w-100 form-control" formControlName="retailer" [(ngModel)]="retailer" (change)="selectSeller($event)">
+        <select class="ddl_default w-100 form-control" formControlName="retailer"   [(ngModel)]="retailer" (change)="selectSeller($event)">
             <option [ngValue]="reatileDummy"  >Select Seller</option>
             <option *ngFor="let option of retailers" [ngValue]="option">
                 {{option.businessName}}

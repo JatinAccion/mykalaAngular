@@ -62,7 +62,7 @@ export class ProductAddComponent implements OnInit {
   }
   setFormValidators() {
     this.fG1 = this.formBuilder.group({
-      retailer: [null, [Validators.required]],
+      retailer: [{ value: null, disabled: false }, [Validators.required]],
     });
   }
   getRetailersData() {
@@ -81,6 +81,11 @@ export class ProductAddComponent implements OnInit {
   }
   setActiveTab(event) {
     // if (!this.productId && event.nextId !== 'tab-category') { event.preventDefault(); return; }
+    if (this.fG1) {
+      this.fG1.controls.retailer.reset({ value: this.retailer, disabled: event.nextId !== 'tab-category' });
+      
+    }
+
     if (event.nextId === 'tab-delivery') {
       this.validatorExt.validateAllFormFields(this.fG1);
       if (this.fG1.invalid) {

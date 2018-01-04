@@ -28,6 +28,10 @@ export class AuthService {
     const url = `${this.BASE_URL}/${environment.apis.Auth.token}?client_id=${this.basicAuth.client_id}&grant_type=password&username=${user.username}&password=${user.password}`;
     return this.http.post(url, '', { headers: this.headers }).toPromise();
   }
+  getUserInfo(token) {
+    const url = `${this.BASE_URL}/${environment.apis.Auth.userInfo}?access_token=${token}`;
+    return this.http.get(url).map((res) => res.json());
+  }
   // register(user: User): Promise<any> {
   //   const url = `${this.BASE_URL}/${environment.apis.Auth.register}`;
   //   return this.http.post(url, user, { headers: this.headers }).toPromise();

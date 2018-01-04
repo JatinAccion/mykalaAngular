@@ -25,12 +25,6 @@ export class ProductAddBasicComponent implements OnInit {
   @Output() SaveData = new EventEmitter<any>();
   productId = 1;
   errorMsgs = inputValidations;
-  alert: IAlert = {
-    id: 1,
-    type: 'success',
-    message: '',
-    show: false
-  };
   fG1 = new FormGroup({});
   step = 1;
   saveLoader = true;
@@ -45,9 +39,6 @@ export class ProductAddBasicComponent implements OnInit {
   }
   ngOnInit() {
     this.setFormValidators();
-  }
-  closeAlert(alert: IAlert) {
-    this.alert.show = false;
   }
 
   setFormValidators() {
@@ -74,12 +65,10 @@ export class ProductAddBasicComponent implements OnInit {
     return false;
   }
 
-
   readForm() {
     return this.product;
   }
 
   getData(retailerId) { }
-
 
 }

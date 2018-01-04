@@ -30,6 +30,7 @@ import { ProductModule } from './components/product/product.module';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { ToastrModule } from 'ngx-toastr';
+import { DialogComponent } from './components/dialog/dialog.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { ToastrModule } from 'ngx-toastr';
     HeaderComponent,
     FooterComponent,
     ForgotPasswordComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    DialogComponent
   ],
   imports: [
     BrowserModule,

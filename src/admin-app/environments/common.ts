@@ -3,7 +3,8 @@ export const apiNames = {
         login: 'login',
         register: 'register',
         status: 'status',
-        token: 'oauth/token'
+        token: 'oauth/token',
+        userInfo: 'loginUser'
     },
     retailers: {
         get: 'retailer/allRetailers',

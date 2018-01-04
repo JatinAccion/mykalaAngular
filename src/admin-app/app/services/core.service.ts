@@ -1,12 +1,21 @@
-import { Injectable } from '@angular/core';
+import { Injectable, transition } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-
+import { User } from '../../../models/user';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+import { Subject } from 'rxjs/Subject';
+import { Promise } from 'q';
+import { IAlert } from '../components/retailer/retailer-add/retailer-add.component';
+import { Alert } from '../../../models/IAlert';
 @Injectable()
 export class CoreService {
+  user: User;
 
   navVisible = true;
   spinnerVisible = false;
   message = this.toastr;
+  dialogVisible = new Subject<Alert>();
+  dialogResponse = new Subject<string>();
 
   constructor(private toastr: ToastrService) { }
 
@@ -23,4 +32,24 @@ export class CoreService {
 
   toggleSpinner() { this.spinnerVisible = !this.spinnerVisible; }
 
+  setUser(usr: User) {
+    this.user = usr;
+    this.show();
+  }
+  clearUser() {
+    this.user = null;
+    this.hide();
+  }
+
+  showDialog(alert: Alert): Promise<any> {
+    return Promise(resolve => {
+      this.dialogVisible.next(alert);
+      this.dialogResponse.subscribe(sub => {
+        return resolve(sub);
+      });
+    });
+  }
+  setDialogResponse(response) {
+    this.dialogResponse.next(response);
+  }
 }

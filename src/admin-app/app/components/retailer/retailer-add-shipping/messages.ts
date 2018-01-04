@@ -3,8 +3,8 @@ export const userMessages = {
     error: '',
 };
 export const inputValidations = {
-    'profileName': { required: 'Please enter profile Name ', error: 'Please enter valid profile Name' },
-    'deliveryOptions': { required: 'Please enter deliveryOptions', error: 'Please enter valid deliveryOptions' },
+    'profileName': { required: 'Please enter a profile Name ', error: 'Please enter valid profile Name' },
+    'deliveryOptions': { required: 'Please select a delivery option', error: 'Please enter valid deliveryOptions' },
     'min': { required: 'Please enter min value', error: 'Please enter valid min value' },
     'max': { required: 'Please enter max value', error: 'Please enter valid max value' },
     'charge': { required: 'Please enter charge value', error: 'Please enter valid charge value' },
