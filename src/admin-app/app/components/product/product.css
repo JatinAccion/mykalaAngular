@@ -126,3 +126,9 @@
     transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
   }
+.circle_Gray{
+    padding: 2px 8px 4px 8px;
+    border-radius: 30px;
+    background: #999;
+    color: #fff;
+}

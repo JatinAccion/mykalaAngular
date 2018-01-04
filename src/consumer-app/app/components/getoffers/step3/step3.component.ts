@@ -23,6 +23,8 @@ export class Step3Component implements OnInit {
   inputNewLocation: boolean;
   fetchGeoCode: string;
   getCSC = [];
+  showExistingLocation: boolean = false;
+  existingLocation = [];
   loaderLocation: boolean = false;
   Step3Modal = new GetOfferModal();
   Step3SelectedValues = { priceRange: { minPrice: "", maxPrice: "" }, location: [], delivery: "", instruction: "" };
@@ -60,6 +62,20 @@ export class Step3Component implements OnInit {
     this.pageLabel = 'What\'s your budget and delivery preference for this item?';
     this.core.hideUserInfo(true);
     this.core.pageLabel(this.pageLabel);
+    if (window.localStorage['userInfo'] === undefined) this.showExistingLocation = false;
+    else {
+      this.goService.getExistingLocations().subscribe(res => {
+        this.existingLocation.push({
+          "zipcode": res.consumerAddress.zipcode,
+          "country": res.consumerAddress.country,
+          "state": res.consumerAddress.state
+        });
+        this.showExistingLocation = true;
+        console.log(this.existingLocation);
+      });
+    }
+
+    this.showExistingLocation = true;
     if (window.localStorage['GetOfferStep_3'] != undefined && window.localStorage['GetOfferStep_3'] != "") {
       this.viewSavedData = JSON.parse(window.localStorage['GetOfferStep_3']);
       for (var i = 0; i < this.viewSavedData.length; i++) {
@@ -74,8 +90,8 @@ export class Step3Component implements OnInit {
     }
     else {
       this.getOffer_orderInfo = this.formBuilder.group({
-        "minPrice": [''],
-        "maxPrice": [''],
+        "minPrice": ['0'],
+        "maxPrice": ['100'],
         "delivery": [''],
         "zipCode": ['', Validators.compose([Validators.pattern(this.zipCodeRegex), Validators.minLength(5), Validators.maxLength(5)])],
         "instruction": ['']
@@ -85,16 +101,16 @@ export class Step3Component implements OnInit {
 
   format(value) {
     return value + "%";
-  }
+  };
 
   addNewLocation(e) {
     this.inputNewLocation = !this.inputNewLocation;
     if (this.inputNewLocation) e.currentTarget.innerHTML = "x";
     else e.currentTarget.innerHTML = "+";
-  }
+  };
 
-  /*Geocode API Integration*/
   _keuyp(e) {
+    this.getCSC = [];
     this.fetchGeoCode = '';
     let input = e.currentTarget;
     if (this.getOffer_orderInfo.controls.zipCode.value.length == 5) {
@@ -110,7 +126,7 @@ export class Step3Component implements OnInit {
             "zipcode": this.getOffer_orderInfo.controls.zipCode.value,
             "country": this.fetchGeoCode.split(',')[2],
             "state": this.fetchGeoCode.split(',')[1].trim().split(" ")[0]
-          })
+          });
         });
     }
   };
@@ -118,13 +134,14 @@ export class Step3Component implements OnInit {
   skip() {
     window.localStorage['GetOfferStep_3'] = "";
     this.route.navigate(['/getoffer', 'step4']);
-  }
+  };
 
   prev() {
     this.route.navigate(['/getoffer', 'step2']);
   };
 
   next() {
+    if (this.getCSC.length == 0) this.getCSC = this.existingLocation;
     this.Step3SelectedValues.location = this.getCSC;
     this.Step3SelectedValues.priceRange.minPrice = this.getOffer_orderInfo.controls.minPrice.value;
     this.Step3SelectedValues.priceRange.maxPrice = this.getOffer_orderInfo.controls.maxPrice.value;

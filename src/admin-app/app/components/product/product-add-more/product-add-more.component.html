@@ -158,7 +158,89 @@
             </tr>
         </table> 
    </div>
-<!--
+<div class="row p-3">
+    <div class="input-group">
+        <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="addAttribute"> 
+    </div>
+    <app-field-error-display [field]="fG1.controls.addAttribute" [errorMsg]="errorMsgs"> </app-field-error-display>
+</div>
+<div class="row">
+    <div class="col-sm-12 p-0 text-right">
+        <div ngbDropdown class="d-inline-block">
+            <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Toggle dropdown</button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+              <button class="dropdown-item">Action - 1</button>
+              <button class="dropdown-item">Another Action</button>
+              <button class="dropdown-item">Something else is here</button>
+            </div>
+          </div>
+    </div>
+</div>
+<div class="row m-2">
+    <div class="col-sm-12 p-0">
+        Additional features:<span class="float-right"><a href="#" class="circle_Gray">x</a></span>
+    </div>
+</div>
+<div class="row m-2">
+    <div class="input-group">
+        <input type="text" class="form-control" aria-describedby=" " placeholder="Wood" pattern formControlName="additionalFeature1">
+        <span class="input-group-addon" id="basic-addon1">X</span>
+    </div> 
+</div>
+<div class="row m-2">
+    <div class="input-group">
+        <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="additionalFeature2">
+        <span class="input-group-addon" id="basic-addon1">X</span>
+    </div> 
+</div>
+<div class="row m-2">
+    <div class="input-group">
+        <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="additionalFeature3">
+        <span class="input-group-addon" id="basic-addon1">X</span>
+    </div> 
+</div>
+<div class="col-sm-12 text-right p-2">
+    <a href="#">Add more</a>
+</div>  
+<div class="row m-2">
+    <div class="col-sm-12 p-0">
+        Number of Lights:<span class="float-right"><a href="#" class="circle_Gray">x</a></span>
+    </div>
+</div>
+<div class="row m-2">
+    <div class="input-group">
+        <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="noLights">
+    </div>
+</div>
+<div class="row m-2">
+    <div class="col-sm-12 p-0">
+        Voltage:<span class="float-right"><a href="#" class="circle_Gray">x</a></span>
+    </div>
+</div>
+<div class="row m-2">
+    <div class="input-group">
+        <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="voltage">
+        <span class="input-group-addon" id="basic-addon1">Volts</span> 
+    </div>
+</div> 
+<div class="row m-2">
+    <div class="col-sm-12 p-0">
+        Base diameter:<span class="float-right"><a href="#" class="circle_Gray">x</a></span>
+    </div>
+</div>
+<div class="row m-2">
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+        <span class="input-group-addon" id="basic-addon1">
+            <select class="ddl_Product">
+                <option>inches</option>
+                <option>centimeters</option>
+                <option>feet</option>
+            </select>
+        </span>
+    </div>
+</div>
+   <!--
 <div class="row p-2">
     <div class="col-sm-2 p-2 colorlightGray">
         <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.Width)">Width:</label>

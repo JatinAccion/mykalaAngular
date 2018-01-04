@@ -17,44 +17,32 @@
         <p>Price range:</p>
       </div>
       <div class="col-sm-8">
-        <span style="position: relative">
-          <span class="currencySymbol">$</span>
-          <input formControlName="minPrice" onkeypress='return event.charCode >= 48 && event.charCode <= 57' type="text" style="padding-left: 30px" class="categ_outline_red w-20 mr-2" />
-        </span>
-        <span style="position: relative">
-          <span class="currencySymbol">$</span>
-          <input formControlName="maxPrice" onkeypress='return event.charCode >= 48 && event.charCode <= 57' type="text" style="padding-left: 30px" class="categ_outline_red w-20 mr-2" />
-        </span>
-        <!--Range Slider-->
         <div class="dx-fieldset">
-          <div class="dx-fieldset-header">Event Handling and API</div>
           <div class="dx-field">
-            <dx-range-slider #rangeSlider [min]="0" [max]="100" [start]="10" [end]="90"></dx-range-slider>
-          </div>
-          <div class="dx-field">
-            <div class="dx-field-label">Start value</div>
             <div class="dx-field-value">
-              <dx-number-box [min]="0" [max]="100" [showSpinButtons]="true" [(value)]="rangeSlider.start"></dx-number-box>
+              <span style="position: relative">
+                <span class="currencySymbol">$</span>
+                <!-- <input formControlName="minPrice" onkeypress='return event.charCode >= 48 && event.charCode <= 57' type="text" style="padding-left: 30px" class="categ_outline_red w-20 mr-2" /> -->
+                <dx-number-box formControlName="minPrice" onkeypress='return event.charCode >= 48 && event.charCode <= 57' style="padding-left: 30px;" [min]="0" [max]="100" [showSpinButtons]="true" [(value)]="rangeSlider.start" class="categ_outline_red w-100 mr-2"></dx-number-box>
+              </span>
             </div>
           </div>
           <div class="dx-field">
-            <div class="dx-field-label">End value</div>
             <div class="dx-field-value">
-              <dx-number-box [min]="0" [max]="100" [showSpinButtons]="true" [(value)]="rangeSlider.end"></dx-number-box>
+              <span style="position: relative">
+                <span class="currencySymbol">$</span>
+                <dx-number-box formControlName="maxPrice" onkeypress='return event.charCode >= 48 && event.charCode <= 57' style="padding-left: 30px;" [min]="0" [max]="100" [showSpinButtons]="true" [(value)]="rangeSlider.end" class="categ_outline_red  w-100 mr-2"></dx-number-box>
+                <!-- <input formControlName="maxPrice" onkeypress='return event.charCode >= 48 && event.charCode <= 57' type="text" style="padding-left: 30px" class="categ_outline_red w-20 mr-2" /> -->
+              </span>
             </div>
+          </div>
+          <div class="dx-field">
+            <dx-range-slider #rangeSlider [min]="0" [max]="100" [start]="getOffer_orderInfo.controls.minPrice.value" [end]="getOffer_orderInfo.controls.maxPrice.value"></dx-range-slider>
           </div>
         </div>
-        <!--Range Slider-->
       </div>
       <div class="col-sm-2"></div>
     </div>
-
-    <!-- <div class="row">
-      <div class="col-sm-2"></div>
-      <div class="col-sm-10">
-        <input formControlName="range" type="range" multiple min="0" step="1" max="10" data-value="1 9">
-      </div>
-    </div> -->
 
     <hr />
 
@@ -81,12 +69,19 @@
       </div>
       <div class="col-sm-8">
         <div>
-          <div class="categ_outline_red text-center mr-2">02476</div>
+          <!--Predefined Zipcodes-->
+          <span *ngIf="showExistingLocation">
+              <span class="categ_outline_red text-center mr-2" *ngFor="let location of existingLocation">{{location.zipcode}}</span>
+          </span>
+          <!--Predefined Zipcodes-->
+
+          <!--Custom Zipcodes Entry-->
           <span *ngIf="inputNewLocation" style="position: relative;">
             <input (keyup)="_keuyp($event)" onkeypress='return event.charCode >= 48 && event.charCode <= 57' formControlName="zipCode" type="text" class="categ_outline_red text-center w-15 mr-2" />
             <img style="top:5px; right:20px" width="15" src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2" *ngIf="loaderLocation" />
           </span>
           <div style="cursor: pointer" (click)="addNewLocation($event)" class="categ_outline_red mr-2 noBackground colorred">+</div>
+          <!--Custom Zipcodes Entry-->
 
           <p class="clearfix colorlightGray">
             {{fetchGeoCode}}
