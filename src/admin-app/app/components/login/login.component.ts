@@ -50,6 +50,7 @@ export class LoginComponent implements OnInit {
     }
   }
   onLogin(): void {
+    this.core.message.success('Logged in successfully!');
     this.loader = true;
     this.user = new User(this.loginKala.value.email, this.loginKala.value.email, this.loginKala.value.password);
     this.auth.login(this.user)
