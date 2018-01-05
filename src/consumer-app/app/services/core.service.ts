@@ -4,25 +4,15 @@ import { User } from '../../../models/user';
 
 @Injectable()
 export class CoreService {
-
   userName: boolean = true;
-
   navVisible: boolean = true;
-
   logoutVisible: boolean = false;
-
   showSearch: boolean = true;
-
   showHeaderMessage: string;
-
   searchMessage: string;
-
   user: User;
-
   pageMsg: string;
-
   showPageMsg: boolean = false;
-
   constructor(private http: Http) { }
 
   hideUserInfo(showuser?: any) {
