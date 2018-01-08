@@ -7,7 +7,7 @@ export const apiNames = {
         userInfo: 'loginUser'
     },
     retailers: {
-        get: 'retailer/allRetailers',
+        get: 'retailer/getReatilerByName',
         sellerTypes: 'retailer/sellerType',
         getShippingProfileNames: 'retailer/getShippingProfileName'
     },

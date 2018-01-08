@@ -21,7 +21,9 @@ export class RetailerListComponent implements OnInit {
     this.getData();
   }
   getData() {
-    this.retialerService.get(null).subscribe((res) => {
+    this.retialerService.get({
+      page: 0, size: 10, sortOrder: 'asc', elementType: 'createdDate', retailerName: 'a'
+    }).subscribe((res) => {
       return res.forEach(obj => { this.retailers.push(new Retailer(obj)); });
     });
   }

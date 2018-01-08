@@ -138,7 +138,7 @@
             <select class="ddl_Product" (change)="contactTypeSelected($event)" formControlName="contact_type" >
                     <option value="">Select Contact Type</option>                
                     <option *ngFor="let option of contactTypes" [ngValue]="option"  >
-                            {{option.type}}
+                            {{option.type}} <i class="fa fa-ok"></i>
                         </option>
             </select>
         </span>

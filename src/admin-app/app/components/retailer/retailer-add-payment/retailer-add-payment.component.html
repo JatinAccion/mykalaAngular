@@ -14,7 +14,7 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label" [ngClass]="validatorExt.displayFieldCss(paymentFG1.controls.paymentVehicle)">Payment Vehicle</label>
-                    <select class="ddl_default w-100 form-control" formControlName="paymentVehicle">
+                    <select class="ddl_default w-100 form-control" formControlName="paymentVehicle"  (change)="paymentVehicleChange()">
                         <option value=''>Select option</option>
                         <option *ngFor="let option of paymentVehicles" value="{{option.name}}">
                             {{option.value}}

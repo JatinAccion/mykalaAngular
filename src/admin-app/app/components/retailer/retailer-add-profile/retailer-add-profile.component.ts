@@ -14,6 +14,7 @@ import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 import { IAlert } from '../../../../../models/IAlert';
 import { inputValidations } from './messages';
 import { templateJitUrl } from '@angular/compiler';
+import { CoreService } from '../../../services/core.service';
 // #endregion imports
 
 
@@ -53,7 +54,8 @@ export class RetailerAddProfileComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private retialerService: RetialerService,
-    private validatorExt: ValidatorExt
+    private validatorExt: ValidatorExt,
+    private core: CoreService
   ) {
   }
   ngOnInit() {
@@ -128,7 +130,7 @@ export class RetailerAddProfileComponent implements OnInit {
     // this.profileFG2.controls.contact_type.reset({ value: this.profileFG2.value.contact_type, disabled: true });
     if (this.profileFG2.value.contact_type.type !== this.profileFG2.value.contact_type_name) {
       const newContactType = { type: this.profileFG2.value.contact_type_name, default: false, status: true };
-      if (this.profileFG2.value.contact_type !== 'Others') {
+      if (this.profileFG2.value.contact_type.type !== 'Others') {
         this.contactTypes.splice(this.contactTypes.indexOf(this.profileFG2.value.contact_type), 1);
       }
       this.contactTypes.push(newContactType);
@@ -167,6 +169,7 @@ export class RetailerAddProfileComponent implements OnInit {
     contact.email = this.profileFG2.value.contact_email;
     contact.phoneNo = this.profileFG2.value.contact_phone_number;
     this.profileInfoObj.contactPerson.push(contact);
+    this.core.message.success('Contact Added');
   }
   profileInfoNext() {
     this.readProfileInfo();
