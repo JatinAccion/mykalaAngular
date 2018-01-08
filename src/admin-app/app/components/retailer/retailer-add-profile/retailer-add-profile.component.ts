@@ -24,6 +24,8 @@ import { templateJitUrl } from '@angular/compiler';
   encapsulation: ViewEncapsulation.None
 })
 export class RetailerAddProfileComponent implements OnInit {
+  contactType: any;
+  contactTypes: any[];
   @Input() retailerId: number;
   @Output() retailerIdChange = new EventEmitter<number>();
   @Output() SaveData = new EventEmitter<any>();
@@ -55,6 +57,7 @@ export class RetailerAddProfileComponent implements OnInit {
   ) {
   }
   ngOnInit() {
+    this.getContactsNames();
     this.setFormValidators();
     this.getProfileInfoDropdowndata();
   }
@@ -84,6 +87,8 @@ export class RetailerAddProfileComponent implements OnInit {
       websiteUrl: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
       websiteUserName: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
       websitePassword: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
+      contact_type: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
+      contact_type_name: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
       contact_name: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
       contact_position: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
       contact_address1: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
@@ -101,10 +106,72 @@ export class RetailerAddProfileComponent implements OnInit {
       this.sellerTypes = res;
     });
   }
+  getContactsNames() {
+    this.contactTypes = [
+      { type: 'Primary contact', default: true, status: false },
+      { type: 'General contact', default: true, status: false },
+      { type: 'Billing contact', default: true, status: false },
+      { type: 'Shipping contact', default: true, status: false },
+      { type: 'Others', default: true, status: false },
+    ];
+
+  }
+  contactTypeSelected(event) {
+    if (this.profileFG2.value.contact_type.type === 'Others') {
+      this.profileFG2.controls.contact_type_name.reset({ value: '', disabled: false });
+    } else {
+      this.profileFG2.controls.contact_type_name.reset({ value: this.profileFG2.value.contact_type.type, disabled: this.profileFG2.value.contact_type.default });
+    }
+    this.loadConatactType(this.profileFG2.controls.contact_type_name.value);
+  }
+  contactTypeNameChanged(event) {
+    // this.profileFG2.controls.contact_type.reset({ value: this.profileFG2.value.contact_type, disabled: true });
+    if (this.profileFG2.value.contact_type.type !== this.profileFG2.value.contact_type_name) {
+      const newContactType = { type: this.profileFG2.value.contact_type_name, default: false, status: true };
+      if (this.profileFG2.value.contact_type !== 'Others') {
+        this.contactTypes.splice(this.contactTypes.indexOf(this.profileFG2.value.contact_type), 1);
+      }
+      this.contactTypes.push(newContactType);
+      this.profileFG2.controls.contact_type.patchValue(newContactType);
+    }
+  }
+  loadConatactType(contactType) {
+    let contact = this.profileInfoObj.contactPerson.filter(p => p.contactType === contactType)[0];
+    if (!contact) {
+      contact = new RetailerContact();
+    }
+    this.profileFG2.patchValue({
+      contactType: contact.contactType,
+      contact_name: contact.personName,
+      contact_position: contact.position,
+      contact_address1: contact.addressLine1,
+      contact_address2: contact.addressLine2,
+      contact_city: contact.city,
+      contact_state: contact.state,
+      contact_zipcode: contact.zipcode,
+      contact_email: contact.email,
+      contact_phone_number: contact.phoneNo
+    });
+  }
+  saveContact() {
+    // this.profileFG2.controls.contact_type.reset({ value: this.profileFG2.value.contact_type, disabled: false });
+    const contact = new RetailerContact();
+    contact.contactType = this.profileFG2.controls.contact_type_name.value;
+    contact.personName = this.profileFG2.value.contact_name;
+    contact.position = this.profileFG2.value.contact_position;
+    contact.addressLine1 = this.profileFG2.value.contact_address1;
+    contact.addressLine2 = this.profileFG2.value.contact_address2;
+    contact.city = this.profileFG2.value.contact_city;
+    contact.state = this.profileFG2.value.contact_state;
+    contact.zipcode = this.profileFG2.value.contact_zipcode;
+    contact.email = this.profileFG2.value.contact_email;
+    contact.phoneNo = this.profileFG2.value.contact_phone_number;
+    this.profileInfoObj.contactPerson.push(contact);
+  }
   profileInfoNext() {
     this.readProfileInfo();
     this.validatorExt.validateAllFormFields(this.profileFG1);
-    if (this.profileFG1.valid) {
+    if (true || this.profileFG1.valid) {
       this.profileInfoStep = 2;
     }
   }
@@ -173,19 +240,19 @@ export class RetailerAddProfileComponent implements OnInit {
     this.profileInfoObj.businessAddress.email = this.profileFG1.value.email;
     this.profileInfoObj.businessAddress.phoneNo = this.profileFG1.value.phone_number;
 
-    this.profileInfoObj.contactPerson = new Array<RetailerContact>();
-    const contact = new RetailerContact();
-    contact.personName = this.profileFG2.value.contact_name;
-    contact.position = this.profileFG2.value.contact_position;
-    contact.addressLine1 = this.profileFG2.value.contact_address1;
-    contact.addressLine2 = this.profileFG2.value.contact_address2;
-    contact.city = this.profileFG2.value.contact_city;
-    contact.state = this.profileFG2.value.contact_state;
-    contact.zipcode = this.profileFG2.value.contact_zipcode;
-    contact.email = this.profileFG2.value.contact_email;
-    contact.phoneNo = this.profileFG2.value.contact_phone_number;
-    contact.contactType = this.profileFG2.value.contactType;
-    this.profileInfoObj.contactPerson.push(contact);
+    // this.profileInfoObj.contactPerson = new Array<RetailerContact>();
+    // const contact = new RetailerContact();
+    // contact.personName = this.profileFG2.value.contact_name;
+    // contact.position = this.profileFG2.value.contact_position;
+    // contact.addressLine1 = this.profileFG2.value.contact_address1;
+    // contact.addressLine2 = this.profileFG2.value.contact_address2;
+    // contact.city = this.profileFG2.value.contact_city;
+    // contact.state = this.profileFG2.value.contact_state;
+    // contact.zipcode = this.profileFG2.value.contact_zipcode;
+    // contact.email = this.profileFG2.value.contact_email;
+    // contact.phoneNo = this.profileFG2.value.contact_phone_number;
+    // contact.contactType = this.profileFG2.value.contactType;
+    // this.profileInfoObj.contactPerson.push(contact);
     this.profileDataChange.emit(this.profileInfoObj);
     return this.profileInfoObj;
   }

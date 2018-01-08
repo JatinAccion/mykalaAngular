@@ -134,17 +134,16 @@
         Contacts 
     </h5>
     <div class="form-group">
+        <span class="input-group-addon" id="basic-addon1">
+            <select class="ddl_Product" (change)="contactTypeSelected($event)" formControlName="contact_type" >
+                    <option value="">Select Contact Type</option>                
+                    <option *ngFor="let option of contactTypes" [ngValue]="option"  >
+                            {{option.type}}
+                        </option>
+            </select>
+        </span>
         <div class="input-group">
-            <input aria-describedby=" " class="form-control" formcontrolname="Length" pattern="" placeholder="" type="text">
-            <span class="input-group-addon" id="basic-addon1">
-                <select class="ddl_Product">
-                    <option>Primary contact</option>
-                    <option>General contact</option>
-                    <option>Billing contact</option>
-                    <option>Shipping contact</option>
-                    <option>Others</option>
-                </select>
-            </span>
+            <input  class="form-control" formControlName="contact_type_name" type="text" (change)="contactTypeNameChanged($event)" >
         </div>
     </div>
     <div class="form-group">
@@ -213,6 +212,7 @@
             </div>
         </div>
     </div>
+    <a class="btn btn-default ancProfile1" (click)="saveContact();">Save Contact</a>
 </div>
 <hr />
 <div class="row">
