@@ -100,3 +100,7 @@
  .shippingCheck .fa.empty{
      padding:6px 6px 6px 5px; 
  }
+ .ddl_Contact {
+    background: transparent; 
+    border: solid 0px;
+}

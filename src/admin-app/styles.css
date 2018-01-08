@@ -235,6 +235,48 @@ a.categ_close{
     color:#fff; 
     text-decoration:none;
 } 
+/* Ripple magic */
+.btn-default{
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .btn-default:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, .2);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%);
+    transform-origin: 50% 50%;
+    color:#fff;
+  }
+  
+  @keyframes ripple {
+    0% {
+      transform: scale(0, 0);
+      opacity: 1;
+    }
+    20% {
+      transform: scale(25, 25);
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: scale(40, 40);
+    }
+  }
+  
+  .btn-default:focus:not(:active)::after {
+    animation: ripple 1s ease-out;
+  } 
+
+
+
 .draglogo{
     border:dashed 2px #999;
     padding:15px 0px;

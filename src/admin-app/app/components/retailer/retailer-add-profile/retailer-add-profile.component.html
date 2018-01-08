@@ -133,19 +133,23 @@
     <h5>
         Contacts 
     </h5>
-    <div class="form-group">
-        <span class="input-group-addon" id="basic-addon1">
-            <select class="ddl_Product" (change)="contactTypeSelected($event)" formControlName="contact_type" >
-                    <option value="">Select Contact Type</option>                
-                    <option *ngFor="let option of contactTypes" [ngValue]="option"  >
-                            {{option.type}} <i class="fa fa-ok"></i>
+    <div class="row form-group">
+        <div class="col-sm-6"> 
+             <span class="input-group-addon" id="basic-addon1">
+                <select class="ddl_Contact" (change)="contactTypeSelected($event)" formControlName="contact_type" >
+                        <option value="">Select Contact Type</option>                
+                        <option *ngFor="let option of contactTypes" [ngValue]="option"  >
+                            {{option.type}} 
                         </option>
-            </select>
-        </span>
-        <div class="input-group">
-            <input  class="form-control" formControlName="contact_type_name" type="text" (change)="contactTypeNameChanged($event)" >
+                </select> 
+            </span>  
         </div>
-    </div>
+        <div class="col-sm-6">
+            <div class="input-group">
+                <input  class="form-control" formControlName="contact_type_name" type="text" (change)="contactTypeNameChanged($event)" >
+            </div>
+        </div>
+    </div> 
     <div class="form-group">
         <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Name" pattern formControlName="contact_name">
         <!--Validation-->
