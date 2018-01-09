@@ -132,3 +132,10 @@
     background: #999;
     color: #fff;
 }
+.card-header{
+    background-color:transparent !important;
+    border-bottom: none !important;
+}
+.card{
+    border: none !important;
+}
