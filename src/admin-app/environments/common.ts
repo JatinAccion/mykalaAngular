@@ -9,7 +9,8 @@ export const apiNames = {
     retailers: {
         get: 'retailer/getReatilerByName',
         sellerTypes: 'retailer/sellerType',
-        getShippingProfileNames: 'retailer/getShippingProfileName'
+        getShippingProfileNames: 'retailer/getShippingProfileName',
+        changeStatus: 'retailer/changeStatus'
     },
     retailerProfileInfo: {
         get: 'retailerProfileInfo/get',
@@ -46,7 +47,7 @@ export const apiNames = {
         delete: 'delete',
     },
     product: {
-        get: 'getproduct',
+        get: 'filterBy',
         save: 'save',
         saveImage: 'saveImages',
         changeMainImage: 'changeMainImage',

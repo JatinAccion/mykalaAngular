@@ -3,13 +3,16 @@
 </div>
 <div class="row">
     <div class="col-sm-4">
-        <input type="text" placeholder="search for seller by name" class="form-control"  />
+        <input type="text" placeholder="search for seller by name" class="form-control" [(ngModel)]="retailerName" (keyup)="getPage(1)" />
     </div>
     <div class="col-sm-8 text-right">
         <a class="btn btn-default" routerLink="/retailer-add" routerLinkActive="retailer-add">+ New Account</a>
     </div>
 </div>
-<div class="AdminAcct_Row" *ngFor="let retailer of retailers.content">
+<div class="spinner" [ngClass]="{ 'hidden': !loading }"></div>
+<pagination-controls id='server' (pageChange)="getPage($event)"></pagination-controls>
+
+<div class="AdminAcct_Row" *ngFor="let retailer of retailers.content | paginate: { id: 'server', itemsPerPage: retailers.size, currentPage: retailers.number + 1 , totalItems: retailers.totalElements }">
     <div class="row">
         <div class="col-sm-2 pl-4 pt-3">
             <img src="{{retailer.businessLogoPath}}" class="img-fluid" />
@@ -23,15 +26,15 @@
         </div>
         <div class="col-sm-2 mt-4 pr-4">
             <p class="clearfix">
-                <a class=" btn_redouter_right w-100" [routerLink]="['../retailer-edit', retailer.retailerId]">edit account</a>
+                <a class=" btn_redouter_right w-100" [routerLink]="['../retailer-add', retailer.retailerId]">edit account</a>
             </p>
             <p class="clearfix">
-                <a class=" btn_red_right w-100" (click)="deactivate()">deactivate</a>
+                <a class=" btn_red_right w-100" (click)="deactivate(retailer.retailerId)">deactivate</a>
             </p>
         </div>
     </div>
     <hr />
-    <div class="row"> 
+    <div class="row">
         <div class="col-sm-2 text-center">
             <h5>{{0}}</h5>
             <div class="colorlightGray">products</div>

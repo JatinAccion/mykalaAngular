@@ -1,5 +1,5 @@
 import { ProductPlace, ProductCategory, ProductSubCategory, ProductType } from './product-info';
-
+import { Pagination } from './pagination';
 export class Product {
     public retailerId: number;
     public retailerName: string;
@@ -18,6 +18,10 @@ export class Product {
     public kalaPrice: number;
     public quantity: number;
     public shipProfileId: number;
+    public productStatus: boolean | null = true;
+    public productActivatedDate: Date | null;
+    public createdDate: Date | null;
+    public productImages: ProductImage[];
 
     public productPlace: ProductPlace;
     public productCategory: ProductCategory;
@@ -41,6 +45,29 @@ export class Product {
             this.kalaPrice = obj.kalaPrice;
             this.quantity = obj.quantity;
             this.shipProfileId = obj.shipProfileId;
+            this.productStatus = obj.productStatus;
+            this.productActivatedDate = obj.productActivatedDate;
+            this.createdDate = obj.createdDate;
+            this.productImages = obj.productImages.map(p => new ProductImage(p));
         }
     }
+}
+export class ProductImage {
+    public imageType: string;
+    public imageUrl: string;
+    public mainImage: boolean | null = false;
+    constructor(obj?: any) {
+        this.imageType = obj.imageType;
+        this.imageUrl = obj.imageUrl;
+        this.mainImage = obj.mainImage;
+    }
+}
+export class Products extends Pagination {
+    constructor(obj?: any) {
+        if (obj) {
+            super(obj);
+            this.content = obj.content.map(p => new Product(p));
+        }
+    }
+    public content: Product[];
 }

@@ -10,7 +10,7 @@ import 'rxjs/add/operator/catch';
 import { LocalStorageService } from '../../services/LocalStorage.service';
 import { environment } from './../../../environments/environment';
 import { nameValue } from '../../../../models/nameValue';
-import { Product } from '../../../../models/Product';
+import { Product, Products } from '../../../../models/Product';
 import { ProductPlace, ProductType, ProductSubCategory, ProductCategory } from '../../../../models/product-info';
 
 @Injectable()
@@ -40,13 +40,15 @@ export class ProductService {
     // this.shippingProfiles.push(new nameValue('2', 'Small item delivery'));
     // this.shippingProfiles.push(new nameValue('3', '1-5 business days shipping'));
   }
-  get(query: any): Observable<any[]> {
+  get(query: any): Observable<Products> {
     this.headers = this.getHttpHeraders();
-    const url = `${this.BASE_URL}/${environment.apis.retailers.get}`;
+    const url = `${this.BASE_URL}/${environment.apis.product.get}`;
     return this.http
       .get(url, { search: query, headers: this.headers })
       .map(p => p.json())
+      .map(p => new Products(p))
       .catch(this.handleError);
+
   }
   saveProduct(product: Product): Promise<any> {
     this.headers = this.getHttpHeraders();

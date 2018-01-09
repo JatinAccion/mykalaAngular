@@ -18,6 +18,7 @@ import { ProductAddMoreComponent } from './product-add-more/product-add-more.com
 import { ProductAddPricingComponent } from './product-add-pricing/product-add-pricing.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ProductMetaComponent } from './product-meta/product-meta.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   imports: [
@@ -25,7 +26,8 @@ import { ProductMetaComponent } from './product-meta/product-meta.component';
     ProductRoutingModule,
     NgbModule,
     ReactiveFormsModule,
-    SharedModule, FormsModule, HttpClientModule
+    SharedModule, FormsModule, HttpClientModule,
+    NgxPaginationModule
   ],
   declarations: [
     ProductListComponent,

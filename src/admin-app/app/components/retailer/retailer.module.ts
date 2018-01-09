@@ -18,6 +18,7 @@ import { ValidatorExt } from '../../../../common/ValidatorExtensions';
 import { SharedModule } from '../../../../common/shared.module';
 import { RetailerAddProfileComponent } from './retailer-add-profile/retailer-add-profile.component';
 import { RetailerAddPaymentComponent } from './retailer-add-payment/retailer-add-payment.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 
@@ -29,7 +30,8 @@ import { RetailerAddPaymentComponent } from './retailer-add-payment/retailer-add
     ReactiveFormsModule,
     SharedModule, FormsModule,
     Angular2FontawesomeModule,
-    AngularMultiSelectModule
+    AngularMultiSelectModule,
+    NgxPaginationModule
   ],
   declarations: [
     RetailerListComponent,

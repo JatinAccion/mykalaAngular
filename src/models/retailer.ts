@@ -2,27 +2,16 @@ import { RetailerProfileInfo } from './retailer-profile-info';
 import { RetailerPaymentInfo } from './retailer-payment-info';
 import { ProductInfo } from './product-info';
 import { RetialerShippingProfile } from './retailer-shipping-profile';
+import { Pagination } from './pagination';
 
-export class Retailers {
+export class Retailers extends Pagination {
     constructor(obj?: any) {
         if (obj) {
-            this.last = obj.last;
-            this.totalElements = obj.totalElements;
-            this.totalPages = obj.totalPages;
-            this.size = obj.size;
-            this.number = obj.number;
-            this.first = obj.first;
+            super(obj);
             this.content = obj.content.map(p => new RetailerProfileInfo(p));
         }
     }
     public content: RetailerProfileInfo[];
-
-    public last: boolean;
-    public totalElements: number;
-    public totalPages: number;
-    public size: number;
-    public number: number;
-    public first: boolean;
 }
 
 export class RetailerReports {

@@ -190,7 +190,13 @@ export class RetialerService {
       .map(res => res.json())
       .catch(this.handleError);
   }
-
+  changeStatus(retailerId: number, status: boolean | null = true) {
+    const url = `${this.BASE_URL}/${environment.apis.retailers.changeStatus}`;
+    return this.http
+      .get(`${url}/${retailerId}/${status}`, { headers: this.headers })
+      .map(res => res.text())
+      .catch(this.handleError);
+  }
   private handleError(error: Response) {
     // in a real world app, we may send the server to some remote logging infrastructure
     // instead of just logging it to the console

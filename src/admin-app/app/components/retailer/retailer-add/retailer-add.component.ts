@@ -65,7 +65,7 @@ export class RetailerAddComponent implements OnInit {
     private validatorExt: ValidatorExt,
     private core: CoreService
   ) {
-    // this.retailerId = route.snapshot.params['id'];
+     this.retailerId = route.snapshot.params['id'];
   }
   ngOnInit() {
     this.setActiveTab({ nextId: 'tab-Profile' });

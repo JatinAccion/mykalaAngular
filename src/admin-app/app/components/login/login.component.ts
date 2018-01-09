@@ -8,6 +8,7 @@ import { LocalStorageService } from '../../services/LocalStorage.service';
 import { userMessages, loginInputValidations } from './messages';
 import { RememberMe } from '../../../../models/rememberMe';
 import { fail } from 'assert';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -37,13 +38,13 @@ export class LoginComponent implements OnInit {
     this.core.hide();
     if (this.getCredentials !== '' && this.getCredentials !== undefined) {
       this.loginKala = this.formBuilder.group({
-        email: [JSON.parse(this.getCredentials).email, [Validators.required, Validators.email]],
+        email: [JSON.parse(this.getCredentials).email, [Validators.required, Validators.pattern(environment.regex.emailRegex)]],
         password: [window.atob(JSON.parse(this.getCredentials).password), Validators.compose([Validators.required])],
         remember: [JSON.parse(this.getCredentials).remember]
       });
     } else {
       this.loginKala = this.formBuilder.group({
-        email: ['', [Validators.required, Validators.email]],
+        email: ['', [Validators.required, Validators.pattern(environment.regex.emailRegex)]],
         password: ['', Validators.compose([Validators.required])],
         remember: ['']
       });

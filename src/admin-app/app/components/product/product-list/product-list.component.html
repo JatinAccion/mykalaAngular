@@ -50,6 +50,8 @@
         </li>
     </ul>
 </div>
+<div class="spinner" [ngClass]="{ 'hidden': !loading }"></div>
+<pagination-controls id='server' (pageChange)="getPage($event)"></pagination-controls>
 <div class="row mt-3">
     <div class="col-sm-2 colorlightGray">Previous</div>
     <div class="col-sm-8 text-center">Sales Transactions 1-10 of 1,235</div>
@@ -73,7 +75,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
+            <tr *ngFor="let retailer of retailers.content | paginate: { id: 'server', itemsPerPage: retailers.size, currentPage: retailers.number + 1 , totalItems: retailers.totalElements }">
                 <td><input type="checkbox"></td>
                 <td>Active</td>
                 <td>Ada</td>

@@ -170,6 +170,17 @@ export class RetailerAddProfileComponent implements OnInit {
     this.profileInfoObj.contactPerson.push(contact);
     this.core.message.success('Contact Added');
   }
+  removeContact() {
+    const contact = this.profileInfoObj.contactPerson.filter(p => p.contactType === this.profileFG2.value.contact_type.type)[0];
+    if (contact) {
+      this.profileInfoObj.contactPerson.splice(this.profileInfoObj.contactPerson.indexOf(contact), 1);
+    }
+    if (!this.profileFG2.value.contact_type.default) {
+      this.contactTypes.splice(this.contactTypes.indexOf(this.profileFG2.value.contact_type), 1);
+    }
+    this.loadConatactType('');
+    this.core.message.success('Contact Removed');
+  }
   profileInfoNext() {
     this.readProfileInfo();
     this.validatorExt.validateAllFormFields(this.profileFG1);

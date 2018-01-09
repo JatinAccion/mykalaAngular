@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Product  } from '../../../../../models/Product';
+import { Products } from '../../../../../models/Product';
 import { ProductService } from '../product.service';
 
 @Component({
@@ -9,19 +9,25 @@ import { ProductService } from '../product.service';
   encapsulation: ViewEncapsulation.None
 })
 export class ProductListComponent implements OnInit {
-  products: Array<Product>;
-  isCollapsed=true;
-  constructor(private retialerService: ProductService) {
-    this.products = new Array<Product>();
+  productName: any;
+  loading: boolean;
+  products: Products;
+  isCollapsed = true;
+  constructor(private productService: ProductService) {
+    this.products = new Products();
   }
 
   ngOnInit() {
-    this.getData();
+    this.getPage(1);
 
   }
-  getData() {
-    this.retialerService.get(null).subscribe((res) => {
-      return res.forEach(obj => { this.products.push(new Product(obj)); });
+  getPage(page: number) {
+    this.loading = true;
+    this.productService.get({
+      page: page - 1, size: 10, sortOrder: 'asc', elementType: 'createdDate', retailerName: this.productName
+    }).subscribe(res => {
+      this.products = res;
+      this.loading = false;
     });
   }
 }
