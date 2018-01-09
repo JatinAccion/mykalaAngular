@@ -1,54 +1,52 @@
-
 <div class="row">
     <div class="col-sm-6 title">
         <h1>Products</h1>
+    </div> 
+</div> 
+<div class="row">
+    <div class="col-sm-12 p-0 text-right">
+            <ul class="product_search m-0 p-0"> 
+                    <li>
+                        <select class="ddl_default form-control">
+                            <option>Status</option>
+                            <option>Status1</option>
+                            <option>Status2</option>
+                        </select>
+                    </li>
+                    <li>
+                        <select class="ddl_default form-control">
+                            <option>Place</option>
+                            <option>Place1</option>
+                            <option>Place2</option>
+                        </select>
+                    </li>
+                    <li>
+                        <select class="ddl_default form-control">
+                            <option>category</option>
+                            <option>category1</option>
+                            <option>category2</option>
+                        </select>
+                    </li>
+                    <li>
+                        <select class="ddl_default form-control">
+                            <option>Sub-category</option>
+                            <option>Sub-category1</option>
+                            <option>Sub-category2</option>
+                        </select>
+                    </li>
+                    <li>
+                        <select class="ddl_default form-control">
+                            <option>Seller</option>
+                            <option>Seller1</option>
+                            <option>Seller2</option>
+                        </select>
+                    </li>
+                    <li>
+                        <a class="btn btn-default" routerLink="/product-add" routerLinkActive="retailer-add">+ Add a product</a>
+                    </li>
+                </ul>
     </div>
-    <div class="col-sm-6 mt-3 topRightHeader">
-        <input placeholder="search for product by name" class="form-control txt_Search" type="search">
-    </div>
-</div>
-
-<div class=" col-sm-12 text-right">
-    <ul class="product_search m-0  mt-4">
-        <li>
-            <select class="ddl_default form-control">
-                <option>Status</option>
-                <option>Status1</option>
-                <option>Status2</option>
-            </select>
-        </li>
-        <li>
-            <select class="ddl_default form-control">
-                <option>Place</option>
-                <option>Place1</option>
-                <option>Place2</option>
-            </select>
-        </li>
-        <li>
-            <select class="ddl_default form-control">
-                <option>category</option>
-                <option>category1</option>
-                <option>category2</option>
-            </select>
-        </li>
-        <li>
-            <select class="ddl_default form-control">
-                <option>Sub-category</option>
-                <option>Sub-category1</option>
-                <option>Sub-category2</option>
-            </select>
-        </li>
-        <li>
-            <select class="ddl_default form-control">
-                <option>Seller</option>
-                <option>Seller1</option>
-                <option>Seller2</option>
-            </select>
-        </li>
-        <li>
-            <a class="btn btn-default" routerLink="/product-add" routerLinkActive="retailer-add">+ Add a product</a>
-        </li>
-    </ul>
+    
 </div>
 <div class="row mt-3">
     <div class="col-sm-2 colorlightGray">Previous</div>
@@ -78,7 +76,7 @@
                 <td>Active</td>
                 <td>Ada</td>
                 <td> 
-                    <a type="button" class="colorBlue" (click)="isCollapsed = !isCollapsed"
+                    <a class="colorBlue" (click)="isCollapsed = !isCollapsed"
                             [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
                             Wood Floral Ceiling Lamp
                     </a>

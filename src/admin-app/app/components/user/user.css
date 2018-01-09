@@ -132,11 +132,11 @@
     background: #999;
     color: #fff;
 }
-.card-header{
+.usermanagement .card-header{
     background-color:transparent !important;
     border-bottom: none !important;
 }
-.card{
+.usermanagement .card{
     border: none !important;
     margin-bottom: 20px;
 }
