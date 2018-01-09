@@ -38,8 +38,11 @@ export class JoinKalaComponent implements OnInit, CuiComponent {
   user: User = new User('', '', '');
   constructor(private routerOutlet: RouterOutlet, private joinKalaService: JoinKalaService, private formBuilder: FormBuilder, private router: Router, private auth: AuthService, private core: CoreService) { }
   ngOnInit() {
+    /**Clearing the Logged In Session */
     localStorage.removeItem('token');
-    if (window.localStorage['token'] == undefined) this.core.clearUser();
+    this.core.clearUser();
+    this.core.hideUserInfo(true);
+    /**Clearing the Logged In Session */
     this.core.show();
     this.joinKala = this.formBuilder.group({
       firstname: ['', Validators.compose([Validators.required, Validators.pattern(this.fullname)])],

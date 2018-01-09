@@ -1,56 +1,58 @@
-<div style="height:120px;width:100%;"></div>
-<div class="title">
-  <h2>Sign In</h2>
-</div>
-<div class="col-sm-12 join_layout">
-  <form [formGroup]="loginKala">
-    <div class="join_content">
-      <h4 class="subtitle">log in</h4>
+<div class="container">
+  <div style="height:120px;width:100%;"></div>
+  <div class="title">
+    <h2>Sign In</h2>
+  </div>
+  <div class="col-sm-12 join_layout">
+    <form [formGroup]="loginKala">
+      <div class="join_content">
+        <h4 class="subtitle">log in</h4>
 
-      <div class="form-group">
-        <input pattern formControlName="email" type="email" class="form-control" aria-describedby="emailHelp" placeholder="Email">
+        <div class="form-group">
+          <input pattern formControlName="email" type="email" class="form-control" aria-describedby="emailHelp" placeholder="Email">
 
-        <!--Validation-->
-        <div *ngIf="loginKala.controls.email.dirty || loginKala.controls.email.touched">
-          <div *ngIf="!loginKala.controls.email.value" class="alert alert-danger errorMessages">{{loginInputValMsg.emailRequired}}</div>
-          <div *ngIf="loginKala.controls.email.value && loginKala.controls.email.errors" class="alert alert-danger errorMessages">{{loginInputValMsg.validEmail}}</div>
+          <!--Validation-->
+          <div *ngIf="loginKala.controls.email.dirty || loginKala.controls.email.touched">
+            <div *ngIf="!loginKala.controls.email.value" class="alert alert-danger errorMessages">{{loginInputValMsg.emailRequired}}</div>
+            <div *ngIf="loginKala.controls.email.value && loginKala.controls.email.errors" class="alert alert-danger errorMessages">{{loginInputValMsg.validEmail}}</div>
+          </div>
+          <!--Validation-->
+
         </div>
-        <!--Validation-->
 
-      </div>
+        <div class="form-group">
+          <input formControlName="password" type="password" class="form-control" placeholder="Password">
 
-      <div class="form-group">
-        <input formControlName="password" type="password" class="form-control" placeholder="Password">
+          <!--Validation-->
+          <div *ngIf="loginKala.controls.password.dirty || loginKala.controls.password.touched">
+            <div *ngIf="!loginKala.controls.password.value" class="alert alert-danger errorMessages">{{loginInputValMsg.passwordRequired}}</div>
+          </div>
+          <!--Validation-->
 
-        <!--Validation-->
-        <div *ngIf="loginKala.controls.password.dirty || loginKala.controls.password.touched">
-          <div *ngIf="!loginKala.controls.password.value" class="alert alert-danger errorMessages">{{loginInputValMsg.passwordRequired}}</div>
         </div>
-        <!--Validation-->
 
+        <div class="form-check">
+          <label class="form-check-label">
+            <input type="checkbox" formControlName="remember" class="form-check-input"> remember me
+          </label>
+          <small style="margin-top: 4px" class="float-right">
+            <a routerLink="/forgot-password" class="colorlightGray">forgot password?</a>
+          </small>
+        </div>
+
+        <!--Loader-->
+        <div *ngIf="loginError" class="alert alert-danger errorMessages">
+          {{loginUserMessage.error}}
+        </div>
+
+        <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="loader" />
+        <!--Loader-->
       </div>
-
-      <div class="form-check">
-        <label class="form-check-label">
-          <input type="checkbox" formControlName="remember" class="form-check-input"> remember me
-        </label>
-        <small style="margin-top: 4px" class="float-right">
-          <a routerLink="/forgot-password" class="colorlightGray">forgot password?</a>
-        </small>
+      <hr />
+      <div class="text-center">
+        <button (click)="onSubmit()" type="submit" [disabled]="!loginKala.valid" class="btn btn_red_right">login</button>
       </div>
-
-      <!--Loader-->
-      <div *ngIf="loginError" class="alert alert-danger errorMessages">
-        {{loginUserMessage.error}}
-      </div>
-
-      <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="loader" />
-      <!--Loader-->
-    </div>
-    <hr />
-    <div class="text-center">
-      <button (click)="onSubmit()" type="submit" [disabled]="!loginKala.valid" class="btn btn_red_right">login</button>
-    </div>
-  </form>
-  <div class="clearfix">&nbsp;</div>
+    </form>
+    <div class="clearfix">&nbsp;</div>
+  </div>
 </div>

@@ -23,10 +23,10 @@ export class Step4Component implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.core.checkIfLoggedOut(); /*** If User Logged Out*/
     this.headerMessage = 'get offers';
     this.core.show(this.headerMessage);
     this.pageLabel = 'You\'re almost done! Please confirm that we got everything right';
-    this.core.hideUserInfo(true);
     this.core.pageLabel(this.pageLabel);
     if (window.localStorage['GetOfferStep_1'] != undefined) this.Step1Data = JSON.parse(window.localStorage['GetOfferStep_1']);
     if (window.localStorage['GetOfferStep_2'] != undefined) this.Step2Data = JSON.parse(window.localStorage['GetOfferStep_2']);

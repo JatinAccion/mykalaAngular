@@ -1,5 +1,5 @@
 <div class="category_home_list">
-  <ul class="category_list">
+  <!-- <ul class="category_list">
     <li *ngFor="let tile of tilesData" [id]="tile.id" (click)="getSelectedTile(tile)">
       <span class="bg">
         <img src="/consumer-app/assets/images/kitchen.png" />
@@ -10,5 +10,25 @@
         <p class="text-center">{{tile.text}}</p>
       </span>
     </li>
-  </ul>
+  </ul> -->
+  <div class="container">
+    <div class="row">
+      <div class="card-columns">
+        <!--Product-->
+        <div class="card productsHome imgHover" *ngFor="let tile of tilesData" [id]="tile.id" (click)="getSelectedTile(tile)">
+          <img src="{{tile.imgUrl}}" class="img-fluid card-img-top" />
+          <!--Overlay-->
+          <div class="overlay ml-3 text-center">
+            <div class="explore col-sm-12 p-0">
+              <img src="/consumer-app/assets/images/icon_explore.png" />
+              <p class="pt-3">{{tile.text}}</p>
+            </div>
+          </div>
+          <!--Overlay-->
+        </div>
+        <!--Product-->
+      </div>
+    </div>
+  </div>
+
 </div>

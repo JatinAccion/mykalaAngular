@@ -32,6 +32,7 @@ export class ResetPasswordComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.core.checkIfLoggedOut(); /*** If User Logged Out*/
     this.userInfo = JSON.parse(window.localStorage['userInfo']);
     this.resetPassword = this.formBuilder.group({
       newPassword: ['', Validators.compose([Validators.pattern(this.passwordRegex), Validators.required, Validators.minLength(8)])],

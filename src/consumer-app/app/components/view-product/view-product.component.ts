@@ -12,6 +12,7 @@ export class ViewProductComponent implements OnInit {
   constructor(private core: CoreService) { }
 
   ngOnInit() {
+    this.core.checkIfLoggedOut(); /*** If User Logged Out*/
     this.core.hide();
     this.core.searchMsgToggle();
     if (window.localStorage['token'] == undefined) this.core.clearUser();

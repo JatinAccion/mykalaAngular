@@ -1,79 +1,81 @@
-<div style="height:120px;width:100%;"></div>
-<div class="title">
-    <h2>Join Kala</h2>
-</div>
-<div class="col-sm-12 join_layout">
-    <form [formGroup]="joinKala">
-        <div class="join_content">
-            <h4 class="subtitle">create account</h4>
+<div class="container">
+    <div style="height:120px;width:100%;"></div>
+    <div class="title">
+        <h2>Join Kala</h2>
+    </div>
+    <div class="col-sm-12 join_layout">
+        <form [formGroup]="joinKala">
+            <div class="join_content">
+                <h4 class="subtitle">create account</h4>
 
-            <div class="form-group row">
-                <div class="col-sm-6">
-                    <input type="text" formControlName="firstname" class="form-control" id="" aria-describedby="" placeholder="First Name">
-                </div>
-
-                <div class="col-sm-6">
-                    <input type="text" formControlName="lastname" class="form-control" id="" aria-describedby="" placeholder="Last Name">
-                </div>
-
-                <!--Validation-->
-                <div class="col-sm-12 errorUser" *ngIf="joinKala.controls.firstname.dirty || joinKala.controls.firstname.touched">
-                    <div *ngIf="!joinKala.controls.firstname.value" class="alert alert-danger errorMessages">{{joinInputValMsg.firstNameRequired}}</div>
-                    <div *ngIf="joinKala.controls.firstname.value && !joinKala.controls.firstname.pattern && joinKala.controls.firstname.errors" class="alert alert-danger errorMessages">
-                        {{joinInputValMsg.validFirstName}}
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <input type="text" formControlName="firstname" class="form-control" id="" aria-describedby="" placeholder="First Name">
                     </div>
-                </div>
 
-                <div class="col-sm-12 errorUser" *ngIf="joinKala.controls.lastname.dirty || joinKala.controls.lastname.touched">
-                    <div *ngIf="!joinKala.controls.lastname.value" class="alert alert-danger errorMessages">{{joinInputValMsg.lastNameRequired}}</div>
-                    <div *ngIf="joinKala.controls.lastname.value && !joinKala.controls.lastname.pattern && joinKala.controls.lastname.errors" class="alert alert-danger errorMessages">
-                        {{joinInputValMsg.validLastName}}
+                    <div class="col-sm-6">
+                        <input type="text" formControlName="lastname" class="form-control" id="" aria-describedby="" placeholder="Last Name">
                     </div>
-                </div>
-                <!--Validation-->
-            </div>
 
-            <div class="form-group">
-                <input pattern formControlName="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email">
-
-                <!--Validation-->
-                <div *ngIf="joinKala.controls.email.dirty || joinKala.controls.email.touched">
-                    <div *ngIf="!joinKala.controls.email.value" class="alert alert-danger errorMessages">{{joinInputValMsg.emailRequired}}</div>
-                    <div *ngIf="joinKala.controls.email.value && joinKala.controls.email.errors" class="alert alert-danger errorMessages">{{joinInputValMsg.validEmail}}</div>
-                </div>
-                <!--Validation-->
-
-            </div>
-            <div class="form-group">
-                <input formControlName="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-
-                <!--Validation-->
-                <div *ngIf="joinKala.controls.password.dirty || joinKala.controls.password.touched">
-                    <div *ngIf="!joinKala.controls.password.value" class="alert alert-danger errorMessages">{{joinInputValMsg.passwordRequired}}</div>
-                    <div *ngIf="joinKala.controls.password.value && !joinKala.controls.password.pattern && joinKala.controls.password.errors" class="alert alert-danger errorMessages">
-                        {{joinInputValMsg.validPassword}}
+                    <!--Validation-->
+                    <div class="col-sm-12 errorUser" *ngIf="joinKala.controls.firstname.dirty || joinKala.controls.firstname.touched">
+                        <div *ngIf="!joinKala.controls.firstname.value" class="alert alert-danger errorMessages">{{joinInputValMsg.firstNameRequired}}</div>
+                        <div *ngIf="joinKala.controls.firstname.value && !joinKala.controls.firstname.pattern && joinKala.controls.firstname.errors" class="alert alert-danger errorMessages">
+                            {{joinInputValMsg.validFirstName}}
+                        </div>
                     </div>
+
+                    <div class="col-sm-12 errorUser" *ngIf="joinKala.controls.lastname.dirty || joinKala.controls.lastname.touched">
+                        <div *ngIf="!joinKala.controls.lastname.value" class="alert alert-danger errorMessages">{{joinInputValMsg.lastNameRequired}}</div>
+                        <div *ngIf="joinKala.controls.lastname.value && !joinKala.controls.lastname.pattern && joinKala.controls.lastname.errors" class="alert alert-danger errorMessages">
+                            {{joinInputValMsg.validLastName}}
+                        </div>
+                    </div>
+                    <!--Validation-->
                 </div>
-                <!--Validation-->
-            </div>
 
-            <!--Response Message-->
-            <div *ngIf="signUpResponse.status" [ngClass]="userInfo.userCreateStatus == 'success' ? 'alert-success successMessage' : 'alert-danger errorMessages'" class="alert">
-                {{signUpResponse.message}}
-            </div>
+                <div class="form-group">
+                    <input pattern formControlName="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email">
 
-            <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="loader" />
-            <!--Response Message-->
-        </div>
-        <hr />
-        <div class="text-center join_content">
-            <button (click)="onSubmit()" type="submit" [disabled]="!joinKala.valid" class="btn btn_red_right w-100">create account</button>
-        </div>
-        <div class="text-center p-3 colorlightGray">
-            <small>By creating an account you agree to Kala’s
-                <a href="#">Terms of Use</a>
-            </small>
-        </div>
-    </form>
-    <div class="clearfix">&nbsp;</div>
+                    <!--Validation-->
+                    <div *ngIf="joinKala.controls.email.dirty || joinKala.controls.email.touched">
+                        <div *ngIf="!joinKala.controls.email.value" class="alert alert-danger errorMessages">{{joinInputValMsg.emailRequired}}</div>
+                        <div *ngIf="joinKala.controls.email.value && joinKala.controls.email.errors" class="alert alert-danger errorMessages">{{joinInputValMsg.validEmail}}</div>
+                    </div>
+                    <!--Validation-->
+
+                </div>
+                <div class="form-group">
+                    <input formControlName="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+
+                    <!--Validation-->
+                    <div *ngIf="joinKala.controls.password.dirty || joinKala.controls.password.touched">
+                        <div *ngIf="!joinKala.controls.password.value" class="alert alert-danger errorMessages">{{joinInputValMsg.passwordRequired}}</div>
+                        <div *ngIf="joinKala.controls.password.value && !joinKala.controls.password.pattern && joinKala.controls.password.errors" class="alert alert-danger errorMessages">
+                            {{joinInputValMsg.validPassword}}
+                        </div>
+                    </div>
+                    <!--Validation-->
+                </div>
+
+                <!--Response Message-->
+                <div *ngIf="signUpResponse.status" [ngClass]="userInfo.userCreateStatus == 'success' ? 'alert-success successMessage' : 'alert-danger errorMessages'" class="alert">
+                    {{signUpResponse.message}}
+                </div>
+
+                <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="loader" />
+                <!--Response Message-->
+            </div>
+            <hr />
+            <div class="text-center join_content">
+                <button (click)="onSubmit()" type="submit" [disabled]="!joinKala.valid" class="btn btn_red_right w-100">create account</button>
+            </div>
+            <div class="text-center p-3 colorlightGray">
+                <small>By creating an account you agree to Kala’s
+                    <a href="#">Terms of Use</a>
+                </small>
+            </div>
+        </form>
+        <div class="clearfix">&nbsp;</div>
+    </div>
 </div>

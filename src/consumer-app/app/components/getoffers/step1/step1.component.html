@@ -17,9 +17,9 @@
       <img src="/consumer-app/assets/images/loader.gif" style="right: -40px; top: 0px" class="absoluteImg_2" *ngIf="loader_place" />
     </div>
     <div class="col-sm-7">
-      <div style="cursor: pointer" (click)="loadData(place, 'place')" *ngFor="let place of userResponse.place" class="categ_outline_red m-2">
+      <div style="cursor: pointer" (click)="loadData(place, 'place', $event)" *ngFor="let place of userResponse.place" class="m-2" [ngClass]="loadedPlaces == true ? 'categ_outline_red' : 'categ_outline_gray'">
         {{place.name}}
-        <a (click)="delete(place, 'place')" class="categ_close">x</a>
+        <a (click)="delete(place, 'place')" class="categ_close d-none">x</a>
       </div>
     </div>
     <div class="col-sm-3">
@@ -37,9 +37,9 @@
       <img src="/consumer-app/assets/images/loader.gif" style="right: -40px; top: 0px" class="absoluteImg_2" *ngIf="loader_category" />
     </div>
     <div class="col-sm-7">
-      <div style="cursor: pointer" (click)="loadData(category, 'category')" *ngFor="let category of userResponse.category" class="categ_outline_red m-2">
+      <div style="cursor: pointer" (click)="loadData(category, 'category', $event)" *ngFor="let category of userResponse.category" class="m-2" [ngClass]="loadedCategory == true ? 'categ_outline_red' : 'categ_outline_gray'">
         {{category.name}}
-        <a (click)="delete(category, 'category')" class="categ_close">x</a>
+        <a (click)="delete(category, 'category')" class="categ_close d-none">x</a>
       </div>
     </div>
     <div class="col-sm-3">
@@ -57,9 +57,9 @@
       <img src="/consumer-app/assets/images/loader.gif" style="right: -40px; top: 0px" class="absoluteImg_2" *ngIf="loader_subCategory" />
     </div>
     <div class="col-sm-7">
-      <div style="cursor: pointer" (click)="loadData(subCategory, 'subcategory')" *ngFor="let subCategory of userResponse.subcategory" class="categ_outline_red m-2">
+      <div style="cursor: pointer" (click)="loadData(subCategory, 'subcategory', $event)" *ngFor="let subCategory of userResponse.subcategory" class="m-2" [ngClass]="loadedSubCategory == true ? 'categ_outline_red' : 'categ_outline_gray'">
         {{subCategory.name}}
-        <a (click)="delete(subCategory, 'subcategory')" class="categ_close">x</a>
+        <a (click)="delete(subCategory, 'subcategory')" class="categ_close d-none">x</a>
       </div>
     </div>
     <div class="col-sm-3">
@@ -80,6 +80,11 @@
     <div class="col-sm-7" *ngIf="userResponse.type != ''">
       <div style="cursor: pointer" class="m-2" [ngClass]="checkIfStored?'categ_outline_red':'categ_outline_gray'" (click)="loadData(type, 'type', $event)" *ngFor="let type of userResponse.type">{{type.name}}</div>
     </div>
+
+    <div class="col-sm-7" *ngIf="userResponse.type == ''">
+        <div class="categ_outline_red categ_outline_red_bg m-2">No items to display...</div>
+    </div>
+
     <div class="col-sm-3"></div>
   </div>
   <!--Type-->

@@ -39,8 +39,11 @@ export class LoginComponent implements OnInit, CuiComponent {
     private localStorageService: LocalStorageService) { }
 
   ngOnInit() {
+    /**Clearing the Logged In Session */
     localStorage.removeItem('token');
     this.core.clearUser();
+    this.core.hideUserInfo(true);
+    /**Clearing the Logged In Session */
     if (this.getCredentials != '' && this.getCredentials != undefined) {
       this.loginKala = this.formBuilder.group({
         email: [JSON.parse(this.getCredentials).email, [Validators.required, Validators.email]],
@@ -83,6 +86,7 @@ export class LoginComponent implements OnInit, CuiComponent {
       this.localStorageService.setItem('token', resJson.access_token, resJson.expires_in);
       this.auth.getUserInfo(resJson.access_token).subscribe(res => {
         this.loader = false;
+        this.core.hideUserInfo(false);
         window.localStorage['userInfo'] = JSON.stringify(res);
         this.core.setUser(res);
         this.router.navigateByUrl('/home');

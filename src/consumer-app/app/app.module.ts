@@ -4,6 +4,7 @@ import { RouterModule, Route } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawesome';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.route';
@@ -92,6 +93,7 @@ import { DxRangeSliderModule, DxNumberBoxModule } from 'devextreme-angular';
     ReactiveFormsModule,
     DxRangeSliderModule,
     DxNumberBoxModule,
+    Angular2FontawesomeModule,
     NgbModule.forRoot(),
     SidebarModule.forRoot()
   ],

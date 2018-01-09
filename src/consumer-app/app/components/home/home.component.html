@@ -1,7 +1,221 @@
-<div style="height:120px; margin-top:20px;width:100%;"></div>
-<div style="position: relative;">
-  <img src="/consumer-app/assets/images/loader.gif" style="right: 28px; width: 20px;" class="absoluteImg_2" *ngIf="loader" />
-  <app-breadcrums [breadCrums]="breadCrums" (selectTile)="tileSelected($event, 'IsBc')"></app-breadcrums>
-  <app-tiles [tilesData]="tiles" (selectTile)="tileSelected($event)"></app-tiles>
-  <!-- <app-browse-product [selectedTilesData]="userResponse" [tilesData]="tiles" *ngIf="!showTilesLayout" (selectTile)="tileSelected($event)"></app-browse-product> -->
+<div class="header bgimage">
+    <div class="banner_content">
+        <img src="/consumer-app/assets/images/kala_logo.png" class="img-fluid" />
+        <h1>Take the Search out of Shopping</h1>
+        <h4>Your Online Shopping Experience. Personalized.</h4>
+        <div class="banner_action d-inline-block">
+            <input type="text" class="form-control float-left" placeholder="What can we help you find?" />
+            <a href="#" class="btn btn-red float-left">EXPLORE</a>
+        </div>
+    </div>
+    <div class="row hdr_footer">
+        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item d-block">
+                    <ul>
+                        <li *ngFor="let tile of carousalItems; let i=index" [id]="tile.id" (click)="tileSelected(tile)">
+                            <div *ngIf="i<=4">
+                                <a class="nav-link">
+                                    <img src="{{tile.iconUrl}}" />
+                                    <span>{{tile.text}}</span>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="carousel-item d-none">
+                    <ul>
+                        <li *ngFor="let tile of carousalItems; let i=index" [id]="tile.id" (click)="tileSelected(tile)">
+                            <div *ngIf="i>4 && i<=10">
+                                <a class="nav-link js-scroll-trigger">
+                                    <img src="{{tile.iconUrl}}" />
+                                    <span>{{tile.text}}</span>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <a class="carousel-control-prev" (click)="prevSlide()" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" (click)="nextSlide()" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+
+    </div>
 </div>
+<section id="homegarden" class="py-5">
+    <div class="container banner_title">
+        <h1>Explore. Bid. Create & Buy.</h1>
+        <h4>Are you ready to shop your own way?</h4>
+        <img src="/consumer-app/assets/images/loader.gif" style="right: 15px; top: 245px; width: 20px; height:20px" class="absoluteImg_2" *ngIf="loader" />
+        <app-breadcrums [breadCrums]="breadCrums" (selectTile)="tileSelected($event, 'IsBc')"></app-breadcrums>
+        <app-tiles [tilesData]="tiles" (selectTile)="tileSelected($event)"></app-tiles>
+    </div>
+    <div class="col-sm-12 text-center pt-5">
+        <a href="javascript:void(0)" class="btn btn_more">more...</a>
+    </div>
+</section>
+<section id="homeWorks" class="py-5">
+    <div class="container banner_title">
+        <div class="row">
+            <div class="col-sm-6">
+                <h1 class="colorwhite text-left">How it Works</h1>
+                <div class="banner_steps">
+                    <h1>01</h1>
+                    <h5>EXPLORE</h5>
+                    <p>
+                        Easily find the unique products you are looking for by only viewing products you are interested in and nothing else
+                    </p>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <img src="/consumer-app/assets/images/banner_how_work.png" class="img-fluid" />
+            </div>
+        </div>
+    </div>
+</section>
+<section id="homeRequest" class="pt-5">
+    <div class="container banner_title_gray">
+        <div class="row">
+            <div class="col-sm-6 text-left">
+                <img src="/consumer-app/assets/images/banner_request_offer.png" class="img-fluid" />
+            </div>
+            <div class="col-sm-6">
+                <div class="banner_steps pt-5">
+                    <h1 class="color_step_h1">02</h1>
+                    <h5 class="color_step_h5">REQUEST OFFERS</h5>
+                    <p>
+                        Tell Kala what’s important to you and request offers from retailers to get the perfect item at the right price
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="homeCreate" class="pt-5">
+    <div class="container banner_title">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="banner_steps pt-5">
+                    <h1 class="color_step_h1">03</h1>
+                    <h5 class="color_step_h5">CREATE</h5>
+                    <p>
+                        Create your own community and space filled with your favorite products, retailers, experts, and others who share your interests
+                    </p>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <img src="/consumer-app/assets/images/banner_create.png" class="img-fluid" />
+            </div>
+        </div>
+    </div>
+</section>
+<section id="homeBuy" class="py-5">
+    <div class="container banner_title_gray">
+        <div class="row p-4">
+            <div class="col-sm-6">
+                <img src="/consumer-app/assets/images/banner_buy.png" class="img-fluid" />
+            </div>
+            <div class="col-sm-6">
+                <div class="banner_steps pt-5">
+                    <h1 class="color_step_h1">04</h1>
+                    <h5 class="color_step_h5">Buy</h5>
+                    <p>
+                        Our text-based buying experience makes shopping online with your phone, tablet or desktop as easy as sending an email or text
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="homeFAQ" class="py-5">
+
+    <a class="centerArrow nav-link" href="#FAQ">
+        <i class="fa fa-angle-down" aria-hidden="true"></i>
+    </a>
+
+    <div class="container banner_title" id="FAQ">
+        <h1 class="colorwhite">Frequently Asked Questions</h1>
+        <div class="row">
+            <h1>Frequently Asked Questions</h1>
+        </div>
+        <div class="row">
+            <div id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="card">
+                    <div class="card-header" role="tab" id="headingOne">
+                        <h5 class="mb-0">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                + WHAT IS A “BID”?
+                            </a>
+                        </h5>
+                    </div>
+
+                    <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="card-block">
+                            When you find a product you like, some stores may offer the option for you to propose a price. Our technology will automatically determine if the price is acceptable and if the store agrees, it will sell this product to you for your bid price. And you can always submit a new bid if the store did not accept your first price.
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" role="tab" id="headingTwo">
+                        <h5 class="mb-0">
+                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                + WHAT IS AN “OFFER”?
+                            </a>
+                        </h5>
+                    </div>
+                    <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                        <div class="card-block">
+                            When you find a product you like, some stores may offer the option for you to propose a price. Our technology will automatically determine if the price is acceptable and if the store agrees, it will sell this product to you for your bid price. And you can always submit a new bid if the store did not accept your first price.
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" role="tab" id="headingThree">
+                        <h5 class="mb-0">
+                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                + WHAT IS THE “LOUNGE”?
+                            </a>
+                        </h5>
+                    </div>
+                    <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
+                        <div class="card-block">
+                            When you find a product you like, some stores may offer the option for you to propose a price. Our technology will automatically determine if the price is acceptable and if the store agrees, it will sell this product to you for your bid price. And you can always submit a new bid if the store did not accept your first price.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 text-center pt-5">
+                <a href="javascript:void(0)" class="btn btn_more_gray">more...</a>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="homequestions" class="py-5">
+    <div class="container banner_title">
+        <h1>Still got questions?</h1>
+        <h4>We’d be delighted to answer them. Just call or email us!</h4>
+        <div class="text-center col-sm-12 pb-5">
+            <a href="javascript:void(0)" class="btn btn_default">EMAIL KALA</a>
+        </div>
+        <h4>1-855-4-MYKALA (695252)</h4>
+    </div>
+</section>
+<div class="row">
+    <a class="topArrow nav-link" href="#top">
+        <i class="fa fa-angle-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+<!-- <div style="position: relative;">
+    <img src="/consumer-app/assets/images/loader.gif" style="right: 28px; width: 20px;" class="absoluteImg_2" *ngIf="loader" />
+    <app-breadcrums [breadCrums]="breadCrums" (selectTile)="tileSelected($event, 'IsBc')"></app-breadcrums>
+    <app-tiles [tilesData]="tiles" (selectTile)="tileSelected($event)"></app-tiles>
+    <app-browse-product [selectedTilesData]="userResponse" [tilesData]="tiles" *ngIf="!showTilesLayout" (selectTile)="tileSelected($event)"></app-browse-product>
+</div> -->

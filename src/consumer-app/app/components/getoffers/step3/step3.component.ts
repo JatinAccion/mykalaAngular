@@ -57,10 +57,10 @@ export class Step3Component implements OnInit {
   }
 
   ngOnInit() {
+    this.core.checkIfLoggedOut(); /*** If User Logged Out*/
     this.headerMessage = 'get offers';
     this.core.show(this.headerMessage);
     this.pageLabel = 'What\'s your budget and delivery preference for this item?';
-    this.core.hideUserInfo(true);
     this.core.pageLabel(this.pageLabel);
     if (window.localStorage['userInfo'] === undefined) this.showExistingLocation = false;
     else {
