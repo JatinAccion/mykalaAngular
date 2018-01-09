@@ -1,6 +1,5 @@
 // #region imports
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
-import { Retailer, RetailerReturnPolicy, RetailerNotification } from '../../../../../models/retailer';
 import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { nameValue } from '../../../../../models/nameValue';
@@ -12,6 +11,7 @@ import { RetailerProfileInfo } from '../../../../../models/retailer-profile-info
 import { RetailerPaymentInfo } from '../../../../../models/retailer-payment-info';
 import { RetialerShippingProfile } from '../../../../../models/retailer-shipping-profile';
 import { RetailerProductInfo } from '../../../../../models/retailer-product-info';
+import { RetailerReturnPolicy, RetailerNotification } from '../../../../../models/retailer';
 import { CoreService } from '../../../services/core.service';
 import { userMessages } from './messages';
 // #endregion imports
@@ -38,7 +38,6 @@ export class RetailerAddComponent implements OnInit {
   shippingsData = new Array<RetialerShippingProfile>();
   returnData = new RetailerReturnPolicy();
   notificationData = new RetailerNotification();
-  retailer: Retailer;
   retailerId = 1;
   userMsgs = userMessages;
   @ViewChild('tabs') ngbTabSet: NgbTabset;

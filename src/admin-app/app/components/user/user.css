@@ -1,0 +1,134 @@
+.accountsTabs .nav-tabs .nav-item.show .nav-link, .accountsTabs .nav-tabs .nav-link.active{
+    border-color: #fff !important;
+}
+.accountsTabs .nav-tabs .nav-link:focus, .accountsTabs .nav-tabs .nav-link:hover{
+    border-color: transparent !important;
+    display: inline-block !important;
+}
+.accountsTabs .nav-tabs{
+    border-bottom: 0px solid #ddd !important;
+}
+.tabShipping .nav-tabs .nav-item.show .nav-link, .tabShipping .nav-tabs .nav-link.active{
+    border-color: #dddddd !important;
+    border-bottom: 0px;
+    display: inline-block;
+    border-radius: 0px;
+}
+.nav-tabs .nav-item{
+    margin-bottom: -2px;
+}
+.tabShipping .nav-tabs .nav-link:focus, .tabShipping .nav-tabs .nav-link:hover{
+    border-color: #dddddd !important;
+    display: inline-block !important;
+    border-radius: 0px;
+    border-bottom: 0px;
+}
+.tabShipping .nav-item:link{ 
+    display: inline-block !important;
+    border-radius: 0px;
+    border-bottom: 0px;
+}
+.tabShipping .nav-item:hover{ 
+    display: inline-block !important;
+    border-radius: 0px;
+    border-bottom: 0px;
+}
+.tabShipping .nav-link {
+    display: inline-block;
+    padding: 0.5em 1em;
+    width: auto !important;
+}
+.tabShipping .nav-tabs{ 
+    border-bottom: 1px solid #ddd !important; 
+    background: #fafafa;
+}
+.shippingdelivery .card{
+    margin-bottom: 10px;
+}
+.shippingtab-gray{
+    background: #fafafa;
+    line-height: 1.24;
+    border-bottom: solid 1px #ddd;
+}
+.tier-remove{
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    padding: 3px 5px 1px 5px;
+    background: #999;
+    color: #fff !important;
+}
+.tier-remove:hover{ 
+    background: red;
+    color: #fff !important;
+}
+.product_Tab .tab-content{
+    width: 900px !important;
+    background: #f2f2f2  !important;
+}
+.ddl_Product {
+    background: #eceeef;
+    color: #464a4c;
+    border: solid 0px;
+}
+.btn-file {
+    position: relative;
+    overflow: hidden;
+    width:100%;
+    height:100px;
+  }
+  .btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 999px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    background: red;
+    cursor: inherit;
+    display: block;
+  }
+  input[readonly] {
+    background-color: white !important;
+    cursor: text !important;
+  }
+
+  .anc_otherImg {
+    display: inline-block; 
+    height: auto;
+    position: relative;
+  }
+  
+  .overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .5s ease;
+    background-color:rgba(35, 21, 15, 0.7);
+  } 
+ .anc_otherImg:hover .overlay {
+    opacity: 1;
+  } 
+  .text {
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+  }
+.circle_Gray{
+    padding: 2px 8px 4px 8px;
+    border-radius: 30px;
+    background: #999;
+    color: #fff;
+}

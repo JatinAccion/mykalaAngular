@@ -78,10 +78,12 @@ export class ValidatorExt {
         const valuelength = abstractControl && abstractControl.value ? abstractControl.value.length : 0;
         return requiredCharacters > valuelength ? requiredCharacters - valuelength : 0 || null;
     }
-    getRV(isRequired, validator: ValidatorFn | ValidatorFn[] | null) {
+    getRV(isRequired) {
+
         if (isRequired) {
-            return  [Validators.required, validator];
+
+            return Validators.required;
         }
-        return validator ;
+        return Validators.nullValidator;
     }
 }

@@ -11,6 +11,7 @@ import { LogoutComponent } from './components/logout/logout.component';
 import { RetailerRoutingModule } from './components/retailer/retailer-routing.module';
 import { ProductRoutingModule } from './components/product/product-routing.module';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { UserRoutingModule } from './components/user/user-routing.module';
 
 const appRoutes: Routes = [
     {
@@ -50,6 +51,7 @@ const appRoutes: Routes = [
 @NgModule({
     imports: [RetailerRoutingModule,
         ProductRoutingModule,
+        UserRoutingModule,
         RouterModule.forRoot(appRoutes, { useHash: true })],
     exports: [RouterModule]
 })

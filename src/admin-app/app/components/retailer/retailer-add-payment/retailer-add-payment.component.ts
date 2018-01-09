@@ -1,6 +1,5 @@
 // #region imports
 import { Component, OnInit, ViewEncapsulation, ViewChild, Input, Output, EventEmitter } from '@angular/core';
-import { Retailer, RetailerReturnPolicy } from '../../../../../models/retailer';
 import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgbTabset } from '@ng-bootstrap/ng-bootstrap/tabset/tabset';
@@ -52,11 +51,6 @@ export class RetailerAddPaymentComponent implements OnInit {
     this.setFormValidators();
     this.getPaymentInfoDropdowndata();
   }
-  closeAlert(alert: IAlert) {
-    this.alert.show = false;
-  }
-
-  // #region PaymentInfo
 
   setFormValidators() {
     this.paymentFG1 = this.formBuilder.group({
@@ -98,43 +92,25 @@ export class RetailerAddPaymentComponent implements OnInit {
   paymentVehicleChange() {
     this.readPaymenInfo();
     const isRequired = this.paymentFG1.value.paymentVehicle === '1';
-    if (isRequired) {
-      this.paymentFG1.controls.bankname.setValidators([Validators.pattern(environment.regex.textRegex), Validators.required]);
-      this.paymentFG1.controls.addressLine1.setValidators([Validators.pattern(environment.regex.textRegex), Validators.required]);
-      this.paymentFG1.controls.city.setValidators([Validators.pattern(environment.regex.textRegex), Validators.required]);
-      this.paymentFG1.controls.state.setValidators([Validators.pattern(environment.regex.textRegex), Validators.required]);
-      this.paymentFG1.controls.zipcode.setValidators([Validators.maxLength(5), Validators.minLength(5),
-      Validators.pattern(environment.regex.numberRegex), Validators.required]);
 
-      this.paymentFG2.controls.accountName.setValidators([Validators.pattern(environment.regex.textRegex), Validators.required]);
-      this.paymentFG2.controls.accountNumber.setValidators([Validators.pattern(environment.regex.numberRegex), Validators.required]);
-      this.paymentFG2.controls.routingNumber.setValidators([Validators.pattern(environment.regex.numberRegex), Validators.required]);
-      this.paymentFG2.controls.swiftCode.setValidators([Validators.pattern(environment.regex.textRegex), Validators.required]);
-      this.paymentFG2.controls.addressLine1.setValidators([Validators.pattern(environment.regex.textRegex), Validators.required]);
-      this.paymentFG2.controls.addressLine2.setValidators([Validators.pattern(environment.regex.textRegex), Validators.required]);
-      this.paymentFG2.controls.city.setValidators([Validators.pattern(environment.regex.textRegex), Validators.required]);
-      this.paymentFG2.controls.state.setValidators([Validators.pattern(environment.regex.textRegex), Validators.required]);
-      this.paymentFG2.controls.zipcode.setValidators([Validators.maxLength(5), Validators.minLength(5),
-      Validators.pattern(environment.regex.numberRegex), Validators.required]);
-    } else {
-      this.paymentFG1.controls.bankname.setValidators([Validators.pattern(environment.regex.textRegex)]);
-      this.paymentFG1.controls.addressLine1.setValidators([Validators.pattern(environment.regex.textRegex)]);
-      this.paymentFG1.controls.city.setValidators([Validators.pattern(environment.regex.textRegex)]);
-      this.paymentFG1.controls.state.setValidators([Validators.pattern(environment.regex.textRegex)]);
-      this.paymentFG1.controls.zipcode.setValidators([Validators.maxLength(5), Validators.minLength(5),
-      Validators.pattern(environment.regex.numberRegex)]);
+    this.paymentFG1.controls.bankname.setValidators([Validators.pattern(environment.regex.textRegex), this.validatorExt.getRV(isRequired)]);
+    this.paymentFG1.controls.addressLine1.setValidators([Validators.pattern(environment.regex.textRegex), this.validatorExt.getRV(isRequired)]);
+    this.paymentFG1.controls.city.setValidators([Validators.pattern(environment.regex.textRegex), this.validatorExt.getRV(isRequired)]);
+    this.paymentFG1.controls.state.setValidators([Validators.pattern(environment.regex.textRegex), this.validatorExt.getRV(isRequired)]);
+    this.paymentFG1.controls.zipcode.setValidators([Validators.maxLength(5), Validators.minLength(5),
+    Validators.pattern(environment.regex.numberRegex), this.validatorExt.getRV(isRequired)]);
 
-      this.paymentFG2.controls.accountName.setValidators([Validators.pattern(environment.regex.textRegex)]);
-      this.paymentFG2.controls.accountNumber.setValidators([Validators.pattern(environment.regex.numberRegex)]);
-      this.paymentFG2.controls.routingNumber.setValidators([Validators.pattern(environment.regex.numberRegex)]);
-      this.paymentFG2.controls.swiftCode.setValidators([Validators.pattern(environment.regex.textRegex)]);
-      this.paymentFG2.controls.addressLine1.setValidators([Validators.pattern(environment.regex.textRegex)]);
-      this.paymentFG2.controls.addressLine2.setValidators([Validators.pattern(environment.regex.textRegex)]);
-      this.paymentFG2.controls.city.setValidators([Validators.pattern(environment.regex.textRegex)]);
-      this.paymentFG2.controls.state.setValidators([Validators.pattern(environment.regex.textRegex)]);
-      this.paymentFG2.controls.zipcode.setValidators([Validators.maxLength(5), Validators.minLength(5),
-      Validators.pattern(environment.regex.numberRegex)]);
-    }
+    this.paymentFG2.controls.accountName.setValidators([Validators.pattern(environment.regex.textRegex), this.validatorExt.getRV(isRequired)]);
+    this.paymentFG2.controls.accountNumber.setValidators([Validators.pattern(environment.regex.numberRegex), this.validatorExt.getRV(isRequired)]);
+    this.paymentFG2.controls.routingNumber.setValidators([Validators.pattern(environment.regex.numberRegex), this.validatorExt.getRV(isRequired)]);
+    this.paymentFG2.controls.swiftCode.setValidators([Validators.pattern(environment.regex.textRegex), this.validatorExt.getRV(isRequired)]);
+    this.paymentFG2.controls.addressLine1.setValidators([Validators.pattern(environment.regex.textRegex), this.validatorExt.getRV(isRequired)]);
+    this.paymentFG2.controls.addressLine2.setValidators([Validators.pattern(environment.regex.textRegex), this.validatorExt.getRV(isRequired)]);
+    this.paymentFG2.controls.city.setValidators([Validators.pattern(environment.regex.textRegex), this.validatorExt.getRV(isRequired)]);
+    this.paymentFG2.controls.state.setValidators([Validators.pattern(environment.regex.textRegex), this.validatorExt.getRV(isRequired)]);
+    this.paymentFG2.controls.zipcode.setValidators([Validators.maxLength(5), Validators.minLength(5),
+    Validators.pattern(environment.regex.numberRegex), this.validatorExt.getRV(isRequired)]);
+
     this.paymentFG1.controls.bankname.updateValueAndValidity();
     this.paymentFG1.controls.addressLine1.updateValueAndValidity();
     this.paymentFG1.controls.city.updateValueAndValidity();
@@ -256,7 +232,4 @@ export class RetailerAddPaymentComponent implements OnInit {
         });
       });
   }
-
-  // #endregion PaymentInfo
-
 }

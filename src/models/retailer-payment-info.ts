@@ -1,4 +1,4 @@
-import { PostalAddress, PostalAddressWithContact } from './retailer-business-adress';
+import { PostalAddress } from './retailer-business-adress';
 
 export class RetailerPaymentInfo extends PostalAddress {
     public retailerId: number;
@@ -15,7 +15,7 @@ export class RetailerPaymentInfo extends PostalAddress {
         this.bankAddress = new BankAddress();
     }
 }
-export class BankAddress extends PostalAddressWithContact {
+export class BankAddress extends PostalAddress {
     public name: string;
 
 }

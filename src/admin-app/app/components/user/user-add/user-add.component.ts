@@ -3,34 +3,29 @@ import { Component, OnInit, ViewEncapsulation, ViewChild, EventEmitter, Input, O
 import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { nameValue } from '../../../../../models/nameValue';
-import { ProductService } from '../product.service';
+import { UserService } from '../user.service';
 import { NgbTabset } from '@ng-bootstrap/ng-bootstrap/tabset/tabset';
 import { environment } from '../../../../environments/environment';
 import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 import { IAlert } from '../../../../../models/IAlert';
-import { Product } from '../../../../../models/Product';
+import { User } from '../../../../../models/user';
 import { Promise } from 'q';
-import { RetialerService } from '../../retailer/retialer.service';
 import { inputValidations } from './messages';
-import { RetailerProfileInfo } from '../../../../../models/retailer-profile-info';
 // #endregion imports
 
 
 @Component({
-  selector: 'app-product-add',
-  templateUrl: './product-add.component.html',
-  styleUrls: ['./../product.css'],
+  selector: 'app-user-add',
+  templateUrl: './user-add.component.html',
+  styleUrls: ['./../user.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class ProductAddComponent implements OnInit {
-  retailers: Array<RetailerProfileInfo>;
-  retailer: RetailerProfileInfo;
-  reatileDummy: RetailerProfileInfo;
+export class UserAddComponent implements OnInit {
   fG1: FormGroup;
   saveloader: boolean;
   // #region declarations
-  productId = '';
-  product = new Product();
+  userId = '';
+  user = new User();
   @ViewChild('tabs') ngbTabSet: NgbTabset;
   alert: IAlert = { id: 1, type: 'success', message: '', show: false };
   errorMsgs = inputValidations;
@@ -48,12 +43,10 @@ export class ProductAddComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     route: ActivatedRoute,
-    private productService: ProductService,
-    private retialerService: RetialerService,
+    private userService: UserService,
     private validatorExt: ValidatorExt
   ) {
-    //this.productId = route.snapshot.params['id'];
-    this.retailers = new Array<RetailerProfileInfo>();
+    //this.userId = route.snapshot.params['id'];
   }
   ngOnInit() {
     this.setActiveTab({ nextId: 'tab-category' });
@@ -62,27 +55,27 @@ export class ProductAddComponent implements OnInit {
   }
   setFormValidators() {
     this.fG1 = this.formBuilder.group({
-      retailer: [{ value: null, disabled: false }, [Validators.required]],
+      user: [{ value: null, disabled: false }, [Validators.required]],
     });
   }
   getRetailersData() {
-    this.retialerService.get(null).subscribe((res) => {
-      return this.retailers = res.content;
+    this.userService.get(null).subscribe((res) => {
+     // return this.users = res;
     });
   }
   selectSeller(e) {
-    if (this.retailer) {
-      this.product.retailerId = this.retailer.retailerId;
-      this.product.retailerName = this.retailer.businessName;
-    } else {
-      this.product.retailerId = null;
-      this.product.retailerName = '';
-    }
+    // if (this.user) {
+    //   this.user.userId = this.user.userId;
+    //   this.user.userName = this.user.businessName;
+    // } else {
+    //   this.user.userId = null;
+    //   this.user.userName = '';
+    // }
   }
   setActiveTab(event) {
-    // if (!this.productId && event.nextId !== 'tab-category') { event.preventDefault(); return; }
+    // if (!this.userId && event.nextId !== 'tab-category') { event.preventDefault(); return; }
     if (this.fG1) {
-      this.fG1.controls.retailer.reset({ value: this.retailer, disabled: event.nextId !== 'tab-category' });
+      this.fG1.controls.user.reset({ value: this.user, disabled: event.nextId !== 'tab-category' });
 
     }
 
@@ -92,7 +85,7 @@ export class ProductAddComponent implements OnInit {
         event.preventDefault(); return;
       }
     }
-    if (!this.productId) {
+    if (!this.userId) {
       switch (event.nextId) {
         case 'tab-images':
         case 'tab-more': // event.preventDefault();
@@ -100,9 +93,9 @@ export class ProductAddComponent implements OnInit {
       }
     }
   }
-  saveProductAndShowNext(prevTab) {
+  saveUserAndShowNext(prevTab) {
     if (prevTab === 'tab-delivery') {
-      this.saveProduct().then(res => {
+      this.saveUser().then(res => {
         this.showNextTab(prevTab);
       });
     }
@@ -114,35 +107,35 @@ export class ProductAddComponent implements OnInit {
       case 'tab-pricing': this.status.pricing = true; this.ngbTabSet.select('tab-delivery'); break;
       case 'tab-delivery': this.status.delivery = true; this.ngbTabSet.select('tab-images'); break;
 
-      case 'tab-images': if (this.productId) {
+      case 'tab-images': if (this.userId) {
         this.status.images = true; this.ngbTabSet.select('tab-more');
       } break;
-      case 'tab-more': if (this.productId) {
+      case 'tab-more': if (this.userId) {
         this.status.more = true;
-        this.router.navigateByUrl('/product-list');
+        this.router.navigateByUrl('/user-list');
         break;
       }
     }
   }
-  saveProduct(): Promise<any> {
+  saveUser(): Promise<any> {
     this.saveloader = true;
     return Promise(resolve => {
-      this.productService
-        .saveProduct(this.product)
-        .then(res => {
-          this.productId = res.json().kalaUniqueId;
-          this.product.kalaUniqueId = this.productId;
-          this.alert = { id: 1, type: 'success', message: 'Saved successfully', show: true };
-          this.saveloader = false;
-          resolve(this.productId);
-          return true;
-        })
-        .catch(err => {
-          console.log(err);
-          this.alert = { id: 1, type: 'danger', message: 'Not able to Save', show: true };
-          this.saveloader = false;
-          return false;
-        });
+      // this.userService
+      //   .saveUser(this.user)
+      //   .then(res => {
+      //     this.userId = res.json().kalaUniqueId;
+      //     this.user.kalaUniqueId = this.userId;
+      //     this.alert = { id: 1, type: 'success', message: 'Saved successfully', show: true };
+      //     this.saveloader = false;
+      //     resolve(this.userId);
+      //     return true;
+      //   })
+      //   .catch(err => {
+      //     console.log(err);
+      //     this.alert = { id: 1, type: 'danger', message: 'Not able to Save', show: true };
+      //     this.saveloader = false;
+      //     return false;
+      //   });
     });
   }
   closeAlert(alert: IAlert) {

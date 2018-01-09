@@ -9,7 +9,7 @@ import 'rxjs/add/operator/catch';
 import { environment } from './../../../environments/environment';
 import { RetailerProfileInfo } from '../../../../models/retailer-profile-info';
 import { Observable } from 'rxjs/Observable';
-import { Retailer, RetailerReports, RetailerNotification, RetailerReturnPolicy } from '../../../../models/retailer';
+import { Retailers, RetailerReports, RetailerNotification, RetailerReturnPolicy } from '../../../../models/retailer';
 import { LocalStorageService } from '../../services/LocalStorage.service';
 import { nameValue, IdNameParent } from '../../../../models/nameValue';
 import { RetailerPaymentInfo } from '../../../../models/retailer-payment-info';
@@ -44,12 +44,13 @@ export class RetialerService {
     this.paymentVehicles.push(new nameValue('2', 'Invoice', '1'));
     this.paymentVehicles.push(new nameValue('3', 'Credit Card', '1'));
   }
-  get(query: any): Observable<any[]> {
+  get(query: any): Observable<Retailers> {
     this.headers = this.getHttpHeraders();
     const url = `${this.BASE_URL}/${environment.apis.retailers.get}`;
     return this.http
       .get(url, { search: query, headers: this.headers })
       .map(p => p.json())
+      .map(p => new Retailers(p))
       .catch(this.handleError);
 
   }

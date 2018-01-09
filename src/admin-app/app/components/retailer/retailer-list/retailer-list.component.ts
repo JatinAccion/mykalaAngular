@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Retailer, RetailerReports } from '../../../../../models/retailer';
+import { Retailers, RetailerReports } from '../../../../../models/retailer';
 import { RetialerService } from '../retialer.service';
 import { CoreService } from '../../../services/core.service';
 import { Alert } from '../../../../../models/IAlert';
@@ -11,10 +11,10 @@ import { Alert } from '../../../../../models/IAlert';
   encapsulation: ViewEncapsulation.None
 })
 export class RetailerListComponent implements OnInit {
-  retailers: Array<Retailer>;
+  retailers: Retailers;
 
   constructor(private retialerService: RetialerService, private core: CoreService) {
-    this.retailers = new Array<Retailer>();
+    this.retailers = new Retailers();
   }
 
   ngOnInit() {
@@ -23,8 +23,8 @@ export class RetailerListComponent implements OnInit {
   getData() {
     this.retialerService.get({
       page: 0, size: 10, sortOrder: 'asc', elementType: 'createdDate', retailerName: 'a'
-    }).subscribe((res) => {
-      return res.forEach(obj => { this.retailers.push(new Retailer(obj)); });
+    }).subscribe(res => {
+      this.retailers = res;
     });
   }
   deactivate() {

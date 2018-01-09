@@ -31,6 +31,7 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { ToastrModule } from 'ngx-toastr';
 import { DialogComponent } from './components/dialog/dialog.component';
+import { UserModule } from './components/user/user.module';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { DialogComponent } from './components/dialog/dialog.component';
     AppRoutingModule,
     RetailerModule,
     ProductModule,
+    UserModule,
     Angular2FontawesomeModule,
     AngularMultiSelectModule,
     ToastrModule.forRoot({ timeOut: 3000, progressBar: true, closeButton: true })

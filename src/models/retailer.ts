@@ -3,26 +3,28 @@ import { RetailerPaymentInfo } from './retailer-payment-info';
 import { ProductInfo } from './product-info';
 import { RetialerShippingProfile } from './retailer-shipping-profile';
 
-export class Retailer {
+export class Retailers {
     constructor(obj?: any) {
         if (obj) {
-            this.retailerId = obj.retailerId;
-            this.businessName = obj.businessName;
-            this.businessLogoPath = `https://s3.us-east-2.amazonaws.com/${obj.businessLogoPath}`;
-            this.city = obj.city;
-            this.state = obj.state;
-            this.country = obj.country;
-            this.reports = new RetailerReports(obj.reports);
+            this.last = obj.last;
+            this.totalElements = obj.totalElements;
+            this.totalPages = obj.totalPages;
+            this.size = obj.size;
+            this.number = obj.number;
+            this.first = obj.first;
+            this.content = obj.content.map(p => new RetailerProfileInfo(p));
         }
     }
-    public retailerId: number;
-    public businessName: string;
-    public businessLogoPath: string;
-    public city: string;
-    public state: string;
-    public country: string;
-    public reports: RetailerReports;
+    public content: RetailerProfileInfo[];
+
+    public last: boolean;
+    public totalElements: number;
+    public totalPages: number;
+    public size: number;
+    public number: number;
+    public first: boolean;
 }
+
 export class RetailerReports {
     public products: number;
     public transactions: number;
@@ -30,13 +32,15 @@ export class RetailerReports {
     public offersMade: number;
     public complaints: number;
     public reviews: number;
-    constructor(obj: any) {
-        this.products = obj.products;
-        this.transactions = obj.transactions;
-        this.returns = obj.returns;
-        this.offersMade = obj.offersMade;
-        this.complaints = obj.complaints;
-        this.reviews = obj.reviews;
+    constructor(obj?: any) {
+        if (obj) {
+            this.products = obj.products;
+            this.transactions = obj.transactions;
+            this.returns = obj.returns;
+            this.offersMade = obj.offersMade;
+            this.complaints = obj.complaints;
+            this.reviews = obj.reviews;
+        }
     }
 }
 export class RetailerReturnPolicy {
