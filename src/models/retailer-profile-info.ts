@@ -21,7 +21,7 @@ export class RetailerProfileInfo {
         if (obj) {
             this.retailerId = obj.retailerId;
             this.businessName = obj.businessName;
-            this.businessLogoPath = obj.businessLogoPath;
+            this.businessLogoPath = 'https://s3.us-east-2.amazonaws.com\\' + obj.businessLogoPath;
             this.websiteUrl = obj.websiteUrl;
             this.websiteUserName = obj.websiteUserName;
             this.websitePassword = obj.websitePassword;
