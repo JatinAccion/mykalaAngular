@@ -24,6 +24,7 @@ export class Step4Component implements OnInit {
 
   ngOnInit() {
     this.core.checkIfLoggedOut(); /*** If User Logged Out*/
+    this.core.headerScroll();
     this.headerMessage = 'get offers';
     this.core.show(this.headerMessage);
     this.pageLabel = 'You\'re almost done! Please confirm that we got everything right';

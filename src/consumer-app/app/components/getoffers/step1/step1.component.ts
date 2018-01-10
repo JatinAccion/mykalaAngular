@@ -41,6 +41,7 @@ export class Step1Component implements OnInit {
 
   ngOnInit() {
     this.core.checkIfLoggedOut(); /*** If User Logged Out*/
+    this.core.headerScroll();
     this.headerMessage = 'get offers';
     this.core.show(this.headerMessage);
     this.pageLabel = window.localStorage['browseProductSearch'];
