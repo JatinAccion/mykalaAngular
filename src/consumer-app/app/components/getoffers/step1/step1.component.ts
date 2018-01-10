@@ -29,6 +29,9 @@ export class Step1Component implements OnInit {
   Step1Modal = new GetOfferModal();
   viewSavedData;
   checkIfStored: boolean = false;
+  loadedPlaces: boolean = false;
+  loadedCategory: boolean = false;
+  loadedSubCategory: boolean = false;
 
   constructor(
     private homeService: HomeService,
@@ -37,13 +40,16 @@ export class Step1Component implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.core.checkIfLoggedOut(); /*** If User Logged Out*/
     this.headerMessage = 'get offers';
     this.core.show(this.headerMessage);
     this.pageLabel = window.localStorage['browseProductSearch'];
-    this.core.hideUserInfo(true);
     this.core.pageLabel(this.pageLabel);
     if (window.localStorage['GetOfferStep_1'] != undefined) {
       this.checkIfStored = true;
+      this.loadedPlaces = true;
+      this.loadedCategory = true;
+      this.loadedSubCategory = true;
       this.viewSavedData = JSON.parse(window.localStorage['GetOfferStep_1']);
       for (var i = 0; i < this.viewSavedData.length; i++) {
         this.userResponse.place.push(this.viewSavedData[i].place);
@@ -62,6 +68,9 @@ export class Step1Component implements OnInit {
       }
     }
     else {
+      this.loadedPlaces = true;
+      this.loadedCategory = true;
+      this.loadedSubCategory = true;
       this.userResponse.place.push(this.levelSelection.place);
       this.Step1SelectedValues.place = this.levelSelection.place;
       this.userResponse.type.push(this.levelSelection.type);
@@ -82,7 +91,8 @@ export class Step1Component implements OnInit {
     this.userResponse.place = [];
     this.homeService.getTilesPlace().subscribe(res => {
       this.loader_place = false;
-      for (var i = 0; i < res.length; i++) this.userResponse.place.push(new SearchDataModal(res[i].placeId, res[i].placeName, res[i].placeName, "1"));
+      this.loadedPlaces = false;
+      for (var i = 0; i < res.length; i++) this.userResponse.place.push(new SearchDataModal(res[i].placeId, res[i].placeName, res[i].placeName, "1", ""));
     })
   };
 
@@ -91,7 +101,8 @@ export class Step1Component implements OnInit {
     this.userResponse.category = [];
     this.homeService.getTilesCategory(this.getPlaceId).subscribe(res => {
       this.loader_category = false;
-      for (var i = 0; i < res.length; i++) this.userResponse.category.push(new SearchDataModal(res[i].categoryId, res[i].categoryName, res[i].categoryName, "2"));
+      this.loadedCategory = false;
+      for (var i = 0; i < res.length; i++) this.userResponse.category.push(new SearchDataModal(res[i].categoryId, res[i].categoryName, res[i].categoryName, "2", ""));
     });
   };
 
@@ -100,7 +111,8 @@ export class Step1Component implements OnInit {
     this.userResponse.subcategory = [];
     this.homeService.getTilesSubCategory(this.getCategoryId).subscribe(res => {
       this.loader_subCategory = false;
-      for (var i = 0; i < res.length; i++) this.userResponse.subcategory.push(new SearchDataModal(res[i].subCategoryId, res[i].subCategoryName, res[i].subCategoryName, "3"));
+      this.loadedSubCategory = false;
+      for (var i = 0; i < res.length; i++) this.userResponse.subcategory.push(new SearchDataModal(res[i].subCategoryId, res[i].subCategoryName, res[i].subCategoryName, "3", ""));
     });
   };
 
@@ -109,12 +121,13 @@ export class Step1Component implements OnInit {
     this.userResponse.type = [];
     this.homeService.getTilesType(this.getSubcategoryId).subscribe(res => {
       this.loader_Type = false;
-      for (var i = 0; i < res.length; i++) this.userResponse.type.push(new SearchDataModal(res[i].productTypeId, res[i].productTypeName, res[i].productTypeName, "4"));
+      for (var i = 0; i < res.length; i++) this.userResponse.type.push(new SearchDataModal(res[i].productTypeId, res[i].productTypeName, res[i].productTypeName, "4", ""));
     });
   };
 
   loadData(obj, elemName, e?: any) {
     if (elemName == 'place') {
+      e.currentTarget.className = "categ_outline_red m-2";
       this.getPlaceId = obj.id;
       this.getCategory();
       this.clearItems(elemName);
@@ -122,6 +135,7 @@ export class Step1Component implements OnInit {
       this.Step1SelectedValues.place = obj;
     }
     else if (elemName == 'category') {
+      e.currentTarget.className = "categ_outline_red m-2";
       this.getCategoryId = obj.id;
       this.getSubCategory();
       this.clearItems(elemName);
@@ -129,6 +143,7 @@ export class Step1Component implements OnInit {
       this.Step1SelectedValues.category = obj;
     }
     else if (elemName == 'subcategory') {
+      e.currentTarget.className = "categ_outline_red m-2";
       this.checkIfStored = false;
       this.getSubcategoryId = obj.id;
       this.getType();

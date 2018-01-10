@@ -31,6 +31,7 @@ export class ForgotPasswordComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.core.checkIfLoggedOut(); /*** If User Logged Out*/
     this.forgotPassword = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
     });

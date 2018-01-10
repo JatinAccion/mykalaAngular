@@ -1,128 +1,130 @@
-<div style="height:120px;width:100%;"></div>
-<div class="title">
-  <h2>Just a few more details...</h2>
-</div>
-<form [formGroup]="profileInfo">
-  <div class="row">
-    <div class="col-sm-8 joinScreen_layout">
-      <!--Profile Image-->
-      <div class="row">
-        <div class="col-sm-3">
-          <p class="colorlightGray">Profile Image:</p>
-        </div>
-        <div class="col-sm-8">
-          <div class="form-group">
-            <!--Images Area-->
-            <span class="profImageWrapper" *ngIf="profileInfo.controls.profileImage.value">
-              <img src="{{profileInfo.controls.profileImage.value}}" />
-              <span class="profile_Edit" (click)="callUpload()">
-                <img src="/consumer-app/assets/images/icon_edit.png" />
+<div class="container">
+  <div style="height:120px;width:100%;"></div>
+  <div class="title">
+    <h2>Just a few more details...</h2>
+  </div>
+  <form [formGroup]="profileInfo">
+    <div class="row">
+      <div class="col-sm-8 joinScreen_layout">
+        <!--Profile Image-->
+        <div class="row">
+          <div class="col-sm-3">
+            <p class="colorlightGray">Profile Image:</p>
+          </div>
+          <div class="col-sm-8">
+            <div class="form-group">
+              <!--Images Area-->
+              <span class="profImageWrapper" *ngIf="profileInfo.controls.profileImage.value">
+                <img src="{{profileInfo.controls.profileImage.value}}" />
+                <span class="profile_Edit" (click)="callUpload()">
+                  <img src="/consumer-app/assets/images/icon_edit.png" />
+                </span>
               </span>
-            </span>
-            <!--Images Area-->
-            <div *ngIf="!profileInfo.controls.profileImage.value" class="categ_outline_red categ_outline_red_fixed" (click)="callUpload()">
-              <h2 class="colorred text-center">+</h2>
-              <div class="colorred">add</div>
-            </div>
-            <input formControlName="profileImage" (change)="fileChangeEvent($event, profileInfo)" type="file" class="form-control uploadImage" />
-          </div>
-        </div>
-      </div>
-      <!--Profile Image-->
-
-      <hr />
-
-      <!--Gender-->
-      <div class="row">
-        <div class="col-sm-3 ">
-          <p class="colorlightGray">Gender:</p>
-        </div>
-        <div class="col-sm-9">
-          <div class="register-switch">
-            <div class="rdoMale">
-              <input type="radio" name="gender" formControlName="gender" value="male" id="sex-m" class="register-switch-input" checked>
-              <label for="sex-m" class="register-switch-label">
-                <span>male</span>
-              </label>
-            </div>
-            <div class="rdoFemale">
-              <input type="radio" name="gender" formControlName="gender" value="female" id="sex-f" class="register-switch-input">
-              <label for="sex-f" class="register-switch-label_female">
-                <span>female</span>
-              </label>
+              <!--Images Area-->
+              <div *ngIf="!profileInfo.controls.profileImage.value" class="categ_outline_red categ_outline_red_fixed" (click)="callUpload()">
+                <h2 class="colorred text-center">+</h2>
+                <div class="colorred">add</div>
+              </div>
+              <input formControlName="profileImage" (change)="fileChangeEvent($event, profileInfo)" type="file" class="form-control uploadImage" />
             </div>
           </div>
         </div>
-      </div>
+        <!--Profile Image-->
 
-      <hr />
+        <hr />
 
-      <!--Date of Birth-->
-      <div class="row">
-        <div class="col-sm-3">
-          <p class="colorlightGray">Date of Birth:</p>
-        </div>
-        <div class="col-sm-8">
-          <div class="form-group">
-            <input formControlName="dateOfBirth" (focus)="d.open()" [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker #d="ngbDatepicker" class="form-control" placeholder="mm-dd-yyyy">
+        <!--Gender-->
+        <div class="row">
+          <div class="col-sm-3 ">
+            <p class="colorlightGray">Gender:</p>
           </div>
-        </div>
-      </div>
-      <!--Date of Birth-->
-
-      <hr />
-
-      <!--Zip Code-->
-      <div class="row">
-        <div class="col-sm-3">
-          <p class="colorlightGray">Location:</p>
-        </div>
-        <div class="col-sm-8">
-          <div class="form-group">
-            <input formControlName="location" type="text" (keyup)="_keuyp($event)" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control" placeholder="Zipcode">
-            <img src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2" *ngIf="loaderLocation" />
-
-            <!--Validation-->
-            <div *ngIf="profileInfo.controls.location.dirty || profileInfo.controls.location.touched">
-              <div *ngIf="!profileInfo.controls.location.value" class="alert alert-danger errorMessages">{{profileInputValMsg.zipRequired}}</div>
-              <div *ngIf="profileInfo.controls.location.value && profileInfo.controls.location.errors && (!profileInfo.controls.location.minlength || !profileInfo.controls.location.maxlength)" class="alert alert-danger errorMessages">
-                {{profileInputValMsg.validZip}}
+          <div class="col-sm-9">
+            <div class="register-switch">
+              <div class="rdoMale">
+                <input type="radio" name="gender" formControlName="gender" value="male" id="sex-m" class="register-switch-input" checked>
+                <label for="sex-m" class="register-switch-label">
+                  <span>male</span>
+                </label>
+              </div>
+              <div class="rdoFemale">
+                <input type="radio" name="gender" formControlName="gender" value="female" id="sex-f" class="register-switch-input">
+                <label for="sex-f" class="register-switch-label_female">
+                  <span>female</span>
+                </label>
               </div>
             </div>
-            <!--Validation-->
           </div>
-          <p class="clearfix colorlightGray">
-            {{fetchGeoCode}}
-          </p>
         </div>
-      </div>
-      <!--Zip Code-->
-    </div>
 
-    <div class="col-sm-4">
-      <div class="joinScreen_right sidebar_sticky">
-        <div class="text-right backgroundlightGray bgColor">
-          <a routerLink="/interest" class="colorred">skip</a>
-        </div>
-        <h4 class="subtitle">Hello there, {{getUserInfo.firstName}}!</h4>
-        <p>We just need to collect a few details from you to set up your profile.</p>
         <hr />
-        <div class="col-sm-12">
-          <button (click)="onSubmit(profileInfo)" [disabled]="!profileInfo.valid" type="button" class="btn btn_red_right width100">come on in</button>
+
+        <!--Date of Birth-->
+        <div class="row">
+          <div class="col-sm-3">
+            <p class="colorlightGray">Date of Birth:</p>
+          </div>
+          <div class="col-sm-8">
+            <div class="form-group">
+              <input formControlName="dateOfBirth" (focus)="d.open()" [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker #d="ngbDatepicker" class="form-control" placeholder="mm-dd-yyyy">
+            </div>
+          </div>
         </div>
+        <!--Date of Birth-->
 
-        <div class="clearfix">&nbsp;</div>
+        <hr />
 
-        <!--Response Message-->
-        <div class="col-sm-12">
-          <div *ngIf="profileInfoResponse.status" style="margin-top: 0" [ngClass]="profileInfoResponse.response == 'success' ? 'alert-success successMessage' : 'alert-danger errorMessages'" class="alert">
-            {{profileInfoResponse.message}}
+        <!--Zip Code-->
+        <div class="row">
+          <div class="col-sm-3">
+            <p class="colorlightGray">Location:</p>
+          </div>
+          <div class="col-sm-8">
+            <div class="form-group">
+              <input formControlName="location" type="text" (keyup)="_keuyp($event)" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control" placeholder="Zipcode">
+              <img src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2" *ngIf="loaderLocation" />
+
+              <!--Validation-->
+              <div *ngIf="profileInfo.controls.location.dirty || profileInfo.controls.location.touched">
+                <div *ngIf="!profileInfo.controls.location.value" class="alert alert-danger errorMessages">{{profileInputValMsg.zipRequired}}</div>
+                <div *ngIf="profileInfo.controls.location.value && profileInfo.controls.location.errors && (!profileInfo.controls.location.minlength || !profileInfo.controls.location.maxlength)" class="alert alert-danger errorMessages">
+                  {{profileInputValMsg.validZip}}
+                </div>
+              </div>
+              <!--Validation-->
+            </div>
+            <p class="clearfix colorlightGray">
+              {{fetchGeoCode}}
+            </p>
+          </div>
+        </div>
+        <!--Zip Code-->
+      </div>
+
+      <div class="col-sm-4">
+        <div class="joinScreen_right sidebar_sticky">
+          <div class="text-right backgroundlightGray bgColor">
+            <a routerLink="/interest" class="colorred">skip</a>
+          </div>
+          <h4 class="subtitle">Hello there, {{getUserInfo.firstName}}!</h4>
+          <p>We just need to collect a few details from you to set up your profile.</p>
+          <hr />
+          <div class="col-sm-12">
+            <button (click)="onSubmit(profileInfo)" [disabled]="!profileInfo.valid" type="button" class="btn btn_red_right width100">come on in</button>
           </div>
 
-          <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="loader" />
+          <div class="clearfix">&nbsp;</div>
+
+          <!--Response Message-->
+          <div class="col-sm-12">
+            <div *ngIf="profileInfoResponse.status" style="margin-top: 0" [ngClass]="profileInfoResponse.response == 'success' ? 'alert-success successMessage' : 'alert-danger errorMessages'" class="alert">
+              {{profileInfoResponse.message}}
+            </div>
+
+            <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="loader" />
+          </div>
+          <!--Response Message-->
         </div>
-        <!--Response Message-->
       </div>
     </div>
-  </div>
-</form>
+  </form>
+</div>

@@ -46,11 +46,14 @@ export class ProfileInfoComponent implements OnInit {
   }
 
   ngOnInit() {
+    /**Clearing the Logged In Session */
+    localStorage.removeItem('token');
+    this.core.clearUser();
+    this.core.hideUserInfo(true);
+    /**Clearing the Logged In Session */
     this.core.hide();
     this.core.searchMsgToggle();
-    this.core.hideUserInfo();
     this.core.pageLabel();
-    if (window.localStorage['token'] == undefined) this.core.clearUser();
     this.profileInfo = this.formBuilder.group({
       "profileImage": [''],
       "gender": [''],

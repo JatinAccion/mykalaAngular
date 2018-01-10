@@ -18,10 +18,10 @@ export class Step2Component implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.core.checkIfLoggedOut(); /*** If User Logged Out*/
     this.headerMessage = 'get offers';
     this.core.show(this.headerMessage);
     this.pageLabel = 'We just need a few details about what\'s most important to you';
-    this.core.hideUserInfo(true);
     this.core.pageLabel(this.pageLabel);
   };
 

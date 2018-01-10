@@ -13,7 +13,32 @@ import { Router, RouterOutlet } from '@angular/router';
 export class HomeComponent implements OnInit {
   loader: boolean;
   tiles: any;
+  carousalItems = [];
   searchData = [];
+  placeIcons = [
+    "/consumer-app/assets/images/icon_home.png",
+    "/consumer-app/assets/images/icon_fashon.png",
+    "/consumer-app/assets/images/icon_electronic.png",
+    "/consumer-app/assets/images/icon_pets.png",
+    "/consumer-app/assets/images/icon_pets.png",
+    "/consumer-app/assets/images/icon_travel.png",
+    "/consumer-app/assets/images/icon_pets.png",
+    "/consumer-app/assets/images/icon_pets.png",
+    "/consumer-app/assets/images/icon_fitness.png",
+    "/consumer-app/assets/images/icon_pets.png"
+  ];
+  tempArr = [
+    "/consumer-app/assets/images/banner_home.png",
+    "/consumer-app/assets/images/banner_fashion.png",
+    "/consumer-app/assets/images/banner_electronic.png",
+    "/consumer-app/assets/images/banner_health.png",
+    "/consumer-app/assets/images/banner_kids.png",
+    "/consumer-app/assets/images/banner_travel.png",
+    "/consumer-app/assets/images/banner_pets.png",
+    "/consumer-app/assets/images/banner_tools.png",
+    "/consumer-app/assets/images/banner_fitness.png",
+    "/consumer-app/assets/images/banner_lamp.png"
+  ];
 
   userResponse = { place: [], type: [], category: [], subcategory: [] };
   response: any;
@@ -22,16 +47,26 @@ export class HomeComponent implements OnInit {
   constructor(private routerOutlet: RouterOutlet, private router: Router, private homeService: HomeService, private core: CoreService) { }
 
   ngOnInit() {
+    this.core.checkIfLoggedOut(); /*** If User Logged Out*/
     localStorage.removeItem('GetOfferStep_1');
     localStorage.removeItem('GetOfferStep_2');
     localStorage.removeItem('GetOfferStep_3');
     localStorage.removeItem('GetOfferStep_4');
     this.core.hide();
-    this.core.searchMsgToggle();
-    this.core.hideUserInfo();
     this.core.pageLabel();
-    if (window.localStorage['token'] == undefined) this.core.clearUser();
     this.getPlace();
+  }
+
+  prevSlide() {
+    var carosal = document.getElementsByClassName('carousel-item');
+    carosal[1].setAttribute("class", "carousel-item")
+    carosal[0].setAttribute("class", "carousel-item active");
+  }
+
+  nextSlide() {
+    var carosal = document.getElementsByClassName('carousel-item');
+    carosal[0].setAttribute("class", "carousel-item");
+    carosal[1].setAttribute("class", "carousel-item active");
   }
 
   //Get All Places
@@ -39,13 +74,23 @@ export class HomeComponent implements OnInit {
     this.loader = true;
     this.homeService.getTilesPlace().subscribe(res => {
       this.loader = false;
-      for (var i = 0; i < res.length; i++) this.searchData.push(new SearchDataModal(res[i].placeId, res[i].placeName, res[i].placeName, "1"));
+      for (var i = 0; i < res.length; i++) this.searchData.push(new SearchDataModal(res[i].placeId, res[i].placeName, res[i].placeName, "1", ""));
+      //Temporary for Image
+      for (var i = 0; i < this.tempArr.length && this.placeIcons.length; i++) {
+        this.searchData[i].imgUrl = this.tempArr[i];
+        this.searchData[i].iconUrl = this.placeIcons[i]
+      }
+      let carosal = document.getElementsByClassName('carousel-item');
+      carosal[0].setAttribute("class", "carousel-item active");
+      this.carousalItems = this.searchData;
+      //Temporary for Image
       this.tiles = this.searchData;
     });
   }
 
   tileSelected(tile, IsBc) {
-    var tile = tile['tile'];
+    if (tile.hasOwnProperty("tile") == true) var tile = tile['tile'];
+    else var tile = tile;
     if (tile == undefined) this.breadCrums = [];
     for (var i = 0; i < this.breadCrums.length; i++) {
       let bc = this.breadCrums[i];
@@ -60,7 +105,12 @@ export class HomeComponent implements OnInit {
       this.userResponse.place = tile;
       this.homeService.getTilesCategory(tile.id).subscribe((res) => {
         this.loader = false;
-        for (var i = 0; i < res.length; i++) this.searchData.push(new SearchDataModal(res[i].categoryId, res[i].categoryName, res[i].categoryName, "2"));
+        for (var i = 0; i < res.length; i++) this.searchData.push(new SearchDataModal(res[i].categoryId, res[i].categoryName, res[i].categoryName, "2", ""));
+        //Temporary for Image
+        for (var i = 0; i < this.searchData.length; i++) {
+          this.searchData[i].imgUrl = "/consumer-app/assets/images/banner_home.png";
+        }
+        //Temporary for Image
         this.tiles = this.searchData;
       });
     }
@@ -70,7 +120,12 @@ export class HomeComponent implements OnInit {
       this.userResponse.category = tile;
       this.homeService.getTilesSubCategory(tile.id).subscribe((res) => {
         this.loader = false;
-        for (var i = 0; i < res.length; i++) this.searchData.push(new SearchDataModal(res[i].subCategoryId, res[i].subCategoryName, res[i].subCategoryName, "3"));
+        for (var i = 0; i < res.length; i++) this.searchData.push(new SearchDataModal(res[i].subCategoryId, res[i].subCategoryName, res[i].subCategoryName, "3", ""));
+        //Temporary for Image
+        for (var i = 0; i < this.searchData.length; i++) {
+          this.searchData[i].imgUrl = "/consumer-app/assets/images/banner_home.png";
+        }
+        //Temporary for Image
         this.tiles = this.searchData;
       });
     }

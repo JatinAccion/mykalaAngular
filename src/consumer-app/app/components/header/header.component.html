@@ -1,4 +1,166 @@
-<!--Header 1-->
+<header *ngIf="getHeader == 'header1'">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top header_Scroll">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8 col-12 pt-2">
+          <ul class="list-unstyled">
+            <li class="list-unstyled d-inline pr-2">
+              <a>
+                <img src="/consumer-app/assets/images/face.png" />
+              </a>
+            </li>
+            <li class="list-unstyled d-inline">
+              <a>
+                <img src="/consumer-app/assets/images/twitter.png" />
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-sm-4 col-12 text-right">
+          <ul class="hdr_menuTop">
+            <!--Non Logged In User-->
+            <li *ngIf="core.hideUser">
+              <span class="float-left">
+                <img src="/consumer-app/assets/images/icon_user.png" />
+              </span>
+              <h4>
+                <a routerLink="/login" style="color:white">ACCOUNT LOGIN</a>
+              </h4>
+              <h5>
+                or
+                <a routerLink="/join-kala">Create an Account</a>
+              </h5>
+            </li>
+            <!--Non Logged In User-->
+
+            <!--Logged In User-->
+            <li *ngIf="!core.hideUser">
+              <span class="float-left">
+                <img src="/consumer-app/assets/images/icon_user.png" />
+              </span>
+              <h5>Hi
+                <a class="colorred">{{firstName}}</a>
+              </h5>
+              <div class="btn-group float-left">
+                <div ngbDropdown class="d-inline-block">
+                  <a class="btn" id="dropdownBasic1" ngbDropdownToggle>MY LOUNGE</a>
+                  <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    <a class="dropdown-item" href="#">My cart</a>
+                    <a class="dropdown-item" href="#">My orders</a>
+                    <a class="dropdown-item" href="#">My bids</a>
+                    <a class="dropdown-item" href="#">News & Alerts</a>
+                    <a class="dropdown-item" href="#">My favorites</a>
+                    <a class="dropdown-item" href="#">My commmunity</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" routerLink="/logout">Sign Out</a>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <!--Logged In User-->
+            <li>
+              <span class="float-left">
+                <img src="/consumer-app/assets/images/icon_cart.png" />
+              </span>
+              <h4>CART</h4>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<header *ngIf="getHeader == 'header2'">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top header_sub">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-1 pt-2">
+          <ul class="list-unstyled">
+            <li class="list-unstyled d-inline pr-2">
+              <a href="#">
+                <img src="/consumer-app/assets/images/face.png" />
+              </a>
+            </li>
+            <li class="list-unstyled d-inline">
+              <a href="#">
+                <img src="/consumer-app/assets/images/twitter.png" />
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-sm-7 mt-2">
+          <div class="col-sm-12 mb-3 p-0" *ngIf="core.showPageMsg">
+            <span class="dialogue dialogue_left">{{core.pageMsg}}</span>
+          </div>
+          <div class="col-sm-12 mb-3 p-0 pr-3" *ngIf="core.navVisible">
+            <a href="#" class="dialogue dialogue_left">{{core.showHeaderMessage}}</a>
+          </div>
+          <div class="dialogue dialogue_right clearfix" *ngIf="core.showSearch">
+            <input type="text" placeholder="what can we help you find?">
+            <span>
+              <img src="/consumer-app/assets/images/voice.png">
+            </span>
+          </div>
+          <div *ngIf="!core.showSearch" class="col-sm-12 mb-3 p-0 text-right pr-3">
+            <a class="dialogue dialogue_right colorwhite" [routerLink]="['/getoffer', 'step1']">{{core.searchMessage}}</a>
+          </div>
+        </div>
+        <div class="col-sm-4 text-right">
+          <ul class="hdr_menuTop">
+            <!--Non Logged In User-->
+            <li *ngIf="core.hideUser">
+              <span class="float-left">
+                <img src="/consumer-app/assets/images/icon_user.png" />
+              </span>
+              <h4>
+                <a routerLink="/login" style="color:white">ACCOUNT LOGIN</a>
+              </h4>
+              <h5>
+                or
+                <a routerLink="/join-kala">Create an Account</a>
+              </h5>
+            </li>
+            <!--Non Logged In User-->
+
+            <!--Logged In User-->
+            <li *ngIf="!core.hideUser">
+              <span class="float-left">
+                <img src="/consumer-app/assets/images/icon_user.png" />
+              </span>
+              <h5>Hi
+                <a class="colorred">{{firstName}}</a>
+              </h5>
+              <div class="btn-group float-left">
+                <div ngbDropdown class="d-inline-block">
+                  <a class="btn" id="dropdownBasic1" ngbDropdownToggle>MY LOUNGE</a>
+                  <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    <a class="dropdown-item" href="#">My cart</a>
+                    <a class="dropdown-item" href="#">My orders</a>
+                    <a class="dropdown-item" href="#">My bids</a>
+                    <a class="dropdown-item" href="#">News & Alerts</a>
+                    <a class="dropdown-item" href="#">My favorites</a>
+                    <a class="dropdown-item" href="#">My commmunity</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" routerLink="/logout">Sign Out</a>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <!--Logged In User-->
+            <li>
+              <span class="float-left">
+                <img src="/consumer-app/assets/images/icon_cart.png" />
+              </span>
+              <h4>CART</h4>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<!--Header 1
 <div *ngIf="getHeader == 'header1'" class="clearfix sub_header" style="display:block;">
   <div class="row">
     <div class="col-sm-2 text-center col-6 px-0">
@@ -27,9 +189,9 @@
     </div>
   </div>
 </div>
-<!--Header 1-->
+Header 1-->
 
-<!--Header 2-->
+<!--Header 2
 <div *ngIf="getHeader == 'header2'" class="clearfix sub_header" style="display:block;">
   <div class="row">
     <div *ngIf="core.userName" class="col-sm-12 mb-3 p-0">
@@ -67,92 +229,4 @@
   </div>
 </div>
 
-<!--Header 2-->
-
-<!--Sidebar-->
-<div class="row">
-  <ng-sidebar-container>
-    <!-- A sidebar -->
-    <ng-sidebar [closeOnClickOutside]="_closeOnClickOutside" [(opened)]="_opened">
-      <div id="sidebar">
-        <div class="clearfix">
-          <img src="/consumer-app/assets/images/avatar.jpg">
-          <div>
-            <p>shelleym</p>
-            <p>smyers@mykala.com</p>
-            <p>139 points</p>
-          </div>
-        </div>
-        <table class='table'>
-          <tbody>
-            <tr>
-              <td>
-                <a href="#">
-                  <img src="/consumer-app/assets/images/icon_my_cart.png">
-                  <span>My cart</span>
-                </a>
-              </td>
-              <td class="right">3</td>
-            </tr>
-            <tr>
-              <td>
-                <a href="#">
-                  <img src="/consumer-app/assets/images/icon_my_orders.png">
-                  <span>My orders</span>
-                </a>
-              </td>
-              <td></td>
-            </tr>
-            <tr>
-              <td>
-                <a href="#">
-                  <img src="/consumer-app/assets/images/icon_my_bids.png">
-                  <span>My bids</span>
-                </a>
-              </td>
-              <td class="right">3</td>
-            </tr>
-            <tr>
-              <td>
-                <a href="#">
-                  <img src="/consumer-app/assets/images/icon_news_alerts.png">
-                  <span>News & Alerts</span>
-                </a>
-              </td>
-              <td class="right">3</td>
-            </tr>
-            <tr>
-              <td>
-                <a href="#">
-                  <img src="/consumer-app/assets/images/icon_my_favorites.png">
-                  <span>My favorites</span>
-                </a>
-              </td>
-              <td></td>
-            </tr>
-            <tr>
-              <td>
-                <a href="#">
-                  <img src="/consumer-app/assets/images/icon_my_community.png">
-                  <span>My commmunity</span>
-                </a>
-              </td>
-              <td></td>
-            </tr>
-            <tr>
-              <td>
-                <a *ngIf="core.showLogout()" routerLink="/logout">
-                  <img src="/consumer-app/assets/images/signout.png">
-                  <span>Sign out</span>
-                </a>
-              </td>
-              <td></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </ng-sidebar>
-  </ng-sidebar-container>
-</div>
-
-<!--Sidebar-->
+Header 2-->

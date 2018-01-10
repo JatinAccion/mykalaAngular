@@ -24,9 +24,9 @@ export class BrowseProductComponent implements OnInit {
   constructor(private homeService: HomeService, private core: CoreService) { }
 
   ngOnInit() {
+    this.core.checkIfLoggedOut(); /*** If User Logged Out*/
     this.loader = true;
     this.loadTypes();
-    this.core.hideUserInfo();
     this.core.pageLabel();
   }
 
@@ -37,7 +37,7 @@ export class BrowseProductComponent implements OnInit {
     this.homeService.getTilesType(this.selectedTilesData.subcategory.id).subscribe(res => {
       this.loader = false;
       for (var i = 0; i < res.length; i++) this.tilesData.push(new SearchDataModal(res[i].productTypeId, res[i].productTypeName, res[i].productTypeName, "4"));
-      this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' ' + this.selectedTilesData.subcategory.name;
+      this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' ' + this.selectedTilesData.subcategory.name + ' for you';
       this.core.show(this.headerMessage);
       this.core.searchMsgToggle('get offers');
       window.localStorage['browseProductSearch'] = this.headerMessage;

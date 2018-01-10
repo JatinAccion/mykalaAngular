@@ -28,10 +28,13 @@ export class ConsumerInterestComponent implements OnInit {
   constructor(private routerOutlet: RouterOutlet, private router: Router, private interest: ConsumerInterestService, private core: CoreService) { }
 
   ngOnInit() {
+    /**Clearing the Logged In Session */
+    localStorage.removeItem('token');
+    this.core.clearUser();
+    this.core.hideUserInfo(true);
+    /**Clearing the Logged In Session */
     this.core.searchMsgToggle();
-    this.core.hideUserInfo();
     this.core.pageLabel();
-    if (window.localStorage['token'] == undefined) this.core.clearUser();
     this.loadInterest = true;
     this.headerMessage = 'Almost done! Just one more step to go.';
     this.core.show(this.headerMessage);

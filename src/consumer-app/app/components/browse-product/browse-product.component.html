@@ -1,45 +1,46 @@
-<div style="height:120px; margin-top:20px;width:100%;"></div>
-<!--Side Bar-->
-<div id="mySidenav" class="sidenav">
-    <img src="/consumer-app/assets/images/loader_2.gif" class="absoluteImg_2" style="left: 20px; top: 20px" *ngIf="loaderCategory" />
-    <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
-    <ul class="category_tiles" *ngFor="let category of categoryList">
-        <li>
-            <span (click)="loadSubcategory($event, category)" class="pr-3">{{category.name}}</span>
-            <ul class="cat_subMenu">
+<div class="container">
+    <div style="height:120px; width:100%;"></div>
+    <!--Side Bar-->
+    <div id="mySidenav" class="sidenav">
+        <img src="/consumer-app/assets/images/loader_2.gif" class="absoluteImg_2" style="left: 20px; top: 20px" *ngIf="loaderCategory" />
+        <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
+        <ul class="category_tiles" *ngFor="let category of categoryList">
+            <li>
+                <span (click)="loadSubcategory($event, category)" class="pr-3">{{category.name}}</span>
+                <ul class="cat_subMenu">
                     <img src="/consumer-app/assets/images/loader_2.gif" style="margin: 10% 46% 0%" *ngIf="loadersubCategory" />
-                <li *ngFor="let subcategory of subCategory" (click)="refreshSubcategory(subcategory)">{{subcategory.name}}</li>
-            </ul>
-        </li>
-    </ul>
-</div>
-<!--Side Bar-->
+                    <li *ngFor="let subcategory of subCategory" (click)="refreshSubcategory(subcategory)">{{subcategory.name}}</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <!--Side Bar-->
 
-<!--Type Section-->
-<div class="title">
-    <h2>
-        {{selectedTilesData.place.name}}
-        <span class="colorGray">{{selectedTilesData.subcategory.name}} |
-            <span routerLink="/home" style="cursor: pointer" class="btnClose">X</span>
+    <!--Type Section-->
+    <div class="title">
+        <h2>
+            {{selectedTilesData.place.name}}
+            <span class="colorGray">{{selectedTilesData.subcategory.name}} |
+                <span routerLink="/home" style="cursor: pointer" class="btnClose">X</span>
+            </span>
+        </h2>
+        <span class="float-right mt-4">
+            <a (click)="openNav()">
+                <img src="/consumer-app/assets/images/category.png" />
+            </a>
         </span>
-    </h2>
-    <span class="float-right mt-4">
-        <a (click)="openNav()">
-            <img src="/consumer-app/assets/images/category.png" />
-        </a>
-    </span>
-</div>
-<!--Type Section-->
-
-<div class="row">
-    <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="loader" />
-    <div class="example col-sm-3" style="margin-bottom: 25px" *ngFor="let tile of tilesData" routerLink="/view-product">
-        <img src="/consumer-app/assets/images/img_03.jpg" class="product_hover img-fluid">
-        <div class="hover_panel">
-            <h5>{{tile.name}}</h5>
-            <span style="font-size:14px;margin-right:10px;">$15.00</span>
-            <span style="font-size:11px;text-decoration:line-through;margin-right:100px;">$21</span>
-            <span style="font-size:11px;">{{selectedTilesData.category.name}}</span>
+    </div>
+    <!--Type Section-->
+    <div class="row">
+        <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="loader" />
+        <div class="example col-sm-3" style="margin-bottom: 25px" *ngFor="let tile of tilesData" routerLink="/view-product">
+            <img src="/consumer-app/assets/images/img_03.jpg" class="product_hover img-fluid">
+            <div class="hover_panel">
+                <h5>{{tile.name}}</h5>
+                <span style="font-size:14px;margin-right:10px;">$15.00</span>
+                <span style="font-size:11px;text-decoration:line-through;margin-right:100px;">$21</span>
+                <span style="font-size:11px;">{{selectedTilesData.category.name}}</span>
+            </div>
         </div>
     </div>
 </div>

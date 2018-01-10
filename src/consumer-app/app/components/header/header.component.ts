@@ -12,13 +12,6 @@ import { SidebarModule } from 'ng-sidebar';
 export class HeaderComponent implements OnInit {
   getHeader: any;
   firstName: string;
-  private _opened: boolean = false;
-  private _closeOnClickOutside: boolean = false; 
-  
-  
-  private _toggleSidebar() {
-    this._opened = !this._opened;
-  }
 
   constructor(private router: Router, private core: CoreService) { }
 

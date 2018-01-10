@@ -4,7 +4,7 @@ import { User } from '../../../models/user';
 
 @Injectable()
 export class CoreService {
-  userName: boolean = true;
+  hideUser: boolean = true;
   navVisible: boolean = true;
   logoutVisible: boolean = false;
   showSearch: boolean = true;
@@ -14,11 +14,6 @@ export class CoreService {
   pageMsg: string;
   showPageMsg: boolean = false;
   constructor(private http: Http) { }
-
-  hideUserInfo(showuser?: any) {
-    if (showuser != undefined) this.userName = false;
-    else this.userName = true;
-  }
 
   hide() { this.navVisible = false; }
 
@@ -37,7 +32,7 @@ export class CoreService {
       this.pageMsg = pageMessage;
     }
   }
-  
+
   showLogout() { return this.user !== null }
 
   show(msg?: any) { this.navVisible = true; this.showHeaderMessage = msg; }
@@ -52,5 +47,17 @@ export class CoreService {
   clearUser() {
     this.user = null;
     this.hide();
+  }
+
+  hideUserInfo(showuser: boolean) {
+    if (showuser === true) this.hideUser = true;
+    else this.hideUser = false;
+  }
+
+  checkIfLoggedOut() {
+    if (window.localStorage['token'] === undefined) {
+      this.clearUser();
+      this.hideUserInfo(true);
+    }
   }
 }
