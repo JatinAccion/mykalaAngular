@@ -33,6 +33,8 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 import { ToastrModule } from 'ngx-toastr';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { UserModule } from './components/user/user.module';
+import { EnquiryModule } from './components/enquiry/enquiry.module';
+import { OrderModule } from './components/order/order.module';
 
 @NgModule({
   declarations: [
@@ -56,6 +58,8 @@ import { UserModule } from './components/user/user.module';
     RetailerModule,
     ProductModule,
     UserModule,
+    EnquiryModule,
+    OrderModule,
     Angular2FontawesomeModule,
     AngularMultiSelectModule,
     NgxPaginationModule,
