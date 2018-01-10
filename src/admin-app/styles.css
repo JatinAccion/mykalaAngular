@@ -328,6 +328,7 @@ a.categ_close{
 .AdminAcct_Row img, .AdminAcct_Row i{
     width:100%;
     box-shadow:2px 2px 5px rgba(0, 0, 0, 0.1);
+    height: 110px;
 }
 .btn-outer{ 
     padding: 7px 20px;
@@ -448,5 +449,14 @@ a{
 .txt_Search{
     background:#fff url(/admin-app/assets/images/icon_search.png) no-repeat left;
     background-position:3%;
-    padding:10px 30px 10px; 
+    padding:10px 35px 10px; 
 } 
+.no_tdBorder tr td{
+    border-top: none !important
+}
+.top_right{
+    margin-top:70px;
+}
+.w-20{
+    width: 20%;
+}
