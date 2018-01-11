@@ -460,3 +460,10 @@ a{
 .w-20{
     width: 20%;
 }
+.pagination_align{
+    padding-top:10px !important;
+}
+.pagination_align pagination-template ul.ngx-pagination{
+    padding-left: 0px !important;
+    margin-left: 0px !important
+}

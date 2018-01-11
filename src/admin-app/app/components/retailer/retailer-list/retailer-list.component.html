@@ -10,7 +10,9 @@
     </div>
 </div>
 <div class="spinner" [ngClass]="{ 'hidden': !loading }"></div>
-<pagination-controls id='server' (pageChange)="getPage($event)"></pagination-controls>
+<div class="col-sm-12 p-0 pt-3 pagination_align">
+    <pagination-controls id='server' class="my-pagination" (pageChange)="getPage($event)" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page"></pagination-controls>
+</div>
 
 <div class="AdminAcct_Row" *ngFor="let retailer of retailers.content | paginate: { id: 'server', itemsPerPage: retailers.size, currentPage: retailers.number + 1 , totalItems: retailers.totalElements }">
     <div class="row">
