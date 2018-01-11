@@ -13,7 +13,7 @@
             <div class="carousel-inner">
                 <div class="carousel-item d-block">
                     <ul>
-                        <li *ngFor="let tile of carousalItems; let i=index" [id]="tile.id" (click)="tileSelected(tile)">
+                        <li *ngFor="let tile of carousalItems; let i=index" [id]="tile.id" (click)="animateToTiles(); tileSelected(tile)">
                             <div *ngIf="i<=4">
                                 <a class="nav-link">
                                     <img src="{{tile.iconUrl}}" />
@@ -25,7 +25,7 @@
                 </div>
                 <div class="carousel-item d-none">
                     <ul>
-                        <li *ngFor="let tile of carousalItems; let i=index" [id]="tile.id" (click)="tileSelected(tile)">
+                        <li *ngFor="let tile of carousalItems; let i=index" [id]="tile.id" (click)="animateToTiles(); tileSelected(tile)">
                             <div *ngIf="i>4 && i<=10">
                                 <a class="nav-link js-scroll-trigger">
                                     <img src="{{tile.iconUrl}}" />
@@ -48,7 +48,7 @@
 
     </div>
 </div>
-<section id="homegarden" class="py-5">
+<section id="homegarden" class="py-5" class="homegarden">
     <div class="container banner_title">
         <h1>Explore. Bid. Create & Buy.</h1>
         <h4>Are you ready to shop your own way?</h4>

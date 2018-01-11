@@ -33,6 +33,7 @@ export class ConsumerInterestComponent implements OnInit {
     this.core.clearUser();
     this.core.hideUserInfo(true);
     /**Clearing the Logged In Session */
+    this.core.headerScroll();
     this.core.searchMsgToggle();
     this.core.pageLabel();
     this.loadInterest = true;

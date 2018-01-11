@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Output, EventEmitter, HostListener } from '@angular/core';
 import { HomeService } from '../../services/home.service';
 import { CoreService } from '../../services/core.service';
 import { SearchDataModal } from './searchData.modal';
 import { Router, RouterOutlet } from '@angular/router';
+import animateScrollTo from 'animated-scroll-to';
 
 @Component({
   selector: 'app-home',
@@ -19,13 +20,13 @@ export class HomeComponent implements OnInit {
     "/consumer-app/assets/images/icon_home.png",
     "/consumer-app/assets/images/icon_fashon.png",
     "/consumer-app/assets/images/icon_electronic.png",
-    "/consumer-app/assets/images/icon_pets.png",
-    "/consumer-app/assets/images/icon_pets.png",
+    "/consumer-app/assets/images/icon_HealthBeauty.png",
+    "/consumer-app/assets/images/icon_kids.png",
     "/consumer-app/assets/images/icon_travel.png",
     "/consumer-app/assets/images/icon_pets.png",
-    "/consumer-app/assets/images/icon_pets.png",
+    "/consumer-app/assets/images/icon_auto.png",
     "/consumer-app/assets/images/icon_fitness.png",
-    "/consumer-app/assets/images/icon_pets.png"
+    "/consumer-app/assets/images/icon_ToolsHardware.png"
   ];
   tempArr = [
     "/consumer-app/assets/images/banner_home.png",
@@ -46,7 +47,28 @@ export class HomeComponent implements OnInit {
   customers: any = [];
   constructor(private routerOutlet: RouterOutlet, private router: Router, private homeService: HomeService, private core: CoreService) { }
 
+  @HostListener("window:scroll", [])
+  onWindowScroll() {
+    var header = document.getElementsByClassName("header_sub")[0];
+    var searchBox = document.getElementsByClassName("searchBox")[0];
+    if (window.pageYOffset > 600) {
+      header.classList.add("header_Scroll");
+      searchBox.classList.remove("invisible");
+    }
+    else {
+      searchBox.classList.add("invisible");
+      header.classList.remove("header_Scroll");
+    }
+  }
+
   ngOnInit() {
+    this.core.searchMsgToggle();
+    setTimeout(function () {
+      var header = document.getElementsByClassName("header_sub")[0];
+      var searchBox = document.getElementsByClassName("searchBox")[0];
+      searchBox.classList.add("invisible");
+      if (header.classList.contains("header_Scroll")) header.classList.remove("header_Scroll");
+    }, 100);
     this.core.checkIfLoggedOut(); /*** If User Logged Out*/
     localStorage.removeItem('GetOfferStep_1');
     localStorage.removeItem('GetOfferStep_2');
@@ -86,6 +108,12 @@ export class HomeComponent implements OnInit {
       //Temporary for Image
       this.tiles = this.searchData;
     });
+  }
+
+  animateToTiles() {
+    var scroll = document.querySelector('.homegarden') as HTMLElement
+    animateScrollTo(scroll);
+    this.breadCrums = [];
   }
 
   tileSelected(tile, IsBc) {

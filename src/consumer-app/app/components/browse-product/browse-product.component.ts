@@ -25,6 +25,7 @@ export class BrowseProductComponent implements OnInit {
 
   ngOnInit() {
     this.core.checkIfLoggedOut(); /*** If User Logged Out*/
+    this.core.headerScroll();
     this.loader = true;
     this.loadTypes();
     this.core.pageLabel();
