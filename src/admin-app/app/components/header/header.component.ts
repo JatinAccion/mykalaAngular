@@ -8,7 +8,7 @@ import { CoreService } from '../../services/core.service';
   encapsulation: ViewEncapsulation.None
 })
 export class HeaderComponent implements OnInit {
-
+  menuCollapse = true;
   constructor(private core: CoreService) { }
 
   ngOnInit() {

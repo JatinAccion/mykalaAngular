@@ -13,28 +13,28 @@ export const apiNames = {
         changeStatus: 'retailer/changeStatus'
     },
     retailerProfileInfo: {
-        get: 'retailerProfileInfo/get',
-        save: 'retailer/saveRetailer',
+        get: 'retailer/{retailerId}/profileInfo',
+        save: 'retailer/profileInfo',
         delete: 'delete',
     },
     retailerPaymentInfo: {
-        get: 'retailerPaymentInfo/get',
-        save: 'retailer/saveBankDetails',
+        get: 'retailer/{retailerId}/bankDetail',
+        save: 'retailer/bankDetail',
         delete: 'delete',
     },
     retailerShippingInfo: {
-        get: 'retailerShippingInfo/get',
-        save: 'retailer/saveShippingProfile',
+        get: 'retailer/{retailerId}/shippingProfile',
+        save: 'retailer/shippingProfile',
         delete: 'delete',
     },
     retailerShippingNotification: {
-        get: 'retailer/getShippingNotifications',
-        save: 'retailer/saveShippingNotifications',
+        get: 'retailer/{retailerId}/shippingNotification',
+        save: 'retailer/shippingNotification',
         delete: 'delete',
     },
     retailerShippingReturnPolicy: {
-        get: 'retailer/getShippingReturnPolicy',
-        save: 'retailer/saveShippingReturnPolicy',
+        get: 'retailer/{retailerId}/shippingReturnPolicy',
+        save: 'retailer/shippingReturnPolicy',
         delete: 'delete',
     },
     retailerProduct: {
@@ -43,7 +43,8 @@ export const apiNames = {
         getSubCategories: 'retailer/getShippingReturnPolicy',
         getTypes: 'retailer/getShippingReturnPolicy',
 
-        save: 'retailer/saveShippingReturnPolicy',
+        get: 'retailer/productInfo',
+        save: 'retailer/productInfo',
         delete: 'delete',
     },
     product: {

@@ -5,7 +5,6 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import { Subject } from 'rxjs/Subject';
 import { Promise } from 'q';
-import { IAlert } from '../components/retailer/retailer-add/retailer-add.component';
 import { Alert } from '../../../models/IAlert';
 @Injectable()
 export class CoreService {

@@ -10,6 +10,7 @@ import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 import { RetialerService } from '../retialer.service';
 import { inputValidations } from './messages';
 import { RetailerNotification } from '../../../../../models/retailer';
+import { CoreService } from '../../../services/core.service';
 
 
 @Component({
@@ -34,27 +35,30 @@ export class RetailerAddNotificationsComponent implements OnInit {
   fG1 = new FormGroup({});
   step = 1;
   Obj: RetailerNotification;
-  errorMsgs= inputValidations;
+  errorMsgs = inputValidations;
   saveLoader = true;
 
   // #endregion declaration
   constructor(
     private formBuilder: FormBuilder,
     private retialerService: RetialerService,
-    private validatorExt: ValidatorExt
+    private validatorExt: ValidatorExt,
+    private core: CoreService
   ) {
   }
   ngOnInit() {
-    this.setFormValidators();
-  }
-  closeAlert(alert: IAlert) {
-    this.alert.show = false;
+    if (this.retailerId) {
+      this.getData(this.retailerId);
+    } else {
+      this.Obj = new RetailerNotification();
+      this.setFormValidators();
+    }
   }
 
   setFormValidators() {
     this.fG1 = this.formBuilder.group({
-      orderEmail: ['', [Validators.email, Validators.maxLength(255), Validators.required]],
-      shipEmail: ['', [Validators.maxLength(255), Validators.email, Validators.required]],
+      orderEmail: [this.notificationData.orderEmail, [Validators.email, Validators.maxLength(255), Validators.required]],
+      shipEmail: [this.notificationData.shipEmail, [Validators.maxLength(255), Validators.email, Validators.required]],
     });
   }
 
@@ -66,34 +70,14 @@ export class RetailerAddNotificationsComponent implements OnInit {
       this.saveLoader = true;
       this.retialerService
         .saveNotifications(this.Obj)
-        .then(res => {
-          // todo correct response
-          // this.retailerId = res._body;
-          // this.Obj.retailerId = this.retailerId;
-          // this.ngbTabSet.select('tab-Payment');
-          // this.router.navigateByUrl('/retailer-list');
+        .subscribe(res => {
           this.SaveData.emit('tab-Notifications');
-          this.alert = {
-            id: 1,
-            type: 'success',
-            message: 'Saved successfully',
-            show: true
-          };
           this.saveLoader = false;
+          this.core.message.success('Notifications Info Saved');
           return true;
-        })
-        .catch(err => {
-          console.log(err);
-          this.alert = {
-            id: 1,
-            type: 'danger',
-            message: 'Not able to Save',
-            show: true
-          };
-
-        });
+        }, err => this.core.message.success('Not able to Save'), () => this.saveLoader = false);
+      return false;
     }
-    return false;
   }
 
 
@@ -106,16 +90,15 @@ export class RetailerAddNotificationsComponent implements OnInit {
   }
 
   getData(retailerId) {
-    // this.retialerService
-    //   .profileInfoGet(this.retailerId)
-    //   .subscribe((res) => {
-    //     this.Obj = res;
-    //     this.fG1.patchValue({
-
-    //       orderEmail: this.Obj.orderEmail,
-    //       shipEmail: this.Obj.shipEmail,
-    //   });
+    this.retialerService
+      .notificationGet(this.retailerId)
+      .subscribe((res: RetailerNotification) => {
+        this.notificationData = res;
+        this.setFormValidators();
+        this.Obj = new RetailerNotification(res);
+      });
   }
+}
 
 
 }

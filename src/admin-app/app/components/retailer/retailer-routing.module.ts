@@ -18,8 +18,8 @@ const appRoutes: Routes = [
     canActivate: [EnsureAuthenticated]
   },
   {
-    path: 'retailer-edit',
-    component: RetailerEditComponent,
+    path: 'retailer-edit/:id',
+    component: RetailerAddComponent,
     canActivate: [EnsureAuthenticated]
   }
 ];

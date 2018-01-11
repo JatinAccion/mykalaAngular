@@ -16,12 +16,6 @@ import { CoreService } from '../../../services/core.service';
 import { userMessages } from './messages';
 // #endregion imports
 
-export interface IAlert {
-  id: number;
-  type: string;
-  message: string;
-  show: boolean;
-}
 @Component({
   selector: 'app-retailer-add',
   templateUrl: './retailer-add.component.html',
@@ -32,21 +26,16 @@ export class RetailerAddComponent implements OnInit {
   // #region declarations
   currentOrientation = 'vertial';
   currentJustify = 'end';
-  profileData: RetailerProfileInfo;
-  paymentData: RetailerPaymentInfo;
-  productData: RetailerProductInfo;
+  profileData = new RetailerProfileInfo();
+  paymentData = new RetailerPaymentInfo();
+  productData = new RetailerProductInfo();
   shippingsData = new Array<RetialerShippingProfile>();
   returnData = new RetailerReturnPolicy();
   notificationData = new RetailerNotification();
   retailerId = 1;
   userMsgs = userMessages;
   @ViewChild('tabs') ngbTabSet: NgbTabset;
-  alert: IAlert = {
-    id: 1,
-    type: 'success',
-    message: '',
-    show: false
-  };
+
   status = {
     Profile: false,
     Payment: false,
@@ -65,41 +54,47 @@ export class RetailerAddComponent implements OnInit {
     private validatorExt: ValidatorExt,
     private core: CoreService
   ) {
-     this.retailerId = route.snapshot.params['id'];
+    this.retailerId = route.snapshot.params['id'];
   }
   ngOnInit() {
+    this.retialerService.reset();
     this.setActiveTab({ nextId: 'tab-Profile' });
+    this.retialerService.profileData.subscribe(p => this.status.Profile = p.status);
+    this.retialerService.paymentData.subscribe(p => this.status.Payment = p.bankId ? true : false);
+    this.retialerService.productData.subscribe(p => this.status.Product = p.retailerId ? true : false);
+    this.retialerService.shippingsData.subscribe(p => this.status.Shipping = p[0].retailerId ? true : false);
+    this.retialerService.returnData.subscribe(p => this.status.Return = p.returnId ? true : false);
+    this.retialerService.notificationData.subscribe(p => this.status.Notifications = p.notificationId ? true : false);
   }
   setActiveTab(event) {
-    if (!this.retailerId && event.nextId !== 'tab-Profile') { event.preventDefault(); return; }
+    if (!this.retailerId && event.nextId !== 'tab-Profile') {
+      this.core.message.info('Please save profile');
+      event.preventDefault();
+      return;
+    }
   }
   showNextTab(prevTab) {
-    this.alert = { id: 1, type: 'success', message: 'Saved successfully', show: true };
     if (this.retailerId) {
       switch (prevTab) {
-        case 'tab-Profile': this.status.Profile = true; this.ngbTabSet.select('tab-Payment'); break;
-        case 'tab-Payment': this.status.Payment = true; this.ngbTabSet.select('tab-Product'); break;
-        case 'tab-Product': this.status.Product = true; this.ngbTabSet.select('tab-Shipping'); break;
+        case 'tab-Profile': this.ngbTabSet.select('tab-Payment'); break;
+        case 'tab-Payment': this.ngbTabSet.select('tab-Product'); break;
+        case 'tab-Product': this.ngbTabSet.select('tab-Shipping'); break;
         case 'tab-Shipping': this.status.Shipping = true;
           // this.ngbTabSet.select('tab-Return');
           break;
-        case 'tab-Return': this.status.Return = true; this.ngbTabSet.select('tab-Notifications'); break;
-        case 'tab-Notifications': this.status.Notifications = true;
-          switch (false) {
-            case this.status.Profile: this.ngbTabSet.select('tab-Profile'); break;
-            case this.status.Payment: this.ngbTabSet.select('tab-Payment'); break;
-            case this.status.Product: this.ngbTabSet.select('tab-Product'); break;
-            case this.status.Shipping: this.ngbTabSet.select('tab-Shipping'); break;
-            case this.status.Return: this.ngbTabSet.select('tab-Return'); break;
-            default:
-              this.core.message.success(this.userMsgs.success);
-              this.router.navigateByUrl('/retailer-list'); break;
-          }
+        case 'tab-Return': this.ngbTabSet.select('tab-Notifications'); break;
+        case 'tab-Notifications': switch (false) {
+          case this.status.Profile: this.ngbTabSet.select('tab-Profile'); break;
+          case this.status.Payment: this.ngbTabSet.select('tab-Payment'); break;
+          case this.status.Product: this.ngbTabSet.select('tab-Product'); break;
+          case this.status.Shipping: this.ngbTabSet.select('tab-Shipping'); break;
+          case this.status.Return: this.ngbTabSet.select('tab-Return'); break;
+          default:
+            this.core.message.success(this.userMsgs.success);
+            this.router.navigateByUrl('/retailer-list'); break;
+        }
           break;
       }
     }
-  }
-  closeAlert(alert: IAlert) {
-    this.alert.show = false;
   }
 }

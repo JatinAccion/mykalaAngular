@@ -1,6 +1,8 @@
 import { PostalAddress } from './retailer-business-adress';
 
 export class RetailerContact extends PostalAddress {
+    public contactPersonId: number;
+    public retailerId: number;
     public personName: string;
     public position: string;
     public contactType: string;
@@ -10,6 +12,8 @@ export class RetailerContact extends PostalAddress {
     constructor(obj?: any) {
         super(obj);
         if (obj) {
+            this.retailerId = obj.retailerId;
+            this.contactPersonId = obj.contactPersonId;
             this.personName = obj.personName;
             this.position = obj.position;
             this.contactType = obj.contactType;

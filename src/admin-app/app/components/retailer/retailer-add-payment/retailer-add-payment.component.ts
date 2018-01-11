@@ -10,6 +10,7 @@ import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 import { RetialerService } from '../retialer.service';
 import { RetailerPaymentInfo, BankAddress } from '../../../../../models/retailer-payment-info';
 import { inputValidations } from './messages';
+import { CoreService } from '../../../services/core.service';
 
 
 @Component({
@@ -25,18 +26,12 @@ export class RetailerAddPaymentComponent implements OnInit {
   @Output() paymentDataChange = new EventEmitter<RetailerPaymentInfo>();
   // #region declarations
 
-  alert: IAlert = {
-    id: 1,
-    type: 'success',
-    message: '',
-    show: false
-  };
   paymentFG1 = new FormGroup({});
   paymentFG2 = new FormGroup({});
   paymentMethods: Array<nameValue> = new Array<nameValue>();
   paymentVehicles: Array<nameValue> = new Array<nameValue>();
   paymentInfoStep = 1;
-  paymentInfoObj = new RetailerPaymentInfo();
+  paymentInfoObj: RetailerPaymentInfo;
   errorMsgs = inputValidations;
   paymentSaveloader = false;
 
@@ -44,37 +39,43 @@ export class RetailerAddPaymentComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private retialerService: RetialerService,
-    private validatorExt: ValidatorExt
+    private validatorExt: ValidatorExt,
+    private core: CoreService
   ) {
   }
   ngOnInit() {
-    this.setFormValidators();
     this.getPaymentInfoDropdowndata();
+    if (this.retailerId) {
+      this.getPaymentInfo(this.retailerId);
+    } else {
+      this.paymentInfoObj = new RetailerPaymentInfo();
+      this.setFormValidators();
+    }
   }
 
   setFormValidators() {
     this.paymentFG1 = this.formBuilder.group({
-      paymentMethod: ['', [Validators.required]],
-      paymentVehicle: ['', [Validators.required]],
-      bankname: ['', [Validators.pattern(environment.regex.textRegex), Validators.required]],
-      addressLine1: ['', [Validators.pattern(environment.regex.textRegex), Validators.required]],
-      addressLine2: ['', [Validators.pattern(environment.regex.textRegex)]],
-      city: ['', [Validators.pattern(environment.regex.textRegex), Validators.required]],
-      state: ['', [Validators.pattern(environment.regex.textRegex), Validators.required]],
-      zipcode: ['', [Validators.maxLength(5), Validators.minLength(5),
+      paymentMethod: [this.paymentData.paymentMethod, [Validators.required]],
+      paymentVehicle: [this.paymentData.paymentVehicle, [Validators.required]],
+      bankname: [this.paymentData.bankName, [Validators.pattern(environment.regex.textRegex), Validators.required]],
+      addressLine1: [this.paymentData.bankAddress.addressLine1, [Validators.pattern(environment.regex.textRegex), Validators.required]],
+      addressLine2: [this.paymentData.bankAddress.addressLine2, [Validators.pattern(environment.regex.textRegex)]],
+      city: [this.paymentData.bankAddress.city, [Validators.pattern(environment.regex.textRegex), Validators.required]],
+      state: [this.paymentData.bankAddress.state, [Validators.pattern(environment.regex.textRegex), Validators.required]],
+      zipcode: [this.paymentData.bankAddress.zipcode, [Validators.maxLength(5), Validators.minLength(5),
       Validators.pattern(environment.regex.numberRegex), Validators.required]]
     });
     this.paymentFG2 = this.formBuilder.group({
-      accountName: ['', [Validators.pattern(environment.regex.textRegex), Validators.required]],
-      accountNumber: ['', [Validators.pattern(environment.regex.numberRegex), Validators.required]],
-      routingNumber: ['', [Validators.pattern(environment.regex.numberRegex), Validators.required]],
-      swiftCode: ['', [Validators.pattern(environment.regex.textRegex), Validators.required]],
-      name: ['', [Validators.pattern(environment.regex.textRegex)]],
-      addressLine1: ['', [Validators.pattern(environment.regex.textRegex), Validators.required]],
-      addressLine2: ['', [Validators.pattern(environment.regex.textRegex)]],
-      city: ['', [Validators.pattern(environment.regex.textRegex), Validators.required]],
-      state: ['', [Validators.pattern(environment.regex.textRegex), Validators.required]],
-      zipcode: ['', [Validators.maxLength(5), Validators.minLength(5),
+      accountName: [this.paymentData.accountName, [Validators.pattern(environment.regex.textRegex), Validators.required]],
+      accountNumber: [this.paymentData.accountNumber, [Validators.pattern(environment.regex.numberRegex), Validators.required]],
+      routingNumber: [this.paymentData.routingNumber, [Validators.pattern(environment.regex.numberRegex), Validators.required]],
+      swiftCode: [this.paymentData.swiftCode, [Validators.pattern(environment.regex.textRegex), Validators.required]],
+      name: [this.paymentData.bankAddress.name, [Validators.pattern(environment.regex.textRegex)]],
+      addressLine1: [this.paymentData.addressLine1, [Validators.pattern(environment.regex.textRegex), Validators.required]],
+      addressLine2: [this.paymentData.addressLine2, [Validators.pattern(environment.regex.textRegex)]],
+      city: [this.paymentData.city, [Validators.pattern(environment.regex.textRegex), Validators.required]],
+      state: [this.paymentData.state, [Validators.pattern(environment.regex.textRegex), Validators.required]],
+      zipcode: [this.paymentData.zipcode, [Validators.maxLength(5), Validators.minLength(5),
       Validators.pattern(environment.regex.numberRegex), Validators.required]]
     });
   }
@@ -134,6 +135,8 @@ export class RetailerAddPaymentComponent implements OnInit {
     this.validatorExt.validateAllFormFields(this.paymentFG1);
     if (this.paymentFG1.valid) {
       this.paymentInfoStep = 2;
+    } else {
+      this.core.message.info('Please fill mandatory');
     }
   }
   paymentInfoBack() {
@@ -151,27 +154,12 @@ export class RetailerAddPaymentComponent implements OnInit {
       this.paymentSaveloader = true;
       this.retialerService
         .paymentInfoSave(this.paymentInfoObj)
-        .then(res => {
+        .subscribe(res => {
           this.SaveData.emit('tab-Payment');
-          this.alert = {
-            id: 1,
-            type: 'success',
-            message: 'Saved successfully',
-            show: true
-          };
           this.paymentSaveloader = false;
+          this.core.message.success('Payment Info Saved');
           return true;
-        })
-        .catch(err => {
-          console.log(err);
-          this.alert = {
-            id: 1,
-            type: 'danger',
-            message: 'Not able to Save',
-            show: true
-          };
-          this.paymentSaveloader = false;
-        });
+        }, err => this.core.message.error('Not able to Save'), () => this.paymentSaveloader = false);
       return false;
     }
   }
@@ -180,24 +168,30 @@ export class RetailerAddPaymentComponent implements OnInit {
     this.paymentInfoObj.paymentMethod = this.paymentFG1.value.paymentMethod;
     this.paymentInfoObj.paymentVehicle = this.paymentFG1.value.paymentVehicle;
     this.paymentInfoObj.bankName = this.paymentFG1.value.bankname;
-    this.paymentInfoObj.addressLine1 = this.paymentFG1.value.addressLine1;
-    this.paymentInfoObj.addressLine2 = this.paymentFG1.value.addressLine2;
-    this.paymentInfoObj.city = this.paymentFG1.value.city;
-    this.paymentInfoObj.state = this.paymentFG1.value.state;
-    this.paymentInfoObj.zipcode = this.paymentFG1.value.zipcode;
+
+    this.paymentInfoObj.bankAddress = this.paymentInfoObj.bankAddress || new BankAddress();
+    this.paymentInfoObj.bankAddress.name = this.paymentFG1.value.name;
+    this.paymentInfoObj.bankAddress.addressLine1 = this.paymentFG1.value.addressLine1;
+    this.paymentInfoObj.bankAddress.addressLine2 = this.paymentFG1.value.addressLine2;
+    this.paymentInfoObj.bankAddress.city = this.paymentFG1.value.city;
+    this.paymentInfoObj.bankAddress.state = this.paymentFG1.value.state;
+    this.paymentInfoObj.bankAddress.zipcode = this.paymentFG1.value.zipcode;
+
 
     this.paymentInfoObj.accountName = this.paymentFG2.value.accountName;
     this.paymentInfoObj.accountNumber = this.paymentFG2.value.accountNumber;
     this.paymentInfoObj.routingNumber = this.paymentFG2.value.routingNumber;
     this.paymentInfoObj.swiftCode = this.paymentFG2.value.swiftCode;
 
-    this.paymentInfoObj.bankAddress = new BankAddress();
-    this.paymentInfoObj.bankAddress.name = this.paymentFG2.value.name;
-    this.paymentInfoObj.bankAddress.addressLine1 = this.paymentFG2.value.addressLine1;
-    this.paymentInfoObj.bankAddress.addressLine2 = this.paymentFG2.value.addressLine2;
-    this.paymentInfoObj.bankAddress.city = this.paymentFG2.value.city;
-    this.paymentInfoObj.bankAddress.state = this.paymentFG2.value.state;
-    this.paymentInfoObj.bankAddress.zipcode = this.paymentFG2.value.zipcode;
+
+    this.paymentInfoObj.addressLine1 = this.paymentFG2.value.addressLine1;
+    this.paymentInfoObj.addressLine2 = this.paymentFG2.value.addressLine2;
+    this.paymentInfoObj.city = this.paymentFG2.value.city;
+    this.paymentInfoObj.state = this.paymentFG2.value.state;
+    this.paymentInfoObj.zipcode = this.paymentFG2.value.zipcode;
+
+
+    
 
     return this.paymentInfoObj;
   }
@@ -205,31 +199,9 @@ export class RetailerAddPaymentComponent implements OnInit {
     this.retialerService
       .paymentInfoGet(this.retailerId)
       .subscribe((res: RetailerPaymentInfo) => {
-        this.paymentInfoObj = res;
-        this.paymentFG1.patchValue({
-          paymentMethod: this.paymentInfoObj.paymentMethod,
-          paymentVehicle: this.paymentInfoObj.paymentVehicle,
-          bankname: this.paymentInfoObj.bankName,
-          addressLine1: this.paymentInfoObj.addressLine1,
-          addressLine2: this.paymentInfoObj.addressLine2,
-          city: this.paymentInfoObj.city,
-          state: this.paymentInfoObj.state,
-          zipcode: this.paymentInfoObj.zipcode
-        });
-
-        this.paymentFG2.patchValue({
-          accountName: this.paymentInfoObj.accountName,
-          accountNumber: this.paymentInfoObj.accountNumber,
-          routingNumber: this.paymentInfoObj.routingNumber,
-          swiftCode: this.paymentInfoObj.swiftCode,
-
-          name: this.paymentInfoObj.bankAddress.name,
-          addressLine1: this.paymentInfoObj.bankAddress.addressLine1,
-          addressLine2: this.paymentInfoObj.bankAddress.addressLine2,
-          city: this.paymentInfoObj.bankAddress.city,
-          state: this.paymentInfoObj.bankAddress.state,
-          zipcode: this.paymentInfoObj.bankAddress.zipcode
-        });
+        this.paymentData = res;
+        this.setFormValidators();
+        this.paymentInfoObj = new RetailerPaymentInfo(res);
       });
   }
 }

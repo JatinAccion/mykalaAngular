@@ -1,6 +1,6 @@
 // #region imports
 import { Component, OnInit, ViewEncapsulation, ViewChild, Input, Output, EventEmitter } from '@angular/core';
-import {  RetailerReturnPolicy } from '../../../../../models/retailer';
+import { RetailerReturnPolicy } from '../../../../../models/retailer';
 import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgbTabset } from '@ng-bootstrap/ng-bootstrap/tabset/tabset';
@@ -10,6 +10,7 @@ import { environment } from '../../../../environments/environment';
 import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 import { RetialerService } from '../retialer.service';
 import { inputValidations } from './messages';
+import { CoreService } from '../../../services/core.service';
 
 
 @Component({
@@ -41,11 +42,17 @@ export class RetailerAddReturnsComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private retialerService: RetialerService,
-    private validatorExt: ValidatorExt
+    private validatorExt: ValidatorExt,
+    private core: CoreService
   ) {
   }
   ngOnInit() {
-    this.setFormValidators();
+    if (this.retailerId) {
+      this.getData(this.retailerId);
+    } else {
+      this.Obj = new RetailerReturnPolicy();
+      this.setFormValidators();
+    }
   }
   closeAlert(alert: IAlert) {
     this.alert.show = false;
@@ -53,7 +60,7 @@ export class RetailerAddReturnsComponent implements OnInit {
 
   setFormValidators() {
     this.fG1 = this.formBuilder.group({
-      returnPolicy: ['', [Validators.maxLength(500), Validators.pattern(environment.regex.textRegex), Validators.required]],
+      returnPolicy: [this.returnData.returnPolicy, [Validators.maxLength(500), Validators.pattern(environment.regex.textRegex), Validators.required]],
     });
   }
 
@@ -65,32 +72,13 @@ export class RetailerAddReturnsComponent implements OnInit {
       this.saveLoader = true;
       this.retialerService
         .saveReturnPolicy(this.Obj)
-        .then(res => {
-          // todo correct response
-          // this.retailerId = res._body;
-          // this.Obj.retailerId = this.retailerId;
-          // this.ngbTabSet.select('tab-Payment');
-          // this.router.navigateByUrl('/retailer-list');
+        .subscribe(res => {
           this.SaveData.emit('tab-Return');
-          this.alert = {
-            id: 1,
-            type: 'success',
-            message: 'Saved successfully',
-            show: true
-          };
           this.saveLoader = false;
+          this.core.message.success('Return Policy Info Saved');
           return true;
-        })
-        .catch(err => {
-          console.log(err);
-          this.alert = {
-            id: 1,
-            type: 'danger',
-            message: 'Not able to Save',
-            show: true
-          };
+        }, err => this.core.message.success('Not able to Save'), () => this.saveLoader = false);
 
-        });
     }
     return false;
   }
@@ -104,16 +92,13 @@ export class RetailerAddReturnsComponent implements OnInit {
   }
 
   getData(retailerId) {
-    // this.retialerService
-    //   .profileInfoGet(this.retailerId)
-    //   .subscribe((res) => {
-    //     this.Obj = res;
-    //     this.fG1.patchValue({
-
-    //       returnPolicy: this.Obj.returnPolicy,
-    //       shipEmail: this.Obj.shipEmail,
-    //   });
+    this.retialerService
+      .returnPolicyGet(this.retailerId)
+      .subscribe((res: RetailerReturnPolicy) => {
+        this.returnData = res;
+        this.setFormValidators();
+        this.Obj = new RetailerReturnPolicy(res);
+      });
   }
-
 
 }

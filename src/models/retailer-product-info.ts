@@ -7,7 +7,7 @@ export class RetailerProductInfo {
     public subCategories: Array<IdNameParent>;
     public productTypes: Array<IdNameParent>;
 
-    constructor(obj: any) {
+    constructor(obj?: any) {
         if (obj) {
             this.places = obj.places;
             this.categories = obj.categories;
