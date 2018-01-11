@@ -51,6 +51,7 @@ export class ProfileInfoComponent implements OnInit {
     this.core.clearUser();
     this.core.hideUserInfo(true);
     /**Clearing the Logged In Session */
+    this.core.headerScroll();
     this.core.hide();
     this.core.searchMsgToggle();
     this.core.pageLabel();

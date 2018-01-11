@@ -58,6 +58,7 @@ export class Step3Component implements OnInit {
 
   ngOnInit() {
     this.core.checkIfLoggedOut(); /*** If User Logged Out*/
+    this.core.headerScroll();
     this.headerMessage = 'get offers';
     this.core.show(this.headerMessage);
     this.pageLabel = 'What\'s your budget and delivery preference for this item?';

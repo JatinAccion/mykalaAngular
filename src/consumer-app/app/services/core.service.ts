@@ -60,4 +60,14 @@ export class CoreService {
       this.hideUserInfo(true);
     }
   }
+
+  headerScroll() {
+    setTimeout(function () {
+      var header = document.getElementsByClassName("header_sub")[0];
+      var searchBox = document.getElementsByClassName("searchBox")[0];
+      header.classList.add("header_Scroll");
+      searchBox.classList.remove("invisible");
+    }, 100);
+  }
+
 }

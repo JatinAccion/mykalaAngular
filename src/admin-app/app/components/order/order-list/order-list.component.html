@@ -1,175 +1,395 @@
 <div class="container">
-    <div class="title col-sm-12">
-        <h1>User Management</h1>
+    <div class="title col-sm-12 p-0">
+        <h1>Orders</h1> 
     </div> 
-    <div class="row m-0 p-2 usermanagement">
-        <div class="col-sm-6">
-            <div id="accordion" role="tablist" aria-multiselectable="true">
-                <div class="card">
-                    <div class="card-header" role="tab" id="headingOne"> 
-                        <h5 class="mb-0">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                Xinyu Liu <small class="float-right">Edit</small>
-                            </a>
-                        </h5>  
-                    </div>
-                    <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
-                        <div class="card-block pt-0">
-                            <hr />
-                            <div class="text-right">
-                                <a href="#" class="colorRed">Delete User</a>
-                            </div>
-                            <div class="row m-0">
-                                <div class="col-sm-3">Email</div>
-                                <div class="col-sm-9">xinyu@goinvo.com</div>
-                            </div>
-                            <div class="row m-0">
-                                <div class="col-sm-3">Password</div>
-                                <div class="col-sm-9">......</div>
-                            </div>
-                            <div class="row m-0">
-                                <div class="col-sm-3">Phone number</div>
-                                <div class="col-sm-9">401-935-0993</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header" role="tab" id="headingTwo">
-                        <h5 class="mb-0">
-                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                Yanyang Zhou <small class="float-right">Edit</small>
-                            </a>
-                        </h5>
-                    </div>
-                    <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
-                        <div class="card-block pt-0">
-                            <hr />
-                            <div class="row m-0">
-                                <div class="col-sm-3">Email</div>
-                                <div class="col-sm-9">xinyu@goinvo.com</div>
-                            </div>
-                            <div class="row m-0">
-                                <div class="col-sm-3">Password</div>
-                                <div class="col-sm-9">......</div>
-                            </div>
-                            <div class="row m-0">
-                                <div class="col-sm-3">Phone number</div>
-                                <div class="col-sm-9">401-935-0993</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header" role="tab" id="headingThree">
-                        <h5 class="mb-0">
-                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                Jennifer Patel <small class="float-right">Edit</small>
-                            </a>
-                        </h5>
-                    </div>
-                    <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
-                        <div class="card-block pt-0">
-                            <hr />
-                            <div class="row m-0">
-                                <div class="col-sm-3">Email</div>
-                                <div class="col-sm-9">xinyu@goinvo.com</div>
-                            </div>
-                            <div class="row m-0">
-                                <div class="col-sm-3">Password</div>
-                                <div class="col-sm-9">......</div>
-                            </div>
-                            <div class="row m-0">
-                                <div class="col-sm-3">Phone number</div>
-                                <div class="col-sm-9">401-935-0993</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="row p-2">
+        <div class="col-sm-9 pl-2">
+            <input placeholder="search for user" class="form-control txt_Search w-50" type="text">
         </div>
-        <div class="col-sm-6">
-            <div id="accordion1" role="tablist" aria-multiselectable="true">
-                <div class="card">
-                    <div class="card-header" role="tab" id="headingOne1">
-                        <h5 class="mb-0">
-                            <a data-toggle="collapse" class="collapsed" data-parent="#accordion" href="#collapseOne1" aria-expanded="true" aria-controls="collapseOne1">
-                                Xinyu Liu <small class="float-right">Edit</small>
-                            </a>
-                        </h5>
-                    </div>
-                    <div id="collapseOne1" class="collapse" role="tabpanel" aria-labelledby="headingOne">
-                        <div class="card-block pt-0">
+        <div class="col-sm-3 pr-2 text-right">
+            <select class="ddl_default form-control">
+                <option>category</option>
+                <option>category1</option>
+                <option>category2</option>
+            </select>
+        </div>
+    </div> 
+    <div class="col-sm-12 p-0 mt-3 product_file">
+        <div class="row">
+            <div class="col-sm-2 colorlightGray">Previous</div>
+            <div class="col-sm-8 text-center">Sales Transactions 1-10 of 1,235</div>
+            <div class="col-sm-2 colorlightGray text-right">Next</div>
+        </div>
+        <div class="col-sm-12 p-2 m-1 backgroundWhite">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th width="5%"><input type="checkbox" /></th>
+                        <th width="10%">Order No.</th>
+                        <th width="10%">Status</th>
+                        <th width="10%">Order Date</th>
+                        <th width="15%">Seller</th>
+                        <th width="20%">Buyer</th>
+                        <th width="12%">Product</th>
+                        <th width="10%">Sale Total</th>
+                        <th width="6%">Issue</th>
+                        <th width="2%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="checkbox" /></td>
+                        <td>107-3434-27</td>
+                        <td>Delivered</td>
+                        <td>06/12/2015</td>
+                        <td>Collective Fab</td>
+                        <td>Sonya Martinz</td>
+                        <td>0720MPK29QV</td>
+                        <td>$210.00</td>
+                        <td>Y</td>
+                        <td>
+                            <a class="colorBlue" (click)="isCollapsed = !isCollapsed"
+                                    [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+                                    <i class="fa fa-caret-down" aria-hidden="true"></i>
+                            </a> 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="10" *ngIf="!isCollapsed" class="divOrderDetails">
+                            <div class="row orderdetail_row m-2">
+                                <div class="col-sm-2 align-middle">
+                                    <h4 class="colorGray">Product</h4> 
+                                    <img src="/admin-app/assets/images/lamp1.png" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <table class="no_tdBorder" width="100%" border="0">
+                                        <tr>
+                                            <td colspan="2"><strong>Wood Floral Ceiling Lamp</strong></td> 
+                                        </tr>
+                                        <tr>
+                                            <td>Product Code:</td>
+                                            <td>093483948</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Price:</td>
+                                            <td>$345.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Quality:</td>
+                                            <td>1</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Size:</td>
+                                            <td>20cm</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Reviews:</td>
+                                            <td>123</td>
+                                        </tr> 
+                                    </table>
+                                </div> 
+                                <div class="col-sm-4 offset-2">
+                                    <table width="100%" class="no_tdBorder" border="0"> 
+                                        <tr>
+                                            <td>Product Place:</td>
+                                            <td>Home & Garden</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Category:</td>
+                                            <td>Lighting</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Type:</td>
+                                            <td>Lamp, Ceiling</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
                             <hr />
-                            <div class="row m-0">
-                                <div class="col-sm-3">Email</div>
-                                <div class="col-sm-9">xinyu@goinvo.com</div>
-                            </div>
-                            <div class="row m-0">
-                                <div class="col-sm-3">Password</div>
-                                <div class="col-sm-9">......</div>
-                            </div>
-                            <div class="row m-0">
-                                <div class="col-sm-3">Phone number</div>
-                                <div class="col-sm-9">401-935-0993</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header" role="tab" id="headingTwo1">
-                        <h5 class="mb-0">
-                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo1" aria-expanded="false" aria-controls="collapseTwo1">
-                                Yanyang Zhou <small class="float-right">Edit</small>
-                            </a>
-                        </h5>
-                    </div>
-                    <div id="collapseTwo1" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
-                        <div class="card-block pt-0">
+                            <div class="row orderdetail_row m-2">
+                                <div class="col-sm-2 align-middle">
+                                    <h4 class="colorGray">Order</h4> 
+                                    <img src="/admin-app/assets/images/lamp2.png" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <table width="100%" class="no_tdBorder" border="0"> 
+                                        <tr>
+                                            <td>Order number:</td>
+                                            <td>093-483948</td>
+                                        </tr>
+                                        <tr>
+                                            <td>1-5 days delivery:</td>
+                                            <td>$5.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Total:</td>
+                                            <td>$234.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Pay with:</td>
+                                            <td>Visa 9876</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Ship to:</td>
+                                            <td>Xinyu liu, 20 surry rd, arlington, ma,09876</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-sm-4 offset-2">
+                                    <table width="100%" class="no_tdBorder" border="0">
+                                        <tr>
+                                            <td>Order placed:</td>
+                                            <td>06/12/2017</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Processed on:</td>
+                                            <td>06/12/2017</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Shipped on:</td>
+                                            <td>06/12/2017</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Delivered on:</td>
+                                            <td>06/12/2017</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Seller payment status :</td>
+                                            <td>Paid<span class="float-right"><a href="#">Edit</a></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Paid on:</td>
+                                            <td>06/12/2017 14:35:00</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div> 
                             <hr />
-                            <div class="row m-0">
-                                <div class="col-sm-3">Email</div>
-                                <div class="col-sm-9">xinyu@goinvo.com</div>
+                            <div class="row orderdetail_row m-2">
+                                <div class="col-sm-2 align-middle">
+                                    <h4 class="colorGray">Member</h4> 
+                                    <img src="/admin-app/assets/images/business_logo3.png" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <table width="100%" class="no_tdBorder" border="0"> 
+                                        <tr>
+                                            <td>Sonya Martinez</td> 
+                                        </tr>
+                                        <tr>
+                                            <td>member since 06/2017</td> 
+                                        </tr>
+                                        <tr>
+                                            <td>4 orders, 7 offer requestis</td> 
+                                        </tr>
+                                        <tr>
+                                            <td>1-555-676-3433</td> 
+                                        </tr>
+                                        <tr>
+                                            <td>sonya.martinez@gmail.com</td> 
+                                        </tr>
+                                        <tr>
+                                            <td>12345 Mango Dr, Del Mar, CA 98765</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-sm-4 offset-2">
+                                    <table width="100%" class="no_tdBorder" border="0">
+                                        <tr>
+                                            <td>DOB:</td>
+                                            <td>08/17/1985</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Member ID:</td>
+                                            <td>098765457</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2"><strong>Previous Inquiries:</strong></td> 
+                                        </tr>
+                                        <tr>
+                                            <td class="pl-3">complaints:</td>
+                                            <td>1</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="pl-3">Returns:</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="pl-3">Questions:</td>
+                                            <td>5</td>
+                                        </tr>
+                                    </table>
+                                </div>
                             </div>
-                            <div class="row m-0">
-                                <div class="col-sm-3">Password</div>
-                                <div class="col-sm-9">......</div>
-                            </div>
-                            <div class="row m-0">
-                                <div class="col-sm-3">Phone number</div>
-                                <div class="col-sm-9">401-935-0993</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header" role="tab" id="headingThree1">
-                        <h5 class="mb-0">
-                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree1" aria-expanded="false" aria-controls="collapseThree1">
-                                Jennifer Patel <small class="float-right">Edit</small>
-                            </a>
-                        </h5>
-                    </div>
-                    <div id="collapseThree1" class="collapse" role="tabpanel" aria-labelledby="headingThree">
-                        <div class="card-block pt-0">
                             <hr />
-                            <div class="row m-0">
-                                <div class="col-sm-3">Email</div>
-                                <div class="col-sm-9">xinyu@goinvo.com</div>
+                            <div class="row orderdetail_row m-2">
+                                <div class="col-sm-2 align-middle">
+                                    <h4 class="colorGray">Seller</h4> 
+                                    <img src="/admin-app/assets/images/lamp1.png" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <table width="100%" border="0"> 
+                                        <tr>
+                                            <td>Collective Fab</td> 
+                                        </tr>
+                                        <tr>
+                                            <td>Reviews: 123</td> 
+                                        </tr>
+                                        <tr>
+                                            <td>Contact: Troy Smith</td> 
+                                        </tr>
+                                        <tr>
+                                            <td>1-555-342-2343</td> 
+                                        </tr>
+                                        <tr>
+                                            <td>tmsith@collectivefab.com</td> 
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-sm-3">
+                                    <table width="100%" border="0"> 
+                                        <tr>
+                                            <td colspan="2"><strong>Previous Inquiries:</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="pl-3">complaints:</td>
+                                            <td>1</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="pl-3">Returns:</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="pl-3">Questions:</td>
+                                            <td>5</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-sm-3">
+                                    <a class=" btn_redouter_right w-100" href="#">view account</a>
+                                </div>
                             </div>
-                            <div class="row m-0">
-                                <div class="col-sm-3">Password</div>
-                                <div class="col-sm-9">......</div>
+                            <hr />
+                            <div class="row orderdetail_row m-2">
+                                <div class="col-sm-2 align-middle">
+                                    <h4 class="colorGray">Issues</h4> 
+                                </div>
+                                <div class="col-sm-4">
+                                    <table width="100%" class="no_tdBorder" border="0"> 
+                                        <tr>
+                                            <td>Priority:</td>
+                                            <td><strong>High</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Category:</td>
+                                            <td><strong>Problem with order</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Issue type:</td>
+                                            <td><strong>Item arrived damaged</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Issue date:</td>
+                                            <td><strong>06/15/2017</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Issue status:</td>
+                                            <td><strong>Closed - satisfied</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Resolved on:</td>
+                                            <td><strong>06/15/2017</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Issue description:</td>
+                                            <td><strong>Lamp surfaced arrived with deep scratches in finish</strong></td>
+                                        </tr> 
+                                    </table>
+                                </div>
+                                <div class="col-sm-4">
+                                    <table width="100%" class="no_tdBorder" border="0">
+                                        <tr>
+                                            <td>Assigned to :</td>
+                                            <td>Ryan Wegner</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <div>Notes:</div>
+                                                <p class="border_outline p-2">
+                                                    Contacted buyer on 06/23 to confirm issue, contacted seller on 06/23, seller agreed to exchange item, Shipping label sent to Sonya on 06/24, Item exchangein complete and member is satisfied with result on 06/28.
+                                                </p>
+                                            </td> 
+                                        </tr> 
+                                    </table>
+                                </div>
+                                <div class="col-sm-2">
+                                    <p><a class="btn_red_right  w-100" href="inquiries_create.html">+ create inquiry</a></p>
+                                    <p><a class="btn_redouter_right w-100" href="#">edit account</a></p> 
+                                </div>
                             </div>
-                            <div class="row m-0">
-                                <div class="col-sm-3">Phone number</div>
-                                <div class="col-sm-9">401-935-0993</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" /></td>
+                        <td>107-3434-27</td>
+                        <td>Delivered</td>
+                        <td>06/12/2015</td>
+                        <td>Collective Fab</td>
+                        <td>Sonya Martinz</td>
+                        <td>0720MPK29QV</td>
+                        <td>$210.00</td>
+                        <td>Y</td>
+                        <td><a href="#" class="ancProductDetails"><i class="fa fa-caret-down" aria-hidden="true"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" /></td>
+                        <td>107-3434-27</td>
+                        <td>Delivered</td>
+                        <td>06/12/2015</td>
+                        <td>Collective Fab</td>
+                        <td>Sonya Martinz</td>
+                        <td>0720MPK29QV</td>
+                        <td>$210.00</td>
+                        <td>Y</td>
+                        <td><a href="#" class="ancProductDetails"><i class="fa fa-caret-down" aria-hidden="true"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" /></td>
+                        <td>107-3434-27</td>
+                        <td>Delivered</td>
+                        <td>06/12/2015</td>
+                        <td>Collective Fab</td>
+                        <td>Sonya Martinz</td>
+                        <td>0720MPK29QV</td>
+                        <td>$210.00</td>
+                        <td>Y</td>
+                        <td><a href="#" class="ancProductDetails"><i class="fa fa-caret-down" aria-hidden="true"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" /></td>
+                        <td>107-3434-27</td>
+                        <td>Delivered</td>
+                        <td>06/12/2015</td>
+                        <td>Collective Fab</td>
+                        <td>Sonya Martinz</td>
+                        <td>0720MPK29QV</td>
+                        <td>$210.00</td>
+                        <td>Y</td>
+                        <td><a href="#" class="ancProductDetails"><i class="fa fa-caret-down" aria-hidden="true"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" /></td>
+                        <td>107-3434-27</td>
+                        <td>Delivered</td>
+                        <td>06/12/2015</td>
+                        <td>Collective Fab</td>
+                        <td>Sonya Martinz</td>
+                        <td>0720MPK29QV</td>
+                        <td>$210.00</td>
+                        <td>Y</td>
+                        <td><a href="#" class="ancProductDetails"><i class="fa fa-caret-down" aria-hidden="true"></i></a></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-    
 </div>
