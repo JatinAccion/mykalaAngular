@@ -8,7 +8,8 @@ import { CoreService } from '../../services/core.service';
   encapsulation: ViewEncapsulation.None
 })
 export class ViewProductComponent implements OnInit {
-
+  selectedProduct: any;
+  loader: boolean = false;
   constructor(private core: CoreService) { }
 
   ngOnInit() {
@@ -16,7 +17,13 @@ export class ViewProductComponent implements OnInit {
     this.core.headerScroll();
     this.core.hide();
     this.core.searchMsgToggle();
-    if (window.localStorage['token'] == undefined) this.core.clearUser();
+    if (window.localStorage['selectedProduct'] != undefined) this.selectedProduct = JSON.parse(window.localStorage['selectedProduct']);
+    setTimeout(function () {
+      var carouselItem = document.getElementsByClassName("carousel-item")[0] as HTMLElement;
+      var listInlineItem = document.getElementsByClassName("list-inline-item")[0] as HTMLElement;
+      carouselItem.classList.add("active");
+      listInlineItem.classList.add("active");
+    }, 1000);
   }
 
 }

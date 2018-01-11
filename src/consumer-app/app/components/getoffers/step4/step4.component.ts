@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Router } from '@angular/router';
-import { GetOfferModal } from '../getOffer.modal';
+import { Router } from '@angular/router'; 
 import { CoreService } from '../../../services/core.service';
+import { GetOfferModal } from '../../../../../models/getOffer.modal';
 
 @Component({
   selector: 'app-step4',

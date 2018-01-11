@@ -1,15 +1,19 @@
 <div class="container">
   <div style="height:120px;width:100%;"></div>
+  <!--Title-->
   <div class="title">
-    <h2>Product
-      <span class="colorGray"> Wood Floral Ceiling Lamp - pendant lamp - ceiling lamp - wood lamp - modern home decor</span> |
-      <span class="btnClose">X</span>
+    <h2>{{selectedProduct.product.productName}} |
+      <span class="btnClose" routerLink="/browse-product" style="cursor: pointer">X</span>
     </h2>
   </div>
+  <!--Title-->
+
   <div class="row">&nbsp;</div>
+
+  <!--Social Media and Retailer-->
   <div>
     <img src="/consumer-app/assets/images/prod-thumb.png" />
-    <u>industlamp</u>
+    <u>{{selectedProduct.retailerName}}</u>
     <div class="pull-right">
       <ul class="prd_Soc_icon">
         <li>
@@ -27,9 +31,13 @@
       </ul>
     </div>
   </div>
+  <!--Social Media and Retailer-->
+
   <div class="row">&nbsp;</div>
+
   <div class="row">
-    <div class="col-sm-7 p-0">
+    <!--Left Images Carosel-->
+    <div class="col-sm-6 p-0">
       <div class="container">
         <!-- main slider carousel -->
         <div class="row">
@@ -37,13 +45,7 @@
             <div id="myCarousel" class="carousel slide">
               <!-- main slider carousel items -->
               <div class="carousel-inner">
-                <div class="active item carousel-item" data-slide-number="0">
-                  <img src="/consumer-app/assets/images/product1.png" class="img-fluid">
-                </div>
-                <div class="item carousel-item" data-slide-number="1">
-                  <img src="/consumer-app/assets/images/product1.png" class="img-fluid">
-                </div>
-                <div class="item carousel-item" data-slide-number="2">
+                <div class="item carousel-item" *ngFor="let image of selectedProduct.product.productImages; let i=index" data-slide-number="0">
                   <img src="/consumer-app/assets/images/product1.png" class="img-fluid">
                 </div>
                 <a class="carousel-control left pt-3" href="#myCarousel" data-slide="prev">
@@ -56,18 +58,8 @@
               <!-- main slider carousel nav controls -->
 
               <ul class="carousel-indicators list-inline">
-                <li class="list-inline-item active">
-                  <a id="carousel-selector-0" class="selected" data-slide-to="0" data-target="#myCarousel">
-                    <img src="/consumer-app/assets/images/product1.png" class="img-fluid">
-                  </a>
-                </li>
-                <li class="list-inline-item">
-                  <a id="carousel-selector-1" data-slide-to="1" data-target="#myCarousel">
-                    <img src="/consumer-app/assets/images/product1.png" class="img-fluid">
-                  </a>
-                </li>
-                <li class="list-inline-item">
-                  <a id="carousel-selector-2" data-slide-to="2" data-target="#myCarousel">
+                <li class="list-inline-item" *ngFor="let image of selectedProduct.product.productImages; let i=index">
+                  <a id="carousel-selector-{{i}}" class="selected" data-slide-to="0" data-target="#myCarousel">
                     <img src="/consumer-app/assets/images/product1.png" class="img-fluid">
                   </a>
                 </li>
@@ -78,8 +70,15 @@
         <!--/main slider carousel-->
       </div>
     </div>
-    <div class="col-sm-5 productDtl-right">
-      <h4>$230.00</h4>
+    <!--Left Images Carosel-->
+
+    <!--Right Details-->
+    <div class="col-sm-6 productDtl-right">
+      <h4>${{selectedProduct.product.kalaPrice}}
+        <br />
+        <span style="text-decoration: line-through">${{selectedProduct.product.retailPrice}}</span>
+      </h4>
+
       <!-- <strike>$258.00 +</strike> -->
       <div class="row">
         <div class="col-sm-12 pl-4 pt-3">
@@ -99,23 +98,8 @@
             Next Monday
           </div>
         </div>
-        <div class="row p-2 pl-4">
-          <div class="col-sm-4">
-            <div class="outlineBox bgGray txtColorWhite">20 cm</div>
-          </div>
-          <div class="col-sm-4">
-            <div class="outlineBox">30 cm</div>
-          </div>
-          <div class="col-sm-4">
-            <div class="outlineBox">40 cm</div>
-          </div>
-        </div>
-        <div class="row p-2 pl-4">
-          <div class="col-sm-4">
-            <div class="outlineBox bgGray txtColorWhite"> 1 </div>
-          </div>
-          <div class="col-sm-8">167 in stock</div>
-        </div>
+        <div class="col-sm-12 pl-4 pt-3">{{selectedProduct.product.quantity}} in stock</div>
+        <br />
         <div class="col-sm-12 p-2 pl-4 pr-4">
           <input class="btn btn_red_right w-100" type="button" value="buy now" />
         </div>
@@ -128,158 +112,38 @@
             </div>
           </div>
         </div>
-        <div class="col-sm-12 p-4">
-          <span class="colorlightGray">8 others viewing this product right now</span>
-        </div>
-      </div>
-      <div class="row">
-        <ul class="relatedList">
-          <li>
-            <img src="/consumer-app/assets/images/img_17.jpg" />
-            <p>40w Edison</p>
-            <div>
-              <strong>$11.5</strong>
-            </div>
-          </li>
-          <li>
-            <img src="/consumer-app/assets/images/img_17.jpg" />
-            <p>40w Edison</p>
-            <div>
-              <strong>$11.5</strong>
-            </div>
-          </li>
-          <li>
-            <img src="/consumer-app/assets/images/img_17.jpg" />
-            <p>Edison E27</p>
-            <div>
-              <strong>$9.5</strong>
-            </div>
-          </li>
-        </ul>
       </div>
     </div>
+    <!--Right Details-->
   </div>
+
+  <!--Description-->
   <div class="row">
     <h4 class="subtitle">Description</h4>
-    <p>
-      The wood ceiling lamp has a very simple floral shape design to create a modern and elegant home decoration. It perfectly goes with either Edison light bulb or LED bulb.
-    </p>
-    <p>
-      This item does not include light bulb and you need to buy it separately.
-    </p>
-    <p>
-      I offer worldwide delivery. It usually takes 10-14 days from Hong Kong to USA, European countries and Australia. For Asian countries, the delivery date will be within 7 days. If you need the items urgently, please contact me asap so I can provide speed post.
-    </p>
+    <p>{{selectedProduct.product.productDescription}}</p>
   </div>
+  <!--Description-->
+
+  <!--Brand Details-->
   <div class="row">
     <h4 class="subtitle">details</h4>
     <div class="col-sm-12 p-0">
       <table width="100%">
         <tr>
           <td width="40%">Brand:</td>
-          <td width="60%" class="colorred">Framburg</td>
-        </tr>
-        <tr>
-          <td>Diameter:</td>
-          <td>20 cm / 30 cm / 40 cm</td>
-        </tr>
-        <tr>
-          <td>Material:</td>
-          <td>wood</td>
-        </tr>
-        <tr>
-          <td>Cloth-covered wire:</td>
-          <td>120 cm length, red color</td>
+          <td width="60%" class="colorred">{{selectedProduct.product.brandName}}</td>
         </tr>
       </table>
     </div>
   </div>
-  <div class="row">
-    <h4 class="subtitle">reviews (20)</h4>
-    <table class="reviewlayout table">
-      <tr>
-        <td class="p-0">
-          <div class="star-rating">
-            <strong>"love this light looks amazing” </strong>
-            <span class="fa fa-star-o" data-rating="1"></span>
-            <span class="fa fa-star-o" data-rating="2"></span>
-            <span class="fa fa-star-o" data-rating="3"></span>
-            <span class="fa fa-star-o" data-rating="4"></span>
-            <span class="fa fa-star-o" data-rating="5"></span>
-            <input type="hidden" name="whatever1" class="rating-value" value="2.56">
-          </div>
-          <div class="colorlightGray">by
-            <u>kaelyn Bingham</u>
-          </div>
-          <hr />
-        </td>
-      </tr>
-      <tr>
-        <td class="p-0">
-          <p>
-            <strong>Beautiful lamp- it shipped on time and looks lovely!</strong>
-          </p>
-          <div class="colorlightGray">by
-            <u>Laurel Rieping</u>
-          </div>
-          <hr />
-        </td>
-      </tr>
+  <!--Brand Details-->
 
-      <tr>
-        <td class="p-0">
-          <p>
-            <strong>Great, beautiful light effects. I made a hanging light out of 5 wine bottles with the bottoms cut out with these bulbs in them, wonderful.</strong>
-          </p>
-          <div class="colorlightGray">by
-            <u>Jim Hammersley</u>
-          </div>
-          <hr />
-        </td>
-      </tr>
-      <tr>
-        <td class="p-0">
-          <p>
-            <strong>Great job, missed a couple of lights, I emailed and they arrived ASAP! Wonderful product.</strong>
-          </p>
-          <div class="colorlightGray">by
-            <u>Jim Hammersley</u>
-          </div>
-          <hr />
-        </td>
-      </tr>
-      <tr>
-        <td class="p-0">
-          <p>
-            <strong>
-              We receive the item broken because of the quality of the shipment. Half of it was missing. The seller sent the rest quite quickly but the package was crap again. The chandelier is still half broken with two lamps broken. But we paid whole ....
-            </strong>
-          </p>
-          <div class="colorlightGray">by
-            <u>Antoine Bourassin</u>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="p-0 text-right">
-          <a href="#" class="colorred">
-            <small>show more</small>
-          </a>
-        </td>
-      </tr>
-    </table>
-  </div>
   <div class="row">&nbsp;</div>
+
+  <!--Return Policy-->
   <div class="row">
     <h4 class="subtitle">Returns and exchange policy</h4>
-    <p>
-      I will reuse a good box when possible. If you prefer a new box, just let me know. I offer world wide shipping and send via registered mail. Your item will be arriving within 1-2 weeks and I will send the tracking number once the item is delivered. Besides, Please kindly double check the delivery address before payment and it's better to leave your contact number for shipping security matter. Feel free to contact me for speed shipping and I will ask for new quotation.
-    </p>
-    <p>
-      We are not liable if your item get delayed or kept in Customs inspection, we are not liable for any Import Tax, Duty, VAT or any other fees once your item(s) has shipped.
-    </p>
-    <p>
-      For customer inspection, I can send an invoice to shorten the inspection period. Just contact me if you need an invoice or any further info from us.
-    </p>
+    <p>{{selectedProduct.product.retailerReturns}}</p>
   </div>
+  <!--Return Policy-->
 </div>

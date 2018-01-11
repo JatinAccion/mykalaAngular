@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { HomeService } from '../../../services/home.service';
-import { SearchDataModal } from '../../home/searchData.modal';
 import { CoreService } from '../../../services/core.service';
-import { GetOfferModal } from '../getOffer.modal';
 import { Router } from '@angular/router';
-import { OfferInfo1 } from '../steps.modal';
+import { SearchDataModal } from '../../../../../models/searchData.modal';
+import { GetOfferModal } from '../../../../../models/getOffer.modal';
+import { OfferInfo1 } from '../../../../../models/steps.modal';
+
 
 @Component({
   selector: 'app-step1',

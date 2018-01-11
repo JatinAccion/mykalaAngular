@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { GetOfferModal } from '../getOffer.modal';
-import { OfferInfo3 } from '../steps.modal';
+import { Router } from '@angular/router';  
 import { GetOfferService } from '../../../services/getOffer.service';
 import { CoreService } from '../../../services/core.service';
+import { GetOfferModal } from '../../../../../models/getOffer.modal';
+import { OfferInfo3 } from '../../../../../models/steps.modal';
 
 @Component({
   selector: 'app-step3',

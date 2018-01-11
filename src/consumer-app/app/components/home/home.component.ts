@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, Output, EventEmitter, HostListener } from '@angular/core';
 import { HomeService } from '../../services/home.service';
 import { CoreService } from '../../services/core.service';
-import { SearchDataModal } from './searchData.modal';
+import { SearchDataModal } from '../../../../models/searchData.modal';
 import { Router, RouterOutlet } from '@angular/router';
 import animateScrollTo from 'animated-scroll-to';
 
@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit {
     "/consumer-app/assets/images/banner_lamp.png"
   ];
 
-  userResponse = { place: [], type: [], category: [], subcategory: [] };
+  userResponse = { place: [], type: [], category: [], subcategory: [], subType: {} };
   response: any;
   breadCrums = [];
   customers: any = [];
