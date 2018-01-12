@@ -9,7 +9,7 @@ export const environment = {
   login: 'http://dev-user-service.us-east-2.elasticbeanstalk.com',
   userService: 'http://dev-user-signup.us-east-2.elasticbeanstalk.com',
   profileInterest: 'http://dev-consumer-profile.us-east-2.elasticbeanstalk.com',
-  productList: 'http://localhost:9086/api/products',
+  productList: 'http://dev-product-service.us-east-2.elasticbeanstalk.com/api/products',
   getOffer: 'http://192.168.169.243:8086/api/products',
   geoCode: 'https://maps.googleapis.com/maps/api/geocode/json',
   apis: apiNames,
