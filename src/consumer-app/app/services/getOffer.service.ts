@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { environment } from '../../environments/environment';
+import { environment } from '../../environments/environment.local';
 
 @Injectable()
 export class GetOfferService {
@@ -14,5 +14,10 @@ export class GetOfferService {
     getExistingLocations() {
         const url = '/consumer-app/assets/zipcode.json';
         return this.http.get(url).map(res => res.json());
+    }
+
+    confirmOffer(step4Modal) {
+        const url: string = `${environment.getOffer}/${environment.apis.getOffers.confirmOffer}`;
+        return this.http.post(url, step4Modal).map(res => res.json());
     }
 }

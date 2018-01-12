@@ -2096,3 +2096,47 @@ input::-webkit-inner-spin-button {
     border-radius: 20px 0px 0px 20px;
     padding: 5px 15px;
 }
+.sidenav_right {
+    height: 100%;
+    width: 380px;
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    right: 0;
+    background-color: #fff;
+    overflow-x: hidden;
+    padding-top: 10px;
+    margin-top: 68px;
+    border-left: 1px solid #E6E6E8;
+}
+.sidenav_right .table td{
+    padding: 1rem;
+}
+.sidenav_right .right {
+    background: #e06263;
+    color: #fff;
+    text-align: center;
+}
+.sidenav_right span{
+    padding-left: 5px;
+}
+.sidenav_right a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 1rem;
+    color: #fff;
+    display: block;
+    transition: 0.3s;
+}
+.sidenav_right .closebtn {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    font-size: 36px;
+    color: #999999;
+}
+.sidenav_right p{
+    padding: 0px !important;
+    margin: 0px;
+    font-size: 13px;
+}

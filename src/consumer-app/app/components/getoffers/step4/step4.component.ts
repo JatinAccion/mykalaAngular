@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Router } from '@angular/router'; 
+import { Router } from '@angular/router';
 import { CoreService } from '../../../services/core.service';
 import { GetOfferModal } from '../../../../../models/getOffer.modal';
+import { GetOfferService } from '../../../services/getOffer.service';
+import { OfferInfo4 } from '../../../../../models/steps.modal';
 
 @Component({
   selector: 'app-step4',
@@ -15,11 +17,13 @@ export class Step4Component implements OnInit {
   Step1Data;
   Step2Data;
   Step3Data;
-  Step4Summary: any;
+  Step4Summary: any; // Contains Selections from Step 1 to Step 4
+  Step4Modal = new OfferInfo4(); // Contains Step 4 Request Modal 
 
   constructor(
     private route: Router,
-    private core: CoreService
+    private core: CoreService,
+    private getOffer: GetOfferService
   ) { }
 
   ngOnInit() {
@@ -47,7 +51,18 @@ export class Step4Component implements OnInit {
   };
 
   next() {
-    console.log("Confirmed:::::::::::::::::")
+    this.Step4Modal.placeName = this.Step4Summary.place.name;
+    this.Step4Modal.categoryName = this.Step4Summary.category.name;
+    this.Step4Modal.subCategoryName = this.Step4Summary.subCategory.name;
+    this.Step4Modal.deliveryMethod = this.Step4Summary.delivery;
+    this.Step4Modal.deliveryLocation = this.Step4Summary.location;
+    this.Step4Modal.price.minPrice = this.Step4Summary.priceRange.minPrice;
+    this.Step4Modal.price.maxPrice = this.Step4Summary.priceRange.maxPrice;
+    this.Step4Modal.typeName = new Array<any>();
+    for (var i = 0; i < this.Step4Summary.type.length; i++) this.Step4Modal.typeName.push(this.Step4Summary.type[i].name);
+    this.getOffer.confirmOffer(this.Step4Modal).subscribe(res => {
+      console.log(res);
+    });
   };
 
 }

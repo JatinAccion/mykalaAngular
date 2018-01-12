@@ -19,3 +19,16 @@ export class OfferInfo3 {
         public instruction: string,
         public location: Array<any>) { }
 }
+export class OfferInfo4 {
+    public placeName: string;
+    public categoryName: string;
+    public subCategoryName: string;
+    public typeName: Array<any>;
+    public deliveryMethod: string;
+    public deliveryLocation: Array<any>;
+    public price = new PriceRange();
+}
+export class PriceRange {
+    public minPrice: number;
+    public maxPrice: number
+}

@@ -27,7 +27,7 @@ export class Step3Component implements OnInit {
   existingLocation = [];
   loaderLocation: boolean = false;
   Step3Modal = new GetOfferModal();
-  Step3SelectedValues = { priceRange: { minPrice: "", maxPrice: "" }, location: [], delivery: "", instruction: "" };
+  Step3SelectedValues = { price: { minPrice: "", maxPrice: "" }, location: [], delivery: "", instruction: "" };
   viewSavedData;
 
   constructor(
@@ -91,8 +91,8 @@ export class Step3Component implements OnInit {
     }
     else {
       this.getOffer_orderInfo = this.formBuilder.group({
-        "minPrice": ['0'],
-        "maxPrice": ['100'],
+        "minPrice": ['123'],
+        "maxPrice": ['10000'],
         "delivery": [''],
         "zipCode": ['', Validators.compose([Validators.pattern(this.zipCodeRegex), Validators.minLength(5), Validators.maxLength(5)])],
         "instruction": ['']
@@ -144,12 +144,12 @@ export class Step3Component implements OnInit {
   next() {
     if (this.getCSC.length == 0) this.getCSC = this.existingLocation;
     this.Step3SelectedValues.location = this.getCSC;
-    this.Step3SelectedValues.priceRange.minPrice = this.getOffer_orderInfo.controls.minPrice.value;
-    this.Step3SelectedValues.priceRange.maxPrice = this.getOffer_orderInfo.controls.maxPrice.value;
+    this.Step3SelectedValues.price.minPrice = this.getOffer_orderInfo.controls.minPrice.value;
+    this.Step3SelectedValues.price.maxPrice = this.getOffer_orderInfo.controls.maxPrice.value;
     this.Step3SelectedValues.delivery = this.getOffer_orderInfo.controls.delivery.value;
     this.Step3SelectedValues.instruction = this.getOffer_orderInfo.controls.instruction.value;
     this.Step3Modal.getoffer_3 = new Array<OfferInfo3>();
-    this.Step3Modal.getoffer_3.push(new OfferInfo3(this.Step3SelectedValues.priceRange, this.Step3SelectedValues.delivery, this.Step3SelectedValues.instruction, this.Step3SelectedValues.location))
+    this.Step3Modal.getoffer_3.push(new OfferInfo3(this.Step3SelectedValues.price, this.Step3SelectedValues.delivery, this.Step3SelectedValues.instruction, this.Step3SelectedValues.location))
     window.localStorage['GetOfferStep_3'] = JSON.stringify(this.Step3Modal.getoffer_3);
     this.route.navigate(['/getoffer', 'step4']);
   };

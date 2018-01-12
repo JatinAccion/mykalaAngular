@@ -46,8 +46,8 @@
               </h5>
               <div class="btn-group float-left">
                 <div ngbDropdown class="d-inline-block">
-                  <a class="btn" id="dropdownBasic1" ngbDropdownToggle>MY LOUNGE</a>
-                  <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                  <a class="btn" id="dropdownBasic1" (click)="opennav()" ngbDropdownToggle>MY LOUNGE</a>
+                  <!-- <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
                     <a class="dropdown-item" href="#">My cart</a>
                     <a class="dropdown-item" href="#">My orders</a>
                     <a class="dropdown-item" href="#">My bids</a>
@@ -56,7 +56,7 @@
                     <a class="dropdown-item" href="#">My commmunity</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" routerLink="/logout">Sign Out</a>
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </li>
@@ -131,8 +131,8 @@
               </h5>
               <div class="btn-group float-left">
                 <div ngbDropdown class="d-inline-block">
-                  <a class="btn" id="dropdownBasic1" ngbDropdownToggle>MY LOUNGE</a>
-                  <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                  <a class="btn" id="dropdownBasic1" (click)="openNav()" ngbDropdownToggle>MY LOUNGE</a>
+                  <!-- <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
                     <a class="dropdown-item" href="#">My cart</a>
                     <a class="dropdown-item" href="#">My orders</a>
                     <a class="dropdown-item" href="#">My bids</a>
@@ -141,7 +141,7 @@
                     <a class="dropdown-item" href="#">My commmunity</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" routerLink="/logout">Sign Out</a>
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </li>
@@ -157,6 +157,76 @@
       </div>
     </div>
   </nav>
+
+  <!--Lounge-->
+  <div id="mySidenav" *ngIf="showLounge" class="sidenav_right">
+    <!--<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>-->
+    <div class="row p-2">
+      <div class="col-sm-2 pr-0">
+        <img src="/consumer-app/assets/images/avatar.jpg" class="img-fluid">
+      </div>
+      <div class="col-sm-10">
+        <p>shelleym</p>
+        <p>smyers@mykala.com</p>
+        <p>139 points</p>
+      </div>
+      <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
+    </div>
+    <table class='table'>
+      <tbody>
+        <tr>
+          <td>
+            <img src="/consumer-app/assets/images/icon_my_cart.png">
+            <span>My cart</span>
+          </td>
+          <td class="right">3</td>
+        </tr>
+        <tr>
+          <td>
+            <img src="/consumer-app/assets/images/icon_my_orders.png">
+            <span>My orders</span>
+          </td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>
+            <img src="/consumer-app/assets/images/icon_my_bids.png">
+            <span>My bids</span>
+          </td>
+          <td class="right">3</td>
+        </tr>
+        <tr>
+          <td>
+            <img src="/consumer-app/assets/images/icon_news_alerts.png">
+            <span>News & Alerts</span>
+          </td>
+          <td class="right">3</td>
+        </tr>
+        <tr>
+          <td>
+            <img src="/consumer-app/assets/images/icon_my_favorites.png">
+            <span>My favorites</span>
+          </td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>
+            <img src="/consumer-app/assets/images/icon_my_community.png">
+            <span>My commmunity</span>
+          </td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>
+            <i class="fa fa-sign-out" aria-hidden="true"></i>
+            <span>Log out</span>
+          </td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!--Lounge-->
 </header>
 <!--Header 1
 <div *ngIf="getHeader == 'header1'" class="clearfix sub_header" style="display:block;">

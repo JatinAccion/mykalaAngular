@@ -55,7 +55,8 @@ export class CoreService {
   }
 
   checkIfLoggedOut() {
-    if (window.localStorage['token'] === undefined) {
+    if (window.localStorage['token'] !== undefined) this.hideUserInfo(false);
+    else {
       this.clearUser();
       this.hideUserInfo(true);
     }

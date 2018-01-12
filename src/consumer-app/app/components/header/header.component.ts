@@ -12,6 +12,7 @@ import { SidebarModule } from 'ng-sidebar';
 export class HeaderComponent implements OnInit {
   getHeader: any;
   firstName: string;
+  showLounge: boolean = false;
 
   constructor(private router: Router, private core: CoreService) { }
 
@@ -31,5 +32,13 @@ export class HeaderComponent implements OnInit {
           else return;
         }
       });
+  }
+
+  openNav() {
+    this.showLounge = true;
+  }
+
+  closeNav() {
+    this.showLounge = false;
   }
 }
