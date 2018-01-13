@@ -19,7 +19,6 @@ export class HeaderComponent implements OnInit {
   constructor(private router: Router, private core: CoreService) { }
 
   ngOnInit() {
-    this.showLounge = false;
     this.router.events
       .subscribe(() => {
         var root = this.router.routerState.snapshot.root;
