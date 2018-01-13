@@ -51,13 +51,18 @@ export class HomeComponent implements OnInit {
   onWindowScroll() {
     var header = document.getElementsByClassName("header_sub")[0];
     var searchBox = document.getElementsByClassName("searchBox")[0];
+    var logoContainer = document.getElementsByClassName("logo")[0];
     if (window.pageYOffset > 600) {
       header.classList.add("header_Scroll");
       searchBox.classList.remove("invisible");
+      logoContainer.classList.remove("d-none");
+      logoContainer.nextElementSibling.classList.add("d-none");
     }
     else {
       searchBox.classList.add("invisible");
       header.classList.remove("header_Scroll");
+      logoContainer.classList.add("d-none");
+      logoContainer.nextElementSibling.classList.remove("d-none");
     }
   }
 
@@ -66,8 +71,13 @@ export class HomeComponent implements OnInit {
     setTimeout(function () {
       var header = document.getElementsByClassName("header_sub")[0];
       var searchBox = document.getElementsByClassName("searchBox")[0];
+      var logoContainer = document.getElementsByClassName("logo")[0];
       searchBox.classList.add("invisible");
       if (header.classList.contains("header_Scroll")) header.classList.remove("header_Scroll");
+      if (!logoContainer.classList.contains("d-none")) {
+        logoContainer.classList.add("d-none");
+        logoContainer.nextElementSibling.classList.remove("d-none");
+      }
     }, 100);
     this.core.checkIfLoggedOut(); /*** If User Logged Out*/
     localStorage.removeItem('GetOfferStep_1');

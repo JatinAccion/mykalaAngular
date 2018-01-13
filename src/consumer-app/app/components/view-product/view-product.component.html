@@ -98,10 +98,13 @@
             Next Monday
           </div>
         </div>
-        <div class="col-sm-12 pl-4 pt-3">{{selectedProduct.product.quantity}} in stock</div>
+        <div class="col-sm-12 pl-4 pt-3">
+          <input type="number" [(ngModel)]="quantity" placeholder="Quantity" /> {{selectedProduct.product.quantity}} in stock
+        </div>
+        <br />
         <br />
         <div class="col-sm-12 p-2 pl-4 pr-4">
-          <input class="btn btn_red_right w-100" type="button" value="buy now" />
+          <input class="btn btn_red_right w-100" type="button" (click)="addToCart()" value="buy now" />
         </div>
         <div class="col-sm-12">
           <div class="row p-2">

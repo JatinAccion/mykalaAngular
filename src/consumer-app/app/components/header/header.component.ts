@@ -12,11 +12,14 @@ import { SidebarModule } from 'ng-sidebar';
 export class HeaderComponent implements OnInit {
   getHeader: any;
   firstName: string;
+  lastName: string;
+  emailId: string;
   showLounge: boolean = false;
 
   constructor(private router: Router, private core: CoreService) { }
 
   ngOnInit() {
+    this.showLounge = false;
     this.router.events
       .subscribe(() => {
         var root = this.router.routerState.snapshot.root;
@@ -26,6 +29,8 @@ export class HeaderComponent implements OnInit {
             this.getHeader = root.data["header"];
             if (window.localStorage['userInfo'] != undefined) {
               this.firstName = JSON.parse(window.localStorage['userInfo']).firstName;
+              this.lastName = JSON.parse(window.localStorage['userInfo']).lastName;
+              this.emailId = JSON.parse(window.localStorage['userInfo']).email;
             }
             return;
           }
