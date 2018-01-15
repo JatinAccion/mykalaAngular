@@ -40,7 +40,12 @@ export class MycartComponent implements OnInit {
       if (window.localStorage['addedInCart'] != undefined) {
         newItem = JSON.parse(window.localStorage['addedInCart']);
         for (var i = 0; i < this.itemsInCart.length; i++) {
-          if (newItem.productId == this.itemsInCart[i].productId) alert("Item already exists in your cart");
+          if (newItem.productId == this.itemsInCart[i].productId) {
+            this.itemsInCart[i].quantity = eval(`${this.itemsInCart[i].quantity + newItem.quantity}`)
+            isThere = true;
+            window.localStorage['existingItemsInCart'] = JSON.stringify(this.itemsInCart);
+            alert("Item updated in your cart");
+          }
           else isThere = false;
         }
       }

@@ -62,10 +62,13 @@
             </li>
             <!--Logged In User-->
             <li>
-              <span class="float-left">
-                <img src="/consumer-app/assets/images/icon_cart.png" />
-              </span>
-              <h4>CART</h4>
+              <a class="anc_Cart" routerLink="/mycart">
+                <span class="cartNotify" *ngIf="core.showNoOfItemsInCart()">{{core.noOfItemsInCart}}</span>
+                <span class="float-left">
+                  <img src="/consumer-app/assets/images/icon_cart.png">
+                </span>
+                <h4>CART</h4>
+              </a>
             </li>
           </ul>
         </div>
@@ -159,10 +162,13 @@
             </li>
             <!--Logged In User-->
             <li>
-              <span class="float-left">
-                <img src="/consumer-app/assets/images/icon_cart.png" />
-              </span>
-              <h4>CART</h4>
+              <a class="anc_Cart" routerLink="/mycart">
+                <span class="cartNotify" *ngIf="core.showNoOfItemsInCart()">{{core.noOfItemsInCart}}</span>
+                <span class="float-left">
+                  <img src="/consumer-app/assets/images/icon_cart.png">
+                </span>
+                <h4>CART</h4>
+              </a>
             </li>
           </ul>
         </div>
@@ -186,11 +192,18 @@
     <table class='table'>
       <tbody>
         <tr>
+          <td routerLink="/myorder">
+            <img src="/consumer-app/assets/images/icon_my_orders.png">
+            <span>My Account</span>
+          </td>
+          <td></td>
+        </tr>
+        <tr>
           <td routerLink="/mycart">
             <img src="/consumer-app/assets/images/icon_my_cart.png">
             <span>My Cart</span>
           </td>
-          <td class="right">3</td>
+          <td class="right" *ngIf="core.showNoOfItemsInCart()">{{core.noOfItemsInCart}}</td>
         </tr>
         <tr>
           <td routerLink="/myorder">
@@ -200,23 +213,15 @@
           <td></td>
         </tr>
         <tr>
-          <td routerLink="/new-alerts">
+          <td routerLink="/myoffer">
             <img src="/consumer-app/assets/images/icon_news_alerts.png">
-            <span>News & Alerts</span>
+            <span>My Offers</span>
           </td>
-          <td class="right">3</td>
         </tr>
         <tr>
-          <td routerLink="/favourite">
+          <td routerLink="/new-alerts">
             <img src="/consumer-app/assets/images/icon_my_favorites.png">
-            <span>My Favorites</span>
-          </td>
-          <td></td>
-        </tr>
-        <tr>
-          <td routerLink="/mycommunity">
-            <img src="/consumer-app/assets/images/icon_my_community.png">
-            <span>My Commmunity</span>
+            <span>New & Alerts</span>
           </td>
           <td></td>
         </tr>

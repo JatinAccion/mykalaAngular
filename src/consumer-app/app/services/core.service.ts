@@ -13,6 +13,7 @@ export class CoreService {
   user: User;
   pageMsg: string;
   showPageMsg: boolean = false;
+  noOfItemsInCart: boolean = false;
   constructor(private http: Http) { }
 
   hide() { this.navVisible = false; }
@@ -72,6 +73,14 @@ export class CoreService {
       logoContainer.classList.remove("d-none");
       logoContainer.nextElementSibling.classList.add("d-none");
     }, 100);
+  }
+
+  showNoOfItemsInCart() {
+    if (window.localStorage['existingItemsInCart'] != undefined) {
+      this.noOfItemsInCart = JSON.parse(window.localStorage['existingItemsInCart']).length;
+      return true;
+    }
+    else return false;
   }
 
 }

@@ -62,6 +62,10 @@ export class Step4Component implements OnInit {
     for (var i = 0; i < this.Step4Summary.type.length; i++) this.Step4Modal.typeName.push(this.Step4Summary.type[i].name);
     this.getOffer.confirmOffer(this.Step4Modal).subscribe(res => {
       console.log(res);
+      localStorage.removeItem("GetOfferStep_1");
+      localStorage.removeItem("GetOfferStep_3");
+      window.localStorage['getOffers'] = JSON.stringify(res);
+      this.route.navigateByUrl("/browse-product")
     });
   };
 
