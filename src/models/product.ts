@@ -29,6 +29,7 @@ export class Product {
     public productSubCategory: ProductSubCategory;
     public productType: ProductType;
     public isCollapsed: boolean | null = true;
+    public mainImage: ProductImage;
     constructor(obj?: any) {
         if (obj) {
             this.retailerId = obj.retailerId;
@@ -50,6 +51,10 @@ export class Product {
             this.productActivatedDate = obj.productActivatedDate;
             this.createdDate = obj.createdDate;
             this.productImages = obj.productImages ? obj.productImages.map(p => new ProductImage(p)) : new Array<ProductImage>();
+            this.mainImage = this.productImages[0]; // .filter(p => p.mainImage === true)[0];
+            if (!this.mainImage) {
+                delete this.mainImage;
+            }
         }
     }
 }

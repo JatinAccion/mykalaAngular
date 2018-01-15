@@ -12,6 +12,10 @@ export class HeaderComponent implements OnInit {
   constructor(private core: CoreService) { }
 
   ngOnInit() {
+    if (window.localStorage['userInfo']) {
+      const usr = JSON.parse(window.localStorage['userInfo']);
+      this.core.setUser(usr);
+    }
   }
 
 }

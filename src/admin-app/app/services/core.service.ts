@@ -31,6 +31,8 @@ export class CoreService {
 
   toggleSpinner() { this.spinnerVisible = !this.spinnerVisible; }
 
+  showLogout() { return this.user !== null; }
+
   setUser(usr: User) {
     this.user = usr;
     this.show();
@@ -38,6 +40,9 @@ export class CoreService {
   clearUser() {
     this.user = null;
     this.hide();
+  }
+  getUser() {
+    return this.user;
   }
 
   showDialog(alert: Alert): Promise<any> {

@@ -23,7 +23,7 @@ export class RetailerProfileInfo {
             this.retailerId = obj.retailerId;
             this.businessName = obj.businessName;
             if (obj.businessLogoPath) {
-                this.businessLogoPath = environment.s3 + + obj.businessLogoPath;
+                this.businessLogoPath = environment.s3 + obj.businessLogoPath;
             } else {
                 delete this.businessLogoPath;
             }

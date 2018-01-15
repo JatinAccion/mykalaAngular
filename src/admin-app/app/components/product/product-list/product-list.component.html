@@ -46,7 +46,9 @@
                 </select>
             </li>
             <li>
-                <a class="btn btn-default" (click)="getPage(1)"><i class="fa fa-search"></i></a>
+                <a class="btn btn-default" (click)="getPage(1)">
+                    <i class="fa fa-search"></i>
+                </a>
                 <a class="btn btn-default" routerLink="/product-add" routerLinkActive="retailer-add">+ Add a product</a>
             </li>
         </ul>
@@ -88,9 +90,8 @@
                 </td>
                 <td>{{product.brandName}}</td>
                 <td>
-
-                    <img src="{{product.productImages[0].imageUrl}}" *ngIf="product.productImages.length>0" width="40">
-                    <img src="/admin-app/assets/images/lamp1.png" *ngIf="product.productImages.length==0" width="40">
+                    <img src="{{product.mainImage.imageUrl}}" *ngIf="product.mainImage" width="40">
+                    <i class="fa fa-picture-o defaultUser py-2" *ngIf="!product.mainImage" width="40"></i>
                 </td>
                 <td>{{product.kalaUniqueId}}</td>
                 <td>${{product.kalaPrice}}</td>

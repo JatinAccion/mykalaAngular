@@ -50,51 +50,50 @@ export class LoginComponent implements OnInit {
       });
     }
   }
-  onLogin(): void {
-    this.core.message.success('Logged in successfully!');
+  // onLogin(): void {
+  //   this.core.message.success('Logged in successfully!');
+  //   this.loader = true;
+  //   this.user = new User(this.loginKala.value.email, this.loginKala.value.email, this.loginKala.value.password);
+  //   this.auth.login(this.user)
+  //     .then((res) => {
+  //       const resJson = res.json();
+  //       this.localStorageService.setItem('token', `${resJson.token_type} ${resJson.access_token}`, resJson.expires_in);
+  //       this.core.show();
+  //       this.processRemeberme();
+  //       this.loader = false;
+  //       this.router.navigateByUrl('/retailer-list');
+  //     })
+  //     .catch((err) => {
+  //       this.loader = false;
+  //       this.loginError = true;
+  //       console.log(err);
+  //     });
+  // }
+  onLogin() {
+    this.loginError = false;
     this.loader = true;
-    this.user = new User(this.loginKala.value.email, this.loginKala.value.email, this.loginKala.value.password);
-    this.auth.login(this.user)
-      .then((res) => {
-        const resJson = res.json();
-        this.localStorageService.setItem('token', `${resJson.token_type} ${resJson.access_token}`, resJson.expires_in);
-        this.core.show();
-        this.processRemeberme();
+    this.user = new User(this.loginKala.controls.email.value, this.loginKala.controls.email.value, this.loginKala.controls.password.value)
+    this.credentialModal.email = this.loginKala.controls.email.value;
+    this.credentialModal.password = window.btoa(this.loginKala.controls.password.value);
+    this.credentialModal.remember = this.loginKala.controls.remember.value;
+    this.auth.login(this.user).then((res) => {
+      this.processRemeberme();
+      const resJson = res.json();
+      this.localStorageService.setItem('token', `${resJson.token_type} ${resJson.access_token}`, resJson.expires_in);
+      this.auth.getUserInfo(resJson.access_token).subscribe(usr => {
         this.loader = false;
+        window.localStorage['userInfo'] = JSON.stringify(usr);
+        this.core.setUser(usr);
         this.router.navigateByUrl('/retailer-list');
-      })
-      .catch((err) => {
-        this.loader = false;
-        this.loginError = true;
+      }, err => {
         console.log(err);
       });
+    }).catch((err) => {
+      this.loader = false;
+      this.loginError = true;
+      console.log(err);
+    });
   }
-  // onLogin() {
-  //   this.loginError = false;
-  //   this.loader = true;
-  //   this.user = new User(this.loginKala.controls.email.value, this.loginKala.controls.email.value, this.loginKala.controls.password.value)
-  //   this.credentialModal.email = this.loginKala.controls.email.value;
-  //   this.credentialModal.password = window.btoa(this.loginKala.controls.password.value);
-  //   this.credentialModal.remember = this.loginKala.controls.remember.value;
-  //   this.auth.login(this.user).then((res) => {
-  //     this.processRemeberme();
-  //     const resJson = res.json();
-  //     this.localStorageService.setItem('token', `${resJson.token_type} ${resJson.access_token}`, resJson.expires_in);
-  //     // this.auth.getUserInfo(resJson.access_token).subscribe(usr => {
-  //     //   this.loader = false;
-  //     //   window.localStorage['userInfo'] = JSON.stringify(usr);
-  //     //   this.core.setUser(usr);
-  //     //   this.router.navigateByUrl('/retailer-list');
-  //     // }, err => {
-  //     //   console.log(err);
-  //     // });
-  //     this.router.navigateByUrl('/retailer-list');
-  //   }).catch((err) => {
-  //     this.loader = false;
-  //     this.loginError = true;
-  //     console.log(err);
-  //   });
-  // }
   processRemeberme() {
     this.credentialModal.email = this.loginKala.controls.email.value;
     this.credentialModal.password = window.btoa(this.loginKala.controls.password.value);

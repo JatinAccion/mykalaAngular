@@ -1,0 +1,33 @@
+img.showDummy {  
+    /* font-family: 'Helvetica';
+    font-weight: 300;
+    line-height: 2;  
+    text-align: center;
+  
+    width: 100%;
+    height: auto;
+    display: block; */
+    position: relative;
+  }
+  
+  img.showDummy:before {  
+    content: "\f1c5";
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+
+img.showDummy:after {  
+    content: "\f03e" " "; /*attr(alt);*/
+
+    font-size: 3em;
+    font-family: FontAwesome;
+    color: #999;
+    
+    display: block;
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    background-color: #fff;      
+  }
