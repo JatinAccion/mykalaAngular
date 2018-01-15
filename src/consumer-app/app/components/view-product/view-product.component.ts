@@ -33,14 +33,15 @@ export class ViewProductComponent implements OnInit {
     }, 1000);
   }
 
-  addToCart() {
+  addToCart(to) {
     this.addToCartModal.retailerId = this.selectedProduct.product.retailerId;
     this.addToCartModal.retailerName = this.selectedProduct.retailerName;
     this.addToCartModal.productId = this.selectedProduct.product.kalaUniqueId;
     this.addToCartModal.productName = this.selectedProduct.product.productName;
     this.addToCartModal.price = this.selectedProduct.product.kalaPrice;
     this.addToCartModal.quantity = this.quantity;
-    window.localStorage['addedInCart'] = JSON.stringify(this.addToCartModal);
+    if (to === 'toCart') window.localStorage['addedInCart'] = JSON.stringify(this.addToCartModal);
+    else window.localStorage['savedForLater'] = JSON.stringify(this.addToCartModal);
     this.route.navigateByUrl('/mycart');
   }
 

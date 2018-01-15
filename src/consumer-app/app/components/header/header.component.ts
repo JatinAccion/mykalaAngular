@@ -38,11 +38,11 @@ export class HeaderComponent implements OnInit {
       });
   }
 
-  openNav() {
-    this.showLounge = true;
-  }
+  // openNav() {
+  //   this.showLounge = true;
+  // }
 
-  closeNav() {
-    this.showLounge = false;
-  }
+  // closeNav() {
+  //   this.showLounge = false;
+  // }
 }

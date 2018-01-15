@@ -940,6 +940,7 @@ ul.prd_Soc_icon li{
 .join_layout{  
     background:#fff;
     margin-top:20px;
+    margin-bottom: 80px;
 }
 .join_content{
     width:320px;
@@ -2147,5 +2148,18 @@ input::-webkit-inner-spin-button {
 .sidenav_right p{
     padding: 0px !important;
     margin: 0px;
+    font-size: 13px;
+}
+.dropdown-menu {
+    top: 35px !important;
+    width: 400px;
+    left: -22px !important;
+}
+.dropdown-menu table tr td{
+    padding: 1rem;
+    width: 100%;
+}
+.dropdown-menu p{
+    margin-bottom: 12px;
     font-size: 13px;
 }

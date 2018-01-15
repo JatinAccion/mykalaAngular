@@ -104,14 +104,15 @@
         <br />
         <br />
         <div class="col-sm-12 p-2 pl-4 pr-4">
-          <input class="btn btn_red_right w-100" type="button" (click)="addToCart()" value="buy now" />
+          <input class="btn btn_red_right w-100" type="button" [disabled]="!quantity" (click)="addToCart('toCart')" value="accept" />
         </div>
         <div class="col-sm-12">
           <div class="row p-2">
             <div class="col-sm-6">
-              <input class="btn w-100 btn_redouter_right" type="button" value="get offers" /> </div>
+              <input class="btn w-100 btn_redouter_right" routerLink="/browse-product" type="button" value="decline" />
+            </div>
             <div class="col-sm-6">
-              <input class="btn w-100 btn_redouter_right" type="button" value="make a bid" />
+              <input class="btn w-100 btn_redouter_right" type="button" [disabled]="!quantity" (click)="addToCart('toWishlist')" value="save for later" />
             </div>
           </div>
         </div>
@@ -123,6 +124,7 @@
   <!--Description-->
   <div class="row">
     <h4 class="subtitle">Description</h4>
+    <br />
     <p>{{selectedProduct.product.productDescription}}</p>
   </div>
   <!--Description-->
@@ -146,6 +148,7 @@
   <!--Return Policy-->
   <div class="row">
     <h4 class="subtitle">Returns and exchange policy</h4>
+    <br />
     <p>{{selectedProduct.product.retailerReturns}}</p>
   </div>
   <!--Return Policy-->

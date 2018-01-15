@@ -2,6 +2,7 @@
   <app-sub-menus></app-sub-menus>
   <div style="height:135px;width:100%;"></div>
 
+  <!--Cart-->
   <div class="myCart">
     <div class="myCart-list" *ngFor="let item of itemsInCart">
       <h4 class="subtitle" id="{{item.retailerId}}">{{item.retailerName}}</h4>
@@ -25,11 +26,11 @@
         <div class="col-sm-3">
           <p>&nbsp;</p>
           <p class="row">
-            <a class="btn-outer btn_redouter_right" (click)="deleteItem(item)">delete</a>
+            <a class="btn-outer btn_redouter_right" (click)="deleteItem(item, 'cart')">delete</a>
           </p>
           <p>&nbsp;</p>
           <p class="row">
-            <a class="btn-outer btn_redouter_right" (click)="saveForLater(item)">save for later</a>
+            <a class="btn-outer btn_redouter_right" (click)="move(item, 'toWishlist')">save for later</a>
           </p>
         </div>
       </div>
@@ -73,10 +74,72 @@
 
     <div class="myCart-list" *ngIf="cartEmpty">
       <div class="col-sm-12 p-3 text-center colorred">
-        Your Cart is empty.
+        Your cart is empty.
         <u routerLink="/home">Click here to coninue shopping.</u>
       </div>
     </div>
   </div>
+  <!--Cart-->
+
+  <div class="row">&nbsp;</div>
+
+  <!--Saved For Later-->
+  <div class="myCart" *ngIf="savedForLater.length > 0">
+    <h4 class="subtitle">Saved for later</h4>
+
+    <div class="myCart-list" *ngFor="let item of savedForLater">
+      <h4 class="subtitle" id="{{item.retailerId}}">{{item.retailerName}}</h4>
+      <div class="row">
+        <div class="col-sm-2">
+          <img src="/consumer-app/assets/images/catg-1.png" class="img-fluid" />
+        </div>
+        <div class="col-sm-7">
+          <p id="{{item.productId}}">
+            <strong>{{item.productName}}</strong>
+          </p>
+          <div class="row">
+            <p class="col-sm-3 colorlightGray">Quantity:</p>
+            <p class="col-sm-9">{{item.quantity}}</p>
+          </div>
+          <div class="row">
+            <p class="col-sm-3 colorlightGray">Price:</p>
+            <p class="col-sm-9">${{item.price}}</p>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <p>&nbsp;</p>
+          <p class="row">
+            <a class="btn-outer btn_redouter_right" (click)="deleteItem(item, 'wishlist')">delete</a>
+          </p>
+          <p>&nbsp;</p>
+          <p class="row">
+            <a class="btn-outer btn_redouter_right" (click)="move(item, 'toCart')">move to cart</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10">
+          <hr />
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10">
+          <div class="row">
+            <p class="col-sm-2 colorred">Total price:</p>
+            <p class="col-sm-10 colorred">
+              $
+              <strong>{{itemTotal(item.price, item.quantity)}}</strong>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="row">&nbsp;</div>
+    </div>
+  </div>
+  <!--Saved For Later-->
 
 </div>
