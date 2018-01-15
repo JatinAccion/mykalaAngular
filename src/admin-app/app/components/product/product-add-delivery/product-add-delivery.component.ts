@@ -28,8 +28,8 @@ export class ProductAddDeliveryComponent implements OnInit {
   fG1 = new FormGroup({});
   step = 1;
   errorMsgs = inputValidations;
-  saveLoader = true;
-  getDataloader = true;
+  saveLoader = false;
+  getDataloader = false;
   // #endregion declaration
   constructor(
     private formBuilder: FormBuilder,
@@ -39,7 +39,7 @@ export class ProductAddDeliveryComponent implements OnInit {
   }
   ngOnInit() {
     this.setFormValidators();
-    this.getDataloader = true;
+    this.getDataloader = false;
     this.productService.getShippingProfiles(this.product.retailerId).subscribe(res => {
       this.shippingProfiles = res;
       this.getDataloader = false;
@@ -58,12 +58,12 @@ export class ProductAddDeliveryComponent implements OnInit {
   saveData() {
     this.readForm();
     this.validatorExt.validateAllFormFields(this.fG1);
-    if (!this.fG1.valid) {
-    } else {
+    // if (!this.fG1.valid) {
+   // } else {
       this.saveLoader = true;
       this.productChange.emit(this.product);
       this.SaveData.emit('tab-delivery');
-    }
+    // }
     return false;
   }
 

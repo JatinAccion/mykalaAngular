@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http, Response } from '@angular/http';
+import { Headers, Http, Response, RequestMethod } from '@angular/http';
 import { environment } from './../../../environments/environment';
 import { Observable } from 'rxjs/Observable';
 import { LocalStorageService } from '../../services/LocalStorage.service';
@@ -50,7 +50,14 @@ export class RetialerService {
     this.returnData.next(new RetailerReturnPolicy());
     this.notificationData.next(new RetailerNotification());
   }
-
+  loadRetailer(retailerId: number) {
+    this.profileInfoGet(retailerId).subscribe(p => p);
+    this.paymentInfoGet(retailerId).subscribe(p => p);
+    this.productGet(retailerId).subscribe(p => p);
+    this.shippingProfileGet(retailerId).subscribe(p => p);
+    this.returnPolicyGet(retailerId).subscribe(p => p);
+    this.notificationGet(retailerId).subscribe(p => p);
+  }
   getHttpHeraders() {
     const token = this.localStorageService.getItem('token');
     const headers = new Headers({
@@ -99,43 +106,30 @@ export class RetialerService {
         .map(res => {
           if (res.text() == '') {
             return this.profileDataObj;
-          } else { return new RetailerProfileInfo(res.json()); }
+          } else {
+            this.profileData.next(new RetailerProfileInfo(res.json()));
+            return new RetailerProfileInfo(res.json());
+          }
         })
-        .do(p => this.profileData.next(new RetailerProfileInfo(p)))
         .catch(this.handleError);
     }
   }
   profileInfoSave(retailerProfileInfo: RetailerProfileInfo): Observable<RetailerProfileInfo> {
     this.headers = this.getHttpHeraders();
     const url = `${this.BASE_URL}/${environment.apis.retailerProfileInfo.save}`;
+    const requestOptions = { body: retailerProfileInfo, method: RequestMethod.Post, headers: this.headers };
     if (retailerProfileInfo.retailerId) {
-      return this.http
-        .put(url, retailerProfileInfo, { headers: this.headers })
-        .map(res => {
-          if (res.text() == '') {
-            return this.profileDataObj;
-          } else {
-            this.profileDataObj.status = true;
-            return new RetailerProfileInfo(this.profileDataObj);
-          }
-        })
-        .do(p => this.profileData.next(p))
-        .catch(this.handleError);
-    } else {
-      return this.http
-        .post(url, retailerProfileInfo, { headers: this.headers })
-        .map(res => {
-          if (res.text() == '') {
-            return this.profileDataObj;
-          } else {
-            retailerProfileInfo.retailerId = res.json();
-            retailerProfileInfo.status = true;
-            return new RetailerProfileInfo(retailerProfileInfo);
-          }
-        })
-        .do(p => this.profileData.next(p))
-        .catch(this.handleError);
+      requestOptions.method = RequestMethod.Put;
     }
+    return this.http.request(url, requestOptions)
+      .map(res => {
+        if (res.text() !== '') {
+          retailerProfileInfo.retailerId = res.json();
+          retailerProfileInfo.status = true;
+          this.profileData.next(retailerProfileInfo);
+          return new RetailerProfileInfo(retailerProfileInfo);
+        }
+      }).catch(this.handleError);
   }
   getSellerTypes(): Observable<nameValue[]> {
     this.headers = this.getHttpHeraders();
@@ -157,39 +151,30 @@ export class RetialerService {
         .map(res => {
           if (res.text() == '') {
             return this.paymentDataObj;
-          } else { return new RetailerPaymentInfo(res.json()); }
+          } else {
+            this.paymentData.next(new RetailerPaymentInfo(res.json()));
+            return new RetailerPaymentInfo(res.json());
+          }
         })
-        .do(p => this.paymentData.next(p))
         .catch(this.handleError);
     }
   }
   paymentInfoSave(paymentInfo: RetailerPaymentInfo): Observable<RetailerPaymentInfo> {
     this.headers = this.getHttpHeraders();
     const url = `${this.BASE_URL}/${environment.apis.retailerPaymentInfo.save}`;
+    const requestOptions = { body: paymentInfo, method: RequestMethod.Post, headers: this.headers };
     if (paymentInfo.bankId) {
-      return this.http
-        .put(url, paymentInfo, { headers: this.headers })
-        .do(p => {
-          this.paymentData.next(paymentInfo);
-        })
-        .map(p => p.json())
-        .catch(this.handleError);
-    } else {
-      return this.http
-        .post(url, paymentInfo, { headers: this.headers })
-        .do(p => {
-          this.paymentData.next(paymentInfo);
-        })
-        .map(res => {
-          if (res.text() == '') {
-            return this.profileDataObj;
-          } else {
-            paymentInfo.bankId = res.json();
-            return new RetailerPaymentInfo(paymentInfo);
-          }
-        })
-        .catch(this.handleError);
+      requestOptions.method = RequestMethod.Put;
     }
+    return this.http.request(url, requestOptions)
+      .map(res => {
+        if (res.text() !== '') {
+          paymentInfo.bankId = res.json();
+          paymentInfo.status = true;
+          this.paymentData.next(paymentInfo);
+          return new RetailerPaymentInfo(paymentInfo);
+        }
+      }).catch(this.handleError);
   }
 
   public getPaymentMethods(): Observable<nameValue[]> {
@@ -234,40 +219,34 @@ export class RetialerService {
       return Observable.of(this.notificationDataObj);
     } else {
       const url = `${this.BASE_URL}/${environment.apis.retailerShippingNotification.get}`.replace('{retailerId}', retailerId.toString());
-
       return this.http
         .get(`${url}`, { headers: this.headers })
         .map(res => {
           if (res.text() == '') {
             return this.notificationDataObj;
-          } else { return new RetailerNotification(res.json()); }
+          } else {
+            this.notificationData.next(new RetailerNotification(res.json()));
+            return new RetailerNotification(res.json());
+          }
         })
-        .do(p => this.notificationData.next(new RetailerNotification(p)))
-        .map(p => this.notificationDataObj)
         .catch(this.handleError);
     }
   }
   saveNotifications(notification: RetailerNotification): Observable<any> {
     this.headers = this.getHttpHeraders();
     const url = `${this.BASE_URL}/${environment.apis.retailerShippingNotification.save}`;
+    const requestOptions = { body: notification, method: RequestMethod.Post, headers: this.headers };
     if (notification.notificationId) {
-      return this.http
-        .put(url, notification, { headers: this.headers })
-        .do(p => {
-          this.notificationData.next(notification);
-        })
-        .map(p => p.json())
-        .catch(this.handleError);
-    } else {
-      return this.http
-        .post(url, notification, { headers: this.headers })
-        .do(p => {
-          notification.notificationId = p.json();
-          this.notificationData.next(notification);
-        })
-        .map(p => p.json())
-        .catch(this.handleError);
+      requestOptions.method = RequestMethod.Put;
     }
+    return this.http.request(url, requestOptions)
+      .map(res => {
+        if (res.text() !== '') {
+          notification.notificationId = res.json();
+          this.notificationData.next(notification);
+          return new RetailerNotification(notification);
+        }
+      }).catch(this.handleError);
   }
   returnPolicyGet(retailerId: number): Observable<RetailerReturnPolicy> {
 
@@ -278,57 +257,49 @@ export class RetialerService {
       return this.http
         .get(`${url}`, { headers: this.headers })
         .map(res => {
-          if (res.text() == '') {
-            return this.returnDataObj;
-          } else {
+          if (res.text() == '') { return this.returnDataObj; } else {
+            this.returnData.next(new RetailerReturnPolicy(res.json()));
             return new RetailerReturnPolicy(res.json());
           }
         })
-        .do(p => this.returnData.next(p))
         .catch(this.handleError);
     }
   }
   saveReturnPolicy(returnPolicy: RetailerReturnPolicy): Observable<any> {
     this.headers = this.getHttpHeraders();
     const url = `${this.BASE_URL}/${environment.apis.retailerShippingReturnPolicy.save}`;
+    const requestOptions = { body: returnPolicy, method: RequestMethod.Post, headers: this.headers };
     if (returnPolicy.returnId) {
-      return this.http
-        .put(url, returnPolicy, { headers: this.headers })
-        .do(p => {
-          this.returnData.next(returnPolicy);
-        })
-        .map(p => p.json())
-        .catch(this.handleError);
-    } else {
-      return this.http
-        .post(url, returnPolicy, { headers: this.headers })
-        .do(p => {
-          this.returnData.next(returnPolicy);
-        })
-        .map(p => p.json())
-        .catch(this.handleError);
+      requestOptions.method = RequestMethod.Put;
     }
+    return this.http.request(url, requestOptions)
+      .map(res => {
+        if (res.text() !== '') {
+          returnPolicy.returnId = res.json();
+          this.returnData.next(returnPolicy);
+          return new RetailerReturnPolicy(returnPolicy);
+        }
+      }).catch(this.handleError);
   }
   productGet(retailerId: number): Observable<any> {
-
     const url = `${this.BASE_URL}/${environment.apis.retailerProduct.get}`.replace('{retailerId}', retailerId.toString());
     return this.http
       .get(`${url}`, { headers: this.headers })
       .map(res => res.json())
-      .do(p => this.returnData.next(p))
+      .do(p => { p.status = true; this.productData.next(p); })
       .catch(this.handleError);
   }
 
-  saveProduct(obj: any) {
+  saveProduct(obj: RetailerProductInfo) {
     this.headers = this.getHttpHeraders();
     const url = `${this.BASE_URL}/${environment.apis.retailerProduct.save}`;
-
     return this.http
       .post(url, obj, { headers: this.headers })
-      .do(p => {
-        this.returnData.next(obj);
+      .map(p => {
+        obj.status = true;
+        this.productData.next(obj);
+        return new RetailerProductInfo(obj);
       })
-      .map(p => p.json())
       .catch(this.handleError);
 
   }

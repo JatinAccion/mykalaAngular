@@ -52,12 +52,11 @@ export class RetailerAddProfileComponent implements OnInit {
   }
   ngOnInit() {
     this.getContactsNames();
+    this.profileInfoObj = new RetailerProfileInfo();
+    this.setFormValidators();
     this.getProfileInfoDropdowndata();
     if (this.retailerId) {
       this.getProfileInfo(this.retailerId);
-    } else {
-      this.profileInfoObj = new RetailerProfileInfo();
-      this.setFormValidators();
     }
   }
 
@@ -205,6 +204,9 @@ export class RetailerAddProfileComponent implements OnInit {
     } else if (!this.profileFG2.valid) {
       this.profileInfoNext();
     } else {
+      if (!this.retailerId) {
+        this.profileInfoObj.status = true;
+      }
       this.profileSaveloader = true;
       this.retialerService
         .profileInfoSave(this.profileInfoObj)

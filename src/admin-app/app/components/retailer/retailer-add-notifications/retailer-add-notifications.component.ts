@@ -51,9 +51,6 @@ export class RetailerAddNotificationsComponent implements OnInit {
     this.setFormValidators();
     if (this.retailerId) {
       this.getData(this.retailerId);
-    // } else {
-    //   this.Obj = new RetailerNotification();
-    //   this.setFormValidators();
     }
   }
 
@@ -84,7 +81,7 @@ export class RetailerAddNotificationsComponent implements OnInit {
 
 
   readForm() {
-    this.Obj = new RetailerNotification();
+    this.Obj = this.Obj || new RetailerNotification();
     this.Obj.retailerId = this.retailerId;
     this.Obj.orderEmail = this.fG1.value.orderEmail;
     this.Obj.shipEmail = this.fG1.value.shipEmail;

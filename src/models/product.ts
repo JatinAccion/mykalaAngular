@@ -17,6 +17,7 @@ export class Product {
     public productTypeName: string;
     public retailPrice: number;
     public kalaPrice: number;
+    public lowestPrice: number;
     public quantity: number;
     public shipProfileId: number;
     public productStatus: boolean | null = true;

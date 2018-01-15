@@ -58,13 +58,18 @@ export class RetailerAddComponent implements OnInit {
   }
   ngOnInit() {
     this.retialerService.reset();
-    this.setActiveTab({ nextId: 'tab-Profile' });
-    this.retialerService.profileData.subscribe(p => this.status.Profile = p.status);
+    this.retialerService.profileData.subscribe(p =>
+      this.status.Profile = p.retailerId ? true : false
+    );
     this.retialerService.paymentData.subscribe(p => this.status.Payment = p.bankId ? true : false);
-    this.retialerService.productData.subscribe(p => this.status.Product = p.retailerId ? true : false);
-    this.retialerService.shippingsData.subscribe(p => this.status.Shipping = p[0].retailerId ? true : false);
+    this.retialerService.productData.subscribe(p => this.status.Product = p.status);
+    // this.retialerService.shippingsData.subscribe(p => this.status.Shipping = p[0].retailerId ? true : false);
     this.retialerService.returnData.subscribe(p => this.status.Return = p.returnId ? true : false);
     this.retialerService.notificationData.subscribe(p => this.status.Notifications = p.notificationId ? true : false);
+    this.setActiveTab({ nextId: 'tab-Profile' });
+    if (this.retailerId) {
+      this.retialerService.loadRetailer(this.retailerId);
+    }
   }
   setActiveTab(event) {
     if (!this.retailerId && event.nextId !== 'tab-Profile') {

@@ -39,7 +39,7 @@ export class RetailerAddProductsComponent implements OnInit {
   allProductTypes = new Array<IdNameParent>();
   productTypes = new Array<IdNameParent>();
   selectedProductTypes = new Array<IdNameParent>();
-
+  obj = new RetailerProductInfo();
   placesSettings = {};
   categorySettings = {};
   subCategorySettings = {};
@@ -66,12 +66,12 @@ export class RetailerAddProductsComponent implements OnInit {
     this.setFormValidators();
     if (this.retailerId) {
       this.getData(this.retailerId);
+    } else {
+      this.productService.getProductPlaces().subscribe(res => {
+        this.places = res.map(p => new IdNameParent(p.PlaceId, p.PlaceName, '', ''));
+      });
     }
 
-
-    this.productService.getProductPlaces().subscribe(res =>
-      this.places = res.map(p => new IdNameParent(p.PlaceId, p.PlaceName, '', ''))
-    );
     this.placesSettings = {
       singleSelection: false,
       text: 'Select Places',
@@ -223,7 +223,7 @@ export class RetailerAddProductsComponent implements OnInit {
                     if (subCategory.types.length > 0) {
                       for (let tIndex = 0; tIndex < subCategory.types.length; tIndex++) {
                         const ptype = subCategory.types[tIndex];
-                        this.productTypes.push(new IdNameParent(ptype.typeId, ptype.typeName, subCategory.subCategoryId, subCategory.subCategoryName));
+                        this.selectedProductTypes.push(new IdNameParent(ptype.typeId, ptype.typeName, subCategory.subCategoryId, subCategory.subCategoryName));
                       }
                     }
                   }
@@ -232,6 +232,23 @@ export class RetailerAddProductsComponent implements OnInit {
             }
           }
         }
+        this.obj.places = Object.create(this.selectedPlaces);
+        this.obj.categories = Object.create(this.selectedCategories);
+        this.obj.subCategories = Object.create(this.selectedSubCategories);
+        this.obj.productTypes = Object.create(this.selectedProductTypes);
+        this.productService.getProductPlaces().subscribe(plaRes => {
+          this.places = plaRes.map(p => new IdNameParent(p.PlaceId, p.PlaceName, '', ''));
+          this.productService.getProductCategories(this.selectedPlaces.map(p => p.id)).subscribe(catRes => {
+            this.categories = catRes.map(p => new IdNameParent(p.CategoryId, p.CategoryName, p.PlaceId, p.PlaceName));
+            this.productService.getProductSubCategories(this.selectedCategories.map(p => p.id)).subscribe(subCatRes => {
+              this.subCategories = subCatRes.map(p => new IdNameParent(p.SubCategoryId, p.SubCategoryName, p.CategoryId, p.CategoryName));
+              this.productService.getProductTypes(this.selectedSubCategories.map(p => p.id)).subscribe(typRes => {
+                this.productTypes = typRes.map(p => new IdNameParent(p.TypeId, p.TypeName, p.SubCategoryId, p.SubCategoryName));
+              });
+            });
+          });
+        });
+
       });
   }
 }

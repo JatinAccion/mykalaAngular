@@ -63,7 +63,7 @@ export class ProductAddImagesComponent implements OnInit {
     if (!this.fG1.valid) {
       // this.productService.saveProductImages({ kalaUniqueId: 'this.product.kalaUniqueId', images: this.productImages }).subscribe(e => console.log(e));
       // this.productService.saveProductImages({ kalaUniqueId: this.product.kalaUniqueId, images: this.productImages[0] })
-      this.productService.saveProductImages({  kalaUniqueId: 'this.product.kalaUniqueId', images: this.productImages  })
+      this.productService.saveProductImages({  kalaUniqueId: this.product.kalaUniqueId, images: this.productImages  })
         .then(res => {
         return true;
       })
@@ -95,7 +95,7 @@ export class ProductAddImagesComponent implements OnInit {
     if (fileInput.target.files && fileInput.target.files.length > 0) {
       for (let i = 0; i < fileInput.target.files.length; i++) {
         const file = fileInput.target.files[i];
-        this.productImages.push({ mainImage: false, imageurl: file });
+        this.productImages.push(file);
       }
     }
   }

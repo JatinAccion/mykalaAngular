@@ -6,18 +6,20 @@ export class RetailerProductInfo {
     public categories: Array<IdNameParent>;
     public subCategories: Array<IdNameParent>;
     public productTypes: Array<IdNameParent>;
-
+    public status: boolean | null = false;
     constructor(obj?: any) {
         if (obj) {
             this.places = obj.places;
             this.categories = obj.categories;
             this.subCategories = obj.subCategories;
             this.productTypes = obj.productTypes;
+            this.status = true;
         } else {
             this.places = new Array<IdNameParent>();
             this.categories = new Array<IdNameParent>();
             this.subCategories = new Array<IdNameParent>();
             this.productTypes = new Array<IdNameParent>();
+            this.status = false;
         }
     }
 }

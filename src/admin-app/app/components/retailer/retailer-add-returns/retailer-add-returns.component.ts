@@ -45,9 +45,6 @@ export class RetailerAddReturnsComponent implements OnInit {
     this.setFormValidators();
     if (this.retailerId) {
       this.getData(this.retailerId);
-    // } else {
-    //   this.Obj = new RetailerReturnPolicy();
-    //   this.setFormValidators();
     }
   }
 
@@ -78,9 +75,9 @@ export class RetailerAddReturnsComponent implements OnInit {
 
 
   readForm() {
-    this.Obj = new RetailerReturnPolicy();
+    this.Obj = this.Obj || new RetailerReturnPolicy();
     this.Obj.retailerId = this.retailerId;
-    this.Obj.returnPolicy = this.fG1.value.returnPolicy;
+    this.Obj.returnPolicy = this.fG1.controls.returnPolicy.value;
     return this.Obj;
   }
 

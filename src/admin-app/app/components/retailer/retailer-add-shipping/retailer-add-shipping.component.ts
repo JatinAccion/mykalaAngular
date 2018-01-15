@@ -17,6 +17,7 @@ import { IAlert } from '../../../../../models/IAlert';
 import { environment } from '../../../../environments/environment';
 import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 import { inputValidations } from './messages';
+import { CoreService } from '../../../services/core.service';
 
 
 @Component({
@@ -35,12 +36,7 @@ export class RetailerAddShippingComponent implements OnInit {
   @Input() retailerId: number;
   @Input() shippingsData: Array<RetialerShippingProfile>;
   @Output() shippingsDataChange = new EventEmitter<Array<RetialerShippingProfile>>();
-  alert: IAlert = {
-    id: 1,
-    type: 'success',
-    message: '',
-    show: false
-  };
+
   // #region Shipping
   shippings = new Array<RetialerShippingProfile>();
   shippingFG1 = new FormGroup({});
@@ -58,7 +54,8 @@ export class RetailerAddShippingComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private retialerService: RetialerService,
-    private validatorExt: ValidatorExt
+    private validatorExt: ValidatorExt,
+    private core: CoreService
   ) {
     this.shippingObj = new RetialerShippingProfile();
   }
@@ -164,9 +161,7 @@ export class RetailerAddShippingComponent implements OnInit {
     });
 
   }
-  closeAlert(alert: IAlert) {
-    this.alert.show = false;
-  }
+
   setValidators() {
     if (this.shippingObj.deliveryTiers.length === 0) {
       const deliveryTier = new ShippingDeliveryTier();
@@ -275,23 +270,13 @@ export class RetailerAddShippingComponent implements OnInit {
               this.shippingObj.retailerId = this.retailerId;
               this.SaveData.emit('tab-Shipping');
               this.modified = false;
-              this.alert = {
-                id: 1,
-                type: 'success',
-                message: 'Saved successfully',
-                show: true
-              };
+              this.core.message.success('Shipping Info Saved');
               this.saveLoader = false;
               return true;
             })
             .catch(err => {
-              console.log(err);
-              this.alert = {
-                id: 1,
-                type: 'danger',
-                message: 'Not able to Save',
-                show: true
-              };
+              this.core.message.success('Shipping Info Saved');
+              this.saveLoader = false;
             });
         }
     return false;

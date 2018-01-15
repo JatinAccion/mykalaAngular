@@ -58,7 +58,7 @@ export class ProductAddBasicComponent implements OnInit {
     if (!this.fG1.valid) {
     } else {
       this.saveLoader = true;
-      this.core.showSpinner();
+      // this.core.showSpinner();
       this.productChange.emit(this.product);
       this.SaveData.emit('tab-basic');
     }

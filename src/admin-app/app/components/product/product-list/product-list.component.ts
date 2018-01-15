@@ -21,7 +21,7 @@ export class ProductListComponent implements OnInit {
   places = new Array<ProductPlace>();
   categories = new Array<ProductCategory>();
   subCategories = new Array<ProductSubCategory>();
-  productStatus: boolean;
+  productStatus: true;
   productPlace: ProductPlace;
   productCategory: ProductCategory;
   productSubCategory: ProductSubCategory;
@@ -57,7 +57,7 @@ export class ProductListComponent implements OnInit {
       page: page - 1, size: 10, sortOrder: 'asc', elementType: 'createdDate', productStatus: null, productPlaceName: '', productCategoryName: '', productSubCategoryName: '', retailerId: null
     };
 
-    if (this.productStatus) { searchParams.productStatus = this.productStatus; } else { delete searchParams.productStatus; }
+    if (this.productStatus) { searchParams.productStatus = this.productStatus; } else { searchParams.productStatus = true; }
     if (this.productPlace) { searchParams.productPlaceName = this.productPlace.PlaceName; } else { delete searchParams.productPlaceName; }
     if (this.productCategory) { searchParams.productCategoryName = this.productCategory.CategoryName; } else { delete searchParams.productCategoryName; }
     if (this.productSubCategory) { searchParams.productSubCategoryName = this.productSubCategory.SubCategoryName; } else { delete searchParams.productSubCategoryName; }

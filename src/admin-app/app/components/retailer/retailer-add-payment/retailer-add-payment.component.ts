@@ -45,11 +45,12 @@ export class RetailerAddPaymentComponent implements OnInit {
   }
   ngOnInit() {
     this.getPaymentInfoDropdowndata();
+    this.paymentInfoObj = new RetailerPaymentInfo();
+    this.setFormValidators();
     if (this.retailerId) {
       this.getPaymentInfo(this.retailerId);
-    } else {
-      this.paymentInfoObj = new RetailerPaymentInfo();
-      this.setFormValidators();
+      this.paymentMethodChange();
+      this.paymentVehicleChange();
     }
   }
 
@@ -189,9 +190,6 @@ export class RetailerAddPaymentComponent implements OnInit {
     this.paymentInfoObj.city = this.paymentFG2.value.city;
     this.paymentInfoObj.state = this.paymentFG2.value.state;
     this.paymentInfoObj.zipcode = this.paymentFG2.value.zipcode;
-
-
-    
 
     return this.paymentInfoObj;
   }
