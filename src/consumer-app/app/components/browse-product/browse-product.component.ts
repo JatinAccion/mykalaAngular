@@ -23,6 +23,7 @@ export class BrowseProductComponent implements OnInit {
   headerMessage: string;
   showSubMenu: boolean;
   selectedCategoryData: any;
+  getOffersData;
   productListingModal = new BrowseProductsModal();
   constructor(private homeService: HomeService, private core: CoreService, private route: Router) { }
 
@@ -31,7 +32,11 @@ export class BrowseProductComponent implements OnInit {
     this.core.headerScroll();
     localStorage.removeItem("selectedProduct");
     this.loader = true;
-    this.loadTypes();
+    if (window.localStorage['getOffers'] != undefined) {
+      this.getOffersData = JSON.parse(window.localStorage['getOffers']);
+      this.loadOffersData();
+    }
+    else this.loadTypes();
     this.core.pageLabel();
   }
 
@@ -74,6 +79,43 @@ export class BrowseProductComponent implements OnInit {
       this.core.searchMsgToggle('get offers');
       window.localStorage['browseProductSearch'] = this.headerMessage;
     });
+  }
+
+  loadOffersData() {
+    this.loader = false;
+    this.tilesData = [];
+    this.selectedTilesData = JSON.parse(window.localStorage['levelSelections']);
+    for (var i = 0; i < this.getOffersData.length; i++) {
+      this.productListingModal = new BrowseProductsModal();
+      this.productListingModal.product.productImages = new Array<any>();
+      let content = this.getOffersData[i];
+      this.productListingModal.deliveryMethod = content.deliveryMethod,
+        this.productListingModal.retailerName = content.retailerName,
+        this.productListingModal.retailerReturns = content.retailerReturns,
+        this.productListingModal.product.brandName = content.product.brandName,
+        this.productListingModal.product.createdDate = content.product.createdDate,
+        this.productListingModal.product.kalaPrice = content.product.kalaPrice,
+        this.productListingModal.product.kalaUniqueId = content.product.kalaUniqueId,
+        this.productListingModal.product.productActivatedDate = content.product.productActivatedDate,
+        this.productListingModal.product.productCategoryName = content.product.productCategoryName,
+        this.productListingModal.product.productDescription = content.product.productDescription,
+        this.productListingModal.product.productName = content.product.productName,
+        this.productListingModal.product.productPlaceName = content.product.productPlaceName,
+        this.productListingModal.product.productSkuCode = content.product.productSkuCode,
+        this.productListingModal.product.productStatus = content.product.productStatus,
+        this.productListingModal.product.productSubCategoryName = content.product.productSubCategoryName,
+        this.productListingModal.product.productTypeName = content.product.productTypeName,
+        this.productListingModal.product.productUpcCode = content.product.productUpcCode,
+        this.productListingModal.product.quantity = content.product.quantity,
+        this.productListingModal.product.retailPrice = content.product.retailPrice,
+        this.productListingModal.product.retailerId = content.product.retailerId,
+        this.productListingModal.product.shipProfileId = content.product.shipProfileId,
+        this.productListingModal.product.productImages = content.product.productImages;
+      this.tilesData.push(this.productListingModal);
+    }
+    this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' ' + this.selectedTilesData.subcategory.name + ' for you';
+    this.core.show(this.headerMessage);
+    this.core.searchMsgToggle('get offers');
   }
 
   openNav() {
