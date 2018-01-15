@@ -47,11 +47,13 @@ export class RetailerAddNotificationsComponent implements OnInit {
   ) {
   }
   ngOnInit() {
+    this.Obj = new RetailerNotification();
+    this.setFormValidators();
     if (this.retailerId) {
       this.getData(this.retailerId);
-    } else {
-      this.Obj = new RetailerNotification();
-      this.setFormValidators();
+    // } else {
+    //   this.Obj = new RetailerNotification();
+    //   this.setFormValidators();
     }
   }
 
@@ -98,7 +100,4 @@ export class RetailerAddNotificationsComponent implements OnInit {
         this.Obj = new RetailerNotification(res);
       });
   }
-}
-
-
 }

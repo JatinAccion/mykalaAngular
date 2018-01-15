@@ -114,7 +114,10 @@ export class RetialerService {
         .map(res => {
           if (res.text() == '') {
             return this.profileDataObj;
-          } else { return new RetailerProfileInfo(this.profileDataObj); }
+          } else {
+            this.profileDataObj.status = true;
+            return new RetailerProfileInfo(this.profileDataObj);
+          }
         })
         .do(p => this.profileData.next(p))
         .catch(this.handleError);
@@ -126,6 +129,7 @@ export class RetialerService {
             return this.profileDataObj;
           } else {
             retailerProfileInfo.retailerId = res.json();
+            retailerProfileInfo.status = true;
             return new RetailerProfileInfo(retailerProfileInfo);
           }
         })
@@ -236,7 +240,7 @@ export class RetialerService {
         .map(res => {
           if (res.text() == '') {
             return this.notificationDataObj;
-          } else { return res.json(); }
+          } else { return new RetailerNotification(res.json()); }
         })
         .do(p => this.notificationData.next(new RetailerNotification(p)))
         .map(p => this.notificationDataObj)
@@ -258,6 +262,7 @@ export class RetialerService {
       return this.http
         .post(url, notification, { headers: this.headers })
         .do(p => {
+          notification.notificationId = p.json();
           this.notificationData.next(notification);
         })
         .map(p => p.json())
@@ -275,7 +280,9 @@ export class RetialerService {
         .map(res => {
           if (res.text() == '') {
             return this.returnDataObj;
-          } else { return new RetailerReturnPolicy(res.json()); }
+          } else {
+            return new RetailerReturnPolicy(res.json());
+          }
         })
         .do(p => this.returnData.next(p))
         .catch(this.handleError);
@@ -302,7 +309,29 @@ export class RetialerService {
         .catch(this.handleError);
     }
   }
+  productGet(retailerId: number): Observable<any> {
 
+    const url = `${this.BASE_URL}/${environment.apis.retailerProduct.get}`.replace('{retailerId}', retailerId.toString());
+    return this.http
+      .get(`${url}`, { headers: this.headers })
+      .map(res => res.json())
+      .do(p => this.returnData.next(p))
+      .catch(this.handleError);
+  }
+
+  saveProduct(obj: any) {
+    this.headers = this.getHttpHeraders();
+    const url = `${this.BASE_URL}/${environment.apis.retailerProduct.save}`;
+
+    return this.http
+      .post(url, obj, { headers: this.headers })
+      .do(p => {
+        this.returnData.next(obj);
+      })
+      .map(p => p.json())
+      .catch(this.handleError);
+
+  }
   getPlaces(): Observable<Array<IdNameParent>> {
     const url = `${this.BASE_URL}/${environment.apis.retailerProduct.getPlaces}`;
     return this.http

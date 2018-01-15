@@ -73,7 +73,7 @@ export class RetailerAddShippingComponent implements OnInit {
       // alert('Please save first');
       const shipping = new RetialerShippingProfile();
       // shipping.shippingProfile.deliveryOption = 'freeshipping';
-      shipping.shipLocations.countryName = 'US';
+      shipping.shipLocations.countryName = 'USA';
       this.shippings.push(shipping);
     } else {
       this.shippings.push(new RetialerShippingProfile());

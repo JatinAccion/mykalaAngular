@@ -1,5 +1,6 @@
 import { ProductPlace, ProductCategory, ProductSubCategory, ProductType } from './product-info';
 import { Pagination } from './pagination';
+import { environment } from '../admin-app/environments/environment';
 export class Product {
     public retailerId: number;
     public retailerName: string;
@@ -21,13 +22,13 @@ export class Product {
     public productStatus: boolean | null = true;
     public productActivatedDate: Date | null;
     public createdDate: Date | null;
-    public productImages: ProductImage[];
+    public productImages: ProductImage[] | null = new Array<ProductImage>();
 
     public productPlace: ProductPlace;
     public productCategory: ProductCategory;
     public productSubCategory: ProductSubCategory;
     public productType: ProductType;
-
+    public isCollapsed: boolean | null = true;
     constructor(obj?: any) {
         if (obj) {
             this.retailerId = obj.retailerId;
@@ -48,7 +49,7 @@ export class Product {
             this.productStatus = obj.productStatus;
             this.productActivatedDate = obj.productActivatedDate;
             this.createdDate = obj.createdDate;
-            this.productImages = obj.productImages.map(p => new ProductImage(p));
+            this.productImages = obj.productImages ? obj.productImages.map(p => new ProductImage(p)) : new Array<ProductImage>();
         }
     }
 }
@@ -58,7 +59,7 @@ export class ProductImage {
     public mainImage: boolean | null = false;
     constructor(obj?: any) {
         this.imageType = obj.imageType;
-        this.imageUrl = obj.imageUrl;
+        this.imageUrl = environment.s3 + obj.imageUrl;
         this.mainImage = obj.mainImage;
     }
 }

@@ -8,9 +8,10 @@ import { regexPatterns } from '../../common/regexPatterns';
 
 export const environment = {
   production: false,
+  s3: 'https://s3.us-east-2.amazonaws.com\\',
   Api: 'http://localhost:8081',
-  AdminApi: 'http://192.168.168.197:8083',
-  productApi: 'http://localhost:8086',
+  AdminApi: 'http://localhost:9083',
+  productApi: 'http://dev-product-service.us-east-2.elasticbeanstalk.com/api',
   apis: apiNames,
   regex: regexPatterns,
   commonMsg: commonMessages

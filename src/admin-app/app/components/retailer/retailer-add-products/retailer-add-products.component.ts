@@ -12,6 +12,7 @@ import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 import { inputValidations } from './messages';
 import { ProductService } from '../../product/product.service';
 import { RetailerProductInfo } from '../../../../../models/retailer-product-info';
+import { CoreService } from '../../../services/core.service';
 
 @Component({
   selector: 'app-retailer-add-products',
@@ -49,16 +50,24 @@ export class RetailerAddProductsComponent implements OnInit {
     private formBuilder: FormBuilder,
     private retialerService: RetialerService,
     private productService: ProductService,
-    private validatorExt: ValidatorExt
+    private validatorExt: ValidatorExt,
+    private core: CoreService
   ) {
   }
-  ngOnInit() {
+  setFormValidators() {
     this.fG1 = this.formBuilder.group({
       place: [[], Validators.required],
       category: [[], Validators.required],
       subCategory: [[], Validators.required],
       productType: [[], Validators.required],
     });
+  }
+  ngOnInit() {
+    this.setFormValidators();
+    if (this.retailerId) {
+      this.getData(this.retailerId);
+    }
+
 
     this.productService.getProductPlaces().subscribe(res =>
       this.places = res.map(p => new IdNameParent(p.PlaceId, p.PlaceName, '', ''))
@@ -151,30 +160,78 @@ export class RetailerAddProductsComponent implements OnInit {
   onSubCategoryDeSelect(item: any) { this.refreshProductTypes(); }
   onSubCategorySelectAll(items: any) { this.refreshProductTypes(); }
   onSubCategoryDeSelectAll(items: any) { this.refreshProductTypes(); }
+
   saveData() {
-    this.SaveData.emit('tab-Product');
-    // this.readForm();
-    // this.validatorExt.validateAllFormFields(this.fG1);
-    // if (!this.fG1.valid) {
-    // } else {
-    //   // this.saveLoader = true;
-    //   // this.retialerService
-    //   //   .saveReturnPolicy(this.Obj)
-    //   //   .then(res => {
-    //   this.SaveData.emit('tab-product');
-    //   //   this.alert = { id: 1, type: 'success', message: 'Saved successfully', show: true };
-    //   //   this.saveLoader = false;
-    //   //   return true;
-    //   // })
-    //   // .catch(err => {
-    //   //   console.log(err);
-    //   //   this.alert = { id: 1, type: 'danger', message: 'Not able to Save', show: true };
+    this.readForm();
+    this.validatorExt.validateAllFormFields(this.fG1);
+    if (!this.fG1.valid) {
+    } else {
+      this.saveLoader = true;
+      this.retialerService
+        .saveProduct(this.readForm())
+        .subscribe(res => {
+          this.SaveData.emit('tab-Product');
+          this.saveLoader = false;
+          this.core.message.success('Product Info Saved');
+          return true;
+        }, err => this.core.message.success('Not able to Save'), () => this.saveLoader = false);
 
-    //   // });
-    // }
-    // return false;
+    }
+    return false;
   }
-
-  readForm() { }
-
+  readForm() {
+    const product = { retailerId: this.retailerId, places: [] };
+    for (let pIndex = 0; pIndex < this.selectedPlaces.length; pIndex++) {
+      const place = this.selectedPlaces[pIndex];
+      const newPlace = { placeId: place.id, placeName: place.itemName, categories: [] };
+      for (let cIndex = 0; cIndex < this.selectedCategories.length; cIndex++) {
+        const category = this.selectedCategories[cIndex];
+        const newCategory = { categoryId: category.id, categoryName: category.itemName, subCategories: [] };
+        for (let scIndex = 0; scIndex < this.selectedSubCategories.length; scIndex++) {
+          const subCategory = this.selectedSubCategories[scIndex];
+          const newSubCategory = { subCategoryId: subCategory.id, subCategoryName: subCategory.itemName, types: [] };
+          for (let tIndex = 0; tIndex < this.selectedProductTypes.length; tIndex++) {
+            const type = this.selectedProductTypes[tIndex];
+            const newType = { typeId: type.id, typeName: type.itemName, types: [] };
+            newSubCategory.types.push(newType);
+          }
+          newCategory.subCategories.push(newSubCategory);
+        }
+        newPlace.categories.push(newCategory);
+      }
+      product.places.push(newPlace);
+    }
+    return product;
+  }
+  getData(retailerId) {
+    this.retialerService
+      .productGet(this.retailerId)
+      .subscribe((res) => {
+        const product = { retailerId: this.retailerId, places: [] };
+        if (res.length > 0) {
+          for (let pIndex = 0; pIndex < res.length; pIndex++) {
+            const place = res[pIndex];
+            this.selectedPlaces.push(new IdNameParent(place.placeId, place.placeName, '', ''));
+            if (place.categories.length > 0) {
+              for (let cIndex = 0; cIndex < place.categories.length; cIndex++) {
+                const category = place.categories[cIndex];
+                this.selectedCategories.push(new IdNameParent(category.categoryId, category.categoryName, place.placeId, place.placeName));
+                if (category.subCategories.length > 0) {
+                  for (let scIndex = 0; scIndex < category.subCategories.length; scIndex++) {
+                    const subCategory = category.subCategories[scIndex];
+                    this.selectedSubCategories.push(new IdNameParent(subCategory.subCategoryId, subCategory.subCategoryName, category.categoryId, category.categoryName));
+                    if (subCategory.types.length > 0) {
+                      for (let tIndex = 0; tIndex < subCategory.types.length; tIndex++) {
+                        const ptype = subCategory.types[tIndex];
+                        this.productTypes.push(new IdNameParent(ptype.typeId, ptype.typeName, subCategory.subCategoryId, subCategory.subCategoryName));
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      });
+  }
 }

@@ -26,12 +26,6 @@ export class RetailerAddReturnsComponent implements OnInit {
   @Output() returnDataChange = new EventEmitter<RetailerReturnPolicy>();
   // #region declarations
 
-  alert: IAlert = {
-    id: 1,
-    type: 'success',
-    message: '',
-    show: false
-  };
   fG1 = new FormGroup({});
   step = 1;
   Obj: RetailerReturnPolicy;
@@ -47,15 +41,14 @@ export class RetailerAddReturnsComponent implements OnInit {
   ) {
   }
   ngOnInit() {
+    this.Obj = new RetailerReturnPolicy();
+    this.setFormValidators();
     if (this.retailerId) {
       this.getData(this.retailerId);
-    } else {
-      this.Obj = new RetailerReturnPolicy();
-      this.setFormValidators();
+    // } else {
+    //   this.Obj = new RetailerReturnPolicy();
+    //   this.setFormValidators();
     }
-  }
-  closeAlert(alert: IAlert) {
-    this.alert.show = false;
   }
 
   setFormValidators() {

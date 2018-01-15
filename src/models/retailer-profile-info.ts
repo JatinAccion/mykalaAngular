@@ -1,5 +1,6 @@
 import { RetailerBuinessAddress } from './retailer-business-adress';
 import { RetailerContact } from './retailer-contact';
+import { environment } from '../admin-app/environments/environment';
 
 export class RetailerProfileInfo {
     public retailerId: number;
@@ -21,7 +22,11 @@ export class RetailerProfileInfo {
         if (obj) {
             this.retailerId = obj.retailerId;
             this.businessName = obj.businessName;
-            this.businessLogoPath = 'https://s3.us-east-2.amazonaws.com\\' + obj.businessLogoPath;
+            if (obj.businessLogoPath) {
+                this.businessLogoPath = environment.s3 + + obj.businessLogoPath;
+            } else {
+                delete this.businessLogoPath;
+            }
             this.websiteUrl = obj.websiteUrl;
             this.websiteUserName = obj.websiteUserName;
             this.websitePassword = obj.websitePassword;

@@ -7,7 +7,7 @@ export const apiNames = {
         userInfo: 'loginUser'
     },
     retailers: {
-        get: 'retailer/getReatilerByName',
+        get: 'retailer',
         sellerTypes: 'retailer/sellerType',
         getShippingProfileNames: 'retailer/getShippingProfileName',
         changeStatus: 'retailer/changeStatus'
@@ -43,20 +43,20 @@ export const apiNames = {
         getSubCategories: 'retailer/getShippingReturnPolicy',
         getTypes: 'retailer/getShippingReturnPolicy',
 
-        get: 'retailer/productInfo',
+        get: 'retailer/{retailerId}/productInfo',
         save: 'retailer/productInfo',
         delete: 'delete',
     },
     product: {
-        get: 'filterBy',
-        save: 'save',
-        saveImage: 'saveImages',
-        changeMainImage: 'changeMainImage',
-        delete: 'delete',
-        places: 'places',
-        categories: 'categoriesList',
-        subCategories: 'subCategoriesList',
-        types: 'typesList'
+        get: 'products/filterBy',
+        save: 'products/save',
+        saveImage: 'products/saveImages',
+        changeMainImage: 'products/changeMainImage',
+        delete: 'products/delete',
+        places: 'products/places',
+        categories: 'products/categoriesList',
+        subCategories: 'products/subCategoriesList',
+        types: 'products/typesList'
     },
 
 };

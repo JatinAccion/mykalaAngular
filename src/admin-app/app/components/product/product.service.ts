@@ -36,9 +36,7 @@ export class ProductService {
     this.seedStaticData();
   }
   seedStaticData() {
-    // this.shippingProfiles.push(new nameValue('1', 'Furniture delivery'));
-    // this.shippingProfiles.push(new nameValue('2', 'Small item delivery'));
-    // this.shippingProfiles.push(new nameValue('3', '1-5 business days shipping'));
+  
   }
   get(query: any): Observable<Products> {
     this.headers = this.getHttpHeraders();
