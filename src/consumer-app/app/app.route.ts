@@ -22,13 +22,13 @@ import { Step2Component } from './components/getoffers/step2/step2.component';
 import { Step3Component } from './components/getoffers/step3/step3.component';
 import { Step4Component } from './components/getoffers/step4/step4.component';
 import { ViewProductComponent } from './components/view-product/view-product.component';
+import { MycartComponent } from './components/mycart/mycart.component';
 
 const appRoutes: Routes = [
     {
         path: 'login',
         component: LoginComponent,
         data: { header: 'header1' }
-        //canActivate: [LoginRedirect]
     },
     {
         path: 'join-kala',
@@ -74,8 +74,12 @@ const appRoutes: Routes = [
     {
         path: 'view-product',
         component: ViewProductComponent,
-        data: { header: 'header2' }
-        // canActivate: [EnsureAuthenticated]
+        data: { header: 'header1' }
+    },
+    {
+        path: 'mycart',
+        component: MycartComponent,
+        data: { header: 'header1' }
     },
     {
         path: 'logout',
@@ -85,13 +89,11 @@ const appRoutes: Routes = [
         path: 'home',
         component: HomeComponent,
         data: { header: 'header2' }
-        // canActivate: [EnsureAuthenticated]
     },
     {
         path: 'browse-product',
         component: BrowseProductComponent,
         data: { header: 'header2' }
-        // canActivate: [EnsureAuthenticated]
     },
     {
         path: 'cui',

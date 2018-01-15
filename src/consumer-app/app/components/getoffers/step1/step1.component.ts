@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { HomeService } from '../../../services/home.service';
-import { SearchDataModal } from '../../home/searchData.modal';
 import { CoreService } from '../../../services/core.service';
-import { GetOfferModal } from '../getOffer.modal';
 import { Router } from '@angular/router';
-import { OfferInfo1 } from '../steps.modal';
+import { SearchDataModal } from '../../../../../models/searchData.modal';
+import { GetOfferModal } from '../../../../../models/getOffer.modal';
+import { OfferInfo1 } from '../../../../../models/steps.modal';
+
 
 @Component({
   selector: 'app-step1',
@@ -32,6 +33,7 @@ export class Step1Component implements OnInit {
   loadedPlaces: boolean = false;
   loadedCategory: boolean = false;
   loadedSubCategory: boolean = false;
+  noTypesAvailable: boolean = false;
 
   constructor(
     private homeService: HomeService,
@@ -88,6 +90,7 @@ export class Step1Component implements OnInit {
   }
 
   getPlaces() {
+    this.noTypesAvailable = false;
     this.loader_place = true;
     this.userResponse.place = [];
     this.homeService.getTilesPlace().subscribe(res => {
@@ -98,6 +101,7 @@ export class Step1Component implements OnInit {
   };
 
   getCategory() {
+    this.noTypesAvailable = false;
     this.loader_category = true;
     this.userResponse.category = [];
     this.homeService.getTilesCategory(this.getPlaceId).subscribe(res => {
@@ -108,6 +112,7 @@ export class Step1Component implements OnInit {
   };
 
   getSubCategory() {
+    this.noTypesAvailable = false;
     this.loader_subCategory = true;
     this.userResponse.subcategory = [];
     this.homeService.getTilesSubCategory(this.getCategoryId).subscribe(res => {
@@ -118,11 +123,13 @@ export class Step1Component implements OnInit {
   };
 
   getType() {
+    this.noTypesAvailable = false;
     this.loader_Type = true;
     this.userResponse.type = [];
     this.homeService.getTilesType(this.getSubcategoryId).subscribe(res => {
       this.loader_Type = false;
-      for (var i = 0; i < res.length; i++) this.userResponse.type.push(new SearchDataModal(res[i].productTypeId, res[i].productTypeName, res[i].productTypeName, "4", ""));
+      if (res.length === 0) this.noTypesAvailable = true;
+      else for (var i = 0; i < res.length; i++) this.userResponse.type.push(new SearchDataModal(res[i].productTypeId, res[i].productTypeName, res[i].productTypeName, "4", ""));
     });
   };
 

@@ -23,6 +23,9 @@ export const apiNames = {
         getSubCategories: 'subCategories',
         getTypes: 'types'
     },
+    getOffers: {
+        confirmOffer: 'getOffersRequest'
+    },
     geoCode: {
         key: '&key=AIzaSyDPSk91ksjR47kqdFbElVwL7eM8FgIZEHw'
     }

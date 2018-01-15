@@ -26,6 +26,7 @@ import { LogoutComponent } from './components/logout/logout.component';
 
 import { HomeService } from './services/home.service';
 import { HeaderComponent } from './components/header/header.component';
+import { SubMenusComponent } from './components/sub-menus/sub-menus.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ConversationalComponent } from './components/conversational/conversational.component';
 import { ConversationalService } from './components/conversational/conversational.service';
@@ -54,6 +55,7 @@ import { Step3Component } from './components/getoffers/step3/step3.component';
 import { Step4Component } from './components/getoffers/step4/step4.component';
 import { GetOfferService } from './services/getOffer.service';
 import { ViewProductComponent } from './components/view-product/view-product.component';
+import { MycartComponent } from './components/mycart/mycart.component';
 import { DxRangeSliderModule, DxNumberBoxModule } from 'devextreme-angular';
 
 @NgModule({
@@ -83,7 +85,9 @@ import { DxRangeSliderModule, DxNumberBoxModule } from 'devextreme-angular';
     Step2Component,
     Step3Component,
     Step4Component,
-    ViewProductComponent
+    ViewProductComponent,
+    MycartComponent,
+    SubMenusComponent
   ],
   imports: [
     BrowserModule,

@@ -23,6 +23,11 @@ export class HomeService {
     return this.http.get(url).map((res) => res.json());
   }
 
+  getProductList(placeName, categoryName, subCategory) {
+    const url: string = `${this.BASE_URL}/subCategory?page=1&size=2&sortOrder=asc&elementType=createdDate&PlaceName=${placeName}&productCategoryName=${categoryName}&productSubCategoryName=${subCategory}`;
+    return this.http.get(url).map((res) => res.json());
+  }
+
   getTilesType(subCategoryId) {
     const url: string = `${this.BASE_URL}/subCategory/${subCategoryId}/${environment.apis.products.getTypes}`;
     return this.http.get(url).map((res) => res.json());

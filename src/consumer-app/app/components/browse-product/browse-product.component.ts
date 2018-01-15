@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter } from '@angular/core';
 import { HomeService } from '../../services/home.service';
 import { CoreService } from '../../services/core.service';
-import { SearchDataModal } from '../home/searchData.modal';
+import { Router, RouterOutlet } from '@angular/router';
+import { SearchDataModal } from '../../../../models/searchData.modal';
+import { BrowseProductsModal } from '../../../../models/browse-products';
 
 @Component({
   selector: 'app-browse-product',
@@ -21,11 +23,13 @@ export class BrowseProductComponent implements OnInit {
   headerMessage: string;
   showSubMenu: boolean;
   selectedCategoryData: any;
-  constructor(private homeService: HomeService, private core: CoreService) { }
+  productListingModal = new BrowseProductsModal();
+  constructor(private homeService: HomeService, private core: CoreService, private route: Router) { }
 
   ngOnInit() {
     this.core.checkIfLoggedOut(); /*** If User Logged Out*/
     this.core.headerScroll();
+    localStorage.removeItem("selectedProduct");
     this.loader = true;
     this.loadTypes();
     this.core.pageLabel();
@@ -35,9 +39,36 @@ export class BrowseProductComponent implements OnInit {
     this.loader = true;
     this.tilesData = [];
     this.selectedTilesData = JSON.parse(window.localStorage['levelSelections']);
-    this.homeService.getTilesType(this.selectedTilesData.subcategory.id).subscribe(res => {
+    this.homeService.getProductList(this.selectedTilesData.place.name, this.selectedTilesData.category.name, this.selectedTilesData.subcategory.name).subscribe(res => {
       this.loader = false;
-      for (var i = 0; i < res.length; i++) this.tilesData.push(new SearchDataModal(res[i].productTypeId, res[i].productTypeName, res[i].productTypeName, "4"));
+      for (var i = 0; i < res.content.length; i++) {
+        this.productListingModal = new BrowseProductsModal();
+        this.productListingModal.product.productImages = new Array<any>();
+        let content = res.content[i];
+        this.productListingModal.deliveryMethod = '',
+          this.productListingModal.retailerName = '',
+          this.productListingModal.retailerReturns = '',
+          this.productListingModal.product.brandName = content.brandName,
+          this.productListingModal.product.createdDate = content.createdDate,
+          this.productListingModal.product.kalaPrice = content.kalaPrice,
+          this.productListingModal.product.kalaUniqueId = content.kalaUniqueId,
+          this.productListingModal.product.productActivatedDate = content.productActivatedDate,
+          this.productListingModal.product.productCategoryName = content.productCategoryName,
+          this.productListingModal.product.productDescription = content.productDescription,
+          this.productListingModal.product.productName = content.productName,
+          this.productListingModal.product.productPlaceName = content.productPlaceName,
+          this.productListingModal.product.productSkuCode = content.productSkuCode,
+          this.productListingModal.product.productStatus = content.productStatus,
+          this.productListingModal.product.productSubCategoryName = content.productSubCategoryName,
+          this.productListingModal.product.productTypeName = content.productTypeName,
+          this.productListingModal.product.productUpcCode = content.productUpcCode,
+          this.productListingModal.product.quantity = content.quantity,
+          this.productListingModal.product.retailPrice = content.retailPrice,
+          this.productListingModal.product.retailerId = content.retailerId,
+          this.productListingModal.product.shipProfileId = content.shipProfileId,
+          this.productListingModal.product.productImages = content.productImages;
+        this.tilesData.push(this.productListingModal);
+      }
       this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' ' + this.selectedTilesData.subcategory.name + ' for you';
       this.core.show(this.headerMessage);
       this.core.searchMsgToggle('get offers');
@@ -79,7 +110,7 @@ export class BrowseProductComponent implements OnInit {
   };
 
   refreshSubcategory(subcategory) {
-    let updateStorage = JSON.parse(window.localStorage['levelSelections'])
+    let updateStorage = JSON.parse(window.localStorage['levelSelections']);
     updateStorage.subcategory.id = subcategory.id;
     updateStorage.subcategory.name = subcategory.name;
     updateStorage.subcategory.text = subcategory.text;
@@ -90,6 +121,18 @@ export class BrowseProductComponent implements OnInit {
     this.subCategory = [];
     this.closeNav();
     this.loadTypes();
+  };
+
+  viewDetails(tile) {
+    let updateStorage = JSON.parse(window.localStorage['levelSelections']);
+    updateStorage.subType.id = tile.product.kalaUniqueId;
+    updateStorage.subType.name = tile.product.productName;
+    updateStorage.subType.text = tile.product.productName;
+    updateStorage.subType.level = "5";
+    updateStorage.subType.imgUrl = tile.product.productImages[0].imageUrl;
+    window.localStorage['levelSelections'] = JSON.stringify(updateStorage);
+    window.localStorage['selectedProduct'] = JSON.stringify(tile);
+    this.route.navigateByUrl("/view-product")
   }
 
 }

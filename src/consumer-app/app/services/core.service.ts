@@ -55,7 +55,8 @@ export class CoreService {
   }
 
   checkIfLoggedOut() {
-    if (window.localStorage['token'] === undefined) {
+    if (window.localStorage['token'] !== undefined) this.hideUserInfo(false);
+    else {
       this.clearUser();
       this.hideUserInfo(true);
     }
@@ -65,8 +66,11 @@ export class CoreService {
     setTimeout(function () {
       var header = document.getElementsByClassName("header_sub")[0];
       var searchBox = document.getElementsByClassName("searchBox")[0];
+      var logoContainer = document.getElementsByClassName("logo")[0];
       header.classList.add("header_Scroll");
       searchBox.classList.remove("invisible");
+      logoContainer.classList.remove("d-none");
+      logoContainer.nextElementSibling.classList.add("d-none");
     }, 100);
   }
 
