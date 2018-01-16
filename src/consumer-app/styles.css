@@ -2181,3 +2181,10 @@ input::-webkit-inner-spin-button {
     margin-bottom: 12px;
     font-size: 13px;
 }
+ngb-datepicker.dropdown-menu{
+    position: absolute !important;
+    left: 15px !important;
+    height: auto;
+    top: 35px !important;
+    width: auto !important;
+}
