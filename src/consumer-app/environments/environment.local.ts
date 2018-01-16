@@ -10,7 +10,7 @@ export const environment = {
   userService: 'http://dev-user-signup.us-east-2.elasticbeanstalk.com',
   profileInterest: 'http://dev-consumer-profile.us-east-2.elasticbeanstalk.com',
   productList: 'http://dev-product-service.us-east-2.elasticbeanstalk.com/api/products',
-  getOffer: 'http://192.168.169.243:8086/api/products',
+  getOffer: 'http://dev-product-service.us-east-2.elasticbeanstalk.com/api/products',
   geoCode: 'https://maps.googleapis.com/maps/api/geocode/json',
   apis: apiNames,
   regex: regexPatterns,

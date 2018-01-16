@@ -14,7 +14,6 @@ export class HeaderComponent implements OnInit {
   firstName: string;
   lastName: string;
   emailId: string;
-  showLounge: boolean = false;
 
   constructor(private router: Router, private core: CoreService) { }
 
@@ -37,12 +36,4 @@ export class HeaderComponent implements OnInit {
         }
       });
   }
-
-  // openNav() {
-  //   this.showLounge = true;
-  // }
-
-  // closeNav() {
-  //   this.showLounge = false;
-  // }
 }

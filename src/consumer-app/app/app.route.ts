@@ -112,12 +112,12 @@ const appRoutes: Routes = [
     },
     {
         path: '**',
-        redirectTo: '/join-kala'
+        redirectTo: '/home'
     },
     {
         path: '',
         pathMatch: 'full',
-        redirectTo: '/join-kala'
+        redirectTo: '/home'
     },
 ];
 

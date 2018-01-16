@@ -22,7 +22,6 @@
             <div class="dx-field-value">
               <span style="position: relative">
                 <span class="currencySymbol">$</span>
-                <!-- <input formControlName="minPrice" onkeypress='return event.charCode >= 48 && event.charCode <= 57' type="text" style="padding-left: 30px" class="categ_outline_red w-20 mr-2" /> -->
                 <dx-number-box formControlName="minPrice" onkeypress='return event.charCode >= 48 && event.charCode <= 57' style="padding-left: 30px;" [min]="123" [max]="10000" [showSpinButtons]="true" [(value)]="rangeSlider.start" class="categ_outline_red w-100 mr-2"></dx-number-box>
               </span>
             </div>
@@ -32,7 +31,6 @@
               <span style="position: relative">
                 <span class="currencySymbol">$</span>
                 <dx-number-box formControlName="maxPrice" onkeypress='return event.charCode >= 48 && event.charCode <= 57' style="padding-left: 30px;" [min]="123" [max]="10000" [showSpinButtons]="true" [(value)]="rangeSlider.end" class="categ_outline_red  w-100 mr-2"></dx-number-box>
-                <!-- <input formControlName="maxPrice" onkeypress='return event.charCode >= 48 && event.charCode <= 57' type="text" style="padding-left: 30px" class="categ_outline_red w-20 mr-2" /> -->
               </span>
             </div>
           </div>
@@ -51,12 +49,17 @@
         <p>Delivery:</p>
       </div>
       <div class="col-sm-8">
-        <input id="instorepickup" type="radio" formControlName="delivery" name="delivery" value="in-store pick up" />
-        <label class="categ_outline_gray mr-2" for="instorepickup">in-store pick up</label>
-        <input id="onefivedaysdelivery" type="radio" formControlName="delivery" name="delivery" value="Express: 3 to 5 business days" />
-        <label class="categ_outline_gray mr-2" for="onefivedaysdelivery">Express: 3 to 5 business days</label>
-        <input id="twobusinessdaysdelivery" type="radio" formControlName="delivery" name="delivery" value="2 business days delivery" />
-        <label class="categ_outline_gray mr-2" for="twobusinessdaysdelivery">2 business days delivery</label>
+        <input id="twobusinessdayshipping" type="radio" formControlName="delivery" name="delivery" value="2 business day shipping" />
+        <label class="categ_outline_gray mr-2" for="twobusinessdayshipping">2 business day shipping</label>
+        
+        <input id="onebusinessdayshipping" type="radio" formControlName="delivery" name="delivery" value="1 business day shipping" />
+        <label class="categ_outline_gray mr-2" for="onebusinessdayshipping">1 business day shipping</label>
+        
+        <input id="fivetoeightbusinessdays" type="radio" formControlName="delivery" name="delivery" value="5 to 8 business days" />
+        <label class="categ_outline_gray mr-2" for="fivetoeightbusinessdays">5 to 8 business days</label>
+        
+        <input id="threetofivebusinessdays" type="radio" formControlName="delivery" name="delivery" value="3 to 5 business days" />
+        <label class="categ_outline_gray mr-2" for="threetofivebusinessdays">3 to 5 business days</label>
       </div>
       <div class="col-sm-2"></div>
     </div>
