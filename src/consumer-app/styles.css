@@ -2154,7 +2154,7 @@ input::-webkit-inner-spin-button {
 }
 .dropdown-menu {
     top: 65px !important;
-    width: 415px;
+    width: 401px;
     position: fixed !important;
     left: calc(100% - 400px) !important;
     height: 100%;
