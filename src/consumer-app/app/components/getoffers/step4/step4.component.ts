@@ -14,6 +14,7 @@ import { OfferInfo4 } from '../../../../../models/steps.modal';
 export class Step4Component implements OnInit {
   pageLabel: string;
   headerMessage: string;
+  loader: boolean = false;
   Step1Data;
   Step2Data;
   Step3Data;
@@ -51,6 +52,7 @@ export class Step4Component implements OnInit {
   };
 
   next() {
+    this.loader = true;
     this.Step4Modal.placeName = this.Step4Summary.place.name;
     this.Step4Modal.categoryName = this.Step4Summary.category.name;
     this.Step4Modal.subCategoryName = this.Step4Summary.subCategory.name;
@@ -62,6 +64,7 @@ export class Step4Component implements OnInit {
     for (var i = 0; i < this.Step4Summary.type.length; i++) this.Step4Modal.typeName.push(this.Step4Summary.type[i].name);
     this.getOffer.confirmOffer(this.Step4Modal).subscribe(res => {
       console.log(res);
+      this.loader = false;
       localStorage.removeItem("GetOfferStep_1");
       localStorage.removeItem("GetOfferStep_3");
       window.localStorage['getOffers'] = JSON.stringify(res);
