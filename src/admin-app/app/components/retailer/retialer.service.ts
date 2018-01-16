@@ -290,7 +290,7 @@ export class RetialerService {
       .catch(this.handleError);
   }
 
-  saveProduct(obj: RetailerProductInfo) {
+  saveProduct(obj: any) {
     this.headers = this.getHttpHeraders();
     const url = `${this.BASE_URL}/${environment.apis.retailerProduct.save}`;
     return this.http
@@ -298,7 +298,7 @@ export class RetialerService {
       .map(p => {
         obj.status = true;
         this.productData.next(obj);
-        return new RetailerProductInfo(obj);
+        return obj;
       })
       .catch(this.handleError);
 

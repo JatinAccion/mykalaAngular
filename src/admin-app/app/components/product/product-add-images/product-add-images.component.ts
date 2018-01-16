@@ -61,17 +61,17 @@ export class ProductAddImagesComponent implements OnInit {
     this.readForm();
     this.validatorExt.validateAllFormFields(this.fG1);
     if (!this.fG1.valid) {
-      // this.productService.saveProductImages({ kalaUniqueId: 'this.product.kalaUniqueId', images: this.productImages }).subscribe(e => console.log(e));
+      this.productService.saveProductImages({ kalaUniqueId: this.product.kalaUniqueId, images: this.productImages }).subscribe(e => console.log(e));
       // this.productService.saveProductImages({ kalaUniqueId: this.product.kalaUniqueId, images: this.productImages[0] })
-      this.productService.saveProductImages({  kalaUniqueId: this.product.kalaUniqueId, images: this.productImages  })
-        .then(res => {
-        return true;
-      })
-        .catch(err => {
-          console.log(err);
+      // this.productService.saveProductImages({  kalaUniqueId: this.product.kalaUniqueId, images: this.productImages  })
+      //   .then(res => {
+      //   return true;
+      // })
+      //   .catch(err => {
+      //     console.log(err);
 
-          return false;
-        });
+      //     return false;
+      //   });
     } else {
       this.saveLoader = true;
       this.productChange.emit(this.product);

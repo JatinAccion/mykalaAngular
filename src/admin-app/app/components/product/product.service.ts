@@ -69,33 +69,35 @@ export class ProductService {
         .catch(this.handleError);
     }
   }
-  saveProductImages(images: any): Promise<any> {
-    this.headers = this.getHttpHeraders();
-    const url = `${this.BASE_URL}/${environment.apis.product.saveImage}`;
-
-    const formData = this.objectToFormData(images);
-    const headers = new Headers({
-      'Content-Type': 'multipart/form-data'
-      //  Authorization: token //`Bearer ${token}`
-    });
-    return this.http
-      .post(url, formData, { headers: headers })
-      .toPromise()
-      .catch(this.handleError);
-  }
-
-  // saveProductImages(images: any): Observable<any> {
-  //   // const formdata: FormData = new FormData();
-  //   // formdata.append('images', images.Images.productImages[0].imageurl);
-  //   const formdata = this.objectToFormData(images);
+  // saveProductImages(images: any): Promise<any> {
+  //   this.headers = this.getHttpHeraders();
   //   const url = `${this.BASE_URL}/${environment.apis.product.saveImage}`;
-  //   const req = new HttpRequest('POST', url, formdata, {
-  //     reportProgress: true,
-  //     responseType: 'text'
-  //   });
 
-  //   return this.httpc.request(req);
+  //   const formData = this.objectToFormData(images);
+  //   const headers = new Headers({
+  //     'Content-Type': 'multipart/form-data'
+  //     //  Authorization: token //`Bearer ${token}`
+  //   });
+  //   return this.http
+  //     .post(url, formData, { headers: headers })
+  //     .toPromise()
+  //     .catch(this.handleError);
   // }
+
+  saveProductImages(images: any): Observable<any> {
+    const formdata: FormData = new FormData();
+    formdata.append('images', images.images);
+    formdata.append('kalaUniqueId', images.kalaUniqueId);
+
+    // const formdata = this.objectToFormData(images);
+    const url = `${this.BASE_URL}/${environment.apis.product.saveImage}`;
+    const req = new HttpRequest('POST', url, formdata, {
+      reportProgress: true,
+      responseType: 'text'
+    });
+
+    return this.httpc.request(req);
+  }
   private handleError(error: Response) {
     // in a real world app, we may send the server to some remote logging infrastructure
     // instead of just logging it to the console
