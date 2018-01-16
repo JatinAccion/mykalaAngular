@@ -457,7 +457,8 @@ ng-sidebar-container[_nghost-c2]{
   background-color: #E06163;
   color: #ffffff;
   text-align: center;
-  width: 60px; }
+  width: 60px; 
+}
 #sidebar table a{
     color: #23150F;
     text-decoration: none;
@@ -1645,9 +1646,10 @@ input[formControlName="delivery"]{
 input[formControlName="delivery"] ~ label{
     cursor: pointer;
 }
-#instorepickup:checked ~ label[for="instorepickup"],
-#onefivedaysdelivery:checked ~ label[for="onefivedaysdelivery"],
-#twobusinessdaysdelivery:checked ~ label[for="twobusinessdaysdelivery"]{
+#twobusinessdayshipping:checked ~ label[for="twobusinessdayshipping"],
+#onebusinessdayshipping:checked ~ label[for="onebusinessdayshipping"],
+#fivetoeightbusinessdays:checked ~ label[for="fivetoeightbusinessdays"],
+#threetofivebusinessdays:checked ~ label[for="threetofivebusinessdays"]{
     background: #fff;
     border:solid 1px #e06263
 }
@@ -2151,13 +2153,29 @@ input::-webkit-inner-spin-button {
     font-size: 13px;
 }
 .dropdown-menu {
-    top: 35px !important;
-    width: 400px;
-    left: -22px !important;
+    top: 65px !important;
+    width: 415px;
+    position: fixed !important;
+    left: calc(100% - 400px) !important;
+    height: 100%;
+    border-radius: 0px;
 }
-.dropdown-menu table tr td{
-    padding: 1rem;
-    width: 100%;
+.dropdown-menu .dropdown-item{
+    padding: 1rem !important;
+    border-top: 1px solid #eceeef !important;
+    position: relative;
+    cursor: pointer;
+}
+.dropdown-item .right{
+    background-color: #E06163;
+    color: #ffffff;
+    text-align: center;
+    width: 60px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    line-height: 55px;
+    height: 100%;
 }
 .dropdown-menu p{
     margin-bottom: 12px;

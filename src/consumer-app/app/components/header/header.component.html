@@ -46,8 +46,9 @@
               </h5>
               <div class="btn-group float-left">
                 <div ngbDropdown class="d-inline-block">
-                  <a class="btn" id="dropdownBasic1" (click)="openNav()" ngbDropdownToggle>MY LOUNGE</a>
+                  <a class="btn" id="dropdownBasic1" ngbDropdownToggle>MY LOUNGE</a>
                   <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    <!--Menu Itmes-->
                     <div class="row p-2">
                       <div class="col-sm-2 pr-0">
                         <img src="/consumer-app/assets/images/avatar.jpg" class="img-fluid">
@@ -57,51 +58,33 @@
                         <p>{{emailId}}</p>
                       </div>
                     </div>
-                    <table class='table'>
-                      <tbody>
-                        <tr>
-                          <td routerLink="/myorder">
-                            <img src="/consumer-app/assets/images/icon_my_orders.png">
-                            <span>My Account</span>
-                          </td>
-                          <td></td>
-                        </tr>
-                        <tr>
-                          <td routerLink="/mycart">
-                            <img src="/consumer-app/assets/images/icon_my_cart.png">
-                            <span>My Cart</span>
-                          </td>
-                          <td class="right" *ngIf="core.showNoOfItemsInCart()">{{core.noOfItemsInCart}}</td>
-                        </tr>
-                        <tr>
-                          <td routerLink="/myorder">
-                            <img src="/consumer-app/assets/images/icon_my_orders.png">
-                            <span>My Orders</span>
-                          </td>
-                          <td></td>
-                        </tr>
-                        <tr>
-                          <td routerLink="/myoffer">
-                            <img src="/consumer-app/assets/images/icon_news_alerts.png">
-                            <span>My Offers</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td routerLink="/new-alerts">
-                            <img src="/consumer-app/assets/images/icon_my_favorites.png">
-                            <span>New & Alerts</span>
-                          </td>
-                          <td></td>
-                        </tr>
-                        <tr>
-                          <td routerLink="/logout">
-                            <i class="fa fa-sign-out" aria-hidden="true"></i>
-                            <span>Sign Out</span>
-                          </td>
-                          <td></td>
-                        </tr>
-                      </tbody>
-                    </table>
+
+                    <div class="dropdown-item" routerLink="/mycart">
+                      <img src="/consumer-app/assets/images/icon_my_cart.png">
+                      <span>My Cart</span>
+                      <span class="right" *ngIf="core.showNoOfItemsInCart()">{{core.noOfItemsInCart}}</span>
+                    </div>
+
+                    <div class="dropdown-item" routerLink="/myorder">
+                      <img src="/consumer-app/assets/images/icon_my_orders.png">
+                      <span>My Orders</span>
+                    </div>
+
+                    <div class="dropdown-item" routerLink="/myoffer">
+                      <img src="/consumer-app/assets/images/icon_my_community.png">
+                      <span>My Offers</span>
+                    </div>
+
+                    <div class="dropdown-item" routerLink="/news-alerts">
+                      <img src="/consumer-app/assets/images/icon_news_alerts.png">
+                      <span>News & Alerts</span>
+                    </div>
+
+                    <div class="dropdown-item" routerLink="/logout">
+                      <i class="fa fa-sign-out" aria-hidden="true"></i>
+                      <span>Sign Out</span>
+                    </div>
+                    <!--Menu Itmes-->
                   </div>
                 </div>
               </div>
@@ -192,8 +175,9 @@
               </h5>
               <div class="btn-group float-left">
                 <div ngbDropdown class="d-inline-block">
-                  <a class="btn" id="dropdownBasic1" (click)="openNav()" ngbDropdownToggle>MY LOUNGE</a>
+                  <a class="btn" id="dropdownBasic1" ngbDropdownToggle>MY LOUNGE</a>
                   <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    <!--Menu Itmes-->
                     <div class="row p-2">
                       <div class="col-sm-2 pr-0">
                         <img src="/consumer-app/assets/images/avatar.jpg" class="img-fluid">
@@ -203,51 +187,33 @@
                         <p>{{emailId}}</p>
                       </div>
                     </div>
-                    <table class='table'>
-                      <tbody>
-                        <tr>
-                          <td routerLink="/myorder">
-                            <img src="/consumer-app/assets/images/icon_my_orders.png">
-                            <span>My Account</span>
-                          </td>
-                          <td></td>
-                        </tr>
-                        <tr>
-                          <td routerLink="/mycart">
-                            <img src="/consumer-app/assets/images/icon_my_cart.png">
-                            <span>My Cart</span>
-                          </td>
-                          <td class="right" *ngIf="core.showNoOfItemsInCart()">{{core.noOfItemsInCart}}</td>
-                        </tr>
-                        <tr>
-                          <td routerLink="/myorder">
-                            <img src="/consumer-app/assets/images/icon_my_orders.png">
-                            <span>My Orders</span>
-                          </td>
-                          <td></td>
-                        </tr>
-                        <tr>
-                          <td routerLink="/myoffer">
-                            <img src="/consumer-app/assets/images/icon_news_alerts.png">
-                            <span>My Offers</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td routerLink="/new-alerts">
-                            <img src="/consumer-app/assets/images/icon_my_favorites.png">
-                            <span>New & Alerts</span>
-                          </td>
-                          <td></td>
-                        </tr>
-                        <tr>
-                          <td routerLink="/logout">
-                            <i class="fa fa-sign-out" aria-hidden="true"></i>
-                            <span>Sign Out</span>
-                          </td>
-                          <td></td>
-                        </tr>
-                      </tbody>
-                    </table>
+
+                    <div class="dropdown-item" routerLink="/mycart">
+                      <img src="/consumer-app/assets/images/icon_my_cart.png">
+                      <span>My Cart</span>
+                      <span class="right" *ngIf="core.showNoOfItemsInCart()">{{core.noOfItemsInCart}}</span>
+                    </div>
+
+                    <div class="dropdown-item" routerLink="/myorder">
+                      <img src="/consumer-app/assets/images/icon_my_orders.png">
+                      <span>My Orders</span>
+                    </div>
+
+                    <div class="dropdown-item" routerLink="/myoffer">
+                      <img src="/consumer-app/assets/images/icon_my_community.png">
+                      <span>My Offers</span>
+                    </div>
+
+                    <div class="dropdown-item" routerLink="/news-alerts">
+                      <img src="/consumer-app/assets/images/icon_news_alerts.png">
+                      <span>News & Alerts</span>
+                    </div>
+
+                    <div class="dropdown-item" routerLink="/logout">
+                      <i class="fa fa-sign-out" aria-hidden="true"></i>
+                      <span>Sign Out</span>
+                    </div>
+                    <!--Menu Itmes-->
                   </div>
                 </div>
               </div>
