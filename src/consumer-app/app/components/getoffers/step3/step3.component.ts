@@ -124,9 +124,9 @@ export class Step3Component implements OnInit {
           this.fetchGeoCode = data.results[0].formatted_address;
           console.log(this.fetchGeoCode);
           this.getCSC.push({
-            "zipcode": this.getOffer_orderInfo.controls.zipCode.value,
-            "country": this.fetchGeoCode.split(',')[2],
-            "state": this.fetchGeoCode.split(',')[1].trim().split(" ")[0]
+            "zipcode": this.getOffer_orderInfo.controls.zipCode.value.trim(),
+            "country": this.fetchGeoCode.split(',')[2].trim(),
+            "state": this.fetchGeoCode.split(',')[1].trim().split(" ")[0].trim()
           });
         });
     }

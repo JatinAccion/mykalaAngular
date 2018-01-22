@@ -2154,7 +2154,7 @@ input::-webkit-inner-spin-button {
 }
 .dropdown-menu {
     top: 65px !important;
-    width: 415px;
+    width: 401px;
     position: fixed !important;
     left: calc(100% - 400px) !important;
     height: 100%;
@@ -2180,4 +2180,11 @@ input::-webkit-inner-spin-button {
 .dropdown-menu p{
     margin-bottom: 12px;
     font-size: 13px;
+}
+ngb-datepicker.dropdown-menu{
+    position: absolute !important;
+    left: 15px !important;
+    height: auto;
+    top: 35px !important;
+    width: auto !important;
 }
