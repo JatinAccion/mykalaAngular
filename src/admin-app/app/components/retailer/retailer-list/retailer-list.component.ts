@@ -5,6 +5,7 @@ import { CoreService } from '../../../services/core.service';
 import { Alert } from '../../../../../models/IAlert';
 import { Observable } from 'rxjs/Observable';
 import { userMessages } from './messages';
+import { RetailerProfileInfo } from '../../../../../models/retailer-profile-info';
 
 @Component({
   selector: 'app-retailer-list',
@@ -41,12 +42,13 @@ export class RetailerListComponent implements OnInit {
       this.loading = false;
     });
   }
-  deactivate(retailerId: number) {
-    const msg = new Alert(userMessages.deactivate, 'Confirmation');
+  deactivate(retailer: RetailerProfileInfo) {
+    const msg = new Alert(retailer.status ? userMessages.deactivate : userMessages.reactivate, 'Confirmation');
     this.core.showDialog(msg).then(res => {
       if (res === 'yes') {
-        this.retialerService.changeStatus(retailerId, true).subscribe(p => {
-          this.core.message.success(userMessages.deactivateSuccess);
+        this.retialerService.changeStatus(retailer.retailerId, !retailer.status).subscribe(p => {
+          this.core.message.success(retailer.status ? userMessages.deactivateSuccess : userMessages.reactivateSuccess);
+          retailer.status = !retailer.status;
         });
       }
     });

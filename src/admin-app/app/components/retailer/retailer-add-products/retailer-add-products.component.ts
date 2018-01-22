@@ -6,7 +6,6 @@ import { NgbTabset } from '@ng-bootstrap/ng-bootstrap/tabset/tabset';
 import { nameValue, IdNameParent } from '../../../../../models/nameValue';
 
 import { RetialerService } from '../retialer.service';
-import { IAlert } from '../../../../../models/IAlert';
 import { environment } from '../../../../environments/environment';
 import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 import { inputValidations } from './messages';
@@ -25,7 +24,6 @@ export class RetailerAddProductsComponent implements OnInit {
   @Output() SaveData = new EventEmitter<any>();
   @Input() productData: RetailerProductInfo;
   @Output() productDataChange = new EventEmitter<RetailerProductInfo>();
-  alert: IAlert = { id: 1, type: 'success', message: '', show: false };
 
 
   places = new Array<IdNameParent>();
@@ -154,6 +152,11 @@ export class RetailerAddProductsComponent implements OnInit {
       this.productService.getProductTypes(this.selectedSubCategories.map(p => p.id)).subscribe(res => {
         this.productTypes = res.map(p => new IdNameParent(p.TypeId, p.TypeName, p.SubCategoryId, p.SubCategoryName));
       });
+      this.fG1.controls.productType.setValidators([Validators.required]);
+      this.fG1.controls.productType.updateValueAndValidity();
+    } else {
+      this.fG1.controls.productType.clearValidators();
+      this.fG1.controls.productType.updateValueAndValidity();
     }
   }
   onSubCategorySelect(item: any) { this.refreshProductTypes(); }
@@ -165,6 +168,7 @@ export class RetailerAddProductsComponent implements OnInit {
     this.readForm();
     this.validatorExt.validateAllFormFields(this.fG1);
     if (!this.fG1.valid) {
+      this.core.message.info('Please complete all mandatory fields');
     } else {
       this.saveLoader = true;
       this.retialerService

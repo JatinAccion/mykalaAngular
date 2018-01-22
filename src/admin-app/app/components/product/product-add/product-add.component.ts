@@ -13,6 +13,7 @@ import { Promise } from 'q';
 import { RetialerService } from '../../retailer/retialer.service';
 import { inputValidations } from './messages';
 import { RetailerProfileInfo } from '../../../../../models/retailer-profile-info';
+import { CoreService } from '../../../services/core.service';
 // #endregion imports
 
 
@@ -50,7 +51,8 @@ export class ProductAddComponent implements OnInit {
     route: ActivatedRoute,
     private productService: ProductService,
     private retialerService: RetialerService,
-    private validatorExt: ValidatorExt
+    private validatorExt: ValidatorExt,
+    private core: CoreService
   ) {
     //this.productId = route.snapshot.params['id'];
     this.retailers = new Array<RetailerProfileInfo>();
@@ -66,8 +68,8 @@ export class ProductAddComponent implements OnInit {
     });
   }
   getRetailersData() {
-    this.retialerService.get(null).subscribe((res) => {
-      return this.retailers = res.content;
+    this.productService.getSellerNames().subscribe((res) => {
+      return this.retailers = res;
     });
   }
   selectSeller(e) {
@@ -81,17 +83,15 @@ export class ProductAddComponent implements OnInit {
   }
   setActiveTab(event) {
     // if (!this.productId && event.nextId !== 'tab-category') { event.preventDefault(); return; }
-    if (this.fG1) {
-      this.fG1.controls.retailer.reset({ value: this.retailer, disabled: event.nextId !== 'tab-category' });
-
-    }
-
-    if (event.nextId === 'tab-delivery') {
+    
+    if (event.nextId !== 'tab-category') {
       this.validatorExt.validateAllFormFields(this.fG1);
       if (this.fG1.invalid) {
+        this.core.message.info('');
         event.preventDefault(); return;
       }
     }
+    if (this.fG1) { this.fG1.controls.retailer.reset({ value: this.retailer, disabled: event.nextId !== 'tab-category' }); }
     if (!this.productId) {
       switch (event.nextId) {
         case 'tab-images':

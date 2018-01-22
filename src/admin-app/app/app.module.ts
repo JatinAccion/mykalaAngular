@@ -7,7 +7,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawesome';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { NgxPaginationModule } from 'ngx-pagination';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.route';
 
@@ -63,6 +63,7 @@ import { OrderModule } from './components/order/order.module';
     Angular2FontawesomeModule,
     AngularMultiSelectModule,
     NgxPaginationModule,
+    BrowserAnimationsModule,
     ToastrModule.forRoot({ timeOut: 3000, progressBar: true, closeButton: true })
   ],
   providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, LocalStorageService],

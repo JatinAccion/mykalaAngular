@@ -12,6 +12,7 @@ import { environment } from './../../../environments/environment';
 import { nameValue } from '../../../../models/nameValue';
 import { Product, Products } from '../../../../models/Product';
 import { ProductPlace, ProductType, ProductSubCategory, ProductCategory } from '../../../../models/product-info';
+import { RetailerProfileInfo } from '../../../../models/retailer-profile-info';
 
 @Injectable()
 export class ProductService {
@@ -36,7 +37,7 @@ export class ProductService {
     this.seedStaticData();
   }
   seedStaticData() {
-  
+
   }
   get(query: any): Observable<Products> {
     this.headers = this.getHttpHeraders();
@@ -62,41 +63,37 @@ export class ProductService {
       return Observable.of(this.shippingProfiles);
     } else {
       this.headers = this.getHttpHeraders();
-      const url = `${ environment.AdminApi}/${environment.apis.retailers.getShippingProfileNames}`;
+      const url = `${environment.AdminApi}/${environment.apis.retailers.getShippingProfileNames}`.replace('{retailerId}', retailerId.toString());
       return this.http
-        .get(`${url}`, { search: { retailerId: retailerId }, headers: this.headers })
+        .get(`${url}`, { headers: this.headers })
         .map(res => <Array<any>>res.json().map(obj => new nameValue(obj.shipProfileId, obj.profileName)))
         .catch(this.handleError);
     }
   }
-  // saveProductImages(images: any): Promise<any> {
-  //   this.headers = this.getHttpHeraders();
-  //   const url = `${this.BASE_URL}/${environment.apis.product.saveImage}`;
-
-  //   const formData = this.objectToFormData(images);
-  //   const headers = new Headers({
-  //     'Content-Type': 'multipart/form-data'
-  //     //  Authorization: token //`Bearer ${token}`
-  //   });
-  //   return this.http
-  //     .post(url, formData, { headers: headers })
-  //     .toPromise()
-  //     .catch(this.handleError);
-  // }
-
+  public getSellerNames(): Observable<RetailerProfileInfo[]> {
+    this.headers = this.getHttpHeraders();
+    const url = `${environment.AdminApi}/${environment.apis.retailers.getRetailerNames}`;
+    return this.http
+      .get(`${url}`, { headers: this.headers })
+      .map(res => <Array<any>>res.json().map(obj => new RetailerProfileInfo(obj)))
+      .catch(this.handleError);
+  }
   saveProductImages(images: any): Observable<any> {
     const formdata: FormData = new FormData();
-    formdata.append('images', images.images);
+    for (let i = 0; i < images.images.length; i++) {
+      const element = images.images[i];
+      formdata.append('images', element, element.name);
+    }
+    formdata.append('mainImage', images.mainImage, images.mainImage.name);
     formdata.append('kalaUniqueId', images.kalaUniqueId);
 
-    // const formdata = this.objectToFormData(images);
-    const url = `${this.BASE_URL}/${environment.apis.product.saveImage}`;
+    let url = `${this.BASE_URL}/${environment.apis.product.saveImage}`;
     const req = new HttpRequest('POST', url, formdata, {
       reportProgress: true,
       responseType: 'text'
     });
 
-    return this.httpc.request(req);
+    return this.httpc.request(req).map(p => p);
   }
   private handleError(error: Response) {
     // in a real world app, we may send the server to some remote logging infrastructure

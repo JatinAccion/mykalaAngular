@@ -37,7 +37,11 @@ export class RetailerProfileInfo {
             this.modifiedDate = obj.modifiedDate;
             this.status = obj.status;
             this.businessAddress = new RetailerBuinessAddress(obj.businessAddress);
-            this.contactPerson = obj.contactPerson.map(p => new RetailerContact(p));
+            if (obj.contactPerson) {
+                this.contactPerson = obj.contactPerson.map(p => new RetailerContact(p));
+            } else {
+                this.contactPerson = new Array<RetailerContact>();
+            }
         } else {
             this.businessAddress = new RetailerBuinessAddress();
             this.contactPerson = new Array<RetailerContact>();

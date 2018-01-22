@@ -8,12 +8,7 @@
   <div class="collapse navbar-collapse headerMenu" [ngClass]="{show:menuCollapse}" id="navbarsExampleDefault" *ngIf="core.navVisible">
     <ul class="navbar-nav mr-auto">
       <li ngbDropdown class="nav-item dropdown ">
-        <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" ngbDropdownToggle>Accounts</a>
-        <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown01">
-          <a class="dropdown-item " [routerLinkActive]="['active']" routerLink="/retailer-list">Seller Accounts</a>
-          <a class="dropdown-item " [routerLinkActive]="['active']" routerLink="/retailer-edit">Accounts Info</a>
-          <a class="dropdown-item " [routerLinkActive]="['active']" routerLink="/retailer-list">Shipping Profiles</a>
-        </div>
+        <a class="nav-link" [routerLinkActive]="['active']" routerLink="/retailer-list">Accounts</a>
       </li>
       <li ngbDropdown class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>Products</a>

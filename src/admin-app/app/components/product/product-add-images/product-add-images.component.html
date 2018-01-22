@@ -1,4 +1,4 @@
-<div [formGroup]="fG1" class="col-sm-12 p-3">
+<div class="col-sm-12 p-3">
     <div class="input-group row">
         <span class="input-group-btn w-100">
             <span class="btn btn-file draglogo">
@@ -9,53 +9,41 @@
 
                     </div>
                 </div>
-                <input formControlName="productImage" accept="image/jpeg" (change)="fileChangeEvent($event, profileFG1)" type="file" class="uploadImage" multiple />
+                <input accept="image/jpeg" (change)="fileChangeEvent($event)" type="file" class="uploadImage" multiple />
             </span>
         </span>
-        <app-field-error-display [field]="fG1.controls.productImage" [errorMsg]="errorMsgs"> </app-field-error-display>
         <div class="col-sm-12 p-0">Main Image
-            <span class="float-right colorlightGray">Drag to change main image</span>
+            <span class="float-right colorlightGray">Click to change main image</span>
         </div>
-        <div class="col-sm-12 p-0"> 
-            <p class="pt-2 pb-2">Count: {{ productImages.length }}</p> 
+        <div class="col-sm-12 p-0">
+            <p class="pt-2 pb-2">Count: {{ productImages.length }}</p>
             <table class="table">
                 <thead>
                     <tr>
                         <th width="50%">Name</th>
                         <th>Size</th>
-                        <th>Progress</th>
-                        <th>Status</th>
+                        <th>MainImage</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of productImages">
                         <td>
-                            <strong>{{ item?.imageurl?.name }}</strong>
+                            <strong>{{ item.file?.name }}</strong>
                         </td>
-                        <td nowrap>{{ item?.imageurl?.size/1024/1024 | number:'.2' }} MB</td>
-                        <td>
-                            <div class="progress" style="margin-bottom: 0;">
-                                <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
-                            </div>
-                        </td>
-                        <td class="text-center">
-                            <span *ngIf="item.isSuccess">
-                                <i class="fa fa-ok"></i>
-                            </span>
-                            <span *ngIf="item.isCancel">
-                                <i class="fa fa-times"></i>
-                            </span>
-                            <span *ngIf="item.isError">
-                                <i class="fa fa-remove"></i>
-                            </span>
+                        <td nowrap>{{ item.file?.size/1024/1024 | number:'.2' }} MB</td>
+                        <td nowrap>
+                            <input type="radio" name="mainImage" 
+                            [checked]="item.mainImage" 
+                            [value]="item" 
+                            (change)="onSelectionChange(item)" >
                         </td>
                         <td nowrap>
-                            <button type="button" class="btn btn-success btn-xs" (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
-                                <span class="fa fa-upload"></span> 
+                            <button type="button" class="btn btn-success btn-xs" (click)="upload(item)" >
+                                <span class="fa fa-upload"></span>
                             </button>
-                            <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
-                                <span class="fa fa-trash"></span> 
+                            <button type="button" class="btn btn-danger btn-xs" (click)="remove(item)">
+                                <span class="fa fa-trash"></span>
                             </button>
                         </td>
                     </tr>
@@ -65,39 +53,37 @@
             <div>
                 <div>
                     Queue progress:
-                    <!-- <div class="progress" style="">
-                        <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
-                    </div> -->
                 </div>
-                <button type="button" class="btn btn-success btn-s" (click)="saveData()" [disabled]="!getNotUploadedItems().length">
+                <button type="button" class="btn btn-success btn-s" (click)="saveData()">
                     <span class="fa fa-upload"></span> Upload all
                 </button>
-                <button type="button" class="btn btn-danger btn-s" (click)="clearQueue()" [disabled]="!queue.length">
+                <button type="button" class="btn btn-danger btn-s" (click)="removeAll()">
                     <span class="fa fa-trash"></span> Remove all
                 </button>
             </div>
 
         </div>
-    </div> 
+    </div>
     <div class="row mt-2 anc_otherImg">
-        <a href="#" class="anc_otherImg"><img src="/admin-app/assets/images/lamp1.png"></a> 
+        <a href="#" class="anc_otherImg" *ngIf="mainImage">
+            <img src="{{mainImage}}">
+        </a>
         <div class="overlay">
-            <div class="text"><span class="fa fa-trash"></span></div>
+            <div class="text">
+                <span class="fa fa-trash"></span>
+            </div>
         </div>
     </div>
     <p class="row">Other Images</p>
-    <div class="row"> 
-        <div class="d-inline anc_otherImg">
-            <img src="/admin-app/assets/images/lamp2.png">
+    <div class="row">
+        <div class="d-inline anc_otherImg" *ngFor="let image of uploadedImages" >
+            <img src="{{image}}">
             <div class="overlay">
-                <div class="text"><span class="fa fa-refresh"></span> <span class="fa fa-trash"></span></div>
+                <div class="text">
+                    <span class="fa fa-refresh"></span>
+                    <span class="fa fa-trash"></span>
+                </div>
             </div>
-        </div>
-        <div class="d-inline anc_otherImg">
-            <img src="/admin-app/assets/images/lamp3.png">
-            <div class="overlay">
-                <div class="text"><span class="fa fa-refresh"></span> <span class="fa fa-trash"></span></div>
-            </div>
-        </div> 
+        </div>       
     </div>
 </div>

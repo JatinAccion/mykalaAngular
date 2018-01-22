@@ -14,28 +14,58 @@
                 </select>
             </li>
             <li>
-                <select class="ddl_default form-control" [(ngModel)]="productPlace" (change)="placeChanged($event)">
+                <!-- <select class="ddl_default form-control" [(ngModel)]="productPlace" (change)="placeChanged($event)">
                     <option [ngValue]="productPlaceDummy">Select Place</option>
                     <option *ngFor="let option of places" [ngValue]="option">
                         {{option.PlaceName}}
                     </option>
-                </select>
+                </select> -->
+                <angular2-multiselect [data]="places" [(ngModel)]="selectedPlaces" [settings]="placesSettings" (onSelect)="onPlaceSelect($event)" (onDeSelect)="onPlaceDeSelect($event)" (onSelectAll)="onPlaceSelectAll($event)" (onDeSelectAll)="onPlaceDeSelectAll($event)">
+
+                </angular2-multiselect>
+                <!-- formControlName="place" -->
+                <!--Validation-->
+                <!-- <app-field-error-display [field]="fG1.controls.place" [errorMsg]="errorMsgs"> </app-field-error-display> -->
+                <!--Validation-->
             </li>
             <li>
-                <select class="ddl_default form-control" [(ngModel)]="productCategory" (change)="categoryChanged($event)">
+                <!-- <select class="ddl_default form-control" [(ngModel)]="productCategory" (change)="categoryChanged($event)">
                     <option [ngValue]="productCategoryDummy">Select Category</option>
                     <option *ngFor="let option of categories" [ngValue]="option">
                         {{option.CategoryName}}
                     </option>
-                </select>
+                </select> -->
+                <angular2-multiselect [data]="categories" [(ngModel)]="selectedCategories" [settings]="categorySettings" (onSelect)="onCategorySelect($event)" (onDeSelect)="onCategoryDeSelect($event)" (onSelectAll)="onCategorySelectAll($event)" (onDeSelectAll)="onCategoryDeSelectAll($event)">
+
+                </angular2-multiselect>
+                <!-- formControlName="category" -->
+                <!--Validation-->
+                <!-- <app-field-error-display [field]="fG1.controls.category" [errorMsg]="errorMsgs"> </app-field-error-display> -->
+                <!--Validation-->
             </li>
             <li>
-                <select class="ddl_default form-control" [(ngModel)]="productSubCategory">
+                <!-- <select class="ddl_default form-control" [(ngModel)]="productSubCategory">
                     <option [ngValue]="productSubCategoryDummy">Select Sub Catetory</option>
                     <option *ngFor="let option of subCategories" [ngValue]="option">
                         {{option.SubCategoryName}}
                     </option>
-                </select>
+                </select> -->
+                <angular2-multiselect [data]="subCategories" [(ngModel)]="selectedSubCategories" [settings]="subCategorySettings" (onSelect)="onSubCategorySelect($event)" (onDeSelect)="onSubCategoryDeSelect($event)" (onSelectAll)="onSubCategorySelectAll($event)" (onDeSelectAll)="onSubCategoryDeSelectAll($event)">
+
+                </angular2-multiselect>
+                <!-- formControlName="subCategory" -->
+                <!--Validation-->
+                <!-- <app-field-error-display [field]="fG1.controls.subCategory" [errorMsg]="errorMsgs"> </app-field-error-display> -->
+                <!--Validation-->
+            </li>
+            <li>
+                <angular2-multiselect [data]="productTypes" [(ngModel)]="selectedProductTypes" [settings]="productTypeSettings" (onSelect)="onProductTypeSelect($event)" (onDeSelect)="onProductTypeDeSelect($event)" (onSelectAll)="onProductTypeSelectAll($event)" (onDeSelectAll)="onProductTypeDeSelectAll($event)">
+
+                </angular2-multiselect>
+                <!-- formControlName="productType" -->
+                <!--Validation-->
+                <!-- <app-field-error-display [field]="fG1.controls.productType" [errorMsg]="errorMsgs"> </app-field-error-display> -->
+                <!--Validation-->
             </li>
             <li>
                 <select class="ddl_default w-100 form-control" [(ngModel)]="retailer">

@@ -7,6 +7,7 @@ import { ProductListComponent } from './product-list/product-list.component';
 import { ProductAddComponent } from './product-add/product-add.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ProductService } from './product.service';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 
 import { ValidatorExt } from '../../../../common/ValidatorExtensions';
 import { SharedModule } from '../../../../common/shared.module';
@@ -27,7 +28,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     NgbModule,
     ReactiveFormsModule,
     SharedModule, FormsModule, HttpClientModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    AngularMultiSelectModule
   ],
   declarations: [
     ProductListComponent,

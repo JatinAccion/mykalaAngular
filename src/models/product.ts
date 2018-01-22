@@ -15,7 +15,7 @@ export class Product {
     public productCategoryName: string;
     public productSubCategoryName: string;
     public productTypeName: string;
-    public retailPrice: number;
+    public retailPrice: number = 2;
     public kalaPrice: number;
     public lowestPrice: number;
     public quantity: number;
@@ -48,7 +48,7 @@ export class Product {
             this.kalaPrice = obj.kalaPrice;
             this.quantity = obj.quantity;
             this.shipProfileId = obj.shipProfileId;
-            this.productStatus = obj.productStatus;
+            this.productStatus = obj.productStatus || true;
             this.productActivatedDate = obj.productActivatedDate;
             this.createdDate = obj.createdDate;
             this.productImages = obj.productImages ? obj.productImages.map(p => new ProductImage(p)) : new Array<ProductImage>();
@@ -56,6 +56,8 @@ export class Product {
             if (!this.mainImage) {
                 delete this.mainImage;
             }
+        } else {
+            this.productStatus = true;
         }
     }
 }

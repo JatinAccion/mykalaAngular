@@ -90,10 +90,9 @@ export class RetailerAddPaymentComponent implements OnInit {
     this.retialerService.getPaymentVehicles().subscribe(res => {
       this.paymentVehicles = res.filter(p => p.parent === this.paymentInfoObj.paymentMethod);
     });
-  }
-  paymentVehicleChange() {
-    this.readPaymenInfo();
-    const isRequired = this.paymentFG1.value.paymentVehicle === '1';
+
+
+    const isRequired = this.paymentFG1.value.paymentMethod !== '1';
 
     this.paymentFG1.controls.bankname.setValidators([Validators.pattern(environment.regex.textRegex), this.validatorExt.getRV(isRequired)]);
     this.paymentFG1.controls.addressLine1.setValidators([Validators.pattern(environment.regex.textRegex), this.validatorExt.getRV(isRequired)]);
@@ -127,7 +126,9 @@ export class RetailerAddPaymentComponent implements OnInit {
     this.paymentFG2.controls.city.updateValueAndValidity();
     this.paymentFG2.controls.state.updateValueAndValidity();
     this.paymentFG2.controls.zipcode.updateValueAndValidity();
-
+  }
+  paymentVehicleChange() {
+    this.readPaymenInfo();
   }
 
 
@@ -137,7 +138,7 @@ export class RetailerAddPaymentComponent implements OnInit {
     if (this.paymentFG1.valid) {
       this.paymentInfoStep = 2;
     } else {
-      this.core.message.info('Please fill mandatory');
+      this.core.message.info('Please complete all mandatory fields');
     }
   }
   paymentInfoBack() {

@@ -49,9 +49,9 @@ export class ProductAddPricingComponent implements OnInit {
 
   setFormValidators() {
     this.fG1 = this.formBuilder.group({
-      kalaPrice: ['0', [Validators.required, Validators.min(0)]],
-      retailPrice: ['0', [Validators.required, Validators.min(0)]],
-      lowestPrice: ['0', [Validators.required, Validators.min(0)]],
+      kalaPrice: [{ value: '2.00', step: '0.01' }, [Validators.required, Validators.min(0)]],
+      retailPrice: [{ value: '0.00', step: '0.01' }, [Validators.required, Validators.min(0)]],
+      lowestPrice: [{ value: '0.00', step: '0.01' }, [Validators.required, Validators.min(0)]],
     });
   }
 

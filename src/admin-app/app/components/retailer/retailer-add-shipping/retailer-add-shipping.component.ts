@@ -137,7 +137,7 @@ export class RetailerAddShippingComponent implements OnInit {
     const fg = this.formBuilder.group({
       shippingMethodId: shippingMethodId,
       shippingName: shippingName,
-      selected: true,
+      selected: shippingName !== 'Custom',
       disabled: false,
       charges: this.formBuilder.array([])
     });

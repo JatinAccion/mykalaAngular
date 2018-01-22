@@ -111,12 +111,12 @@ export class RetailerAddProfileComponent implements OnInit {
       { type: 'General contact', default: true, status: false },
       { type: 'Billing contact', default: true, status: false },
       { type: 'Shipping contact', default: true, status: false },
-      { type: 'Others', default: true, status: false },
+      { type: 'Add new contact', default: true, status: false },
     ];
 
   }
   contactTypeSelected(event) {
-    if (this.profileFG2.value.contact_type.type === 'Others') {
+    if (this.profileFG2.value.contact_type.type === 'Add new contact') {
       this.profileFG2.controls.contact_type_name.reset({ value: '', disabled: false });
     } else {
       this.profileFG2.controls.contact_type_name.reset({ value: this.profileFG2.value.contact_type.type, disabled: this.profileFG2.value.contact_type.default });
@@ -127,7 +127,7 @@ export class RetailerAddProfileComponent implements OnInit {
     // this.profileFG2.controls.contact_type.reset({ value: this.profileFG2.value.contact_type, disabled: true });
     if (this.profileFG2.value.contact_type.type !== this.profileFG2.value.contact_type_name) {
       const newContactType = { type: this.profileFG2.value.contact_type_name, default: false, status: true };
-      if (this.profileFG2.value.contact_type.type !== 'Others') {
+      if (this.profileFG2.value.contact_type.type !== 'Add new contact') {
         this.contactTypes.splice(this.contactTypes.indexOf(this.profileFG2.value.contact_type), 1);
       }
       this.contactTypes.push(newContactType);
@@ -189,7 +189,7 @@ export class RetailerAddProfileComponent implements OnInit {
     if (this.profileFG1.valid) {
       this.profileInfoStep = 2;
     } else {
-      this.core.message.info('Please fill mandatory');
+      this.core.message.info('Please complete all mandatory fields');
     }
   }
   profileInfoBack() {

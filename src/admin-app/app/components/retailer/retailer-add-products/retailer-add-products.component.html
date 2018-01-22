@@ -9,7 +9,10 @@
                         (onDeSelect)="onPlaceDeSelect($event)" 
                         (onSelectAll)="onPlaceSelectAll($event)" 
                         (onDeSelectAll)="onPlaceDeSelectAll($event)" formControlName="place">
-                    </angular2-multiselect>                   
+                    </angular2-multiselect>    
+                    <!--Validation-->
+                    <app-field-error-display [field]="fG1.controls.place" [errorMsg]="errorMsgs"> </app-field-error-display>
+                    <!--Validation-->               
                 </td>
             </tr>
             <tr>
@@ -20,7 +23,10 @@
                         (onDeSelect)="onCategoryDeSelect($event)" 
                         (onSelectAll)="onCategorySelectAll($event)" 
                         (onDeSelectAll)="onCategoryDeSelectAll($event)" formControlName="category">
-                    </angular2-multiselect>                  
+                    </angular2-multiselect>   
+                    <!--Validation-->
+                    <app-field-error-display [field]="fG1.controls.category" [errorMsg]="errorMsgs"> </app-field-error-display>
+                    <!--Validation-->               
                 </td>
             </tr>
             <tr>
@@ -31,7 +37,10 @@
                         (onDeSelect)="onSubCategoryDeSelect($event)" 
                         (onSelectAll)="onSubCategorySelectAll($event)" 
                         (onDeSelectAll)="onSubCategoryDeSelectAll($event)" formControlName="subCategory">
-                    </angular2-multiselect>        
+                    </angular2-multiselect>  
+                    <!--Validation-->
+                    <app-field-error-display [field]="fG1.controls.subCategory" [errorMsg]="errorMsgs"> </app-field-error-display>
+                    <!--Validation-->      
                 </td>
             </tr>
             <tr>
@@ -42,7 +51,10 @@
                         (onDeSelect)="onProductTypeDeSelect($event)" 
                         (onSelectAll)="onProductTypeSelectAll($event)" 
                         (onDeSelectAll)="onProductTypeDeSelectAll($event)" formControlName="productType">
-                    </angular2-multiselect>        
+                    </angular2-multiselect>      
+                    <!--Validation-->
+                    <app-field-error-display [field]="fG1.controls.productType" [errorMsg]="errorMsgs"> </app-field-error-display>
+                    <!--Validation-->  
                 </td>
                 <td class="border-0" width="20%">
                     
