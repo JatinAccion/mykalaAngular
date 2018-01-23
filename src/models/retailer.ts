@@ -32,6 +32,7 @@ export class RetailerReports {
         }
     }
 }
+
 export class RetailerReturnPolicy {
     public retailerId: number;
     public returnId: number;

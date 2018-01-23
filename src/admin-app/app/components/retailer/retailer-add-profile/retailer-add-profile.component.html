@@ -1,20 +1,22 @@
 <div [formGroup]="profileFG1" [ngClass]="{'show': profileInfoStep==1, 'hide': profileInfoStep!==1 }">
-    <label class="control-label" [ngClass]="validatorExt.displayFieldCss(profileFG1.controls.fileName)">Business Logo</label> 
+    <label class="control-label" [ngClass]="validatorExt.displayFieldCss(profileFG1.controls.fileName)">Business Logo</label>
     <div class="input-group">
         <span class="input-group-btn w-100">
             <span class="btn btn-file draglogo">
                 <div class="row p-2 text-center">
                     <div class="col-sm-12 text-center">Drag your Logo here</div>
-                    <div class="col-sm-12 text-center">or</div> 
+                    <div class="col-sm-12 text-center">or</div>
                     <div class="col-sm-12  text-center">Select..</div>
-                    <div class="col-sm-12 text-center"> {{ fileName}} </div> 
+                    <div class="col-sm-12 text-center"> {{ fileName}} </div>
                 </div>
                 <input formControlName="profileImage" accept="image/jpeg" (change)="fileChangeEvent($event, profileFG1)" type="file" class="uploadImage" />
             </span>
         </span>
         <input readonly="readonly" placeholder="Picture file" class="form-control hide" name="filename" type="text">
     </div>
-    <div class="col-sm-12 p-0"><app-field-error-display [field]="profileFG1.controls.fileName" [errorMsg]="errorMsgs"> </app-field-error-display></div>
+    <div class="col-sm-12 p-0">
+        <app-field-error-display [field]="profileFG1.controls.fileName" [errorMsg]="errorMsgs"> </app-field-error-display>
+    </div>
     <div class="form-group pt-2">
         <label class="control-label" [ngClass]="validatorExt.displayFieldCss(profileFG1.controls.businessName)">Business Name</label>
         <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="businessName">
@@ -109,47 +111,49 @@
         </div>
     </div>
 </div>
-<div [formGroup]="profileFG2" [ngClass]="{'show': profileInfoStep==2, 'hide': profileInfoStep!==2  }">
+<div [formGroup]="profileFG3" [ngClass]="{'show': profileInfoStep==2, 'hide': profileInfoStep!==2  }">
     <h5>Website details</h5>
     <div class="form-group">
         <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Website URL(optional) e.g.www.mykala.com" pattern formControlName="websiteUrl">
         <!--Validation-->
-        <app-field-error-display [field]="profileFG2.controls.websiteUrl" [errorMsg]="errorMsgs"> </app-field-error-display>
+        <app-field-error-display [field]="profileFG3.controls.websiteUrl" [errorMsg]="errorMsgs"> </app-field-error-display>
         <!--Validation-->
     </div>
     <div class="form-group">
         <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Username for acct. login (optional)" pattern formControlName="websiteUserName">
         <!--Validation-->
-        <app-field-error-display [field]="profileFG2.controls.websiteUserName" [errorMsg]="errorMsgs"> </app-field-error-display>
+        <app-field-error-display [field]="profileFG3.controls.websiteUserName" [errorMsg]="errorMsgs"> </app-field-error-display>
         <!--Validation-->
     </div>
     <div class="form-group">
         <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Password for acct. login (optional)" pattern formControlName="websitePassword">
         <!--Validation-->
-        <app-field-error-display [field]="profileFG2.controls.websitePassword" [errorMsg]="errorMsgs"> </app-field-error-display>
+        <app-field-error-display [field]="profileFG3.controls.websitePassword" [errorMsg]="errorMsgs"> </app-field-error-display>
         <!--Validation-->
     </div>
+</div>
+<div [formGroup]="profileFG2" [ngClass]="{'show': profileInfoStep==2, 'hide': profileInfoStep!==2  }">
     <hr />
     <h5>
-        Contacts 
+        Contacts
     </h5>
     <div class="row form-group">
-        <div class="col-sm-6"> 
-             <span class="input-group-addon" id="basic-addon1">
-                <select class="ddl_Contact" (change)="contactTypeSelected($event)" formControlName="contact_type" >
-                        <option value="">Select Contact Type</option>                
-                        <option *ngFor="let option of contactTypes" [ngValue]="option"  >
-                            {{option.type}} 
-                        </option>
-                </select> 
-            </span>  
+        <div class="col-sm-6">
+            <span class="input-group-addon" id="basic-addon1">
+                <select class="ddl_Contact" (change)="contactTypeSelected($event)" formControlName="contact_type">
+                    <option value="">Select Contact Type</option>
+                    <option *ngFor="let option of contactTypes" [ngValue]="option">
+                        {{option.type}}
+                    </option>
+                </select>
+            </span>
         </div>
         <div class="col-sm-6">
             <div class="input-group">
-                <input  class="form-control" formControlName="contact_type_name" type="text" (change)="contactTypeNameChanged($event)" >
+                <input class="form-control" formControlName="contact_type_name" type="text" (change)="contactTypeNameChanged($event)">
             </div>
         </div>
-    </div> 
+    </div>
     <div class="form-group">
         <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Name" pattern formControlName="contact_name">
         <!--Validation-->

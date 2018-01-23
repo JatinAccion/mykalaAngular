@@ -13,44 +13,43 @@
         </div>
     </div>
     <div class="row m-0 p-2 usermanagement">
-        <div *ngFor="let user of users"  >
-            <div class="col-sm-12">
-                <div id="accordion" role="tablist" aria-multiselectable="true">
-                    <div class="card">
-                        <div class="card-header" role="tab" id="headingOne">
-                            <h5 class="mb-0">
-                                <a (click)="user.show=!user.show" >
-                                    {{user.username}}
-                                    <small class="float-right">Edit</small>
-                                </a>
-                            </h5>
-                        </div>
-                        <div id="collapseOne" class="collapse " [ngClass]="{'show':user.show, 'hide':!user.show}" role="tabpanel" aria-labelledby="headingOne">
-                            <div class="card-block pt-0">
-                                <hr />
-                                <div class="text-right">
-                                    <a href="#" class="colorRed">Delete User</a>
-                                </div>
-                                <div class="row m-0">
-                                    <div class="col-sm-4">Email</div>
-                                    <div class="col-sm-8">{{user.email}}</div>
-                                </div>
-                                <div class="row m-0">
-                                    <div class="col-sm-4">Password</div>
-                                    <div class="col-sm-8">......</div>
-                                </div>
-                                <div class="row m-0">
-                                    <div class="col-sm-4">Phone number</div>
-                                    <div class="col-sm-8">{{user.phone}}</div>
-                                </div>
-                                <div class="row m-0">
-                                    <div class="col-sm-4">Role</div>
-                                    <div class="col-sm-8">{{user.roleType}}</div>
-                                </div>
+        <div class="col-sm-6" *ngFor="let user of users">
+            <div id="accordion" role="tablist" aria-multiselectable="true" >
+                <div class="card">
+                    <div class="card-header" role="tab" id="headingOne">
+                        <h5 class="mb-0">
+                            <a (click)="user.show=!user.show">
+                                {{user.username}}
+                                <small class="float-right" [routerLink]="['../user-edit', user.userId]" >Edit</small>
+                            </a>
+                        </h5>
+                    </div>
+                    <div id="collapseOne" class="collapse " [ngClass]="{'show':user.show, 'hide':!user.show}" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="card-block pt-0">
+                            <hr />
+                            <div class="text-right">
+                                <a href="#" class="colorRed">Delete User</a>
+                            </div>
+                            <div class="row m-0">
+                                <div class="col-sm-4">Email</div>
+                                <div class="col-sm-8">{{user.email}}</div>
+                            </div>
+                            <div class="row m-0">
+                                <div class="col-sm-4">Password</div>
+                                <div class="col-sm-8">......</div>
+                            </div>
+                            <div class="row m-0">
+                                <div class="col-sm-4">Phone number</div>
+                                <div class="col-sm-8">{{user.phone}}</div>
+                            </div>
+                            <div class="row m-0">
+                                <div class="col-sm-4">Role</div>
+                                <div class="col-sm-8">{{user.roleType}}</div>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>

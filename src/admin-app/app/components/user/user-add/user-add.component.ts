@@ -8,7 +8,7 @@ import { NgbTabset } from '@ng-bootstrap/ng-bootstrap/tabset/tabset';
 import { environment } from '../../../../environments/environment';
 import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 import { IAlert } from '../../../../../models/IAlert';
-import { User } from '../../../../../models/user';
+import { User, UserProfile } from '../../../../../models/user';
 import { Promise } from 'q';
 import { inputValidations } from './messages';
 // #endregion imports
@@ -25,7 +25,7 @@ export class UserAddComponent implements OnInit {
   saveloader: boolean;
   // #region declarations
   userId = '';
-  user = new User();
+  user = new UserProfile();
   @ViewChild('tabs') ngbTabSet: NgbTabset;
   alert: IAlert = { id: 1, type: 'success', message: '', show: false };
   errorMsgs = inputValidations;

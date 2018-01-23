@@ -34,6 +34,7 @@ export class RetailerAddProfileComponent implements OnInit {
 
   profileFG1 = new FormGroup({});
   profileFG2 = new FormGroup({});
+  profileFG3 = new FormGroup({});
   sellerTypes: Array<nameValue> = new Array<nameValue>();
   profileInfoStep = 1;
   profileInfoObj = new RetailerProfileInfo();
@@ -76,21 +77,23 @@ export class RetailerAddProfileComponent implements OnInit {
       phone_number: [this.profileData.businessAddress.phoneNo, [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(environment.regex.numberRegex)]],
       sellerTypeId: [this.profileData.sellerTypeId, [Validators.required]]
     });
-    this.profileFG2 = this.formBuilder.group({
+    this.profileFG3 = this.formBuilder.group({
       websiteUrl: [this.profileData.websiteUrl, [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
       websiteUserName: [this.profileData.websiteUserName, [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
       websitePassword: [this.profileData.websitePassword, [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
-      contact_type: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
-      contact_type_name: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
+    });
+    this.profileFG2 = this.formBuilder.group({
+      contact_type: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
+      contact_type_name: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
       contact_name: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
-      contact_position: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
-      contact_address1: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
+      contact_position: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
+      contact_address1: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
       contact_address2: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
-      contact_city: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
-      contact_state: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
-      contact_zipcode: ['', [Validators.maxLength(5), Validators.minLength(5), Validators.pattern(environment.regex.numberRegex)]],
-      contact_email: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.emailRegex)]],
-      contact_phone_number: ['', [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(environment.regex.numberRegex)]],
+      contact_city: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
+      contact_state: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
+      contact_zipcode: ['', [Validators.maxLength(5), Validators.minLength(5), Validators.pattern(environment.regex.numberRegex), Validators.required]],
+      contact_email: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.emailRegex), Validators.required]],
+      contact_phone_number: ['', [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(environment.regex.numberRegex), Validators.required]],
       contactType: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
     });
     this.profileData.contactPerson.map(p => {
@@ -153,6 +156,11 @@ export class RetailerAddProfileComponent implements OnInit {
     });
   }
   saveContact() {
+    this.validatorExt.validateAllFormFields(this.profileFG2);
+    if (this.profileFG2.invalid) {
+      this.core.message.error('Contact is not added', 'Please check validations');
+      return;
+    }
     // this.profileFG2.controls.contact_type.reset({ value: this.profileFG2.value.contact_type, disabled: false });
     const contact = this.profileInfoObj.contactPerson.filter(p => p.contactType === this.profileFG2.controls.contact_type_name.value)[0] || new RetailerContact();
     contact.contactType = this.profileFG2.controls.contact_type_name.value;
@@ -198,7 +206,7 @@ export class RetailerAddProfileComponent implements OnInit {
   profileInfoSave() {
     this.readProfileInfo();
     this.validatorExt.validateAllFormFields(this.profileFG1);
-    this.validatorExt.validateAllFormFields(this.profileFG2);
+    this.validatorExt.validateAllFormFields(this.profileFG3);
     if (!this.profileFG1.valid) {
       this.profileInfoBack();
     } else if (!this.profileFG2.valid) {
@@ -232,9 +240,9 @@ export class RetailerAddProfileComponent implements OnInit {
     this.profileInfoObj.businessSummary = this.profileFG1.value.businessSummary;
     this.profileInfoObj.sellerTypeId = this.profileFG1.value.sellerTypeId;
 
-    this.profileInfoObj.websiteUrl = this.profileFG2.value.websiteUrl;
-    this.profileInfoObj.websiteUserName = this.profileFG2.value.websiteUserName;
-    this.profileInfoObj.websitePassword = this.profileFG2.value.websitePassword;
+    this.profileInfoObj.websiteUrl = this.profileFG3.value.websiteUrl;
+    this.profileInfoObj.websiteUserName = this.profileFG3.value.websiteUserName;
+    this.profileInfoObj.websitePassword = this.profileFG3.value.websitePassword;
 
     this.profileInfoObj.businessAddress = this.profileInfoObj.businessAddress || new RetailerBuinessAddress();
     this.profileInfoObj.businessAddress.addressLine1 = this.profileFG1.value.bussines_address;
