@@ -4,6 +4,7 @@ import { CoreService } from '../../services/core.service';
 import { SearchDataModal } from '../../../../models/searchData.modal';
 import { Router, RouterOutlet } from '@angular/router';
 import animateScrollTo from 'animated-scroll-to';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -39,6 +40,21 @@ export class HomeComponent implements OnInit {
     "/consumer-app/assets/images/banner_tools.png",
     "/consumer-app/assets/images/banner_fitness.png",
     "/consumer-app/assets/images/banner_lamp.png"
+  ];
+  tempArrCategory = [
+    "mykala-dev-images/product/Accents+and+Decor.jpg",
+    "mykala-dev-images/product/Appliances.jpg",
+    "mykala-dev-images/product/Bathroom.jpg",
+    "mykala-dev-images/product/Bedding+and+Linens.jpg",
+    "mykala-dev-images/product/Furniture+and+Patio.jpg",
+    "mykala-dev-images/product/Garage.jpg",
+    "mykala-dev-images/product/Kitchen+and+Dining.jpg",
+    "mykala-dev-images/product/Lawn+and+Garden.jpg",
+    "mykala-dev-images/product/Lighting.jpg",
+    "mykala-dev-images/product/Pest+Control.jpg",
+    "mykala-dev-images/product/Pool+and+Spa.jpg",
+    "mykala-dev-images/product/Safety+and+Security.jpg",
+    "mykala-dev-images/product/Supplies.jpg",
   ];
 
   userResponse = { place: [], type: [], category: [], subcategory: [], subType: {} };
@@ -146,8 +162,8 @@ export class HomeComponent implements OnInit {
         this.loader = false;
         for (var i = 0; i < res.length; i++) this.searchData.push(new SearchDataModal(res[i].categoryId, res[i].categoryName, res[i].categoryName, "2", ""));
         //Temporary for Image
-        for (var i = 0; i < this.searchData.length; i++) {
-          this.searchData[i].imgUrl = "/consumer-app/assets/images/banner_home.png";
+        for (var i = 0; i < this.tempArrCategory.length; i++) {
+          this.searchData[i].imgUrl = environment.s3.concat(this.tempArrCategory[i]);
         }
         //Temporary for Image
         this.tiles = this.searchData;
