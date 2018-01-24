@@ -1676,7 +1676,7 @@ input::-webkit-inner-spin-button {
     position:relative;
  }
  .header.bgimage{
-     background:url(/consumer-app/assets/images/slide_1.jpg); 
+     background:url(/consumer-app/assets/images/slide_1.png); 
      background-size:cover; 
      background-position:center;
      height:100%; 
@@ -1915,27 +1915,29 @@ input::-webkit-inner-spin-button {
      border-bottom: 0px solid rgba(0, 0, 0, 0.125) !important;
      border: 0px solid rgba(0, 0, 0, 0.125) !important;
  }
- #homeFAQ .card h5 a{
+ #homeFAQ .card a{
      font-size:20px;
      font-weight:bold;
      color:#fff;
  }
- #homeFAQ .card-block{
-     border-bottom:solid 1px #f3f3f4;
+ #homeFAQ .card [role='tabpanel']{
+    margin: 5px 20px 30px;
+    padding-bottom: 30px;
+    border-bottom: solid 1px #f3f3f4;
  }
  .btn_more{
+     border:solid 1px #fff;
+     text-transform:uppercase;
+     border-radius:20px;
+     padding:10px 40px;
+     color:#fff;
+ }
+ .btn_more_gray{
      border:solid 1px #bdbfc0;
      text-transform:uppercase;
      border-radius:20px;
      padding:10px 40px;
      color:#bdbfc0;
- }
- .btn_more_gray{
-     border:solid 1px #f3f3f4;
-     text-transform:uppercase;
-     border-radius:20px;
-     padding:10px 40px;
-     color:#f3f3f4;
  }
  .btn_default{ 
      text-transform:uppercase;
@@ -1966,15 +1968,18 @@ input::-webkit-inner-spin-button {
      background:#fff; 
  }
  .centerArrow{ 
-     padding: 11px 21px;
-     border-radius: 40px;
-     background: #fff;
-     color: #e06263 !important;
-     width: 56px;
-     margin: 0px auto;
-     font-size: 20px;
-     position:relative;
-     top:-74px;
+    padding: 11px 21px;
+    border-radius: 40px;
+    background: #fff;
+    color: #e06263 !important;
+    width: 50px;
+    height: 50px;
+    margin: 0px auto;
+    line-height: 55px;
+    font-size: 20px;
+    position: relative;
+    top: -74px;
+    text-align: center;
  }
  .topArrow{
      padding: 6px 15px 7px 15px;

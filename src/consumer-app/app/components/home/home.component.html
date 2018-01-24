@@ -57,7 +57,7 @@
         <app-tiles [tilesData]="tiles" (selectTile)="tileSelected($event)"></app-tiles>
     </div>
     <div class="col-sm-12 text-center pt-5 pb-5">
-        <a href="javascript:void(0)" class="btn btn_more">more...</a>
+        <a href="javascript:void(0)" class="btn btn_more_gray">more...</a>
     </div>
 </section>
 <section id="homeWorks" class="py-5">
@@ -140,58 +140,38 @@
     </a>
 
     <div class="container banner_title" id="FAQ">
-        <h1 class="colorwhite">Frequently Asked Questions</h1>
+        <h1 class="colorwhite pt-2 pb-5">Frequently Asked Questions</h1>
         <div class="row">
-            <h1>Frequently Asked Questions</h1>
-        </div>
-        <div class="row">
-            <div id="accordion" role="tablist" aria-multiselectable="true">
-                <div class="card">
-                    <div class="card-header" role="tab" id="headingOne">
-                        <h5 class="mb-0">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                + WHAT IS A “BID”?
-                            </a>
-                        </h5>
-                    </div>
+            <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+                <ngb-panel title="+ WHAT MAKES KALA DIFFERENT?">
+                    <ng-template ngbPanelContent>
+                        Current online retail sites are transactional by nature – shoppers must enter search parameters, browse through large product databases to find what they’re looking for, and then research even more to ensure they’re getting a good deal. Kala is a new social commerce model that provides an interactive and personalized experience unlike anything in the market today, ideally tailored for the modern, mobile consumer.
+                    </ng-template>
+                </ngb-panel>
+                <ngb-panel title="+ WHEN CAN I USE IT?">
+                    <ng-template ngbPanelContent>
+                        Kala will be releasing a beta version to a select group of shoppers in June, 2018. A full national launch will be available in late summer.
+                    </ng-template>
+                </ngb-panel>
+                <ngb-panel title="+ HOW DO I JOIN?">
+                    <ng-template ngbPanelContent>
+                        It couldn’t be simpler, and best of all it’s free! To be part of our exclusive beta release, please register today by providing your name and email address. We’ll keep you updated with exclusive content, rewards, and behind-the-scenes looks as we get closer to launch.
+                    </ng-template>
+                </ngb-panel>
+                <ngb-panel title="+ WHAT KINDS OF THINGS CAN I BUY?">
+                    <ng-template ngbPanelContent>
+                        We’re constantly adding new products and stores all the time. Whether you’re doing a home remodel, looking for the latest tech gadget, or are shopping for your favorite pet – we’ve got you covered. And we’re always reaching out to the Kala community to get new ideas for how we can make your experience even better.
+                    </ng-template>
+                </ngb-panel>
+                <ngb-panel title="+ WHAT IS ‘GET OFFERS’ ?">
+                    <ng-template ngbPanelContent>
+                        Kala is designed to takes the search out of shopping and provide a more personalized way to shop online. You simply tell us the product you want, what features are most important, and how much you want to pay, and Kala responds with custom product offers at the ideal price based on your needs right now.
+                    </ng-template>
+                </ngb-panel>
+            </ngb-accordion>
 
-                    <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
-                        <div class="card-block">
-                            When you find a product you like, some stores may offer the option for you to propose a price. Our technology will automatically determine if the price is acceptable and if the store agrees, it will sell this product to you for your bid price. And you can always submit a new bid if the store did not accept your first price.
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header" role="tab" id="headingTwo">
-                        <h5 class="mb-0">
-                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                + WHAT IS AN “OFFER”?
-                            </a>
-                        </h5>
-                    </div>
-                    <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
-                        <div class="card-block">
-                            When you find a product you like, some stores may offer the option for you to propose a price. Our technology will automatically determine if the price is acceptable and if the store agrees, it will sell this product to you for your bid price. And you can always submit a new bid if the store did not accept your first price.
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header" role="tab" id="headingThree">
-                        <h5 class="mb-0">
-                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                + WHAT IS THE “LOUNGE”?
-                            </a>
-                        </h5>
-                    </div>
-                    <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
-                        <div class="card-block">
-                            When you find a product you like, some stores may offer the option for you to propose a price. Our technology will automatically determine if the price is acceptable and if the store agrees, it will sell this product to you for your bid price. And you can always submit a new bid if the store did not accept your first price.
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="col-sm-12 text-center pt-5">
-                <a href="javascript:void(0)" class="btn btn_more_gray">more...</a>
+                <a href="javascript:void(0)" class="btn btn_more">more...</a>
             </div>
         </div>
     </div>
