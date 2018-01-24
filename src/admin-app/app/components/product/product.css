@@ -132,3 +132,18 @@
     background: #999;
     color: #fff;
 }
+.c-btn{
+    box-shadow:none !important;
+}
+.list-area li.pure-checkbox{
+    display: block !important;
+}
+.list-area h5{
+    font-size: 1em !important;
+}
+.list-area .list-grp h4{
+    text-align: left !important;
+}
+.fa-picture-o.defaultUser {
+    font-size: 2em;
+}

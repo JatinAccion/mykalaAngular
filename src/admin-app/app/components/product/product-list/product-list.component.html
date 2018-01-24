@@ -1,19 +1,22 @@
 <div class="row">
-    <div class="col-sm-6 title">
+    <div class="col-sm-12 title">
         <h1>Products</h1>
-    </div>
+        <div class="float-right top_right">
+            <input class="form-control txt_Search ng-untouched ng-pristine ng-valid" placeholder="search for seller by name" type="text">
+        </div>
+    </div> 
 </div>
 <div class="row">
-    <div class="col-sm-12 p-0 text-right">
+    <div class="col-sm-12 text-right">
         <ul class="product_search m-0 p-0">
-            <li>
+            <li class="w-5">
                 <select class="ddl_default form-control" [(ngModel)]="productStatus">
                     <option value="'true'">Status</option>
                     <option value="'true'">true</option>
                     <option value="'false'">false</option>
                 </select>
             </li>
-            <li>
+            <li class="w-15">
                 <!-- <select class="ddl_default form-control" [(ngModel)]="productPlace" (change)="placeChanged($event)">
                     <option [ngValue]="productPlaceDummy">Select Place</option>
                     <option *ngFor="let option of places" [ngValue]="option">
@@ -28,7 +31,7 @@
                 <!-- <app-field-error-display [field]="fG1.controls.place" [errorMsg]="errorMsgs"> </app-field-error-display> -->
                 <!--Validation-->
             </li>
-            <li>
+            <li class="w-15">
                 <!-- <select class="ddl_default form-control" [(ngModel)]="productCategory" (change)="categoryChanged($event)">
                     <option [ngValue]="productCategoryDummy">Select Category</option>
                     <option *ngFor="let option of categories" [ngValue]="option">
@@ -43,7 +46,7 @@
                 <!-- <app-field-error-display [field]="fG1.controls.category" [errorMsg]="errorMsgs"> </app-field-error-display> -->
                 <!--Validation-->
             </li>
-            <li>
+            <li class="w-20">
                 <!-- <select class="ddl_default form-control" [(ngModel)]="productSubCategory">
                     <option [ngValue]="productSubCategoryDummy">Select Sub Catetory</option>
                     <option *ngFor="let option of subCategories" [ngValue]="option">
@@ -58,7 +61,7 @@
                 <!-- <app-field-error-display [field]="fG1.controls.subCategory" [errorMsg]="errorMsgs"> </app-field-error-display> -->
                 <!--Validation-->
             </li>
-            <li>
+            <li class="w-15">
                 <angular2-multiselect [data]="productTypes" [(ngModel)]="selectedProductTypes" [settings]="productTypeSettings" (onSelect)="onProductTypeSelect($event)" (onDeSelect)="onProductTypeDeSelect($event)" (onSelectAll)="onProductTypeSelectAll($event)" (onDeSelectAll)="onProductTypeDeSelectAll($event)">
 
                 </angular2-multiselect>
@@ -67,7 +70,7 @@
                 <!-- <app-field-error-display [field]="fG1.controls.productType" [errorMsg]="errorMsgs"> </app-field-error-display> -->
                 <!--Validation-->
             </li>
-            <li>
+            <li class="w-10">
                 <select class="ddl_default w-100 form-control" [(ngModel)]="retailer">
                     <option [ngValue]="reatileDummy">Select Seller</option>
                     <option *ngFor="let option of retailers" [ngValue]="option">
@@ -75,10 +78,10 @@
                     </option>
                 </select>
             </li>
-            <li>
-                <a class="btn btn-default" (click)="getPage(1)">
+            <li class="w-15">
+                <!-- <a class="btn btn-default" (click)="getPage(1)">
                     <i class="fa fa-search"></i>
-                </a>
+                </a> -->
                 <a class="btn btn-default" routerLink="/product-add" routerLinkActive="retailer-add">+ Add a product</a>
             </li>
         </ul>
@@ -86,8 +89,10 @@
 
 </div>
 <div class="spinner" [ngClass]="{ 'hidden': !loading }"></div>
-<pagination-controls id='server' (pageChange)="getPage($event)"></pagination-controls>
-<div class="backgroundWhite row">
+<div class="col-sm-12 p-0 pt-3 pagination_align">
+        <pagination-controls id='server' (pageChange)="getPage($event)"></pagination-controls>
+</div> 
+<div class="backgroundWhite">
     <table class="table table-responsive">
         <thead>
             <tr>

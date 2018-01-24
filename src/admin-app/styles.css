@@ -326,9 +326,14 @@ a.categ_close{
     margin:20px 0px;
 }
 .AdminAcct_Row img, .AdminAcct_Row i{
-    width:100%;
+    /* width:100%;  */
+    height: 110px;  
+    display: block;
+    max-width: 100%;
+    margin: 0px auto;
+}
+.AdminAcct_Row .bordershadow{
     box-shadow:2px 2px 5px rgba(0, 0, 0, 0.1);
-    height: 110px;
 }
 .btn-outer{ 
     padding: 7px 20px;
@@ -456,6 +461,12 @@ a{
 }
 .top_right{
     margin-top:70px;
+}
+.w-15{
+    width: 15%;
+}
+.w-10{
+    width: 10%;
 }
 .w-20{
     width: 20%;

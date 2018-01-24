@@ -28,6 +28,12 @@ img.showDummy:after {
     position: absolute;
     z-index: 2;
     top: 0;
-    left: 0;
-    background-color: #fff;      
+    left: 5px;
+    background-color: #fff;    
+    
+    font-size: 5em;
+    text-align: center;
+    display: inline-block; 
+    padding: 0px 30px;
+
   }
