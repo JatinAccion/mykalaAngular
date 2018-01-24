@@ -57,6 +57,7 @@ import { GetOfferService } from './services/getOffer.service';
 import { ViewProductComponent } from './components/view-product/view-product.component';
 import { MycartComponent } from './components/mycart/mycart.component';
 import { DxRangeSliderModule, DxNumberBoxModule } from 'devextreme-angular';
+import { StripePocComponent } from './components/stripe-poc/stripe-poc.component';
 
 @NgModule({
   declarations: [
@@ -87,7 +88,8 @@ import { DxRangeSliderModule, DxNumberBoxModule } from 'devextreme-angular';
     Step4Component,
     ViewProductComponent,
     MycartComponent,
-    SubMenusComponent
+    SubMenusComponent,
+    StripePocComponent
   ],
   imports: [
     BrowserModule,
