@@ -57,7 +57,8 @@ import { GetOfferService } from './services/getOffer.service';
 import { ViewProductComponent } from './components/view-product/view-product.component';
 import { MycartComponent } from './components/mycart/mycart.component';
 import { DxRangeSliderModule, DxNumberBoxModule } from 'devextreme-angular';
-import { StripePocComponent } from './components/stripe-poc/stripe-poc.component';
+import { CheckoutComponent } from './components/checkout/checkout.component';
+import { ReversePipe } from '../../pipes/reverse.pipe';
 
 @NgModule({
   declarations: [
@@ -89,7 +90,8 @@ import { StripePocComponent } from './components/stripe-poc/stripe-poc.component
     ViewProductComponent,
     MycartComponent,
     SubMenusComponent,
-    StripePocComponent
+    ReversePipe,
+    CheckoutComponent
   ],
   imports: [
     BrowserModule,

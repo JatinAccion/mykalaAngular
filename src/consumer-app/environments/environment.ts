@@ -13,6 +13,7 @@ export const environment = {
   getOffer: 'http://dev-product-service.us-east-2.elasticbeanstalk.com/api/products',
   geoCode: 'https://maps.googleapis.com/maps/api/geocode/json',
   s3: 'https://s3.us-east-2.amazonaws.com/',
+  stripePK: 'pk_test_9th9u2YsJ2y1ms60AgtpXoMS',
   apis: apiNames,
   regex: regexPatterns,
   commonMsg: commonMessages

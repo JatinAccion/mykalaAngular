@@ -1,0 +1,166 @@
+<div class="container">
+  <div style="height:150px;width:100%;"></div>
+  <div class="row title">
+    <h2>Checkout</h2>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-7 checkout_layout">
+      <p class="colorlightGray p-0">Shipping address: </p>
+      <div class="row p-2">
+        <div class="col-sm-3 p-0">
+          <p class="colorred">Add new address</p>
+        </div>
+        <div class="col-sm-8">
+          <div class="categ_outline_red colorred">20 surry Rd, Arlington, MA. 02476</div>
+          <div class="clear">&nbsp;</div>
+          <div class="categ_outline_gray">74 Webster St, Arlington, MA. 02476</div>
+        </div>
+        <div class="col-sm-1">
+          <a href="#" class="ancRed">edit</a>
+        </div>
+      </div>
+
+      <hr />
+
+      <!--Exsiting Cards-->
+      <div class="row p-2">
+        <div class="col-sm-3 p-0 colorlightGray">
+          <p>Payment method</p>
+        </div>
+        <div class="col-sm-9">
+          <div class="categ_outline_gray">visa 6408 - Xinyu Liu</div>
+          <div class="float-right pr-2 d-inline">
+            <a (click)="addNewCard()" href="javascript:void(0)" class="ancRed">Add New Card</a>
+          </div>
+        </div>
+      </div>
+      <!--Exsiting Cards-->
+
+      <!--Add New Cards-->
+      <div class="row p-2" [hidden]="!addCard">
+        <div class="col-sm-3 p-0"></div>
+        <div class="col-sm-9">
+          <hr class="mt-0" />
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="colorlightGray">Add new card:</div>
+            </div>
+          </div>
+          <div class="row">
+            <form #checkout="ngForm" (ngSubmit)="onSubmit(checkout)" class="checkout">
+              <div class="form-row">
+                <div id="card-info" #cardInfo></div>
+                <div id="card-errors" role="alert" *ngIf="error">{{ error }}</div>
+              </div>
+
+              <button type="submit" class="btn btn_red_right">add card</button>
+              <img src="/consumer-app/assets/images/loader.gif" style="margin-left: 7px; margin-top: 7px" *ngIf="loader" />
+            </form>
+          </div>
+        </div>
+      </div>
+      <!--Add New Cards-->
+
+      <hr />
+
+      <div class="row p-2">
+        <div class="col-sm-3 p-0 colorlightGray">
+          <p>Shipping method</p>
+        </div>
+        <div class="col-sm-8">
+          <div class="categ_outline_gray mb-3">$5.00 - Next day shipping - get it tomorrow, May 29</div>
+          <div class="categ_outline_red mb-3 colorred">$2.00 - Two days shipping - get it Saturday, May 30</div>
+          <div class="categ_outline_gray mb-3">Free-five business days shipping - get it Next Wed, June 3</div>
+        </div>
+        <div class="col-sm-1"></div>
+      </div>
+    </div>
+
+    <div class="col-sm-1">&nbsp;</div>
+
+    <!--Order Summary-->
+    <div class="col-sm-4 order_Summary_Rgt">
+      <h4 class="subtitle" style="padding: 0px 25px">Order summary:</h4>
+      <div class="row">
+        <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" id="orderSummaryAccordian">
+          <ngb-panel *ngFor="let item of itemsInCart | reverse">
+            <!--Title-->
+            <ng-template ngbPanelTitle>
+              <div class="row">
+                <div class="col-sm-3">
+                  <img src="/consumer-app/assets/images/catg-1.png" class="img-fluid" />
+                </div>
+                <div class="col-sm-8" style="padding-left: 8px; margin-top: -4px">
+                  <b>{{item.productName}}</b>
+                </div>
+              </div>
+            </ng-template>
+            <!--Title-->
+
+            <!--Content-->
+            <ng-template ngbPanelContent>
+              <table class="w-100">
+                <tr>
+                  <td width="35%" class="colorlightGray">Retailer</td>
+                  <td width="55%">{{item.retailerName}}</td>
+                </tr>
+                <tr>
+                  <td class="colorlightGray">Quantity</td>
+                  <td>{{item.quantity}}</td>
+                </tr>
+                <tr>
+                  <td class="colorlightGray">Price</td>
+                  <td>${{item.price}}</td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="colorred">Return policy</td>
+                </tr>
+              </table>
+            </ng-template>
+            <!--Content-->
+          </ngb-panel>
+        </ngb-accordion>
+      </div>
+      <div class="row p-2">
+        <table id="paymentSummary">
+          <tr>
+            <td class="colorlightGray">Subtotal</td>
+            <td>$
+              <span class="amount">{{totalAmountFromCart}}</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="colorlightGray">Shipping</td>
+            <td>$
+              <span class="amount">227.50</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="colorlightGray">Tax</td>
+            <td>$
+              <span class="amount">227.50</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="colorred">
+              <strong>Total</strong>
+            </td>
+            <td>
+              <strong class="colorred">${{calculateTotalPayable()}}</strong>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <hr />
+      <div class="col-sm-12 text-center">
+        <button href="#" class="btn btn_red_right w-100" [disabled]="core.hideUser">confirm</button>
+        <br />
+        <span *ngIf="core.hideUser" class="colorlightGray" style="font-size: 14px">Please login to continue</span>
+      </div>
+    </div>
+    <!--Order Summary-->
+
+  </div>
+  <div class="clearfix">&nbsp;</div>
+</div>

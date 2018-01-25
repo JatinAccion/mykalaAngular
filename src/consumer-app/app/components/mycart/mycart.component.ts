@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { CoreService } from '../../services/core.service';
 import { AddToCart } from '../../../../models/addToCart';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-mycart',
@@ -9,12 +10,16 @@ import { AddToCart } from '../../../../models/addToCart';
   encapsulation: ViewEncapsulation.None
 })
 export class MycartComponent implements OnInit {
+  @ViewChild("TotalAmountPayable") TotalAmountPayable: ElementRef;
   itemsInCart = [];
   cartEmpty: boolean = false;
   noItemsInCart: boolean = false;
   savedForLater = [];
   addToCartModal = new AddToCart();
-  constructor(private core: CoreService) { }
+  constructor(
+    private core: CoreService,
+    private route: Router
+  ) { }
 
   ngOnInit() {
     this.core.checkIfLoggedOut(); /*** If User Logged Out*/
@@ -22,7 +27,6 @@ export class MycartComponent implements OnInit {
     this.core.searchMsgToggle();
     this.checkItemsInCart();
     this.checkItemsInWishlist();
-    console.log(this.itemsInCart);
   }
 
   checkItemsInCart() {
@@ -104,6 +108,22 @@ export class MycartComponent implements OnInit {
     return eval(amounts.join("+"));
   }
 
+  calculateQantity(action, item) {
+    for (var i = 0; i < this.itemsInCart.length; i++) {
+      if (this.itemsInCart[i].productId == item.productId && action === "decrease") {
+        item.quantity = item.quantity - 1;
+        this.itemsInCart[i].quantity = item.quantity;
+      }
+      else if (this.itemsInCart[i].productId == item.productId && action === "increase") {
+        item.quantity = item.quantity + 1;
+        this.itemsInCart[i].quantity = item.quantity;
+      }
+      this.itemTotal(item.price, item.quantity);
+      this.totalPayableAmount();
+    }
+    window.localStorage['existingItemsInCart'] = JSON.stringify(this.itemsInCart);
+  }
+
   move(item, to) {
     this.addToCartModal.retailerId = item.retailerId;
     this.addToCartModal.retailerName = item.retailerName;
@@ -169,4 +189,8 @@ export class MycartComponent implements OnInit {
     }
   }
 
+  checkOut() {
+    window.localStorage['TotalAmount'] = parseInt(this.TotalAmountPayable.nativeElement.innerText);
+    this.route.navigateByUrl("/checkout");
+  }
 }
