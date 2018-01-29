@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { Router, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +10,29 @@ import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 export class AppComponent implements OnInit {
   title = 'app';
   hideNav = false;
+  constructor(private router: Router) {
+
+    // router.events.subscribe((event: Event) => {
+
+    //   if (event instanceof NavigationStart) {
+    //     // Show loading indicator
+    //     if (!confirm('are you sure')) {
+    //       (event as NavigationError).preventDefault();
+    //     }
+    //   }
+
+    //   if (event instanceof NavigationEnd) {
+    //     // Hide loading indicator
+    //   }
+
+    //   if (event instanceof NavigationError) {
+    //     // Hide loading indicator
+    //     // Present error to user
+    //     console.log(event.error);
+    //   }
+    // });
+
+  }
   ngOnInit() {
     // tslint:disable-next-line:no-unused-expression
     // this.disableBack(window);

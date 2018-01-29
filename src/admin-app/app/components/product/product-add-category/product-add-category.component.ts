@@ -111,10 +111,12 @@ export class ProductAddCategoryComponent implements OnInit {
     this.getCategories();
   }
   getCategories() {
-    this.productService.getProductCategories([this.product.productPlace.PlaceId]).subscribe(res => {
-      this.categories = res;
-      this.getSubCategories();
-    });
+    if (this.product.productPlace && this.product.productPlace.PlaceId) {
+      this.productService.getProductCategories([this.product.productPlace.PlaceId]).subscribe(res => {
+        this.categories = res;
+        this.getSubCategories();
+      });
+    }
   }
   categoryChanged(event) {
     this.product.productCategoryName = this.product.productCategory.CategoryName;
@@ -127,10 +129,12 @@ export class ProductAddCategoryComponent implements OnInit {
     this.getSubCategories();
   }
   getSubCategories() {
-    this.productService.getProductSubCategories([this.product.productCategory.CategoryId]).subscribe(res => {
-      this.subCategories = res;
-      this.getTypes();
-    });
+    if (this.product.productCategory && this.product.productCategory.CategoryId) {
+      this.productService.getProductSubCategories([this.product.productCategory.CategoryId]).subscribe(res => {
+        this.subCategories = res;
+        this.getTypes();
+      });
+    }
   }
   subCategoryChanged(event) {
     this.product.productSubCategoryName = this.product.productSubCategory.SubCategoryName;
@@ -140,9 +144,11 @@ export class ProductAddCategoryComponent implements OnInit {
     this.getTypes();
   }
   getTypes() {
-    this.productService.getProductTypes([this.product.productSubCategory.SubCategoryId]).subscribe(res => {
-      this.productTypes = res;
-    });
+    if (this.product.productSubCategory && this.product.productSubCategory.SubCategoryId) {
+      this.productService.getProductTypes([this.product.productSubCategory.SubCategoryId]).subscribe(res => {
+        this.productTypes = res;
+      });
+    }
   }
   typeChanged(event) {
     this.product.productTypeName = this.product.productType.TypeName;

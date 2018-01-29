@@ -11,7 +11,12 @@
   <link rel="stylesheet" type="text/css" href="/consumer-app/assets/dx.light.css" />
 </head>
 
-<body>
+<body onbeforeunload="return myFunction()" >
+  <script>
+  function myFunction() {
+      return "Write something clever here...Siva";
+  }
+  </script>
   <app-root></app-root>
 </body>
 

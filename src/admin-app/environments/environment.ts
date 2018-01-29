@@ -11,7 +11,8 @@ export const environment = {
   s3: 'https://s3.us-east-2.amazonaws.com\\',
   Api: 'http://dev-user-service.us-east-2.elasticbeanstalk.com',
   AdminApi: 'http://dev-retailer-api.us-east-2.elasticbeanstalk.com',
-  productApi: 'http://dev-product-service.us-east-2.elasticbeanstalk.com/api',
+  //productApi: 'http://dev-product-service.us-east-2.elasticbeanstalk.com/api',
+  productApi: 'http://localhost:9087/api',
   apis: apiNames,
   regex: regexPatterns,
   commonMsg: commonMessages

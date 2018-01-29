@@ -23,6 +23,7 @@ export class ProductListComponent implements OnInit {
   // categories = new Array<ProductCategory>();
   // subCategories = new Array<ProductSubCategory>();
   productStatus: true;
+  productStatusDummy: true;
   productPlace: ProductPlace;
   productCategory: ProductCategory;
   productSubCategory: ProductSubCategory;
@@ -168,14 +169,14 @@ export class ProductListComponent implements OnInit {
     // };
 
     const searchParams = {
-      page: page - 1, size: 10, sortOrder: 'asc', elementType: 'createdDate', productStatus: null, product: this.readForm(), retailerId: null
+      page: page - 1, size: 10, sortOrder: 'asc', elementType: 'createdDate', productStatus: [], productPlaceName: [], productCategoryName: [], productSubCategoryName: [], retailerId: []
     };
-
-    if (this.productStatus) { searchParams.productStatus = this.productStatus; } else { searchParams.productStatus = true; }
-    // if (this.productPlace) { searchParams.productPlaceName = this.productPlace.PlaceName; } else { delete searchParams.productPlaceName; }
-    // if (this.productCategory) { searchParams.productCategoryName = this.productCategory.CategoryName; } else { delete searchParams.productCategoryName; }
-    // if (this.productSubCategory) { searchParams.productSubCategoryName = this.productSubCategory.SubCategoryName; } else { delete searchParams.productSubCategoryName; }
-    if (this.retailer) { searchParams.retailerId = this.retailer.retailerId; } else { delete searchParams.retailerId; }
+    searchParams.productStatus = [this.productStatus];
+    // if (this.productStatus) { searchParams.productStatus = [this.productStatus]; } else { searchParams.productStatus = [true]; }
+    if (this.selectedPlaces.length > 0) { searchParams.productPlaceName = this.selectedPlaces.map(p => p.itemName); } else { delete searchParams.productPlaceName; }
+    if (this.selectedCategories.length > 0) { searchParams.productCategoryName = this.selectedCategories.map(p => p.itemName); } else { delete searchParams.productCategoryName; }
+    if (this.selectedSubCategories.length > 0) { searchParams.productSubCategoryName = this.selectedSubCategories.map(p => p.itemName); } else { delete searchParams.productSubCategoryName; }
+    if (this.retailer) { searchParams.retailerId = [this.retailer.retailerId]; } else { delete searchParams.retailerId; }
 
     this.productService.get(searchParams).subscribe(res => {
       this.products = res;
@@ -183,30 +184,7 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  readForm() {
-    const product = {  places: [] };
-    for (let pIndex = 0; pIndex < this.selectedPlaces.length; pIndex++) {
-      const place = this.selectedPlaces[pIndex];
-      const newPlace = { placeId: place.id, placeName: place.itemName, categories: [] };
-      for (let cIndex = 0; cIndex < this.selectedCategories.length; cIndex++) {
-        const category = this.selectedCategories[cIndex];
-        const newCategory = { categoryId: category.id, categoryName: category.itemName, subCategories: [] };
-        for (let scIndex = 0; scIndex < this.selectedSubCategories.length; scIndex++) {
-          const subCategory = this.selectedSubCategories[scIndex];
-          const newSubCategory = { subCategoryId: subCategory.id, subCategoryName: subCategory.itemName, types: [] };
-          for (let tIndex = 0; tIndex < this.selectedProductTypes.length; tIndex++) {
-            const type = this.selectedProductTypes[tIndex];
-            const newType = { typeId: type.id, typeName: type.itemName, types: [] };
-            newSubCategory.types.push(newType);
-          }
-          newCategory.subCategories.push(newSubCategory);
-        }
-        newPlace.categories.push(newCategory);
-      }
-      product.places.push(newPlace);
-    }
-    return product;
-  }
+
 
 
 

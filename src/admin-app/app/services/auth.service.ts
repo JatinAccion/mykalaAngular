@@ -48,4 +48,8 @@ export class AuthService {
     const url = 'http://dev-user-signup.us-east-2.elasticbeanstalk.com/login/user/forgotPassword';
     return this.http.post(url, fpModal).map((res) => res.json())
   }
+  resetPassword(rpModal) {
+    const url = `${this.BASE_URL}/${environment.apis.userService.resetPassword}`;
+    return this.http.post(url, rpModal).map((res) => res.text());
+}
 }

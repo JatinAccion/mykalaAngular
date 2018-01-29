@@ -26,14 +26,8 @@ export class ProductAddImagesComponent implements OnInit {
   @Output() SaveData = new EventEmitter<any>();
   uploadFile: any;
   productImages = new Array<any>();
-  mainImage = {};
+  mainImage = '';
   uploadedImages = new Array<any>();
-  alert: IAlert = {
-    id: 1,
-    type: 'success',
-    message: '',
-    show: false
-  };
   fG1 = new FormGroup({});
   step = 1;
   errorMsgs = inputValidations;
@@ -50,9 +44,6 @@ export class ProductAddImagesComponent implements OnInit {
   ngOnInit() {
     // this.setFormValidators();
   }
-  closeAlert(alert: IAlert) {
-    this.alert.show = false;
-  }
 
   // setFormValidators() {
   //   this.fG1 = this.formBuilder.group({
@@ -62,7 +53,7 @@ export class ProductAddImagesComponent implements OnInit {
   saveData() {
     this.uploadAll(this.productImages);
   }
-  uploadAll(productImages) {
+  uploadAll(productImages: any[]) {
     this.saveLoader = true;
     let mainImage: any;
     const otherImages = new Array<any>();
@@ -86,6 +77,7 @@ export class ProductAddImagesComponent implements OnInit {
             this.uploadedImages.push(environment.s3 + tmpProduct.productImages[index].imageUrl);
           }
         }
+        productImages.splice(0, productImages.length);
       }
       this.saveLoader = false;
       console.log(e);
