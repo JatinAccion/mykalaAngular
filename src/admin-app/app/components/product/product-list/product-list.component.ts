@@ -19,9 +19,6 @@ export class ProductListComponent implements OnInit {
   productName: any;
   loading: boolean;
   products: Products;
-  // places = new Array<ProductPlace>();
-  // categories = new Array<ProductCategory>();
-  // subCategories = new Array<ProductSubCategory>();
   productStatus: true;
   productStatusDummy: true;
   productPlace: ProductPlace;
@@ -62,7 +59,7 @@ export class ProductListComponent implements OnInit {
       unSelectAllText: 'UnSelect All',
       searchPlaceholderText: 'Search Fields',
       enableSearchFilter: true,
-      badgeShowLimit: 0,
+      badgeShowLimit: 1,
       classes: 'myclass custom-class'
     };
     this.categorySettings = {
@@ -72,7 +69,7 @@ export class ProductListComponent implements OnInit {
       unSelectAllText: 'UnSelect All',
       searchPlaceholderText: 'Search Fields',
       enableSearchFilter: true,
-      badgeShowLimit: 0,
+      badgeShowLimit: 1,
       groupBy: 'parent',
       classes: 'myclass custom-class'
     };
@@ -83,18 +80,7 @@ export class ProductListComponent implements OnInit {
       unSelectAllText: 'UnSelect All',
       searchPlaceholderText: 'Search Fields',
       enableSearchFilter: true,
-      badgeShowLimit: 0,
-      groupBy: 'parent',
-      classes: 'myclass custom-class'
-    };
-    this.productTypeSettings = {
-      singleSelection: false,
-      text: 'Select Types',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      searchPlaceholderText: 'Search Fields',
-      enableSearchFilter: true,
-      badgeShowLimit: 0,
+      badgeShowLimit: 1,
       groupBy: 'parent',
       classes: 'myclass custom-class'
     };
@@ -169,9 +155,9 @@ export class ProductListComponent implements OnInit {
     // };
 
     const searchParams = {
-      page: page - 1, size: 10, sortOrder: 'asc', elementType: 'createdDate', productStatus: [], productPlaceName: [], productCategoryName: [], productSubCategoryName: [], retailerId: []
+      page: page - 1, size: 10, sortOrder: 'asc', elementType: 'createdDate', productName: this.productName, productStatus: [], productPlaceName: [], productCategoryName: [], productSubCategoryName: [], retailerId: []
     };
-    searchParams.productStatus = [this.productStatus];
+    searchParams.productStatus = [this.productStatus || true];
     // if (this.productStatus) { searchParams.productStatus = [this.productStatus]; } else { searchParams.productStatus = [true]; }
     if (this.selectedPlaces.length > 0) { searchParams.productPlaceName = this.selectedPlaces.map(p => p.itemName); } else { delete searchParams.productPlaceName; }
     if (this.selectedCategories.length > 0) { searchParams.productCategoryName = this.selectedCategories.map(p => p.itemName); } else { delete searchParams.productCategoryName; }

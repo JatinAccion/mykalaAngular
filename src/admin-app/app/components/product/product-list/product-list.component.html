@@ -2,9 +2,9 @@
     <div class="col-sm-12 title">
         <h1>Products</h1>
         <div class="float-right top_right">
-            <input class="form-control txt_Search ng-untouched ng-pristine ng-valid" placeholder="search for seller by name" type="text">
+            <input class="form-control txt_Search ng-untouched ng-pristine ng-valid" placeholder="search for product by name" [(ngModel)]="productName" type="text">
         </div>
-    </div> 
+    </div>
 </div>
 <div class="row">
     <div class="col-sm-12 text-right">
@@ -17,46 +17,20 @@
                 </select>
             </li>
             <li class="w-15">
-                <!-- <select class="ddl_default form-control" [(ngModel)]="productPlace" (change)="placeChanged($event)">
-                    <option [ngValue]="productPlaceDummy">Select Place</option>
-                    <option *ngFor="let option of places" [ngValue]="option">
-                        {{option.PlaceName}}
-                    </option>
-                </select> -->
                 <angular2-multiselect [data]="places" [(ngModel)]="selectedPlaces" [settings]="placesSettings" (onSelect)="onPlaceSelect($event)" (onDeSelect)="onPlaceDeSelect($event)" (onSelectAll)="onPlaceSelectAll($event)" (onDeSelectAll)="onPlaceDeSelectAll($event)">
                 </angular2-multiselect>
 
             </li>
             <li class="w-15">
-                <!-- <select class="ddl_default form-control" [(ngModel)]="productCategory" (change)="categoryChanged($event)">
-                    <option [ngValue]="productCategoryDummy">Select Category</option>
-                    <option *ngFor="let option of categories" [ngValue]="option">
-                        {{option.CategoryName}}
-                    </option>
-                </select> -->
                 <angular2-multiselect [data]="categories" [(ngModel)]="selectedCategories" [settings]="categorySettings" (onSelect)="onCategorySelect($event)" (onDeSelect)="onCategoryDeSelect($event)" (onSelectAll)="onCategorySelectAll($event)" (onDeSelectAll)="onCategoryDeSelectAll($event)">
                 </angular2-multiselect>
 
             </li>
             <li class="w-20">
-                <!-- <select class="ddl_default form-control" [(ngModel)]="productSubCategory">
-                    <option [ngValue]="productSubCategoryDummy">Select Sub Catetory</option>
-                    <option *ngFor="let option of subCategories" [ngValue]="option">
-                        {{option.SubCategoryName}}
-                    </option>
-                </select> -->
                 <angular2-multiselect [data]="subCategories" [(ngModel)]="selectedSubCategories" [settings]="subCategorySettings" (onSelect)="onSubCategorySelect($event)" (onDeSelect)="onSubCategoryDeSelect($event)" (onSelectAll)="onSubCategorySelectAll($event)" (onDeSelectAll)="onSubCategoryDeSelectAll($event)">
                 </angular2-multiselect>
-                <!-- formControlName="subCategory" -->
-                <!--Validation-->
-                <!-- <app-field-error-display [field]="fG1.controls.subCategory" [errorMsg]="errorMsgs"> </app-field-error-display> -->
-                <!--Validation-->
             </li>
             <li class="w-15">
-                <angular2-multiselect [data]="productTypes" [(ngModel)]="selectedProductTypes" [settings]="productTypeSettings" (onSelect)="onProductTypeSelect($event)" (onDeSelect)="onProductTypeDeSelect($event)" (onSelectAll)="onProductTypeSelectAll($event)" (onDeSelectAll)="onProductTypeDeSelectAll($event)">
-
-            </li>
-            <li class="w-10">
                 <select class="ddl_default w-100 form-control" [(ngModel)]="retailer">
                     <option [ngValue]="reatileDummy">Select Seller</option>
                     <option *ngFor="let option of retailers" [ngValue]="option">
@@ -64,20 +38,19 @@
                     </option>
                 </select>
             </li>
-            <li class="w-15">
-                <!-- <a class="btn btn-default" (click)="getPage(1)">
+            <li class="w-20">
+                <a class="btn btn-default" (click)="getPage(1)">
                     <i class="fa fa-search"></i>
-                </a> -->
+                </a>
                 <a class="btn btn-default" routerLink="/product-add" routerLinkActive="retailer-add">+ Add a product</a>
             </li>
         </ul>
     </div>
-
 </div>
 <div class="spinner" [ngClass]="{ 'hidden': !loading }"></div>
 <div class="col-sm-12 p-0 pt-3 pagination_align">
-        <pagination-controls id='server' (pageChange)="getPage($event)"></pagination-controls>
-</div> 
+    <pagination-controls id='server' (pageChange)="getPage($event)"></pagination-controls>
+</div>
 <div class="backgroundWhite">
     <table class="table table-responsive">
         <thead>
@@ -92,8 +65,8 @@
                 <th width="7%">Main image</th>
                 <th width="8%">Product code</th>
                 <th width="6%">Kala price</th>
-                <th width="6%">Available Quantity</th>
-                <th width="6%">Sold QTY</th>
+                <th width="6%">Available quantity</th>
+                <th width="6%">Sold quantity</th>
                 <th width="5%"></th>
             </tr>
         </thead>
@@ -112,7 +85,7 @@
                 <td>{{product.brandName}}</td>
                 <td>
                     <img src="{{product.mainImage.imageUrl}}" *ngIf="product.mainImage" width="40">
-                    <i class="fa fa-picture-o defaultUser py-2" *ngIf="!product.mainImage" width="40"></i>
+                    <i class="fa fa-picture-o defaultUser colorGray py-2" *ngIf="!product.mainImage" width="40"></i>
                 </td>
                 <td>{{product.kalaUniqueId}}</td>
                 <td>${{product.kalaPrice}}</td>
