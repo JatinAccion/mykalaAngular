@@ -134,6 +134,11 @@
 }
 .c-btn{
     box-shadow:none !important;
+    padding: 8px !important;
+    font-size: 13px !important;
+}
+.c-btn span{
+    color: #999 !important;
 }
 .list-area li.pure-checkbox{
     display: block !important;
