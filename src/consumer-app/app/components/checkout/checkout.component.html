@@ -156,13 +156,40 @@
       </div>
       <hr />
       <div class="col-sm-12 text-center">
-        <button (click)="chargeAmount()" class="btn btn_red_right w-100" [disabled]="core.hideUser">confirm</button>
+        <button (click)="chargeAmount()" class="btn btn_red_right w-100">confirm</button>
+        <br />
+        <img src="/consumer-app/assets/images/loader.gif" style="margin-top: 7px" *ngIf="loader_chargeAmount" />
         <br />
         <span *ngIf="core.hideUser" class="colorlightGray" style="font-size: 14px">Please login to continue</span>
       </div>
     </div>
     <!--Order Summary-->
-
   </div>
   <div class="clearfix">&nbsp;</div>
 </div>
+
+<!--Modal Payment Confirmation-->
+<ng-template #ModalBox let-c="close" class="modalBox" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Payment Confirmation</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-center">
+    <p>
+      "Your order is on it's way!"
+      <br />
+      <strong>
+        "Order Number -
+        <u>{{paymentSuccessfullMsg.paymentId}}"</u>
+      </strong>
+      <br /> "You will receive an email confirmation shortly at
+      <u>{{paymentSuccessfullMsg.receiptEmail}}</u>"
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn_red_right" style="margin: 0 auto" (click)="c('Close click')">Close</button>
+  </div>
+</ng-template>
+<!--Modal Payment Confirmation-->

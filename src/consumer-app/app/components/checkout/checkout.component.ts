@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environment';
 import { StripeAddCardModel } from '../../../../models/StripeAddCard';
 import { StripeCheckoutModal } from '../../../../models/StripeCheckout';
 import { CheckoutService } from '../../services/checkout.service';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-checkout',
@@ -18,18 +19,23 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   totalAmountFromCart: number;
   @ViewChild('cardInfo') cardInfo: ElementRef;
   @ViewChild('toBeCharged') toBeCharged: ElementRef;
+  @ViewChild('ModalBox') ModalBox: ElementRef;
   card: any;
   cardHandler = this.onChange.bind(this);
   error: string;
   loggedIn: boolean = false;
   loader: boolean = false;
+  loader_chargeAmount: boolean = false;
   stripeAddCard = new StripeAddCardModel();
   stripeCheckout = new StripeCheckoutModal();
   savedCardDetails: any;
+  paymentSuccessfullMsg: any;
+  closeResult: string;
   constructor(
     private core: CoreService,
     private cd: ChangeDetectorRef,
-    private checkout: CheckoutService
+    private checkout: CheckoutService,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit() {
@@ -96,11 +102,13 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       console.log('Something is wrong:', error);
     }
     else {
-      this.loader = false;
       console.log('Success!', token);
       this.stripeAddCard.email = 'jatin.sharma@accionlabs.com';
       this.stripeAddCard.source = token.id;
-      console.log(this.stripeAddCard);
+      this.checkout.addCard(this.stripeAddCard).subscribe((res) => {
+        this.loader = false;
+        this.savedCardDetails = res;
+      });
     }
   }
 
@@ -118,11 +126,29 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   chargeAmount() {
+    this.loader_chargeAmount = true;
     this.stripeCheckout.customerId = this.savedCardDetails.customerId;
     this.stripeCheckout.amount = parseFloat(this.toBeCharged.nativeElement.innerText);
     this.checkout.chargeAmount(this.stripeCheckout.customerId, this.stripeCheckout.amount).subscribe((res) => {
-      console.log(res);
+      this.loader_chargeAmount = false;
+      this.paymentSuccessfullMsg = res;
+      this.open(this.ModalBox)
     })
+  }
+
+  open(content) {
+    console.log(content);
+    this.modalService.open(content).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) return 'by pressing ESC';
+    else if (reason === ModalDismissReasons.BACKDROP_CLICK) return 'by clicking on a backdrop';
+    else return `with: ${reason}`;
   }
 
 }
