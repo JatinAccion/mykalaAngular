@@ -74,7 +74,7 @@
             </div>
         </div>
     </div>
-    <p class="row">Other Images</p>
+    <p class="row" *ngIf="uploadedImages.length>0" >Other Images</p>
     <div class="row">
         <div class="d-inline anc_otherImg" *ngFor="let image of uploadedImages" >
             <img src="{{image}}">

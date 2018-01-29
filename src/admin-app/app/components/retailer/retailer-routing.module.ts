@@ -5,12 +5,14 @@ import { RetailerAddComponent } from './retailer-add/retailer-add.component';
 import { RetailerEditComponent } from './retailer-edit/retailer-edit.component';
 import { LoginRedirect } from '../../services/login-redirect.service';
 import { EnsureAuthenticated } from '../../services/ensure-authenticated.service';
+import { CanDeactivateGuard } from '../../services/candeactivate-guard.service';
 
 const appRoutes: Routes = [
   {
     path: 'retailer-list',
     component: RetailerListComponent,
-    canActivate: [EnsureAuthenticated]
+    canActivate: [EnsureAuthenticated],
+    canDeactivate: [CanDeactivateGuard]
   },
   {
     path: 'retailer-add',

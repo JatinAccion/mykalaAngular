@@ -5,12 +5,14 @@ import { ProductAddComponent } from './product-add/product-add.component';
 import { LoginRedirect } from '../../services/login-redirect.service';
 import { EnsureAuthenticated } from '../../services/ensure-authenticated.service';
 import { ProductMetaComponent } from './product-meta/product-meta.component';
+import { CanDeactivateGuard } from '../../services/candeactivate-guard.service';
 
 const appRoutes: Routes = [
   {
     path: 'product-list',
     component: ProductListComponent,
-    canActivate: [EnsureAuthenticated]
+    canActivate: [EnsureAuthenticated],
+    canDeactivate: [CanDeactivateGuard]
   },
   {
     path: 'product-add',

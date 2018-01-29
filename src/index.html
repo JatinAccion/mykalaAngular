@@ -16,7 +16,12 @@
   </script>
 </head>
 
-<body>
+<body onbeforeunload="return myFunction()" >
+  <script>
+  function myFunction() {
+      return "Write something clever here...Siva";
+  }
+  </script>
   <app-root></app-root>
 </body>
 

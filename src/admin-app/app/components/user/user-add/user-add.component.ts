@@ -49,74 +49,25 @@ export class UserAddComponent implements OnInit {
     //this.userId = route.snapshot.params['id'];
   }
   ngOnInit() {
-    this.setActiveTab({ nextId: 'tab-category' });
     this.setFormValidators();
-    this.getRetailersData();
+    // this.getUserData();
   }
   setFormValidators() {
     this.fG1 = this.formBuilder.group({
-      user: [{ value: null, disabled: false }, [Validators.required]],
+      email: ['', [Validators.pattern(environment.regex.emailRegex), Validators.required]],
+      password: ['', [Validators.required]],
+      firstname: ['', [Validators.required]],
+      lastname: ['', [Validators.required]],
+      phone: ['', [Validators.required]],
+      roleType: ['', [Validators.required]],
     });
   }
-  getRetailersData() {
+  getUserData() {
     this.userService.get(null).subscribe((res) => {
-     // return this.users = res;
+      // return this.users = res;
     });
   }
-  selectSeller(e) {
-    // if (this.user) {
-    //   this.user.userId = this.user.userId;
-    //   this.user.userName = this.user.businessName;
-    // } else {
-    //   this.user.userId = null;
-    //   this.user.userName = '';
-    // }
-  }
-  setActiveTab(event) {
-    // if (!this.userId && event.nextId !== 'tab-category') { event.preventDefault(); return; }
-    if (this.fG1) {
-      this.fG1.controls.user.reset({ value: this.user, disabled: event.nextId !== 'tab-category' });
 
-    }
-
-    if (event.nextId === 'tab-delivery') {
-      this.validatorExt.validateAllFormFields(this.fG1);
-      if (this.fG1.invalid) {
-        event.preventDefault(); return;
-      }
-    }
-    if (!this.userId) {
-      switch (event.nextId) {
-        case 'tab-images':
-        case 'tab-more': // event.preventDefault();
-          break;
-      }
-    }
-  }
-  saveUserAndShowNext(prevTab) {
-    if (prevTab === 'tab-delivery') {
-      this.saveUser().then(res => {
-        this.showNextTab(prevTab);
-      });
-    }
-  }
-  showNextTab(prevTab) {
-    switch (prevTab) {
-      case 'tab-category': this.status.category = true; this.ngbTabSet.select('tab-basic'); break;
-      case 'tab-basic': this.status.basic = true; this.ngbTabSet.select('tab-pricing'); break;
-      case 'tab-pricing': this.status.pricing = true; this.ngbTabSet.select('tab-delivery'); break;
-      case 'tab-delivery': this.status.delivery = true; this.ngbTabSet.select('tab-images'); break;
-
-      case 'tab-images': if (this.userId) {
-        this.status.images = true; this.ngbTabSet.select('tab-more');
-      } break;
-      case 'tab-more': if (this.userId) {
-        this.status.more = true;
-        this.router.navigateByUrl('/user-list');
-        break;
-      }
-    }
-  }
   saveUser(): Promise<any> {
     this.saveloader = true;
     return Promise(resolve => {
@@ -138,8 +89,4 @@ export class UserAddComponent implements OnInit {
       //   });
     });
   }
-  closeAlert(alert: IAlert) {
-    this.alert.show = false;
-  }
-
 }

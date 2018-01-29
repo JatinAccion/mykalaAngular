@@ -11,9 +11,9 @@
         <ul class="product_search m-0 p-0">
             <li class="w-5">
                 <select class="ddl_default form-control" [(ngModel)]="productStatus">
-                    <option value="'true'">Status</option>
-                    <option value="'true'">true</option>
-                    <option value="'false'">false</option>
+                    <option [ngValue]="productStatusDummy">Status</option>
+                    <option [ngValue]="true">Active</option>
+                    <option [ngValue]="false">Inactive</option>
                 </select>
             </li>
             <li class="w-15">
@@ -24,12 +24,8 @@
                     </option>
                 </select> -->
                 <angular2-multiselect [data]="places" [(ngModel)]="selectedPlaces" [settings]="placesSettings" (onSelect)="onPlaceSelect($event)" (onDeSelect)="onPlaceDeSelect($event)" (onSelectAll)="onPlaceSelectAll($event)" (onDeSelectAll)="onPlaceDeSelectAll($event)">
-
                 </angular2-multiselect>
-                <!-- formControlName="place" -->
-                <!--Validation-->
-                <!-- <app-field-error-display [field]="fG1.controls.place" [errorMsg]="errorMsgs"> </app-field-error-display> -->
-                <!--Validation-->
+
             </li>
             <li class="w-15">
                 <!-- <select class="ddl_default form-control" [(ngModel)]="productCategory" (change)="categoryChanged($event)">
@@ -39,12 +35,8 @@
                     </option>
                 </select> -->
                 <angular2-multiselect [data]="categories" [(ngModel)]="selectedCategories" [settings]="categorySettings" (onSelect)="onCategorySelect($event)" (onDeSelect)="onCategoryDeSelect($event)" (onSelectAll)="onCategorySelectAll($event)" (onDeSelectAll)="onCategoryDeSelectAll($event)">
-
                 </angular2-multiselect>
-                <!-- formControlName="category" -->
-                <!--Validation-->
-                <!-- <app-field-error-display [field]="fG1.controls.category" [errorMsg]="errorMsgs"> </app-field-error-display> -->
-                <!--Validation-->
+
             </li>
             <li class="w-20">
                 <!-- <select class="ddl_default form-control" [(ngModel)]="productSubCategory">
@@ -54,7 +46,6 @@
                     </option>
                 </select> -->
                 <angular2-multiselect [data]="subCategories" [(ngModel)]="selectedSubCategories" [settings]="subCategorySettings" (onSelect)="onSubCategorySelect($event)" (onDeSelect)="onSubCategoryDeSelect($event)" (onSelectAll)="onSubCategorySelectAll($event)" (onDeSelectAll)="onSubCategoryDeSelectAll($event)">
-
                 </angular2-multiselect>
                 <!-- formControlName="subCategory" -->
                 <!--Validation-->
@@ -64,11 +55,6 @@
             <li class="w-15">
                 <angular2-multiselect [data]="productTypes" [(ngModel)]="selectedProductTypes" [settings]="productTypeSettings" (onSelect)="onProductTypeSelect($event)" (onDeSelect)="onProductTypeDeSelect($event)" (onSelectAll)="onProductTypeSelectAll($event)" (onDeSelectAll)="onProductTypeDeSelectAll($event)">
 
-                </angular2-multiselect>
-                <!-- formControlName="productType" -->
-                <!--Validation-->
-                <!-- <app-field-error-display [field]="fG1.controls.productType" [errorMsg]="errorMsgs"> </app-field-error-display> -->
-                <!--Validation-->
             </li>
             <li class="w-10">
                 <select class="ddl_default w-100 form-control" [(ngModel)]="retailer">

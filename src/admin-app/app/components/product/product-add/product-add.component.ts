@@ -11,7 +11,7 @@ import { IAlert } from '../../../../../models/IAlert';
 import { Product } from '../../../../../models/Product';
 import { Promise } from 'q';
 import { RetialerService } from '../../retailer/retialer.service';
-import { inputValidations } from './messages';
+import { inputValidations, userMessages } from './messages';
 import { RetailerProfileInfo } from '../../../../../models/retailer-profile-info';
 import { CoreService } from '../../../services/core.service';
 // #endregion imports
@@ -87,7 +87,7 @@ export class ProductAddComponent implements OnInit {
     if (event.nextId !== 'tab-category') {
       this.validatorExt.validateAllFormFields(this.fG1);
       if (this.fG1.invalid) {
-        this.core.message.info('');
+        this.core.message.info(inputValidations.retailer.required);
         event.preventDefault(); return;
       }
     }

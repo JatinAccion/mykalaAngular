@@ -43,7 +43,7 @@ export class ProductService {
     this.headers = this.getHttpHeraders();
     const url = `${this.BASE_URL}/${environment.apis.product.get}`;
     return this.http
-      .get(url, { search: query, headers: this.headers })
+      .post(url, query, { headers: this.headers })
       .map(p => p.json())
       .map(p => new Products(p))
       .catch(this.handleError);

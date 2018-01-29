@@ -6,12 +6,15 @@ export const apiNames = {
         token: 'oauth/token',
         userInfo: 'loginUser'
     },
+    userService: {
+        resetPassword: 'login/user/resetPassword',
+    },
     retailers: {
         get: 'retailer',
         sellerTypes: 'retailer/sellerType',
         getShippingProfileNames: 'retailer/{retailerId}/shippingProfileName',
         changeStatus: 'retailer/changeStatus',
-        getRetailerNames:'retailer/sellerName'
+        getRetailerNames: 'retailer/sellerName'
     },
     retailerProfileInfo: {
         get: 'retailer/{retailerId}/profileInfo',
