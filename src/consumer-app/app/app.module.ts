@@ -59,6 +59,8 @@ import { MycartComponent } from './components/mycart/mycart.component';
 import { DxRangeSliderModule, DxNumberBoxModule } from 'devextreme-angular';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { ReversePipe } from '../../pipes/reverse.pipe';
+import { CheckoutService } from './services/checkout.service';
+import { MyordersComponent } from './components/myorders/myorders.component';
 
 @NgModule({
   declarations: [
@@ -91,7 +93,8 @@ import { ReversePipe } from '../../pipes/reverse.pipe';
     MycartComponent,
     SubMenusComponent,
     ReversePipe,
-    CheckoutComponent
+    CheckoutComponent,
+    MyordersComponent
   ],
   imports: [
     BrowserModule,
@@ -106,7 +109,7 @@ import { ReversePipe } from '../../pipes/reverse.pipe';
     SidebarModule.forRoot()
   ],
   providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, ConversationalService, JoinKalaService,
-    ProfileInfoService, VerificationService, LocalStorageService, ConsumerInterestService, ResetPasswordService, ForgotPasswordService, GetOfferService,
+    ProfileInfoService, VerificationService, LocalStorageService, ConsumerInterestService, ResetPasswordService, ForgotPasswordService, GetOfferService, CheckoutService,
     { provide: NgbDateParserFormatter, useClass: NgbDateFRParserFormatter }],
   bootstrap: [AppComponent],
   entryComponents: [cmsgComponent, HomeComponent, cListComponent, JoinKalaComponent, LoginComponent]

@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { environment } from '../../../environments/environment';
 import { StripeAddCardModel } from '../../../../models/StripeAddCard';
 import { StripeCheckoutModal } from '../../../../models/StripeCheckout';
+import { CheckoutService } from '../../services/checkout.service';
 
 @Component({
   selector: 'app-checkout',
@@ -16,6 +17,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   itemsInCart: any;
   totalAmountFromCart: number;
   @ViewChild('cardInfo') cardInfo: ElementRef;
+  @ViewChild('toBeCharged') toBeCharged: ElementRef;
   card: any;
   cardHandler = this.onChange.bind(this);
   error: string;
@@ -23,9 +25,11 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   loader: boolean = false;
   stripeAddCard = new StripeAddCardModel();
   stripeCheckout = new StripeCheckoutModal();
+  savedCardDetails: any;
   constructor(
     private core: CoreService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private checkout: CheckoutService
   ) { }
 
   ngOnInit() {
@@ -68,22 +72,35 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   async onSubmit(form: NgForm) {
-    let userInfo = window.localStorage['userInfo'];
-    if (userInfo === undefined) this.error = "Please login to add new card";
+    // const userInfo = window.localStorage['userInfo'];
+    // if (userInfo === undefined) this.error = "Please login to add new card";
+    // else {
+    //   this.loader = true;
+    //   const { token, error } = await stripe.createToken(this.card);
+    //   if (error) {
+    //     this.loader = false;
+    //     console.log('Something is wrong:', error);
+    //   }
+    //   else {
+    //     this.loader = false;
+    //     console.log('Success!', token);
+    //     this.stripeAddCard.email = JSON.parse(userInfo).email;
+    //     this.stripeAddCard.source = token.id;
+    //     console.log(this.stripeAddCard);
+    //   }
+    // }
+    this.loader = true;
+    const { token, error } = await stripe.createToken(this.card);
+    if (error) {
+      this.loader = false;
+      console.log('Something is wrong:', error);
+    }
     else {
-      this.loader = true;
-      const { token, error } = await stripe.createToken(this.card);
-      if (error) {
-        this.loader = false;
-        console.log('Something is wrong:', error);
-      }
-      else {
-        this.loader = false;
-        console.log('Success!', token);
-        this.stripeAddCard.email = JSON.parse(userInfo).email;
-        this.stripeAddCard.source = token.id;
-        console.log(this.stripeAddCard);
-      }
+      this.loader = false;
+      console.log('Success!', token);
+      this.stripeAddCard.email = 'jatin.sharma@accionlabs.com';
+      this.stripeAddCard.source = token.id;
+      console.log(this.stripeAddCard);
     }
   }
 
@@ -98,6 +115,14 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       amounts.push(parseFloat(toBeCalculated[i].innerHTML))
     }
     return eval(amounts.join("+"));
+  }
+
+  chargeAmount() {
+    this.stripeCheckout.customerId = this.savedCardDetails.customerId;
+    this.stripeCheckout.amount = parseFloat(this.toBeCharged.nativeElement.innerText);
+    this.checkout.chargeAmount(this.stripeCheckout.customerId, this.stripeCheckout.amount).subscribe((res) => {
+      console.log(res);
+    })
   }
 
 }

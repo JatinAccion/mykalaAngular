@@ -147,14 +147,16 @@
               <strong>Total</strong>
             </td>
             <td>
-              <strong class="colorred">${{calculateTotalPayable()}}</strong>
+              <strong class="colorred">$
+                <span #toBeCharged>{{calculateTotalPayable()}}</span>
+              </strong>
             </td>
           </tr>
         </table>
       </div>
       <hr />
       <div class="col-sm-12 text-center">
-        <button href="#" class="btn btn_red_right w-100" [disabled]="core.hideUser">confirm</button>
+        <button (click)="chargeAmount()" class="btn btn_red_right w-100" [disabled]="core.hideUser">confirm</button>
         <br />
         <span *ngIf="core.hideUser" class="colorlightGray" style="font-size: 14px">Please login to continue</span>
       </div>

@@ -24,6 +24,7 @@ import { Step4Component } from './components/getoffers/step4/step4.component';
 import { ViewProductComponent } from './components/view-product/view-product.component';
 import { MycartComponent } from './components/mycart/mycart.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
+import { MyordersComponent } from './components/myorders/myorders.component';
 
 const appRoutes: Routes = [
     {
@@ -85,6 +86,11 @@ const appRoutes: Routes = [
     {
         path: 'mycart',
         component: MycartComponent,
+        data: { header: 'header1' }
+    },
+    {
+        path: 'myorder',
+        component: MyordersComponent,
         data: { header: 'header1' }
     },
     {

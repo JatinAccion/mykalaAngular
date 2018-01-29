@@ -28,6 +28,10 @@ export const apiNames = {
     },
     geoCode: {
         key: '&key=AIzaSyDPSk91ksjR47kqdFbElVwL7eM8FgIZEHw'
+    },
+    consumerCheckout: {
+        addCard: 'addCustomer',
+        chargeCustomer: 'chargeCustomer'
     }
 };
 
