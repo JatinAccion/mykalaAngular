@@ -62,7 +62,7 @@ export class ProductListComponent implements OnInit {
       unSelectAllText: 'UnSelect All',
       searchPlaceholderText: 'Search Fields',
       enableSearchFilter: true,
-      badgeShowLimit: 5,
+      badgeShowLimit: 0,
       classes: 'myclass custom-class'
     };
     this.categorySettings = {
@@ -72,7 +72,7 @@ export class ProductListComponent implements OnInit {
       unSelectAllText: 'UnSelect All',
       searchPlaceholderText: 'Search Fields',
       enableSearchFilter: true,
-      badgeShowLimit: 5,
+      badgeShowLimit: 0,
       groupBy: 'parent',
       classes: 'myclass custom-class'
     };
@@ -83,7 +83,7 @@ export class ProductListComponent implements OnInit {
       unSelectAllText: 'UnSelect All',
       searchPlaceholderText: 'Search Fields',
       enableSearchFilter: true,
-      badgeShowLimit: 5,
+      badgeShowLimit: 0,
       groupBy: 'parent',
       classes: 'myclass custom-class'
     };
@@ -94,7 +94,7 @@ export class ProductListComponent implements OnInit {
       unSelectAllText: 'UnSelect All',
       searchPlaceholderText: 'Search Fields',
       enableSearchFilter: true,
-      badgeShowLimit: 5,
+      badgeShowLimit: 0,
       groupBy: 'parent',
       classes: 'myclass custom-class'
     };

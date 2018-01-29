@@ -23,6 +23,7 @@ import { Step3Component } from './components/getoffers/step3/step3.component';
 import { Step4Component } from './components/getoffers/step4/step4.component';
 import { ViewProductComponent } from './components/view-product/view-product.component';
 import { MycartComponent } from './components/mycart/mycart.component';
+import { CheckoutComponent } from './components/checkout/checkout.component';
 
 const appRoutes: Routes = [
     {
@@ -59,6 +60,11 @@ const appRoutes: Routes = [
         path: 'interest',
         component: ConsumerInterestComponent,
         data: { header: 'header2' }
+    },
+    {
+        path: 'checkout',
+        component: CheckoutComponent,
+        data: { header: 'header1' }
     },
     {
         path: 'getoffer',

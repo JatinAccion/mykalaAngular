@@ -57,6 +57,8 @@ import { GetOfferService } from './services/getOffer.service';
 import { ViewProductComponent } from './components/view-product/view-product.component';
 import { MycartComponent } from './components/mycart/mycart.component';
 import { DxRangeSliderModule, DxNumberBoxModule } from 'devextreme-angular';
+import { CheckoutComponent } from './components/checkout/checkout.component';
+import { ReversePipe } from '../../pipes/reverse.pipe';
 
 @NgModule({
   declarations: [
@@ -87,7 +89,9 @@ import { DxRangeSliderModule, DxNumberBoxModule } from 'devextreme-angular';
     Step4Component,
     ViewProductComponent,
     MycartComponent,
-    SubMenusComponent
+    SubMenusComponent,
+    ReversePipe,
+    CheckoutComponent
   ],
   imports: [
     BrowserModule,

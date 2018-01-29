@@ -4,7 +4,7 @@
 
   <!--Cart-->
   <div class="myCart">
-    <div class="myCart-list" *ngFor="let item of itemsInCart">
+    <div class="myCart-list" *ngFor="let item of itemsInCart | reverse">
       <h4 class="subtitle" id="{{item.retailerId}}">{{item.retailerName}}</h4>
       <div class="row">
         <div class="col-sm-2">
@@ -16,7 +16,11 @@
           </p>
           <div class="row">
             <p class="col-sm-3 colorlightGray">Quantity:</p>
-            <p class="col-sm-9">{{item.quantity}}</p>
+            <p class="col-sm-9">
+              <button class="btn btn_red_right customBtnSmall mr-3" (click)="calculateQantity('decrease', item)">-</button>
+              {{item.quantity}}
+              <button class="btn btn_red_right customBtnSmall ml-3" (click)="calculateQantity('increase', item)">+</button>
+            </p>
           </div>
           <div class="row">
             <p class="col-sm-3 colorlightGray">Price:</p>
@@ -60,13 +64,13 @@
     <div class="myCart-list" *ngIf="!noItemsInCart">
       <div class="col-sm-12 p-3 text-center">
         <div class="row">
-          <div class="col-sm-2 colorred p-0 text-left">Total Payable Amount:</div>
+          <div class="col-sm-2 colorred p-0 text-left">Total Amount:</div>
           <div class="col-sm-4 colorred text-left">
             $
-            <strong>{{totalPayableAmount()}}</strong>
+            <strong #TotalAmountPayable>{{totalPayableAmount()}}</strong>
           </div>
           <div class="col-sm-6 colorred text-right">
-            <a href="#" class="btn-outer btn_red_right">checkout</a>
+            <a (click)="checkOut()" class="btn-outer btn_red_right" style="color:#fff">checkout</a>
           </div>
         </div>
       </div>
@@ -87,7 +91,7 @@
   <div class="myCart" *ngIf="savedForLater.length > 0">
     <h4 class="subtitle">Saved for later</h4>
 
-    <div class="myCart-list" *ngFor="let item of savedForLater">
+    <div class="myCart-list" *ngFor="let item of savedForLater | reverse">
       <h4 class="subtitle" id="{{item.retailerId}}">{{item.retailerName}}</h4>
       <div class="row">
         <div class="col-sm-2">

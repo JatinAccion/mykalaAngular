@@ -162,8 +162,15 @@ export class HomeComponent implements OnInit {
         this.loader = false;
         for (var i = 0; i < res.length; i++) this.searchData.push(new SearchDataModal(res[i].categoryId, res[i].categoryName, res[i].categoryName, "2", ""));
         //Temporary for Image
-        for (var i = 0; i < this.tempArrCategory.length; i++) {
-          this.searchData[i].imgUrl = environment.s3.concat(this.tempArrCategory[i]);
+        if(res[0].placeName === "Home & Garden"){
+          for (var i = 0; i < this.tempArrCategory.length; i++) {
+            this.searchData[i].imgUrl = environment.s3.concat(this.tempArrCategory[i]);
+          }
+        }
+        else{
+          for (var i = 0; i < this.searchData.length; i++) {
+            this.searchData[i].imgUrl = '/consumer-app/assets/images/banner_home.png';
+          }
         }
         //Temporary for Image
         this.tiles = this.searchData;
