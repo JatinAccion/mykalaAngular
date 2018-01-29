@@ -156,9 +156,9 @@
       </div>
       <hr />
       <div class="col-sm-12 text-center">
-        <button (click)="chargeAmount()" class="btn btn_red_right w-100">confirm</button>
+        <button (click)="chargeAmount()" class="btn btn_red_right w-100" [disabled]="core.hideUser">confirm</button>
         <br />
-        <img src="/consumer-app/assets/images/loader.gif" style="margin-top: 7px" *ngIf="loader_chargeAmount" />
+        <img src="/consumer-app/assets/images/loader.gif" class="mt-3 mb-2" *ngIf="loader_chargeAmount" />
         <br />
         <span *ngIf="core.hideUser" class="colorlightGray" style="font-size: 14px">Please login to continue</span>
       </div>
