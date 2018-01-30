@@ -6,6 +6,7 @@ import { StripeAddCardModel } from '../../../../models/StripeAddCard';
 import { StripeCheckoutModal } from '../../../../models/StripeCheckout';
 import { CheckoutService } from '../../services/checkout.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { GetCustomerCards } from '../../../../models/getCards';
 
 @Component({
   selector: 'app-checkout',
@@ -31,6 +32,10 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   savedCardDetails: any;
   paymentSuccessfullMsg: any;
   closeResult: string;
+  userData: any;
+  userId: string;
+  getCardsDetails: any;
+  loader_getCards: boolean = false;
   constructor(
     private core: CoreService,
     private cd: ChangeDetectorRef,
@@ -44,6 +49,11 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.core.searchMsgToggle();
     if (window.localStorage['existingItemsInCart'] != undefined) this.itemsInCart = JSON.parse(window.localStorage['existingItemsInCart']);
     if (window.localStorage['TotalAmount'] != undefined) this.totalAmountFromCart = window.localStorage['TotalAmount'];
+    if (window.localStorage['userInfo'] != undefined) {
+      this.userData = JSON.parse(window.localStorage['userInfo']);
+      this.userId = this.userData.userId;
+    }
+    this.getCards();
   }
 
   ngAfterViewInit() {
@@ -68,6 +78,31 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.card.destroy();
   }
 
+  getCards() {
+    this.loader_getCards = true;
+    this.checkout.getCards(this.userId).subscribe((res) => {
+      this.getCardsDetails = [];
+      this.loader_getCards = false;
+      for (var i = 0; i < res.length; i++) {
+        this.getCardsDetails.push(new GetCustomerCards(res[i].userId, res[i].customerId, res[i].last4Digits, res[i].cardType, res[i].cardHoldersName))
+      }
+    });
+  }
+
+  selectPayCard(e, card) {
+    let allCards = document.getElementsByClassName("customerCards");
+    for (var i = 0; i < allCards.length; i++) {
+      if (allCards[i].classList.contains("categ_outline_red")) {
+        allCards[i].classList.remove("categ_outline_red");
+        allCards[i].classList.add("categ_outline_gray");
+      }
+    }
+    let element = e.currentTarget;
+    element.classList.remove("categ_outline_gray");
+    element.classList.add("categ_outline_red");
+    this.savedCardDetails = card;
+  }
+
   onChange({ error }) {
     if (error) {
       this.error = error.message;
@@ -78,42 +113,32 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   async onSubmit(form: NgForm) {
-    // const userInfo = window.localStorage['userInfo'];
-    // if (userInfo === undefined) this.error = "Please login to add new card";
-    // else {
-    //   this.loader = true;
-    //   const { token, error } = await stripe.createToken(this.card);
-    //   if (error) {
-    //     this.loader = false;
-    //     console.log('Something is wrong:', error);
-    //   }
-    //   else {
-    //     this.loader = false;
-    //     console.log('Success!', token);
-    //     this.stripeAddCard.email = JSON.parse(userInfo).email;
-    //     this.stripeAddCard.source = token.id;
-    //     console.log(this.stripeAddCard);
-    //   }
-    // }
-    this.loader = true;
-    const { token, error } = await stripe.createToken(this.card);
-    if (error) {
-      this.loader = false;
-      console.log('Something is wrong:', error);
-    }
+    if (this.userData === undefined) this.error = "Please login to add new card";
     else {
-      console.log('Success!', token);
-      this.stripeAddCard.email = 'jatin.sharma@accionlabs.com';
-      this.stripeAddCard.source = token.id;
-      this.checkout.addCard(this.stripeAddCard).subscribe((res) => {
-        this.loader = false;
-        this.savedCardDetails = res;
-      });
+      this.loader = true;
+      const { token, error } = await stripe.createToken(this.card);
+      if (error) this.loader = false;
+      else {
+        this.stripeAddCard.customer.email = this.userData.emailId;
+        this.stripeAddCard.customer.source = token.id;
+        this.stripeAddCard.userId = this.userId;
+        this.checkout.addCard(this.stripeAddCard).subscribe((res) => {
+          this.loader = false;
+          this.savedCardDetails = res;
+          this.getCards();
+        });
+      }
     }
   }
 
   addNewCard() {
     this.addCard = !this.addCard;
+  }
+
+  updateCard() {
+    this.checkout.updateCard(this.userId).subscribe((res) => {
+      console.log(res);
+    });
   }
 
   calculateTotalPayable() {
@@ -128,8 +153,8 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   chargeAmount() {
     this.loader_chargeAmount = true;
     this.stripeCheckout.customerId = this.savedCardDetails.customerId;
-    this.stripeCheckout.amount = parseFloat(this.toBeCharged.nativeElement.innerText);
-    this.checkout.chargeAmount(this.stripeCheckout.customerId, this.stripeCheckout.amount).subscribe((res) => {
+    this.stripeCheckout.amount = this.toBeCharged.nativeElement.innerText;
+    this.checkout.chargeAmount(this.stripeCheckout).subscribe((res) => {
       this.loader_chargeAmount = false;
       this.paymentSuccessfullMsg = res;
       this.open(this.ModalBox)

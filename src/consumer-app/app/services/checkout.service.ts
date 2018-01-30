@@ -13,8 +13,18 @@ export class CheckoutService {
         return this.http.post(url, stripeAddCard).map((res) => res.json());
     }
 
-    chargeAmount(customerId, amount) {
-        const url: string = `${this.BASE_URL}/${environment.apis.consumerCheckout.chargeCustomer}?customerId=${customerId}&amount=${amount}`;
+    getCards(userId) {
+        const url: string = `${this.BASE_URL}/${userId}/${environment.apis.consumerCheckout.getCards}`;
         return this.http.get(url).map((res) => res.json());
+    }
+
+    updateCard(userId) {
+        const url: string = `${this.BASE_URL}/${environment.apis.consumerCheckout.updateCard}`;
+        return this.http.post(url, userId).map((res) => res.json());
+    }
+
+    chargeAmount(stripeCheckout) {
+        const url: string = `${this.BASE_URL}/${environment.apis.consumerCheckout.chargeCustomer}`;
+        return this.http.post(url, stripeCheckout).map((res) => res.json());
     }
 }

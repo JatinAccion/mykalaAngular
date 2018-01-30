@@ -6,7 +6,7 @@
 
   <div class="row">
     <div class="col-sm-7 checkout_layout">
-      <p class="colorlightGray p-0">Shipping address: </p>
+      <!-- <p class="colorlightGray p-0">Shipping address: </p>
       <div class="row p-2">
         <div class="col-sm-3 p-0">
           <p class="colorred">Add new address</p>
@@ -21,7 +21,7 @@
         </div>
       </div>
 
-      <hr />
+      <hr /> -->
 
       <!--Exsiting Cards-->
       <div class="row p-2">
@@ -29,7 +29,10 @@
           <p>Payment method</p>
         </div>
         <div class="col-sm-9">
-          <div class="categ_outline_gray">visa 6408 - Xinyu Liu</div>
+          <img src="/consumer-app/assets/images/loader.gif" style="margin-right: 10px" *ngIf="loader_getCards" />
+          <div class="categ_outline_gray customerCards" style="cursor:pointer; margin-right: 10px" *ngFor="let card of getCardsDetails" (click)="selectPayCard($event, card)">
+            {{card.cardType}} {{card.last4Digit}}
+          </div>
           <div class="float-right pr-2 d-inline">
             <a (click)="addNewCard()" href="javascript:void(0)" class="ancRed">Add New Card</a>
           </div>
@@ -64,6 +67,8 @@
 
       <hr />
 
+      <!-- <hr />
+
       <div class="row p-2">
         <div class="col-sm-3 p-0 colorlightGray">
           <p>Shipping method</p>
@@ -74,7 +79,7 @@
           <div class="categ_outline_gray mb-3">Free-five business days shipping - get it Next Wed, June 3</div>
         </div>
         <div class="col-sm-1"></div>
-      </div>
+      </div> -->
     </div>
 
     <div class="col-sm-1">&nbsp;</div>
