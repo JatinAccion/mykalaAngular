@@ -8,7 +8,6 @@ import { User } from '../../../../models/user';
 import { Conversation } from '../../models/conversation';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { JoinKalaService } from '../../services/join-kala.service';
-import { RoleModel } from '../../../../models/userRole';
 import { ConsumerSignUp } from '../../../../models/consumer-signup';
 import { userMessages, inputValidation } from './join.message';
 
@@ -110,23 +109,26 @@ export class JoinKalaComponent implements OnInit, CuiComponent {
     this.userModel.lastName = this.joinKala.value.lastname;
     this.userModel.password = this.joinKala.value.password;
     this.userModel.emailId = this.joinKala.value.email;
-    this.userModel.origin_source = "NA";
-    this.userModel.roles = new Array<RoleModel>();
-    this.userModel.roles.push(new RoleModel("consumer"));
+    this.userModel.userCreateStatus = false;
+    this.userModel.phone = "";
+    this.userModel.roleName = [];
+    this.userModel.roleName.push("consumer");
 
     this.joinKalaService.joinKalaStepOne(this.userModel).subscribe(res => {
       console.log(res);
       this.loader = false;
       this.userInfo = res;
-      if (this.userInfo.userCreateStatus === "success") {
+      if (this.userInfo.user_status === "success") {
         window.localStorage['userInfo'] = JSON.stringify(this.userInfo);
+        this.signUpResponse.status = true;
+        this.signUpResponse.message = this.joinUserMsg.success;
         setTimeout(() => {
           if (this.routerOutlet.isActivated) this.routerOutlet.deactivate();
           this.router.navigateByUrl('/profile-info');
-        }, 1000);
+        }, 3000);
       }
-      else if (this.userInfo.userCreateStatus === "alreadyExists") this.signUpResponse.message = this.joinUserMsg.accountExist;
-      else if (this.userInfo.userCreateStatus === "emailExists") this.signUpResponse.message = this.joinUserMsg.emailExists;
+      else if (this.userInfo.user_status === "alreadyExists") this.signUpResponse.message = this.joinUserMsg.accountExist;
+      //else if (this.userInfo.user_status === "emailExists") this.signUpResponse.message = this.joinUserMsg.emailExists;
       this.joinKala.reset();
     }, err => {
       this.loader = false;

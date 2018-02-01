@@ -7,14 +7,14 @@ export const apiNames = {
         userInfo: 'loginUser'
     },
     userService: {
-        createAccount: 'login/user',
+        createAccount: 'consumer',
         forgotPassword: 'login/user/forgotPassword',
         resetPassword: 'login/user/resetPassword',
-        validateToken: 'login/validateToken'
+        validateToken: 'validateToken'
     },
     profileInterest: {
-        saveProfile: 'profile/userDetail',
-        getCatalogue: 'profile/getCatalogs',
+        saveProfile: '',
+        getCatalogue: 'consumerInterests',
         saveInterest: 'profile/addConsumerCatalogs'
     },
     products: {

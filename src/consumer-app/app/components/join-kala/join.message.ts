@@ -1,5 +1,5 @@
 export const userMessages = {
-    success: "Your account has been created successfully",
+    success: "A verfication link has been sent to the email address you have provided. Please verifiy your account at the earliest.",
     accountExist: "Account already exists",
     emailExists: "Email already exists",
     fail: "Something went wrong, please try again",

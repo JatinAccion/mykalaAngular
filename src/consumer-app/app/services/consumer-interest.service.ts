@@ -14,7 +14,7 @@ export class ConsumerInterestService {
   }
 
   postInterest(interest) {
-    const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.saveInterest}`;
+    const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.saveProfile}`;
     return this.http.post(url, interest).map((res) => res.json());
   }
 }

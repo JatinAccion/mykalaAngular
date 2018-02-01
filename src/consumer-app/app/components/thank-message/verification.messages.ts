@@ -5,6 +5,6 @@ export const userMessages = {
     verifiedHead: 'Already Verified',
     userverified: 'Your account has been already verified.',
 
-    tokenExpiredHead: 'Something Went Wrong',
+    tokenExpiredHead: 'Token Expired',
     tokenExpired: 'Your token session has been expired.'
 };

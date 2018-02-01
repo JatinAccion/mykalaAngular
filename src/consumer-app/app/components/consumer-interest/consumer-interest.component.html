@@ -14,7 +14,7 @@
         <div class="col-sm-5 p-0">
           <div *ngFor="let interest of interestImages; let i=index">
             <div *ngIf="i<=1" class="img_holder banner p-2">
-              <img (click)="selectInterest($event, interest)" style="cursor: pointer" src="{{interest.consumerInterestsImagePath}}" title="{{interest.consumerInterestsImageName}}" id="{{interest.consumerInterestsImageId}}" class="img-fluid" alt="" />
+              <img (click)="selectInterest($event, interest)" style="cursor: pointer" src="{{interest.consumerInterestImagePath}}" title="{{interest.consumerInterestImageName}}" id="{{interest.id}}" class="img-fluid" alt="" />
               <img class="aboluteImg" src="/consumer-app/assets/images/select.png" *ngIf="interest.selectImg" />
             </div>
           </div>
@@ -25,7 +25,7 @@
         <div class="col-sm-4 p-0 center-block">
           <div *ngFor="let interest of interestImages; let i=index">
             <div *ngIf="i>1 && i<=5" class="img_holder banner p-2">
-              <img (click)="selectInterest($event, interest)" style="cursor: pointer" src="{{interest.consumerInterestsImagePath}}" title="{{interest.consumerInterestsImageName}}" id="{{interest.consumerInterestsImageId}}" class="img-fluid" alt="" />
+              <img (click)="selectInterest($event, interest)" style="cursor: pointer" src="{{interest.consumerInterestImagePath}}" title="{{interest.consumerInterestImageName}}" id="{{interest.id}}" class="img-fluid" alt="" />
               <img class="aboluteImg" src="/consumer-app/assets/images/select.png" *ngIf="interest.selectImg" />
             </div>
           </div>
@@ -36,7 +36,7 @@
         <div class="col-sm-3 p-0 center-block">
           <div *ngFor="let interest of interestImages; let i=index">
             <div *ngIf="i>5 && i<=12" class="img_holder banner p-2">
-              <img (click)="selectInterest($event, interest)" style="cursor: pointer" src="{{interest.consumerInterestsImagePath}}" title="{{interest.consumerInterestsImageName}}" id="{{interest.consumerInterestsImageId}}" class="img-fluid" alt="" />
+              <img (click)="selectInterest($event, interest)" style="cursor: pointer" src="{{interest.consumerInterestImagePath}}" title="{{interest.consumerInterestImageName}}" id="{{interest.id}}" class="img-fluid" alt="" />
               <img class="aboluteImg" src="/consumer-app/assets/images/select.png" *ngIf="interest.selectImg" />
             </div>
           </div>
