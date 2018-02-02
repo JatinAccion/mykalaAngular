@@ -9,7 +9,7 @@ export class PostInterest {
     public address: string;
     public consumerImagePath: string;
     public phone: string;
-    public email: string;
+    public emailId: string;
     public gender: string;
     public dateOfBirth: string;
     public customerAccountStatus: string;
@@ -17,7 +17,8 @@ export class PostInterest {
 
 export class ConsumerInterest {
     constructor(
-        public consumerInterestsImageId: string,
-        public consumerInterestsImageName: string
+        public id: string,
+        public consumerInterestImageName: string,
+        public consumerInterestImagePath: string
     ) { }
 }

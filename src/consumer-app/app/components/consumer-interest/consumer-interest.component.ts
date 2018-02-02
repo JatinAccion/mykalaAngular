@@ -49,14 +49,14 @@ export class ConsumerInterestComponent implements OnInit {
 
   selectInterest(e, obj) {
     obj.selectImg = !obj.selectImg;
-    this.getInterest.push(new ConsumerInterest(e.currentTarget.id, e.currentTarget.title));
+    this.getInterest.push(new ConsumerInterest(e.currentTarget.id, e.currentTarget.title, e.currentTarget.src));
     this.getInterest = this.getInterest.filter((elem, index, self) => self.findIndex((img) => {
-      return (img.consumerInterestsImageId === elem.consumerInterestsImageId && img.consumerInterestsImageName === elem.consumerInterestsImageName)
+      return (img.id === elem.id && img.consumerInterestImageName === elem.consumerInterestImageName)
     }) === index);
 
     if (obj.selectImg == false) {
       for (var i = 0; i < this.getInterest.length; i++) {
-        if (this.getInterest[i].consumerInterestsImageId == obj.id) this.getInterest.splice(i, 1)
+        if (this.getInterest[i].id == obj.id) this.getInterest.splice(i, 1)
       }
     }
   }
@@ -69,7 +69,7 @@ export class ConsumerInterestComponent implements OnInit {
     this.postInterest.consumerImagePath = this.getUserInfo.consumerImagePath;
     this.postInterest.customerId = this.getUserInfo.customerId;
     this.postInterest.dateOfBirth = this.getUserInfo.dateOfBirth;
-    this.postInterest.email = this.getUserInfo.emailId;
+    this.postInterest.emailId = this.getUserInfo.emailId;
     this.postInterest.firstName = this.getUserInfo.firstName;
     this.postInterest.gender = this.getUserInfo.gender;
     this.postInterest.lastName = this.getUserInfo.lastName;
