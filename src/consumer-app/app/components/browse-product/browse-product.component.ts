@@ -74,7 +74,12 @@ export class BrowseProductComponent implements OnInit {
           this.productListingModal.product.productImages = content.productImages;
         this.tilesData.push(this.productListingModal);
       }
-      this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' ' + this.selectedTilesData.subcategory.name + ' for you';
+      if (this.tilesData.length > 0) {
+        this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' ' + this.selectedTilesData.subcategory.name + ' for you';
+      }
+      else {
+        this.headerMessage = 'Sorry, but we don\'t have product matches for you';
+      }
       this.core.show(this.headerMessage);
       this.core.searchMsgToggle('get offers');
       window.localStorage['browseProductSearch'] = this.headerMessage;
@@ -113,7 +118,12 @@ export class BrowseProductComponent implements OnInit {
         this.productListingModal.product.productImages = content.product.productImages;
       this.tilesData.push(this.productListingModal);
     }
-    this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' ' + this.selectedTilesData.subcategory.name + ' for you';
+    if (this.tilesData.length > 0) {
+      this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' ' + this.selectedTilesData.subcategory.name + ' for you';
+    }
+    else {
+      this.headerMessage = 'Sorry, but we don\'t have product matches for you';
+    }
     this.core.show(this.headerMessage);
     this.core.searchMsgToggle('get offers');
   }

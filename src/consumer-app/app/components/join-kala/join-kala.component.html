@@ -59,7 +59,7 @@
                 </div>
 
                 <!--Response Message-->
-                <div *ngIf="signUpResponse.status" [ngClass]="userInfo.userCreateStatus == 'success' ? 'alert-success successMessage' : 'alert-danger errorMessages'" class="alert">
+                <div *ngIf="signUpResponse.status" [ngClass]="userInfo.user_status == 'success' ? 'alert-success successMessage' : 'alert-danger errorMessages'" class="alert">
                     {{signUpResponse.message}}
                 </div>
 

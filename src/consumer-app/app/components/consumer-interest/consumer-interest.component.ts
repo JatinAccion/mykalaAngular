@@ -24,6 +24,7 @@ export class ConsumerInterestComponent implements OnInit {
   resMessage: string;
   resType: string;
   headerMessage: string;
+  getUserInfo: any;
 
   constructor(private routerOutlet: RouterOutlet, private router: Router, private interest: ConsumerInterestService, private core: CoreService) { }
 
@@ -43,18 +44,19 @@ export class ConsumerInterestComponent implements OnInit {
       this.loadInterest = false;
       this.interestImages = res;
     });
+    this.getUserInfo = JSON.parse(window.localStorage['userInfo']);
   }
 
   selectInterest(e, obj) {
     obj.selectImg = !obj.selectImg;
-    this.getInterest.push(new ConsumerInterest(e.currentTarget.id, e.currentTarget.title));
+    this.getInterest.push(new ConsumerInterest(e.currentTarget.id, e.currentTarget.title, e.currentTarget.src));
     this.getInterest = this.getInterest.filter((elem, index, self) => self.findIndex((img) => {
-      return (img.consumerInterestsImageId === elem.consumerInterestsImageId && img.consumerInterestsImageName === elem.consumerInterestsImageName)
+      return (img.id === elem.id && img.consumerInterestImageName === elem.consumerInterestImageName)
     }) === index);
 
     if (obj.selectImg == false) {
       for (var i = 0; i < this.getInterest.length; i++) {
-        if (this.getInterest[i].consumerInterestsImageId == obj.consumerInterestsImageId) this.getInterest.splice(i, 1)
+        if (this.getInterest[i].id == obj.id) this.getInterest.splice(i, 1)
       }
     }
   }
@@ -62,9 +64,18 @@ export class ConsumerInterestComponent implements OnInit {
   saveInterest() {
     this.loader = true;
     this.resStatus = false;
-    this.postInterest.consumerId = JSON.parse(window.localStorage['userInfo']).userId;
-    this.postInterest.consumerInterest = this.getInterest;
-    console.log(this.postInterest)
+    this.postInterest.consumerInterests = this.getInterest;
+    this.postInterest.address = this.getUserInfo.address;
+    this.postInterest.consumerImagePath = this.getUserInfo.consumerImagePath;
+    this.postInterest.customerId = this.getUserInfo.customerId;
+    this.postInterest.dateOfBirth = this.getUserInfo.dateOfBirth;
+    this.postInterest.emailId = this.getUserInfo.emailId;
+    this.postInterest.firstName = this.getUserInfo.firstName;
+    this.postInterest.gender = this.getUserInfo.gender;
+    this.postInterest.lastName = this.getUserInfo.lastName;
+    this.postInterest.phone = this.getUserInfo.userId.phone;
+    this.postInterest.userId = this.getUserInfo.userId;
+    console.log(this.postInterest);
     this.interest.postInterest(this.postInterest).subscribe(res => {
       console.log(res);
       this.loader = false;

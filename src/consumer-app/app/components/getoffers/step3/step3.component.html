@@ -1,6 +1,6 @@
 <div class="title mb-4">
   <h2>get offers
-    <span class="colorGray"> Step 3/4: basic info</span> |
+    <span class="colorGray"> Step 3/4: order info</span> |
     <a routerLink="/browse-product">
       <span class="btnClose">X</span>
     </a>
@@ -20,7 +20,7 @@
         <div class="dx-fieldset">
           <div class="dx-field">
             <div class="dx-field-value">
-              <span style="position: relative">
+              <span style="position: relative" class="d-block">
                 <span class="currencySymbol">$</span>
                 <dx-number-box formControlName="minPrice" onkeypress='return event.charCode >= 48 && event.charCode <= 57' style="padding-left: 30px;" [min]="123" [max]="10000" [showSpinButtons]="true" [(value)]="rangeSlider.start" class="categ_outline_red w-100 mr-2"></dx-number-box>
               </span>
@@ -28,7 +28,7 @@
           </div>
           <div class="dx-field">
             <div class="dx-field-value">
-              <span style="position: relative">
+              <span style="position: relative" class="d-block">
                 <span class="currencySymbol">$</span>
                 <dx-number-box formControlName="maxPrice" onkeypress='return event.charCode >= 48 && event.charCode <= 57' style="padding-left: 30px;" [min]="123" [max]="10000" [showSpinButtons]="true" [(value)]="rangeSlider.end" class="categ_outline_red  w-100 mr-2"></dx-number-box>
               </span>
@@ -49,17 +49,17 @@
         <p>Delivery:</p>
       </div>
       <div class="col-sm-8">
-        <input id="twobusinessdayshipping" type="radio" formControlName="delivery" name="delivery" value="2 day: 2 business day shipping" />
-        <label class="categ_outline_gray mr-2" for="twobusinessdayshipping">2 business day shipping</label>
-        
         <input id="onebusinessdayshipping" type="radio" formControlName="delivery" name="delivery" value="Next day: 1 business day shipping" />
         <label class="categ_outline_gray mr-2" for="onebusinessdayshipping">1 business day shipping</label>
-        
-        <input id="fivetoeightbusinessdays" type="radio" formControlName="delivery" name="delivery" value="Standard: 5 to 8 business days" />
-        <label class="categ_outline_gray mr-2" for="fivetoeightbusinessdays">5 to 8 business days</label>
-        
+
+        <input id="twobusinessdayshipping" type="radio" formControlName="delivery" name="delivery" value="2 day: 2 business day shipping" />
+        <label class="categ_outline_gray mr-2" for="twobusinessdayshipping">2 business day shipping</label>
+
         <input id="threetofivebusinessdays" type="radio" formControlName="delivery" name="delivery" value="Express: 3 to 5 business days" />
         <label class="categ_outline_gray mr-2" for="threetofivebusinessdays">3 to 5 business days</label>
+
+        <input id="fivetoeightbusinessdays" type="radio" formControlName="delivery" name="delivery" value="Standard: 5 to 8 business days" />
+        <label class="categ_outline_gray mr-2" for="fivetoeightbusinessdays">5 to 8 business days</label>
       </div>
       <div class="col-sm-2"></div>
     </div>
@@ -74,7 +74,7 @@
         <div>
           <!--Predefined Zipcodes-->
           <span *ngIf="showExistingLocation">
-              <span class="categ_outline_red text-center mr-2" *ngFor="let location of existingLocation">{{location.zipcode}}</span>
+            <span class="categ_outline_red text-center mr-2" *ngFor="let location of existingLocation">{{location.zipcode}}</span>
           </span>
           <!--Predefined Zipcodes-->
 
@@ -86,7 +86,7 @@
           <div style="cursor: pointer" (click)="addNewLocation($event)" class="categ_outline_red mr-2 noBackground colorred">+</div>
           <!--Custom Zipcodes Entry-->
 
-          <p class="clearfix colorlightGray">
+          <p class="clearfix colorlightGray" style="margin-top: 0.75rem; margin-bottom: 0; font-size: 15px;">
             {{fetchGeoCode}}
           </p>
 
@@ -128,3 +128,7 @@
     <a (click)="next()" class="btn btn_red_right pr-5 pl-5">next step</a>
   </div>
 </div>
+
+<div class="clearfix">&nbsp;</div>
+<div class="clearfix">&nbsp;</div>
+<div class="clearfix">&nbsp;</div>

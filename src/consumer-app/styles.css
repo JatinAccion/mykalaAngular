@@ -709,6 +709,7 @@ a.categ_close{
     background-color: #e06263;
     border-bottom-right-radius: 0px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4); 
+    color: #fff !important;
 }
 .btn_redouter_right{
     background-color: #fff;
@@ -2266,8 +2267,12 @@ form.checkout button:active {
     padding: 1rem 1.75rem;
     display: block;
 }
+#orderSummaryAccordian .card .card-header{
+    background: url('/consumer-app/assets/images/inactive.png') 330px 5px no-repeat;
+}
 #orderSummaryAccordian .card .card-header.active{
     border-bottom:0;
+    background: url('/consumer-app/assets/images/active.png') 330px 5px no-repeat;
 }
 #orderSummaryAccordian .card-body{
     padding: 0rem 1.75rem 1rem;
@@ -2279,4 +2284,17 @@ form.checkout button:active {
 #paymentSummary tr td:first-child{
     padding-left: 35px;
     width: 40%;
+}
+ngb-modal-window{
+    display: block !important;
+    position: fixed !important;
+    z-index: 1041 !important;
+    top: 50% !important;
+    width: 40% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    -moz-transform: translate(-50%, -50%) !important;
+    -webkit-transform: translate(-50%, -50%) !important;
+    -ms-transform: translate(-50%, -50%) !important;
+    -o-transform: translate(-50%, -50%) !important;
 }

@@ -2,8 +2,11 @@ import { ConsumerAddress } from "./consumer-address";
 
 export class ConsumerProfileInfo {
     public userId: string;
+    public emailId: string;
+    public firstName: string;
+    public lastName: string;
     public consumerImagePath: string;
     public gender: string;
-    public dob: string;
-    public consumerAddress: ConsumerAddress;
+    public dateOfBirth: string;
+    public address: ConsumerAddress;
 }

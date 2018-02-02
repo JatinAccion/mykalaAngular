@@ -104,22 +104,25 @@ export class ProfileInfoComponent implements OnInit {
 
   onSubmit(profileInfo) {
     this.loader = true;
-    /*Request JSON*/
     this.profileInformation.userId = this.getUserInfo.userId;
+    this.profileInformation.firstName = this.getUserInfo.firstName;
+    this.profileInformation.lastName = this.getUserInfo.lastName;
+    this.profileInformation.emailId = this.getUserInfo.emailId;
     this.profileInformation.consumerImagePath = this.profileInfo.controls.profileImage.value;
     this.profileInformation.gender = this.profileInfo.controls.gender.value;
-    this.profileInformation.dob = this.profileInfo.controls.dateOfBirth.value.month + '-' + this.profileInfo.controls.dateOfBirth.value.day + '-' + this.profileInfo.controls.dateOfBirth.value.year;
-    this.profileInformation.consumerAddress = new ConsumerAddress();
-    this.profileInformation.consumerAddress.city = this.getCSC.city;
-    this.profileInformation.consumerAddress.state = this.getCSC.state;
-    this.profileInformation.consumerAddress.country = this.getCSC.country;
-    this.profileInformation.consumerAddress.zipcode = this.profileInfo.controls.location.value;
+    this.profileInformation.dateOfBirth = this.profileInfo.controls.dateOfBirth.value.year + '-' + this.profileInfo.controls.dateOfBirth.value.month + '-' + this.profileInfo.controls.dateOfBirth.value.day;
+    this.profileInformation.address = new ConsumerAddress();
+    this.profileInformation.address.city = this.getCSC.city;
+    this.profileInformation.address.state = this.getCSC.state;
+    this.profileInformation.address.country = this.getCSC.country;
+    this.profileInformation.address.zipcode = this.profileInfo.controls.location.value;
 
     this.profileInfoServ.completeProfile(this.profileInformation).subscribe(res => {
       this.loader = false;
       if (this.profileInfoResponse.response !== null) {
-        this.savedImage = this.staticURL.concat('/' + res);
-        window.localStorage['profileImage'] = this.savedImage;
+        // this.savedImage = this.staticURL.concat('/' + res);
+        // window.localStorage['profileImage'] = this.savedImage;
+        window.localStorage['userInfo'] = res;
         setTimeout(() => {
           if (this.routerOutlet.isActivated) this.routerOutlet.deactivate();
           this.router.navigateByUrl('/interest');
