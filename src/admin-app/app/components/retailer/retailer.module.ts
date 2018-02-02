@@ -21,7 +21,6 @@ import { RetailerAddPaymentComponent } from './retailer-add-payment/retailer-add
 import { NgxPaginationModule } from 'ngx-pagination';
 
 
-
 @NgModule({
   imports: [
     CommonModule,

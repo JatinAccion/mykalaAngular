@@ -58,7 +58,7 @@ export class ProductService {
       .catch(this.handleError);
   }
 
-  public getShippingProfiles(retailerId: number): Observable<nameValue[]> {
+  public getShippingProfiles(retailerId: string): Observable<nameValue[]> {
     if (this.shippingProfiles != null && this.shippingProfiles.length > 0) {
       return Observable.of(this.shippingProfiles);
     } else {

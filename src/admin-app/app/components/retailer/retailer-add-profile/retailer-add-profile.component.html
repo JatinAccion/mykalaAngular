@@ -101,8 +101,8 @@
             <label class="control-label" [ngClass]="validatorExt.displayFieldCss(profileFG1.controls.sellerTypeId)">Seller Type</label>
             <select class="ddl_default w-100 form-control" formControlName="sellerTypeId">
                 <option value=''>Select Seller Type</option>
-                <option *ngFor="let option of sellerTypes" value="{{option.id}}">
-                    {{option.value}}
+                <option *ngFor="let option of sellerTypes" value="{{option.sellerTypeId}}">
+                    {{option.sellerTypeValue}}
                 </option>
             </select>
             <!--Validation-->

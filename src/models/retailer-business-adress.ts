@@ -1,4 +1,6 @@
 export class PostalAddress {
+    public name: string;
+    public position: string;
     public addressLine1: string;
     public addressLine2: string;
     public city: string;
@@ -6,8 +8,11 @@ export class PostalAddress {
     public zipcode: string;
     public email: string;
     public phoneNo: string;
+    public addressType: string;
     constructor(obj?: any) {
         if (obj) {
+            this.name = obj.name;
+            this.position = obj.position;
             this.addressLine1 = obj.addressLine1;
             this.addressLine2 = obj.addressLine2;
             this.city = obj.city;
@@ -15,21 +20,16 @@ export class PostalAddress {
             this.zipcode = obj.zipcode;
             this.email = obj.email;
             this.phoneNo = obj.phoneNo;
+            this.addressType = obj.addressType;
         }
     }
 }
 export class RetailerBuinessAddress extends PostalAddress {
-    public businessAddressId: number;
-    public createdDate: Date | null;
-    public modifiedDate: Date | null;
-    public status: boolean | null = true;
     constructor(obj?: any) {
         super(obj);
         if (obj) {
-            this.businessAddressId = obj.businessAddressId;
-            this.createdDate = obj.createdDate;
-            this.modifiedDate = obj.modifiedDate;
-            this.status = obj.status;
+        } else {
+            this.addressType = "Buiness Address";
         }
     }
 }

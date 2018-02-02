@@ -11,7 +11,7 @@
                         (onDeSelectAll)="onPlaceDeSelectAll($event)" formControlName="place">
                     </angular2-multiselect>    
                     <!--Validation-->
-                    <app-field-error-display [field]="fG1.controls.place" [errorMsg]="errorMsgs"> </app-field-error-display>
+                    <!-- <app-field-error-display [field]="fG1.controls.place" [errorMsg]="errorMsgs"> </app-field-error-display> -->
                     <!--Validation-->               
                 </td>
             </tr>
@@ -25,7 +25,7 @@
                         (onDeSelectAll)="onCategoryDeSelectAll($event)" formControlName="category">
                     </angular2-multiselect>   
                     <!--Validation-->
-                    <app-field-error-display [field]="fG1.controls.category" [errorMsg]="errorMsgs"> </app-field-error-display>
+                    <!-- <app-field-error-display [field]="fG1.controls.category" [errorMsg]="errorMsgs"> </app-field-error-display> -->
                     <!--Validation-->               
                 </td>
             </tr>
@@ -39,7 +39,7 @@
                         (onDeSelectAll)="onSubCategoryDeSelectAll($event)" formControlName="subCategory">
                     </angular2-multiselect>  
                     <!--Validation-->
-                    <app-field-error-display [field]="fG1.controls.subCategory" [errorMsg]="errorMsgs"> </app-field-error-display>
+                    <!-- <app-field-error-display [field]="fG1.controls.subCategory" [errorMsg]="errorMsgs"> </app-field-error-display> -->
                     <!--Validation-->      
                 </td>
             </tr>
@@ -47,13 +47,10 @@
                 <td class="border-0" width="80%">
                     <angular2-multiselect [data]="productTypes" [(ngModel)]="selectedProductTypes" 
                         [settings]="productTypeSettings" 
-                        (onSelect)="onProductTypeSelect($event)"
-                        (onDeSelect)="onProductTypeDeSelect($event)" 
-                        (onSelectAll)="onProductTypeSelectAll($event)" 
-                        (onDeSelectAll)="onProductTypeDeSelectAll($event)" formControlName="productType">
+                        formControlName="productType">
                     </angular2-multiselect>      
                     <!--Validation-->
-                    <app-field-error-display [field]="fG1.controls.productType" [errorMsg]="errorMsgs"> </app-field-error-display>
+                    <!-- <app-field-error-display [field]="fG1.controls.productType" [errorMsg]="errorMsgs"> </app-field-error-display> -->
                     <!--Validation-->  
                 </td>
                 <td class="border-0" width="20%">

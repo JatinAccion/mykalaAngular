@@ -11,6 +11,7 @@ import { IAlert } from '../../../../../models/IAlert';
 import { User, UserProfile } from '../../../../../models/user';
 import { Promise } from 'q';
 import { inputValidations } from './messages';
+import { CoreService } from '../../../services/core.service';
 // #endregion imports
 
 
@@ -44,49 +45,63 @@ export class UserAddComponent implements OnInit {
     private router: Router,
     route: ActivatedRoute,
     private userService: UserService,
-    private validatorExt: ValidatorExt
+    private validatorExt: ValidatorExt,
+    private core: CoreService
   ) {
-    //this.userId = route.snapshot.params['id'];
+    this.userId = route.snapshot.params['id'];
   }
   ngOnInit() {
     this.setFormValidators();
-    // this.getUserData();
+    if (this.userId) {
+      this.getUserData();
+    }
   }
-  setFormValidators() {
+  setFormValidators(user?: UserProfile) {
+    user = user || new UserProfile();
     this.fG1 = this.formBuilder.group({
-      email: ['', [Validators.pattern(environment.regex.emailRegex), Validators.required]],
-      password: ['', [Validators.required]],
-      firstname: ['', [Validators.required]],
-      lastname: ['', [Validators.required]],
-      phone: ['', [Validators.required]],
-      roleType: ['', [Validators.required]],
+      email: [user.emailId, [Validators.pattern(environment.regex.emailRegex), Validators.maxLength(250), Validators.required]],
+      password: !this.userId ? [{ value: '', disabled: false }, [Validators.pattern(environment.regex.password), Validators.required]] : [{ value: null, disabled: true }, []],
+      firstname: [user.firstName, [Validators.pattern(environment.regex.textRegex), Validators.maxLength(250), Validators.required]],
+      lastname: [user.lastName, [Validators.pattern(environment.regex.textRegex), Validators.maxLength(250), Validators.required]],
+      phone: [user.phone, [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(environment.regex.numberRegex), Validators.required]],
+      roleType: [{ value: user && user.roleName && user.roleName.length > 0 ? user.roleName[0] : 'admin', disabled: true }, [Validators.pattern(environment.regex.textRegex), Validators.maxLength(250), Validators.required]],
     });
   }
   getUserData() {
-    this.userService.get(null).subscribe((res) => {
-      // return this.users = res;
+    this.userService.getUser(this.userId).subscribe((res) => {
+      this.user = res;
+      this.setFormValidators(this.user);
     });
   }
-
-  saveUser(): Promise<any> {
-    this.saveloader = true;
-    return Promise(resolve => {
-      // this.userService
-      //   .saveUser(this.user)
-      //   .then(res => {
-      //     this.userId = res.json().kalaUniqueId;
-      //     this.user.kalaUniqueId = this.userId;
-      //     this.alert = { id: 1, type: 'success', message: 'Saved successfully', show: true };
-      //     this.saveloader = false;
-      //     resolve(this.userId);
-      //     return true;
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-      //     this.alert = { id: 1, type: 'danger', message: 'Not able to Save', show: true };
-      //     this.saveloader = false;
-      //     return false;
-      //   });
-    });
+  readForm() {
+    this.user = this.user || new UserProfile();
+    const model = this.fG1.controls;
+    this.user.firstName = model.firstname.value;
+    this.user.lastName = model.lastname.value;
+    this.user.emailId = model.email.value;
+    this.user.phone = model.phone.value;
+    this.user.roleName = [model.roleType.value];
+    this.user.password = model.password.value;
+  }
+  saveUser() {
+    if (!this.fG1.valid) {
+      this.core.message.info('Please complete all mandatory fields');
+    } else {
+      this.saveloader = true;
+      this.readForm();
+      this.userService
+        .save(this.user)
+        .then(res => {
+          this.core.message.success('User Saved Successfully');
+          this.saveloader = false;
+          this.router.navigateByUrl('/user-list');
+        })
+        .catch(err => {
+          console.log(err);
+          this.alert = { id: 1, type: 'danger', message: 'Not able to Save', show: true };
+          this.saveloader = false;
+          return false;
+        });
+    }
   }
 }

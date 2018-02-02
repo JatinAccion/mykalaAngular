@@ -25,13 +25,13 @@
                 </div>
                 <div class="row p-2">
                     <div class="col-sm-12 clearfix">
-                        <input class="form-control w-100" type="text" placeholder="Password" formControlName="password" />
+                        <input class="form-control w-100" type="password" placeholder="Password" formControlName="password"  />
                         <app-field-error-display [field]="fG1.controls.password" [errorMsg]="errorMsgs"> </app-field-error-display>
                     </div>
                 </div>
                 <div class="row p-2">
                     <div class="col-sm-12 clearfix">
-                        <input class="form-control w-100" type="text" placeholder="Phone number" formControlName="phone" />
+                        <input class="form-control w-100" type="text" placeholder="Phone number" formControlName="phone" mask="(000) 000-0000" />
                         <app-field-error-display [field]="fG1.controls.phone" [errorMsg]="errorMsgs"> </app-field-error-display>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                 <hr />
                 <div class="row p-2">
                     <div class="col-sm-6 text-left">
-                        <a class="" [routerLink]="['../../user-list']">back</a>
+                        <a class="ancDefault" routerLink="/user-list">back</a>
                     </div>
                     <div class="col-sm-6 text-right">
                         <a class="btn btn-default" (click)="saveUser()">Save</a>

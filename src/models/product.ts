@@ -2,7 +2,7 @@ import { ProductPlace, ProductCategory, ProductSubCategory, ProductType } from '
 import { Pagination } from './pagination';
 import { environment } from '../admin-app/environments/environment';
 export class Product {
-    public retailerId: number;
+    public retailerId: string;
     public retailerName: string;
 
     public kalaUniqueId: string;
@@ -15,7 +15,7 @@ export class Product {
     public productCategoryName: string;
     public productSubCategoryName: string;
     public productTypeName: string;
-    public retailPrice: number = 2;
+    public retailPrice: number;
     public kalaPrice: number;
     public lowestPrice: number;
     public quantity: number;
@@ -48,7 +48,7 @@ export class Product {
             this.kalaPrice = obj.kalaPrice;
             this.quantity = obj.quantity;
             this.shipProfileId = obj.shipProfileId;
-            this.productStatus = obj.productStatus || true;
+            this.productStatus = obj.productStatus;
             this.productActivatedDate = obj.productActivatedDate;
             this.createdDate = obj.createdDate;
             this.productImages = obj.productImages ? obj.productImages.map(p => new ProductImage(p)) : new Array<ProductImage>();

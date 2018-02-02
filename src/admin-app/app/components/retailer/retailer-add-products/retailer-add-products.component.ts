@@ -10,7 +10,7 @@ import { environment } from '../../../../environments/environment';
 import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 import { inputValidations } from './messages';
 import { ProductService } from '../../product/product.service';
-import { RetailerProductInfo } from '../../../../../models/retailer-product-info';
+import { RetailerProductInfo, RetailerProductCategory, RetailerProductPlace, RetailerProductSubCategory, RetailerProductType } from '../../../../../models/retailer-product-info';
 import { CoreService } from '../../../services/core.service';
 
 @Component({
@@ -20,7 +20,7 @@ import { CoreService } from '../../../services/core.service';
   encapsulation: ViewEncapsulation.None
 })
 export class RetailerAddProductsComponent implements OnInit {
-  @Input() retailerId: number;
+  @Input() retailerId: string;
   @Output() SaveData = new EventEmitter<any>();
   @Input() productData: RetailerProductInfo;
   @Output() productDataChange = new EventEmitter<RetailerProductInfo>();
@@ -118,8 +118,7 @@ export class RetailerAddProductsComponent implements OnInit {
     this.categories = [];
     this.subCategories = [];
     this.productTypes = [];
-    this.selectedProductTypes = [];
-    if (this.selectedPlaces.length > 0) {
+    if (this.selectedPlaces && this.selectedPlaces.length > 0) {
       this.productService.getProductCategories(this.selectedPlaces.map(p => p.id)).subscribe(res => {
         this.categories = res.map(p => new IdNameParent(p.CategoryId, p.CategoryName, p.PlaceId, p.PlaceName));
       });
@@ -133,8 +132,7 @@ export class RetailerAddProductsComponent implements OnInit {
   refreshSubCategories() {
     this.subCategories = [];
     this.productTypes = [];
-    this.selectedProductTypes = [];
-    if (this.selectedCategories.length > 0) {
+    if (this.selectedCategories && this.selectedCategories.length > 0) {
       this.productService.getProductSubCategories(this.selectedCategories.map(p => p.id)).subscribe(res => {
         this.subCategories = res.map(p => new IdNameParent(p.SubCategoryId, p.SubCategoryName, p.CategoryId, p.CategoryName));
       });
@@ -147,8 +145,7 @@ export class RetailerAddProductsComponent implements OnInit {
 
   refreshProductTypes() {
     this.productTypes = [];
-    this.selectedProductTypes = [];
-    if (this.selectedSubCategories.length > 0) {
+    if (this.selectedSubCategories && this.selectedSubCategories.length > 0) {
       this.productService.getProductTypes(this.selectedSubCategories.map(p => p.id)).subscribe(res => {
         this.productTypes = res.map(p => new IdNameParent(p.TypeId, p.TypeName, p.SubCategoryId, p.SubCategoryName));
       });
@@ -184,37 +181,42 @@ export class RetailerAddProductsComponent implements OnInit {
     return false;
   }
   readForm() {
-    const product = { retailerId: this.retailerId, places: [] };
+    this.obj = this.obj || new RetailerProductInfo({ retailerId: this.retailerId });
+    this.obj.places = new Array<RetailerProductPlace>();
+
     for (let pIndex = 0; pIndex < this.selectedPlaces.length; pIndex++) {
       const place = this.selectedPlaces[pIndex];
-      const newPlace = { placeId: place.id, placeName: place.itemName, categories: [] };
-      for (let cIndex = 0; cIndex < this.selectedCategories.length; cIndex++) {
-        const category = this.selectedCategories[cIndex];
-        const newCategory = { categoryId: category.id, categoryName: category.itemName, subCategories: [] };
-        for (let scIndex = 0; scIndex < this.selectedSubCategories.length; scIndex++) {
-          const subCategory = this.selectedSubCategories[scIndex];
-          const newSubCategory = { subCategoryId: subCategory.id, subCategoryName: subCategory.itemName, types: [] };
-          for (let tIndex = 0; tIndex < this.selectedProductTypes.length; tIndex++) {
-            const type = this.selectedProductTypes[tIndex];
-            const newType = { typeId: type.id, typeName: type.itemName, types: [] };
+      const newPlace = new RetailerProductPlace({ placeId: place.id, placeName: place.itemName });
+      const relatedCategories = this.selectedCategories.filter(p => p.parentId === newPlace.placeId);
+      for (let cIndex = 0; cIndex < relatedCategories.length; cIndex++) {
+        const category = relatedCategories[cIndex];
+        const newCategory = new RetailerProductCategory({ categoryId: category.id, categoryName: category.itemName });
+        const relatedSubCategories = this.selectedSubCategories.filter(p => p.parentId === newCategory.categoryId);
+        for (let scIndex = 0; scIndex < relatedSubCategories.length; scIndex++) {
+          const subCategory = relatedSubCategories[scIndex];
+          const newSubCategory = new RetailerProductSubCategory({ subCategoryId: subCategory.id, subCategoryName: subCategory.itemName });
+          const relatedTypes = this.selectedProductTypes.filter(p => p.parentId === newSubCategory.subCategoryId);
+          for (let tIndex = 0; tIndex < relatedTypes.length; tIndex++) {
+            const type = relatedTypes[tIndex];
+            const newType = new RetailerProductType({ typeId: type.id, typeName: type.itemName });
             newSubCategory.types.push(newType);
           }
           newCategory.subCategories.push(newSubCategory);
         }
         newPlace.categories.push(newCategory);
       }
-      product.places.push(newPlace);
+      this.obj.places.push(newPlace);
     }
-    return product;
+    return this.obj;
   }
   getData(retailerId) {
     this.retialerService
       .productGet(this.retailerId)
       .subscribe((res) => {
-        const product = { retailerId: this.retailerId, places: [] };
-        if (res.length > 0) {
-          for (let pIndex = 0; pIndex < res.length; pIndex++) {
-            const place = res[pIndex];
+        this.obj = res;
+        if (this.obj.places.length > 0) {
+          for (let pIndex = 0; pIndex < this.obj.places.length; pIndex++) {
+            const place = this.obj.places[pIndex];
             this.selectedPlaces.push(new IdNameParent(place.placeId, place.placeName, '', ''));
             if (place.categories.length > 0) {
               for (let cIndex = 0; cIndex < place.categories.length; cIndex++) {
@@ -236,10 +238,6 @@ export class RetailerAddProductsComponent implements OnInit {
             }
           }
         }
-        this.obj.places = Object.create(this.selectedPlaces);
-        this.obj.categories = Object.create(this.selectedCategories);
-        this.obj.subCategories = Object.create(this.selectedSubCategories);
-        this.obj.productTypes = Object.create(this.selectedProductTypes);
         this.productService.getProductPlaces().subscribe(plaRes => {
           this.places = plaRes.map(p => new IdNameParent(p.PlaceId, p.PlaceName, '', ''));
           this.productService.getProductCategories(this.selectedPlaces.map(p => p.id)).subscribe(catRes => {
@@ -252,7 +250,6 @@ export class RetailerAddProductsComponent implements OnInit {
             });
           });
         });
-
       });
   }
 }

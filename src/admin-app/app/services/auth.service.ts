@@ -49,7 +49,7 @@ export class AuthService {
     return this.http.post(url, fpModal).map((res) => res.json())
   }
   resetPassword(rpModal) {
-    const url = `${this.BASE_URL}/${environment.apis.userService.resetPassword}`;
+    const url = `${this.BASE_URL}/${environment.apis.users.resetPassword}`;
     return this.http.post(url, rpModal).map((res) => res.text());
-}
+  }
 }

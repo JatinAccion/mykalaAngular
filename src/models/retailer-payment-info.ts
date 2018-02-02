@@ -1,40 +1,59 @@
 import { PostalAddress } from './retailer-business-adress';
 
-export class RetailerPaymentInfo extends PostalAddress {
-    public bankId: number;
-    public retailerId: number;
+export class RetailerPaymentInfo {
+    public retailerBankPaymentId: string;
+    public retailerId: string;
     public paymentMethod: string;
     public paymentVehicle: string;
     public bankName: string;
-    public accountName: string;
-    public accountNumber: string;
-    public routingNumber: string;
-    public swiftCode: string;
+    public bankAccountName: string;
+    public bankAccountNumber: string;
+    public bankABARoutingNumber: string;
+    public bankSwiftCode: string;
+    public retailerBankAddress: RetailerBankAddress;
     public bankAddress: BankAddress;
+    public addresses: Array<PostalAddress>;
     public status: boolean;
     constructor(obj?: any) {
-        super(obj);
+        this.retailerBankAddress = new RetailerBankAddress();
+        this.bankAddress = new BankAddress();
+        this.addresses = new Array<PostalAddress>();
         if (obj) {
-            this.bankId = obj.bankId;
+            this.retailerBankPaymentId = obj.retailerBankPaymentId;
             this.retailerId = obj.retailerId;
             this.paymentMethod = obj.paymentMethod;
             this.paymentVehicle = obj.paymentVehicle;
             this.bankName = obj.bankName;
-            this.accountName = obj.accountName;
-            this.accountNumber = obj.accountNumber;
-            this.routingNumber = obj.routingNumber;
-            this.swiftCode = obj.swiftCode;
+            this.bankAccountName = obj.bankAccountName;
+            this.bankAccountNumber = obj.bankAccountNumber;
+            this.bankABARoutingNumber = obj.bankABARoutingNumber;
+            this.bankSwiftCode = obj.bankSwiftCode;
             this.status = obj.status;
-            this.bankAddress = new BankAddress(obj.bankAddress);
-        } else { this.bankAddress = new BankAddress(); }
+            if (obj.addresses && obj.addresses.length > 0) {
+                this.addresses = obj.addresses.map(p => new PostalAddress(p));
+                if (this.addresses.filter(p => p.addressType === new RetailerBankAddress().addressType).length > 0) {
+                    this.retailerBankAddress = new RetailerBankAddress(this.addresses.filter(p => p.addressType === new RetailerBankAddress().addressType)[0]);
+                }
+                if (this.addresses.filter(p => p.addressType === new BankAddress().addressType).length > 0) {
+                    this.bankAddress = new BankAddress(this.addresses.filter(p => p.addressType === new BankAddress().addressType)[0]);
+                }
+            }
+        }
+    }
+}
+export class RetailerBankAddress extends PostalAddress {
+    constructor(obj?: any) {
+        super(obj);
+        if (obj) { } else {
+            this.addressType = "Bank Account Address";
+        }
     }
 }
 export class BankAddress extends PostalAddress {
-    public name: string;
     constructor(obj?: any) {
         super(obj);
-        if (obj) {
-            this.name = obj.name;
+        if (obj) { } else {
+            this.addressType = "Bank Address";
         }
     }
 

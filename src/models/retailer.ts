@@ -34,29 +34,39 @@ export class RetailerReports {
 }
 
 export class RetailerReturnPolicy {
-    public retailerId: number;
-    public returnId: number;
+    public retailerId: string;
+    public shippingReturnId: string;
     public returnPolicy: string;
 
     constructor(obj?: any) {
         if (obj) {
             this.retailerId = obj.retailerId;
-            this.returnId = obj.returnId;
+            this.shippingReturnId = obj.shippingReturnId;
             this.returnPolicy = obj.returnPolicy;
         }
     }
 }
 export class RetailerNotification {
-    public retailerId: number;
-    public notificationId: number;
+    public retailerId: string;
+    public shippingNotificationsId: string;
     public orderEmail: string;
     public shipEmail: string;
     constructor(obj?: any) {
         if (obj) {
             this.retailerId = obj.retailerId;
-            this.notificationId = obj.notificationId;
+            this.shippingNotificationsId = obj.shippingNotificationsId;
             this.orderEmail = obj.orderEmail;
             this.shipEmail = obj.shipEmail;
+        }
+    }
+}
+export class SellerType {
+    public sellerTypeId: string;
+    public sellerTypeValue: string;
+    constructor(obj?: any) {
+        if (obj) {
+            this.sellerTypeId = obj.sellerTypeId;
+            this.sellerTypeValue = obj.sellerTypeValue;
         }
     }
 }

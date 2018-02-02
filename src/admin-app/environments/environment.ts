@@ -10,9 +10,11 @@ export const environment = {
   production: false,
   s3: 'https://s3.us-east-2.amazonaws.com\\',
   Api: 'http://dev-user-service.us-east-2.elasticbeanstalk.com',
-  AdminApi: 'http://dev-retailer-api.us-east-2.elasticbeanstalk.com',
+  // AdminApi: 'http://192.168.168.227:9086/retailer/v1',
+  AdminApi: 'http://dev-retailer-service-mongo.us-east-1.elasticbeanstalk.com/retailer/v1',
   productApi: 'http://dev-product-service.us-east-2.elasticbeanstalk.com/api',
   // productApi: 'http://localhost:9087/api',
+  userApi: 'http://dev-user-signup.us-east-2.elasticbeanstalk.com/user/v1',
   apis: apiNames,
   regex: regexPatterns,
   commonMsg: commonMessages

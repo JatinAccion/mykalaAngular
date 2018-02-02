@@ -8,7 +8,7 @@ import { IAlert } from '../../../../../models/IAlert';
 import { environment } from '../../../../environments/environment';
 import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 import { RetialerService } from '../retialer.service';
-import { RetailerPaymentInfo, BankAddress } from '../../../../../models/retailer-payment-info';
+import { RetailerPaymentInfo, RetailerBankAddress, BankAddress } from '../../../../../models/retailer-payment-info';
 import { inputValidations } from './messages';
 import { CoreService } from '../../../services/core.service';
 
@@ -20,7 +20,7 @@ import { CoreService } from '../../../services/core.service';
   encapsulation: ViewEncapsulation.None
 })
 export class RetailerAddPaymentComponent implements OnInit {
-  @Input() retailerId: number;
+  @Input() retailerId: string;
   @Output() SaveData = new EventEmitter<any>();
   @Input() paymentData: RetailerPaymentInfo;
   @Output() paymentDataChange = new EventEmitter<RetailerPaymentInfo>();
@@ -67,16 +67,15 @@ export class RetailerAddPaymentComponent implements OnInit {
       Validators.pattern(environment.regex.numberRegex), Validators.required]]
     });
     this.paymentFG2 = this.formBuilder.group({
-      accountName: [this.paymentData.accountName, [Validators.pattern(environment.regex.textRegex), Validators.required]],
-      accountNumber: [this.paymentData.accountNumber, [Validators.pattern(environment.regex.numberRegex), Validators.required]],
-      routingNumber: [this.paymentData.routingNumber, [Validators.pattern(environment.regex.numberRegex), Validators.required]],
-      swiftCode: [this.paymentData.swiftCode, [Validators.pattern(environment.regex.textRegex), Validators.required]],
-      name: [this.paymentData.bankAddress.name, [Validators.pattern(environment.regex.textRegex)]],
-      addressLine1: [this.paymentData.addressLine1, [Validators.pattern(environment.regex.textRegex), Validators.required]],
-      addressLine2: [this.paymentData.addressLine2, [Validators.pattern(environment.regex.textRegex)]],
-      city: [this.paymentData.city, [Validators.pattern(environment.regex.textRegex), Validators.required]],
-      state: [this.paymentData.state, [Validators.pattern(environment.regex.textRegex), Validators.required]],
-      zipcode: [this.paymentData.zipcode, [Validators.maxLength(5), Validators.minLength(5),
+      bankAccountName: [this.paymentData.bankAccountName, [Validators.pattern(environment.regex.textRegex), Validators.required]],
+      bankAccountNumber: [this.paymentData.bankAccountNumber, [Validators.pattern(environment.regex.numberRegex), Validators.required]],
+      bankABARoutingNumber: [this.paymentData.bankABARoutingNumber, [Validators.pattern(environment.regex.numberRegex), Validators.required]],
+      bankSwiftCode: [this.paymentData.bankSwiftCode, [Validators.pattern(environment.regex.textRegex), Validators.required]],
+      addressLine1: [this.paymentData.retailerBankAddress.addressLine1, [Validators.pattern(environment.regex.textRegex), Validators.required]],
+      addressLine2: [this.paymentData.retailerBankAddress.addressLine2, [Validators.pattern(environment.regex.textRegex)]],
+      city: [this.paymentData.retailerBankAddress.city, [Validators.pattern(environment.regex.textRegex), Validators.required]],
+      state: [this.paymentData.retailerBankAddress.state, [Validators.pattern(environment.regex.textRegex), Validators.required]],
+      zipcode: [this.paymentData.retailerBankAddress.zipcode, [Validators.maxLength(5), Validators.minLength(5),
       Validators.pattern(environment.regex.numberRegex), Validators.required]]
     });
   }
@@ -101,10 +100,10 @@ export class RetailerAddPaymentComponent implements OnInit {
     this.paymentFG1.controls.zipcode.setValidators([Validators.maxLength(5), Validators.minLength(5),
     Validators.pattern(environment.regex.numberRegex), this.validatorExt.getRV(isRequired)]);
 
-    this.paymentFG2.controls.accountName.setValidators([Validators.pattern(environment.regex.textRegex), this.validatorExt.getRV(isRequired)]);
-    this.paymentFG2.controls.accountNumber.setValidators([Validators.pattern(environment.regex.numberRegex), this.validatorExt.getRV(isRequired)]);
-    this.paymentFG2.controls.routingNumber.setValidators([Validators.pattern(environment.regex.numberRegex), this.validatorExt.getRV(isRequired)]);
-    this.paymentFG2.controls.swiftCode.setValidators([Validators.pattern(environment.regex.textRegex), this.validatorExt.getRV(isRequired)]);
+    this.paymentFG2.controls.bankAccountName.setValidators([Validators.pattern(environment.regex.textRegex), this.validatorExt.getRV(isRequired)]);
+    this.paymentFG2.controls.bankAccountNumber.setValidators([Validators.pattern(environment.regex.numberRegex), this.validatorExt.getRV(isRequired)]);
+    this.paymentFG2.controls.bankABARoutingNumber.setValidators([Validators.pattern(environment.regex.numberRegex), this.validatorExt.getRV(isRequired)]);
+    this.paymentFG2.controls.bankSwiftCode.setValidators([Validators.pattern(environment.regex.textRegex), this.validatorExt.getRV(isRequired)]);
     this.paymentFG2.controls.addressLine1.setValidators([Validators.pattern(environment.regex.textRegex), this.validatorExt.getRV(isRequired)]);
     this.paymentFG2.controls.addressLine2.setValidators([Validators.pattern(environment.regex.textRegex), this.validatorExt.getRV(isRequired)]);
     this.paymentFG2.controls.city.setValidators([Validators.pattern(environment.regex.textRegex), this.validatorExt.getRV(isRequired)]);
@@ -117,10 +116,10 @@ export class RetailerAddPaymentComponent implements OnInit {
     this.paymentFG1.controls.city.updateValueAndValidity();
     this.paymentFG1.controls.state.updateValueAndValidity();
     this.paymentFG1.controls.zipcode.updateValueAndValidity();
-    this.paymentFG2.controls.accountName.updateValueAndValidity();
-    this.paymentFG2.controls.accountNumber.updateValueAndValidity();
-    this.paymentFG2.controls.routingNumber.updateValueAndValidity();
-    this.paymentFG2.controls.swiftCode.updateValueAndValidity();
+    this.paymentFG2.controls.bankAccountName.updateValueAndValidity();
+    this.paymentFG2.controls.bankAccountNumber.updateValueAndValidity();
+    this.paymentFG2.controls.bankABARoutingNumber.updateValueAndValidity();
+    this.paymentFG2.controls.bankSwiftCode.updateValueAndValidity();
     this.paymentFG2.controls.addressLine1.updateValueAndValidity();
     this.paymentFG2.controls.addressLine2.updateValueAndValidity();
     this.paymentFG2.controls.city.updateValueAndValidity();
@@ -161,7 +160,7 @@ export class RetailerAddPaymentComponent implements OnInit {
           this.paymentSaveloader = false;
           this.core.message.success('Payment Info Saved');
           return true;
-        }, err => this.core.message.error('Not able to Save'), () => this.paymentSaveloader = false);
+        }, err => { this.paymentSaveloader = false; this.core.message.error('Not able to Save'); }, () => this.paymentSaveloader = false);
       return false;
     }
   }
@@ -180,17 +179,18 @@ export class RetailerAddPaymentComponent implements OnInit {
     this.paymentInfoObj.bankAddress.zipcode = this.paymentFG1.value.zipcode;
 
 
-    this.paymentInfoObj.accountName = this.paymentFG2.value.accountName;
-    this.paymentInfoObj.accountNumber = this.paymentFG2.value.accountNumber;
-    this.paymentInfoObj.routingNumber = this.paymentFG2.value.routingNumber;
-    this.paymentInfoObj.swiftCode = this.paymentFG2.value.swiftCode;
+    this.paymentInfoObj.bankAccountName = this.paymentFG2.value.bankAccountName;
+    this.paymentInfoObj.bankAccountNumber = this.paymentFG2.value.bankAccountNumber;
+    this.paymentInfoObj.bankABARoutingNumber = this.paymentFG2.value.bankABARoutingNumber;
+    this.paymentInfoObj.bankSwiftCode = this.paymentFG2.value.bankSwiftCode;
 
-
-    this.paymentInfoObj.addressLine1 = this.paymentFG2.value.addressLine1;
-    this.paymentInfoObj.addressLine2 = this.paymentFG2.value.addressLine2;
-    this.paymentInfoObj.city = this.paymentFG2.value.city;
-    this.paymentInfoObj.state = this.paymentFG2.value.state;
-    this.paymentInfoObj.zipcode = this.paymentFG2.value.zipcode;
+    this.paymentInfoObj.retailerBankAddress = this.paymentInfoObj.retailerBankAddress || new RetailerBankAddress();
+    this.paymentInfoObj.retailerBankAddress.addressLine1 = this.paymentFG2.value.addressLine1;
+    this.paymentInfoObj.retailerBankAddress.addressLine2 = this.paymentFG2.value.addressLine2;
+    this.paymentInfoObj.retailerBankAddress.city = this.paymentFG2.value.city;
+    this.paymentInfoObj.retailerBankAddress.state = this.paymentFG2.value.state;
+    this.paymentInfoObj.retailerBankAddress.zipcode = this.paymentFG2.value.zipcode;
+    this.paymentInfoObj.addresses = [this.paymentInfoObj.bankAddress, this.paymentInfoObj.retailerBankAddress];
 
     return this.paymentInfoObj;
   }

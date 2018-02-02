@@ -6,21 +6,24 @@
     </div>
     <div class="row p-2">
         <div class="col-sm-6 pl-4">
-            <input placeholder="search for user" class="form-control txt_Search" type="text">
+            <input placeholder="search for user" class="form-control txt_Search" type="text" [(ngModel)]="username">
         </div>
         <div class="col-sm-6 pr-4 text-right">
-            <a class="btn btn-default" href="#">Add User</a>
+            <a class="btn btn-default" routerLink="/user-add">Add User</a>
         </div>
     </div>
+    <div class="col-sm-12 p-0 pt-3 pagination_align">
+        <pagination-controls id='client' class="my-pagination" (pageChange)="p = $event"></pagination-controls>
+    </div>
     <div class="row m-0 p-2 usermanagement">
-        <div class="col-sm-6" *ngFor="let user of users">
-            <div id="accordion" role="tablist" aria-multiselectable="true" >
+        <div class="col-sm-6" *ngFor="let user of users | userFilter: username  | paginate: { id: 'client', itemsPerPage: 10, currentPage: p , totalItems: (users| userFilter: username ).length }">
+            <div id="accordion" role="tablist" aria-multiselectable="true">
                 <div class="card">
                     <div class="card-header" role="tab" id="headingOne">
                         <h5 class="mb-0">
                             <a (click)="user.show=!user.show">
                                 {{user.username}}
-                                <small class="float-right" [routerLink]="['../user-edit', user.userId]" >Edit</small>
+                                <small class="float-right" [routerLink]="['../user-edit', user.userId]">Edit</small>
                             </a>
                         </h5>
                     </div>
@@ -28,11 +31,12 @@
                         <div class="card-block pt-0">
                             <hr />
                             <div class="text-right">
-                                <a href="#" class="colorRed">Delete User</a>
+                                <a class="colorRed" (click)="deleteUser(user)" *ngIf="user.emailId!=core.user.emailId" >Delete User</a>
+                                <span class="colorRed"  *ngIf="user.emailId==core.user.emailId">Cannot Delete Current User</span>
                             </div>
                             <div class="row m-0">
                                 <div class="col-sm-4">Email</div>
-                                <div class="col-sm-8">{{user.email}}</div>
+                                <div class="col-sm-8">{{user.emailId}}</div>
                             </div>
                             <div class="row m-0">
                                 <div class="col-sm-4">Password</div>
@@ -44,7 +48,7 @@
                             </div>
                             <div class="row m-0">
                                 <div class="col-sm-4">Role</div>
-                                <div class="col-sm-8">{{user.roleType}}</div>
+                                <div class="col-sm-8">{{user.roleName}}</div>
                             </div>
                         </div>
                     </div>

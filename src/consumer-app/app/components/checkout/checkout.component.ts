@@ -48,7 +48,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
     };
-    this.card = elements.create('card', { style });
+    // this.card = elements.create('card', { style });
     this.card.mount(this.cardInfo.nativeElement);
     this.card.addEventListener('change', this.cardHandler);
   }
@@ -68,23 +68,23 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   async onSubmit(form: NgForm) {
-    let userInfo = window.localStorage['userInfo'];
-    if (userInfo === undefined) this.error = "Please login to add new card";
-    else {
-      this.loader = true;
-      const { token, error } = await stripe.createToken(this.card);
-      if (error) {
-        this.loader = false;
-        console.log('Something is wrong:', error);
-      }
-      else {
-        this.loader = false;
-        console.log('Success!', token);
-        this.stripeAddCard.email = JSON.parse(userInfo).email;
-        this.stripeAddCard.source = token.id;
-        console.log(this.stripeAddCard);
-      }
-    }
+    // let userInfo = window.localStorage['userInfo'];
+    // if (userInfo === undefined) this.error = "Please login to add new card";
+    // else {
+    //   this.loader = true;
+    //   const { token, error } = await stripe.createToken(this.card);
+    //   if (error) {
+    //     this.loader = false;
+    //     console.log('Something is wrong:', error);
+    //   }
+    //   else {
+    //     this.loader = false;
+    //     console.log('Success!', token);
+    //     this.stripeAddCard.email = JSON.parse(userInfo).email;
+    //     this.stripeAddCard.source = token.id;
+    //     console.log(this.stripeAddCard);
+    //   }
+    // }
   }
 
   addNewCard() {

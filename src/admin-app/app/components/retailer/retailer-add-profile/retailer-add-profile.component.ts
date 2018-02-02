@@ -4,7 +4,7 @@ import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl } from
 import { Router, ActivatedRoute } from '@angular/router';
 import { nameValue } from '../../../../../models/nameValue';
 import { RetailerProfileInfo } from '../../../../../models/retailer-profile-info';
-import { RetailerBuinessAddress } from '../../../../../models/retailer-business-adress';
+import { RetailerBuinessAddress, PostalAddress } from '../../../../../models/retailer-business-adress';
 import { RetailerContact } from '../../../../../models/retailer-contact';
 import { RetialerService } from '../retialer.service';
 import { NgbTabset } from '@ng-bootstrap/ng-bootstrap/tabset/tabset';
@@ -13,6 +13,7 @@ import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 import { inputValidations } from './messages';
 import { templateJitUrl } from '@angular/compiler';
 import { CoreService } from '../../../services/core.service';
+import { SellerType } from '../../../../../models/retailer';
 // #endregion imports
 
 
@@ -25,8 +26,8 @@ import { CoreService } from '../../../services/core.service';
 export class RetailerAddProfileComponent implements OnInit {
   contactType: any;
   contactTypes: any[];
-  @Input() retailerId: number;
-  @Output() retailerIdChange = new EventEmitter<number>();
+  @Input() retailerId: string;
+  @Output() retailerIdChange = new EventEmitter<string>();
   @Output() SaveData = new EventEmitter<any>();
   @Input() profileData: RetailerProfileInfo;
   @Output() profileDataChange = new EventEmitter<RetailerProfileInfo>();
@@ -35,7 +36,7 @@ export class RetailerAddProfileComponent implements OnInit {
   profileFG1 = new FormGroup({});
   profileFG2 = new FormGroup({});
   profileFG3 = new FormGroup({});
-  sellerTypes: Array<nameValue> = new Array<nameValue>();
+  sellerTypes: Array<SellerType> = new Array<SellerType>();
   profileInfoStep = 1;
   profileInfoObj = new RetailerProfileInfo();
   uploadFile: any;
@@ -144,7 +145,7 @@ export class RetailerAddProfileComponent implements OnInit {
     }
     this.profileFG2.patchValue({
       contactType: contact.contactType,
-      contact_name: contact.personName,
+      contact_name: contact.name,
       contact_position: contact.position,
       contact_address1: contact.addressLine1,
       contact_address2: contact.addressLine2,
@@ -164,7 +165,7 @@ export class RetailerAddProfileComponent implements OnInit {
     // this.profileFG2.controls.contact_type.reset({ value: this.profileFG2.value.contact_type, disabled: false });
     const contact = this.profileInfoObj.contactPerson.filter(p => p.contactType === this.profileFG2.controls.contact_type_name.value)[0] || new RetailerContact();
     contact.contactType = this.profileFG2.controls.contact_type_name.value;
-    contact.personName = this.profileFG2.value.contact_name;
+    contact.name = this.profileFG2.value.contact_name;
     contact.position = this.profileFG2.value.contact_position;
     contact.addressLine1 = this.profileFG2.value.contact_address1;
     contact.addressLine2 = this.profileFG2.value.contact_address2;
@@ -253,6 +254,10 @@ export class RetailerAddProfileComponent implements OnInit {
     this.profileInfoObj.businessAddress.email = this.profileFG1.value.email;
     this.profileInfoObj.businessAddress.phoneNo = this.profileFG1.value.phone_number;
 
+    this.profileInfoObj.addresses = new Array<PostalAddress>();
+    this.profileInfoObj.addresses.push(this.profileInfoObj.businessAddress);
+    this.profileInfoObj.contactPerson.forEach(p => { p.addressType = p.contactType; this.profileInfoObj.addresses.push(p); });
+
     this.profileDataChange.emit(this.profileInfoObj);
     return this.profileInfoObj;
   }
@@ -275,7 +280,7 @@ export class RetailerAddProfileComponent implements OnInit {
       this.profileFG1.controls.fileName.patchValue(this.fileName);
     }
   }
-  getProfileInfo(retailerId: number) {
+  getProfileInfo(retailerId: string) {
     this.retialerService
       .profileInfoGet(this.retailerId)
       .subscribe((res: RetailerProfileInfo) => {

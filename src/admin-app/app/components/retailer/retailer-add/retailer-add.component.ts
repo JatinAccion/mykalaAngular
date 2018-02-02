@@ -32,7 +32,7 @@ export class RetailerAddComponent implements OnInit {
   shippingsData = new Array<RetialerShippingProfile>();
   returnData = new RetailerReturnPolicy();
   notificationData = new RetailerNotification();
-  retailerId = 1;
+  retailerId = '1';
   userMsgs = userMessages;
   @ViewChild('tabs') ngbTabSet: NgbTabset;
 
@@ -61,11 +61,11 @@ export class RetailerAddComponent implements OnInit {
     this.retialerService.profileData.subscribe(p =>
       this.status.Profile = p.retailerId ? true : false
     );
-    this.retialerService.paymentData.subscribe(p => this.status.Payment = p.bankId ? true : false);
+    this.retialerService.paymentData.subscribe(p => this.status.Payment = p.retailerBankPaymentId ? true : false);
     this.retialerService.productData.subscribe(p => this.status.Product = p.status);
     // this.retialerService.shippingsData.subscribe(p => this.status.Shipping = p[0].retailerId ? true : false);
-    this.retialerService.returnData.subscribe(p => this.status.Return = p.returnId ? true : false);
-    this.retialerService.notificationData.subscribe(p => this.status.Notifications = p.notificationId ? true : false);
+    this.retialerService.returnData.subscribe(p => this.status.Return = p.shippingReturnId ? true : false);
+    this.retialerService.notificationData.subscribe(p => this.status.Notifications = p.shippingNotificationsId ? true : false);
     this.setActiveTab({ nextId: 'tab-Profile' });
     if (this.retailerId) {
       this.retialerService.loadRetailer(this.retailerId);

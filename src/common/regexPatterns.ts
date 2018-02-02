@@ -3,5 +3,6 @@ export const regexPatterns = {
     numberValueRegex: new RegExp('^[0-9.-]*$'),
     textRegex: new RegExp("^[a-zA-Z 0-9_.!@#$%^&*'\\(\\)\\[\\]\\{\\}\\:\\;\\<\\>\\?\\,=+\\|-]*$"),
     nameRegex: new RegExp("^[a-zA-Z 0-9_.'-\]*$"),
-    emailRegex: new RegExp('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+[\.]+[a-zA-Z0-9]{2,4}$')
+    emailRegex: new RegExp('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+[\.]+[a-zA-Z0-9]{2,4}$'),
+    password: new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')
 };

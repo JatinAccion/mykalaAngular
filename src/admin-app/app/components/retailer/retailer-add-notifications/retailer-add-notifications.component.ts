@@ -20,7 +20,7 @@ import { CoreService } from '../../../services/core.service';
   encapsulation: ViewEncapsulation.None
 })
 export class RetailerAddNotificationsComponent implements OnInit {
-  @Input() retailerId: number;
+  @Input() retailerId: string;
   @Output() SaveData = new EventEmitter<any>();
   @Input() notificationData: RetailerNotification;
   @Output() notificationDataChange = new EventEmitter<RetailerNotification>();

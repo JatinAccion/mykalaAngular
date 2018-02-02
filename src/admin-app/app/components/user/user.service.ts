@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http, Response } from '@angular/http';
+import { Headers, Http, Response, RequestMethod } from '@angular/http';
 import { HttpClient, HttpRequest, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
@@ -10,10 +10,11 @@ import 'rxjs/add/operator/catch';
 import { LocalStorageService } from '../../services/LocalStorage.service';
 import { environment } from './../../../environments/environment';
 import { nameValue } from '../../../../models/nameValue';
+import { UserProfile } from '../../../../models/user';
 
 @Injectable()
 export class UserService {
-  private BASE_URL: string = environment.productApi;
+  private BASE_URL: string = environment.userApi;
   headers: Headers;
 
   getHttpHeraders() {
@@ -38,13 +39,46 @@ export class UserService {
   }
   get(query: any): Observable<any[]> {
     this.headers = this.getHttpHeraders();
-    const url = `${this.BASE_URL}/${environment.apis.retailers.get}`;
+    const url = `${this.BASE_URL}/${environment.apis.users.getAdmin}`;
     return this.http
       .get(url, { search: query, headers: this.headers })
-      .map(p => p.json())
+      .map(p => p.json().map(q => new UserProfile(q)))
       .catch(this.handleError);
   }
-  
+  getUser(userId: string): Observable<any> {
+    const url = `${this.BASE_URL}/${environment.apis.users.get}`.replace('{userId}', userId);
+    return this.http
+      .get(`${url}`, { headers: this.headers })
+      .map(res => {
+        if (res.text() == '') {
+          return 'User Not found';
+        } else {
+          return new UserProfile(res.json());
+        }
+      })
+      .catch(this.handleError);
+  }
+  save(user: UserProfile): Promise<any> {
+    this.headers = this.getHttpHeraders();
+    const url = `${this.BASE_URL}/${environment.apis.users.save}`;
+    const requestOptions = { body: user, method: RequestMethod.Post, headers: this.headers };
+    if (user.userId) {
+      requestOptions.method = RequestMethod.Put;
+    }
+    return this.http.request(url, requestOptions).toPromise()
+      .then(res => {
+        if (res.text() !== '') {
+          return new UserProfile(res.json());
+        }
+      }).catch(this.handleError);
+  }
+  delete(userId: string) {
+    const url = `${this.BASE_URL}/${environment.apis.users.delete}`.replace('{userId}', userId);
+    return this.http
+      .delete(`${url}`, { headers: this.headers })
+      .map(res => res.text())
+      .catch(this.handleError);
+  }
   private handleError(error: Response) {
     // in a real world app, we may send the server to some remote logging infrastructure
     // instead of just logging it to the console

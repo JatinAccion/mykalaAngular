@@ -6,49 +6,48 @@ export const apiNames = {
         token: 'oauth/token',
         userInfo: 'loginUser'
     },
-    userService: {
+    users: {
         resetPassword: 'login/user/resetPassword',
+        getAdmin: 'role/ROLE_ADMIN',
+        get: '{userId}',
+        save: 'admin',
+        delete: '{userId}',
     },
     retailers: {
-        get: 'retailer',
-        sellerTypes: 'retailer/sellerType',
-        getShippingProfileNames: 'retailer/{retailerId}/shippingProfileName',
-        changeStatus: 'retailer/changeStatus',
-        getRetailerNames: 'retailer/sellerName'
+        get: '',
+        sellerTypes: 'sellerTypes',
+        getShippingProfileNames: '{retailerId}/shippingProfileName',
+        changeStatus: 'changeStatus',
+        getRetailerNames: 'sellerName'
     },
     retailerProfileInfo: {
-        get: 'retailer/{retailerId}/profileInfo',
-        save: 'retailer/profileInfo',
+        get: '{retailerId}',
+        save: 'retailerProfiles',
         delete: 'delete',
     },
     retailerPaymentInfo: {
-        get: 'retailer/{retailerId}/bankDetail',
-        save: 'retailer/bankDetail',
+        get: '{retailerId}/bankDetails',
+        save: 'bankDetails',
         delete: 'delete',
     },
     retailerShippingInfo: {
-        get: 'retailer/{retailerId}/shippingProfile',
-        save: 'retailer/shippingProfile',
+        get: '{retailerId}/shippingProfiles',
+        save: 'shippingProfiles',
         delete: 'delete',
     },
     retailerShippingNotification: {
-        get: 'retailer/{retailerId}/shippingNotification',
-        save: 'retailer/shippingNotification',
+        get: '{retailerId}/shippingNotifications',
+        save: 'shippingNotifications',
         delete: 'delete',
     },
     retailerShippingReturnPolicy: {
-        get: 'retailer/{retailerId}/shippingReturnPolicy',
-        save: 'retailer/shippingReturnPolicy',
+        get: '{retailerId}/shippingReturns',
+        save: 'shippingReturns',
         delete: 'delete',
     },
     retailerProduct: {
-        getPlaces: 'retailer/getShippingReturnPolicy',
-        getCategories: 'retailer/getShippingReturnPolicy',
-        getSubCategories: 'retailer/getShippingReturnPolicy',
-        getTypes: 'retailer/getShippingReturnPolicy',
-
-        get: 'retailer/{retailerId}/productInfo',
-        save: 'retailer/productInfo',
+        get: '{retailerId}/productPreferences',
+        save: 'productPreferences',
         delete: 'delete',
     },
     product: {

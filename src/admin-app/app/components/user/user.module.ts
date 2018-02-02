@@ -11,6 +11,8 @@ import { UserService } from './user.service';
 import { ValidatorExt } from '../../../../common/ValidatorExtensions';
 import { SharedModule } from '../../../../common/shared.module';
 import { HttpClientModule } from '@angular/common/http';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { UserFilterPipe } from './user-list/user.filter';
 
 @NgModule({
   imports: [
@@ -18,11 +20,13 @@ import { HttpClientModule } from '@angular/common/http';
     UserRoutingModule,
     NgbModule,
     ReactiveFormsModule,
-    SharedModule, FormsModule, HttpClientModule
+    SharedModule, FormsModule, HttpClientModule,
+    NgxPaginationModule
   ],
   declarations: [
     UserListComponent,
     UserAddComponent,
+    UserFilterPipe,
   ],
   providers: [UserService, ValidatorExt]
 })

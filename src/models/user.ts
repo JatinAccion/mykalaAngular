@@ -17,26 +17,30 @@ export class BasicAuth {
 
 export class UserProfile {
 
-  private userId: string;
-  private username: string;
-  private password: string;
-  private firstname: string;
-  private lastname: string;
-  private email: string;
-  private phone: string;
-  private roleType: string;
-  private show: boolean;
+  public userId: string;
+  public password: string;
+  public firstName: string;
+  public lastName: string;
+  public emailId: string;
+  public phone: string;
+  public roleName: Array<string>;
+  public userCreateStatus: boolean;
+  public show: boolean;
+
   constructor(obj?: any) {
     if (obj) {
       this.userId = obj.userId;
-      this.username = obj.username;
       this.password = obj.password;
-      this.firstname = obj.firstname;
-      this.lastname = obj.lastname;
-      this.email = obj.email;
+      this.firstName = obj.firstName;
+      this.lastName = obj.lastName;
+      this.emailId = obj.emailId;
       this.phone = obj.phone;
-      this.roleType = obj.roleType;
+      this.roleName = obj.roleName;
+      this.userCreateStatus = obj.userCreateStatus;
       this.show = false;
     }
+  }
+  get username(): string {
+    return this.firstName + ' ' + this.lastName;
   }
 }

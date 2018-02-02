@@ -74,31 +74,31 @@
             </div>
             <div [formGroup]="paymentFG2" [ngClass]="{'show': paymentInfoStep==2, 'hide': paymentInfoStep!==2  }" >
                 <div class="form-group">
-                    <label class="control-label" [ngClass]="validatorExt.displayFieldCss(paymentFG2.controls.accountName)">Account Name</label>
-                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="" pattern formControlName="accountName">
+                    <label class="control-label" [ngClass]="validatorExt.displayFieldCss(paymentFG2.controls.bankAccountName)">Account Name</label>
+                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="" pattern formControlName="bankAccountName">
                     <!--Validation-->
-                    <app-field-error-display [field]="paymentFG2.controls.accountName" [errorMsg]="errorMsgs"> </app-field-error-display>
-                    <!--Validation-->
-                </div>
-                <div class="form-group">
-                    <label class="control-label" [ngClass]="validatorExt.displayFieldCss(paymentFG2.controls.accountNumber)">Account Number</label>
-                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="" pattern formControlName="accountNumber">
-                    <!--Validation-->
-                    <app-field-error-display [field]="paymentFG2.controls.accountNumber" [errorMsg]="errorMsgs"> </app-field-error-display>
+                    <app-field-error-display [field]="paymentFG2.controls.bankAccountName" [errorMsg]="errorMsgs"> </app-field-error-display>
                     <!--Validation-->
                 </div>
                 <div class="form-group">
-                    <label class="control-label" [ngClass]="validatorExt.displayFieldCss(paymentFG2.controls.routingNumber)">ABA Routing number</label>
-                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="" pattern formControlName="routingNumber">
+                    <label class="control-label" [ngClass]="validatorExt.displayFieldCss(paymentFG2.controls.bankAccountNumber)">Account Number</label>
+                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="" pattern formControlName="bankAccountNumber">
                     <!--Validation-->
-                    <app-field-error-display [field]="paymentFG2.controls.routingNumber" [errorMsg]="errorMsgs"> </app-field-error-display>
+                    <app-field-error-display [field]="paymentFG2.controls.bankAccountNumber" [errorMsg]="errorMsgs"> </app-field-error-display>
                     <!--Validation-->
                 </div>
                 <div class="form-group">
-                    <label class="control-label" [ngClass]="validatorExt.displayFieldCss(paymentFG2.controls.swiftCode)">SWIFT code</label>
-                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="" pattern formControlName="swiftCode">
+                    <label class="control-label" [ngClass]="validatorExt.displayFieldCss(paymentFG2.controls.bankABARoutingNumber)">ABA Routing number</label>
+                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="" pattern formControlName="bankABARoutingNumber">
                     <!--Validation-->
-                    <app-field-error-display [field]="paymentFG2.controls.swiftCode" [errorMsg]="errorMsgs"> </app-field-error-display>
+                    <app-field-error-display [field]="paymentFG2.controls.bankABARoutingNumber" [errorMsg]="errorMsgs"> </app-field-error-display>
+                    <!--Validation-->
+                </div>
+                <div class="form-group">
+                    <label class="control-label" [ngClass]="validatorExt.displayFieldCss(paymentFG2.controls.bankSwiftCode)">SWIFT code</label>
+                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="" pattern formControlName="bankSwiftCode">
+                    <!--Validation-->
+                    <app-field-error-display [field]="paymentFG2.controls.bankSwiftCode" [errorMsg]="errorMsgs"> </app-field-error-display>
                     <!--Validation-->
                 </div>
                 <div class="form-group">
