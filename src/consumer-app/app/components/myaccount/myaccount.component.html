@@ -1,0 +1,132 @@
+<div class="container">
+  <app-sub-menus></app-sub-menus>
+  <div style="height:135px;width:100%;"></div>
+
+  <div class="container" id="main">
+    <div id="content">
+      <div class="myaccount row">
+        <div class="col-sm-6">
+          <div class="myaccount_row">
+            <!--Profile Image-->
+            <div class="row">
+              <div class="col-sm-4 colorlightGray p-2">profile image</div>
+              <div class="col-sm-5 text-right p-2">
+                <img [src]="myAccountModel.profileInfo.consumerImagePath" class="userIcon" />
+              </div>
+              <div class="col-sm-3 text-right p-2 colorred">change</div>
+            </div>
+            <!--Profile Image-->
+
+            <!--Name-->
+            <div class="row">
+              <div class="col-sm-4 colorlightGray p-2">name</div>
+              <div class="col-sm-5 text-right p-2">{{myAccountModel.profileInfo.firstName}} {{myAccountModel.profileInfo.lastName}}</div>
+              <div class="col-sm-3 text-right p-2"></div>
+            </div>
+            <!--Name-->
+
+            <!--Email Address-->
+            <div class="row">
+              <div class="col-sm-2 colorlightGray p-2">email</div>
+              <div class="col-sm-7 text-right p-2">
+                <span #emailElement *ngIf="!input_Email">{{myAccountModel.userData.emailId}}</span>
+                <input *ngIf="input_Email" [(ngModel)]="append_Email" type="email" class="txtnml width100 appendedInput" placeholder="Email">
+              </div>
+              <div class="col-sm-3 text-right p-2 colorred cursor" (click)="appendInput($event, 'email')">change</div>
+            </div>
+            <!--Email Address-->
+
+            <!--Password-->
+            <div class="row">
+              <div class="col-sm-2 colorlightGray p-2">password</div>
+              <div class="col-sm-7 text-right p-2">
+                <span #passwordElement *ngIf="!input_Password">{{myAccountModel.userData.password}}</span>
+                <input *ngIf="input_Password" (keyup)="passwordValidator()" [(ngModel)]="append_Password" type="password" class="txtnml width100 appendedInput" placeholder="Old Password">
+                <input *ngIf="input_Password" (keyup)="passwordValidator()" [(ngModel)]="append_NewPassword" type="password" class="txtnml width100 appendedInput" placeholder="New Password">
+                <input *ngIf="input_Password" (keyup)="passwordValidator()" [(ngModel)]="append_ConfirmPassword" type="password" class="txtnml width100 appendedInput" placeholder="Confirm Password">
+                <p *ngIf="invalidPassword" class="clearfix colorlightGray pt-0 mb-0">Password length must be at least 8 characters: 1 Uppercase Character, 1 Lowercase Character, 1 Number and 1 Special Character</p>
+                <p *ngIf="oldNewPassword" class="clearfix colorlightGray pt-0 mb-0">Old password and New password cannot be same</p>
+                <p *ngIf="newConfirmPassword" class="clearfix colorlightGray pt-0 mb-0">New password and confirm password doesn't match</p>
+              </div>
+              <div class="col-sm-3 text-right p-2 colorred cursor" (click)="appendInput($event, 'password')">change</div>
+            </div>
+            <!--Password-->
+          </div>
+
+          <div class="myaccount_row">
+            <!--Gender-->
+            <div class="row">
+              <div class="col-sm-4 p-2 colorlightGray">gender</div>
+              <div class="col-sm-5 p-2 text-right">{{myAccountModel.profileInfo.gender}}</div>
+              <div class="col-sm-3 p-2 text-right"></div>
+            </div>
+            <!--Gender-->
+
+            <!--Location-->
+            <div class="row">
+              <div class="col-sm-2 p-2 colorlightGray">location</div>
+              <div class="col-sm-7 p-2 text-right">
+                <span #locationElement *ngIf="!input_Location">{{myAccountModel.profileInfo.address.city}}, {{myAccountModel.profileInfo.address.state}}, {{myAccountModel.profileInfo.address.zipcode}}</span>
+                <input *ngIf="input_Location" (keyup)="_keuyp($event)" onkeypress='return event.charCode >= 48 && event.charCode <= 57' [(ngModel)]="append_Location" type="number" class="txtnml width100 appendedInput" placeholder="zipcode">
+                <img src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_3" *ngIf="loader" />
+                <p *ngIf="input_getLocation" class="clearfix colorlightGray pt-0 mb-0">{{fetchGeoCode}}</p>
+              </div>
+              <div class="col-sm-3 text-right p-2 colorred cursor" (click)="appendInput($event, 'location')">change</div>
+            </div>
+            <!--Location-->
+
+            <!--Date Of Birth-->
+            <div class="row">
+              <div class="col-sm-4 p-2 colorlightGray">date of birth</div>
+              <div class="col-sm-5 p-2 text-right">
+                <span #dobElement *ngIf="!input_dob">{{myAccountModel.profileInfo.birthMonth}}/{{myAccountModel.profileInfo.birthDate}}/{{myAccountModel.profileInfo.birthYear}}</span>
+                <input *ngIf="input_dob" [(ngModel)]="append_dob" (focus)="d.open()" [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker #d="ngbDatepicker" class="txtnml width100 appendedInput" placeholder="mm-dd-yyyy">
+              </div>
+              <div class="col-sm-3 text-right p-2 colorred cursor" (click)="appendInput($event, 'dob'); selectSelected($event)">change</div>
+            </div>
+            <!--Date Of Birth-->
+
+            <!--Style Preferences-->
+            <div class="row">
+              <div class="col-sm-6 p-2 colorlightGray">
+                <p class="colorlightGray">style perferences</p>
+              </div>
+              <div class="col-sm-6 p-2 text-right colorred">change</div>
+              <div class="col-sm-12 p-2 text-right interestImagesMyAc" *ngFor="let interest of myAccountModel.profileInfo.consumerInterests">
+                <img src="{{interest.consumerInterestImagePath}}" title="{{interest.consumerInterestImageName}}" id="{{interest.id}}" />
+              </div>
+            </div>
+            <!--Style Preferences-->
+          </div>
+        </div>
+
+        <div class="col-sm-6">
+          <div class="myaccount_row">
+            <p class="colorlightGray">shipping addresses</p>
+            <div class="row">
+              <div class="col-sm-4 p-2 colorred">add</div>
+              <div class="col-sm-8 p-0 row">
+                <div class="col-sm-9 text-right">74 Webster St, Arlington...</div>
+                <div class="col-sm-3 p-0 text-right colorred">change</div>
+              </div>
+              <div class="col-sm-4 p-0 colorred"></div>
+              <div class="col-sm-8 row p-0">
+                <div class="col-sm-9  text-right">20 Surry Rd, Arlington...</div>
+                <div class="col-sm-3 p-0 text-right colorred">change</div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-4 p-2 colorlightGray">
+                <p class="colorlightGray">payment information</p>
+                <p class="colorred">add</p>
+              </div>
+              <div class="col-sm-5 p-2 text-right">visa 6408</div>
+              <div class="col-sm-3 p-2 text-right colorred">change</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

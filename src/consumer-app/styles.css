@@ -1334,6 +1334,11 @@ h4.subtitle{
     right: 22px;
     top: 6px;
 }
+.absoluteImg_3{
+    width: 20px;
+    top: 13px;
+    right: 14px;
+}
 .errorMessages,
 .successMessage{
     font-size: 14px;
@@ -1385,7 +1390,7 @@ h4.subtitle{
 .bgColor{
     margin: -10px;
     margin-bottom: 10px;
-    width: 289px;
+    width: 350px;
 }
 .bcpointer{
     cursor: pointer;
@@ -2297,4 +2302,36 @@ ngb-modal-window{
     -webkit-transform: translate(-50%, -50%) !important;
     -ms-transform: translate(-50%, -50%) !important;
     -o-transform: translate(-50%, -50%) !important;
+}
+.interestImagesMyAc {
+    max-width: 130px;
+    position: relative;
+    height: 110px;
+    border: 1px solid #ccc;
+    margin-right: 8px;
+    margin-left: 7px;
+    margin-bottom: 15px;
+}
+.interestImagesMyAc img {
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    padding: .5rem .5rem!important;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+}
+.cursor{
+    cursor: pointer;
+}
+.appendedInput{
+    width: 85% !important;
+    font-size: 15px;
+    margin-bottom: 15px;
+}
+.appendedInput:last-child{
+    margin-bottom: 0px;
 }

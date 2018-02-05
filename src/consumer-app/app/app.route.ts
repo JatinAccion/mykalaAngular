@@ -25,6 +25,7 @@ import { ViewProductComponent } from './components/view-product/view-product.com
 import { MycartComponent } from './components/mycart/mycart.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { MyordersComponent } from './components/myorders/myorders.component';
+import { MyaccountComponent } from './components/myaccount/myaccount.component';
 
 const appRoutes: Routes = [
     {
@@ -91,6 +92,11 @@ const appRoutes: Routes = [
     {
         path: 'myorder',
         component: MyordersComponent,
+        data: { header: 'header1' }
+    },
+    {
+        path: 'myaccount',
+        component: MyaccountComponent,
         data: { header: 'header1' }
     },
     {
