@@ -12,24 +12,37 @@
             <a class="btn btn-default" routerLink="/user-add">Add User</a>
         </div>
     </div>
-    <div class="col-sm-12 p-0 pt-3 pagination_align">
+    <div class="col-sm-12 p-0 pt-3 p pagination_align">
         <pagination-controls id='client' class="my-pagination" (pageChange)="p = $event"></pagination-controls>
     </div>
     <div class="row m-0 p-2 usermanagement">
         <div class="col-sm-6" *ngFor="let user of users | userFilter: username  | paginate: { id: 'client', itemsPerPage: 10, currentPage: p , totalItems: (users| userFilter: username ).length }">
             <div id="accordion" role="tablist" aria-multiselectable="true">
                 <div class="card">
-                    <div class="card-header" role="tab" id="headingOne">
-                        <h5 class="mb-0">
-                            <a (click)="user.show=!user.show">
-                                {{user.username}}
-                                <small class="float-right" [routerLink]="['../user-edit', user.userId]">Edit</small>
-                            </a>
-                        </h5>
+                    <div class="card-header row pb-0 pt-1" role="tab" id="headingOne">
+                        <div class="col-sm-8 p-2">
+                            <h5 class="mb-0">
+                                <a (click)="user.show=!user.show" class="float-left ellipsis w-75">
+                                    {{user.username}}  
+                                </a>
+                            </h5> 
+                        </div>
+                        <div class="col-sm-3 pt-2">
+                            <small class="float-right colorBlue pointer" [routerLink]="['../user-edit', user.userId]">Edit</small>
+                        </div>
+                        <div class="col-sm-1 pt-2" [ngClass]="{'show':user.show, 'hide':!user.show}">
+                                <i class="fa fa-sort-down"></i>
+                        </div>
+                        <div class="col-sm-1 pt-2" [ngClass]="{'show':!user.show, 'hide':user.show}">
+                                <i class="fa fa-sort-up"></i>
+                        </div> 
                     </div>
+                    <div class="col-sm-12 px-3 pb-2">
+                        {{user.roleName}}
+                    </div> 
                     <div id="collapseOne" class="collapse " [ngClass]="{'show':user.show, 'hide':!user.show}" role="tabpanel" aria-labelledby="headingOne">
-                        <div class="card-block pt-0">
-                            <hr />
+                        <hr />
+                        <div class="card-block pt-0"> 
                             <div class="text-right">
                                 <a class="colorRed" (click)="deleteUser(user)" *ngIf="user.emailId!=core.user.emailId" >Delete User</a>
                                 <span class="colorRed"  *ngIf="user.emailId==core.user.emailId">Cannot Delete Current User</span>
@@ -52,8 +65,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-
+                </div> 
             </div>
         </div>
     </div>

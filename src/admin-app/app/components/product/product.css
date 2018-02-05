@@ -133,8 +133,7 @@
     color: #fff;
 }
 .c-btn{
-    box-shadow:none !important;
-    
+    box-shadow:none !important; 
     font-size: 13px !important;
 }
 .c-btn span{
@@ -155,4 +154,10 @@
 }
 .fa-picture-o.defaultUser {
     font-size: 2em;
+}
+.product_search .selected-list .c-btn{
+    padding: 8px !important;
+}
+.product_search .selected-list .c-token{
+    margin-top: 0px !important;
 }

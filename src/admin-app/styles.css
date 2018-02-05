@@ -529,3 +529,6 @@ a{
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+  .pointer{
+      cursor: pointer;
+  }

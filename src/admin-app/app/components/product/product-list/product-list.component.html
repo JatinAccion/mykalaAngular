@@ -1,14 +1,14 @@
 <div class="row">
-    <div class="col-sm-12 title">
+    <div class="col-sm-8 title">
         <h1>Products</h1>
-        <div class="float-right top_right">
-            <input class="form-control txt_Search ng-untouched ng-pristine ng-valid" placeholder="search for product by name" [(ngModel)]="productName" type="text">
-        </div>
     </div>
+    <div class="col-sm-4 top_right text-right">
+        <input class="form-control txt_Search ng-untouched ng-pristine ng-valid" placeholder="search for product by name" [(ngModel)]="productName" type="text">
+    </div> 
 </div>
 <div class="row">
     <div class="col-sm-12 text-right">
-        <ul class="product_search m-0 p-0">
+        <ul class="product_search row m-0 p-0">
             <li class="w-5">
                 <select class="ddl_default form-control" [(ngModel)]="productStatus">
                     <option [ngValue]="productStatusDummy">Status</option>
@@ -16,7 +16,7 @@
                     <option [ngValue]="false">Inactive</option>
                 </select>
             </li>
-            <li class="w-15">
+            <li class="w-20">
                 <angular2-multiselect [data]="places" [(ngModel)]="selectedPlaces" [settings]="placesSettings" (onSelect)="onPlaceSelect($event)" (onDeSelect)="onPlaceDeSelect($event)" (onSelectAll)="onPlaceSelectAll($event)" (onDeSelectAll)="onPlaceDeSelectAll($event)">
                 </angular2-multiselect>
 
