@@ -1,0 +1,41 @@
+{
+    "customerId": "5a74545fb6cbe94b08a663e0",
+    "userId": "5a745400b6cbe9331cfe473e",
+    "firstName": "Jatin",
+    "lastName": "Sharma",
+    "address": [
+        {
+            "addID": null,
+            "addressLineOne": null,
+            "addressLineTwo": null,
+            "city": "Schenectady",
+            "state": "NY",
+            "zipcode": "12345",
+            "addressType": "profileAddress"
+        }
+    ],
+    "consumerImagePath": "mykala/consumer_interest/diy.jpg",
+    "phone": null,
+    "emailId": "jatin.sharma@accionlabs.com",
+    "gender": "male",
+    "dateOfBirth": 1517443200000,
+    "createdAt": 1517573212887,
+    "customerAccountStatus": 0,
+    "consumerInterests": [
+        {
+            "id": "5a704b72be35740e60a6ba3c",
+            "consumerInterestImageName": "furniture",
+            "consumerInterestImagePath": "https://s3.us-east-2.amazonaws.com/mykala/consumer_interest/furniture.jpg"
+        },
+        {
+            "id": "5a704b72be35740e60a6ba3d",
+            "consumerInterestImageName": "garden",
+            "consumerInterestImagePath": "https://s3.us-east-2.amazonaws.com/mykala/consumer_interest/garden.jpg"
+        },
+        {
+            "id": "5a704b72be35740e60a6ba3e",
+            "consumerInterestImageName": "kitchen",
+            "consumerInterestImagePath": "https://s3.us-east-2.amazonaws.com/mykala/consumer_interest/kitchen.jpg"
+        }
+    ]
+}
