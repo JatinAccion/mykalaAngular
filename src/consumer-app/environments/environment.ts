@@ -7,8 +7,8 @@ import { apiNames, commonMessages, regexPatterns } from './common';
 export const environment = {
   production: false,
   login: 'http://dev-user-service.us-east-2.elasticbeanstalk.com',
-  userService: 'http://192.168.168.172:7090/user/v1',
-  profileInterest: 'http://192.168.168.172:6090/consumer/v1',
+  userService: 'http://dev-user-signup.us-east-2.elasticbeanstalk.com/user/v1',
+  profileInterest: 'http://dev-consumer-profile.us-east-2.elasticbeanstalk.com/consumer/v1',
   productList: 'http://dev-product-service.us-east-2.elasticbeanstalk.com/api/products',
   getOffer: 'http://dev-product-service.us-east-2.elasticbeanstalk.com/api/products',
   geoCode: 'https://maps.googleapis.com/maps/api/geocode/json',

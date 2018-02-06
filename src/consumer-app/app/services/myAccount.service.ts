@@ -17,4 +17,21 @@ export class MyAccountService {
         const url: string = `${environment.geoCode}?address=${term}${environment.apis.geoCode.key}`;
         return this.http.get(url).map(res => res.json());
     }
+
+    getCards(userId) {
+        const BASE_URL: string = environment.checkout;
+        const url: string = `${BASE_URL}/${userId}/${environment.apis.consumerCheckout.getCards}`;
+        return this.http.get(url).map((res) => res.json());
+    }
+
+    addCard(stripeAddCard) {
+        const BASE_URL: string = environment.checkout;
+        const url: string = `${BASE_URL}/${environment.apis.consumerCheckout.addCard}`;
+        return this.http.post(url, stripeAddCard).map((res) => res.json());
+    }
+
+    getInterest() {
+        const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.getCatalogue}`;
+        return this.http.get(url).map((res) => res.json());
+    }
 }

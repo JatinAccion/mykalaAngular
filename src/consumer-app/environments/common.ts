@@ -8,8 +8,8 @@ export const apiNames = {
     },
     userService: {
         createAccount: 'consumer',
-        forgotPassword: 'login/user/forgotPassword',
-        resetPassword: 'login/user/resetPassword',
+        forgotPassword: 'forgotPassword',
+        resetPassword: 'resetPassword',
         validateToken: 'validateToken'
     },
     profileInterest: {
