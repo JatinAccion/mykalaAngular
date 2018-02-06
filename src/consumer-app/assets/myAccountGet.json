@@ -3,15 +3,17 @@
     "userId": "5a745400b6cbe9331cfe473e",
     "firstName": "Jatin",
     "lastName": "Sharma",
-    "address": {
-        "addID": null,
-        "addressLineOne": null,
-        "addressLineTwo": null,
-        "city": "Schenectady",
-        "state": "NY",
-        "zipcode": "12345",
-        "addressType": null
-    },
+    "address": [
+        {
+            "addID": null,
+            "addressLineOne": null,
+            "addressLineTwo": null,
+            "city": "Schenectady",
+            "state": "NY",
+            "zipcode": "12345",
+            "addressType": "profileAddress"
+        }
+    ],
     "consumerImagePath": "mykala/consumer_interest/diy.jpg",
     "phone": null,
     "emailId": "jatin.sharma@accionlabs.com",

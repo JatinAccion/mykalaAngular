@@ -66,7 +66,13 @@
             <div class="row">
               <div class="col-sm-2 p-2 colorlightGray">location</div>
               <div class="col-sm-7 p-2 text-right">
-                <span #locationElement *ngIf="!input_Location">{{myAccountModel.profileInfo.address.city}}, {{myAccountModel.profileInfo.address.state}}, {{myAccountModel.profileInfo.address.zipcode}}</span>
+                <span #locationElement *ngIf="!input_Location">
+                  <span *ngFor="let address of myAccountModel.profileInfo.address">
+                    <span *ngIf="address.addressType == 'profileAddress'">
+                      {{address.city}}, {{address.state}}, {{address.zipcode}}
+                    </span>
+                  </span>
+                </span>
                 <input *ngIf="input_Location" (keyup)="_keuyp($event)" onkeypress='return event.charCode >= 48 && event.charCode <= 57' [(ngModel)]="append_Location" type="number" class="txtnml width100 appendedInput" placeholder="zipcode">
                 <img src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_3" *ngIf="loader" />
                 <p *ngIf="input_getLocation" class="clearfix colorlightGray pt-0 mb-0">{{fetchGeoCode}}</p>

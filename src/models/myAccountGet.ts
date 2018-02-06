@@ -17,15 +17,7 @@ export class MyaccountProfileInfo {
     birthDate: string;
     birthMonth: string;
     birthYear: string;
-    address: {
-        addID: string;
-        addressLineOne: string;
-        addressLineTwo: string;
-        city: string;
-        state: string;
-        zipcode: string;
-        addressType: string;
-    }
+    address: Array<MyAccountAddress>;
     consumerInterests: Array<MyAccountConsumerInterest>;
 }
 
@@ -34,5 +26,17 @@ export class MyAccountConsumerInterest {
         public id: string,
         public consumerInterestImageName: string,
         public consumerInterestImagePath: string
+    ) { }
+}
+
+export class MyAccountAddress {
+    constructor(
+        public addID: string,
+        public addressLineOne: string,
+        public addressLineTwo: string,
+        public city: string,
+        public state: string,
+        public zipcode: string,
+        public addressType: string
     ) { }
 }

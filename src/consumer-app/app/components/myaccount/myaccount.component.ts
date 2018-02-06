@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
-import { MyAccountGetModel, MyAccountConsumerInterest, MyaccountProfileInfo, MyAccountUserData } from '../../../../models/myAccountGet';
+import { MyAccountGetModel, MyAccountConsumerInterest, MyaccountProfileInfo, MyAccountUserData, MyAccountAddress } from '../../../../models/myAccountGet';
 import { CoreService } from '../../services/core.service';
 import { MyAccountService } from '../../services/myAccount.service';
 import { environment } from '../../../environments/environment';
@@ -57,6 +57,7 @@ export class MyaccountComponent implements OnInit {
       this.myAccountModel.profileInfo = new MyaccountProfileInfo();
       this.myAccountModel.userData = new MyAccountUserData();
       this.myAccountModel.profileInfo.consumerInterests = new Array<MyAccountConsumerInterest>();
+      this.myAccountModel.profileInfo.address = new Array<MyAccountAddress>();
       this.myAccountModel.profileInfo.address = res.address;
       this.myAccountModel.profileInfo.consumerImagePath = this.imgS3.concat(res.consumerImagePath);
       this.myAccountModel.profileInfo.consumerInterests = res.consumerInterests;
@@ -94,9 +95,14 @@ export class MyaccountComponent implements OnInit {
           this.input_getLocation = true;
           input.removeAttribute('readonly');
           this.fetchGeoCode = data.results[0].formatted_address;
-          this.myAccountModel.profileInfo.address.city = this.fetchGeoCode.split(',')[0];
-          this.myAccountModel.profileInfo.address.state = this.fetchGeoCode.split(',')[1].trim().split(" ")[0];
-          this.myAccountModel.profileInfo.address.zipcode = this.append_Location;
+          for (var i = 0; i < this.myAccountModel.profileInfo.address.length; i++) {
+            let address = this.myAccountModel.profileInfo.address[i]
+            if (address.addressType == 'profileAddress') {
+              address.city = this.fetchGeoCode.split(',')[0];
+              address.state = this.fetchGeoCode.split(',')[1].trim().split(" ")[0];
+              address.zipcode = this.append_Location;
+            }
+          }
         });
     }
   };
