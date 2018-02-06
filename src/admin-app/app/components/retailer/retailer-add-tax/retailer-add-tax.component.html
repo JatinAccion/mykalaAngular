@@ -1,4 +1,5 @@
 <div [formGroup]="fG1">
+    <p>Taxes</p>
     <div class="form-group">
         <!-- <label class="control-label required" [ngClass]="validatorExt.displayFieldCss(fG1.controls.returnPolicy)">Returns and Exchange policy</label> -->
         <!-- <small class="float-right">{{ validatorExt.remainingCharacters(fG1.controls.returnPolicy, 500) }}  characters left</small> -->
@@ -7,13 +8,21 @@
         <div class="col-sm-6 pl-4">
             <!-- <input placeholder="search for state" class="form-control txt_Search" type="text" [(ngModel)]="statename"> -->
         </div>
-        <ol class="ol-3 taxlist">
-            <li *ngFor="let state of Obj.states " class="form-control">
-                <label>
+        <!-- <ol class="ol-3 taxlist">
+            <li *ngFor="let state of Obj.states " class="form-control m-0">
+                <label class="m-0">
                     <input type="checkbox"> {{state}}
                 </label>
             </li>
-        </ol>
+        </ol> -->
+        <div class="row pl-4 pr-4 taxlist">
+            <div *ngFor="let state of Obj.states " class="form-control col-sm-3">
+                    <label class="m-0">
+                        <input type="checkbox"> {{state}}
+                    </label>
+                </div>
+        </div>
+       
     </div>
 
     <div class="p-5">&nbsp;</div>
