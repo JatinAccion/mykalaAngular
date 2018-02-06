@@ -11,7 +11,7 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
 
 
-import { Retailers, RetailerReports, RetailerNotification, RetailerReturnPolicy, SellerType } from '../../../../models/retailer';
+import { Retailers, RetailerReports, RetailerNotification, RetailerReturnPolicy, SellerType, RetailerTax } from '../../../../models/retailer';
 import { RetailerProfileInfo } from '../../../../models/retailer-profile-info';
 import { RetailerPaymentInfo } from '../../../../models/retailer-payment-info';
 import { RetialerShippingProfile } from '../../../../models/retailer-shipping-profile';
@@ -28,6 +28,7 @@ export class RetialerService {
   productDataObj = new RetailerProductInfo();
   shippingsDataObj = new Array<RetialerShippingProfile>();
   returnDataObj = new RetailerReturnPolicy();
+  taxDataObj = new RetailerTax();
   notificationDataObj = new RetailerNotification();
 
   profileData = new Subject<RetailerProfileInfo>();
@@ -35,6 +36,7 @@ export class RetialerService {
   productData = new Subject<RetailerProductInfo>();
   shippingsData = new Subject<Array<RetialerShippingProfile>>();
   returnData = new Subject<RetailerReturnPolicy>();
+  taxData = new Subject<RetailerTax>();
   notificationData = new Subject<RetailerNotification>();
 
 
@@ -48,6 +50,7 @@ export class RetialerService {
     this.productData.next(new RetailerProductInfo());
     this.shippingsData.next(new Array<RetialerShippingProfile>());
     this.returnData.next(new RetailerReturnPolicy());
+    this.taxData.next(new RetailerTax());
     this.notificationData.next(new RetailerNotification());
   }
   loadRetailer(retailerId: string) {
@@ -56,6 +59,7 @@ export class RetialerService {
     this.productGet(retailerId).subscribe(p => p);
     this.shippingProfileGet(retailerId).subscribe(p => p);
     this.returnPolicyGet(retailerId).subscribe(p => p);
+    this.taxGet(retailerId).subscribe(p => p);
     this.notificationGet(retailerId).subscribe(p => p);
   }
   getHttpHeraders() {
@@ -76,6 +80,7 @@ export class RetialerService {
     this.productData.subscribe(p => this.productDataObj = p);
     this.shippingsData.subscribe(p => this.shippingsDataObj = p);
     this.returnData.subscribe(p => this.returnDataObj = p);
+    this.taxData.subscribe(p => this.taxDataObj = p);
     this.notificationData.subscribe(p => this.notificationDataObj = p);
   }
   seedStaticData() {
@@ -278,6 +283,39 @@ export class RetialerService {
           returnPolicy.shippingReturnId = res.json();
           this.returnData.next(returnPolicy);
           return new RetailerReturnPolicy(returnPolicy);
+        }
+      }).catch(this.handleError);
+  }
+  taxGet(retailerId: string): Observable<RetailerTax> {
+
+    if (this.taxDataObj && this.taxDataObj.retailerId === retailerId) {
+      return Observable.of(this.taxDataObj);
+    } else {
+      const url = `${this.BASE_URL}/${environment.apis.retailerTax.get}`.replace('{retailerId}', retailerId.toString());
+      return this.http
+        .get(`${url}`, { headers: this.headers })
+        .map(res => {
+          if (res.text() === '') { return this.taxDataObj; } else {
+            this.taxData.next(new RetailerTax(res.json()));
+            return new RetailerTax(res.json());
+          }
+        })
+        .catch(this.handleError);
+    }
+  }
+  saveTax(tax: RetailerTax): Observable<any> {
+    this.headers = this.getHttpHeraders();
+    const url = `${this.BASE_URL}/${environment.apis.retailerTax.save}`;
+    const requestOptions = { body: tax, method: RequestMethod.Post, headers: this.headers };
+    if (tax.taxNexusId) {
+      requestOptions.method = RequestMethod.Put;
+    }
+    return this.http.request(url, requestOptions)
+      .map(res => {
+        if (res.text() !== '') {
+          tax.taxNexusId = res.json();
+          this.taxData.next(tax);
+          return new RetailerReturnPolicy(tax);
         }
       }).catch(this.handleError);
   }

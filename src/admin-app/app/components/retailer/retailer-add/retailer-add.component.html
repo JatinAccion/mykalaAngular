@@ -29,6 +29,19 @@
                     </div>
                 </ng-template>
             </ngb-tab>
+            <ngb-tab id="tab-Tax">
+                <ng-template ngbTabTitle>Taxes
+                    <img src="/admin-app/assets/images/tick_icon.png" class="float-right mr-2" *ngIf="status.Tax" />
+                </ng-template>
+                <ng-template ngbTabContent>
+                    <div class="row backgroundWhite">
+                        <div class="col-sm-12 p-2">
+                            <app-retailer-add-tax [retailerId]="retailerId" (SaveData)="showNextTab($event)" (SetRetailerId)=setRetailerId($event) [(taxData)]="taxData"></app-retailer-add-tax>
+                        </div>
+                        <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
             <ngb-tab id="tab-Product">
                 <ng-template ngbTabTitle>Product info
                     <img src="/admin-app/assets/images/tick_icon.png" class="float-right mr-2" *ngIf="status.Product" />

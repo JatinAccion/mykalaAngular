@@ -19,6 +19,7 @@ import { SharedModule } from '../../../../common/shared.module';
 import { RetailerAddProfileComponent } from './retailer-add-profile/retailer-add-profile.component';
 import { RetailerAddPaymentComponent } from './retailer-add-payment/retailer-add-payment.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { RetailerAddTaxComponent } from './retailer-add-tax/retailer-add-tax.component';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     RetailerAddNotificationsComponent,
     RetailerAddProductsComponent,
     RetailerAddReturnsComponent,
+    RetailerAddTaxComponent
   ],
   providers: [RetialerService, ValidatorExt]
 })

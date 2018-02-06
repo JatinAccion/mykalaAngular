@@ -79,7 +79,7 @@ export class UserService {
       .map(res => res.text())
       .catch(this.handleError);
   }
-  private handleError(error: Response) {
+  private handleError(error: any) {
     // in a real world app, we may send the server to some remote logging infrastructure
     // instead of just logging it to the console
     console.error(error);

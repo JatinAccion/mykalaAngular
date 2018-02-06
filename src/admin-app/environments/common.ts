@@ -45,6 +45,11 @@ export const apiNames = {
         save: 'shippingReturns',
         delete: 'delete',
     },
+    retailerTax: {
+        get: '{retailerId}/taxNexus',
+        save: 'taxNexus',
+        delete: 'delete',
+    },
     retailerProduct: {
         get: '{retailerId}/productPreferences',
         save: 'productPreferences',

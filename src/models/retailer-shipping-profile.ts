@@ -1,20 +1,21 @@
 import { PostalAddress } from './retailer-business-adress';
 
 export class RetialerShippingProfile {
-    retailerId: number;
-    shipId: number;
+    retailerId: string;
+    shippingProfileId: string;
     sequence: number;
-    profileName: string;
+    shippingProfileName: string;
     deliveryOption: string;
     deliveryTiers: Array<ShippingDeliveryTier>;
-    shipOriginAddress: RetailerAddress;
-    shipLocations: ShippingLocations;
+    shippingOriginAddress: ShippingOriginAddress;
+    deliveryLocation: DeliveryLocation;
+
     step: number;
     status: boolean;
     constructor() {
         this.deliveryTiers = new Array<ShippingDeliveryTier>();
-        this.shipOriginAddress = new RetailerAddress();
-        this.shipLocations = new ShippingLocations();
+        this.shippingOriginAddress = new ShippingOriginAddress();
+        this.deliveryLocation = new DeliveryLocation();
         this.step = 1;
     }
 }
@@ -25,56 +26,21 @@ export class ShippingDeliveryTier {
     public minValue: number;
     public maxValue: number;
     public sequence: number;
-    public shippingMethod: RetailerShippingMethodFee[];
+    public deliveryMethods: RetailerDeliveryMethodFee[];
 
 }
-export class RetailerAddress extends PostalAddress { }
-export class ShippingLocations {
+export class ShippingOriginAddress extends PostalAddress { }
+export class DeliveryLocation {
     public countryName: string;
-    public locationInclude: ShippingSubLocation[];
+    public locations: Location[];
 }
-export class ShippingSubLocation {
+export class Location {
     public locationName: string;
     public locationType: string;
     public locationStatus: boolean;
     public locationFee: number;
 }
-export class RetailerShippingMethodFee {
-    public shipMethodId: number;
-    public shipMethodName: string;
+export class RetailerDeliveryMethodFee {
+    public deliveryMethodName: string;
     public deliveryFee: number;
 }
-// {
-//     "shipOriginAddress": {
-//         "addressLine1": "",
-//         "addrsesLine2": "",
-//         "city": "",
-//         "state": "",
-//         "zipcode": ""
-//     },
-
-//     "shipLocations": {
-//         "countryName": "",
-//         "locationInclude": [{
-//             "locationName": "",
-//             "locationType": "",
-//             "locationFee": ""
-//         }]
-//     }
-//     "shippingProfile": {
-//         "deliveryTier": [{
-//             "tierName": "",
-//             "minValue": "",
-//             "maxValue": "",
-//             "sequence": "",
-//             "shippingMethod": [{
-//                 "shipMethodName": "",
-//                 "deliveryFee": ""
-//             }]
-//         }],
-//         "deliveryOption": "flat rate",
-//         "sequence": 1,
-//         "retailerId": "1234"
-//         "profileName": "ship_profile_1",
-    // }
-// }

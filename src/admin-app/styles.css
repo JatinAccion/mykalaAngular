@@ -532,3 +532,25 @@ a{
   .pointer{
       cursor: pointer;
   }
+  ol { 
+    width:100%;
+    -webkit-columns: 2;
+    -moz-columns: 2;  
+}
+.ol-2{
+    columns: 2;
+}
+.ol-3{
+    columns: 3;
+}
+.ol-4{
+    columns: 4;
+}
+.ol-5{
+    columns: 5;
+}
+ol li{
+    list-style: none;
+    width: 100%;  
+    break-inside: avoid;
+}

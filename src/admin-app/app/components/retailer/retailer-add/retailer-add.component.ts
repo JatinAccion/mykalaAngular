@@ -11,7 +11,7 @@ import { RetailerProfileInfo } from '../../../../../models/retailer-profile-info
 import { RetailerPaymentInfo } from '../../../../../models/retailer-payment-info';
 import { RetialerShippingProfile } from '../../../../../models/retailer-shipping-profile';
 import { RetailerProductInfo } from '../../../../../models/retailer-product-info';
-import { RetailerReturnPolicy, RetailerNotification } from '../../../../../models/retailer';
+import { RetailerReturnPolicy, RetailerNotification, RetailerTax } from '../../../../../models/retailer';
 import { CoreService } from '../../../services/core.service';
 import { userMessages } from './messages';
 // #endregion imports
@@ -28,6 +28,7 @@ export class RetailerAddComponent implements OnInit {
   currentJustify = 'end';
   profileData = new RetailerProfileInfo();
   paymentData = new RetailerPaymentInfo();
+  taxData = new RetailerTax();
   productData = new RetailerProductInfo();
   shippingsData = new Array<RetialerShippingProfile>();
   returnData = new RetailerReturnPolicy();
@@ -39,6 +40,7 @@ export class RetailerAddComponent implements OnInit {
   status = {
     Profile: false,
     Payment: false,
+    Tax: false,
     Product: false,
     Shipping: false,
     Return: false,
@@ -63,7 +65,9 @@ export class RetailerAddComponent implements OnInit {
     );
     this.retialerService.paymentData.subscribe(p => this.status.Payment = p.retailerBankPaymentId ? true : false);
     this.retialerService.productData.subscribe(p => this.status.Product = p.status);
+    this.retialerService.taxData.subscribe(p => this.status.Tax = p.taxNexusId ? true : false);
     // this.retialerService.shippingsData.subscribe(p => this.status.Shipping = p[0].retailerId ? true : false);
+
     this.retialerService.returnData.subscribe(p => this.status.Return = p.shippingReturnId ? true : false);
     this.retialerService.notificationData.subscribe(p => this.status.Notifications = p.shippingNotificationsId ? true : false);
     this.setActiveTab({ nextId: 'tab-Profile' });
@@ -82,7 +86,8 @@ export class RetailerAddComponent implements OnInit {
     if (this.retailerId) {
       switch (prevTab) {
         case 'tab-Profile': this.ngbTabSet.select('tab-Payment'); break;
-        case 'tab-Payment': this.ngbTabSet.select('tab-Product'); break;
+        case 'tab-Payment': this.ngbTabSet.select('tab-Tax'); break;
+        case 'tab-Tax': this.ngbTabSet.select('tab-Product'); break;
         case 'tab-Product': this.ngbTabSet.select('tab-Shipping'); break;
         case 'tab-Shipping': this.status.Shipping = true;
           // this.ngbTabSet.select('tab-Return');
@@ -91,6 +96,7 @@ export class RetailerAddComponent implements OnInit {
         case 'tab-Notifications': switch (false) {
           case this.status.Profile: this.ngbTabSet.select('tab-Profile'); break;
           case this.status.Payment: this.ngbTabSet.select('tab-Payment'); break;
+          case this.status.Tax: this.ngbTabSet.select('tab-Tax'); break;
           case this.status.Product: this.ngbTabSet.select('tab-Product'); break;
           case this.status.Shipping: this.ngbTabSet.select('tab-Shipping'); break;
           case this.status.Return: this.ngbTabSet.select('tab-Return'); break;

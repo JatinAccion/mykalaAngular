@@ -143,14 +143,3 @@
 .usermanagement h5 a::first-letter{
      text-transform: uppercase;
 }
-ol { 
-    width:100%;
-    columns: 2;
-    -webkit-columns: 2;
-    -moz-columns: 2;  
-}
-ol li{
-    list-style: none;
-    width: 100%;  
-    break-inside: avoid;
-}

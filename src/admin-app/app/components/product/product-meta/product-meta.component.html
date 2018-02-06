@@ -65,7 +65,7 @@
         </table>
         <div class="row col-sm-6">
             <div class="col-sm-12 mt-3 ">
-                <select class="ddl_default form-control" [(ngModel)]="product.productCategoryName" formControlName="productNextLevel">
+                <select class="ddl_default form-control" [(ngModel)]="product.productCategoryName" formControlName="productCategoryName">
                     <option value=''>select</option>
                     <option value='0'>Furniture &amp; Patio (162)</option>
                     <option value='1'>Lighting (27)</option>
@@ -75,7 +75,7 @@
                     <option value='5'>Emergency &amp; Safety (11)</option>
                     <option value='6'>Pool &amp; Spa (15)</option>
                 </select>
-                <app-field-error-display [field]="fG1.controls.productNextLevel" [errorMsg]="errorMsgs"> </app-field-error-display>
+                <app-field-error-display [field]="fG1.controls.productCategoryName" [errorMsg]="errorMsgs"> </app-field-error-display>
             </div>
             <div class="col-sm-8 mt-3 ">
                 <input placeholder="enter value" class="form-control " type="text">
@@ -87,7 +87,7 @@
             <div class="text-right pb-3 col-sm-6">
                 <a class="btn btn-default" (click)="saveData()">Save</a>
             </div>
-            <table class="table ">
+            <!-- <table class="table ">
                 <thead>
                     <th>value</th>
                     <th>searchable</th>
@@ -206,7 +206,7 @@
                         </td>
                     </tr>
                 </tbody>
-            </table>
+            </table> -->
         </div>
     </div>
 </div>

@@ -8,10 +8,10 @@ import { RetailerBuinessAddress } from '../../../../../models/retailer-business-
 import {
   RetialerShippingProfile,
   ShippingDeliveryTier,
-  RetailerAddress,
-  ShippingLocations,
-  ShippingSubLocation,
-  RetailerShippingMethodFee
+  ShippingOriginAddress,
+  DeliveryLocation,
+  Location,
+  RetailerDeliveryMethodFee
 } from '../../../../../models/retailer-shipping-profile';
 import { IAlert } from '../../../../../models/IAlert';
 import { environment } from '../../../../environments/environment';
@@ -33,7 +33,7 @@ export class RetailerAddShippingComponent implements OnInit {
   currentJustify = 'start';
   currentTabIndex = 0;
   @Output() SaveData = new EventEmitter<any>();
-  @Input() retailerId: number;
+  @Input() retailerId: string;
   @Input() shippingsData: Array<RetialerShippingProfile>;
   @Output() shippingsDataChange = new EventEmitter<Array<RetialerShippingProfile>>();
 
@@ -47,7 +47,7 @@ export class RetailerAddShippingComponent implements OnInit {
   saveLoader = true;
   tiers = new Array<ShippingDeliveryTier>();
   modified = true;
-  shippingMethodCustomName = '';
+  deliveryMethodCustomName = '';
   // #endregion Shipping
 
   // #endregion declaration
@@ -67,13 +67,13 @@ export class RetailerAddShippingComponent implements OnInit {
 
   addShipping() {
     if (this.modified) {
-      // alert('Please save first');
       const shipping = new RetialerShippingProfile();
-      // shipping.shippingProfile.deliveryOption = 'freeshipping';
-      shipping.shipLocations.countryName = 'USA';
+      shipping.deliveryLocation.countryName = 'USA';
       this.shippings.push(shipping);
     } else {
-      this.shippings.push(new RetialerShippingProfile());
+      const shipping = new RetialerShippingProfile();
+      shipping.deliveryLocation.countryName = 'USA';
+      this.shippings.push(shipping);
     }
   }
   setActiveTab(event) {
@@ -82,9 +82,22 @@ export class RetailerAddShippingComponent implements OnInit {
     //   event.preventDefault();
     // } else {
     this.readShipping();
-    this.currentTabIndex = event.nextId.replace('tab-shipping', '');
+    this.currentTabIndex = parseInt(event.nextId.replace('tab-shipping', ''), 2);
     this.setShipping();
     // }
+  }
+  setShipping() {
+    this.shippingObj = this.shippings[this.currentTabIndex];
+    // this.shippingObj.step = 1;
+    this.setValidators();
+  }
+  shippingNextProfile() {
+    if (this.currentTabIndex + 1 === this.shippings.length) {
+      this.ngbTabSet.select('tab-shipping' + 0);
+    } else {
+      this.ngbTabSet.select('tab-shipping' + (this.currentTabIndex + 1));
+    }
+
   }
   deliveryOptionsChange() {
     switch (this.shippingFG1.controls.deliveryOptions.value) {
@@ -145,7 +158,7 @@ export class RetailerAddShippingComponent implements OnInit {
       this.shippingObj.deliveryTiers.forEach(ele => {
         (fg.get('charges') as FormArray).push(this.formBuilder.group({
           tierName: ele.tierName,
-          charge: [ele.shippingMethod && ele.shippingMethod[shippingMethodId] ? ele.shippingMethod[shippingMethodId].deliveryFee : 0.00
+          charge: [ele.deliveryMethods && ele.deliveryMethods[shippingMethodId] ? ele.deliveryMethods[shippingMethodId].deliveryFee : 0.00
             , [Validators.min(0), Validators.max(10000), Validators.required]],
         }));
       });
@@ -171,29 +184,29 @@ export class RetailerAddShippingComponent implements OnInit {
       deliveryTier.maxValue = 0;
       this.shippingObj.deliveryTiers.push(deliveryTier);
     }
-    if (!this.shippingObj.shipLocations.locationInclude || this.shippingObj.shipLocations.locationInclude.length === 0) {
-      this.shippingObj.shipLocations.locationInclude = new Array<ShippingSubLocation>();
-      const sublocation1 = new ShippingSubLocation();
+    if (!this.shippingObj.deliveryLocation.locations || this.shippingObj.deliveryLocation.locations.length === 0) {
+      this.shippingObj.deliveryLocation.locations = new Array<Location>();
+      const sublocation1 = new Location();
       sublocation1.locationName = 'Continental US';
       sublocation1.locationType = 'state';
       sublocation1.locationStatus = true;
       sublocation1.locationFee = 0;
-      this.shippingObj.shipLocations.locationInclude.push(sublocation1);
-      const sublocation2 = new ShippingSubLocation();
+      this.shippingObj.deliveryLocation.locations.push(sublocation1);
+      const sublocation2 = new Location();
       sublocation2.locationName = 'Alaska and Hawaii';
       sublocation2.locationType = 'state';
       sublocation2.locationStatus = true;
       sublocation2.locationFee = 0;
-      this.shippingObj.shipLocations.locationInclude.push(sublocation2);
-      const sublocation3 = new ShippingSubLocation();
+      this.shippingObj.deliveryLocation.locations.push(sublocation2);
+      const sublocation3 = new Location();
       sublocation3.locationName = 'US Protectorates';
       sublocation3.locationType = 'territory';
       sublocation3.locationStatus = true;
       sublocation3.locationFee = 0;
-      this.shippingObj.shipLocations.locationInclude.push(sublocation3);
+      this.shippingObj.deliveryLocation.locations.push(sublocation3);
     }
     this.shippingFG1 = this.formBuilder.group({
-      profileName: [this.shippingObj.profileName,
+      shippingProfileName: [this.shippingObj.shippingProfileName,
       [Validators.pattern(environment.regex.textRegex), Validators.maxLength(255), Validators.required]],
       deliveryOptions: [this.shippingObj.deliveryOption, [Validators.maxLength(255), Validators.required]],
       tiers: this.formBuilder.array([])
@@ -203,16 +216,16 @@ export class RetailerAddShippingComponent implements OnInit {
     });
     this.setValidatorsFG2();
     this.shippingFG3 = this.formBuilder.group({
-      addressLine1: [this.shippingObj.shipOriginAddress.addressLine1, [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
-      addressLine2: [this.shippingObj.shipOriginAddress.addressLine2, [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
-      city: [this.shippingObj.shipOriginAddress.city, [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
-      state: [this.shippingObj.shipOriginAddress.state, [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
-      zipcode: [this.shippingObj.shipOriginAddress.zipcode, [Validators.maxLength(5), Validators.minLength(5), Validators.pattern(environment.regex.numberValueRegex), Validators.required]],
-      countryName: [this.shippingObj.shipLocations.countryName, [Validators.required]],
-      locationInclude: this.formBuilder.array([])
+      addressLine1: [this.shippingObj.shippingOriginAddress.addressLine1, [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
+      addressLine2: [this.shippingObj.shippingOriginAddress.addressLine2, [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
+      city: [this.shippingObj.shippingOriginAddress.city, [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
+      state: [this.shippingObj.shippingOriginAddress.state, [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
+      zipcode: [this.shippingObj.shippingOriginAddress.zipcode, [Validators.maxLength(5), Validators.minLength(5), Validators.pattern(environment.regex.numberValueRegex), Validators.required]],
+      countryName: [this.shippingObj.deliveryLocation.countryName, [Validators.required]],
+      locations: this.formBuilder.array([])
     });
-    this.shippingObj.shipLocations.locationInclude.forEach(ele => {
-      (this.shippingFG3.controls.locationInclude as FormArray).push(this.createShippingLocation(ele.locationName, ele.locationType, ele.locationStatus, ele.locationFee));
+    this.shippingObj.deliveryLocation.locations.forEach(ele => {
+      (this.shippingFG3.controls.locations as FormArray).push(this.createShippingLocation(ele.locationName, ele.locationType, ele.locationStatus, ele.locationFee));
     });
     this.shippingFG1.controls.deliveryOptions.valueChanges.subscribe(() => {
       this.deliveryOptionsChange();
@@ -245,22 +258,26 @@ export class RetailerAddShippingComponent implements OnInit {
       if (this.shippingFG1.valid) { this.shippingObj.step++; }
     } else if (this.shippingObj.step === 2) {
       this.validatorExt.validateAllFormFields(this.shippingFG2);
-      if (this.shippingFG2.valid) { this.shippingObj.step++; }
+      if (this.validateShippingFG2()) { this.shippingObj.step++; } else { this.core.message.info('Atleast one shipping method need to be selected'); }
     }
-    if (this.shippingObj.step === 2) { this.setValidatorsFG2(); }
+    // if (this.shippingObj.step === 2) { this.setValidatorsFG2(); }
     if (this.shippingObj.step === 4) { this.shippingObj.step = 3; }
   }
   shippingBack() {
     this.shippingObj.step--;
     if (this.shippingObj.step === 0) { this.shippingObj.step = 1; }
   }
+  validateShippingFG2() {
+    return (this.shippingFG2.get('shippingMethods') as FormArray).controls.filter(p => p.get('selected').value == true).length > 0;
+  }
   saveShipping() {
     this.readShipping();
     this.validatorExt.validateAllFormFields(this.shippingFG1);
     this.validatorExt.validateAllFormFields(this.shippingFG2);
     this.validatorExt.validateAllFormFields(this.shippingFG3);
+
     if (!this.shippingFG1.valid) { this.shippingObj.step = 1; } else
-      if (!this.shippingFG2.valid) { this.shippingObj.step = 2; } else
+      if (!this.validateShippingFG2()) { this.shippingObj.step = 2; this.core.message.info('Atleast one shipping method need to be selected') } else
         if (!this.shippingFG3.valid) { this.shippingObj.step = 3; } else {
           this.readShipping();
           this.saveLoader = true;
@@ -284,25 +301,25 @@ export class RetailerAddShippingComponent implements OnInit {
   readShipping() {
     this.shippingObj.retailerId = this.retailerId;
     this.shippingObj.sequence = this.currentTabIndex;
-    this.shippingObj.profileName = this.shippingFG1.value.profileName;
+    this.shippingObj.shippingProfileName = this.shippingFG1.value.shippingProfileName;
     this.shippingObj.deliveryOption = this.shippingFG1.value.deliveryOptions;
-    this.shippingObj.shipOriginAddress = new RetailerAddress();
-    this.shippingObj.shipOriginAddress.addressLine1 = this.shippingFG3.value.addressLine1;
-    this.shippingObj.shipOriginAddress.addressLine2 = this.shippingFG3.value.addressLine2;
-    this.shippingObj.shipOriginAddress.city = this.shippingFG3.value.city;
-    this.shippingObj.shipOriginAddress.state = this.shippingFG3.value.state;
-    this.shippingObj.shipOriginAddress.zipcode = this.shippingFG3.value.zipcode;
+    this.shippingObj.shippingOriginAddress = new ShippingOriginAddress();
+    this.shippingObj.shippingOriginAddress.addressLine1 = this.shippingFG3.value.addressLine1;
+    this.shippingObj.shippingOriginAddress.addressLine2 = this.shippingFG3.value.addressLine2;
+    this.shippingObj.shippingOriginAddress.city = this.shippingFG3.value.city;
+    this.shippingObj.shippingOriginAddress.state = this.shippingFG3.value.state;
+    this.shippingObj.shippingOriginAddress.zipcode = this.shippingFG3.value.zipcode;
 
-    this.shippingObj.shipLocations = new ShippingLocations();
-    this.shippingObj.shipLocations.countryName = this.shippingFG3.value.countryName;
-    this.shippingObj.shipLocations.locationInclude = new Array<ShippingSubLocation>();
-    (this.shippingFG3.get('locationInclude') as FormArray).controls.forEach(ele => {
-      const locationInclude = new ShippingSubLocation();
-      locationInclude.locationName = ele.value.locationName;
-      locationInclude.locationType = ele.value.locationType;
-      locationInclude.locationStatus = ele.value.locationStatus;
-      locationInclude.locationFee = ele.value.locationFee;
-      this.shippingObj.shipLocations.locationInclude.push(locationInclude);
+    this.shippingObj.deliveryLocation = new DeliveryLocation();
+    this.shippingObj.deliveryLocation.countryName = this.shippingFG3.value.countryName;
+    this.shippingObj.deliveryLocation.locations = new Array<Location>();
+    (this.shippingFG3.get('locations') as FormArray).controls.forEach(ele => {
+      const locations = new Location();
+      locations.locationName = ele.value.locationName;
+      locations.locationType = ele.value.locationType;
+      locations.locationStatus = ele.value.locationStatus;
+      locations.locationFee = ele.value.locationFee;
+      this.shippingObj.deliveryLocation.locations.push(locations);
     });
     this.shippingObj.deliveryTiers = new Array<ShippingDeliveryTier>();
     let tierSequence = 0;
@@ -312,17 +329,16 @@ export class RetailerAddShippingComponent implements OnInit {
       deliveryTier.minValue = ele.value.min;
       deliveryTier.maxValue = ele.value.max;
       deliveryTier.sequence = tierSequence;
-      deliveryTier.shippingMethod = new Array<RetailerShippingMethodFee>();
+      deliveryTier.deliveryMethods = new Array<RetailerDeliveryMethodFee>();
       (this.shippingFG2.get('shippingMethods') as FormArray).controls.forEach(subElement => {
-        const fee = new RetailerShippingMethodFee();
-        fee.shipMethodId = subElement.value.shipppingMethodId;
-        fee.shipMethodName = subElement.value.shippingName;
+        const fee = new RetailerDeliveryMethodFee();
+        fee.deliveryMethodName = subElement.value.shippingName;
         if (subElement.value.shippingName === 'Custom') {
-          fee.shipMethodName = this.shippingMethodCustomName;
+          fee.deliveryMethodName = this.deliveryMethodCustomName;
         }
         fee.deliveryFee = (subElement.get('charges') as FormArray).length > tierSequence ?
           (subElement.get('charges') as FormArray).at(tierSequence).value.charge : 0;
-        deliveryTier.shippingMethod.push(fee);
+        deliveryTier.deliveryMethods.push(fee);
       });
       this.shippingObj.deliveryTiers.push(deliveryTier);
       tierSequence++;
@@ -331,11 +347,7 @@ export class RetailerAddShippingComponent implements OnInit {
     this.shippings[this.currentTabIndex] = this.shippingObj;
     return this.shippingObj;
   }
-  setShipping() {
-    this.shippingObj = this.shippings[this.currentTabIndex];
-    // this.shippingObj.step = 1;
-    this.setValidators();
-  }
+
   paymentOptionClick($event, ctrl) {
     // ctrl.patchValue(ctrl.value);
     const val = (this.shippingFG2.get('shippingMethods') as FormArray).controls[0].get('selected').value;

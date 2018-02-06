@@ -66,7 +66,7 @@ export class ProductService {
       const url = `${environment.AdminApi}/${environment.apis.retailers.getShippingProfileNames}`.replace('{retailerId}', retailerId.toString());
       return this.http
         .get(`${url}`, { headers: this.headers })
-        .map(res => <Array<any>>res.json().map(obj => new nameValue(obj.shipProfileId, obj.profileName)))
+        .map(res => <Array<any>>res.json().map(obj => new nameValue(obj.shipProfileId, obj.shippingProfileName)))
         .catch(this.handleError);
     }
   }
@@ -95,7 +95,7 @@ export class ProductService {
 
     return this.httpc.request(req).map(p => p);
   }
-  private handleError(error: Response) {
+  private handleError(error: any) {
     // in a real world app, we may send the server to some remote logging infrastructure
     // instead of just logging it to the console
     console.error(error);
