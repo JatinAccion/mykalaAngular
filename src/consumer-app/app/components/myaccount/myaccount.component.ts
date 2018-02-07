@@ -251,7 +251,8 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     else {
       let getText = document.getElementsByClassName("cursor");
       for (var i = 0; i < getText.length; i++) {
-        getText[i].innerHTML = "change";
+        // getText[i].innerHTML = "change";
+        getText[i].setAttribute("disabled","disabled");
         this.myAccountModel.profileInfo.consumerInterests = this.getAPICP.consumerInterests;
       }
       e.currentTarget.innerHTML = 'done';
@@ -340,8 +341,13 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  addNewAddress() {
+  addNewAddress(e) {
     this.addShippingAddress = !this.addShippingAddress;
+  }
+
+  saveNewAddress(e) {
+    this.myAccountModel.profileInfo.address.push(new MyAccountAddress('', this.append_addAddressLine1, this.append_addAddressLine2, this.append_addShippingCity, this.append_addShippingState, this.append_addShippingZipcode, 'shippingAddress'));
+    this.addShippingAddress = false;
   }
 
   emailValidator() {

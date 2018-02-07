@@ -2343,3 +2343,18 @@ ngb-modal-window{
 .appendedInput:last-child{
     margin-bottom: 0px;
 }
+.txtasbutton{
+    border: 0px #fff;
+    background: none;
+    height: 26px;
+    display: inline-block;
+    padding-left: 15px !important;
+    text-align: left;
+    outline: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 5px;
+}
+.txtasbutton[disabled] {
+    cursor: no-drop;
+}
