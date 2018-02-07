@@ -199,6 +199,8 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   callUpload(e) {
     this.uploadFile = document.getElementsByClassName('uploadImage');
     this.uploadFile[0].click(e);
+    let getText = document.getElementsByClassName("cursor");
+    for (var i = 0; i < getText.length; i++) getText[i].removeAttribute("disabled");
   };
 
   fileChangeEvent(fileInput: any) {
@@ -251,11 +253,11 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     else {
       let getText = document.getElementsByClassName("cursor");
       for (var i = 0; i < getText.length; i++) {
-        // getText[i].innerHTML = "change";
-        getText[i].setAttribute("disabled","disabled");
+        getText[i].setAttribute("disabled", "disabled");
         this.myAccountModel.profileInfo.consumerInterests = this.getAPICP.consumerInterests;
       }
       e.currentTarget.innerHTML = 'done';
+      e.currentTarget.removeAttribute("disabled");
       if (element == 'profileImage') {
         e.currentTarget.innerHTML = 'change';
         this.callUpload(e);
@@ -302,6 +304,8 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   removeInput(e, element, obj?: any) {
+    let getText = document.getElementsByClassName("cursor");
+    for (var i = 0; i < getText.length; i++) getText[i].removeAttribute("disabled");
     e.currentTarget.innerHTML = 'change';
     if (element == 'email') {
       this.input_Email = false;
