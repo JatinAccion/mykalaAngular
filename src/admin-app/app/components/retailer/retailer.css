@@ -111,6 +111,6 @@
     width: 100px;
     display: inline;
 }
-.taxlist li{
-    margin: 5px; 
+.taxlist div{
+    border-radius: 0px !important;
 }

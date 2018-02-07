@@ -1,6 +1,6 @@
 {
     "customerId": "5a74545fb6cbe94b08a663e0",
-    "userId": "5a745400b6cbe9331cfe473e",
+    "userId": "5a70578b1035190527a70d5e",
     "firstName": "Jatin",
     "lastName": "Sharma",
     "address": [
@@ -12,6 +12,24 @@
             "state": "NY",
             "zipcode": "12345",
             "addressType": "profileAddress"
+        },
+        {
+            "addID": null,
+            "addressLineOne": "JP Nagar",
+            "addressLineTwo": "Banergatta Road",
+            "city": "Bangalore",
+            "state": "KA",
+            "zipcode": "56003",
+            "addressType": "shippingAddress"
+        },
+        {
+            "addID": null,
+            "addressLineOne": "KR Puram",
+            "addressLineTwo": "Old Madras Road",
+            "city": "Bangalore",
+            "state": "KA",
+            "zipcode": "56004",
+            "addressType": "shippingAddress"
         }
     ],
     "consumerImagePath": "mykala/consumer_interest/diy.jpg",

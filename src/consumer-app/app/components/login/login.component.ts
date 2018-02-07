@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit, CuiComponent {
   loginKala: FormGroup;
   loader: boolean = false;
   loginError: boolean;
+  userInactive: boolean = false;
   loginUserMessage = userMessages;
   loginInputValMsg = inputValidation;
   getCredentials = window.localStorage['rememberMe'];
@@ -75,6 +76,7 @@ export class LoginComponent implements OnInit, CuiComponent {
 
   onSubmit() {
     this.loginError = false;
+    this.userInactive = false;
     this.loader = true;
     this.userCredential = new User(this.loginKala.controls.email.value, this.loginKala.controls.email.value, this.loginKala.controls.password.value)
     this.credentialModal.email = this.loginKala.controls.email.value;
@@ -86,10 +88,16 @@ export class LoginComponent implements OnInit, CuiComponent {
       this.localStorageService.setItem('token', resJson.access_token, resJson.expires_in);
       this.auth.getUserInfo(resJson.access_token).subscribe(res => {
         this.loader = false;
-        this.core.hideUserInfo(false);
-        window.localStorage['userInfo'] = JSON.stringify(res);
-        this.core.setUser(res);
-        this.router.navigateByUrl('/home');
+        if (res.userCreateStatus == false) {
+          localStorage.removeItem("token");
+          this.userInactive = true;
+        }
+        else {
+          this.core.hideUserInfo(false);
+          window.localStorage['userInfo'] = JSON.stringify(res);
+          this.core.setUser(res);
+          this.router.navigateByUrl('/home');
+        }
       }, err => {
         console.log(err);
       })

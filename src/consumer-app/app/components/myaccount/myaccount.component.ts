@@ -1,9 +1,13 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef, AfterViewInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { MyAccountGetModel, MyAccountConsumerInterest, MyaccountProfileInfo, MyAccountUserData, MyAccountAddress } from '../../../../models/myAccountGet';
 import { CoreService } from '../../services/core.service';
 import { MyAccountService } from '../../services/myAccount.service';
 import { environment } from '../../../environments/environment';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { GetCustomerCards } from '../../../../models/getCards';
+import { StripeAddCardModel } from '../../../../models/StripeAddCard';
+import { StripeCheckoutModal } from '../../../../models/StripeCheckout';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-myaccount',
@@ -11,17 +15,34 @@ import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./myaccount.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class MyaccountComponent implements OnInit {
+export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
+  addCard: boolean = false;
+  savedCardDetails: any;
+  card: any;
+  error: string;
+  cardHandler = this.onChange.bind(this);
+  @ViewChild('cardInfo') cardInfo: ElementRef;
+  getAPICP: any;
+  stripeAddCard = new StripeAddCardModel();
+  stripeCheckout = new StripeCheckoutModal();
+  getCardsDetails: any;
+  uploadFile: any;
   loader: boolean = false;
   myAccountModel = new MyAccountGetModel();
   imgS3: string;
   input_Email: boolean = false;
   append_Email: string;
+  emptyEmailAddress: boolean = false;
+  invalidEmailAddress: boolean = false;
+  emailRegex = new RegExp('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+[\.]+[a-zA-Z0-9]{2,4}$');
   @ViewChild('emailElement') emailElement: ElementRef
   input_Password: boolean = false;
   append_Password: string;
   append_NewPassword: string;
   append_ConfirmPassword: string;
+  emptyOldPassword: boolean = false;
+  emptyNewPassword: boolean = false;
+  emptyConfirmPassword: boolean = false;
   invalidPassword: boolean = false;
   oldNewPassword: boolean = false;
   newConfirmPassword: boolean = false;
@@ -39,13 +60,59 @@ export class MyaccountComponent implements OnInit {
   model: NgbDateStruct;
   today = new Date();
   @ViewChild('dobElement') dobElement: ElementRef
+  getInterest = [];
+  selectImg: boolean;
+  input_shippingAddress: boolean = false;
+  append_editAddressLine1: string;
+  append_editAddressLine2: string;
+  append_editShippingCity: string;
+  append_editShippingState: string;
+  append_editShippingZipcode: string;
+  append_addAddressLine1: string;
+  append_addAddressLine2: string;
+  append_addShippingCity: string;
+  append_addShippingState: string;
+  append_addShippingZipcode: string;
+  addShippingAddress: boolean = false;
 
   constructor(
     private core: CoreService,
-    private myAccount: MyAccountService
+    private myAccount: MyAccountService,
+    private cd: ChangeDetectorRef
   ) {
     this.minDate = { year: 1940, month: 1, day: 1 };
     this.maxDate = { year: this.today.getFullYear(), month: this.today.getMonth() + 1, day: this.today.getDate() };
+  }
+
+  onChange({ error }) {
+    if (error) {
+      this.error = error.message;
+    } else {
+      this.error = null;
+    }
+    this.cd.detectChanges();
+  }
+
+  ngAfterViewInit() {
+    const style = {
+      base: {
+        lineHeight: '24px',
+        fontFamily: 'monospace',
+        fontSmoothing: 'antialiased',
+        fontSize: '19px',
+        '::placeholder': {
+          //color: 'purple'
+        }
+      }
+    };
+    this.card = elements.create('card', { style });
+    this.card.mount(this.cardInfo.nativeElement);
+    this.card.addEventListener('change', this.cardHandler);
+  }
+
+  ngOnDestroy() {
+    this.card.removeEventListener('change', this.cardHandler);
+    this.card.destroy();
   }
 
   ngOnInit() {
@@ -53,7 +120,12 @@ export class MyaccountComponent implements OnInit {
     this.core.hide();
     this.core.searchMsgToggle();
     this.imgS3 = environment.s3;
+    this.getConsumerProfile();
+  }
+
+  getConsumerProfile() {
     this.myAccount.getUserDetails().subscribe((res) => {
+      this.getAPICP = res;
       this.myAccountModel.profileInfo = new MyaccountProfileInfo();
       this.myAccountModel.userData = new MyAccountUserData();
       this.myAccountModel.profileInfo.consumerInterests = new Array<MyAccountConsumerInterest>();
@@ -70,7 +142,49 @@ export class MyaccountComponent implements OnInit {
       this.myAccountModel.profileInfo.lastName = res.lastName;
       this.myAccountModel.profileInfo.gender = res.gender;
       this.myAccountModel.userId = res.userId;
-    })
+      this.getCard();
+    });
+  }
+
+  getCard() {
+    this.myAccount.getCards(this.myAccountModel.userId).subscribe((res) => {
+      this.getCardsDetails = [];
+      for (var i = 0; i < res.length; i++) {
+        this.getCardsDetails.push(new GetCustomerCards(res[i].userId, res[i].customerId, res[i].last4Digits, res[i].cardType, res[i].cardHoldersName))
+      }
+    });
+  }
+
+  addNewCard() {
+    this.addCard = !this.addCard;
+  }
+
+  async onSubmit(form: NgForm) {
+    const { token, error } = await stripe.createToken(this.card);
+    if (error) this.loader = false;
+    else {
+      this.stripeAddCard.customer.email = this.myAccountModel.userData.emailId;
+      this.stripeAddCard.customer.source = token.id;
+      this.stripeAddCard.userId = this.myAccountModel.userId;
+      this.myAccount.addCard(this.stripeAddCard).subscribe((res) => {
+        this.savedCardDetails = res;
+        this.getCard();
+      });
+    }
+  }
+
+  selectInterest(e, obj) {
+    obj.selectImg = !obj.selectImg;
+    this.getInterest.push(new MyAccountConsumerInterest(e.currentTarget.id, e.currentTarget.title, e.currentTarget.src));
+    this.getInterest = this.getInterest.filter((elem, index, self) => self.findIndex((img) => {
+      return (img.id === elem.id && img.consumerInterestImageName === elem.consumerInterestImageName)
+    }) === index);
+
+    if (obj.selectImg == false) {
+      for (var i = 0; i < this.getInterest.length; i++) {
+        if (this.getInterest[i].id == obj.id) this.getInterest.splice(i, 1)
+      }
+    }
   }
 
   selectSelected(e) {
@@ -79,8 +193,31 @@ export class MyaccountComponent implements OnInit {
       month: parseFloat(this.myAccountModel.profileInfo.birthMonth),
       day: parseFloat(this.myAccountModel.profileInfo.birthDate)
     };
-    if (e.currentTarget.innerText == 'Done') this.append_dob = this.model;
+    if (e.currentTarget.innerHTML == 'done') this.append_dob = this.model;
   }
+
+  callUpload(e) {
+    this.uploadFile = document.getElementsByClassName('uploadImage');
+    this.uploadFile[0].click(e);
+    let getText = document.getElementsByClassName("cursor");
+    for (var i = 0; i < getText.length; i++) getText[i].removeAttribute("disabled");
+  };
+
+  fileChangeEvent(fileInput: any) {
+    if (fileInput.target.files && fileInput.target.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function (e: any) {
+        window.localStorage['imagesPath'] = e.target.result;
+      }
+
+      reader.readAsDataURL(fileInput.target.files[0]);
+      setTimeout(() => {
+        this.myAccountModel.profileInfo.consumerImagePath = window.localStorage['imagesPath'];
+        localStorage.removeItem('imagesPath');
+      }, 500);
+    }
+  };
 
   _keuyp(e) {
     this.input_getLocation = false;
@@ -107,21 +244,31 @@ export class MyaccountComponent implements OnInit {
     }
   };
 
-  appendInput(e, element) {
-    this.hideAllInputs();
-    if (e.currentTarget.innerText == 'Done') {
-      this.removeInput(e, element);
+  appendInput(e, element, obj?: any) {
+    this.hideAllInputs(obj);
+    if (e.currentTarget.innerHTML == 'done') {
+      this.removeInput(e, element, obj);
       return false;
     }
     else {
-      e.currentTarget.innerText = 'Done';
-      if (element == 'email') {
+      let getText = document.getElementsByClassName("cursor");
+      for (var i = 0; i < getText.length; i++) {
+        getText[i].setAttribute("disabled", "disabled");
+        this.myAccountModel.profileInfo.consumerInterests = this.getAPICP.consumerInterests;
+      }
+      e.currentTarget.innerHTML = 'done';
+      e.currentTarget.removeAttribute("disabled");
+      if (element == 'profileImage') {
+        e.currentTarget.innerHTML = 'change';
+        this.callUpload(e);
+      }
+      else if (element == 'email') {
         this.input_Email = true;
         this.append_Email = this.emailElement.nativeElement.innerText;
       }
       else if (element == 'password') {
         this.input_Password = true;
-        this.append_Password = this.passwordElement.nativeElement.innerText;
+        this.append_Password = this.myAccountModel.userData.password;
       }
       else if (element == 'location') {
         this.input_Location = true;
@@ -131,11 +278,35 @@ export class MyaccountComponent implements OnInit {
         this.input_dob = true;
         this.append_dob = this.dobElement.nativeElement.innerText;
       }
+      else if (element == 'interest') {
+        this.myAccount.getInterest().subscribe(res => {
+          this.getInterest = this.myAccountModel.profileInfo.consumerInterests;
+          this.myAccountModel.profileInfo.consumerInterests = res;
+          for (var i = 0; i < this.getInterest.length; i++) {
+            let id = this.getInterest[i].id;
+            for (var j = 0; j < this.myAccountModel.profileInfo.consumerInterests.length; j++) {
+              if (id == this.myAccountModel.profileInfo.consumerInterests[j].id) {
+                this.myAccountModel.profileInfo.consumerInterests[j].selectImg = true;
+              }
+            }
+          }
+        });
+      }
+      else if (element == 'shippingAddress') {
+        obj.input_shippingAddress = true;
+        obj.append_editAddressLine1 = obj.addressLineOne;
+        obj.append_editAddressLine2 = obj.addressLineTwo;
+        obj.append_editShippingCity = obj.city;
+        obj.append_editShippingState = obj.state;
+        obj.append_editShippingZipcode = obj.zipcode;
+      }
     }
   }
 
-  removeInput(e, element) {
-    e.currentTarget.innerText = 'change';
+  removeInput(e, element, obj?: any) {
+    let getText = document.getElementsByClassName("cursor");
+    for (var i = 0; i < getText.length; i++) getText[i].removeAttribute("disabled");
+    e.currentTarget.innerHTML = 'change';
     if (element == 'email') {
       this.input_Email = false;
       this.myAccountModel.userData.emailId = this.append_Email;
@@ -144,7 +315,7 @@ export class MyaccountComponent implements OnInit {
     else if (element == 'password') {
       this.input_Password = false;
       this.myAccountModel.userData.password = this.append_Password;
-      setTimeout(() => this.passwordElement.nativeElement.innerText = this.append_Password, 100);
+      setTimeout(() => this.passwordElement.nativeElement.innerText = '......', 50);
     }
     else if (element == 'location') this.input_Location = false;
     else if (element == 'dob') {
@@ -154,38 +325,60 @@ export class MyaccountComponent implements OnInit {
       this.myAccountModel.profileInfo.birthYear = this.append_dob.year.toString();
       return false;
     }
+    else if (element == 'interest') {
+      if (this.getInterest.length > 0) {
+        this.myAccountModel.profileInfo.consumerInterests = this.getInterest;
+        this.getAPICP.consumerInterests = this.myAccountModel.profileInfo.consumerInterests
+        this.getInterest = [];
+      }
+      else {
+        this.myAccountModel.profileInfo.consumerInterests = this.getAPICP.consumerInterests;
+      }
+    }
+    else if (element == 'shippingAddress') {
+      obj.input_shippingAddress = false;
+      obj.addressLineOne = obj.append_editAddressLine1;
+      obj.addressLineTwo = obj.append_editAddressLine2;
+      obj.city = obj.append_editShippingCity;
+      obj.state = obj.append_editShippingState;
+      obj.zipcode = obj.append_editShippingZipcode;
+    }
+  }
+
+  addNewAddress(e) {
+    this.addShippingAddress = !this.addShippingAddress;
+  }
+
+  saveNewAddress(e) {
+    this.myAccountModel.profileInfo.address.push(new MyAccountAddress('', this.append_addAddressLine1, this.append_addAddressLine2, this.append_addShippingCity, this.append_addShippingState, this.append_addShippingZipcode, 'shippingAddress'));
+    this.addShippingAddress = false;
+  }
+
+  emailValidator() {
+    this.emptyEmailAddress = false;
+    this.invalidEmailAddress = false;
+    if (!this.append_Email) this.emptyEmailAddress = true;
+    else if (this.emailRegex.test(this.append_Email) == false) this.invalidEmailAddress = true;
   }
 
   passwordValidator() {
-    this.hideAllInputs();
-    if (this.passwordRegex.test(this.append_Password) == false) {
-      this.invalidPassword = true;
-      return false;
-    }
-    else if (this.passwordRegex.test(this.append_NewPassword) == false) {
-      this.invalidPassword = true;
-      return false;
-    }
-    else if (this.passwordRegex.test(this.append_ConfirmPassword) == false) {
-      this.invalidPassword = true;
-      return false;
-    }
-    else if (this.append_Password == this.append_NewPassword) {
-      this.oldNewPassword = true;
-      return false;
-    }
-    else if (this.append_NewPassword != this.append_ConfirmPassword) {
-      this.newConfirmPassword = true;
-      return false;
-    }
-    else {
-      this.invalidPassword = false;
-      this.oldNewPassword = false;
-      this.newConfirmPassword = false;
-    }
+    this.emptyOldPassword = false;
+    this.emptyNewPassword = false;
+    this.emptyConfirmPassword = false;
+    this.invalidPassword = false;
+    this.oldNewPassword = false;
+    this.newConfirmPassword = false;
+    if (!this.append_Password) this.emptyOldPassword = true;
+    else if (this.passwordRegex.test(this.append_Password) == false) this.invalidPassword = true;
+    else if (!this.append_NewPassword) this.emptyNewPassword = true;
+    else if (this.passwordRegex.test(this.append_NewPassword) == false) this.invalidPassword = true;
+    else if (!this.append_ConfirmPassword) this.emptyConfirmPassword = true;
+    else if (this.passwordRegex.test(this.append_ConfirmPassword) == false) this.invalidPassword = true;
+    else if (this.append_Password == this.append_NewPassword) this.oldNewPassword = true;
+    else if (this.append_NewPassword != this.append_ConfirmPassword) this.newConfirmPassword = true;
   }
 
-  hideAllInputs() {
+  hideAllInputs(obj?: any) {
     this.input_Email = false;
     this.input_Password = false;
     this.input_Location = false;
@@ -194,6 +387,11 @@ export class MyaccountComponent implements OnInit {
     this.oldNewPassword = false;
     this.newConfirmPassword = false;
     this.invalidPassword = false;
+    this.emptyOldPassword = false;
+    this.emptyNewPassword = false;
+    this.emptyConfirmPassword = false;
+    this.selectImg = false;
+    if (obj != undefined) obj.input_shippingAddress = false;
   }
 
 }

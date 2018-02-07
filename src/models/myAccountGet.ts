@@ -25,7 +25,8 @@ export class MyAccountConsumerInterest {
     constructor(
         public id: string,
         public consumerInterestImageName: string,
-        public consumerInterestImagePath: string
+        public consumerInterestImagePath: string,
+        public selectImg?: boolean
     ) { }
 }
 
