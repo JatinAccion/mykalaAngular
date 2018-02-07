@@ -18,7 +18,8 @@ export const apiNames = {
         sellerTypes: 'sellerTypes',
         getShippingProfileNames: '{retailerId}/shippingProfileName',
         changeStatus: 'changeStatus',
-        getRetailerNames: 'sellerName'
+        getRetailerNames: 'sellerName',
+        getStates: 'states/name'
     },
     retailerProfileInfo: {
         get: '{retailerId}',

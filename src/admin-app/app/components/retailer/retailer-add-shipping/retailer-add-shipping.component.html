@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-sm-12">
         <ngb-tabset #tabs="ngbTabset" [orientation]="currentOrientation" class="tabShipping" [justify]="currentJustify" (tabChange)="setActiveTab($event)">
-            <ngb-tab id="tab-shipping{{idx}}" *ngFor="let shipping of shippings; let idx = index;">
+            <ngb-tab id="tab-shipping{{idx}}" *ngFor="let shipping of shippings.shippings; let idx = index;">
                 <ng-template ngbTabTitle>{{ idx + 1 }}
                     <img src="/admin-app/assets/images/tick_icon.png" class="float-right mr-2" *ngIf="shipping.status" />
                 </ng-template>

@@ -11,6 +11,7 @@ import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 import { RetialerService } from '../retialer.service';
 import { inputValidations } from './messages';
 import { CoreService } from '../../../services/core.service';
+import { MasterData, KeyValue } from '../../../../../models/masterData';
 
 
 @Component({
@@ -31,6 +32,8 @@ export class RetailerAddTaxComponent implements OnInit {
   Obj: RetailerTax;
   errorMsgs = inputValidations;
   saveLoader = true;
+  states: MasterData;
+  statesSelected = new Array<KeyValue<string, boolean>>();
 
   // #endregion declaration
   constructor(
@@ -42,13 +45,19 @@ export class RetailerAddTaxComponent implements OnInit {
     this.Obj = new RetailerTax();
   }
   ngOnInit() {
+    this.getStates();
     this.Obj = new RetailerTax();
     this.setFormValidators();
     if (this.retailerId) {
-      // this.getData(this.retailerId);
+      this.getData(this.retailerId);
     }
   }
-
+  getStates() {
+    this.retialerService.getStates().subscribe(p => {
+      this.states = p;
+      this.processStates();
+    });
+  }
   setFormValidators() {
 
   }
@@ -76,7 +85,7 @@ export class RetailerAddTaxComponent implements OnInit {
   readForm() {
     this.Obj = this.Obj || new RetailerTax();
     this.Obj.retailerId = this.retailerId;
-    // this.Obj.returnPolicy = this.fG1.controls.returnPolicy.value;
+    this.Obj.states = this.statesSelected.filter(p => p.value).map(p => p.key);
     return this.Obj;
   }
 
@@ -87,7 +96,20 @@ export class RetailerAddTaxComponent implements OnInit {
         this.taxData = res;
         this.setFormValidators();
         this.Obj = new RetailerTax(res);
+        this.processStates();
       });
+  }
+  processStates(): any {
+    this.statesSelected = new Array<KeyValue<string, boolean>>();
+    if (this.states && this.states.values.length > 0) {
+      if (this.Obj.taxNexusId && this.Obj.states.length > 0) {
+        this.statesSelected = this.states.values.map(p => new KeyValue(p, this.Obj.states.indexOf(p) > -1));
+      } else {
+        this.statesSelected = this.states.values.map(p => new KeyValue(p, false));
+      }
+
+
+    }
   }
 
 }

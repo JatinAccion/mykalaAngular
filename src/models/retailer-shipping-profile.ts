@@ -1,5 +1,18 @@
 import { PostalAddress } from './retailer-business-adress';
 
+export class RetialerShippingProfiles {
+    public shippings: Array<RetialerShippingProfile>;
+    retailerId: string;
+    constructor(obj?: any) {
+        this.shippings = new Array<RetialerShippingProfile>();
+        if (obj && obj.length > 0) {
+            this.retailerId = obj[0].retailerId;
+            this.shippings = obj.map(p => new RetialerShippingProfile(p));
+        }
+    }
+
+}
+
 export class RetialerShippingProfile {
     retailerId: string;
     shippingProfileId: string;
@@ -12,11 +25,21 @@ export class RetialerShippingProfile {
 
     step: number;
     status: boolean;
-    constructor() {
+    constructor(obj?: any) {
         this.deliveryTiers = new Array<ShippingDeliveryTier>();
         this.shippingOriginAddress = new ShippingOriginAddress();
         this.deliveryLocation = new DeliveryLocation();
         this.step = 1;
+        if (obj) {
+            this.retailerId = obj.retailerId;
+            this.shippingProfileId = obj.shippingProfileId;
+            this.sequence = obj.sequence;
+            this.shippingProfileName = obj.shippingProfileName;
+            this.deliveryOption = obj.deliveryOption;
+            this.deliveryTiers = obj.deliveryTiers;
+            this.shippingOriginAddress = obj.shippingOriginAddress;
+            this.deliveryLocation = obj.deliveryLocation;
+        }
     }
 }
 

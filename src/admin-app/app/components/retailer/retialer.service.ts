@@ -14,9 +14,10 @@ import 'rxjs/add/operator/catch';
 import { Retailers, RetailerReports, RetailerNotification, RetailerReturnPolicy, SellerType, RetailerTax } from '../../../../models/retailer';
 import { RetailerProfileInfo } from '../../../../models/retailer-profile-info';
 import { RetailerPaymentInfo } from '../../../../models/retailer-payment-info';
-import { RetialerShippingProfile } from '../../../../models/retailer-shipping-profile';
+import { RetialerShippingProfile, RetialerShippingProfiles } from '../../../../models/retailer-shipping-profile';
 import { RetailerProductInfo } from '../../../../models/retailer-product-info';
 import { Subject } from 'rxjs/Subject';
+import { MasterData } from '../../../../models/masterData';
 
 @Injectable()
 export class RetialerService {
@@ -26,7 +27,7 @@ export class RetialerService {
   profileDataObj = new RetailerProfileInfo();
   paymentDataObj = new RetailerPaymentInfo();
   productDataObj = new RetailerProductInfo();
-  shippingsDataObj = new Array<RetialerShippingProfile>();
+  shippingsDataObj = new RetialerShippingProfiles();
   returnDataObj = new RetailerReturnPolicy();
   taxDataObj = new RetailerTax();
   notificationDataObj = new RetailerNotification();
@@ -34,13 +35,13 @@ export class RetialerService {
   profileData = new Subject<RetailerProfileInfo>();
   paymentData = new Subject<RetailerPaymentInfo>();
   productData = new Subject<RetailerProductInfo>();
-  shippingsData = new Subject<Array<RetialerShippingProfile>>();
+  shippingsData = new Subject<RetialerShippingProfiles>();
   returnData = new Subject<RetailerReturnPolicy>();
   taxData = new Subject<RetailerTax>();
   notificationData = new Subject<RetailerNotification>();
 
 
-
+  states: MasterData;
   paymentMethods = new Array<nameValue>();
   paymentVehicles = new Array<nameValue>();
 
@@ -48,7 +49,7 @@ export class RetialerService {
     this.profileData.next(new RetailerProfileInfo());
     this.paymentData.next(new RetailerPaymentInfo());
     this.productData.next(new RetailerProductInfo());
-    this.shippingsData.next(new Array<RetialerShippingProfile>());
+    this.shippingsData.next(new RetialerShippingProfiles());
     this.returnData.next(new RetailerReturnPolicy());
     this.taxData.next(new RetailerTax());
     this.notificationData.next(new RetailerNotification());
@@ -204,20 +205,44 @@ export class RetialerService {
         .catch(this.handleError);
     }
   }
-  shippingProfileGet(retailerId: string): Observable<RetialerShippingProfile> {
-    const url = `${this.BASE_URL}/${environment.apis.retailerProfileInfo.get}`.replace('{retailerId}', retailerId.toString());
-    return this.http
-      .get(`${url}`, { headers: this.headers })
-      .map(res => res.json())
-      .catch(this.handleError);
+  shippingProfileGet(retailerId: string): Observable<RetialerShippingProfiles> {
+    if (this.shippingsDataObj && this.shippingsDataObj.retailerId === retailerId) {
+      return Observable.of(this.shippingsDataObj);
+    } else {
+      const url = `${this.BASE_URL}/${environment.apis.retailerShippingInfo.get}`.replace('{retailerId}', retailerId.toString());
+      return this.http
+        .get(`${url}`, { headers: this.headers })
+        .map(res => {
+          if (res.text() === '') {
+            return this.shippingsDataObj;
+          } else {
+            this.shippingsData.next(new RetialerShippingProfiles(res.json()));
+            return new RetialerShippingProfiles(res.json());
+          }
+        })
+        .catch(this.handleError);
+    }
   }
-  saveShipping(shippingProfile: RetialerShippingProfile): Promise<any> {
+  saveShipping(shippingProfile: RetialerShippingProfile): Observable<RetialerShippingProfile> {
     this.headers = this.getHttpHeraders();
     const url = `${this.BASE_URL}/${environment.apis.retailerShippingInfo.save}`;
-    return this.http
-      .post(url, shippingProfile, { headers: this.headers })
-      .toPromise()
-      .catch(this.handleError);
+    const requestOptions = { body: shippingProfile, method: RequestMethod.Post, headers: this.headers };
+    if (shippingProfile.shippingProfileId) {
+      requestOptions.method = RequestMethod.Put;
+    }
+    return this.http.request(url, requestOptions)
+      .map(res => {
+        if (res.text() !== '') {
+          if (shippingProfile.shippingProfileId) {
+            shippingProfile.shippingProfileId = res.json();
+            this.shippingsDataObj.shippings.push(shippingProfile);
+          } else {
+            this.shippingsDataObj.shippings.filter(p => p.shippingProfileId === shippingProfile.shippingProfileId)[0] = shippingProfile;
+            this.shippingsData.next(this.shippingsDataObj);
+          }
+          return new RetialerShippingProfile(shippingProfile);
+        }
+      }).catch(this.handleError);
   }
   notificationGet(retailerId: string): Observable<RetailerNotification> {
     if (this.notificationDataObj && this.notificationDataObj.retailerId === retailerId) {
@@ -287,7 +312,6 @@ export class RetialerService {
       }).catch(this.handleError);
   }
   taxGet(retailerId: string): Observable<RetailerTax> {
-
     if (this.taxDataObj && this.taxDataObj.retailerId === retailerId) {
       return Observable.of(this.taxDataObj);
     } else {
@@ -355,6 +379,22 @@ export class RetialerService {
       .map(res => res.text())
       .catch(this.handleError);
   }
+
+  getStates(): Observable<MasterData> {
+    if (this.states != null) {
+      return Observable.of(this.states);
+    } else {
+      const url = `${this.BASE_URL}/${environment.apis.retailers.getStates}`;
+      return this.http
+        .get(url)
+        .map(res => {
+          this.states = new MasterData(res.json());
+          return this.states;
+        })
+        .catch(this.handleError);
+    }
+  }
+
   private handleError(error: any) {
     // in a real world app, we may send the server to some remote logging infrastructure
     // instead of just logging it to the console

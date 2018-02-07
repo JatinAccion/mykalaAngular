@@ -9,7 +9,7 @@ import { environment } from '../../../../environments/environment';
 import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 import { RetailerProfileInfo } from '../../../../../models/retailer-profile-info';
 import { RetailerPaymentInfo } from '../../../../../models/retailer-payment-info';
-import { RetialerShippingProfile } from '../../../../../models/retailer-shipping-profile';
+import { RetialerShippingProfile, RetialerShippingProfiles } from '../../../../../models/retailer-shipping-profile';
 import { RetailerProductInfo } from '../../../../../models/retailer-product-info';
 import { RetailerReturnPolicy, RetailerNotification, RetailerTax } from '../../../../../models/retailer';
 import { CoreService } from '../../../services/core.service';
@@ -30,7 +30,7 @@ export class RetailerAddComponent implements OnInit {
   paymentData = new RetailerPaymentInfo();
   taxData = new RetailerTax();
   productData = new RetailerProductInfo();
-  shippingsData = new Array<RetialerShippingProfile>();
+  shippingsData = new RetialerShippingProfiles();
   returnData = new RetailerReturnPolicy();
   notificationData = new RetailerNotification();
   retailerId = '1';
@@ -66,7 +66,7 @@ export class RetailerAddComponent implements OnInit {
     this.retialerService.paymentData.subscribe(p => this.status.Payment = p.retailerBankPaymentId ? true : false);
     this.retialerService.productData.subscribe(p => this.status.Product = p.status);
     this.retialerService.taxData.subscribe(p => this.status.Tax = p.taxNexusId ? true : false);
-    // this.retialerService.shippingsData.subscribe(p => this.status.Shipping = p[0].retailerId ? true : false);
+    this.retialerService.shippingsData.subscribe(p => this.status.Shipping = p.retailerId ? true : false);
 
     this.retialerService.returnData.subscribe(p => this.status.Return = p.shippingReturnId ? true : false);
     this.retialerService.notificationData.subscribe(p => this.status.Notifications = p.shippingNotificationsId ? true : false);
