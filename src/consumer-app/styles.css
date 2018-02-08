@@ -1339,6 +1339,11 @@ h4.subtitle{
     top: 13px;
     right: 14px;
 }
+.absoluteImg_myAc{
+    width: 20px;
+    top: 7px;
+    right: 72px;
+}
 .errorMessages,
 .successMessage{
     font-size: 14px;
@@ -1738,8 +1743,13 @@ input::-webkit-inner-spin-button {
      margin-bottom:0px;
  }
  .hdr_menuTop h5 a{
-     color:#fff;
-     text-decoration:underline;
+    color:#fff;
+    text-decoration:underline;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100px;
+    display: inline-block;
  }
  .hdr_menuTop .dropdown-toggle{
      font-size:14px;

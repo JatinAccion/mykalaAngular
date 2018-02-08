@@ -6,11 +6,12 @@ import { apiNames, commonMessages, regexPatterns } from './common';
 
 export const environment = {
   production: false,
-  login: 'http://dev-user-service.us-east-2.elasticbeanstalk.com',
-  userService: 'http://dev-user-signup.us-east-2.elasticbeanstalk.com/user/v1',
-  profileInterest: 'http://dev-consumer-profile.us-east-2.elasticbeanstalk.com/consumer/v1',
-  productList: 'http://dev-product-service.us-east-2.elasticbeanstalk.com/api/products',
-  getOffer: 'http://dev-product-service.us-east-2.elasticbeanstalk.com/api/products',
+  login: 'http://192.168.168.172:5090',
+  userService: 'http://192.168.168.172:7090/user/v1',
+  // profileInterest: 'http://qa-consumer-service.us-west-1.elasticbeanstalk.com/consumer/v1',
+  profileInterest: 'http://192.168.168.172:6090/consumer/v1',
+  productList: 'http://qa-product-service.us-west-1.elasticbeanstalk.com/api/products',
+  getOffer: 'http://qa-product-service.us-west-1.elasticbeanstalk.com/api/products',
   geoCode: 'https://maps.googleapis.com/maps/api/geocode/json',
   s3: 'https://s3.us-east-2.amazonaws.com/',
   checkout: 'http://dev-orderservice.us-east-1.elasticbeanstalk.com/payment/v1',

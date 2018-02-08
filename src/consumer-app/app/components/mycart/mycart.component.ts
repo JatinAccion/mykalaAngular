@@ -16,6 +16,7 @@ export class MycartComponent implements OnInit {
   noItemsInCart: boolean = false;
   savedForLater = [];
   addToCartModal = new AddToCart();
+  fromMoveFunction: boolean = false;
   constructor(
     private core: CoreService,
     private route: Router
@@ -44,7 +45,11 @@ export class MycartComponent implements OnInit {
       let newItem;
       let isThere: boolean;
       let existingItemsInCart = JSON.parse(window.localStorage['existingItemsInCart']);
-      for (var i = 0; i < existingItemsInCart.length; i++) this.itemsInCart.push(existingItemsInCart[i]);
+      for (var i = 0; i < existingItemsInCart.length; i++)
+        if (this.fromMoveFunction == true) {
+          if (existingItemsInCart[i].productId == this.itemsInCart[i].productId) existingItemsInCart.splice(i, 1);
+        }
+        else this.itemsInCart.push(existingItemsInCart[i]);
       if (window.localStorage['addedInCart'] != undefined) {
         newItem = JSON.parse(window.localStorage['addedInCart']);
         for (var i = 0; i < this.itemsInCart.length; i++) {
@@ -53,6 +58,8 @@ export class MycartComponent implements OnInit {
             isThere = true;
             window.localStorage['existingItemsInCart'] = JSON.stringify(this.itemsInCart);
             alert("Item updated in your cart");
+            localStorage.removeItem("addedInCart");
+            return false
           }
           else isThere = false;
         }
@@ -76,7 +83,11 @@ export class MycartComponent implements OnInit {
       let newItem;
       let isThere: boolean;
       let existingItemsInWishList = JSON.parse(window.localStorage['existingItemsInWishList']);
-      for (var i = 0; i < existingItemsInWishList.length; i++) this.savedForLater.push(existingItemsInWishList[i]);
+      for (var i = 0; i < existingItemsInWishList.length; i++)
+        if (this.fromMoveFunction == true) {
+          if (existingItemsInWishList[i].productId == this.savedForLater[i].productId) existingItemsInWishList.splice(i, 1);
+        }
+        else this.savedForLater.push(existingItemsInWishList[i]);
       if (window.localStorage['savedForLater'] != undefined) {
         newItem = JSON.parse(window.localStorage['savedForLater']);
         for (var i = 0; i < this.savedForLater.length; i++) {
@@ -85,6 +96,8 @@ export class MycartComponent implements OnInit {
             isThere = true;
             window.localStorage['existingItemsInWishList'] = JSON.stringify(this.savedForLater);
             alert("Item updated in your wishlist");
+            localStorage.removeItem("savedForLater");
+            return false
           }
           else isThere = false;
         }
@@ -125,6 +138,7 @@ export class MycartComponent implements OnInit {
   }
 
   move(item, to) {
+    this.fromMoveFunction = true;
     this.addToCartModal.retailerId = item.retailerId;
     this.addToCartModal.retailerName = item.retailerName;
     this.addToCartModal.productId = item.productId;
@@ -161,6 +175,7 @@ export class MycartComponent implements OnInit {
       }
       this.checkItemsInWishlist();
     }
+    this.fromMoveFunction = false;
   }
 
   deleteItem(item, from) {
@@ -190,7 +205,17 @@ export class MycartComponent implements OnInit {
   }
 
   checkOut() {
-    window.localStorage['TotalAmount'] = parseInt(this.TotalAmountPayable.nativeElement.innerText);
-    this.route.navigateByUrl("/checkout");
+    if (window.localStorage['token'] == undefined) {
+      let action = confirm("You must be logged in to checkout your cart items!\n\nDo you want to login now ?");
+      if (action == true){
+        window.localStorage['tbnAfterLogin'] = window.location.hash.split("#")[1];
+        this.route.navigateByUrl('/login')
+      }
+      else return false;
+    }
+    else {
+      window.localStorage['TotalAmount'] = parseInt(this.TotalAmountPayable.nativeElement.innerText);
+      this.route.navigateByUrl("/checkout");
+    }
   }
 }

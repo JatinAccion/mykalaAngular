@@ -15,7 +15,13 @@ export const apiNames = {
     profileInterest: {
         saveProfile: '',
         getCatalogue: 'consumerInterests',
-        saveInterest: 'profile/addConsumerCatalogs'
+        saveInterest: 'profile/addConsumerCatalogs',
+        myAccountProfileImage: 'profilePic',
+        myAccountEmailId: 'email',
+        myAccountPassword: 'password',
+        myAccountLocation: 'address',
+        myAccountDOB: 'dateOfBirth',
+        myAccountInterest: 'consumerInterst'
     },
     products: {
         getPlaces: 'places',
