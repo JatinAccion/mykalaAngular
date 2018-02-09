@@ -37,6 +37,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   loader_DOB: boolean = false;
   loader_Interest: boolean = false;
   loader_shippingAddress: boolean = false;
+  loader_Card: boolean = false;
   myAccountModel = new MyAccountGetModel();
   imgS3: string;
   input_Email: boolean = false;
@@ -167,7 +168,9 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getCard() {
+    this.loader_Card = true;
     this.myAccount.getCards(this.myAccountModel.userId).subscribe((res) => {
+      this.loader_Card = false;
       this.getCardsDetails = [];
       for (var i = 0; i < res.length; i++) {
         this.getCardsDetails.push(new GetCustomerCards(res[i].userId, res[i].customerId, res[i].last4Digits, res[i].cardType, res[i].cardHoldersName))
@@ -180,15 +183,21 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   async onSubmit(form: NgForm) {
+    this.loader_Card = true;
     const { token, error } = await stripe.createToken(this.card);
-    if (error) this.loader = false;
+    if (error) this.loader_Card = false;
     else {
+      this.loader_Card = false;
+      this.card.removeEventListener('change', this.cardHandler);
+      this.card.destroy();
+      this.addCard = false;
       this.stripeAddCard.customer.email = this.myAccountModel.userData.emailId;
       this.stripeAddCard.customer.source = token.id;
       this.stripeAddCard.userId = this.myAccountModel.userId;
       this.myAccount.addCard(this.stripeAddCard).subscribe((res) => {
         this.savedCardDetails = res;
         this.getCard();
+        this.ngAfterViewInit();
       });
     }
   }

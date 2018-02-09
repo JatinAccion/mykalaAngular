@@ -7,6 +7,8 @@ import { StripeCheckoutModal } from '../../../../models/StripeCheckout';
 import { CheckoutService } from '../../services/checkout.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { GetCustomerCards } from '../../../../models/getCards';
+import { CheckoutShippingAddress } from '../../../../models/checkoutShippingAddress';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-checkout',
@@ -18,9 +20,13 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   addCard: boolean = false;
   itemsInCart: any;
   totalAmountFromCart: number;
+  editShippingAddressForm: FormGroup;
+  addShippingAddressForm: FormGroup;
   @ViewChild('cardInfo') cardInfo: ElementRef;
   @ViewChild('toBeCharged') toBeCharged: ElementRef;
   @ViewChild('ModalBox') ModalBox: ElementRef;
+  @ViewChild('editAddressModal') editAddressModal: ElementRef;
+  @ViewChild('addNewAddressModal') addNewAddressModal: ElementRef;
   card: any;
   cardHandler = this.onChange.bind(this);
   error: string;
@@ -29,18 +35,22 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   loader_chargeAmount: boolean = false;
   stripeAddCard = new StripeAddCardModel();
   stripeCheckout = new StripeCheckoutModal();
-  savedCardDetails: any;
+  shippingAddressCheckout = Array<CheckoutShippingAddress>();
+  selectedCardDetails: any;
+  selectedAddressDetails: any;
   paymentSuccessfullMsg: any;
   closeResult: string;
   userData: any;
   userId: string;
   getCardsDetails: any;
   loader_getCards: boolean = false;
+
   constructor(
     private core: CoreService,
     private cd: ChangeDetectorRef,
     private checkout: CheckoutService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit() {
@@ -54,6 +64,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.userId = this.userData.userId;
     }
     this.getCards();
+    this.loadShippingAddress();
   }
 
   ngAfterViewInit() {
@@ -89,6 +100,53 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  loadShippingAddress() {
+    this.checkout.getShippingAddress().subscribe((res) => {
+      for (var i = 0; i < res.length; i++) {
+        let address = res[i];
+        if (address.addressType === 'shippingAddress') {
+          this.shippingAddressCheckout.push(new CheckoutShippingAddress(address.addID, address.addressLineOne, address.addressLineTwo, address.city, address.state, address.zipcode, address.addressType))
+        }
+      }
+    })
+  }
+
+  addAddress() {
+    this.addShippingAddressForm = this.formBuilder.group({
+      addAddressLineOne: [''],
+      addAddressLineTwo: [''],
+      addCity: [''],
+      addState: [''],
+      addZipcode: ['']
+    });
+    this.open(this.addNewAddressModal, undefined, 'addNewAddress');
+  }
+
+  editAddress(address) {
+    this.editShippingAddressForm = this.formBuilder.group({
+      editAddressLineOne: [address.addressLineOne],
+      editAddressLineTwo: [address.addressLineTwo],
+      editCity: [address.city],
+      editState: [address.state],
+      editZipcode: [address.zipcode]
+    });
+    this.open(this.editAddressModal, address, undefined);
+  }
+
+  selectShippingAddress(e, address) {
+    let allAddress = document.getElementsByClassName("customerShippingAddress");
+    for (var i = 0; i < allAddress.length; i++) {
+      if (allAddress[i].classList.contains("categ_outline_red")) {
+        allAddress[i].classList.remove("categ_outline_red");
+        allAddress[i].classList.add("categ_outline_gray");
+      }
+    }
+    let element = e.currentTarget;
+    element.classList.remove("categ_outline_gray");
+    element.classList.add("categ_outline_red");
+    this.selectedAddressDetails = address;
+  }
+
   selectPayCard(e, card) {
     let allCards = document.getElementsByClassName("customerCards");
     for (var i = 0; i < allCards.length; i++) {
@@ -100,7 +158,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     let element = e.currentTarget;
     element.classList.remove("categ_outline_gray");
     element.classList.add("categ_outline_red");
-    this.savedCardDetails = card;
+    this.selectedCardDetails = card;
   }
 
   onChange({ error }) {
@@ -124,7 +182,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
         this.stripeAddCard.userId = this.userId;
         this.checkout.addCard(this.stripeAddCard).subscribe((res) => {
           this.loader = false;
-          this.savedCardDetails = res;
+          //this.selectedCardDetails = res;
           this.getCards();
         });
       }
@@ -133,6 +191,14 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
   addNewCard() {
     this.addCard = !this.addCard;
+  }
+
+  cancelAddCard() {
+    this.addCard = false;
+    this.error = null;
+    this.card.removeEventListener('change', this.cardHandler);
+    this.card.destroy();
+    this.ngAfterViewInit();
   }
 
   updateCard() {
@@ -151,19 +217,34 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   chargeAmount() {
-    this.loader_chargeAmount = true;
-    this.stripeCheckout.customerId = this.savedCardDetails.customerId;
-    this.stripeCheckout.amount = this.toBeCharged.nativeElement.innerText;
-    this.checkout.chargeAmount(this.stripeCheckout).subscribe((res) => {
-      this.loader_chargeAmount = false;
-      this.paymentSuccessfullMsg = res;
-      this.open(this.ModalBox)
-    })
+    if ((this.selectedAddressDetails && this.selectedCardDetails) == undefined) {
+      alert("Please select atleast 1 Shipping Address and 1 Card");
+    }
+    else {
+      this.loader_chargeAmount = true;
+      this.stripeCheckout.customerId = this.selectedCardDetails.customerId;
+      this.stripeCheckout.amount = this.toBeCharged.nativeElement.innerText;
+      this.checkout.chargeAmount(this.stripeCheckout).subscribe((res) => {
+        this.loader_chargeAmount = false;
+        this.paymentSuccessfullMsg = res;
+        this.open(this.ModalBox)
+      })
+    }
+
   }
 
-  open(content) {
-    console.log(content);
+  open(content, editAddress?: any, addNewAddress?: string) {
     this.modalService.open(content).result.then((result) => {
+      if (editAddress != undefined) {
+        editAddress.addressLineOne = this.editShippingAddressForm.controls.editAddressLineOne.value;
+        editAddress.addressLineTwo = this.editShippingAddressForm.controls.editAddressLineTwo.value;
+        editAddress.city = this.editShippingAddressForm.controls.editCity.value;
+        editAddress.state = this.editShippingAddressForm.controls.editState.value;
+        editAddress.zipcode = this.editShippingAddressForm.controls.editZipcode.value;
+      }
+      if (addNewAddress != undefined) {
+        this.shippingAddressCheckout.push(new CheckoutShippingAddress('4', this.addShippingAddressForm.controls.addAddressLineOne.value, this.addShippingAddressForm.controls.addAddressLineTwo.value, this.addShippingAddressForm.controls.addCity.value, this.addShippingAddressForm.controls.addState.value, this.addShippingAddressForm.controls.addZipcode.value, 'shippingAddress'))
+      }
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;

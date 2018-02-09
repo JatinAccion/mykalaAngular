@@ -170,35 +170,36 @@
 
             <!--Add New Cards-->
             <div class="row">
-              <div class="col-sm-12 p-2 colorlightGray">
+              <div class="col-sm-12 p-3 colorlightGray">
                 <p class="colorlightGray">payment information</p>
               </div>
-              <div class="col-sm-9 p-2">
-                <!--Add New Cards-->
-                <div class="row p-2" [hidden]="!addCard">
-                  <div class="col-sm-3 p-0"></div>
-                  <div class="col-sm-9">
-                    <div class="row">
-                      <form #checkout="ngForm" (ngSubmit)="onSubmit(checkout)" class="checkout">
-                        <div class="form-row">
-                          <div id="card-info" #cardInfo></div>
-                          <div id="card-errors" role="alert" *ngIf="error">{{ error }}</div>
-                        </div>
-                        <button type="submit" class="btn btn_red_right">add card</button>
-                        <img src="/consumer-app/assets/images/loader.gif" style="margin-left: 7px; margin-top: 7px" *ngIf="loader" />
-                      </form>
+              <div class="col-sm-10 pt-0 pl-3 pr-3">
+                <!--Add New Cards Form-->
+                <div class="row" [hidden]="!addCard">
+                  <form #checkout="ngForm" (ngSubmit)="onSubmit(checkout)" class="checkout pl-1 pr-0 pb-0 pt-0 mt-0 mb-4">
+                    <div class="form-row">
+                      <div id="card-info" #cardInfo class="mt-0"></div>
+                      <div id="card-errors" role="alert" *ngIf="error">{{ error }}</div>
                     </div>
-                  </div>
+                    <button type="submit" class="btn btn_red_right">add card</button>
+                  </form>
                 </div>
-                <!--Add New Cards-->
+                <!--Add New Cards Form-->
+              </div>
+              <button class="col-sm-2 text-right p-2 colorred txtasbutton cursor" (click)="addNewCard()">add</button>
+            </div>
+            <!--Add New Cards-->
 
+            <!--Listing All The Cards-->
+            <div class="row">
+              <div class="col-sm-12 pt-0 pl-3 pr-3">
                 <div class="categ_outline_gray mr-2 mb-2" *ngFor="let card of getCardsDetails">
                   {{card.cardType}} {{card.last4Digit}}
                 </div>
+                <img src="/consumer-app/assets/images/loader.gif" *ngIf="loader_Card" class="ml-2" />
               </div>
-              <button class="col-sm-3 text-right p-2 colorred txtasbutton cursor" (click)="addNewCard()">add</button>
             </div>
-            <!--Add New Cards-->
+            <!--Listing All The Cards-->
           </div>
         </div>
       </div>

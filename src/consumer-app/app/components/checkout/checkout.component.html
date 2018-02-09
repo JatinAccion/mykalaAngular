@@ -6,32 +6,38 @@
 
   <div class="row">
     <div class="col-sm-7 checkout_layout">
-      <!-- <p class="colorlightGray p-0">Shipping address: </p>
-        <div class="row p-2">
-          <div class="col-sm-3 p-0">
-            <p class="colorred">Add new address</p>
-          </div>
-          <div class="col-sm-8">
-            <div class="categ_outline_red colorred">20 surry Rd, Arlington, MA. 02476</div>
-            <div class="clear">&nbsp;</div>
-            <div class="categ_outline_gray">74 Webster St, Arlington, MA. 02476</div>
-          </div>
-          <div class="col-sm-1">
-            <a href="#" class="ancRed">edit</a>
+      <p class="colorlightGray p-0">Shipping address: </p>
+      <div class="row p-2">
+        <div class="col-sm-3 p-0">
+          <button (click)="addAddress()" class="ancRed txtasbutton cursor colorred">Add new address</button>
+        </div>
+        <div class="col-sm-9">
+          <div class="row mb-3" *ngFor="let address of shippingAddressCheckout">
+            <div class="col-sm-10">
+              <div class="categ_outline_gray customerShippingAddress" style="cursor:pointer" (click)="selectShippingAddress($event, address)">
+                {{address.addressLineOne}}, {{address.city}}, {{address.state}}, {{address.zipcode}}
+              </div>
+            </div>
+            <div class="col-sm-2 text-right">
+              <button (click)="editAddress(address)" class="ancRed txtasbutton cursor colorred">edit</button>
+            </div>
           </div>
         </div>
-        <hr /> -->
+      </div>
+      <hr />
 
       <!--Exsiting Cards-->
       <div class="row p-2">
         <div class="col-sm-3 p-0 colorlightGray">
           <p>Payment method</p>
         </div>
-        <div class="col-sm-9">
+        <div class="col-sm-6">
           <img src="/consumer-app/assets/images/loader.gif" style="margin-right: 10px" *ngIf="loader_getCards" />
-          <div class="categ_outline_gray customerCards" style="cursor:pointer; margin-right: 10px" *ngFor="let card of getCardsDetails" (click)="selectPayCard($event, card)">
+          <div class="categ_outline_gray customerCards mr-2 mb-2" style="cursor:pointer" *ngFor="let card of getCardsDetails" (click)="selectPayCard($event, card)">
             {{card.cardType}} {{card.last4Digit}}
           </div>
+        </div>
+        <div class="col-sm-3">
           <div class="float-right pr-2 d-inline">
             <a (click)="addNewCard()" href="javascript:void(0)" class="ancRed">Add New Card</a>
           </div>
@@ -45,11 +51,6 @@
         <div class="col-sm-9">
           <hr class="mt-0" />
           <div class="row">
-            <div class="col-sm-4">
-              <div class="colorlightGray">Add new card:</div>
-            </div>
-          </div>
-          <div class="row">
             <form #checkout="ngForm" (ngSubmit)="onSubmit(checkout)" class="checkout">
               <div class="form-row">
                 <div id="card-info" #cardInfo></div>
@@ -57,6 +58,7 @@
               </div>
 
               <button type="submit" class="btn btn_red_right">add card</button>
+              <button type="button" (click)="cancelAddCard()" class="btn-outer btn_redouter_right btn-outer-margin">cancel</button>
               <img src="/consumer-app/assets/images/loader.gif" style="margin-left: 7px; margin-top: 7px" *ngIf="loader" />
             </form>
           </div>
@@ -66,18 +68,17 @@
 
       <hr />
 
-      <!-- <hr />
-        <div class="row p-2">
-          <div class="col-sm-3 p-0 colorlightGray">
-            <p>Shipping method</p>
-          </div>
-          <div class="col-sm-8">
-            <div class="categ_outline_gray mb-3">$5.00 - Next day shipping - get it tomorrow, May 29</div>
-            <div class="categ_outline_red mb-3 colorred">$2.00 - Two days shipping - get it Saturday, May 30</div>
-            <div class="categ_outline_gray mb-3">Free-five business days shipping - get it Next Wed, June 3</div>
-          </div>
-          <div class="col-sm-1"></div>
-        </div> -->
+      <div class="row p-2">
+        <div class="col-sm-3 p-0 colorlightGray">
+          <p>Shipping method</p>
+        </div>
+        <div class="col-sm-8">
+          <div class="categ_outline_gray mb-3">$5.00 - Next day shipping - get it tomorrow, May 29</div>
+          <div class="categ_outline_red mb-3 colorred">$2.00 - Two days shipping - get it Saturday, May 30</div>
+          <div class="categ_outline_gray mb-3">Free-five business days shipping - get it Next Wed, June 3</div>
+        </div>
+        <div class="col-sm-1"></div>
+      </div>
     </div>
 
     <div class="col-sm-1">&nbsp;</div>
@@ -196,3 +197,69 @@
   </div>
 </ng-template>
 <!--Modal Payment Confirmation-->
+
+<!--Edit Shipping Address-->
+<ng-template #editAddressModal let-c="close" class="modalBox" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Edit Shipping Address</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-center">
+    <form [formGroup]="editShippingAddressForm">
+      <div class="form-group">
+        <input type="text" formControlName="editAddressLineOne" class="form-control" placeholder="Address Line 1" />
+      </div>
+      <div class="form-group">
+        <input type="text" formControlName="editAddressLineTwo" class="form-control" placeholder="Address Line 2" />
+      </div>
+      <div class="form-group">
+        <input type="text" formControlName="editCity" class="form-control" placeholder="City" />
+      </div>
+      <div class="form-group">
+        <input type="text" formControlName="editState" class="form-control" placeholder="State" />
+      </div>
+      <div class="form-group">
+        <input type="text" formControlName="editZipcode" class="form-control" placeholder="Zipcode" />
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn_red_right" style="margin: 0 auto" (click)="c('Close click')">Save</button>
+  </div>
+</ng-template>
+<!--Edit Shipping Address-->
+
+<!--Add New Shipping Address-->
+<ng-template #addNewAddressModal let-c="close" class="modalBox" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Add Shipping Address</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-center">
+    <form [formGroup]="addShippingAddressForm">
+      <div class="form-group">
+        <input type="text" formControlName="addAddressLineOne" class="form-control" placeholder="Address Line 1" />
+      </div>
+      <div class="form-group">
+        <input type="text" formControlName="addAddressLineTwo" class="form-control" placeholder="Address Line 2" />
+      </div>
+      <div class="form-group">
+        <input type="text" formControlName="addCity" class="form-control" placeholder="City" />
+      </div>
+      <div class="form-group">
+        <input type="text" formControlName="addState" class="form-control" placeholder="State" />
+      </div>
+      <div class="form-group">
+        <input type="text" formControlName="addZipcode" class="form-control" placeholder="Zipcode" />
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn_red_right" style="margin: 0 auto" (click)="c('Close click')">Add</button>
+  </div>
+</ng-template>
+<!--Add New Shipping Address-->

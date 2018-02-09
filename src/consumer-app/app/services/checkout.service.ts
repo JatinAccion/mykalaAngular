@@ -13,6 +13,11 @@ export class CheckoutService {
         return this.http.post(url, stripeAddCard).map((res) => res.json());
     }
 
+    getShippingAddress() {
+        const url: string = '/consumer-app/assets/checkoutSA.json';
+        return this.http.get(url).map(res => res.json());
+    }
+
     getCards(userId) {
         const url: string = `${this.BASE_URL}/${userId}/${environment.apis.consumerCheckout.getCards}`;
         return this.http.get(url).map((res) => res.json());

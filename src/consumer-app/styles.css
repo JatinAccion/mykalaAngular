@@ -715,8 +715,19 @@ a.categ_close{
     background-color: #fff;
     border-bottom-right-radius: 0px;
     /*box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);*/ 
-    border:solid 1px red;
+    border:solid 1px #e06263;
     color:#241610;
+}
+.btn-outer-margin{
+    padding: 0.35rem 1rem !important;
+    margin-top: 0px !important;
+    position: relative;
+    top: 4px;
+    color: #241610 !important;
+    border: solid 1px #e06263 !important;
+}
+.btn-outer-margin:active{
+    background: none !important;
 }
 .catg_kitchen{
     background:  linear-gradient( rgba(0,0,0, .6),  rgba(0,0,0, .6) ), url(/consumer-app/assets/images/catg-1.png); 
@@ -2368,4 +2379,8 @@ ngb-modal-window{
 .txtasbutton[disabled] {
     cursor: no-drop;
     opacity:0.5;
+}
+.modal-open .modal{
+    min-height: 350px;
+    max-height: 500px;
 }
