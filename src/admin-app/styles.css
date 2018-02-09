@@ -113,6 +113,12 @@ header{
 }
 .ancUser a:nth-child(1){ 
     padding:5px 20px;
+    width: 120px;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    -ms-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .ancUser a:nth-child(2){ 
     padding:5px 10px;
