@@ -182,7 +182,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
         this.stripeAddCard.userId = this.userId;
         this.checkout.addCard(this.stripeAddCard).subscribe((res) => {
           this.loader = false;
-          //this.selectedCardDetails = res;
+          this.resetAddCard();
           this.getCards();
         });
       }
@@ -193,7 +193,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.addCard = !this.addCard;
   }
 
-  cancelAddCard() {
+  resetAddCard() {
     this.addCard = false;
     this.error = null;
     this.card.removeEventListener('change', this.cardHandler);
