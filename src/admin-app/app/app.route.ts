@@ -14,6 +14,7 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { UserRoutingModule } from './components/user/user-routing.module';
 import { EnquiryRoutingModule } from './components/enquiry/enquiry-routing.module';
 import { OrderRoutingModule } from './components/order/order-routing.module';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 const appRoutes: Routes = [
     {
@@ -38,6 +39,10 @@ const appRoutes: Routes = [
     {
         path: 'forgot-password',
         component: ForgotPasswordComponent,
+    },
+    {
+        path: 'reset-password',
+        component: ResetPasswordComponent,
     },
     {
         path: '**',

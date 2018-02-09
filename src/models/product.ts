@@ -19,7 +19,7 @@ export class Product {
     public kalaPrice: number;
     public lowestPrice: number;
     public quantity: number;
-    public shipProfileId: string;
+    public shippingProfileId: string;
     public productStatus: boolean | null = true;
     public productActivatedDate: Date | null;
     public createdDate: Date | null;
@@ -47,7 +47,7 @@ export class Product {
             this.retailPrice = obj.retailPrice;
             this.kalaPrice = obj.kalaPrice;
             this.quantity = obj.quantity;
-            this.shipProfileId = obj.shipProfileId;
+            this.shippingProfileId = obj.shippingProfileId;
             this.productStatus = obj.productStatus;
             this.productActivatedDate = obj.productActivatedDate;
             this.createdDate = obj.createdDate;

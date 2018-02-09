@@ -114,3 +114,17 @@
 .taxlist div{
     border-radius: 0px !important;
 }
+.ol-3.taxlist{
+    column-gap: 0px !important;
+}
+ol.taxlist {
+    margin: 0px;
+    padding: 0px;
+}
+ol.taxlist li {
+    border-radius: 0px !important;
+    padding: 10px ;
+}
+ol.taxlist li label{
+    margin-bottom: 0px !important;
+}

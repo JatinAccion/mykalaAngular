@@ -1,6 +1,21 @@
 export const userMessages = {
-    success: 'Saved successfully',
-    error: '',
+    success: 'Profile Info Saved',
+    error: 'Not able to Save',
+    noContacts: 'Please add atleast one Contacts',
+    requiredFeilds: 'Please complete all mandatory fields',
+    contactUpdated: 'Contact Updated',
+    contactAdded: 'Contact Added',
+    contactError: 'Contact is not added',
+    contactErrorTitle: 'Please check validations',
+    contactRemoved: 'Contact Removed',
+    contacts: {
+        primary: 'Primary contact',
+        general: 'General contact',
+        billing: 'Billing contact',
+        shipping: 'Shipping contact',
+        addnew: 'Add new contact'
+    },
+    pleaseSelectLogo: 'Please Select Business Logo',
 };
 export const inputValidations = {
     'profileImage': { required: 'Please select  Business Logo', error: 'Please select Business Logo' },

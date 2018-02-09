@@ -23,7 +23,7 @@
                         <div class="card-header row pb-0 pt-1" role="tab" id="headingOne">
                             <div class="col-sm-8 p-2">
                                 <h5 class="mb-0">
-                                    <a (click)="user.show=!user.show" class="float-left ellipsis w-75">
+                                    <a (click)="user.show=!user.show" class="float-left ellipsis w-75 text-capitalize">
                                         {{user.username}}
                                     </a>
                                 </h5>
@@ -38,15 +38,16 @@
                                 <i class="fa fa-sort-up"></i>
                             </div>
                         </div>
-                        <div class="col-sm-12 px-3 pb-2">
-                            {{user.roleName}}
+                        <div class="col-sm-12 px-3 pb-2 text-capitalize">
+                            {{user.role}}
                         </div>
                         <div id="collapseOne" class="collapse " [ngClass]="{'show':user.show, 'hide':!user.show}" role="tabpanel" aria-labelledby="headingOne">
                             <hr />
                             <div class="card-block pt-0">
                                 <div class="text-right">
-                                    <a class="colorRed" (click)="deleteUser(user)" *ngIf="user.emailId!=core.user.emailId">Delete User</a>
-                                    <span class="colorRed" *ngIf="user.emailId==core.user.emailId">Cannot Delete Current User</span>
+                                    <a class="colorRed" (click)="deleteUser(user)" *ngIf="user.emailId.toLowerCase() !='developer@mykala.com' && user.emailId!=core.user.emailId">Delete User</a>
+                                    <span class="colorRed" *ngIf="user.emailId.toLowerCase()!='developer@mykala.com' && user.emailId==core.user.emailId">Cannot delete current user</span>
+                                    <span class="colorRed" *ngIf="user.emailId.toLowerCase()=='developer@mykala.com'">Cannot delete admin user</span>
                                 </div>
                                 <div class="row m-0">
                                     <div class="col-sm-4">Email</div>
@@ -62,7 +63,7 @@
                                 </div>
                                 <div class="row m-0">
                                     <div class="col-sm-4">Role</div>
-                                    <div class="col-sm-8">{{user.roleName}}</div>
+                                    <div class="col-sm-8">{{user.role}}</div>
                                 </div>
                             </div>
                         </div>

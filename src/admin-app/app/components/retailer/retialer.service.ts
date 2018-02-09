@@ -62,6 +62,7 @@ export class RetialerService {
     this.returnPolicyGet(retailerId).subscribe(p => p);
     this.taxGet(retailerId).subscribe(p => p);
     this.notificationGet(retailerId).subscribe(p => p);
+    this.getStates().subscribe(p => p);
   }
   getHttpHeraders() {
     const token = this.localStorageService.getItem('token');
@@ -130,7 +131,7 @@ export class RetialerService {
     return this.http.request(url, requestOptions)
       .map(res => {
         if (res.text() !== '') {
-          retailerProfileInfo.retailerId = res.json();
+          retailerProfileInfo.retailerId = res.json().retailerId;
           retailerProfileInfo.status = true;
           this.profileData.next(retailerProfileInfo);
           return new RetailerProfileInfo(retailerProfileInfo);
@@ -175,7 +176,7 @@ export class RetialerService {
     return this.http.request(url, requestOptions)
       .map(res => {
         if (res.text() !== '') {
-          paymentInfo.retailerBankPaymentId = res.json();
+          paymentInfo.retailerBankPaymentId = res.json().retailerBankPaymentId;
           paymentInfo.status = true;
           this.paymentData.next(paymentInfo);
           return new RetailerPaymentInfo(paymentInfo);
@@ -234,7 +235,7 @@ export class RetialerService {
       .map(res => {
         if (res.text() !== '') {
           if (shippingProfile.shippingProfileId) {
-            shippingProfile.shippingProfileId = res.json();
+            shippingProfile.shippingProfileId = res.json().shippingProfileId;
             this.shippingsDataObj.shippings.push(shippingProfile);
           } else {
             this.shippingsDataObj.shippings.filter(p => p.shippingProfileId === shippingProfile.shippingProfileId)[0] = shippingProfile;
@@ -272,7 +273,7 @@ export class RetialerService {
     return this.http.request(url, requestOptions)
       .map(res => {
         if (res.text() !== '') {
-          notification.shippingNotificationsId = res.json();
+          notification.shippingNotificationsId = res.json().shippingNotificationsId;
           this.notificationData.next(notification);
           return new RetailerNotification(notification);
         }
@@ -305,7 +306,7 @@ export class RetialerService {
     return this.http.request(url, requestOptions)
       .map(res => {
         if (res.text() !== '') {
-          returnPolicy.shippingReturnId = res.json();
+          returnPolicy.shippingReturnId = res.json().shippingReturnId;
           this.returnData.next(returnPolicy);
           return new RetailerReturnPolicy(returnPolicy);
         }
@@ -337,7 +338,7 @@ export class RetialerService {
     return this.http.request(url, requestOptions)
       .map(res => {
         if (res.text() !== '') {
-          tax.taxNexusId = res.json();
+          tax.taxNexusId = res.json().taxNexusId;
           this.taxData.next(tax);
           return new RetailerReturnPolicy(tax);
         }
@@ -365,6 +366,7 @@ export class RetialerService {
     return this.http
       .post(url, obj, { headers: this.headers })
       .map(p => {
+        obj.productPreferenceId = p.json().productPreferenceId;
         obj.status = true;
         this.productData.next(obj);
         return obj;

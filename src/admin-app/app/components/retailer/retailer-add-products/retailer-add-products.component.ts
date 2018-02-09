@@ -181,7 +181,8 @@ export class RetailerAddProductsComponent implements OnInit {
     return false;
   }
   readForm() {
-    this.obj = this.obj || new RetailerProductInfo({ retailerId: this.retailerId });
+    this.obj = this.obj || new RetailerProductInfo();
+    this.obj.retailerId = this.retailerId;
     this.obj.places = new Array<RetailerProductPlace>();
 
     for (let pIndex = 0; pIndex < this.selectedPlaces.length; pIndex++) {

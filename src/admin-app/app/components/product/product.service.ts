@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
-import { HttpClient, HttpRequest, HttpEvent } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpEvent, HttpEventType, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/observable/of';
@@ -66,7 +66,7 @@ export class ProductService {
       const url = `${environment.AdminApi}/${environment.apis.retailers.getShippingProfileNames}`.replace('{retailerId}', retailerId.toString());
       return this.http
         .get(`${url}`, { headers: this.headers })
-        .map(res => <Array<any>>res.json().map(obj => new nameValue(obj.shipProfileId, obj.shippingProfileName)))
+        .map(res => <Array<any>>res.json().map(obj => new nameValue(obj.shippingProfileId, obj.shippingProfileName)))
         .catch(this.handleError);
     }
   }
@@ -87,7 +87,7 @@ export class ProductService {
     formdata.append('mainImage', images.mainImage, images.mainImage.name);
     formdata.append('kalaUniqueId', images.kalaUniqueId);
 
-    let url = `${this.BASE_URL}/${environment.apis.product.saveImage}`;
+    const url = `${this.BASE_URL}/${environment.apis.product.saveImage}`;
     const req = new HttpRequest('POST', url, formdata, {
       reportProgress: true,
       responseType: 'text'
@@ -173,5 +173,19 @@ export class ProductService {
       .post(`${url}`, { fieldValues: subCategoryIds }, { headers: this.headers })
       .map(res => <Array<any>>res.json().map(obj => new ProductType(obj)))
       .catch(this.handleError);
+  }
+  saveproductFiles(retailerId: string, files: Array<any>): Observable<any> {
+    const formdata: FormData = new FormData();
+    for (let i = 0; i < files.length; i++) {
+      const element = files[i];
+      formdata.append('files', element, element.name);
+    }
+    // formdata.append('retailerId', retailerId);
+
+    const url = `http://localhost:9087/api/${environment.apis.product.upload}`;
+    const req = new HttpRequest('POST', url, formdata, {
+      reportProgress: true,
+    });
+    return this.httpc.request(req).map(p => p);
   }
 }

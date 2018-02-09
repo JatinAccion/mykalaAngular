@@ -77,7 +77,7 @@ export class RetailerAddComponent implements OnInit {
   }
   setActiveTab(event) {
     if (!this.retailerId && event.nextId !== 'tab-Profile') {
-      this.core.message.info('Please save profile');
+      this.core.message.info(userMessages.profileNotSaved);
       event.preventDefault();
       return;
     }
@@ -89,21 +89,20 @@ export class RetailerAddComponent implements OnInit {
         case 'tab-Payment': this.ngbTabSet.select('tab-Tax'); break;
         case 'tab-Tax': this.ngbTabSet.select('tab-Product'); break;
         case 'tab-Product': this.ngbTabSet.select('tab-Shipping'); break;
-        case 'tab-Shipping': this.status.Shipping = true;
-          // this.ngbTabSet.select('tab-Return');
-          break;
+        case 'tab-Shipping': this.ngbTabSet.select('tab-Return'); break;
         case 'tab-Return': this.ngbTabSet.select('tab-Notifications'); break;
-        case 'tab-Notifications': switch (false) {
-          case this.status.Profile: this.ngbTabSet.select('tab-Profile'); break;
-          case this.status.Payment: this.ngbTabSet.select('tab-Payment'); break;
-          case this.status.Tax: this.ngbTabSet.select('tab-Tax'); break;
-          case this.status.Product: this.ngbTabSet.select('tab-Product'); break;
-          case this.status.Shipping: this.ngbTabSet.select('tab-Shipping'); break;
-          case this.status.Return: this.ngbTabSet.select('tab-Return'); break;
-          default:
-            this.core.message.success(this.userMsgs.success);
-            this.router.navigateByUrl('/retailer-list'); break;
-        }
+        case 'tab-Notifications':
+          switch (false) {
+            case this.status.Profile: this.ngbTabSet.select('tab-Profile'); break;
+            case this.status.Payment: this.ngbTabSet.select('tab-Payment'); break;
+            case this.status.Tax: this.ngbTabSet.select('tab-Tax'); break;
+            case this.status.Product: this.ngbTabSet.select('tab-Product'); break;
+            case this.status.Shipping: this.ngbTabSet.select('tab-Shipping'); break;
+            case this.status.Return: this.ngbTabSet.select('tab-Return'); break;
+            default:
+              this.core.message.success(this.userMsgs.success);
+              this.router.navigateByUrl('/retailer-list'); break;
+          }
           break;
       }
     }

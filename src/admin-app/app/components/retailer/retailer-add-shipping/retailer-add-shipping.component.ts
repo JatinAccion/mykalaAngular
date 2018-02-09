@@ -19,6 +19,7 @@ import { environment } from '../../../../environments/environment';
 import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 import { inputValidations } from './messages';
 import { CoreService } from '../../../services/core.service';
+import { userMessages } from './messages';
 
 
 @Component({
@@ -62,7 +63,7 @@ export class RetailerAddShippingComponent implements OnInit {
   }
   ngOnInit() {
     this.addShipping();
-    this.shippingObj = this.shippings.shippings[0];
+    this.shippingObj = this.shippings.shippings[0] || new RetialerShippingProfile();
     this.setValidators();
     if (this.retailerId) {
       this.getShippingProfiles(this.retailerId);
@@ -75,6 +76,9 @@ export class RetailerAddShippingComponent implements OnInit {
         this.shippingsData = res;
         // this.setValidators();
         this.shippings = res;
+        if (this.shippings.shippings.length === 0) {
+          this.addShipping();
+        }
         this.currentTabIndex = 0;
         this.setShipping();
       });
@@ -91,23 +95,18 @@ export class RetailerAddShippingComponent implements OnInit {
     }
   }
   setActiveTab(event) {
-    // if (this.modified) {
-    //   alert('Please save first');
-    //   event.preventDefault();
-    // } else {
     this.readShipping();
     this.currentTabIndex = parseInt(event.nextId.replace('tab-shipping', ''), 2);
     this.setShipping();
-    // }
   }
   setShipping() {
     this.shippingObj = this.shippings.shippings[this.currentTabIndex];
-    // this.shippingObj.step = 1;
     this.setValidators();
   }
   shippingNextProfile() {
     if (this.currentTabIndex + 1 === this.shippings.shippings.length) {
-      this.ngbTabSet.select('tab-shipping' + 0);
+      this.readShipping();
+      this.SaveData.emit('tab-Shipping');
     } else {
       this.ngbTabSet.select('tab-shipping' + (this.currentTabIndex + 1));
     }
@@ -115,15 +114,15 @@ export class RetailerAddShippingComponent implements OnInit {
   }
   deliveryOptionsChange() {
     switch (this.shippingFG1.controls.deliveryOptions.value) {
-      case 'freeshipping':
+      case userMessages.deliveryOptions.freeshipping:
         this.shippingFG1.controls.tiers = this.formBuilder.array([]);
         break;
-      case 'ship_by_size':
+      case userMessages.deliveryOptions.ship_by_size:
         this.shippingFG1.controls.tiers = this.createSizeBasedTiers();
         break;
-      case 'ship_by_flat_rate':
-      case 'ship_by_price':
-      case 'ship_by_weight':
+      case userMessages.deliveryOptions.ship_by_flat_rate:
+      case userMessages.deliveryOptions.ship_by_price:
+      case userMessages.deliveryOptions.ship_by_weight:
       default:
         this.shippingFG1.controls.tiers = this.formBuilder.array([this.createTier()]);
         break;
@@ -201,20 +200,20 @@ export class RetailerAddShippingComponent implements OnInit {
     if (!this.shippingObj.deliveryLocation.locations || this.shippingObj.deliveryLocation.locations.length === 0) {
       this.shippingObj.deliveryLocation.locations = new Array<Location>();
       const sublocation1 = new Location();
-      sublocation1.locationName = 'Continental US';
-      sublocation1.locationType = 'state';
+      sublocation1.locationName = userMessages.location.ContinentalUS;
+      sublocation1.locationType = userMessages.location.state;
       sublocation1.locationStatus = true;
       sublocation1.locationFee = 0;
       this.shippingObj.deliveryLocation.locations.push(sublocation1);
       const sublocation2 = new Location();
-      sublocation2.locationName = 'Alaska and Hawaii';
-      sublocation2.locationType = 'state';
+      sublocation2.locationName = userMessages.location.AlaskaandHawaii;
+      sublocation2.locationType = userMessages.location.state;
       sublocation2.locationStatus = true;
       sublocation2.locationFee = 0;
       this.shippingObj.deliveryLocation.locations.push(sublocation2);
       const sublocation3 = new Location();
-      sublocation3.locationName = 'US Protectorates';
-      sublocation3.locationType = 'territory';
+      sublocation3.locationName = userMessages.location.USProtectorates;
+      sublocation3.locationType = userMessages.location.territory;
       sublocation3.locationStatus = true;
       sublocation3.locationFee = 0;
       this.shippingObj.deliveryLocation.locations.push(sublocation3);
@@ -257,11 +256,11 @@ export class RetailerAddShippingComponent implements OnInit {
   setValidatorsFG2() {
     this.shippingFG2 = this.formBuilder.group({
       shippingMethods: this.formBuilder.array([
-        this.createShippingMethods(0, 'Next day: 1 business day shipping'),
-        this.createShippingMethods(1, '2 day: 2 business day shipping'),
-        this.createShippingMethods(2, 'Express: 3 to 5 business days'),
-        this.createShippingMethods(3, 'Standard: 5 to 8 business days'),
-        this.createShippingMethods(4, 'Custom')
+        this.createShippingMethods(0, userMessages.shippingMethods.Nextday1businessdayshipping),
+        this.createShippingMethods(1, userMessages.shippingMethods.twoday2businessdayshipping),
+        this.createShippingMethods(2, userMessages.shippingMethods.Express3to5businessdays),
+        this.createShippingMethods(3, userMessages.shippingMethods.Standard5to8businessdays),
+        this.createShippingMethods(4, userMessages.shippingMethods.Custom)
       ])
     });
   }
@@ -272,7 +271,7 @@ export class RetailerAddShippingComponent implements OnInit {
       if (this.shippingFG1.valid) { this.shippingObj.step++; this.setValidatorsFG2(); }
     } else if (this.shippingObj.step === 2) {
       this.validatorExt.validateAllFormFields(this.shippingFG2);
-      if (this.validateShippingFG2()) { this.shippingObj.step++; } else { this.core.message.info('Atleast one shipping method need to be selected'); }
+      if (this.validateShippingFG2()) { this.shippingObj.step++; } else { this.core.message.info(userMessages.noShippingmethodselected); }
     }
     // if (this.shippingObj.step === 2) { this.setValidatorsFG2(); }
     if (this.shippingObj.step === 4) { this.shippingObj.step = 3; }
@@ -291,19 +290,19 @@ export class RetailerAddShippingComponent implements OnInit {
     this.validatorExt.validateAllFormFields(this.shippingFG3);
 
     if (!this.shippingFG1.valid) { this.shippingObj.step = 1; } else
-      if (!this.validateShippingFG2()) { this.shippingObj.step = 2; this.core.message.info('Atleast one shipping method need to be selected') } else
+      if (!this.validateShippingFG2()) { this.shippingObj.step = 2; this.core.message.info(userMessages.noShippingmethodselected); } else
         if (!this.shippingFG3.valid) { this.shippingObj.step = 3; } else {
           this.readShipping();
           this.saveLoader = true;
           this.retialerService
             .saveShipping(this.shippingObj).subscribe(p => {
               this.shippingObj = p;
-              this.SaveData.emit('tab-Shipping');
+              // this.SaveData.emit('tab-Shipping');
               this.modified = false;
-              this.core.message.success('Shipping Info Saved');
+              this.core.message.success(userMessages.success);
               this.saveLoader = false;
               return true;
-            }, err => this.core.message.error('Not able to Save'), () => this.saveLoader = false);
+            }, err => this.core.message.error(userMessages.error), () => this.saveLoader = false);
         }
     return false;
   }
@@ -342,7 +341,7 @@ export class RetailerAddShippingComponent implements OnInit {
       (this.shippingFG2.get('shippingMethods') as FormArray).controls.forEach(subElement => {
         const fee = new RetailerDeliveryMethodFee();
         fee.deliveryMethodName = subElement.value.shippingName;
-        if (subElement.value.shippingName === 'Custom') {
+        if (subElement.value.shippingName === userMessages.shippingMethods.Custom) {
           fee.deliveryMethodName = this.deliveryMethodCustomName;
         }
         fee.deliveryFee = (subElement.get('charges') as FormArray).length > tierSequence ?
@@ -354,6 +353,7 @@ export class RetailerAddShippingComponent implements OnInit {
 
     });
     this.shippings.shippings[this.currentTabIndex] = this.shippingObj;
+    this.shippingsData = new RetialerShippingProfiles(this.shippings);
     return this.shippingObj;
   }
 

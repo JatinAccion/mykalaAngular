@@ -1,6 +1,28 @@
 export const userMessages = {
-    success: 'Saved successfully',
-    error: '',
+    success: 'Shipping Info Saved',
+    error: 'Not able to Save',
+    deliveryOptions: {
+        freeshipping: 'freeshipping',
+        ship_by_size: 'ship_by_size',
+        ship_by_flat_rate: 'ship_by_flat_rate',
+        ship_by_price: 'ship_by_price',
+        ship_by_weight: 'ship_by_weight',
+    },
+    location: {
+        'ContinentalUS': 'Continental US',
+        'AlaskaandHawaii': 'Alaska and Hawaii',
+        'USProtectorates': 'US Protectorates',
+        'territory': 'territory',
+        'state': 'state',
+    },
+    shippingMethods: {
+        'Nextday1businessdayshipping': 'Next day: 1 business day shipping',
+        'twoday2businessdayshipping': '2 day: 2 business day shipping',
+        'Express3to5businessdays': 'Express: 3 to 5 business days',
+        'Standard5to8businessdays': 'Standard: 5 to 8 business days',
+        'Custom': 'Custom'
+    },
+    'noShippingmethodselected':'Atleast one shipping method need to be selected'
 };
 export const inputValidations = {
     'shippingProfileName': { required: 'Please enter a profile name ', error: 'Please enter valid profile name' },

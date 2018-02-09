@@ -10,7 +10,7 @@ import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 import { IAlert } from '../../../../../models/IAlert';
 import { User, UserProfile } from '../../../../../models/user';
 import { Promise } from 'q';
-import { inputValidations } from './messages';
+import { inputValidations, userMessages } from './messages';
 import { CoreService } from '../../../services/core.service';
 // #endregion imports
 
@@ -64,7 +64,7 @@ export class UserAddComponent implements OnInit {
       firstname: [user.firstName, [Validators.pattern(environment.regex.textRegex), Validators.maxLength(250), Validators.required]],
       lastname: [user.lastName, [Validators.pattern(environment.regex.textRegex), Validators.maxLength(250), Validators.required]],
       phone: [user.phone, [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(environment.regex.numberRegex), Validators.required]],
-      roleType: [{ value: user && user.roleName && user.roleName.length > 0 ? user.roleName[0] : 'admin', disabled: true }, [Validators.pattern(environment.regex.textRegex), Validators.maxLength(250), Validators.required]],
+      role: [user.role, [Validators.pattern(environment.regex.textRegex), Validators.maxLength(250), Validators.required]],
     });
   }
   getUserData() {
@@ -78,10 +78,11 @@ export class UserAddComponent implements OnInit {
     const model = this.fG1.controls;
     this.user.firstName = model.firstname.value;
     this.user.lastName = model.lastname.value;
-    this.user.emailId = model.email.value;
+    this.user.emailId = model.email.value.toLowerCase();
     this.user.phone = model.phone.value;
-    this.user.roleName = [model.roleType.value];
+    this.user.role = model.role.value;
     this.user.password = model.password.value;
+    this.user.roleName = ['admin'];
   }
   saveUser() {
     if (!this.fG1.valid) {
@@ -92,9 +93,14 @@ export class UserAddComponent implements OnInit {
       this.userService
         .save(this.user)
         .then(res => {
-          this.core.message.success('User Saved Successfully');
-          this.saveloader = false;
-          this.router.navigateByUrl('/user-list');
+          if (res.user_status === 'alreadyExists') {
+            this.saveloader = false;
+            this.core.message.info(userMessages.accountExist);
+          } else {
+            this.core.message.success(userMessages.success);
+            this.saveloader = false;
+            this.router.navigateByUrl('/user-list');
+          }
         })
         .catch(err => {
           console.log(err);

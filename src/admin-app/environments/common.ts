@@ -7,7 +7,8 @@ export const apiNames = {
         userInfo: 'loginUser'
     },
     users: {
-        resetPassword: 'login/user/resetPassword',
+        forgetPassword: 'user/v1/forgotPassword',
+        resetPassword: 'user/v1/resetPassword',
         getAdmin: 'role/ROLE_ADMIN',
         get: '{userId}',
         save: 'admin',
@@ -16,9 +17,9 @@ export const apiNames = {
     retailers: {
         get: '',
         sellerTypes: 'sellerTypes',
-        getShippingProfileNames: '{retailerId}/shippingProfileName',
+        getShippingProfileNames: '{retailerId}/shippingMethods',
         changeStatus: 'changeStatus',
-        getRetailerNames: 'sellerName',
+        getRetailerNames: 'sellerNames',
         getStates: 'states/name'
     },
     retailerProfileInfo: {
@@ -65,7 +66,8 @@ export const apiNames = {
         places: 'products/places',
         categories: 'products/categoriesList',
         subCategories: 'products/subCategoriesList',
-        types: 'products/typesList'
+        types: 'products/typesList',
+        upload: 'products/bulkProducts'
     },
 
 };

@@ -107,9 +107,9 @@ export class RetailerAddTaxComponent implements OnInit {
       } else {
         this.statesSelected = this.states.values.map(p => new KeyValue(p, false));
       }
-
-
     }
   }
-
+  getSelectedCount() { 
+    return this.statesSelected.filter(p => p.value).length;
+  }
 }

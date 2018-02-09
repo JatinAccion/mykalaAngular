@@ -19,7 +19,7 @@
                 </div>
                 <div class="row p-2">
                     <div class="col-sm-12 clearfix">
-                        <input class="form-control w-100" type="text" placeholder="Email" formControlName="email" />
+                        <input class="form-control w-100 text-lowercase" type="text" placeholder="Email" formControlName="email" />
                         <app-field-error-display [field]="fG1.controls.email" [errorMsg]="errorMsgs"> </app-field-error-display>
                     </div>
                 </div>
@@ -31,14 +31,14 @@
                 </div>
                 <div class="row p-2">
                     <div class="col-sm-12 clearfix">
-                        <input class="form-control w-100" type="text" placeholder="Phone number" formControlName="phone" mask="(000) 000-0000" />
+                        <input class="form-control w-100" type="text" placeholder="Phone number" formControlName="phone"  />
                         <app-field-error-display [field]="fG1.controls.phone" [errorMsg]="errorMsgs"> </app-field-error-display>
                     </div>
                 </div>
                 <div class="row p-2">
                     <div class="col-sm-12 clearfix">
-                        <input class="form-control w-100" type="text" placeholder="Position" formControlName="roleType" />
-                        <app-field-error-display [field]="fG1.controls.roleType" [errorMsg]="errorMsgs"> </app-field-error-display>
+                        <input class="form-control w-100" type="text" placeholder="Position" formControlName="role" />
+                        <app-field-error-display [field]="fG1.controls.role" [errorMsg]="errorMsgs"> </app-field-error-display>
                     </div>
                 </div>
                 <hr />

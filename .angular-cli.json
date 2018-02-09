@@ -30,7 +30,8 @@
       "environments": {
         "dev": "admin-app/environments/environment.ts",
         "prod": "admin-app/environments/environment.prod.ts",
-        "local": "admin-app/environments/environment.local.ts"
+        "local": "admin-app/environments/environment.local.ts",
+        "qa": "admin-app/environments/environment.qa.ts"
       }
     },
     {

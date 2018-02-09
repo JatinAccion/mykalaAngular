@@ -1,5 +1,6 @@
 export const userMessages = {
-    success: 'saved successfully',
+    success: 'User Saved Successfully',
+    accountExist: 'Account already exists',
     error: '',
 };
 export const inputValidations = {

@@ -56,6 +56,9 @@ export class ProductAddCategoryComponent implements OnInit {
   ngOnInit() {
     this.setFormValidators();
     this.getPlaces();
+    this.getCategories();
+    this.getSubCategories();
+    this.getTypes();
   }
   closeAlert(alert: IAlert) {
     this.alert.show = false;
@@ -93,7 +96,7 @@ export class ProductAddCategoryComponent implements OnInit {
   getPlaces() {
     this.productService.getProductPlaces().subscribe(res => {
       this.places = res;
-      this.getCategories();
+     
     });
   }
 
@@ -114,7 +117,7 @@ export class ProductAddCategoryComponent implements OnInit {
     if (this.product.productPlace && this.product.productPlace.PlaceId) {
       this.productService.getProductCategories([this.product.productPlace.PlaceId]).subscribe(res => {
         this.categories = res;
-        this.getSubCategories();
+       
       });
     }
   }
@@ -132,7 +135,7 @@ export class ProductAddCategoryComponent implements OnInit {
     if (this.product.productCategory && this.product.productCategory.CategoryId) {
       this.productService.getProductSubCategories([this.product.productCategory.CategoryId]).subscribe(res => {
         this.subCategories = res;
-        this.getTypes();
+        
       });
     }
   }
@@ -147,6 +150,12 @@ export class ProductAddCategoryComponent implements OnInit {
     if (this.product.productSubCategory && this.product.productSubCategory.SubCategoryId) {
       this.productService.getProductTypes([this.product.productSubCategory.SubCategoryId]).subscribe(res => {
         this.productTypes = res;
+        if (res.length === 0) {
+          this.fG1.controls.productTypeName.clearValidators();
+        } else {
+          this.fG1.controls.productTypeName.setValidators([Validators.required]);
+        }
+        this.fG1.controls.productTypeName.updateValueAndValidity();
       });
     }
   }

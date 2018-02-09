@@ -72,8 +72,8 @@ export class LoginComponent implements OnInit {
   onLogin() {
     this.loginError = false;
     this.loader = true;
-    this.user = new User(this.loginKala.controls.email.value, this.loginKala.controls.email.value, this.loginKala.controls.password.value)
-    this.credentialModal.email = this.loginKala.controls.email.value;
+    this.user = new User(this.loginKala.controls.email.value.toLowerCase(), this.loginKala.controls.email.value.toLowerCase(), this.loginKala.controls.password.value)
+    this.credentialModal.email = this.loginKala.controls.email.value.toLowerCase();
     this.credentialModal.password = window.btoa(this.loginKala.controls.password.value);
     this.credentialModal.remember = this.loginKala.controls.remember.value;
     this.auth.login(this.user).then((res) => {
@@ -95,7 +95,7 @@ export class LoginComponent implements OnInit {
     });
   }
   processRemeberme() {
-    this.credentialModal.email = this.loginKala.controls.email.value;
+    this.credentialModal.email = this.loginKala.controls.email.value.toLowerCase();
     this.credentialModal.password = window.btoa(this.loginKala.controls.password.value);
     this.credentialModal.remember = this.loginKala.controls.remember.value;
     if (this.credentialModal.remember) {

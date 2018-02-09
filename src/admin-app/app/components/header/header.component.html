@@ -14,7 +14,7 @@
         <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>Products</a>
         <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown01">
           <a class="dropdown-item " [routerLinkActive]="['active']" routerLink="/product-list">View Products</a>
-          <a class="dropdown-item " [routerLinkActive]="['active']" routerLink="/product-meta">Products Files</a>
+          <a class="dropdown-item " [routerLinkActive]="['active']" routerLink="/product-upload">Products Files</a>
         </div>
       </li>
       <li ngbDropdown class="nav-item dropdown">
@@ -35,12 +35,12 @@
         </div>
       </li>
       <li class="nav-item ">
-        <a class="nav-link" [routerLinkActive]="['active']" routerLink="/user-list">Users</a>
+        <a class="nav-link" [routerLinkActive]="['active']" routerLink="/user-list"  >Users</a>
       </li>
     </ul>
     <div class="mr-3 mt-2">Admin</div>
     <div class="form-inline my-2 my-lg-0 ancUser">
-      <a routerLink="/user-list" class="">Hi, {{core.user.firstName}}!</a>
+      <a routerLink="/user-list" class="ellipsis w-20">Hi, {{core.user.firstName}}!</a>
       <!-- <a> {{core.getUser()|json}}hello</a> -->
       <a class="nav-link" [routerLinkActive]="['active']" routerLink="/logout" *ngIf="core.showLogout()">logout</a>
     </div>

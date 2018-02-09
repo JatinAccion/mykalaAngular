@@ -16,7 +16,7 @@ export class BasicAuth {
 }
 
 export class UserProfile {
-
+  
   public userId: string;
   public password: string;
   public firstName: string;
@@ -24,10 +24,13 @@ export class UserProfile {
   public emailId: string;
   public phone: string;
   public roleName: Array<string>;
+  public role: string;
   public userCreateStatus: boolean;
+  public user_status: string;
   public show: boolean;
 
   constructor(obj?: any) {
+    this.roleName = ['admin'];
     if (obj) {
       this.userId = obj.userId;
       this.password = obj.password;
@@ -36,7 +39,9 @@ export class UserProfile {
       this.emailId = obj.emailId;
       this.phone = obj.phone;
       this.roleName = obj.roleName;
+      this.role = obj.role;
       this.userCreateStatus = obj.userCreateStatus;
+      this.user_status = obj.user_status;
       this.show = false;
     }
   }

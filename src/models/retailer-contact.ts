@@ -1,7 +1,7 @@
 import { PostalAddress } from './retailer-business-adress';
 
 export class RetailerContact extends PostalAddress {
-    public contactPersonId: number;
+    public contactPersonId: string;
     public retailerId: string;
     public contactType: string;
     public status: boolean | null = true;

@@ -78,17 +78,24 @@ export class RetailerAddPaymentComponent implements OnInit {
       zipcode: [this.paymentData.retailerBankAddress.zipcode, [Validators.maxLength(5), Validators.minLength(5),
       Validators.pattern(environment.regex.numberRegex), Validators.required]]
     });
+    this.getPaymentVehicles(this.paymentData.paymentMethod);
   }
   getPaymentInfoDropdowndata() {
     this.retialerService.getPaymentMethods().subscribe(res => {
       this.paymentMethods = res;
+      this.getPaymentVehicles(this.paymentFG1.value.paymentMethod);
     });
+  }
+  getPaymentVehicles(paymentMethod) {
+    if ( paymentMethod) {
+      this.retialerService.getPaymentVehicles().subscribe(res => {
+        this.paymentVehicles = res.filter(p => p.parent === paymentMethod);
+      });
+    }
   }
   paymentMethodChange() {
     this.readPaymenInfo();
-    this.retialerService.getPaymentVehicles().subscribe(res => {
-      this.paymentVehicles = res.filter(p => p.parent === this.paymentInfoObj.paymentMethod);
-    });
+    this.getPaymentVehicles(this.paymentFG1.value.paymentMethod);
 
 
     const isRequired = this.paymentFG1.value.paymentMethod !== '1';

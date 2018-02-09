@@ -6,6 +6,7 @@ import { LoginRedirect } from '../../services/login-redirect.service';
 import { EnsureAuthenticated } from '../../services/ensure-authenticated.service';
 import { ProductMetaComponent } from './product-meta/product-meta.component';
 import { CanDeactivateGuard } from '../../services/candeactivate-guard.service';
+import { ProductUploadComponent } from './product-upload/product-upload.component';
 
 const appRoutes: Routes = [
   {
@@ -27,6 +28,11 @@ const appRoutes: Routes = [
   {
     path: 'product-meta',
     component: ProductMetaComponent,
+    canActivate: [EnsureAuthenticated]
+  },
+  {
+    path: 'product-upload',
+    component: ProductUploadComponent,
     canActivate: [EnsureAuthenticated]
   }
 ];

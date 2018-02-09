@@ -20,6 +20,7 @@ import { ProductAddPricingComponent } from './product-add-pricing/product-add-pr
 import { HttpClientModule } from '@angular/common/http';
 import { ProductMetaComponent } from './product-meta/product-meta.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { ProductUploadComponent } from './product-upload/product-upload.component';
 
 @NgModule({
   imports: [
@@ -40,7 +41,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ProductAddImagesComponent,
     ProductAddMoreComponent,
     ProductAddPricingComponent,
-    ProductMetaComponent
+    ProductMetaComponent,
+    ProductUploadComponent
   ],
   providers: [ProductService, ValidatorExt]
 })

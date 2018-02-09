@@ -1,6 +1,6 @@
 export class ProductsInfo {
     kalaUniqueId: string;
-    retailerId: number;
+    retailerId: string;
     productSkuCode: string;
     productUpcCode: number;
     brandName: string;
@@ -13,7 +13,7 @@ export class ProductsInfo {
     retailPrice: number;
     kalaPrice: number;
     quantity: number;
-    shipProfileId: number;
+    shipProfileId: string;
     productStatus: boolean;
     productActivatedDate: string;
     createdDate: string;

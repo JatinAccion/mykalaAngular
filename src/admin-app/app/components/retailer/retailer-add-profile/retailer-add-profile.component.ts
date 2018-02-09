@@ -10,7 +10,7 @@ import { RetialerService } from '../retialer.service';
 import { NgbTabset } from '@ng-bootstrap/ng-bootstrap/tabset/tabset';
 import { environment } from '../../../../environments/environment';
 import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
-import { inputValidations } from './messages';
+import { inputValidations, userMessages } from './messages';
 import { templateJitUrl } from '@angular/compiler';
 import { CoreService } from '../../../services/core.service';
 import { SellerType } from '../../../../../models/retailer';
@@ -103,6 +103,7 @@ export class RetailerAddProfileComponent implements OnInit {
         this.contactTypes.push(newContactType);
       }
     });
+
   }
   getProfileInfoDropdowndata() {
     this.retialerService.getSellerTypes().subscribe(res => {
@@ -111,16 +112,16 @@ export class RetailerAddProfileComponent implements OnInit {
   }
   getContactsNames() {
     this.contactTypes = [
-      { type: 'Primary contact', default: true, status: false },
-      { type: 'General contact', default: true, status: false },
-      { type: 'Billing contact', default: true, status: false },
-      { type: 'Shipping contact', default: true, status: false },
-      { type: 'Add new contact', default: true, status: false },
+      { type: userMessages.contacts.primary , default: true, status: false },
+      { type: userMessages.contacts.general , default: true, status: false },
+      { type: userMessages.contacts.billing , default: true, status: false },
+      { type: userMessages.contacts.shipping, default: true, status: false },
+      { type: userMessages.contacts.addnew , default: true, status: false },
     ];
 
   }
   contactTypeSelected(event) {
-    if (this.profileFG2.value.contact_type.type === 'Add new contact') {
+    if (this.profileFG2.value.contact_type.type === userMessages.contacts.addnew) {
       this.profileFG2.controls.contact_type_name.reset({ value: '', disabled: false });
     } else {
       this.profileFG2.controls.contact_type_name.reset({ value: this.profileFG2.value.contact_type.type, disabled: this.profileFG2.value.contact_type.default });
@@ -131,7 +132,7 @@ export class RetailerAddProfileComponent implements OnInit {
     // this.profileFG2.controls.contact_type.reset({ value: this.profileFG2.value.contact_type, disabled: true });
     if (this.profileFG2.value.contact_type.type !== this.profileFG2.value.contact_type_name) {
       const newContactType = { type: this.profileFG2.value.contact_type_name, default: false, status: true };
-      if (this.profileFG2.value.contact_type.type !== 'Add new contact') {
+      if (this.profileFG2.value.contact_type.type !== userMessages.contacts.addnew) {
         this.contactTypes.splice(this.contactTypes.indexOf(this.profileFG2.value.contact_type), 1);
       }
       this.contactTypes.push(newContactType);
@@ -159,7 +160,7 @@ export class RetailerAddProfileComponent implements OnInit {
   saveContact() {
     this.validatorExt.validateAllFormFields(this.profileFG2);
     if (this.profileFG2.invalid) {
-      this.core.message.error('Contact is not added', 'Please check validations');
+      this.core.message.error(userMessages.contactError, userMessages.contactErrorTitle);
       return;
     }
     // this.profileFG2.controls.contact_type.reset({ value: this.profileFG2.value.contact_type, disabled: false });
@@ -175,10 +176,10 @@ export class RetailerAddProfileComponent implements OnInit {
     contact.email = this.profileFG2.value.contact_email;
     contact.phoneNo = this.profileFG2.value.contact_phone_number;
     if (this.profileInfoObj.contactPerson.filter(p => p.contactType === contact.contactType).length > 0) {
-      this.core.message.success('Contact Updated');
+      this.core.message.success(userMessages.contactUpdated);
     } else {
       this.profileInfoObj.contactPerson.push(contact);
-      this.core.message.success('Contact Added');
+      this.core.message.success(userMessages.contactAdded);
     }
   }
   removeContact() {
@@ -190,15 +191,20 @@ export class RetailerAddProfileComponent implements OnInit {
       this.contactTypes.splice(this.contactTypes.indexOf(this.profileFG2.value.contact_type), 1);
     }
     this.loadConatactType('');
-    this.core.message.success('Contact Removed');
+    this.core.message.success(userMessages.contactRemoved);
   }
   profileInfoNext() {
     this.readProfileInfo();
     this.validatorExt.validateAllFormFields(this.profileFG1);
+    if (!this.retailerId && this.profileFG1.controls.fileName.value === '') {
+      this.core.message.info(userMessages.pleaseSelectLogo);
+      return;
+    }
     if (this.profileFG1.valid) {
       this.profileInfoStep = 2;
+      this.setDefaultContact();
     } else {
-      this.core.message.info('Please complete all mandatory fields');
+      this.core.message.info(userMessages.requiredFeilds);
     }
   }
   profileInfoBack() {
@@ -208,10 +214,15 @@ export class RetailerAddProfileComponent implements OnInit {
     this.readProfileInfo();
     this.validatorExt.validateAllFormFields(this.profileFG1);
     this.validatorExt.validateAllFormFields(this.profileFG3);
+    if (this.profileInfoObj.contactPerson.length === 0) {
+      this.core.message.info(userMessages.noContacts);
+      return;
+    }
     if (!this.profileFG1.valid) {
       this.profileInfoBack();
-    } else if (!this.profileFG2.valid) {
+    } else if (!this.profileFG3.valid) {
       this.profileInfoNext();
+      this.core.message.info(userMessages.requiredFeilds);
     } else {
       if (!this.retailerId) {
         this.profileInfoObj.status = true;
@@ -224,9 +235,9 @@ export class RetailerAddProfileComponent implements OnInit {
           this.profileInfoObj.retailerId = this.retailerId;
           this.retailerIdChange.emit(this.retailerId);
           this.SaveData.emit('tab-Profile');
-          this.core.message.success('Profile Info Saved');
+          this.core.message.success(userMessages.success);
           return true;
-        }, err => this.core.message.error('Not able to Save'), () => this.profileSaveloader = false);
+        }, err => this.core.message.error(userMessages.error), () => this.profileSaveloader = false);
     }
     return false;
   }
@@ -234,6 +245,9 @@ export class RetailerAddProfileComponent implements OnInit {
   readProfileInfo() {
     if (this.retailerId) {
       this.profileInfoObj.retailerId = this.retailerId;
+    }
+    if (this.profileFG1.value.fileName !== '') {
+      this.profileFG1.controls.profileImage.updateValueAndValidity();
     }
     this.profileInfoObj.businessLogoPath = this.profileFG1.value.profileImage;
     this.profileInfoObj.businessName = this.profileFG1.value.businessName;
@@ -278,6 +292,7 @@ export class RetailerAddProfileComponent implements OnInit {
       reader.readAsDataURL(fileInput.target.files[0]);
       this.fileName = fileInput.target.files[0].name;
       this.profileFG1.controls.fileName.patchValue(this.fileName);
+      this.profileFG1.controls.fileName.updateValueAndValidity();
     }
   }
   getProfileInfo(retailerId: string) {
@@ -288,6 +303,15 @@ export class RetailerAddProfileComponent implements OnInit {
         this.setFormValidators();
         this.profileInfoObj = new RetailerProfileInfo(this.profileData);
       });
+  }
+  setDefaultContact() {
+    if (this.profileFG2.get('contact_type').value === '') {
+      if (this.profileData.contactPerson.filter(p => p.contactType === this.contactTypes[0].type).length > 0) {
+        this.profileFG2.get('contact_type').patchValue(this.contactTypes[0]);
+        this.contactTypeSelected(null);
+        // this.loadConatactType(this.contactTypes[0].type);
+      }
+    }
   }
 
   // #endregion ProfileInfo
