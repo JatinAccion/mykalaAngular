@@ -178,11 +178,11 @@ export class ProductService {
     const formdata: FormData = new FormData();
     for (let i = 0; i < files.length; i++) {
       const element = files[i];
-      formdata.append('files', element, element.name);
+      formdata.append('files', element.file, element.file.name);
     }
     // formdata.append('retailerId', retailerId);
 
-    const url = `http://localhost:9087/api/${environment.apis.product.upload}`;
+    const url = `${this.BASE_URL}/${environment.apis.product.upload}`;
     const req = new HttpRequest('POST', url, formdata, {
       reportProgress: true,
     });

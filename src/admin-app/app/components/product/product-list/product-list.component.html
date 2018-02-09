@@ -3,7 +3,7 @@
         <h1>Products</h1>
     </div>
     <div class="col-sm-4 top_right text-right">
-        <input class="form-control txt_Search ng-untouched ng-pristine ng-valid" placeholder="search for product by name" [(ngModel)]="productName" type="text">
+        <input class="form-control txt_Search ng-untouched ng-pristine ng-valid" placeholder="search for product by name" [(ngModel)]="productName" (keyup)="getPage(1)" type="text">
     </div> 
 </div>
 <div class="row">
@@ -193,4 +193,5 @@
 
         </tbody>
     </table>
+    <h3 *ngIf="products.totalElements == 0">No Products available</h3>
 </div>

@@ -15,7 +15,7 @@
                         <div class="col-sm-12  text-center">Select..</div>
                         <div class="col-sm-12 text-center"> {{ fileName}} </div>
                     </div>
-                    <input  multiple="multiple" (change)="fileChangeEvent($event, profileFG1)" type="file" class="uploadImage" />
+                    <input multiple="multiple" (change)="fileChangeEvent($event, profileFG1)" type="file" class="uploadImage" />
                 </span>
             </span>
             <input readonly="readonly" placeholder="Picture file" class="form-control hide" name="filename" type="text">
@@ -24,9 +24,12 @@
         <div class="row m-0">
             <div class="col-sm-9 p-2 mt-3 ">
                 <div class="input-group">
-                    <input class="form-control" placeholder="" aria-describedby="basic-addon1" type="text">
+                    <input class="form-control" placeholder="" aria-describedby="basic-addon1" type="text" [(ngModel)]="fileNames" >
                     <span class="input-group-addon" id="basic-addon1">X</span>
                 </div>
+                <p>
+                    <ngb-progressbar showValue="true" type="success" [value]="progress" [striped]="true"></ngb-progressbar>
+                </p>
             </div>
             <div class="col-sm-3 p-2 mt-3">
                 <p>
@@ -41,6 +44,7 @@
                     <input class="form-control" placeholder="" aria-describedby="basic-addon1" type="text">
                     <span class="input-group-addon" id="basic-addon1">X</span>
                 </div>
+
             </div>
             <div class="col-sm-3 p-2 mt-3">
                 <p>

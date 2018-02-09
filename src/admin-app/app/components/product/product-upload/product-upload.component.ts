@@ -16,9 +16,11 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
   encapsulation: ViewEncapsulation.None
 })
 export class ProductUploadComponent implements OnInit {
+  fileNames: any;
   saveLoader: boolean;
   retailerId: any;
   productFiles: Array<any>;
+  progress = 0;
 
   constructor(private productService: ProductService, private retialerService: RetialerService, private core: CoreService) {
 
@@ -34,6 +36,7 @@ export class ProductUploadComponent implements OnInit {
       if (event.type === HttpEventType.UploadProgress) {
         // This is an upload progress event. Compute and show the % done:
         const percentDone = Math.round(100 * event.loaded / event.total);
+        this.progress = percentDone;
         console.log(`File is ${percentDone}% uploaded.`);
       } else if (event instanceof HttpResponse) {
         console.log('File is completely uploaded!');
@@ -41,11 +44,14 @@ export class ProductUploadComponent implements OnInit {
     });
   }
   fileChangeEvent(fileInput: any) {
-    this.productFiles =  new Array<any>();
+    this.productFiles = new Array<any>();
+    this.fileNames = ''; this.progress = 0;
     if (fileInput.target.files && fileInput.target.files.length > 0) {
       for (let i = 0; i < fileInput.target.files.length; i++) {
         const file = fileInput.target.files[i];
         this.productFiles.push({ file: file, mainImage: false });
+        this.fileNames += '; ' + file.name;
+
       }
     }
   }

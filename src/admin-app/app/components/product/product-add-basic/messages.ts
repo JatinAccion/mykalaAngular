@@ -3,11 +3,11 @@ export const userMessages = {
     error: '',
 };
 export const inputValidations = {
-    'productName': { required: 'Please enter product name ', error: 'Please enter valid product name' },
-    'brandName': { required: 'Please enter brandName', error: 'Please enter valid brandName' },
-    'productSkuCode': { required: 'Please enter product SkuCode', error: 'Please enter valid product SkuCode' },
-    'productUpcCode': { required: 'Please enter product UpcCode', error: 'Please enter valid product UpcCode' },
-    'productDescription': { required: 'Please enter product Description', error: 'Please enter valid product Description' },
-    'quantity': { required: 'Please enter quantity', error: 'Please enter valid quantity' },
+    'productName': { required: 'Please enter a product name ', error: 'Please enter a valid product name' },
+    'brandName': { required: 'Please enter a brand name', error: 'Please enter a valid brand name' },
+    'productSkuCode': { required: 'Please enter a product SKU code', error: 'Please enter a valid product SKU code' },
+    'productUpcCode': { required: 'Please enter a product UPC code', error: 'Please enter a valid product UPC code' },
+    'productDescription': { required: 'Please enter a description of the product', error: 'Please enter valid product Description' },
+    'quantity': { required: 'Please enter the available product quantity', error: 'Please enter a valid product quantity' },
 };
 
