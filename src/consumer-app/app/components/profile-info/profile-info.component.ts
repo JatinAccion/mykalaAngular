@@ -27,7 +27,6 @@ export class ProfileInfoComponent implements OnInit {
   profileInputValMsg = inputValidation;
   fetchGeoCode: string;
   profileInformation = new ConsumerProfileInfo();
-  getCSC: any;
   getImageUrl: string;
   uploadFile: any;
   staticURL: string = 'https://s3.us-east-2.amazonaws.com';
@@ -75,12 +74,8 @@ export class ProfileInfoComponent implements OnInit {
           this.loaderLocation = false;
           input.removeAttribute('readonly');
           this.fetchGeoCode = data.results[0].formatted_address;
-          console.log(this.fetchGeoCode);
-          this.getCSC = {
-            "city": this.fetchGeoCode.split(',')[0],
-            "country": this.fetchGeoCode.split(',')[2],
-            "state": this.fetchGeoCode.split(',')[1].trim().split(" ")[0]
-          }
+          this.profileInformation.address = new Array<ConsumerAddress>();
+          this.profileInformation.address.push(new ConsumerAddress('', '', '', this.fetchGeoCode.split(',')[0], this.fetchGeoCode.split(',')[1].trim().split(" ")[0], this.profileInfo.controls.location.value, 'profileAddress'))
         });
     }
   };
@@ -111,17 +106,10 @@ export class ProfileInfoComponent implements OnInit {
     this.profileInformation.consumerImagePath = this.profileInfo.controls.profileImage.value;
     this.profileInformation.gender = this.profileInfo.controls.gender.value;
     this.profileInformation.dateOfBirth = this.profileInfo.controls.dateOfBirth.value.year + '-' + this.profileInfo.controls.dateOfBirth.value.month + '-' + this.profileInfo.controls.dateOfBirth.value.day;
-    this.profileInformation.address = new ConsumerAddress();
-    this.profileInformation.address.city = this.getCSC.city;
-    this.profileInformation.address.state = this.getCSC.state;
-    this.profileInformation.address.country = this.getCSC.country;
-    this.profileInformation.address.zipcode = this.profileInfo.controls.location.value;
 
     this.profileInfoServ.completeProfile(this.profileInformation).subscribe(res => {
       this.loader = false;
       if (this.profileInfoResponse.response !== null) {
-        // this.savedImage = this.staticURL.concat('/' + res);
-        // window.localStorage['profileImage'] = this.savedImage;
         window.localStorage['userInfo'] = res;
         setTimeout(() => {
           if (this.routerOutlet.isActivated) this.routerOutlet.deactivate();

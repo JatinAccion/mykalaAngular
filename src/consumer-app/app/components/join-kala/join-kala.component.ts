@@ -105,10 +105,11 @@ export class JoinKalaComponent implements OnInit, CuiComponent {
   onSubmit() {
     /*Request JSON*/
     this.loader = true;
+    this.signUpResponse.status = false;
     this.userModel.firstName = this.joinKala.value.firstname;
     this.userModel.lastName = this.joinKala.value.lastname;
     this.userModel.password = this.joinKala.value.password;
-    this.userModel.emailId = this.joinKala.value.email;
+    this.userModel.emailId = this.joinKala.value.email.toLowerCase();
     this.userModel.userCreateStatus = false;
     this.userModel.phone = "";
     this.userModel.roleName = [];
@@ -128,8 +129,10 @@ export class JoinKalaComponent implements OnInit, CuiComponent {
         }, 3000);
         this.joinKala.reset();
       }
-      else if (this.userInfo.user_status === "alreadyExists") this.signUpResponse.message = this.joinUserMsg.accountExist;
-      //else if (this.userInfo.user_status === "emailExists") this.signUpResponse.message = this.joinUserMsg.emailExists;
+      else if (this.userInfo.user_status === "alreadyExists") {
+        this.signUpResponse.status = true;
+        this.signUpResponse.message = this.joinUserMsg.emailExists;
+      }
     }, err => {
       this.loader = false;
       this.signUpResponse.status = true;

@@ -8,12 +8,13 @@
         <div class="col-sm-6">
           <div class="myaccount_row">
             <!--Profile Image-->
-            <div class="row">
+            <div class="row" style="position:relative">
               <div class="col-sm-4 colorlightGray p-2">profile image</div>
               <div class="col-sm-5 text-right p-2">
                 <img [src]="myAccountModel.profileInfo.consumerImagePath" class="userIcon" />
                 <input (change)="fileChangeEvent($event)" type="file" class="form-control uploadImage" />
               </div>
+              <img src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_myAc" *ngIf="loader_profileImage" />
               <button class="col-sm-3 text-right p-2 colorred txtasbutton cursor" (click)="appendInput($event, 'profileImage')">change</button>
             </div>
             <!--Profile Image-->
@@ -27,7 +28,7 @@
             <!--Name-->
 
             <!--Email Address-->
-            <div class="row">
+            <div class="row" style="position:relative">
               <div class="col-sm-2 colorlightGray p-2">email</div>
               <div class="col-sm-7 text-right p-2">
                 <span #emailElement *ngIf="!input_Email">{{myAccountModel.userData.emailId}}</span>
@@ -35,12 +36,13 @@
                 <p *ngIf="emptyEmailAddress" class="clearfix colorlightGray pt-0 mb-0" style="font-size: 13px; color: #e06263">Please enter your email address</p>
                 <p *ngIf="invalidEmailAddress" class="clearfix colorlightGray pt-0 mb-0" style="font-size: 13px; color: #e06263">Please enter your valid email address</p>
               </div>
+              <img src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_myAc" *ngIf="loader_emailImage" />
               <button class="col-sm-3 text-right p-2 colorred txtasbutton cursor" (click)="appendInput($event, 'email')">change</button>
             </div>
             <!--Email Address-->
 
             <!--Password-->
-            <div class="row">
+            <div class="row" style="position:relative">
               <div class="col-sm-2 colorlightGray p-2">password</div>
               <div class="col-sm-7 text-right p-2">
                 <span #passwordElement *ngIf="!input_Password">{{myAccountModel.userData.password}}</span>
@@ -54,6 +56,7 @@
                 <p *ngIf="oldNewPassword" class="clearfix colorlightGray mb-0" style="font-size: 13px; color: #e06263">Old password and New password cannot be same</p>
                 <p *ngIf="newConfirmPassword" class="clearfix colorlightGray mb-0" style="font-size: 13px; color: #e06263">New password and confirm password doesn't match</p>
               </div>
+              <img src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_myAc" *ngIf="loader_password" />
               <button class="col-sm-3 text-right p-2 colorred txtasbutton cursor" (click)="appendInput($event, 'password')">change</button>
             </div>
             <!--Password-->
@@ -69,7 +72,7 @@
             <!--Gender-->
 
             <!--Location-->
-            <div class="row">
+            <div class="row" style="position:relative">
               <div class="col-sm-2 p-2 colorlightGray">location</div>
               <div class="col-sm-7 p-2 text-right">
                 <span #locationElement *ngIf="!input_Location">
@@ -83,26 +86,29 @@
                 <img src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_3" *ngIf="loader" />
                 <p *ngIf="input_getLocation" class="clearfix colorlightGray pt-0 mb-0">{{fetchGeoCode}}</p>
               </div>
+              <img src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_myAc" *ngIf="loader_profileAddress" />
               <button class="col-sm-3 text-right p-2 colorred txtasbutton cursor" (click)="appendInput($event, 'location')">change</button>
             </div>
             <!--Location-->
 
             <!--Date Of Birth-->
-            <div class="row">
+            <div class="row" style="position:relative">
               <div class="col-sm-4 p-2 colorlightGray">date of birth</div>
               <div class="col-sm-5 p-2 text-right">
                 <span #dobElement *ngIf="!input_dob">{{myAccountModel.profileInfo.birthMonth}}/{{myAccountModel.profileInfo.birthDate}}/{{myAccountModel.profileInfo.birthYear}}</span>
                 <input *ngIf="input_dob" [(ngModel)]="append_dob" (focus)="d.open()" [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker #d="ngbDatepicker" class="txtnml width100 appendedInput" placeholder="mm-dd-yyyy">
               </div>
+              <img src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_myAc" *ngIf="loader_DOB" />
               <button class="col-sm-3 text-right p-2 colorred txtasbutton cursor" (click)="appendInput($event, 'dob'); selectSelected($event)">change</button>
             </div>
             <!--Date Of Birth-->
 
             <!--Style Preferences-->
-            <div class="row">
+            <div class="row" style="position:relative">
               <div class="col-sm-6 p-2 colorlightGray">
                 <p class="colorlightGray">style perferences</p>
               </div>
+              <img src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_myAc" *ngIf="loader_Interest" />
               <button class="col-sm-6 text-right p-2 colorred txtasbutton cursor" (click)="appendInput($event, 'interest')">change</button>
               <div class="col-sm-12 p-2 text-right interestImagesMyAc" *ngFor="let interest of myAccountModel.profileInfo.consumerInterests">
                 <img (click)="selectInterest($event, interest)" style="cursor: pointer" src="{{interest.consumerInterestImagePath}}" title="{{interest.consumerInterestImageName}}" id="{{interest.id}}" />
@@ -118,7 +124,7 @@
             <p class="colorlightGray">shipping addresses</p>
             <!--Shipping Address-->
             <div class="row">
-              <button (click)="addNewAddress($event)" class="col-sm-4 p-2 txtasbutton colorred" style="padding-top: 0 !important; cursor: pointer">add</button>
+              <button (click)="addNewAddress($event)" class="col-sm-4 p-2 txtasbutton colorred cursor" style="padding-top: 0 !important">add</button>
 
               <div class="col-sm-8 p-0">
                 <!--Add Address Form-->
@@ -152,6 +158,7 @@
                         <input style="position: relative; top: -37px;" *ngIf="shippingAddress.input_shippingAddress" type="text" [(ngModel)]="shippingAddress.append_editShippingState" class="txtnml width100 appendedInput" placeholder="State">
                         <input style="position: relative; top: -37px;" *ngIf="shippingAddress.input_shippingAddress" type="number" onkeypress='return event.charCode >= 48 && event.charCode <= 57' [(ngModel)]="shippingAddress.append_editShippingZipcode" class="txtnml width100 appendedInput" placeholder="Zipcode">
                       </div>
+                      <img src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_myAc" *ngIf="loader_shippingAddress" />
                       <button class="col-sm-3 text-right p-2 colorred txtasbutton cursor" style="padding-top: 0 !important; cursor: pointer" (click)="appendInput($event, 'shippingAddress', shippingAddress)">change</button>
                     </div>
                   </div>
@@ -189,7 +196,7 @@
                   {{card.cardType}} {{card.last4Digit}}
                 </div>
               </div>
-              <div class="col-sm-3 text-right p-2 colorred txtasbutton cursor" (click)="addNewCard()">add</div>
+              <button class="col-sm-3 text-right p-2 colorred txtasbutton cursor" (click)="addNewCard()">add</button>
             </div>
             <!--Add New Cards-->
           </div>

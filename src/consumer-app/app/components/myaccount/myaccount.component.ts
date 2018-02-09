@@ -8,6 +8,8 @@ import { GetCustomerCards } from '../../../../models/getCards';
 import { StripeAddCardModel } from '../../../../models/StripeAddCard';
 import { StripeCheckoutModal } from '../../../../models/StripeCheckout';
 import { NgForm } from '@angular/forms';
+import { MyAccountProfileModel, MyAccountEmailModel, MyAccountPasswordModel, MyAccountAddressModel, MyAccountDOBModel, MyAccountInterestModel } from '../../../../models/myAccountPost';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-myaccount',
@@ -28,6 +30,13 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   getCardsDetails: any;
   uploadFile: any;
   loader: boolean = false;
+  loader_profileImage: boolean = false;
+  loader_emailImage: boolean = false;
+  loader_password: boolean = false;
+  loader_profileAddress: boolean = false;
+  loader_DOB: boolean = false;
+  loader_Interest: boolean = false;
+  loader_shippingAddress: boolean = false;
   myAccountModel = new MyAccountGetModel();
   imgS3: string;
   input_Email: boolean = false;
@@ -74,11 +83,19 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   append_addShippingState: string;
   append_addShippingZipcode: string;
   addShippingAddress: boolean = false;
+  ProfileSaveModel = new MyAccountProfileModel();
+  EmailSaveModel = new MyAccountEmailModel();
+  PasswordSaveModel = new MyAccountPasswordModel();
+  AddressSaveModel = new MyAccountAddressModel();
+  DOBSaveModel = new MyAccountDOBModel();
+  InterestSaveModel = new MyAccountInterestModel();
+  getUserInfo: any;
 
   constructor(
     private core: CoreService,
     private myAccount: MyAccountService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private route: Router
   ) {
     this.minDate = { year: 1940, month: 1, day: 1 };
     this.maxDate = { year: this.today.getFullYear(), month: this.today.getMonth() + 1, day: this.today.getDate() };
@@ -120,18 +137,21 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     this.core.hide();
     this.core.searchMsgToggle();
     this.imgS3 = environment.s3;
+    if (window.localStorage['userInfo'] != undefined) this.getUserInfo = JSON.parse(window.localStorage['userInfo'])
     this.getConsumerProfile();
   }
 
   getConsumerProfile() {
-    this.myAccount.getUserDetails().subscribe((res) => {
+    let emailId = this.getUserInfo.emailId;
+    this.myAccount.getUserDetails(emailId).subscribe((res) => {
       this.getAPICP = res;
       this.myAccountModel.profileInfo = new MyaccountProfileInfo();
       this.myAccountModel.userData = new MyAccountUserData();
       this.myAccountModel.profileInfo.consumerInterests = new Array<MyAccountConsumerInterest>();
       this.myAccountModel.profileInfo.address = new Array<MyAccountAddress>();
       this.myAccountModel.profileInfo.address = res.address;
-      this.myAccountModel.profileInfo.consumerImagePath = this.imgS3.concat(res.consumerImagePath);
+      // this.myAccountModel.profileInfo.consumerImagePath = this.imgS3.concat(res.consumerImagePath);
+      this.myAccountModel.profileInfo.consumerImagePath = res.consumerImagePath;
       this.myAccountModel.profileInfo.consumerInterests = res.consumerInterests;
       this.myAccountModel.profileInfo.birthDate = new Date(res.dateOfBirth).getDate().toString();
       this.myAccountModel.profileInfo.birthMonth = (new Date(res.dateOfBirth).getMonth() + 1).toString();
@@ -213,8 +233,20 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
 
       reader.readAsDataURL(fileInput.target.files[0]);
       setTimeout(() => {
+        this.loader_profileImage = true;
         this.myAccountModel.profileInfo.consumerImagePath = window.localStorage['imagesPath'];
         localStorage.removeItem('imagesPath');
+        /**API to Save New Email**/
+        this.ProfileSaveModel.emailId = this.myAccountModel.userData.emailId;
+        this.ProfileSaveModel.profilePic = this.myAccountModel.profileInfo.consumerImagePath;
+        this.myAccount.saveProfileImage(this.ProfileSaveModel).subscribe((res) => {
+          this.loader_profileImage = false;
+          window.localStorage['userInfo'] = JSON.stringify(res);
+        }, (err) => {
+          this.loader_profileImage = false;
+          console.log(err);
+        });
+        /**API to Save New Email**/
       }, 500);
     }
   };
@@ -238,6 +270,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
               address.city = this.fetchGeoCode.split(',')[0];
               address.state = this.fetchGeoCode.split(',')[1].trim().split(" ")[0];
               address.zipcode = this.append_Location;
+              address.addressType = 'profileAddress';
             }
           }
         });
@@ -308,18 +341,75 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     for (var i = 0; i < getText.length; i++) getText[i].removeAttribute("disabled");
     e.currentTarget.innerHTML = 'change';
     if (element == 'email') {
+      this.loader_emailImage = true;
       this.input_Email = false;
-      this.myAccountModel.userData.emailId = this.append_Email;
+      /**API to Save Email**/
+      this.EmailSaveModel.oldEmailId = this.getUserInfo.emailId;
+      this.EmailSaveModel.newEmailId = this.append_Email;
+      this.myAccount.saveEmail(this.EmailSaveModel).subscribe((res) => {
+        this.loader_emailImage = false;
+        this.myAccountModel.userData.emailId = this.append_Email;
+        window.localStorage['userInfo'] = JSON.stringify(res);
+      }, (err) => {
+        this.loader_emailImage = false;
+        console.log(err)
+      });
+      /**API to Save Email**/
       setTimeout(() => this.emailElement.nativeElement.innerText = this.append_Email, 100);
     }
     else if (element == 'password') {
       this.input_Password = false;
-      this.myAccountModel.userData.password = this.append_Password;
+      this.loader_password = true;
+      this.getUserInfo = JSON.parse(window.localStorage['userInfo'])
+      /**API to Save Password**/
+      this.PasswordSaveModel.emailId = this.getUserInfo.emailId;
+      this.PasswordSaveModel.password = this.append_ConfirmPassword;
+      this.myAccount.savePassword(this.PasswordSaveModel).subscribe((res) => {
+        this.loader_password = false;
+        localStorage.removeItem('token');
+        this.route.navigateByUrl('/login');
+      }, (err) => {
+        this.loader_password = false;
+        console.log(err);
+      });
+      /**API to Save Password**/
       setTimeout(() => this.passwordElement.nativeElement.innerText = '......', 50);
     }
-    else if (element == 'location') this.input_Location = false;
+    else if (element == 'location') {
+      this.input_Location = false;
+      this.loader_profileAddress = true;
+      this.getUserInfo = JSON.parse(window.localStorage['userInfo'])
+      /**API to Save Address**/
+      this.AddressSaveModel.emailId = this.getUserInfo.emailId;
+      this.AddressSaveModel.address = this.myAccountModel.profileInfo.address;
+      this.myAccount.saveAddress(this.AddressSaveModel).subscribe((res) => {
+        this.loader_profileAddress = false;
+        window.localStorage['userInfo'] = JSON.stringify(res);
+      }, (err) => {
+        this.loader_profileAddress = false;
+        console.log(err);
+      });
+      /**API to Save Address**/
+    }
     else if (element == 'dob') {
       this.input_dob = false;
+      this.loader_DOB = true;
+      this.myAccountModel.profileInfo.birthDate = this.append_dob.day.toString();
+      this.myAccountModel.profileInfo.birthMonth = this.append_dob.month.toString();
+      this.myAccountModel.profileInfo.birthYear = this.append_dob.year.toString();
+      this.getUserInfo = JSON.parse(window.localStorage['userInfo'])
+      /**API to Save DOB**/
+      this.DOBSaveModel.emailId = this.getUserInfo.emailId;
+      this.DOBSaveModel.dateOfBirth = this.myAccountModel.profileInfo.birthYear + '-' + this.myAccountModel.profileInfo.birthMonth + '-' + this.myAccountModel.profileInfo.birthDate;
+      console.log(this.DOBSaveModel);
+      this.myAccount.saveDOB(this.DOBSaveModel).subscribe((res) => {
+        this.loader_DOB = false;
+        window.localStorage['userInfo'] = JSON.stringify(res);
+      }, (err) => {
+        this.loader_DOB = false;
+        console.log(err);
+      });
+      /**API to Save DOB**/
       this.myAccountModel.profileInfo.birthDate = this.append_dob.day.toString();
       this.myAccountModel.profileInfo.birthMonth = this.append_dob.month.toString();
       this.myAccountModel.profileInfo.birthYear = this.append_dob.year.toString();
@@ -327,31 +417,91 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     else if (element == 'interest') {
       if (this.getInterest.length > 0) {
+        this.loader_Interest = true;
         this.myAccountModel.profileInfo.consumerInterests = this.getInterest;
         this.getAPICP.consumerInterests = this.myAccountModel.profileInfo.consumerInterests
         this.getInterest = [];
+        /**API to Save Interest**/
+        this.getUserInfo = JSON.parse(window.localStorage['userInfo'])
+        this.InterestSaveModel.emailId = this.getUserInfo.emailId;
+        this.InterestSaveModel.consumerInterests = this.myAccountModel.profileInfo.consumerInterests;
+        this.myAccount.saveInterest(this.InterestSaveModel).subscribe((res) => {
+          this.loader_Interest = false;
+          window.localStorage['userInfo'] = JSON.stringify(res);
+        }, (err) => {
+          this.loader_Interest = false;
+          console.log(err);
+        });
+        /**API to Save Interest**/
       }
       else {
         this.myAccountModel.profileInfo.consumerInterests = this.getAPICP.consumerInterests;
       }
     }
     else if (element == 'shippingAddress') {
+      this.loader_shippingAddress = true;
       obj.input_shippingAddress = false;
       obj.addressLineOne = obj.append_editAddressLine1;
       obj.addressLineTwo = obj.append_editAddressLine2;
       obj.city = obj.append_editShippingCity;
       obj.state = obj.append_editShippingState;
       obj.zipcode = obj.append_editShippingZipcode;
+      delete obj.append_editAddressLine1;
+      delete obj.append_editAddressLine2;
+      delete obj.append_editShippingCity;
+      delete obj.append_editShippingState;
+      delete obj.append_editShippingZipcode;
+      for (var i = 0; i < this.myAccountModel.profileInfo.address.length; i++) {
+        let address = this.myAccountModel.profileInfo.address[i];
+        if (address.addID == obj.addID) {
+          address.addressLineOne = obj.addressLineOne;
+          address.addressLineTwo = obj.addressLineTwo;
+          address.city = obj.city;
+          address.state = obj.state;
+          address.zipcode = obj.zipcode;
+        }
+      }
+      /**API to Save Address**/
+      this.getUserInfo = JSON.parse(window.localStorage['userInfo'])
+      this.AddressSaveModel.emailId = this.getUserInfo.emailId;
+      this.AddressSaveModel.address = this.myAccountModel.profileInfo.address;
+      this.myAccount.saveAddress(this.AddressSaveModel).subscribe((res) => {
+        this.loader_shippingAddress = false;
+        window.localStorage['userInfo'] = JSON.stringify(res);
+      }, (err) => {
+        this.loader_shippingAddress = false;
+        console.log(err);
+      });
+      /**API to Save Address**/
     }
   }
 
   addNewAddress(e) {
     this.addShippingAddress = !this.addShippingAddress;
+    if (this.addShippingAddress) {
+      let getText = document.getElementsByClassName("cursor");
+      for (var i = 0; i < getText.length; i++) getText[i].setAttribute("disabled", "disabled");
+      e.currentTarget.removeAttribute("disabled");
+    }
+    else {
+      let getText = document.getElementsByClassName("cursor");
+      for (var i = 0; i < getText.length; i++) getText[i].removeAttribute("disabled");
+    }
   }
 
   saveNewAddress(e) {
-    this.myAccountModel.profileInfo.address.push(new MyAccountAddress('', this.append_addAddressLine1, this.append_addAddressLine2, this.append_addShippingCity, this.append_addShippingState, this.append_addShippingZipcode, 'shippingAddress'));
-    this.addShippingAddress = false;
+    this.myAccountModel.profileInfo.address.push(new MyAccountAddress('', this.append_addAddressLine1, this.append_addAddressLine2, this.append_addShippingCity, this.append_addShippingState, this.append_addShippingZipcode.toString(), 'shippingAddress'));
+    /**API to Save Address**/
+    this.AddressSaveModel.emailId = this.getUserInfo.emailId;
+    this.AddressSaveModel.address = this.myAccountModel.profileInfo.address;
+    this.myAccount.saveAddress(this.AddressSaveModel).subscribe((res) => {
+      console.log(res);
+      window.localStorage['userInfo'] = JSON.stringify(res);
+      this.addShippingAddress = false;
+    }, (err) => {
+      console.log(err);
+    });
+    /**API to Save Address**/
   }
 
   emailValidator() {

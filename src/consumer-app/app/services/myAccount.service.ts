@@ -8,8 +8,8 @@ export class MyAccountService {
     private BASE_URL: string = environment.profileInterest;
     constructor(private http: Http) { }
 
-    getUserDetails() {
-        const url: string = '/consumer-app/assets/myAccountGet.json';
+    getUserDetails(emailId) {
+        const url: string = `${this.BASE_URL}/email/${emailId}`;
         return this.http.get(url).map(res => res.json());
     }
 
@@ -33,5 +33,35 @@ export class MyAccountService {
     getInterest() {
         const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.getCatalogue}`;
         return this.http.get(url).map((res) => res.json());
+    }
+
+    saveProfileImage(profileImageModel) {
+        const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.myAccountProfileImage}`;
+        return this.http.post(url, profileImageModel).map((res) => res.json());
+    }
+
+    saveEmail(EmailModel) {
+        const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.myAccountEmailId}`;
+        return this.http.post(url, EmailModel).map((res) => res.json());
+    }
+
+    savePassword(PasswordModal) {
+        const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.myAccountPassword}`;
+        return this.http.post(url, PasswordModal).map((res) => res.text());
+    }
+
+    saveDOB(DOBModel) {
+        const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.myAccountDOB}`;
+        return this.http.post(url, DOBModel).map((res) => res.json());
+    }
+
+    saveAddress(AddressModel) {
+        const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.myAccountLocation}`;
+        return this.http.post(url, AddressModel).map((res) => res.json());
+    }
+
+    saveInterest(InterestModel) {
+        const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.myAccountInterest}`;
+        return this.http.post(url, InterestModel).map((res) => res.json());
     }
 }

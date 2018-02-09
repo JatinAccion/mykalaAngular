@@ -8,5 +8,5 @@ export class ConsumerProfileInfo {
     public consumerImagePath: string;
     public gender: string;
     public dateOfBirth: string;
-    public address: ConsumerAddress;
+    public address: Array<ConsumerAddress>;
 }

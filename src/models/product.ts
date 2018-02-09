@@ -19,7 +19,7 @@ export class Product {
     public kalaPrice: number;
     public lowestPrice: number;
     public quantity: number;
-    public shipProfileId: number;
+    public shipProfileId: string;
     public productStatus: boolean | null = true;
     public productActivatedDate: Date | null;
     public createdDate: Date | null;

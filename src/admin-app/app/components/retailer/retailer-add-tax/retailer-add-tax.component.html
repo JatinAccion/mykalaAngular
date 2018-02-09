@@ -8,10 +8,10 @@
         <div class="col-sm-6 pl-4">
             <!-- <input placeholder="search for state" class="form-control txt_Search" type="text" [(ngModel)]="statename"> -->
         </div>
-        <!-- <ol class="ol-3 taxlist">
-            <li *ngFor="let state of Obj.states " class="form-control m-0">
-                <label class="m-0">
-                    <input type="checkbox"> {{state}}
+        <ol class="ol-3 taxlist">
+            <li *ngFor="let state of statesSelected " class="form-control m-0">
+                <label>
+                    <input type="checkbox" [(ngModel)]="state.value"> {{state.key}}
                 </label>
             </li>
         </ol> -->

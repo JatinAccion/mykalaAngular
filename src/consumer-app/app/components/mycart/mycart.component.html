@@ -4,65 +4,50 @@
 
   <!--Cart-->
   <div class="myCart">
-    <div class="myCart-list" *ngFor="let item of itemsInCart | reverse">
+    <div class="myCart-list" *ngFor="let item of itemsInCart">
       <h4 class="subtitle" id="{{item.retailerId}}">{{item.retailerName}}</h4>
       <div class="row">
-        <div class="col-sm-2">
+        <div class="col-sm-2 pr-0">
           <img src="/consumer-app/assets/images/catg-1.png" class="img-fluid" />
         </div>
-        <div class="col-sm-7">
-          <p id="{{item.productId}}">
+        <div class="col-sm-7 pl-4">
+          <div id="{{item.productId}}">
             <strong>{{item.productName}}</strong>
-          </p>
-          <div class="row">
-            <p class="col-sm-3 colorlightGray">Quantity:</p>
-            <p class="col-sm-9">
+          </div>
+          <div class="row pt-2 pb-2">
+            <div class="col-sm-3 colorlightGray">Quantity:</div>
+            <div class="col-sm-9">
               <button class="btn btn_red_right customBtnSmall mr-3" (click)="calculateQantity('decrease', item)">-</button>
               {{item.quantity}}
               <button class="btn btn_red_right customBtnSmall ml-3" (click)="calculateQantity('increase', item)">+</button>
-            </p>
+            </div>
           </div>
-          <div class="row">
-            <p class="col-sm-3 colorlightGray">Price:</p>
-            <p class="col-sm-9">${{item.price}}</p>
+          <div class="row pb-2">
+            <div class="col-sm-3 colorlightGray">Price:</div>
+            <div class="col-sm-9">${{item.price}}</div>
           </div>
-        </div>
-        <div class="col-sm-3">
-          <p>&nbsp;</p>
-          <p class="row">
-            <a class="btn-outer btn_redouter_right" (click)="deleteItem(item, 'cart')">delete</a>
-          </p>
-          <p>&nbsp;</p>
-          <p class="row">
-            <a class="btn-outer btn_redouter_right" (click)="move(item, 'toWishlist')">save for later</a>
-          </p>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-10">
           <hr />
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-10">
-          <div class="row">
-            <p class="col-sm-2 colorred">Total price:</p>
-            <p class="col-sm-10 colorred">
+          <div class="row p-2">
+            <p class="col-sm-3 colorred">Total price:</p>
+            <p class="col-sm-9 colorred">
               $
               <strong class="itemPrices">{{itemTotal(item.price, item.quantity)}}</strong>
             </p>
           </div>
         </div>
+        <div class="col-sm-3">
+          <div class="row pt-3 pb-1">
+            <a class="btn-outer btn_redouter_right" (click)="deleteItem(item, 'cart')">delete</a>
+          </div>
+          <div class="row pt-1">
+            <a class="btn-outer btn_redouter_right" (click)="move(item, 'toWishlist')">save for later</a>
+          </div>
+        </div>
       </div>
-      <div class="row">&nbsp;</div>
     </div>
 
     <div class="myCart-list" *ngIf="!noItemsInCart">
-      <div class="col-sm-12 p-3 text-center">
+      <div class="col-sm-12 pt-1 pb-1 text-center">
         <div class="row">
           <div class="col-sm-2 colorred p-0 text-left">Total Amount:</div>
           <div class="col-sm-4 colorred text-left">
@@ -91,57 +76,42 @@
   <div class="myCart" *ngIf="savedForLater.length > 0">
     <h4 class="subtitle">Saved for later</h4>
 
-    <div class="myCart-list" *ngFor="let item of savedForLater | reverse">
+    <div class="myCart-list" *ngFor="let item of savedForLater">
       <h4 class="subtitle" id="{{item.retailerId}}">{{item.retailerName}}</h4>
       <div class="row">
-        <div class="col-sm-2">
+        <div class="col-sm-2 pr-0">
           <img src="/consumer-app/assets/images/catg-1.png" class="img-fluid" />
         </div>
-        <div class="col-sm-7">
-          <p id="{{item.productId}}">
+        <div class="col-sm-7 pl-4">
+          <div id="{{item.productId}}">
             <strong>{{item.productName}}</strong>
-          </p>
-          <div class="row">
-            <p class="col-sm-3 colorlightGray">Quantity:</p>
-            <p class="col-sm-9">{{item.quantity}}</p>
           </div>
-          <div class="row">
-            <p class="col-sm-3 colorlightGray">Price:</p>
-            <p class="col-sm-9">${{item.price}}</p>
+          <div class="row pt-2 pb-2">
+            <div class="col-sm-3 colorlightGray">Quantity:</div>
+            <div class="col-sm-9">{{item.quantity}}</div>
           </div>
-        </div>
-        <div class="col-sm-3">
-          <p>&nbsp;</p>
-          <p class="row">
-            <a class="btn-outer btn_redouter_right" (click)="deleteItem(item, 'wishlist')">delete</a>
-          </p>
-          <p>&nbsp;</p>
-          <p class="row">
-            <a class="btn-outer btn_redouter_right" (click)="move(item, 'toCart')">move to cart</a>
-          </p>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-10">
+          <div class="row pb-2">
+            <div class="col-sm-3 colorlightGray">Price:</div>
+            <div class="col-sm-9">${{item.price}}</div>
+          </div>
           <hr />
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-10">
           <div class="row">
-            <p class="col-sm-2 colorred">Total price:</p>
-            <p class="col-sm-10 colorred">
+            <p class="col-sm-3 colorred">Total price:</p>
+            <p class="col-sm-9 colorred">
               $
               <strong>{{itemTotal(item.price, item.quantity)}}</strong>
             </p>
           </div>
         </div>
+        <div class="col-sm-3">
+          <div class="row pt-3 pb-1">
+            <a class="btn-outer btn_redouter_right" (click)="deleteItem(item, 'wishlist')">delete</a>
+          </div>
+          <div class="row pt-1">
+            <a class="btn-outer btn_redouter_right" (click)="move(item, 'toCart')">move to cart</a>
+          </div>
+        </div>
       </div>
-      <div class="row">&nbsp;</div>
     </div>
   </div>
   <!--Saved For Later-->
