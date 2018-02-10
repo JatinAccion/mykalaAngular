@@ -10,6 +10,7 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { JoinKalaService } from '../../services/join-kala.service';
 import { ConsumerSignUp } from '../../../../models/consumer-signup';
 import { userMessages, inputValidation } from './join.message';
+import { regexPatterns } from '../../../../common/regexPatterns';
 
 @Component({
   selector: 'app-join-kala',
@@ -20,8 +21,9 @@ import { userMessages, inputValidation } from './join.message';
 export class JoinKalaComponent implements OnInit, CuiComponent {
   loader: boolean = false;
   joinKala: FormGroup;
-  passwordRegex = new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$');
+  passwordRegex = regexPatterns.password;
   fullname = new RegExp('^[a-zA-Z0-9.-]*$');
+  emailRegex = regexPatterns.emailRegex;
   joinUserMsg = userMessages;
   joinInputValMsg = inputValidation;
   userModel = new ConsumerSignUp();
@@ -46,7 +48,7 @@ export class JoinKalaComponent implements OnInit, CuiComponent {
     this.joinKala = this.formBuilder.group({
       firstname: ['', Validators.compose([Validators.required, Validators.pattern(this.fullname)])],
       lastname: ['', Validators.compose([Validators.required, Validators.pattern(this.fullname)])],
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.pattern(this.emailRegex)]],
       password: ['', Validators.compose([Validators.pattern(this.passwordRegex), Validators.required, Validators.minLength(8)])]
     });
   }

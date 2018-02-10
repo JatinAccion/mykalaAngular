@@ -13,7 +13,7 @@
         <!--Block 1-->
         <div class="col-sm-5 p-0">
           <div *ngFor="let interest of interestImages; let i=index">
-            <div *ngIf="i<=1" class="img_holder banner p-2">
+            <div *ngIf="i<=3" class="img_holder banner p-2">
               <img (click)="selectInterest($event, interest)" style="cursor: pointer" src="{{interest.consumerInterestImagePath}}" title="{{interest.consumerInterestImageName}}" id="{{interest.id}}" class="img-fluid" alt="" />
               <img class="aboluteImg" src="/consumer-app/assets/images/select.png" *ngIf="interest.selectImg" />
             </div>
@@ -24,7 +24,7 @@
         <!--Block 2-->
         <div class="col-sm-4 p-0 center-block">
           <div *ngFor="let interest of interestImages; let i=index">
-            <div *ngIf="i>1 && i<=5" class="img_holder banner p-2">
+            <div *ngIf="i>3 && i<=8" class="img_holder banner p-2">
               <img (click)="selectInterest($event, interest)" style="cursor: pointer" src="{{interest.consumerInterestImagePath}}" title="{{interest.consumerInterestImageName}}" id="{{interest.id}}" class="img-fluid" alt="" />
               <img class="aboluteImg" src="/consumer-app/assets/images/select.png" *ngIf="interest.selectImg" />
             </div>
@@ -35,7 +35,7 @@
         <!--Block 3-->
         <div class="col-sm-3 p-0 center-block">
           <div *ngFor="let interest of interestImages; let i=index">
-            <div *ngIf="i>5 && i<=12" class="img_holder banner p-2">
+            <div *ngIf="i>8 && i<=13" class="img_holder banner p-2">
               <img (click)="selectInterest($event, interest)" style="cursor: pointer" src="{{interest.consumerInterestImagePath}}" title="{{interest.consumerInterestImageName}}" id="{{interest.id}}" class="img-fluid" alt="" />
               <img class="aboluteImg" src="/consumer-app/assets/images/select.png" *ngIf="interest.selectImg" />
             </div>

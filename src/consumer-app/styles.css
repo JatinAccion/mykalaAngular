@@ -2381,6 +2381,6 @@ ngb-modal-window{
     opacity:0.5;
 }
 .modal-open .modal{
-    min-height: 350px;
+    min-height: 400px;
     max-height: 500px;
 }

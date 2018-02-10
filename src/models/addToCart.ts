@@ -6,4 +6,6 @@ export class AddToCart {
     public quantity: number;
     public price: number;
     public productImage: string;
+    public inStock: number;
+    public retailerReturns: string;
 }

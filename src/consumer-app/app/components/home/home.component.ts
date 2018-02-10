@@ -15,6 +15,8 @@ import { environment } from '../../../environments/environment';
 export class HomeComponent implements OnInit {
   loader: boolean;
   tiles: any;
+  emailKala: boolean = false;
+  contactKala: boolean = false;
   carousalItems = [];
   searchData = [];
   placeIcons = [
@@ -118,6 +120,16 @@ export class HomeComponent implements OnInit {
     carosal[1].setAttribute("class", "carousel-item active");
   }
 
+  emailKalaBtn() {
+    this.contactKala = false;
+    this.emailKala = true;
+  }
+
+  contactKalaBtn() {
+    this.emailKala = false;
+    this.contactKala = true;
+  }
+
   //Get All Places
   getPlace() {
     this.loader = true;
@@ -162,12 +174,12 @@ export class HomeComponent implements OnInit {
         this.loader = false;
         for (var i = 0; i < res.length; i++) this.searchData.push(new SearchDataModal(res[i].categoryId, res[i].categoryName, res[i].categoryName, "2", ""));
         //Temporary for Image
-        if(res[0].placeName === "Home & Garden"){
+        if (res[0].placeName === "Home & Garden") {
           for (var i = 0; i < this.tempArrCategory.length; i++) {
             this.searchData[i].imgUrl = environment.s3.concat(this.tempArrCategory[i]);
           }
         }
-        else{
+        else {
           for (var i = 0; i < this.searchData.length; i++) {
             this.searchData[i].imgUrl = '/consumer-app/assets/images/banner_home.png';
           }

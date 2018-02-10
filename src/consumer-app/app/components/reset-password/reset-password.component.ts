@@ -5,6 +5,7 @@ import { CoreService } from '../../services/core.service';
 import { userMessages, inputValidation } from './rp.messages';
 import { ResetPasswordService } from '../../services/resetPassword.service';
 import { ResetPasswordModal } from '../../../../models/resetPassword.modal';
+import { regexPatterns } from '../../../../common/regexPatterns';
 
 @Component({
   selector: 'app-reset-password',
@@ -15,7 +16,7 @@ import { ResetPasswordModal } from '../../../../models/resetPassword.modal';
 export class ResetPasswordComponent implements OnInit {
   loader: boolean = false;
   resetPassword: FormGroup;
-  passwordRegex = new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$');
+  passwordRegex = regexPatterns.password;
   rpUserMessage = userMessages;
   rpInputMessage = inputValidation;
   passwordMissMatch: boolean = false;
@@ -26,7 +27,7 @@ export class ResetPasswordComponent implements OnInit {
   constructor(
     private routerOutlet: RouterOutlet,
     private formBuilder: FormBuilder,
-    private router: Router,
+    private route: Router,
     private core: CoreService,
     private rpService: ResetPasswordService
   ) { }
@@ -55,6 +56,9 @@ export class ResetPasswordComponent implements OnInit {
         this.loader = false;
         this.responseHandling.status = true;
         this.responseHandling.response = res;
+        setTimeout(() => {
+          this.route.navigateByUrl('/login')
+        }, 1000);
       });
     }
   }

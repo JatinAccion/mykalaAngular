@@ -9,6 +9,7 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { GetCustomerCards } from '../../../../models/getCards';
 import { CheckoutShippingAddress } from '../../../../models/checkoutShippingAddress';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-checkout',
@@ -27,6 +28,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('ModalBox') ModalBox: ElementRef;
   @ViewChild('editAddressModal') editAddressModal: ElementRef;
   @ViewChild('addNewAddressModal') addNewAddressModal: ElementRef;
+  @ViewChild('retialerReturnModal') retialerReturnModal: ElementRef;
   card: any;
   cardHandler = this.onChange.bind(this);
   error: string;
@@ -44,13 +46,15 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   userId: string;
   getCardsDetails: any;
   loader_getCards: boolean = false;
+  retailerReturnPolicy: string;
 
   constructor(
     private core: CoreService,
     private cd: ChangeDetectorRef,
     private checkout: CheckoutService,
     private modalService: NgbModal,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private route: Router
   ) { }
 
   ngOnInit() {
@@ -217,9 +221,9 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   chargeAmount() {
-    if ((this.selectedAddressDetails && this.selectedCardDetails) == undefined) {
-      alert("Please select atleast 1 Shipping Address and 1 Card");
-    }
+    if ((this.selectedAddressDetails || this.selectedCardDetails) == undefined) alert("Please select a Shipping Address and a Card");
+    else if (this.selectedAddressDetails == undefined) alert("Please select a Shipping Address");
+    else if (this.selectedCardDetails == undefined) alert("Please select a Card");
     else {
       this.loader_chargeAmount = true;
       this.stripeCheckout.customerId = this.selectedCardDetails.customerId;
@@ -227,10 +231,16 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.checkout.chargeAmount(this.stripeCheckout).subscribe((res) => {
         this.loader_chargeAmount = false;
         this.paymentSuccessfullMsg = res;
-        this.open(this.ModalBox)
+        this.open(this.ModalBox);
+        localStorage.removeItem('existingItemsInCart');
+        this.route.navigateByUrl('/myorder');
       })
     }
+  }
 
+  showRetailerReturns(order) {
+    this.retailerReturnPolicy = order.retailerReturns;
+    this.open(this.retialerReturnModal);
   }
 
   open(content, editAddress?: any, addNewAddress?: string) {

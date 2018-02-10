@@ -181,9 +181,11 @@
         <h1>Still got questions?</h1>
         <h4>We’d be delighted to answer them. Just call or email us!</h4>
         <div class="text-center col-sm-12 pb-5">
-            <a href="javascript:void(0)" class="btn btn_default">EMAIL KALA</a>
+            <a (click)="emailKalaBtn()" href="mailto:support@mykala.com" style="width: 150px" class="btn btn_default mr-2">EMAIL KALA</a>
+            <a (click)="contactKalaBtn()" href="javascript:void(0)" style="width: 150px" class="btn btn_default">CALL US</a>
         </div>
-        <h4>1-855-4-MYKALA (695252)</h4>
+        <h4 class="pb-0" *ngIf="emailKala">support@mykala.com</h4>
+        <h4 class="pb-0" *ngIf="contactKala">1-855-4-MYKALA (695252)</h4>
     </div>
 </section>
 <div class="row">

@@ -17,9 +17,9 @@
           <div class="row pt-2 pb-2">
             <div class="col-sm-3 colorlightGray">Quantity:</div>
             <div class="col-sm-9">
-              <button class="btn btn_red_right customBtnSmall mr-3" (click)="calculateQantity('decrease', item)">-</button>
+              <button class="btn btn_red_right customBtnSmall mr-3 decreaseQuantity" (click)="calculateQantity($event, 'decrease', item)">-</button>
               {{item.quantity}}
-              <button class="btn btn_red_right customBtnSmall ml-3" (click)="calculateQantity('increase', item)">+</button>
+              <button class="btn btn_red_right customBtnSmall ml-3 increaseQuantity" (click)="calculateQantity($event, 'increase', item)">+</button>
             </div>
           </div>
           <div class="row pb-2">

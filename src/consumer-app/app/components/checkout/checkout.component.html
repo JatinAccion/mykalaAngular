@@ -118,7 +118,7 @@
                   <td>${{item.price}}</td>
                 </tr>
                 <tr>
-                  <td colspan="2" class="colorred">Return policy</td>
+                  <td colspan="2" class="colorred" (click)="showRetailerReturns(item)">Return policy</td>
                 </tr>
               </table>
             </ng-template>
@@ -197,6 +197,25 @@
   </div>
 </ng-template>
 <!--Modal Payment Confirmation-->
+
+<!--Retailer Returns Policy-->
+<ng-template #retialerReturnModal let-c="close" class="modalBox" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Return Policy</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>
+      {{retailerReturnPolicy}}
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn_red_right" style="margin: 0 auto" (click)="c('Close click')">Close</button>
+  </div>
+</ng-template>
+<!--Retailer Returns Policy-->
 
 <!--Edit Shipping Address-->
 <ng-template #editAddressModal let-c="close" class="modalBox" let-d="dismiss">

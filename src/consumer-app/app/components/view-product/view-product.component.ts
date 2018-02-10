@@ -13,7 +13,8 @@ export class ViewProductComponent implements OnInit {
   selectedProduct: any;
   loader: boolean = false;
   addToCartModal = new AddToCart();
-  quantity: number;
+  quantity: any;
+  inStock = [];
   constructor(
     private core: CoreService,
     private route: Router
@@ -24,7 +25,10 @@ export class ViewProductComponent implements OnInit {
     this.core.hide();
     this.core.searchMsgToggle();
     localStorage.removeItem("addedInCart");
-    if (window.localStorage['selectedProduct'] != undefined) this.selectedProduct = JSON.parse(window.localStorage['selectedProduct']);
+    if (window.localStorage['selectedProduct'] != undefined) {
+      this.selectedProduct = JSON.parse(window.localStorage['selectedProduct']);
+      this.getStockNumber();
+    }
     setTimeout(function () {
       var carouselItem = document.getElementsByClassName("carousel-item")[0] as HTMLElement;
       var listInlineItem = document.getElementsByClassName("list-inline-item")[0] as HTMLElement;
@@ -33,13 +37,21 @@ export class ViewProductComponent implements OnInit {
     }, 1000);
   }
 
+  getStockNumber() {
+    for (var i = 0; i < this.selectedProduct.product.quantity; i++) {
+      this.inStock.push(i + 1);
+    }
+  }
+
   addToCart(to) {
     this.addToCartModal.retailerId = this.selectedProduct.product.retailerId;
     this.addToCartModal.retailerName = this.selectedProduct.retailerName;
     this.addToCartModal.productId = this.selectedProduct.product.kalaUniqueId;
     this.addToCartModal.productName = this.selectedProduct.product.productName;
     this.addToCartModal.price = this.selectedProduct.product.kalaPrice;
-    this.addToCartModal.quantity = this.quantity;
+    this.addToCartModal.quantity = parseFloat(this.quantity);
+    this.addToCartModal.inStock = this.selectedProduct.product.quantity;
+    this.addToCartModal.retailerReturns = this.selectedProduct.retailerReturns;
     if (to === 'toCart') window.localStorage['addedInCart'] = JSON.stringify(this.addToCartModal);
     else window.localStorage['savedForLater'] = JSON.stringify(this.addToCartModal);
     this.route.navigateByUrl('/mycart');
