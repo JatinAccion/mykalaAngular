@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CoreService } from '../../services/core.service';
+import { MyOrdersService } from '../../services/myorder.service';
 
 @Component({
   selector: 'app-myorders',
@@ -8,9 +9,10 @@ import { CoreService } from '../../services/core.service';
   encapsulation: ViewEncapsulation.None
 })
 export class MyordersComponent implements OnInit {
-
+  
   constructor(
-    private core: CoreService
+    private core: CoreService,
+    private myOrder: MyOrdersService
   ) { }
 
   ngOnInit() {

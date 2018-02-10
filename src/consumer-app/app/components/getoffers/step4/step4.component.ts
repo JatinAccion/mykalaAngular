@@ -19,7 +19,8 @@ export class Step4Component implements OnInit {
   Step2Data;
   Step3Data;
   Step4Summary: any; // Contains Selections from Step 1 to Step 4
-  Step4Modal = new OfferInfo4(); // Contains Step 4 Request Modal 
+  Step4Modal = new OfferInfo4(); // Contains Step 4 Request Modal
+  userData: any;
 
   constructor(
     private route: Router,
@@ -44,6 +45,7 @@ export class Step4Component implements OnInit {
       this.Step3Data = JSON.parse(window.localStorage['GetOfferStep_3']);
       this.Step4Summary = { ...this.Step1Data[0], ...this.Step3Data[0] };
     }
+    if (window.localStorage['userInfo'] != undefined) this.userData = JSON.parse(window.localStorage['userInfo']);
     console.log(this.Step4Summary)
   }
 
@@ -52,6 +54,14 @@ export class Step4Component implements OnInit {
   };
 
   next() {
+    var current = new Date();
+    var currentDay = current.getDate()
+    var currentMonth = current.getMonth() + 1
+    var currentYear = current.getFullYear()
+    var forThreeDays = new Date(new Date().getTime() + 72 * 60 * 60 * 1000);
+    var futureDay = forThreeDays.getDate()
+    var futureMonth = forThreeDays.getMonth() + 1
+    var futureYear = forThreeDays.getFullYear()
     this.loader = true;
     this.Step4Modal.placeName = this.Step4Summary.place.name;
     this.Step4Modal.categoryName = this.Step4Summary.category.name;
@@ -60,8 +70,18 @@ export class Step4Component implements OnInit {
     this.Step4Modal.deliveryLocation = this.Step4Summary.location;
     this.Step4Modal.price.minPrice = this.Step4Summary.priceRange.minPrice;
     this.Step4Modal.price.maxPrice = this.Step4Summary.priceRange.maxPrice;
+    this.Step4Modal.startDate = `${currentYear + '-' + currentMonth + '-' + currentDay}`;
+    this.Step4Modal.endDate = `${futureYear + '-' + futureMonth + '-' + futureDay}`;
     this.Step4Modal.typeName = new Array<any>();
     for (var i = 0; i < this.Step4Summary.type.length; i++) this.Step4Modal.typeName.push(this.Step4Summary.type[i].name);
+    if (this.userData == undefined) {
+      this.Step4Modal.emailId = '';
+      this.Step4Modal.userId = '';
+    }
+    else {
+      this.Step4Modal.emailId = this.userData.emailId;
+      this.Step4Modal.userId = this.userData.userId;
+    }
     this.getOffer.confirmOffer(this.Step4Modal).subscribe(res => {
       console.log(res);
       this.loader = false;

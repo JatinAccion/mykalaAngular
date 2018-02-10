@@ -33,7 +33,7 @@ export class BrowseProductComponent implements OnInit {
     localStorage.removeItem("selectedProduct");
     this.loader = true;
     if (window.localStorage['getOffers'] != undefined) {
-      this.getOffersData = JSON.parse(window.localStorage['getOffers']);
+      this.getOffersData = JSON.parse(window.localStorage['getOffers']).getOffersResponse;
       this.loadOffersData();
     }
     else this.loadTypes();
