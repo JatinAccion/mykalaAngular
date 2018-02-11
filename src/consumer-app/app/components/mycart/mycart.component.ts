@@ -124,16 +124,18 @@ export class MycartComponent implements OnInit {
   calculateQantity(e, action, item) {
     for (var i = 0; i < this.itemsInCart.length; i++) {
       if (this.itemsInCart[i].productId == item.productId && action === "decrease") {
-        item.quantity = item.quantity - 1;
-        if (item.quantity == 1) e.currentTarget.setAttribute("disabled", "disabled");
-        else e.currentTarget.nextElementSibling.removeAttribute("disabled");
-        this.itemsInCart[i].quantity = item.quantity;
+        if (item.quantity == 1) return false;
+        else {
+          item.quantity = item.quantity - 1;
+          this.itemsInCart[i].quantity = item.quantity;
+        }
       }
       else if (this.itemsInCart[i].productId == item.productId && action === "increase") {
-        item.quantity = item.quantity + 1;
-        if (item.quantity == item.inStock) e.currentTarget.setAttribute("disabled", "disabled");
-        else e.currentTarget.previousElementSibling.removeAttribute("disabled");
-        this.itemsInCart[i].quantity = item.quantity;
+        if (item.quantity == item.inStock) return false;
+        else {
+          item.quantity = item.quantity + 1;
+          this.itemsInCart[i].quantity = item.quantity;
+        }
       }
       this.itemTotal(item.price, item.quantity);
       this.totalPayableAmount();

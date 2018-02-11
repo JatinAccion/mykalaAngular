@@ -15,6 +15,7 @@ export class ViewProductComponent implements OnInit {
   addToCartModal = new AddToCart();
   quantity: any;
   inStock = [];
+  alreadyAddedInCart: boolean = false;
   constructor(
     private core: CoreService,
     private route: Router
@@ -29,6 +30,7 @@ export class ViewProductComponent implements OnInit {
       this.selectedProduct = JSON.parse(window.localStorage['selectedProduct']);
       this.getStockNumber();
     }
+    if (window.localStorage['existingItemsInCart'] != undefined) this.itemsInCart();
     setTimeout(function () {
       var carouselItem = document.getElementsByClassName("carousel-item")[0] as HTMLElement;
       var listInlineItem = document.getElementsByClassName("list-inline-item")[0] as HTMLElement;
@@ -40,6 +42,15 @@ export class ViewProductComponent implements OnInit {
   getStockNumber() {
     for (var i = 0; i < this.selectedProduct.product.quantity; i++) {
       this.inStock.push(i + 1);
+    }
+  }
+
+  itemsInCart() {
+    let itemsInCart = JSON.parse(window.localStorage['existingItemsInCart']);
+    for (var i = 0; i < itemsInCart.length; i++) {
+      if (this.selectedProduct.product.kalaUniqueId == itemsInCart[i].productId) {
+        this.alreadyAddedInCart = true;
+      }
     }
   }
 
