@@ -13,8 +13,9 @@ export class CheckoutService {
         return this.http.post(url, stripeAddCard).map((res) => res.json());
     }
 
-    getShippingAddress() {
-        const url: string = '/consumer-app/assets/checkoutSA.json';
+    getShippingAddress(emailId) {
+        const BASE_URL: string = environment.profileInterest;
+        const url: string = `${BASE_URL}/email/${emailId}`;
         return this.http.get(url).map(res => res.json());
     }
 
@@ -28,8 +29,14 @@ export class CheckoutService {
         return this.http.post(url, userId).map((res) => res.json());
     }
 
-    chargeAmount(stripeCheckout) {
-        const url: string = `${this.BASE_URL}/${environment.apis.consumerCheckout.chargeCustomer}`;
-        return this.http.post(url, stripeCheckout).map((res) => res.json());
+    chargeAmount(productCheckout) {
+        const url: string = `${this.BASE_URL}/${environment.apis.consumerCheckout.orderPayment}`;
+        return this.http.post(url, productCheckout).map((res) => res.text());
+    }
+
+    getShippingMethods(shippingProfileState, shippingProfileId) {
+        const BASE_URL: string = 'http://dev-retailer-service-mongo.us-east-1.elasticbeanstalk.com/retailer/v1';
+        const url: string = `${BASE_URL}/shippingMethods?locationName=${shippingProfileState}&shippingProfileId=${shippingProfileId}`;
+        return this.http.get(url).map((res) => res.json());
     }
 }

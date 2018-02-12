@@ -8,4 +8,6 @@ export class AddToCart {
     public productImage: string;
     public inStock: number;
     public retailerReturns: string;
+    public shipProfileId: string;
+    public productDescription: string;
 }

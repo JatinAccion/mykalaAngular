@@ -63,6 +63,8 @@ export class ViewProductComponent implements OnInit {
     this.addToCartModal.quantity = parseFloat(this.quantity);
     this.addToCartModal.inStock = this.selectedProduct.product.quantity;
     this.addToCartModal.retailerReturns = this.selectedProduct.retailerReturns;
+    this.addToCartModal.shipProfileId = this.selectedProduct.product.shipProfileId;
+    this.addToCartModal.productDescription = this.selectedProduct.product.productDescription;
     if (to === 'toCart') window.localStorage['addedInCart'] = JSON.stringify(this.addToCartModal);
     else {
       if (window.localStorage['existingItemsInWishList'] != undefined) {

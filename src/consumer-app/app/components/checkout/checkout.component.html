@@ -17,6 +17,7 @@
               <div class="categ_outline_gray customerShippingAddress" style="cursor:pointer" (click)="selectShippingAddress($event, address)">
                 {{address.addressLineOne}}, {{address.city}}, {{address.state}}, {{address.zipcode}}
               </div>
+              <img src="/consumer-app/assets/images/loader.gif" class="ml-3" width="25" height="25" *ngIf="loader_shippingAddress" />
             </div>
             <div class="col-sm-2 text-right">
               <button (click)="editAddress(address)" class="ancRed txtasbutton cursor colorred">edit</button>
@@ -72,10 +73,11 @@
         <div class="col-sm-3 p-0 colorlightGray">
           <p>Shipping method</p>
         </div>
-        <div class="col-sm-8">
-          <div class="categ_outline_gray mb-3">$5.00 - Next day shipping - get it tomorrow, May 29</div>
-          <div class="categ_outline_red mb-3 colorred">$2.00 - Two days shipping - get it Saturday, May 30</div>
-          <div class="categ_outline_gray mb-3">Free-five business days shipping - get it Next Wed, June 3</div>
+        <img src="/consumer-app/assets/images/loader.gif" height="25" width="25" class="ml-3" *ngIf="loader_shippingMethod" />
+        <div *ngIf="showShippingMethod" class="col-sm-8">
+          <div class="categ_outline_gray customerShippingMethod mb-3" style="cursor:pointer" *ngFor="let shippingMethod of shippingMethod.deliveryMethods" (click)="selectShippingMethod($event, shippingMethod)">
+            ${{shippingMethod.deliveryFee}} - {{shippingMethod.deliveryMethodName}}
+          </div>
         </div>
         <div class="col-sm-1"></div>
       </div>
@@ -137,13 +139,13 @@
           <tr>
             <td class="colorlightGray">Shipping</td>
             <td>$
-              <span class="amount">227.50</span>
+              <span class="amount">22.50</span>
             </td>
           </tr>
           <tr>
             <td class="colorlightGray">Tax</td>
             <td>$
-              <span class="amount">227.50</span>
+              <span class="amount">27.50</span>
             </td>
           </tr>
           <tr>
@@ -152,7 +154,7 @@
             </td>
             <td>
               <strong class="colorred">$
-                <span #toBeCharged>{{calculateTotalPayable()}}</span>
+                <span #toBeCharged class="totalAmount">{{calculateTotalPayable()}}</span>
               </strong>
             </td>
           </tr>
@@ -186,10 +188,8 @@
       <br />
       <strong>
         "Order Number -
-        <u>{{paymentSuccessfullMsg.paymentId}}"</u>
+        <u>{{paymentSuccessfullMsg}}"</u>
       </strong>
-      <br /> "You will receive an email confirmation shortly at
-      <u>{{paymentSuccessfullMsg.receiptEmail}}</u>"
     </p>
   </div>
   <div class="modal-footer">

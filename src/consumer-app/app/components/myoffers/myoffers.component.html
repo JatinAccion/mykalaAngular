@@ -1,13 +1,13 @@
 <div class="container">
   <div style="height:180px;width:100%;"></div>
-  <div class="row myCart">
-    <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" id="orderSummaryAccordian">
+  <div class="row myCart mb-4">
+    <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" id="myOfferAccordian">
       <ngb-panel *ngFor="let offer of myOffersDetails">
         <!--Title-->
         <ng-template ngbPanelTitle>
           <div class="row pb-1">
             <!--Left Heading and Time-->
-            <div class="col-sm-7">
+            <div class="col-sm-10">
               <p>
                 <strong>
                   {{offer.getOffersRequestDTO.placeName}} - {{offer.getOffersRequestDTO.categoryName}} - {{offer.getOffersRequestDTO.subCategoryName}}
@@ -16,24 +16,24 @@
 
               <div>
                 <span class="colorlightGray">Get offers started: </span> {{offer.getOffersRequestDTO.startDate}}
-                <span class="colorred">{{offer.getOffersRequestDTO.endDate}}</span>
+                <span class="colorred remainingTime"></span>
                 <span class="colorred">0 offers</span>
               </div>
             </div>
             <!--Left Heading and Time-->
 
             <!--Right Button-->
-            <div class="col-sm-4 mt-2 text-right">
+            <div class="col-sm-2 mt-2 text-right pr-4">
               <button class="btn-outer btn_red_right">edit bid</button>
             </div>
             <!--Right Button-->
           </div>
-          <hr />
         </ng-template>
         <!--Title-->
 
         <!--Content-->
         <ng-template ngbPanelContent>
+          <hr />
           <div class="row relativePosition">
             <!--Left Tiles Details-->
             <div class="col-sm-7 p-0">
