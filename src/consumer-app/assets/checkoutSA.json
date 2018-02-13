@@ -1,0 +1,29 @@
+[
+    {
+        "addID": "1",
+        "addressLineOne": "",
+        "addressLineTwo": "",
+        "city": "",
+        "state": "",
+        "zipcode": "",
+        "addressType": "profileAddress"
+    },
+    {
+        "addID": "2",
+        "addressLineOne": "Avenue Road",
+        "addressLineTwo": "Santa Clara",
+        "city": "Arlington",
+        "state": "MA",
+        "zipcode": "02476",
+        "addressType": "shippingAddress"
+    },
+    {
+        "addID": "3",
+        "addressLineOne": "Dikenson Road",
+        "addressLineTwo": "Church Street",
+        "city": "Washington DC",
+        "state": "London",
+        "zipcode": "12345",
+        "addressType": "shippingAddress"
+    }
+]

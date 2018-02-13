@@ -121,15 +121,21 @@ export class MycartComponent implements OnInit {
     return eval(amounts.join("+"));
   }
 
-  calculateQantity(action, item) {
+  calculateQantity(e, action, item) {
     for (var i = 0; i < this.itemsInCart.length; i++) {
       if (this.itemsInCart[i].productId == item.productId && action === "decrease") {
-        item.quantity = item.quantity - 1;
-        this.itemsInCart[i].quantity = item.quantity;
+        if (item.quantity == 1) return false;
+        else {
+          item.quantity = item.quantity - 1;
+          this.itemsInCart[i].quantity = item.quantity;
+        }
       }
       else if (this.itemsInCart[i].productId == item.productId && action === "increase") {
-        item.quantity = item.quantity + 1;
-        this.itemsInCart[i].quantity = item.quantity;
+        if (item.quantity == item.inStock) return false;
+        else {
+          item.quantity = item.quantity + 1;
+          this.itemsInCart[i].quantity = item.quantity;
+        }
       }
       this.itemTotal(item.price, item.quantity);
       this.totalPayableAmount();
@@ -145,35 +151,86 @@ export class MycartComponent implements OnInit {
     this.addToCartModal.productName = item.productName;
     this.addToCartModal.price = item.price;
     this.addToCartModal.quantity = item.quantity;
+    this.addToCartModal.inStock = item.inStock;
     if (to === 'toCart') {
-      window.localStorage['addedInCart'] = JSON.stringify(this.addToCartModal);
-      for (var i = 0; i < this.savedForLater.length; i++) {
-        if (this.savedForLater[i].productId == this.addToCartModal.productId) {
-          this.savedForLater.splice(i, 1);
+      let moveToCart: boolean = false;
+      let cartItems;
+      if (window.localStorage['existingItemsInCart'] != undefined) {
+        cartItems = JSON.parse(window.localStorage['existingItemsInCart'])
+        for (var i = 0; i < cartItems.length; i++) {
+          if (this.addToCartModal.productId == cartItems[i].productId) {
+            if (eval(`${this.addToCartModal.quantity + cartItems[i].quantity}`) > cartItems[i].inStock) {
+              alert("cannot move to cart");
+              moveToCart = false;
+              return false;
+            }
+            else moveToCart = true;
+          }
+          else if (this.addToCartModal.quantity > this.addToCartModal.inStock) moveToCart = false;
+          else moveToCart = true;
         }
       }
-      window.localStorage['existingItemsInWishList'] = JSON.stringify(this.savedForLater);
-      if (this.savedForLater.length == 0) {
-        this.noItemsInCart = false;
-        this.cartEmpty = false;
-        localStorage.removeItem("existingItemsInWishList");
+      else if (this.addToCartModal.quantity > this.addToCartModal.inStock) {
+        alert("cannot move to cart due to unavailability of stock");
+        moveToCart = false;
+        return false;
       }
-      this.checkItemsInCart();
+      else moveToCart = true;
+      if (moveToCart == true) {
+        window.localStorage['addedInCart'] = JSON.stringify(this.addToCartModal);
+        for (var i = 0; i < this.savedForLater.length; i++) {
+          if (this.savedForLater[i].productId == this.addToCartModal.productId) {
+            this.savedForLater.splice(i, 1);
+          }
+        }
+        window.localStorage['existingItemsInWishList'] = JSON.stringify(this.savedForLater);
+        if (this.savedForLater.length == 0) {
+          this.noItemsInCart = false;
+          this.cartEmpty = false;
+          localStorage.removeItem("existingItemsInWishList");
+        }
+        this.checkItemsInCart();
+      }
     }
     else {
-      window.localStorage['savedForLater'] = JSON.stringify(this.addToCartModal);
-      for (var i = 0; i < this.itemsInCart.length; i++) {
-        if (this.itemsInCart[i].productId == this.addToCartModal.productId) {
-          this.itemsInCart.splice(i, 1);
+      let moveToWishList: boolean = false;
+      let wishListItems;
+      if (window.localStorage['existingItemsInWishList'] != undefined) {
+        wishListItems = JSON.parse(window.localStorage['existingItemsInWishList']);
+        for (var i = 0; i < wishListItems.length; i++) {
+          if (this.addToCartModal.productId == wishListItems[i].productId) {
+            if (eval(`${this.addToCartModal.quantity + wishListItems[i].quantity}`) > wishListItems[i].inStock) {
+              alert("cannot move to wishlist");
+              moveToWishList = false;
+              return false;
+            }
+            else moveToWishList = true;
+          }
+          else if (this.addToCartModal.quantity > this.addToCartModal.inStock) moveToWishList = false;
+          else moveToWishList = true;
         }
       }
-      window.localStorage['existingItemsInCart'] = JSON.stringify(this.itemsInCart);
-      if (this.itemsInCart.length == 0) {
-        this.noItemsInCart = true;
-        this.cartEmpty = true;
-        localStorage.removeItem("existingItemsInCart");
+      else if (this.addToCartModal.quantity > this.addToCartModal.inStock) {
+        alert("cannot move to wishlist due to unavailability of stock");
+        moveToWishList = false;
+        return false;
       }
-      this.checkItemsInWishlist();
+      else moveToWishList = true;
+      if (moveToWishList == true) {
+        window.localStorage['savedForLater'] = JSON.stringify(this.addToCartModal);
+        for (var i = 0; i < this.itemsInCart.length; i++) {
+          if (this.itemsInCart[i].productId == this.addToCartModal.productId) {
+            this.itemsInCart.splice(i, 1);
+          }
+        }
+        window.localStorage['existingItemsInCart'] = JSON.stringify(this.itemsInCart);
+        if (this.itemsInCart.length == 0) {
+          this.noItemsInCart = true;
+          this.cartEmpty = true;
+          localStorage.removeItem("existingItemsInCart");
+        }
+        this.checkItemsInWishlist();
+      }
     }
     this.fromMoveFunction = false;
   }
@@ -207,7 +264,7 @@ export class MycartComponent implements OnInit {
   checkOut() {
     if (window.localStorage['token'] == undefined) {
       let action = confirm("You must be logged in to checkout your cart items!\n\nDo you want to login now ?");
-      if (action == true){
+      if (action == true) {
         window.localStorage['tbnAfterLogin'] = window.location.hash.split("#")[1];
         this.route.navigateByUrl('/login')
       }

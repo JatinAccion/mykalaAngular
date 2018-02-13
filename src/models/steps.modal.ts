@@ -27,6 +27,10 @@ export class OfferInfo4 {
     public deliveryMethod: string;
     public deliveryLocation: Array<any>;
     public price = new PriceRange();
+    public emailId: string;
+    public userId: string;
+    public endDate: string;
+    public startDate: string;
 }
 export class PriceRange {
     public minPrice: number;

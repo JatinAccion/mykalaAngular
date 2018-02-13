@@ -37,7 +37,7 @@ export const apiNames = {
     },
     consumerCheckout: {
         addCard: 'addCustomer',
-        chargeCustomer: 'chargeCustomer',
+        orderPayment: 'orderPayment',
         getCards: 'customerCards',
         updateCard: 'updateCustomer'
     }

@@ -9,6 +9,7 @@ import { Conversation } from '../../models/conversation';
 import { userMessages, inputValidation } from './login.messges';
 import { RememberMe } from '../../../../models/rememberMe';
 import { LocalStorageService } from '../../services/LocalStorage.service';
+import { regexPatterns } from '../../../../common/regexPatterns';
 
 @Component({
   selector: 'app-login',
@@ -21,6 +22,7 @@ export class LoginComponent implements OnInit, CuiComponent {
   loader: boolean = false;
   loginError: boolean;
   userInactive: boolean = false;
+  emailRegex = regexPatterns.emailRegex;
   loginUserMessage = userMessages;
   loginInputValMsg = inputValidation;
   getCredentials = window.localStorage['rememberMe'];
@@ -47,14 +49,14 @@ export class LoginComponent implements OnInit, CuiComponent {
     /**Clearing the Logged In Session */
     if (this.getCredentials != '' && this.getCredentials != undefined) {
       this.loginKala = this.formBuilder.group({
-        email: [JSON.parse(this.getCredentials).email, [Validators.required, Validators.email]],
+        email: [JSON.parse(this.getCredentials).email, [Validators.required, Validators.pattern(this.emailRegex)]],
         password: [window.atob(JSON.parse(this.getCredentials).password), Validators.compose([Validators.required])],
         remember: [JSON.parse(this.getCredentials).remember]
       });
     }
     else {
       this.loginKala = this.formBuilder.group({
-        email: ['', [Validators.required, Validators.email]],
+        email: ['', [Validators.required, Validators.pattern(this.emailRegex)]],
         password: ['', Validators.compose([Validators.required])],
         remember: ['']
       });

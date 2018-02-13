@@ -26,6 +26,7 @@ import { MycartComponent } from './components/mycart/mycart.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { MyordersComponent } from './components/myorders/myorders.component';
 import { MyaccountComponent } from './components/myaccount/myaccount.component';
+import { MyoffersComponent } from './components/myoffers/myoffers.component';
 
 const appRoutes: Routes = [
     {
@@ -97,6 +98,11 @@ const appRoutes: Routes = [
     {
         path: 'myaccount',
         component: MyaccountComponent,
+        data: { header: 'header1' }
+    },
+    {
+        path: 'myoffer',
+        component: MyoffersComponent,
         data: { header: 'header1' }
     },
     {

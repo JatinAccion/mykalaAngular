@@ -715,8 +715,19 @@ a.categ_close{
     background-color: #fff;
     border-bottom-right-radius: 0px;
     /*box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);*/ 
-    border:solid 1px red;
+    border:solid 1px #e06263;
     color:#241610;
+}
+.btn-outer-margin{
+    padding: 0.35rem 1rem !important;
+    margin-top: 0px !important;
+    position: relative;
+    top: 4px;
+    color: #241610 !important;
+    border: solid 1px #e06263 !important;
+}
+.btn-outer-margin:active{
+    background: none !important;
 }
 .catg_kitchen{
     background:  linear-gradient( rgba(0,0,0, .6),  rgba(0,0,0, .6) ), url(/consumer-app/assets/images/catg-1.png); 
@@ -2259,14 +2270,20 @@ form.checkout button:active {
 .StripeElement--webkit-autofill {
     background-color: #fefde5 !important;
 }
-#orderSummaryAccordian{
+#orderSummaryAccordian, 
+#myOfferAccordian{
     width: 100%;
     margin: 0 15px;
 }
-#orderSummaryAccordian .card {
+#orderSummaryAccordian .card{
     border: none;
 }
-#orderSummaryAccordian .card-header {
+#myOfferAccordian .card{
+    border: none;
+    margin-bottom: 30px;
+}
+#orderSummaryAccordian .card-header,
+#myOfferAccordian .card-header {
     padding: 0;
     border-radius: 0;
     color: #231F20;
@@ -2274,10 +2291,18 @@ form.checkout button:active {
     border-bottom: 0px;
     border-top: 1px solid rgba(0,0,0,.125);
 }
-#orderSummaryAccordian .card:last-child .card-header {
+#myOfferAccordian .card-header {
+    border-top:none;
+}
+#orderSummaryAccordian .card:last-child .card-header,
+#myOfferAccordian .card:last-child .card-header {
     border-bottom: 1px solid rgba(0,0,0,.125);
 }
-#orderSummaryAccordian .card-header a{
+#myOfferAccordian .card:last-child .card-header{
+    border-bottom:none;
+}
+#orderSummaryAccordian .card-header a,
+#myOfferAccordian .card-header a{
     color: #231F20;
     padding: 1rem 1.75rem;
     display: block;
@@ -2285,13 +2310,26 @@ form.checkout button:active {
 #orderSummaryAccordian .card .card-header{
     background: url('/consumer-app/assets/images/inactive.png') 330px 5px no-repeat;
 }
+#myOfferAccordian .card .card-header{
+    background: url('/consumer-app/assets/images/inactive.png') right 25px no-repeat;
+    margin-right: 20px;
+}
 #orderSummaryAccordian .card .card-header.active{
     border-bottom:0;
     background: url('/consumer-app/assets/images/active.png') 330px 5px no-repeat;
 }
-#orderSummaryAccordian .card-body{
+#myOfferAccordian .card .card-header.active{
+    border-bottom:0;
+    background: url('/consumer-app/assets/images/active.png') right 25px no-repeat;
+    margin-right: 20px;
+}
+#orderSummaryAccordian .card-body,
+#myOfferAccordian .card-body{
     padding: 0rem 1.75rem 1rem;
     border-bottom: 1px solid rgba(0,0,0,.125);
+}
+#myOfferAccordian .card-body{
+    border-bottom: none;
 }
 #paymentSummary{
     width: 100%;
@@ -2368,4 +2406,8 @@ ngb-modal-window{
 .txtasbutton[disabled] {
     cursor: no-drop;
     opacity:0.5;
+}
+.modal-open .modal{
+    min-height: 500px;
+    max-height: 500px;
 }

@@ -61,8 +61,11 @@ import { CheckoutComponent } from './components/checkout/checkout.component';
 import { ReversePipe } from '../../pipes/reverse.pipe';
 import { CheckoutService } from './services/checkout.service';
 import { MyordersComponent } from './components/myorders/myorders.component';
+import { MyOrdersService } from './services/myorder.service';
 import { MyaccountComponent } from './components/myaccount/myaccount.component';
 import { MyAccountService } from './services/myAccount.service';
+import { MyoffersComponent } from './components/myoffers/myoffers.component';
+import { MyOffersService } from './services/myOffer.service';
 
 @NgModule({
   declarations: [
@@ -97,7 +100,8 @@ import { MyAccountService } from './services/myAccount.service';
     ReversePipe,
     CheckoutComponent,
     MyordersComponent,
-    MyaccountComponent
+    MyaccountComponent,
+    MyoffersComponent
   ],
   imports: [
     BrowserModule,
@@ -111,7 +115,7 @@ import { MyAccountService } from './services/myAccount.service';
     NgbModule.forRoot(),
     SidebarModule.forRoot()
   ],
-  providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, ConversationalService, JoinKalaService, MyAccountService,
+  providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, ConversationalService, JoinKalaService, MyAccountService, MyOrdersService, MyOffersService,
     ProfileInfoService, VerificationService, LocalStorageService, ConsumerInterestService, ResetPasswordService, ForgotPasswordService, GetOfferService, CheckoutService,
     { provide: NgbDateParserFormatter, useClass: NgbDateFRParserFormatter }],
   bootstrap: [AppComponent],

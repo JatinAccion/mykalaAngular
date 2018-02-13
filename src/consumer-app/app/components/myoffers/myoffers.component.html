@@ -1,0 +1,97 @@
+<div class="container">
+  <div style="height:180px;width:100%;"></div>
+  <div class="row myCart mb-4">
+    <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" id="myOfferAccordian">
+      <ngb-panel *ngFor="let offer of myOffersDetails">
+        <!--Title-->
+        <ng-template ngbPanelTitle>
+          <div class="row pb-1">
+            <!--Left Heading and Time-->
+            <div class="col-sm-10">
+              <p>
+                <strong>
+                  {{offer.getOffersRequestDTO.placeName}} - {{offer.getOffersRequestDTO.categoryName}} - {{offer.getOffersRequestDTO.subCategoryName}}
+                </strong>
+              </p>
+
+              <div>
+                <span class="colorlightGray">Get offers started: </span> {{offer.getOffersRequestDTO.startDate}}
+                <span class="colorred remainingTime"></span>
+                <span class="colorred">0 offers</span>
+              </div>
+            </div>
+            <!--Left Heading and Time-->
+
+            <!--Right Button-->
+            <div class="col-sm-2 mt-2 text-right pr-4">
+              <button class="btn-outer btn_red_right">edit bid</button>
+            </div>
+            <!--Right Button-->
+          </div>
+        </ng-template>
+        <!--Title-->
+
+        <!--Content-->
+        <ng-template ngbPanelContent>
+          <hr />
+          <div class="row relativePosition">
+            <!--Left Tiles Details-->
+            <div class="col-sm-7 p-0">
+              <div class="row pl-3">
+                <div class="col-sm-3 pb-2 colorlightGray">Category:</div>
+                <div class="col-sm-9 pb-2">{{offer.getOffersRequestDTO.categoryName}}</div>
+              </div>
+              <div class="row pl-3">
+                <div class="col-sm-3 pb-2 colorlightGray">Sub - category:</div>
+                <div class="col-sm-9 pb-2">{{offer.getOffersRequestDTO.subCategoryName}}</div>
+              </div>
+              <div class="row pl-3">
+                <div class="col-sm-3 pb-2 colorlightGray">Type:</div>
+                <div class="col-sm-9 pb-2">
+                  <span *ngFor="let type of offer.getOffersRequestDTO.typeName">
+                    {{type}}
+                  </span>,
+                </div>
+              </div>
+              <div class="row pl-3">
+                <div class="col-sm-3 pb-2 colorlightGray">Price range:</div>
+                <div class="col-sm-9 pb-2">$ {{offer.getOffersRequestDTO.price.minPrice}} - $ {{offer.getOffersRequestDTO.price.maxPrice}}</div>
+              </div>
+              <div class="row pl-3">
+                <div class="col-sm-3 pb-2 colorlightGray">Delivery:</div>
+                <div class="col-sm-9 pb-2">{{offer.getOffersRequestDTO.deliveryMethod}}</div>
+              </div>
+              <div class="row pl-3">
+                <div class="col-sm-3 pb-2 colorlightGray">Zipcode:</div>
+                <div class="col-sm-9 pb-2">
+                  <span *ngFor="let location of offer.getOffersRequestDTO.deliveryLocation">{{location.zipcode}}</span>
+                </div>
+              </div>
+            </div>
+            <!--Left Tiles Details-->
+
+            <!--Right Product Listing-->
+            <div class="col-sm-5">
+              <div class="row p-2" *ngFor="let product of offer.getOffersResponse">
+                <div class="col-sm-4 p-0">
+                  <img src="/consumer-app/assets/images/product1.png" class="img-fluid" />
+                </div>
+                <div class="col-sm-8">
+                  <p>
+                    <strong>{{product.product.productTypeName}}</strong>
+                  </p>
+                  <div>
+                    {{product.retailerName}}
+                    <span class="float-right colorred"> ${{product.product.kalaPrice}} </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--Right Product Listing-->
+          </div>
+        </ng-template>
+        <!--Content-->
+      </ngb-panel>
+    </ngb-accordion>
+  </div>
+</div>

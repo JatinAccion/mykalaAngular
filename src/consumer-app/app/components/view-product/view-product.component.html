@@ -14,22 +14,6 @@
   <div>
     <img src="/consumer-app/assets/images/prod-thumb.png" />
     <u>{{selectedProduct.retailerName}}</u>
-    <div class="pull-right">
-      <ul class="prd_Soc_icon">
-        <li>
-          <img src="/consumer-app/assets/images/icon_more.png" />
-        </li>
-        <li>
-          <img src="/consumer-app/assets/images/icon_facebook.png" />
-        </li>
-        <li>
-          <img src="/consumer-app/assets/images/icon_twitter.png" />
-        </li>
-        <li>
-          <img src="/consumer-app/assets/images/icon_fav.png" />
-        </li>
-      </ul>
-    </div>
   </div>
   <!--Social Media and Retailer-->
 
@@ -98,18 +82,33 @@
             Next Monday
           </div>
         </div>
-        <div class="col-sm-12 pl-4 pt-3">
+        <!-- <div class="col-sm-12 pl-4 pt-3">
           <input type="number" [(ngModel)]="quantity" placeholder="Quantity" /> {{selectedProduct.product.quantity}} in stock
+        </div> -->
+        <div *ngIf="!alreadyAddedInCart" class="col-sm-12 pl-4 pt-3 mb-4">
+          <label>
+            <strong>Select Quantity</strong>
+          </label>
+          <select [(ngModel)]="quantity" class="form-control">
+            <option *ngFor="let i of inStock" value="{{i}}">{{i}}</option>
+          </select> {{selectedProduct.product.quantity}} in stock
         </div>
-        <br />
-        <br />
-        <div class="col-sm-12 p-2 pl-4 pr-4">
-          <input class="btn btn_red_right w-100" type="button" [disabled]="!quantity" (click)="addToCart('toCart')" value="accept" />
+
+        <div *ngIf="!alreadyAddedInCart" class="col-sm-12 p-2 pl-4 pr-4">
+          <input class="btn btn_red_right w-100" type="button" [disabled]="!quantity" (click)="addToCart('toCart')" value="buy it now" />
         </div>
-        <div class="col-sm-12">
+
+        <div *ngIf="alreadyAddedInCart" class="col-sm-12 p-2 pl-4 pr-4 mt-3">
+          <label>
+            <strong>Item already added in cart</strong>
+          </label>
+          <input class="btn btn_red_right w-100" type="button" routerLink="/mycart" value="go to cart" />
+        </div>
+
+        <div *ngIf="!alreadyAddedInCart" class="col-sm-12">
           <div class="row p-2">
             <div class="col-sm-6">
-              <input class="btn w-100 btn_redouter_right" routerLink="/browse-product" type="button" value="decline" />
+              <input class="btn w-100 btn_redouter_right" routerLink="/getoffer" type="button" value="get offers" />
             </div>
             <div class="col-sm-6">
               <input class="btn w-100 btn_redouter_right" type="button" [disabled]="!quantity" (click)="addToCart('toWishlist')" value="save for later" />

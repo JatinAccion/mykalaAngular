@@ -5,6 +5,7 @@ import { CoreService } from '../../services/core.service';
 import { userMessages, inputValidation } from './fp.message';
 import { ForgotPasswordService } from '../../services/forgotPassword.service';
 import { ForgotPasswordModal } from '../../../../models/forgotPassword.modal';
+import { regexPatterns } from '../../../../common/regexPatterns';
 
 @Component({
   selector: 'app-forgot-password',
@@ -19,6 +20,7 @@ export class ForgotPasswordComponent implements OnInit {
   fpInputMessage = inputValidation;
   emailId: string;
   resetLink: string;
+  emailRegex = regexPatterns.emailRegex;
   fpModal = new ForgotPasswordModal();
   responseHandling = { status: false, response: "" }
 
@@ -33,7 +35,7 @@ export class ForgotPasswordComponent implements OnInit {
   ngOnInit() {
     this.core.checkIfLoggedOut(); /*** If User Logged Out*/
     this.forgotPassword = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.pattern(this.emailRegex)]],
     });
   }
 
