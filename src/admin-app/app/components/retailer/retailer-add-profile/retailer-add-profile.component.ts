@@ -9,7 +9,7 @@ import { RetailerContact } from '../../../../../models/retailer-contact';
 import { RetialerService } from '../retialer.service';
 import { NgbTabset } from '@ng-bootstrap/ng-bootstrap/tabset/tabset';
 import { environment } from '../../../../environments/environment';
-import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
+import { ValidatorExt, ValidateAllZeros } from '../../../../../common/ValidatorExtensions';
 import { inputValidations, userMessages } from './messages';
 import { templateJitUrl } from '@angular/compiler';
 import { CoreService } from '../../../services/core.service';
@@ -86,7 +86,7 @@ export class RetailerAddProfileComponent implements OnInit {
     this.profileFG2 = this.formBuilder.group({
       contact_type: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
       contact_type_name: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
-      contact_name: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
+      contact_name: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
       contact_position: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
       contact_address1: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
       contact_address2: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
@@ -112,11 +112,11 @@ export class RetailerAddProfileComponent implements OnInit {
   }
   getContactsNames() {
     this.contactTypes = [
-      { type: userMessages.contacts.primary , default: true, status: false },
-      { type: userMessages.contacts.general , default: true, status: false },
-      { type: userMessages.contacts.billing , default: true, status: false },
+      { type: userMessages.contacts.primary, default: true, status: false },
+      { type: userMessages.contacts.general, default: true, status: false },
+      { type: userMessages.contacts.billing, default: true, status: false },
       { type: userMessages.contacts.shipping, default: true, status: false },
-      { type: userMessages.contacts.addnew , default: true, status: false },
+      { type: userMessages.contacts.addnew, default: true, status: false },
     ];
 
   }
@@ -186,12 +186,12 @@ export class RetailerAddProfileComponent implements OnInit {
     const contact = this.profileInfoObj.contactPerson.filter(p => p.contactType === this.profileFG2.value.contact_type.type)[0];
     if (contact) {
       this.profileInfoObj.contactPerson.splice(this.profileInfoObj.contactPerson.indexOf(contact), 1);
+      this.core.message.success(userMessages.contactRemoved);
     }
     if (!this.profileFG2.value.contact_type.default) {
       this.contactTypes.splice(this.contactTypes.indexOf(this.profileFG2.value.contact_type), 1);
     }
     this.loadConatactType('');
-    this.core.message.success(userMessages.contactRemoved);
   }
   profileInfoNext() {
     this.readProfileInfo();

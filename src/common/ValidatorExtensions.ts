@@ -77,3 +77,10 @@ export class ValidatorExt {
         return Validators.nullValidator;
     }
 }
+export function ValidateAllZeros(control: AbstractControl) {
+    if (!(/^0*$/.test(control.value))) {
+        return { ValidNumber: true };
+    }
+    return null;
+}
+

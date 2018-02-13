@@ -235,12 +235,20 @@ export class RetialerService {
       .map(res => {
         if (res.text() !== '') {
           if (shippingProfile.shippingProfileId) {
-            shippingProfile.shippingProfileId = res.json().shippingProfileId;
-            this.shippingsDataObj.shippings.push(shippingProfile);
+            if (this.shippingsDataObj.shippings.filter(p => p.shippingProfileId === shippingProfile.shippingProfileId).length > 0) {
+              this.shippingsDataObj.shippings.filter(p => p.shippingProfileId === shippingProfile.shippingProfileId)[0] = shippingProfile;
+            } else {
+              this.shippingsDataObj.shippings.push(shippingProfile);
+            }
           } else {
-            this.shippingsDataObj.shippings.filter(p => p.shippingProfileId === shippingProfile.shippingProfileId)[0] = shippingProfile;
-            this.shippingsData.next(this.shippingsDataObj);
+            shippingProfile.shippingProfileId = res.json().shippingProfileId;
+            if (this.shippingsDataObj.shippings.filter(p => p.sequence === shippingProfile.sequence).length > 0) {
+              this.shippingsDataObj.shippings.filter(p => p.sequence === shippingProfile.sequence)[0] = shippingProfile;
+            } else {
+              this.shippingsDataObj.shippings.push(shippingProfile);
+            }
           }
+          this.shippingsData.next(this.shippingsDataObj);
           return new RetialerShippingProfile(shippingProfile);
         }
       }).catch(this.handleError);

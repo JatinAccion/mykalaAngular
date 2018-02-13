@@ -8,6 +8,9 @@ export class RetialerShippingProfiles {
         if (obj && obj.length > 0) {
             this.retailerId = obj[0].retailerId;
             this.shippings = obj.map(p => new RetialerShippingProfile(p));
+        } else if (obj && obj.shippings && obj.shippings.length > 0) {
+            this.retailerId = obj.retailerId;
+            this.shippings = obj.shippings.map(p => new RetialerShippingProfile(p));
         }
     }
 

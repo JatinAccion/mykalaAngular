@@ -23,7 +23,7 @@ export const inputValidations = {
     'businessName': { required: 'Please enter Business Name ', error: 'Please enter valid Business Name' },
     'tin': { required: 'Please enter Tin', error: 'Please enter valid TIN' },
     'businessSummary': { required: 'Please enter Business Summary', error: 'Please enter valid Business Summary' },
-    'bussines_address': { required: 'Please enter Address line Address line', error: 'Please enter valid Address line Address line' },
+    'bussines_address': { required: 'Please enter Address line', error: 'Please enter valid Address line' },
     'bussines_address2': { required: 'Please enter Address line 2', error: 'Please enter valid Address line 2' },
     'city': { required: 'Please enter City', error: 'Please enter valid City' },
     'state': { required: 'Please enter State', error: 'Please enter valid State' },

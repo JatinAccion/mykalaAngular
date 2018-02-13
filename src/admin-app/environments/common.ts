@@ -7,8 +7,8 @@ export const apiNames = {
         userInfo: 'loginUser'
     },
     users: {
-        forgetPassword: 'user/v1/forgotPassword',
-        resetPassword: 'user/v1/resetPassword',
+        forgetPassword: 'forgotPassword',
+        resetPassword: 'resetPassword',
         getAdmin: 'role/ROLE_ADMIN',
         get: '{userId}',
         save: 'admin',

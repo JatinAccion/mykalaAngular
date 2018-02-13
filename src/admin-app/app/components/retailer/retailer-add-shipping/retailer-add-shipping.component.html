@@ -245,8 +245,7 @@
                                                     </div>
                                                     <div class="float-left" *ngIf="i == 4">
                                                         <span>
-                                                            <input class="form-control ml-2" type="number" class="smallInput" aria-describedby="basic-addon1" [(ngModel)]="shippingMethodCustomName" formControlName="shippingName">
-                                                            days
+                                                            <input class="form-control ml-2" type="number" class="smallInput" aria-describedby="basic-addon1" [(ngModel)]="shippingMethodCustomName" formControlName="shippingName"> days
                                                         </span>
                                                     </div>
                                                 </ng-template>
@@ -360,9 +359,10 @@
                                     <a class="btn btn-default ancProfile1" (click)="shippingNext()">Next</a>
                                 </div>
                                 <div class="col-sm-6 text-right" *ngIf="shipping.step==3">
-                                    <a class="btn btn-default ancProfile1" (click)="saveShipping();">Save</a>
+                                    <button class="btn btn-default ancProfile1" [disabled]="saveLoader" (click)="saveShipping();">Save
+                                        <i class="fa fa-repeat fa-spin" aria-hidden="true" *ngIf="saveLoader"></i>
+                                    </button>
                                     <a class="btn btn-default ancProfile1" (click)="shippingNextProfile()">Next</a>
-                                    <img src="/admin-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="profileSaveloader" />
                                 </div>
                             </div>
                         </div>

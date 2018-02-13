@@ -56,4 +56,7 @@ export class CoreService {
   setDialogResponse(response) {
     this.dialogResponse.next(response);
   }
+  isZeroValue(subject: string): boolean {
+    return /^0*$/.test(subject);
+  }
 }
