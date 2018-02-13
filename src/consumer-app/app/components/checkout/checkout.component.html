@@ -17,7 +17,6 @@
               <div class="categ_outline_gray customerShippingAddress" style="cursor:pointer" (click)="selectShippingAddress($event, address)">
                 {{address.addressLineOne}}, {{address.city}}, {{address.state}}, {{address.zipcode}}
               </div>
-              <img src="/consumer-app/assets/images/loader.gif" class="ml-3" width="25" height="25" *ngIf="loader_shippingAddress" />
             </div>
             <div class="col-sm-2 text-right">
               <button (click)="editAddress(address)" class="ancRed txtasbutton cursor colorred">edit</button>

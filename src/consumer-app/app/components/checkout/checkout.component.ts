@@ -11,6 +11,7 @@ import { CheckoutShippingAddress } from '../../../../models/checkoutShippingAddr
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ProductCheckout, Address, Payment, OrderItems } from '../../../../models/productCheckout';
+import { MyAccountAddressModel } from '../../../../models/myAccountPost';
 
 @Component({
   selector: 'app-checkout',
@@ -30,6 +31,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('editAddressModal') editAddressModal: ElementRef;
   @ViewChild('addNewAddressModal') addNewAddressModal: ElementRef;
   @ViewChild('retialerReturnModal') retialerReturnModal: ElementRef;
+  AddressSaveModel = new MyAccountAddressModel();
   card: any;
   cardHandler = this.onChange.bind(this);
   error: string;
@@ -53,7 +55,6 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   retailerReturnPolicy: string;
   showShippingMethod: boolean = false;
   loader_shippingMethod: boolean = false;
-  loader_shippingAddress: boolean = false;
 
   constructor(
     private core: CoreService,
@@ -112,9 +113,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   loadShippingAddress() {
-    this.loader_shippingAddress = true;
     this.checkout.getShippingAddress(this.userData.emailId).subscribe((res) => {
-      this.loader_shippingAddress = false;
       for (var i = 0; i < res.address.length; i++) {
         let address = res.address[i];
         if (address.addressType === 'shippingAddress') {
@@ -294,15 +293,40 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
   open(content, editAddress?: any, addNewAddress?: string) {
     this.modalService.open(content).result.then((result) => {
+      //Editing Address
       if (editAddress != undefined) {
-        editAddress.addressLineOne = this.editShippingAddressForm.controls.editAddressLineOne.value;
-        editAddress.addressLineTwo = this.editShippingAddressForm.controls.editAddressLineTwo.value;
-        editAddress.city = this.editShippingAddressForm.controls.editCity.value;
-        editAddress.state = this.editShippingAddressForm.controls.editState.value;
-        editAddress.zipcode = this.editShippingAddressForm.controls.editZipcode.value;
+        for (var i = 0; i < this.shippingAddressCheckout.length; i++) {
+          if (this.shippingAddressCheckout[i].addID == editAddress.addID) {
+            this.shippingAddressCheckout[i].addressLineOne = this.editShippingAddressForm.controls.editAddressLineOne.value;
+            this.shippingAddressCheckout[i].addressLineTwo = this.editShippingAddressForm.controls.editAddressLineTwo.value;
+            this.shippingAddressCheckout[i].city = this.editShippingAddressForm.controls.editCity.value;
+            this.shippingAddressCheckout[i].state = this.editShippingAddressForm.controls.editState.value;
+            this.shippingAddressCheckout[i].zipcode = this.editShippingAddressForm.controls.editZipcode.value;
+          }
+        }
+        this.AddressSaveModel.emailId = this.userData.emailId;
+        this.AddressSaveModel.address = this.shippingAddressCheckout;
+        this.checkout.addEditShippingAddress(this.AddressSaveModel).subscribe((res) => {
+          window.localStorage['userInfo'] = JSON.stringify(res);
+          editAddress.addressLineOne = this.editShippingAddressForm.controls.editAddressLineOne.value;
+          editAddress.addressLineTwo = this.editShippingAddressForm.controls.editAddressLineTwo.value;
+          editAddress.city = this.editShippingAddressForm.controls.editCity.value;
+          editAddress.state = this.editShippingAddressForm.controls.editState.value;
+          editAddress.zipcode = this.editShippingAddressForm.controls.editZipcode.value;
+        }, (err) => {
+          console.log(err);
+        });
       }
+      //Adding New Address
       if (addNewAddress != undefined) {
-        this.shippingAddressCheckout.push(new CheckoutShippingAddress('4', this.addShippingAddressForm.controls.addAddressLineOne.value, this.addShippingAddressForm.controls.addAddressLineTwo.value, this.addShippingAddressForm.controls.addCity.value, this.addShippingAddressForm.controls.addState.value, this.addShippingAddressForm.controls.addZipcode.value, 'shippingAddress'))
+        this.shippingAddressCheckout.push(new CheckoutShippingAddress(null, this.addShippingAddressForm.controls.addAddressLineOne.value, this.addShippingAddressForm.controls.addAddressLineTwo.value, this.addShippingAddressForm.controls.addCity.value, this.addShippingAddressForm.controls.addState.value, this.addShippingAddressForm.controls.addZipcode.value, 'shippingAddress'))
+        this.AddressSaveModel.emailId = this.userData.emailId;
+        this.AddressSaveModel.address = this.shippingAddressCheckout;
+        this.checkout.addEditShippingAddress(this.AddressSaveModel).subscribe((res) => {
+          window.localStorage['userInfo'] = JSON.stringify(res);
+        }, (err) => {
+          console.log(err);
+        });
       }
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {

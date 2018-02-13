@@ -39,4 +39,10 @@ export class CheckoutService {
         const url: string = `${BASE_URL}/${environment.apis.shippingMethod.method}/shippingMethods?locationName=${shippingProfileState}&shippingProfileId=${shippingProfileId}`;
         return this.http.get(url).map((res) => res.json());
     }
+
+    addEditShippingAddress(AddressModel) {
+        const BASE_URL: string = environment.profileInterest;
+        const url: string = `${BASE_URL}/${environment.apis.profileInterest.myAccountLocation}`;
+        return this.http.post(url, AddressModel).map((res) => res.json());
+    }
 }

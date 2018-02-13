@@ -18,6 +18,11 @@ export class LogoutComponent implements OnInit {
   onLogout(): void {
     localStorage.removeItem("token");
     localStorage.removeItem("userInfo");
+    localStorage.removeItem("browseProductSearch");
+    localStorage.removeItem("existingItemsInCart");
+    localStorage.removeItem("levelSelections");
+    localStorage.removeItem("selectedProduct");
+    localStorage.removeItem("TotalAmount");
     this.core.clearUser();
     this.core.hideUserInfo(true);
     this.router.navigateByUrl('/login');

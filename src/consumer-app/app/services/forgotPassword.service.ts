@@ -11,4 +11,9 @@ export class ForgotPasswordService {
         const url: string = `${this.BASE_URL}/${environment.apis.userService.forgotPassword}`;
         return this.http.post(url, fpModal).map((res) => res.json())
     }
+
+    getUserByEmailId(emailId) {
+        const url: string = `${this.BASE_URL}/email/${emailId}`;
+        return this.http.get(url).map((res) => res.json())
+    }
 }

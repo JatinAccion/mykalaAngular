@@ -460,16 +460,6 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
       delete obj.append_editShippingCity;
       delete obj.append_editShippingState;
       delete obj.append_editShippingZipcode;
-      for (var i = 0; i < this.myAccountModel.profileInfo.address.length; i++) {
-        let address = this.myAccountModel.profileInfo.address[i];
-        if (address.addID == obj.addID) {
-          address.addressLineOne = obj.addressLineOne;
-          address.addressLineTwo = obj.addressLineTwo;
-          address.city = obj.city;
-          address.state = obj.state;
-          address.zipcode = obj.zipcode;
-        }
-      }
       /**API to Save Address**/
       this.getUserInfo = JSON.parse(window.localStorage['userInfo'])
       this.AddressSaveModel.emailId = this.getUserInfo.emailId;
@@ -499,7 +489,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   saveNewAddress(e) {
-    this.myAccountModel.profileInfo.address.push(new MyAccountAddress('', this.append_addAddressLine1, this.append_addAddressLine2, this.append_addShippingCity, this.append_addShippingState, this.append_addShippingZipcode.toString(), 'shippingAddress'));
+    this.myAccountModel.profileInfo.address.push(new MyAccountAddress(null, this.append_addAddressLine1, this.append_addAddressLine2, this.append_addShippingCity, this.append_addShippingState, this.append_addShippingZipcode.toString(), 'shippingAddress'));
     /**API to Save Address**/
     this.AddressSaveModel.emailId = this.getUserInfo.emailId;
     this.AddressSaveModel.address = this.myAccountModel.profileInfo.address;
@@ -508,6 +498,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
       window.localStorage['userInfo'] = JSON.stringify(res);
       this.addShippingAddress = false;
     }, (err) => {
+      this.addShippingAddress = false;
       console.log(err);
     });
     /**API to Save Address**/

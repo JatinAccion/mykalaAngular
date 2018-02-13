@@ -43,17 +43,26 @@ export class ForgotPasswordComponent implements OnInit {
     this.responseHandling.status = false;
     this.loader = true;
     this.fpModal.email = this.forgotPassword.controls.email.value;
-    this.fpModal.resetLink = window.location.origin + '/#/reset-password';
-    this.fpService.forgotPassword(this.fpModal).subscribe(res => {
-      this.loader = false;
-      this.responseHandling.status = true;
-      this.responseHandling.response = "success";
-      window.localStorage['userInfo'] = JSON.stringify(res);
-    }, err => {
-      this.loader = false;
-      this.responseHandling.status = true;
-      this.responseHandling.response = "fail";
+    this.fpService.getUserByEmailId(this.fpModal.email).subscribe((res) => {
+      let userId = res.userId;
+      this.fpModal.resetLink = window.location.origin + `/#/reset-password?id=${userId}`;
+      this.fpService.forgotPassword(this.fpModal).subscribe(res => {
+        this.loader = false;
+        this.responseHandling.status = true;
+        this.responseHandling.response = "success";
+        window.localStorage['userInfo'] = JSON.stringify(res);
+      }, err => {
+        this.loader = false;
+        this.responseHandling.status = true;
+        this.responseHandling.response = "fail";
+      })
+    }, (err) => {
+      console.log("Error", err)
     });
+
+
+
+
   }
 
 }
