@@ -1,4 +1,4 @@
 export class ResetPasswordModal {
-    public id: number;
+    public id: string;
     public password: string;
 }

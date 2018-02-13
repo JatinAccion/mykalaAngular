@@ -30,7 +30,7 @@ export class RetailerAddReturnsComponent implements OnInit {
   step = 1;
   Obj: RetailerReturnPolicy;
   errorMsgs = inputValidations;
-  saveLoader = true;
+  saveLoader = false;
 
   // #endregion declaration
   constructor(

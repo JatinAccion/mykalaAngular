@@ -142,7 +142,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-6" >
-                    <a (click)="paymentInfoBack()" *ngIf="paymentInfoStep!==1">back</a>
+                    <a (click)="paymentInfoBack()" class="ancDefault" *ngIf="paymentInfoStep!==1">back</a>
                 </div>
                 <div class="col-sm-6 text-right" [ngClass]="{'show': paymentInfoStep==1, 'hide': paymentInfoStep!==1 }">
                     <a class="btn btn-default ancProfile1" (click)="paymentInfoNext()">Next</a>

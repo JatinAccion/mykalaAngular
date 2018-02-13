@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
-import { User, BasicAuth } from '../../../models/user';
+import { User, BasicAuth, UserProfile } from '../../../models/user';
 import { environment } from './../../environments/environment';
+import { Observable } from 'rxjs/Observable';
 
 
 @Injectable()
@@ -36,6 +37,18 @@ export class AuthService {
   //   const url = `${this.BASE_URL}/${environment.apis.Auth.register}`;
   //   return this.http.post(url, user, { headers: this.headers }).toPromise();
   // }
+  getUserByEmail(email: string): Observable<any> {
+    const url = `${environment.userApi}/email/${email}`;
+    return this.http
+      .get(`${url}`)
+      .map(res => {
+        if (res.text() == '') {
+          return 'User Not found';
+        } else {
+          return new UserProfile(res.json());
+        }
+      }); // .catch(p => console.log(p.json()));
+  }
   ensureAuthenticated(token): Promise<any> {
     const url = `${environment.userApi}/${environment.apis.Auth.status}`;
     const headers: Headers = new Headers({

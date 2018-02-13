@@ -66,7 +66,7 @@ export class RetailerAddComponent implements OnInit {
     this.retialerService.paymentData.subscribe(p => this.status.Payment = p.retailerBankPaymentId ? true : false);
     this.retialerService.productData.subscribe(p => this.status.Product = p.status);
     this.retialerService.taxData.subscribe(p => this.status.Tax = p.taxNexusId ? true : false);
-    this.retialerService.shippingsData.subscribe(p => this.status.Shipping = p.retailerId ? true : false);
+    this.retialerService.shippingsData.subscribe(p => this.status.Shipping = p.shippings.filter(q => q.shippingProfileId).length > 0 ? true : false);
 
     this.retialerService.returnData.subscribe(p => this.status.Return = p.shippingReturnId ? true : false);
     this.retialerService.notificationData.subscribe(p => this.status.Notifications = p.shippingNotificationsId ? true : false);

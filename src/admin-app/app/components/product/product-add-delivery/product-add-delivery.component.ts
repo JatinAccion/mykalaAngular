@@ -58,12 +58,12 @@ export class ProductAddDeliveryComponent implements OnInit {
   saveData() {
     this.readForm();
     this.validatorExt.validateAllFormFields(this.fG1);
-    // if (!this.fG1.valid) {
-   // } else {
+    if (!this.fG1.valid) {
+   } else {
       this.saveLoader = true;
       this.productChange.emit(this.product);
       this.SaveData.emit('tab-delivery');
-    // }
+    }
     return false;
   }
 

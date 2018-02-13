@@ -1,8 +1,8 @@
 <div [formGroup]="fG1">
     <div class="form-group">
         <label class="control-label required" [ngClass]="validatorExt.displayFieldCss(fG1.controls.returnPolicy)">Returns and Exchange policy</label>
-        <small class="float-right">{{ validatorExt.remainingCharacters(fG1.controls.returnPolicy, 500) }}  characters left</small>
-        <textarea class="txtarea" maxlength="500"  formControlName="returnPolicy"></textarea>        
+        <small class="float-right">{{ validatorExt.remainingCharacters(fG1.controls.returnPolicy, 500) }} characters left</small>
+        <textarea class="txtarea" maxlength="500" formControlName="returnPolicy"></textarea>
         <app-field-error-display [field]="fG1.controls.returnPolicy" [errorMsg]="errorMsgs"> </app-field-error-display>
     </div>
 
@@ -11,7 +11,10 @@
 <hr />
 <div class="row">
     <div class="col-sm-12 text-right show">
-        <a class="btn btn-default ancProfile1" (click)="saveData();">Save & Next</a>
+        <!-- <a class="btn btn-default ancProfile1" (click)="saveData();">Save & Next</a> -->
+        <button class="btn btn-default ancProfile1" [disabled]="saveLoader" (click)="saveData();">Save & Next
+            <i class="fa fa-repeat fa-spin" aria-hidden="true" *ngIf="saveLoader"></i>
+        </button>
         <img src="/admin-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="saveloader" />
     </div>
 </div>

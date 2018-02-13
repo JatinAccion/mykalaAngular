@@ -46,7 +46,7 @@ export class RetailerAddShippingComponent implements OnInit {
   shippingFG3 = new FormGroup({});
   shippingObj = new RetialerShippingProfile();
   errorMsgs = inputValidations;
-  saveLoader = true;
+  saveLoader = false;
   tiers = new Array<ShippingDeliveryTier>();
   modified = true;
   deliveryMethodCustomName = '';
@@ -96,7 +96,7 @@ export class RetailerAddShippingComponent implements OnInit {
   }
   setActiveTab(event) {
     this.readShipping();
-    this.currentTabIndex = parseInt(event.nextId.replace('tab-shipping', ''), 2);
+    this.currentTabIndex = parseInt(event.nextId.replace('tab-shipping', ''), 0);
     this.setShipping();
   }
   setShipping() {
@@ -104,12 +104,12 @@ export class RetailerAddShippingComponent implements OnInit {
     this.setValidators();
   }
   shippingNextProfile() {
-    if (this.currentTabIndex + 1 === this.shippings.shippings.length) {
-      this.readShipping();
-      this.SaveData.emit('tab-Shipping');
-    } else {
-      this.ngbTabSet.select('tab-shipping' + (this.currentTabIndex + 1));
-    }
+    // if (this.currentTabIndex + 1 === this.shippings.shippings.length) {
+    this.readShipping();
+    this.SaveData.emit('tab-Shipping');
+    // } else {
+    // this.ngbTabSet.select('tab-shipping' + (this.currentTabIndex + 1));
+    // }
 
   }
   deliveryOptionsChange() {
@@ -296,13 +296,13 @@ export class RetailerAddShippingComponent implements OnInit {
           this.saveLoader = true;
           this.retialerService
             .saveShipping(this.shippingObj).subscribe(p => {
-              this.shippingObj = p;
+              this.shippingObj.shippingProfileId = p.shippingProfileId;
               // this.SaveData.emit('tab-Shipping');
               this.modified = false;
               this.core.message.success(userMessages.success);
               this.saveLoader = false;
               return true;
-            }, err => this.core.message.error(userMessages.error), () => this.saveLoader = false);
+            }, err => { this.core.message.error(userMessages.error); this.saveLoader = false; }, () => this.saveLoader = false);
         }
     return false;
   }
