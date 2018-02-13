@@ -231,7 +231,7 @@ a:hover {
   color: #A7A9AB;
   font-weight: lighter;
   display: inline-block;
-  font-size: 40px;
+  font-size: 37px;
   font-family:open_sanslight;
   margin-bottom:50px;
   margin-top:20px;
@@ -2410,4 +2410,37 @@ ngb-modal-window{
 .modal-open .modal{
     min-height: 500px;
     max-height: 500px;
+}
+.dx-slider-range.dx-slider-range-visible{
+    border: 1px solid #E06163;
+    background: #E06163;
+    }
+.dx-slider-handle{
+    margin-top: -9px;
+    margin-right: -7px;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #999;
+    background-color: #337ab7;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    border-radius: 20px;
+    padding: 4px !important;
+    background: #fff;
+}
+.dx-state-hover.dx-slider-handle:not(.dx-state-active),
+.dx-state-focused.dx-slider-handle:not(.dx-state-active){
+	background: #fff !important;
+	border: solid 1px #999 !important;
+}
+
+.dx-state-active.dx-slider-handle{
+	background: #fff !important;
+	border: solid 1px #999 !important;
 }

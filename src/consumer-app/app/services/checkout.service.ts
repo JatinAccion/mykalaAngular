@@ -35,8 +35,8 @@ export class CheckoutService {
     }
 
     getShippingMethods(shippingProfileState, shippingProfileId) {
-        const BASE_URL: string = 'http://dev-retailer-service-mongo.us-east-1.elasticbeanstalk.com/retailer/v1';
-        const url: string = `${BASE_URL}/shippingMethods?locationName=${shippingProfileState}&shippingProfileId=${shippingProfileId}`;
+        const BASE_URL: string = environment.shippingMethod;
+        const url: string = `${BASE_URL}/${environment.apis.shippingMethod.method}/shippingMethods?locationName=${shippingProfileState}&shippingProfileId=${shippingProfileId}`;
         return this.http.get(url).map((res) => res.json());
     }
 }

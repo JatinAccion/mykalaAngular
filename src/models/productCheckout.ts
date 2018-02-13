@@ -1,12 +1,16 @@
 export class ProductCheckout {
     public cutomerId: string;
-    public userId: string;;
+    public userId: string;
+    public source: string;
+    public paymentSource: string;
+    public paymentFunding: string;
+    public last4Digits: string;
     public customerName: string;
     public address = new Address();
-    public orderDate: Date;
+    public purchaseDate: Date;
     public payment = new Payment();
     public orderItems = Array<OrderItems>();
-    public totalPrice: number;
+    public purchaseAmount: number;
 };
 
 export class Address {

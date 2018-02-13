@@ -1,5 +1,7 @@
 <div class="container">
-  <div style="height:180px;width:100%;"></div>
+  <app-sub-menus></app-sub-menus>
+  <div style="height:135px;width:100%;"></div>
+  
   <div class="row myCart mb-4">
     <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" id="myOfferAccordian">
       <ngb-panel *ngFor="let offer of myOffersDetails">

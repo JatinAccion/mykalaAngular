@@ -40,6 +40,9 @@ export const apiNames = {
         orderPayment: 'orderPayment',
         getCards: 'customerCards',
         updateCard: 'updateCustomer'
+    },
+    shippingMethod: {
+        method: 'retailer/v1'
     }
 };
 

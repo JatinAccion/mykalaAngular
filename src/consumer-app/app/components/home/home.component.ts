@@ -39,9 +39,9 @@ export class HomeComponent implements OnInit {
     "/consumer-app/assets/images/banner_kids.png",
     "/consumer-app/assets/images/banner_travel.png",
     "/consumer-app/assets/images/banner_pets.png",
-    "/consumer-app/assets/images/banner_tools.png",
+    "/consumer-app/assets/images/banner_auto.png",
     "/consumer-app/assets/images/banner_fitness.png",
-    "/consumer-app/assets/images/banner_lamp.png"
+    "/consumer-app/assets/images/banner_tools.png"
   ];
   tempArrCategory = [
     "mykala-dev-images/product/Accents+and+Decor.jpg",

@@ -106,7 +106,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.getCardsDetails = [];
       this.loader_getCards = false;
       for (var i = 0; i < res.length; i++) {
-        this.getCardsDetails.push(new GetCustomerCards(res[i].userId, res[i].customerId, res[i].last4Digits, res[i].cardType, res[i].cardHoldersName))
+        this.getCardsDetails.push(new GetCustomerCards(res[i].userId, res[i].customerId, res[i].last4Digits, res[i].cardType, res[i].funding, res[i].cardHoldersName))
       }
     });
   }
@@ -256,16 +256,20 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     else if (this.selectedCardDetails == undefined) alert("Please select a Card");
     else if (this.selectedMethodDetails == undefined) alert("Please select a Shipping Method")
     else {
+      this.ProductCheckoutModal.orderItems = [];
       this.loader_chargeAmount = true;
-      //this.ProductCheckoutModal.cutomerId = this.selectedCardDetails.customerId;
-      this.ProductCheckoutModal.cutomerId = 'cus_CHK3xw3bXcAugL';
+      this.ProductCheckoutModal.cutomerId = this.selectedCardDetails.customerId;
       this.ProductCheckoutModal.userId = this.userData.userId;
       this.ProductCheckoutModal.customerName = this.userData.firstName + ' ' + this.userData.lastName;
       this.ProductCheckoutModal.address = new Address();
       this.ProductCheckoutModal.address = this.selectedAddressDetails;
-      this.ProductCheckoutModal.orderDate = new Date();
+      this.ProductCheckoutModal.purchaseDate = new Date();
       this.ProductCheckoutModal.payment = new Payment();
-      this.ProductCheckoutModal.totalPrice = parseFloat(document.getElementsByClassName("totalAmount")[0].innerHTML);
+      this.ProductCheckoutModal.source = 'card';
+      this.ProductCheckoutModal.paymentFunding = this.selectedCardDetails.funding;
+      this.ProductCheckoutModal.paymentSource = this.selectedCardDetails.cardType;
+      this.ProductCheckoutModal.last4Digits = this.selectedCardDetails.last4Digit;
+      this.ProductCheckoutModal.purchaseAmount = parseFloat(document.getElementsByClassName("totalAmount")[0].innerHTML);
       for (var i = 0; i < this.itemsInCart.length; i++) {
         let item = this.itemsInCart[i]
         this.ProductCheckoutModal.orderItems.push(new OrderItems(item.productId, item.productName, item.retailerName, item.retailerId, item.productDescription, item.price, 0.0, 0, this.selectedMethodDetails.deliveryMethodName))
@@ -276,6 +280,9 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
         this.open(this.ModalBox);
         localStorage.removeItem('existingItemsInCart');
         this.route.navigateByUrl('/myorder');
+      }, (err) => {
+        this.loader_chargeAmount = false;
+        alert("Something went wrong");
       })
     }
   }

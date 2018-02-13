@@ -124,9 +124,9 @@
             <p class="colorlightGray">shipping addresses</p>
             <!--Shipping Address-->
             <div class="row">
-              <button (click)="addNewAddress($event)" class="col-sm-4 p-2 txtasbutton colorred cursor" style="padding-top: 0 !important">add</button>
+              <!-- <button (click)="addNewAddress($event)" class="col-sm-4 p-2 txtasbutton colorred cursor" style="padding-top: 0 !important">add</button> -->
 
-              <div class="col-sm-8 p-0">
+              <div class="col-sm-12 p-0">
                 <!--Add Address Form-->
                 <div *ngIf="addShippingAddress" class="col-sm-10 p-0">
                   <input [(ngModel)]="append_addAddressLine1" type="text" class="txtnml width100 appendedInput" placeholder="Address Line 1">
@@ -171,7 +171,7 @@
             <!--Add New Cards-->
             <div class="row">
               <div class="col-sm-12 p-3 colorlightGray">
-                <p class="colorlightGray">payment information</p>
+                <p class="colorlightGray mb-0">payment information</p>
               </div>
               <div class="col-sm-10 pt-0 pl-3 pr-3">
                 <!--Add New Cards Form-->

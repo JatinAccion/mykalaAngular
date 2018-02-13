@@ -83,12 +83,11 @@ export class Step4Component implements OnInit {
       this.Step4Modal.userId = this.userData.userId;
     }
     this.getOffer.confirmOffer(this.Step4Modal).subscribe(res => {
-      console.log(res);
       this.loader = false;
       localStorage.removeItem("GetOfferStep_1");
       localStorage.removeItem("GetOfferStep_3");
       window.localStorage['getOffers'] = JSON.stringify(res);
-      this.route.navigateByUrl("/browse-product")
+      this.route.navigateByUrl("/myoffer")
     });
   };
 
