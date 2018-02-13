@@ -103,6 +103,8 @@
  .ddl_Contact {
     background: transparent; 
     border: solid 0px;
+    font-size: 14px;
+    color: #999;
 }
 .smallInput{
     background: transparent;
@@ -127,4 +129,7 @@ ol.taxlist li {
 }
 ol.taxlist li label{
     margin-bottom: 0px !important;
+}
+h5{
+    font-size: 14px !important;
 }
