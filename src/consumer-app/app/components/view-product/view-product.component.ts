@@ -17,7 +17,7 @@ export class ViewProductComponent implements OnInit {
   inStock = [];
   alreadyAddedInCart: boolean = false;
   constructor(
-    private core: CoreService,
+    public core: CoreService,
     private route: Router
   ) { }
 

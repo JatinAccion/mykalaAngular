@@ -16,13 +16,14 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
   encapsulation: ViewEncapsulation.None
 })
 export class ProductUploadComponent implements OnInit {
-  fileNames: any;
+  fileNames = '';
   saveLoader: boolean;
   retailerId: any;
   productFiles: Array<any>;
   progress = 0;
+  loading = false;
 
-  constructor(private productService: ProductService, private retialerService: RetialerService, private core: CoreService) {
+  constructor(private productService: ProductService, private retialerService: RetialerService, public core: CoreService) {
 
   }
 

@@ -36,7 +36,7 @@ import { UserModule } from './components/user/user.module';
 import { EnquiryModule } from './components/enquiry/enquiry.module';
 import { OrderModule } from './components/order/order.module';
 import { CanDeactivateGuard } from './services/candeactivate-guard.service';
-import { ConfirmService, ConfirmState } from './services/confirm-modal.service';
+// import { ConfirmService, ConfirmState } from './services/confirm-modal.service';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 @NgModule({
@@ -70,7 +70,9 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     BrowserAnimationsModule,
     ToastrModule.forRoot({ timeOut: 3000, progressBar: true, closeButton: true })
   ],
-  providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, LocalStorageService, CanDeactivateGuard, ConfirmService, ConfirmState],
+  providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, LocalStorageService, CanDeactivateGuard,
+    // ConfirmService, ConfirmState
+  ],
   bootstrap: [AppComponent],
   entryComponents: [HomeComponent, LoginComponent]
 })

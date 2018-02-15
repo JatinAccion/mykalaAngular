@@ -56,8 +56,8 @@ export class RetailerAddShippingComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private retialerService: RetialerService,
-    private validatorExt: ValidatorExt,
-    private core: CoreService
+    public validatorExt: ValidatorExt,
+    public core: CoreService
   ) {
     // this.shippingObj = new RetialerShippingProfile();
   }

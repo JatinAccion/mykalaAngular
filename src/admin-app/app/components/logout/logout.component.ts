@@ -10,7 +10,7 @@ import { CoreService } from '../../services/core.service';
 })
 export class LogoutComponent implements OnInit {
 
-  constructor(private router: Router, private core: CoreService) { }
+  constructor(private router: Router, public core: CoreService) { }
 
   ngOnInit() {
     this.onLogout();

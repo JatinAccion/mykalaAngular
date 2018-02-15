@@ -36,14 +36,14 @@ export class RetailerAddNotificationsComponent implements OnInit {
   step = 1;
   Obj: RetailerNotification;
   errorMsgs = inputValidations;
-  saveLoader = true;
+  saveLoader = false;
 
   // #endregion declaration
   constructor(
     private formBuilder: FormBuilder,
     private retialerService: RetialerService,
-    private validatorExt: ValidatorExt,
-    private core: CoreService
+    public validatorExt: ValidatorExt,
+    public core: CoreService
   ) {
   }
   ngOnInit() {

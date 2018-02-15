@@ -15,7 +15,7 @@ export class BreadcrumsComponent implements OnInit {
   }
 
   sendBreadCrum(tile, IsBc) {
-    this.selectTile.emit({ tile, IsBc })
+    this.selectTile.emit({ tile, IsBc });
   }
 
 }

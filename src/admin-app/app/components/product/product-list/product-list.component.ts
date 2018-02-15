@@ -169,6 +169,14 @@ export class ProductListComponent implements OnInit {
       this.loading = false;
     });
   }
+  getSellerName(retailerId: string) {
+    if (this.retailers && this.retailers.length > 0 && this.retailers.filter(p => p.retailerId === retailerId).length > 0) {
+      return this.retailers.filter(p => p.retailerId === retailerId)[0].businessName;
+    } else {
+      return retailerId;
+    }
+  }
+
 
 
 

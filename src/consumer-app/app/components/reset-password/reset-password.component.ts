@@ -29,7 +29,7 @@ export class ResetPasswordComponent implements OnInit {
     private routerOutlet: RouterOutlet,
     private formBuilder: FormBuilder,
     private route: Router,
-    private core: CoreService,
+    public core: CoreService,
     private rpService: ResetPasswordService,
     private router: ActivatedRoute
   ) { }

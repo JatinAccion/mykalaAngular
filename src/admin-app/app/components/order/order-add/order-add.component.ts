@@ -22,7 +22,7 @@ import { inputValidations } from './messages';
 })
 export class OrderAddComponent implements OnInit {
   fG1: FormGroup;
-  saveloader: boolean;
+  saveLoader: boolean;
   // #region declarations
   orderId = '';
   order = new Order();
@@ -44,7 +44,7 @@ export class OrderAddComponent implements OnInit {
     private router: Router,
     route: ActivatedRoute,
     private orderService: OrderService,
-    private validatorExt: ValidatorExt
+    public validatorExt: ValidatorExt
   ) {
     //this.orderId = route.snapshot.params['id'];
   }
@@ -118,7 +118,7 @@ export class OrderAddComponent implements OnInit {
     }
   }
   saveOrder(): Promise<any> {
-    this.saveloader = true;
+    this.saveLoader = true;
     return Promise(resolve => {
       // this.orderService
       //   .saveOrder(this.order)
@@ -126,14 +126,14 @@ export class OrderAddComponent implements OnInit {
       //     this.orderId = res.json().kalaUniqueId;
       //     this.order.kalaUniqueId = this.orderId;
       //     this.alert = { id: 1, type: 'success', message: 'Saved successfully', show: true };
-      //     this.saveloader = false;
+      //     this.saveLoader = false;
       //     resolve(this.orderId);
       //     return true;
       //   })
       //   .catch(err => {
       //     console.log(err);
       //     this.alert = { id: 1, type: 'danger', message: 'Not able to Save', show: true };
-      //     this.saveloader = false;
+      //     this.saveLoader = false;
       //     return false;
       //   });
     });

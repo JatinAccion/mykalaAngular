@@ -15,7 +15,8 @@ export class UserListComponent implements OnInit {
   users: Array<UserProfile>;
   // currentPage = 0;
   isCollapsed = true;
-  constructor(private userService: UserService, private core: CoreService) {
+  username = ''; p = 0;
+  constructor(private userService: UserService, public core: CoreService) {
     this.users = new Array<UserProfile>();
   }
 

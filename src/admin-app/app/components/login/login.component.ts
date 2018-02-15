@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     private router: Router,
     private auth: AuthService,
-    private core: CoreService,
+    public core: CoreService,
     private localStorageService: LocalStorageService) { }
   ngOnInit() {
     localStorage.removeItem('token');

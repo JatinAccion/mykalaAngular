@@ -9,7 +9,7 @@ import { CoreService } from '../../services/core.service';
 })
 export class HeaderComponent implements OnInit {
   menuCollapse = true;
-  constructor(private core: CoreService) { }
+  constructor(public core: CoreService) { }
 
   ngOnInit() {
     if (window.localStorage['userInfo']) {

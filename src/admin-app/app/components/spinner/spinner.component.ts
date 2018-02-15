@@ -9,7 +9,7 @@ import { CoreService } from '../../services/core.service';
 })
 export class SpinnerComponent implements OnInit {
 
-  constructor(private core: CoreService) { }
+  constructor(public core: CoreService) { }
 
   ngOnInit() {
   }

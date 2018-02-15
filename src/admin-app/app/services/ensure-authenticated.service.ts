@@ -9,7 +9,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Injectable()
 export class EnsureAuthenticated implements CanActivate {
-  constructor(private auth: AuthService, private router: Router, private location: Location, private core: CoreService) {
+  constructor(private auth: AuthService, private router: Router, private location: Location, public core: CoreService) {
     // this.router.events
     //   .subscribe((event) => {
     //     if (event instanceof NavigationStart) {

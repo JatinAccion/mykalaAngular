@@ -34,7 +34,7 @@ export class Step3Component implements OnInit {
     private route: Router,
     private formBuilder: FormBuilder,
     private goService: GetOfferService,
-    private core: CoreService
+    public core: CoreService
   ) {
     this.label = {
       visible: true,

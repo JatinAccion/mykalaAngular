@@ -14,7 +14,7 @@ export class Step2Component implements OnInit {
 
   constructor(
     private route: Router,
-    private core: CoreService
+    public core: CoreService
   ) { }
 
   ngOnInit() {

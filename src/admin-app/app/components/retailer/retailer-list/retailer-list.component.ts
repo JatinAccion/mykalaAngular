@@ -19,7 +19,7 @@ export class RetailerListComponent implements OnInit {
   retailers: Retailers;
   asyncRetailers: Observable<Retailers>;
 
-  constructor(private retialerService: RetialerService, private core: CoreService) {
+  constructor(private retialerService: RetialerService, public core: CoreService) {
     this.retailers = new Retailers();
   }
 

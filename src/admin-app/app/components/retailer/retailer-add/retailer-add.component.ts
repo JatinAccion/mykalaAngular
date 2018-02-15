@@ -53,8 +53,8 @@ export class RetailerAddComponent implements OnInit {
     private router: Router,
     route: ActivatedRoute,
     private retialerService: RetialerService,
-    private validatorExt: ValidatorExt,
-    private core: CoreService
+    public validatorExt: ValidatorExt,
+    public core: CoreService
   ) {
     this.retailerId = route.snapshot.params['id'];
   }

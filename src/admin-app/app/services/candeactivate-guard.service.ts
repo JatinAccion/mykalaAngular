@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanDeactivate, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmService } from './confirm-modal.service';
+// import { ConfirmService } from './confirm-modal.service';
 
 export interface CanComponentDeactivate {
     canDeactivate: () => Observable<boolean> | Promise<boolean> | boolean;
@@ -10,13 +10,15 @@ export interface CanComponentDeactivate {
 
 @Injectable()
 export class CanDeactivateGuard implements CanDeactivate<CanComponentDeactivate> {
-    constructor(private dialogService: ConfirmService) { }
+    constructor(
+        // private dialogService: ConfirmService
+    ) { }
 
     canDeactivate(component: CanComponentDeactivate,
         currentRoute: ActivatedRouteSnapshot,
         currentState: RouterStateSnapshot,
         nextState?: RouterStateSnapshot) {
-        let canLeave = true;
+        const canLeave = true;
 
         // If the user wants to go to home component
         // if (nextState.url === '/') {

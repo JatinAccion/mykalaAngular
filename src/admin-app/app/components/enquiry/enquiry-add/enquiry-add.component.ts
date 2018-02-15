@@ -22,7 +22,7 @@ import { inputValidations } from './messages';
 })
 export class EnquiryAddComponent implements OnInit {
   fG1: FormGroup;
-  saveloader: boolean;
+  saveLoader: boolean;
   // #region declarations
   enquiryId = '';
   enquiry = new Enquiry();
@@ -44,7 +44,7 @@ export class EnquiryAddComponent implements OnInit {
     private router: Router,
     route: ActivatedRoute,
     private enquiryService: EnquiryService,
-    private validatorExt: ValidatorExt
+    public validatorExt: ValidatorExt
   ) {
     //this.enquiryId = route.snapshot.params['id'];
   }
@@ -118,7 +118,7 @@ export class EnquiryAddComponent implements OnInit {
     }
   }
   saveEnquiry(): Promise<any> {
-    this.saveloader = true;
+    this.saveLoader = true;
     return Promise(resolve => {
       // this.enquiryService
       //   .saveEnquiry(this.enquiry)
@@ -126,14 +126,14 @@ export class EnquiryAddComponent implements OnInit {
       //     this.enquiryId = res.json().kalaUniqueId;
       //     this.enquiry.kalaUniqueId = this.enquiryId;
       //     this.alert = { id: 1, type: 'success', message: 'Saved successfully', show: true };
-      //     this.saveloader = false;
+      //     this.saveLoader = false;
       //     resolve(this.enquiryId);
       //     return true;
       //   })
       //   .catch(err => {
       //     console.log(err);
       //     this.alert = { id: 1, type: 'danger', message: 'Not able to Save', show: true };
-      //     this.saveloader = false;
+      //     this.saveLoader = false;
       //     return false;
       //   });
     });

@@ -15,7 +15,7 @@ export class MyordersComponent implements OnInit {
   myorderModal = Array<MyOrders>();
 
   constructor(
-    private core: CoreService,
+    public core: CoreService,
     private myOrder: MyOrdersService
   ) { }
 

@@ -25,13 +25,13 @@ export class ValidatorExt {
             });
         }
     }
-    isFieldValid(field: FormControl) {
+    isFieldValid(field: AbstractControl) {
         if (field && field.valid && field.parent.touched) {
             return field.valid && field.touched;
         }
         return true;
     }
-    displayFieldCss(field: FormControl) {
+    displayFieldCss(field: AbstractControl) {
         return {
             'has-error': this.isFieldValid(field),
             'has-feedback': this.isFieldValid(field),
