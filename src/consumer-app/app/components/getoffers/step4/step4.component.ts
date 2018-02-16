@@ -24,7 +24,7 @@ export class Step4Component implements OnInit {
 
   constructor(
     private route: Router,
-    private core: CoreService,
+    public core: CoreService,
     private getOffer: GetOfferService
   ) { }
 

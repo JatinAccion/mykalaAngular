@@ -15,8 +15,9 @@ export class HeaderComponent implements OnInit {
   lastName: string;
   emailId: string;
   userImg: string;
-
-  constructor(private router: Router, private core: CoreService) { }
+  showLounge: boolean;
+  
+  constructor(private router: Router, public core: CoreService) { }
 
   ngOnInit() {
     this.router.events

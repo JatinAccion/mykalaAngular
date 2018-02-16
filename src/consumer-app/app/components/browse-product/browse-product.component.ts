@@ -25,7 +25,7 @@ export class BrowseProductComponent implements OnInit {
   selectedCategoryData: any;
   getOffersData;
   productListingModal = new BrowseProductsModal();
-  constructor(private homeService: HomeService, private core: CoreService, private route: Router) { }
+  constructor(private homeService: HomeService, public core: CoreService, private route: Router) { }
 
   ngOnInit() {
     this.core.checkIfLoggedOut(); /*** If User Logged Out*/

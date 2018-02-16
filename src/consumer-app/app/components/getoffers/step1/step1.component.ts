@@ -37,7 +37,7 @@ export class Step1Component implements OnInit {
 
   constructor(
     private homeService: HomeService,
-    private core: CoreService,
+    public core: CoreService,
     private route: Router
   ) { }
 

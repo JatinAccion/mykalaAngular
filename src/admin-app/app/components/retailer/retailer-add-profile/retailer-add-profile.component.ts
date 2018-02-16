@@ -48,8 +48,8 @@ export class RetailerAddProfileComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private retialerService: RetialerService,
-    private validatorExt: ValidatorExt,
-    private core: CoreService
+    public validatorExt: ValidatorExt,
+    public core: CoreService
   ) {
   }
   ngOnInit() {
@@ -88,11 +88,11 @@ export class RetailerAddProfileComponent implements OnInit {
       contact_type_name: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
       contact_name: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
       contact_position: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
-      contact_address1: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
+      contact_address1: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex),]],
       contact_address2: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
-      contact_city: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
-      contact_state: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
-      contact_zipcode: ['', [Validators.maxLength(5), Validators.minLength(5), Validators.pattern(environment.regex.numberRegex), Validators.required]],
+      contact_city: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex),]],
+      contact_state: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex),]],
+      contact_zipcode: ['', [Validators.maxLength(5), Validators.minLength(5), Validators.pattern(environment.regex.numberRegex),]],
       contact_email: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.emailRegex), Validators.required]],
       contact_phone_number: ['', [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(environment.regex.numberRegex), Validators.required]],
       contactType: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],

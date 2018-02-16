@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit, CuiComponent {
   constructor(
     private router: Router,
     private auth: AuthService,
-    private core: CoreService,
+    public core: CoreService,
     private formBuilder: FormBuilder,
     private localStorageService: LocalStorageService) { }
 

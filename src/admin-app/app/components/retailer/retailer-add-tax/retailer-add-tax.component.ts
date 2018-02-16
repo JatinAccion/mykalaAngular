@@ -31,7 +31,7 @@ export class RetailerAddTaxComponent implements OnInit {
   step = 1;
   Obj: RetailerTax;
   errorMsgs = inputValidations;
-  saveLoader = true;
+  saveLoader = false;
   states: MasterData;
   statesSelected = new Array<KeyValue<string, boolean>>();
 
@@ -39,8 +39,8 @@ export class RetailerAddTaxComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private retialerService: RetialerService,
-    private validatorExt: ValidatorExt,
-    private core: CoreService
+    public validatorExt: ValidatorExt,
+    public core: CoreService
   ) {
     this.Obj = new RetailerTax();
   }

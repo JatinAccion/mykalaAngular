@@ -76,7 +76,7 @@
                     <input type="checkbox">
                 </td>
                 <td>{{product.productStatus?'Active': 'InActive'}}</td>
-                <td>{{product.retailerId}}</td>
+                <td>{{getSellerName(product.retailerId)}}</td>
                 <td>
                     <a class="colorBlue" (click)="product.isCollapsed = !product.isCollapsed" [attr.aria-expanded]="!product.isCollapsed" aria-controls="collapseExample">
                         {{product.productName}}

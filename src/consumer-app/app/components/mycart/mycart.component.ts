@@ -18,7 +18,7 @@ export class MycartComponent implements OnInit {
   addToCartModal = new AddToCart();
   fromMoveFunction: boolean = false;
   constructor(
-    private core: CoreService,
+    public core: CoreService,
     private route: Router
   ) { }
 

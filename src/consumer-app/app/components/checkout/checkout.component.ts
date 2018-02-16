@@ -57,7 +57,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   loader_shippingMethod: boolean = false;
 
   constructor(
-    private core: CoreService,
+    public core: CoreService,
     private cd: ChangeDetectorRef,
     private checkout: CheckoutService,
     private modalService: NgbModal,

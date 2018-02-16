@@ -16,7 +16,7 @@ export class DialogComponent implements OnInit {
   subscription: Subscription;
   closeResult: string;
   @ViewChild('content') content: TemplateRef<any>;
-  constructor(private core: CoreService, private modalService: NgbModal) { }
+  constructor(public core: CoreService, private modalService: NgbModal) { }
 
   ngOnInit() {
     this.subscription = this.core.dialogVisible.subscribe(p => {

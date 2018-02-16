@@ -26,7 +26,7 @@ export class ConsumerInterestComponent implements OnInit {
   headerMessage: string;
   getUserInfo: any;
 
-  constructor(private routerOutlet: RouterOutlet, private router: Router, private interest: ConsumerInterestService, private core: CoreService) { }
+  constructor(private routerOutlet: RouterOutlet, private router: Router, private interest: ConsumerInterestService, public core: CoreService) { }
 
   ngOnInit() {
     /**Clearing the Logged In Session */

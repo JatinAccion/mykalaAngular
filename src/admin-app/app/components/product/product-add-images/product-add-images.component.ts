@@ -37,8 +37,8 @@ export class ProductAddImagesComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private productService: ProductService,
-    private validatorExt: ValidatorExt,
-    private core: CoreService
+    public validatorExt: ValidatorExt,
+    public core: CoreService
   ) {
   }
   ngOnInit() {

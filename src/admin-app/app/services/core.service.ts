@@ -8,7 +8,7 @@ import { Promise } from 'q';
 import { Alert } from '../../../models/IAlert';
 @Injectable()
 export class CoreService {
-  user: User;
+  user = new User('', '', '');
 
   navVisible = true;
   spinnerVisible = false;

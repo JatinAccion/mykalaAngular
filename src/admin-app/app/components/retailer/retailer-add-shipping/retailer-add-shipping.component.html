@@ -227,6 +227,7 @@
                             </div>
                             <div [formGroup]="shippingFG2" [ngClass]="{'show': shipping.step==2, 'hide': shipping.step!==2  }">
                                 <div class="row m-0 shippingdelivery" [ngClass]="{'show': shippingFG1.value.deliveryOptions !== 'freeshipping', 'hide': shippingFG1.value.deliveryOptions === 'freeshipping' }">
+                                        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(shippingFG1.controls.shippingProfileName)">Available shipping methods</label>
                                     <div formArrayName="shippingMethods" class="well well-lg col-md-12">
                                         <ngb-accordion #acc="ngbAccordion" [closeOthers]="true">
                                             <ngb-panel id="toggle-{{i}}" class="row border_outline m-3 p-2" *ngFor="let option of shippingFG2.get('shippingMethods').controls; let i=index;" [formGroupName]="i" [disabled]="option.value.disabled">
@@ -245,7 +246,7 @@
                                                     </div>
                                                     <div class="float-left" *ngIf="i == 4">
                                                         <span>
-                                                            <input class="form-control ml-2" type="number" class="smallInput" aria-describedby="basic-addon1" [(ngModel)]="shippingMethodCustomName" formControlName="shippingName"> days
+                                                            <input class="form-control ml-2" type="text" class="smallInput" aria-describedby="basic-addon1" [(ngModel)]="deliveryMethodCustomName" formControlName="shippingName"> days
                                                         </span>
                                                     </div>
                                                 </ng-template>

@@ -23,7 +23,7 @@ import { CoreService } from '../../../services/core.service';
 })
 export class UserAddComponent implements OnInit {
   fG1: FormGroup;
-  saveloader: boolean;
+  saveLoader: boolean;
   // #region declarations
   userId = '';
   user = new UserProfile();
@@ -45,8 +45,8 @@ export class UserAddComponent implements OnInit {
     private router: Router,
     route: ActivatedRoute,
     private userService: UserService,
-    private validatorExt: ValidatorExt,
-    private core: CoreService
+    public validatorExt: ValidatorExt,
+    public core: CoreService
   ) {
     this.userId = route.snapshot.params['id'];
   }
@@ -88,24 +88,24 @@ export class UserAddComponent implements OnInit {
     if (!this.fG1.valid) {
       this.core.message.info('Please complete all mandatory fields');
     } else {
-      this.saveloader = true;
+      this.saveLoader = true;
       this.readForm();
       this.userService
         .save(this.user)
         .then(res => {
           if (res.user_status === 'alreadyExists') {
-            this.saveloader = false;
+            this.saveLoader = false;
             this.core.message.info(userMessages.accountExist);
           } else {
             this.core.message.success(userMessages.success);
-            this.saveloader = false;
+            this.saveLoader = false;
             this.router.navigateByUrl('/user-list');
           }
         })
         .catch(err => {
           console.log(err);
           this.alert = { id: 1, type: 'danger', message: 'Not able to Save', show: true };
-          this.saveloader = false;
+          this.saveLoader = false;
           return false;
         });
     }

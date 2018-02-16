@@ -37,7 +37,7 @@ export class ProductAddPricingComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private retialerService: ProductService,
-    private validatorExt: ValidatorExt
+    public validatorExt: ValidatorExt
   ) {
   }
   ngOnInit() {

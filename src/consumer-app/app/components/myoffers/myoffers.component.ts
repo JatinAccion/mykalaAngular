@@ -14,7 +14,7 @@ export class MyoffersComponent implements OnInit {
   startDate: {};
 
   constructor(
-    private core: CoreService,
+    public core: CoreService,
     private myOffer: MyOffersService
   ) { }
 

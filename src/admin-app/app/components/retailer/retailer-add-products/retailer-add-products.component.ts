@@ -42,14 +42,14 @@ export class RetailerAddProductsComponent implements OnInit {
   categorySettings = {};
   subCategorySettings = {};
   productTypeSettings = {};
-  saveLoader = true;
+  saveLoader = false;
   fG1: FormGroup;
   constructor(
     private formBuilder: FormBuilder,
     private retialerService: RetialerService,
     private productService: ProductService,
-    private validatorExt: ValidatorExt,
-    private core: CoreService
+    public validatorExt: ValidatorExt,
+    public core: CoreService
   ) {
   }
   setFormValidators() {

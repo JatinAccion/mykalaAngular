@@ -37,7 +37,7 @@ export class ProductMetaComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private productService: ProductService,
-    private validatorExt: ValidatorExt
+    public validatorExt: ValidatorExt
   ) {
   }
   ngOnInit() {

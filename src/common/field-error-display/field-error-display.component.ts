@@ -11,7 +11,7 @@ import { ValidatorExt } from '../ValidatorExtensions';
 export class FieldErrorDisplayComponent implements OnInit {
   @Input() errorMsg: any;
   @Input() field: any;
-  constructor(private validatorExt: ValidatorExt) { }
+  constructor(public validatorExt: ValidatorExt) { }
   getHasRequired() {
     if (this.field) {
       return this.validatorExt.hasRequiredField(this.field);

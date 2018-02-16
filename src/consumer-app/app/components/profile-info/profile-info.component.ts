@@ -39,7 +39,7 @@ export class ProfileInfoComponent implements OnInit {
   maxDate;
   today = new Date();
 
-  constructor(private routerOutlet: RouterOutlet, private router: Router, private profileInfoServ: ProfileInfoService, private formBuilder: FormBuilder, private core: CoreService) {
+  constructor(private routerOutlet: RouterOutlet, private router: Router, private profileInfoServ: ProfileInfoService, private formBuilder: FormBuilder, public core: CoreService) {
     this.minDate = { year: 1940, month: 1, day: 1 };
     this.maxDate = { year: this.today.getFullYear(), month: this.today.getMonth() + 1, day: this.today.getDate() };
   }

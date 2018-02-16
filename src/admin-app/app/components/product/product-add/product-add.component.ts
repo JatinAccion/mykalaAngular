@@ -28,7 +28,9 @@ export class ProductAddComponent implements OnInit {
   retailer: RetailerProfileInfo;
   reatileDummy: RetailerProfileInfo;
   fG1: FormGroup;
-  saveloader: boolean;
+  saveLoader: boolean;
+  currentJustify = 'start';
+  currentOrientation = 'horizontal';
   // #region declarations
   productId = '';
   product = new Product();
@@ -51,8 +53,8 @@ export class ProductAddComponent implements OnInit {
     route: ActivatedRoute,
     private productService: ProductService,
     private retialerService: RetialerService,
-    private validatorExt: ValidatorExt,
-    private core: CoreService
+    public validatorExt: ValidatorExt,
+    public core: CoreService
   ) {
     //this.productId = route.snapshot.params['id'];
     this.retailers = new Array<RetailerProfileInfo>();
@@ -125,7 +127,7 @@ export class ProductAddComponent implements OnInit {
     }
   }
   saveProduct(): Promise<any> {
-    this.saveloader = true;
+    this.saveLoader = true;
     return Promise(resolve => {
       this.productService
         .saveProduct(this.product)
@@ -133,14 +135,14 @@ export class ProductAddComponent implements OnInit {
           this.productId = res.json().kalaUniqueId;
           this.product.kalaUniqueId = this.productId;
           this.alert = { id: 1, type: 'success', message: 'Saved successfully', show: true };
-          this.saveloader = false;
+          this.saveLoader = false;
           resolve(this.productId);
           return true;
         })
         .catch(err => {
           console.log(err);
           this.alert = { id: 1, type: 'danger', message: 'Not able to Save', show: true };
-          this.saveloader = false;
+          this.saveLoader = false;
           return false;
         });
     });

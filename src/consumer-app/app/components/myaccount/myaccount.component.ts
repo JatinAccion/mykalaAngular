@@ -93,7 +93,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   getUserInfo: any;
 
   constructor(
-    private core: CoreService,
+    public core: CoreService,
     private myAccount: MyAccountService,
     private cd: ChangeDetectorRef,
     private route: Router
