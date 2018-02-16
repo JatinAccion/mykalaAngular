@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
-import { environment } from '../../environments/environment';
+import { environment } from '../../environments/environment.local';
 
 @Injectable()
 export class MyOffersService {
@@ -10,7 +10,7 @@ export class MyOffersService {
     constructor(private http: Http) { }
 
     loadOffers(emailId) {
-        const url: string = `${this.BASE_URL}/email/${emailId}`;
+        const url: string = `${this.BASE_URL}/myOffer/${emailId}`;
         return this.http.get(url).map((res) => res.json())
     }
 }

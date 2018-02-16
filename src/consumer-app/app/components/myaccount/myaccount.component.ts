@@ -137,6 +137,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     this.core.checkIfLoggedOut(); /*** If User Logged Out*/
     this.core.hide();
     this.core.searchMsgToggle();
+    this.core.hideUserInfo(false);
     this.imgS3 = environment.s3;
     if (window.localStorage['userInfo'] != undefined) this.getUserInfo = JSON.parse(window.localStorage['userInfo'])
     this.getConsumerProfile();
@@ -251,6 +252,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
         this.myAccount.saveProfileImage(this.ProfileSaveModel).subscribe((res) => {
           this.loader_profileImage = false;
           window.localStorage['userInfo'] = JSON.stringify(res);
+          this.core.hideUserInfo(false);
         }, (err) => {
           this.loader_profileImage = false;
           console.log(err);
@@ -273,14 +275,28 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
           this.input_getLocation = true;
           input.removeAttribute('readonly');
           this.fetchGeoCode = data.results[0].formatted_address;
+          let addProfileAddress: boolean = false;
           for (var i = 0; i < this.myAccountModel.profileInfo.address.length; i++) {
             let address = this.myAccountModel.profileInfo.address[i]
             if (address.addressType == 'profileAddress') {
               address.city = this.fetchGeoCode.split(',')[0];
               address.state = this.fetchGeoCode.split(',')[1].trim().split(" ")[0];
               address.zipcode = this.append_Location;
-              address.addressType = 'profileAddress';
+              addProfileAddress = true;
+              return false;
             }
+            else addProfileAddress = false;
+          }
+          if (addProfileAddress == false) {
+            this.myAccountModel.profileInfo.address.push({
+              addID: null,
+              addressLineOne: "",
+              addressLineTwo: "",
+              addressType: "profileAddress",
+              city: this.fetchGeoCode.split(',')[0],
+              state: this.fetchGeoCode.split(',')[1].trim().split(" ")[0],
+              zipcode: this.append_Location
+            })
           }
         });
     }

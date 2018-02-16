@@ -95,8 +95,8 @@ export class LoginComponent implements OnInit, CuiComponent {
           this.userInactive = true;
         }
         else {
-          this.core.hideUserInfo(false);
           window.localStorage['userInfo'] = JSON.stringify(res);
+          this.core.hideUserInfo(false);
           this.core.setUser(res);
           if (window.localStorage['tbnAfterLogin'] != undefined) {
             let url = window.localStorage['tbnAfterLogin'];

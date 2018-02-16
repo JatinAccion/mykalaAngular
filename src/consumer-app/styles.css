@@ -1068,7 +1068,7 @@ ul.prd_Soc_icon li{
 }
 .sub_Menu{
     position: fixed;  
-    top: 75px;
+    top: 81px;
     background: #fff;
     width: 100%;
     left: 0px;
@@ -2443,4 +2443,21 @@ ngb-modal-window{
 .dx-state-active.dx-slider-handle{
 	background: #fff !important;
 	border: solid 1px #999 !important;
+}
+.multi_scroll{ 
+    overflow-y:auto;
+    height: 300px;
+}
+.userProfileImage img{
+    width:45px;
+    height:45px;
+    border-radius: 50px;
+}
+.staticMsgName{
+    padding-left: 52px !important;
+}
+.dynamicName{
+    position: relative;
+    top: 1px;
+    width: 85px !important;
 }

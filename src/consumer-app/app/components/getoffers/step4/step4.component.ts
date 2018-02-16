@@ -70,8 +70,8 @@ export class Step4Component implements OnInit {
     this.Step4Modal.deliveryLocation = this.Step4Summary.location;
     this.Step4Modal.price.minPrice = this.Step4Summary.priceRange.minPrice;
     this.Step4Modal.price.maxPrice = this.Step4Summary.priceRange.maxPrice;
-    this.Step4Modal.startDate = `${currentYear + '-' + currentMonth + '-' + currentDay}`;
-    this.Step4Modal.endDate = `${futureYear + '-' + futureMonth + '-' + futureDay}`;
+    this.Step4Modal.startDate = current;
+    this.Step4Modal.endDate = forThreeDays;
     this.Step4Modal.typeName = new Array<any>();
     for (var i = 0; i < this.Step4Summary.type.length; i++) this.Step4Modal.typeName.push(this.Step4Summary.type[i].name);
     if (this.userData == undefined) {

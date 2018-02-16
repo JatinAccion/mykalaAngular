@@ -3,7 +3,7 @@ import { Headers, Http } from '@angular/http';
 import { User, BasicAuth } from '../../../models/user';
 
 import 'rxjs/add/operator/toPromise';
-import { environment } from './../../environments/environment';
+import { environment } from './../../environments/environment.local';
 
 @Injectable()
 export class AuthService {
