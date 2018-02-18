@@ -50,8 +50,8 @@ export class ProductAddMoreComponent implements OnInit {
 
   setFormValidators() {
     this.fG1 = this.formBuilder.group({
-      orderEmail: ['', [Validators.email, Validators.maxLength(255), Validators.required]],
-      shipEmail: ['', [Validators.maxLength(255), Validators.email, Validators.required]],
+      orderEmail: ['', [Validators.pattern(environment.regex.emailRegex), Validators.maxLength(255), Validators.required]],
+      shipEmail: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.emailRegex), Validators.required]],
     });
 
     this.errorMsgs = {

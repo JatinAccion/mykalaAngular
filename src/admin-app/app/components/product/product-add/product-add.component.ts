@@ -30,7 +30,7 @@ export class ProductAddComponent implements OnInit {
   fG1: FormGroup;
   saveLoader: boolean;
   currentJustify = 'start';
-  currentOrientation = 'horizontal';
+  currentOrientation = 'vertial';
   // #region declarations
   productId = '';
   product = new Product();

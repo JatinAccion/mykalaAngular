@@ -12,6 +12,7 @@ export const environment = {
   Api: 'http://localhost:8081',
   AdminApi: 'http://localhost:9083',
   productApi: 'http://localhost:9087/api',
+  stripePK: 'pk_test_9th9u2YsJ2y1ms60AgtpXoMS',
   apis: apiNames,
   regex: regexPatterns,
   commonMsg: commonMessages

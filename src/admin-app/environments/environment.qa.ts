@@ -13,6 +13,7 @@ export const environment = {
   AdminApi: 'http://qa-retailer-service.us-west-1.elasticbeanstalk.com/retailer/v1',
   productApi: 'http://qa-product-service.us-west-1.elasticbeanstalk.com/api',
   userApi: 'http://qa-signup-service.us-west-1.elasticbeanstalk.com/user/v1',
+  stripePK: 'pk_test_9th9u2YsJ2y1ms60AgtpXoMS',
   apis: apiNames,
   regex: regexPatterns,
   commonMsg: commonMessages

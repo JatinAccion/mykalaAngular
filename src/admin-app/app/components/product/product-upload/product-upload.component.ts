@@ -28,7 +28,9 @@ export class ProductUploadComponent implements OnInit {
   }
 
   ngOnInit() {
-
+//get upload history
+// create model
+//     
   }
   upload() {
     this.productService.saveproductFiles(this.retailerId, this.productFiles).subscribe(event => {
@@ -52,6 +54,7 @@ export class ProductUploadComponent implements OnInit {
         const file = fileInput.target.files[i];
         this.productFiles.push({ file: file, mainImage: false });
         this.fileNames += '; ' + file.name;
+        this.upload();
 
       }
     }

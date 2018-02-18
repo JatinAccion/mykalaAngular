@@ -15,7 +15,7 @@ export class StatusComponent implements OnInit {
     if (token) {
       this.auth.ensureAuthenticated(token)
       .then((user) => {
-        console.log(user.json());
+        // console.log(user.json());
         if (user.json().status === 'success') {
           this.isLoggedIn = true;
         }

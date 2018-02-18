@@ -1,6 +1,7 @@
 export const userMessages = {
-    success: 'Saved successfully',
+    success: 'Payment Info Saved',
     error: '',
+    requiredFeilds: 'Please complete all mandatory fields',
 };
 export const inputValidations = {
     'paymentMethod': { required: 'Please select Payment Method', error: 'Please select valid Payment Method' },

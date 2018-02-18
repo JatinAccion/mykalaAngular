@@ -56,8 +56,8 @@ export class RetailerAddNotificationsComponent implements OnInit {
 
   setFormValidators() {
     this.fG1 = this.formBuilder.group({
-      orderEmail: [this.notificationData.orderEmail, [Validators.email, Validators.maxLength(255), Validators.required]],
-      shipEmail: [this.notificationData.shipEmail, [Validators.maxLength(255), Validators.email, Validators.required]],
+      orderEmail: [this.notificationData.orderEmail, [Validators.pattern(environment.regex.emailRegex), Validators.maxLength(255), Validators.required]],
+      shipEmail: [this.notificationData.shipEmail, [Validators.maxLength(255), Validators.pattern(environment.regex.emailRegex), Validators.required]],
     });
   }
 

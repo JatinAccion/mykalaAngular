@@ -100,7 +100,7 @@ export class LoginComponent implements OnInit {
     this.credentialModal.remember = this.loginKala.controls.remember.value;
     if (this.credentialModal.remember) {
       window.localStorage['rememberMe'] = JSON.stringify(this.credentialModal);
-      console.log(JSON.parse(window.localStorage['rememberMe']));
+      // console.log(JSON.parse(window.localStorage['rememberMe']));
     } else { localStorage.removeItem('rememberMe'); }
   }
 }

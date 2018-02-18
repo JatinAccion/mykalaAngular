@@ -6,7 +6,6 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2
 
 import { RetailerRoutingModule } from './retailer-routing.module';
 import { RetailerListComponent } from './retailer-list/retailer-list.component';
-import { RetailerEditComponent } from './retailer-edit/retailer-edit.component';
 import { RetailerAddComponent } from './retailer-add/retailer-add.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RetialerService } from './retialer.service';
@@ -20,6 +19,8 @@ import { RetailerAddProfileComponent } from './retailer-add-profile/retailer-add
 import { RetailerAddPaymentComponent } from './retailer-add-payment/retailer-add-payment.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { RetailerAddTaxComponent } from './retailer-add-tax/retailer-add-tax.component';
+import { NgxStripeModule } from 'ngx-stripe';
+import { environment } from '../../../environments/environment';
 
 
 @NgModule({
@@ -31,11 +32,11 @@ import { RetailerAddTaxComponent } from './retailer-add-tax/retailer-add-tax.com
     SharedModule, FormsModule,
     Angular2FontawesomeModule,
     AngularMultiSelectModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    NgxStripeModule.forRoot(environment.stripePK)
   ],
   declarations: [
     RetailerListComponent,
-    RetailerEditComponent,
     RetailerAddComponent,
     RetailerAddProfileComponent,
     RetailerAddPaymentComponent,

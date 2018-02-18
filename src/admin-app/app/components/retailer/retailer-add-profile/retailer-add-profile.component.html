@@ -233,10 +233,8 @@
         <a class="btn btn-default ancProfile1" (click)="profileInfoNext()">Next</a>
     </div>
     <div class="col-sm-6 text-right" *ngIf="profileInfoStep==2">
-        <!-- <a class="btn btn-default ancProfile1" (click)="profileInfoSave();">Save & Next</a> -->
         <button class="btn btn-default ancProfile1" [disabled]="profileSaveloader" (click)="profileInfoSave();">Save & Next
             <i class="fa fa-repeat fa-spin" aria-hidden="true" *ngIf="profileSaveloader"></i>
         </button>
-        <!-- <img src="/admin-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="profileSaveloader" /> -->
     </div>
 </div>

@@ -59,7 +59,7 @@ export class UserAddComponent implements OnInit {
   setFormValidators(user?: UserProfile) {
     user = user || new UserProfile();
     this.fG1 = this.formBuilder.group({
-      email: [user.emailId, [Validators.pattern(environment.regex.emailRegex), Validators.maxLength(250), Validators.required]],
+      email: this.userId ? [{ value: user.emailId, disabled: true }, []] : ['', [Validators.pattern(environment.regex.emailRegex), Validators.maxLength(250), Validators.required]],
       password: !this.userId ? [{ value: '', disabled: false }, [Validators.pattern(environment.regex.password), Validators.required]] : [{ value: null, disabled: true }, []],
       firstname: [user.firstName, [Validators.pattern(environment.regex.textRegex), Validators.maxLength(250), Validators.required]],
       lastname: [user.lastName, [Validators.pattern(environment.regex.textRegex), Validators.maxLength(250), Validators.required]],

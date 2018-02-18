@@ -560,3 +560,6 @@ ol li{
     width: 100%;  
     break-inside: avoid;
 }
+.btn-primary{
+    background-color: #436798 !important;
+}

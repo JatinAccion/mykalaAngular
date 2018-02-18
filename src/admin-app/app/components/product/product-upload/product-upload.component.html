@@ -20,40 +20,44 @@
             </span>
             <input readonly="readonly" placeholder="Picture file" class="form-control hide" name="filename" type="text">
         </div>
-        <a class="btn btn-default w-100" (click)="upload()">Upload</a>
-        <div class="row m-0">
-            <div class="col-sm-9 p-2 mt-3 ">
-                <div class="input-group">
-                    <input class="form-control" placeholder="" aria-describedby="basic-addon1" type="text" [(ngModel)]="fileNames" >
-                    <span class="input-group-addon" id="basic-addon1">X</span>
-                </div>
-                <p>
-                    <ngb-progressbar showValue="true" type="success" [value]="progress" [striped]="true"></ngb-progressbar>
-                </p>
-            </div>
-            <div class="col-sm-3 p-2 mt-3">
-                <p>
-                    <a class="btn btn-default w-100" href="#">Download</a>
-                </p>
-            </div>
-        </div>
-
-        <div class="row m-0">
-            <div class="col-sm-9 p-2 mt-3 ">
-                <div class="input-group">
-                    <input class="form-control" placeholder="" aria-describedby="basic-addon1" type="text">
-                    <span class="input-group-addon" id="basic-addon1">X</span>
-                </div>
-
-            </div>
-            <div class="col-sm-3 p-2 mt-3">
-                <p>
-                    <a class="btn btn-default w-100" href="#">Download</a>
-                </p>
-            </div>
-        </div>
-
-
+    </div>
+    <p>
+        <ngb-progressbar showValue="true" type="success" [value]="progress" [striped]="true"></ngb-progressbar>
+    </p>
+</div>
+<!-- <a class="btn btn-default w-100" (click)="upload()">Upload</a> -->
+<div class="row">
+    <div class="col-sm-8 title">
+        <h1>Product files uploaded</h1>
     </div>
 </div>
+<div class="row m-0" *ngFor="">
+    <div class="col-sm-9 p-2 mt-3 ">
+        <div class="input-group">
+            <input class="form-control" placeholder="" aria-describedby="basic-addon1" type="text" [(ngModel)]="fileNames">
+            <span class="input-group-addon" id="basic-addon1">({{12}}/{{80}}) uploaded </span>
+            <span class="input-group-addon" id="basic-addon1">X</span>
+        </div>
+        <p>
+            <ngb-progressbar showValue="true" type="success" [value]="progress" [striped]="true"></ngb-progressbar>
+        </p>
+    </div>
+    <div class="col-sm-3 p-2 mt-3">
+        <div class="btn-group">
+            <button type="button" class="btn btn-default w-100">Download</button>
+            <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+                <button class="btn btn-primary dropdown-toggle-split" ngbDropdownToggle></button>
+                <div class="dropdown-menu" ngbDropdownMenu>
+                    <button class="dropdown-item">View Products({{12}})</button>
+                    <button class="dropdown-item">Error({{123}})</button>
+                    <button class="dropdown-item"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 <div class="spinner" [ngClass]="{ 'hidden': !loading }"></div>

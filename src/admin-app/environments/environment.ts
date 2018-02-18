@@ -15,6 +15,7 @@ export const environment = {
   productApi: 'http://dev-product-service.us-east-2.elasticbeanstalk.com/api',
   // productApi: 'http://localhost:9087/api',
   userApi: 'http://dev-user-signup.us-east-2.elasticbeanstalk.com/user/v1',
+  stripePK: 'pk_test_9th9u2YsJ2y1ms60AgtpXoMS',
   apis: apiNames,
   regex: regexPatterns,
   commonMsg: commonMessages

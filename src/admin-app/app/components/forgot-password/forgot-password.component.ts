@@ -6,6 +6,7 @@ import { userMessages, inputValidation } from './fp.message';
 import { ForgotPasswordModal } from '../../../../models/forgotPassword.modal';
 import { AuthService } from '../../services/auth.service';
 import { UserProfile } from '../../../../models/user';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-forgot-password',
@@ -22,7 +23,7 @@ export class ForgotPasswordComponent implements OnInit {
   resetLink: string;
   fpModal = new ForgotPasswordModal();
   userInfo: UserProfile;
-  responseHandling = { status: false, response: "" }
+  responseHandling = { status: false, response: '' }
 
   constructor(
     private routerOutlet: RouterOutlet,
@@ -30,13 +31,13 @@ export class ForgotPasswordComponent implements OnInit {
     private router: Router,
     public core: CoreService,
     private fpService: AuthService,
-  ) { 
-    
+  ) {
+
   }
 
   ngOnInit() {
     this.forgotPassword = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.pattern(environment.regex.emailRegex)]],
     });
   }
 

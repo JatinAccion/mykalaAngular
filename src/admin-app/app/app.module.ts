@@ -38,6 +38,8 @@ import { OrderModule } from './components/order/order.module';
 import { CanDeactivateGuard } from './services/candeactivate-guard.service';
 // import { ConfirmService, ConfirmState } from './services/confirm-modal.service';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { NgxStripeModule } from 'ngx-stripe';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -68,7 +70,8 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     AngularMultiSelectModule,
     NgxPaginationModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot({ timeOut: 3000, progressBar: true, closeButton: true })
+    ToastrModule.forRoot({ timeOut: 3000, progressBar: true, closeButton: true }),
+    NgxStripeModule.forRoot(environment.stripePK)
   ],
   providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, LocalStorageService, CanDeactivateGuard,
     // ConfirmService, ConfirmState

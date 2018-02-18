@@ -96,7 +96,7 @@ export class ProductAddCategoryComponent implements OnInit {
   getPlaces() {
     this.productService.getProductPlaces().subscribe(res => {
       this.places = res;
-     
+
     });
   }
 
@@ -117,7 +117,7 @@ export class ProductAddCategoryComponent implements OnInit {
     if (this.product.productPlace && this.product.productPlace.PlaceId) {
       this.productService.getProductCategories([this.product.productPlace.PlaceId]).subscribe(res => {
         this.categories = res;
-       
+
       });
     }
   }
@@ -135,7 +135,7 @@ export class ProductAddCategoryComponent implements OnInit {
     if (this.product.productCategory && this.product.productCategory.CategoryId) {
       this.productService.getProductSubCategories([this.product.productCategory.CategoryId]).subscribe(res => {
         this.subCategories = res;
-        
+
       });
     }
   }
@@ -160,7 +160,7 @@ export class ProductAddCategoryComponent implements OnInit {
     }
   }
   typeChanged(event) {
-    this.product.productTypeName = this.product.productType.TypeName;
+    this.product.productTypeName = this.product.productType ? this.product.productType.TypeName : '';
   }
 
 }
