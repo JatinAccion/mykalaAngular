@@ -1,15 +1,15 @@
 <div class="container">
   <app-sub-menus></app-sub-menus>
   <div style="height:135px;width:100%;"></div>
-  
-  <div class="row myCart mb-4">
+
+  <div class="row myCart mt-4 mb-4">
     <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" id="myOfferAccordian">
       <ngb-panel *ngFor="let offer of myOffersDetails">
         <!--Title-->
         <ng-template ngbPanelTitle>
           <div class="row pb-1">
             <!--Left Heading and Time-->
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <p>
                 <strong>
                   {{offer.getOffersRequestDTO.placeName}} - {{offer.getOffersRequestDTO.categoryName}} - {{offer.getOffersRequestDTO.subCategoryName}}
@@ -18,15 +18,16 @@
 
               <div>
                 <span class="colorlightGray">Get offers started: </span> {{offer.getOffersRequestDTO.startDate}}
-                <span class="colorred remainingTime"></span>
-                <span class="colorred">0 offers</span>
+                <span class="colorlightGray">Offer ends in: </span> <span class="colorred remainingTime"></span>
+                <span class="label label-default">{{offer.getOffersResponse.length}} offers</span>
               </div>
             </div>
             <!--Left Heading and Time-->
 
             <!--Right Button-->
-            <div class="col-sm-2 mt-2 text-right pr-4">
-              <button class="btn-outer btn_red_right">edit bid</button>
+            <div class="col-sm-3 mt-2 text-right pr-4">
+              <button class="btn-outer btn_red_right mr-2">edit offer</button>
+              <button class="btn-outer btn_red_right">end offer</button>
             </div>
             <!--Right Button-->
           </div>
@@ -73,7 +74,7 @@
             <!--Left Tiles Details-->
 
             <!--Right Product Listing-->
-            <div class="col-sm-5">
+            <div class="col-sm-5 multi_scroll">
               <div class="row p-2" *ngFor="let product of offer.getOffersResponse">
                 <div class="col-sm-4 p-0">
                   <img src="/consumer-app/assets/images/product1.png" class="img-fluid" />

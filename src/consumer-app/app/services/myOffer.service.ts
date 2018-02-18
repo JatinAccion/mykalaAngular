@@ -10,7 +10,7 @@ export class MyOffersService {
     constructor(private http: Http) { }
 
     loadOffers(emailId) {
-        const url: string = `${this.BASE_URL}/email/${emailId}`;
+        const url: string = `${this.BASE_URL}/myOffer/${emailId}`;
         return this.http.get(url).map((res) => res.json())
     }
 }

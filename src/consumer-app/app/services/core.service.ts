@@ -14,6 +14,7 @@ export class CoreService {
   pageMsg: string;
   showPageMsg: boolean = false;
   noOfItemsInCart: boolean = false;
+  userImg: string;
   constructor(private http: Http) { }
 
   hide() { this.navVisible = false; }
@@ -52,7 +53,10 @@ export class CoreService {
 
   hideUserInfo(showuser: boolean) {
     if (showuser === true) this.hideUser = true;
-    else this.hideUser = false;
+    else {
+      this.hideUser = false;
+      this.userImg = JSON.parse(window.localStorage['userInfo']).userImg;
+    }
   }
 
   checkIfLoggedOut() {

@@ -14,7 +14,9 @@ export class HeaderComponent implements OnInit {
   firstName: string;
   lastName: string;
   emailId: string;
+  userImg: string;
   showLounge: boolean;
+  
   constructor(private router: Router, public core: CoreService) { }
 
   ngOnInit() {
@@ -28,7 +30,8 @@ export class HeaderComponent implements OnInit {
             if (window.localStorage['userInfo'] != undefined) {
               this.firstName = JSON.parse(window.localStorage['userInfo']).firstName;
               this.lastName = JSON.parse(window.localStorage['userInfo']).lastName;
-              this.emailId = JSON.parse(window.localStorage['userInfo']).email;
+              this.emailId = JSON.parse(window.localStorage['userInfo']).emailId;
+              this.userImg = JSON.parse(window.localStorage['userInfo']).userImg;
             }
             return;
           }

@@ -29,8 +29,8 @@ export class OfferInfo4 {
     public price = new PriceRange();
     public emailId: string;
     public userId: string;
-    public endDate: string;
-    public startDate: string;
+    public endDate: Date;
+    public startDate: Date;
 }
 export class PriceRange {
     public minPrice: number;

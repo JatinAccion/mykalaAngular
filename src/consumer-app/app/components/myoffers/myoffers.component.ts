@@ -33,7 +33,6 @@ export class MyoffersComponent implements OnInit {
       for (var i = 0; i < this.myOffersDetails.length; i++) {
         let objDate = new Date(this.myOffersDetails[i].getOffersRequestDTO.startDate), locale = "en-us", month = objDate.toLocaleString(locale, { month: "long" });
         this.myOffersDetails[i].getOffersRequestDTO.startDate = objDate.toLocaleString(locale, { month: "short" }) + ' ' + objDate.getDate() + ', ' + this.formatAMPM(objDate);
-        console.log('Start Date:::::::::::::', this.myOffersDetails[i].getOffersRequestDTO.startDate);
         this.myOffersDetails[i].getOffersRequestDTO.endDate = this.calculateTimeLeft(this.myOffersDetails[i].getOffersRequestDTO.endDate)
       }
     });
