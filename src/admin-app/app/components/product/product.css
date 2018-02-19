@@ -161,15 +161,15 @@
 .product_search .selected-list .c-token{
     margin-top: 0px !important;
 }
-.selected-list .c-btn .c-token{ 
+.product_search .selected-list .c-btn .c-token{ 
     width: 100%;
     position: relative;
 }
-.selected-list .c-btn .c-list{ 
+.product_search .selected-list .c-btn .c-list{ 
     max-width: calc(100% - 30px);
     /* max-width: calc(100% - 20px); */
 }
-.selected-list .c-btn .c-label{
+.product_search .selected-list .c-btn .c-label{
     overflow: hidden;
     -o-text-overflow: ellipsis;
     -ms-text-overflow: ellipsis;
@@ -179,7 +179,7 @@
     width: 90%;
     padding-right: 8px;
 }
-.selected-list .c-token .fa.fa-remove{
+.product_search .selected-list .c-token .fa.fa-remove{
     position: absolute;
     right: 0px;
     top: 3px;
