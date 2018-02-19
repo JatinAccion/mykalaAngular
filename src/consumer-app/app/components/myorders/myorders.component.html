@@ -6,7 +6,7 @@
   <div class="myCart">
     <div class="myCart-list" *ngFor="let order of myorderModal">
       <h4 class="subtitle">
-        Estimated delivery on: {{order.deliveryMethod}}
+        Estimated delivery on: {{getDeliveryDate(order.deliveryMethod, order.purchaseDate)}}
       </h4>
       <div class="row">
         <div class="col-sm-2">

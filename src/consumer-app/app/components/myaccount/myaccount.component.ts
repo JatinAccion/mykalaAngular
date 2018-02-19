@@ -425,7 +425,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
       this.getUserInfo = JSON.parse(window.localStorage['userInfo'])
       /**API to Save DOB**/
       this.DOBSaveModel.emailId = this.getUserInfo.emailId;
-      this.DOBSaveModel.dateOfBirth = this.myAccountModel.profileInfo.birthYear + '-' + this.myAccountModel.profileInfo.birthMonth + '-' + this.myAccountModel.profileInfo.birthDate;
+      this.DOBSaveModel.dateOfBirth = new Date(this.myAccountModel.profileInfo.birthYear + '-' + this.myAccountModel.profileInfo.birthMonth + '-' + this.myAccountModel.profileInfo.birthDate);
       console.log(this.DOBSaveModel);
       this.myAccount.saveDOB(this.DOBSaveModel).subscribe((res) => {
         this.loader_DOB = false;

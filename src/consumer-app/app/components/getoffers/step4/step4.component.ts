@@ -82,11 +82,18 @@ export class Step4Component implements OnInit {
       this.Step4Modal.emailId = this.userData.emailId;
       this.Step4Modal.userId = this.userData.userId;
     }
+    if (window.localStorage['offerIdForEdit'] != undefined) {
+      this.Step4Modal.startDate = null;
+      this.Step4Modal.endDate = null;
+      this.Step4Modal.offerId = window.localStorage['offerIdForEdit']
+      this.Step4Modal.consumerExist = true;
+    }
     this.getOffer.confirmOffer(this.Step4Modal).subscribe(res => {
       this.loader = false;
       localStorage.removeItem("GetOfferStep_1");
       localStorage.removeItem("GetOfferStep_3");
       window.localStorage['getOffers'] = JSON.stringify(res);
+      localStorage.removeItem("offerIdForEdit");
       this.route.navigateByUrl("/myoffer")
     });
   };

@@ -5,7 +5,7 @@ import { environment } from '../../environments/environment';
 
 @Injectable()
 export class MyOffersService {
-    private BASE_URL: string = environment.productList;
+    private BASE_URL: string = environment.profileInterest;
 
     constructor(private http: Http) { }
 

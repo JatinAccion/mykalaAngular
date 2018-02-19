@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CoreService } from '../../services/core.service';
 import { MyOffersService } from '../../services/myOffer.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-myoffers',
@@ -11,11 +12,13 @@ import { MyOffersService } from '../../services/myOffer.service';
 export class MyoffersComponent implements OnInit {
   userData: any;
   myOffersDetails: any;
+  loader: boolean = false;
   startDate: {};
 
   constructor(
     public core: CoreService,
-    private myOffer: MyOffersService
+    private myOffer: MyOffersService,
+    private route: Router
   ) { }
 
   ngOnInit() {
@@ -23,12 +26,15 @@ export class MyoffersComponent implements OnInit {
     this.core.hide();
     this.core.searchMsgToggle();
     this.userData = JSON.parse(window.localStorage['userInfo']);
+    localStorage.removeItem("offerIdForEdit");
     this.getOffers();
   }
 
   getOffers() {
+    this.loader = true;
     let emailId = this.userData.emailId
     this.myOffer.loadOffers(emailId).subscribe((res) => {
+      this.loader = false;
       this.myOffersDetails = res;
       for (var i = 0; i < this.myOffersDetails.length; i++) {
         let objDate = new Date(this.myOffersDetails[i].getOffersRequestDTO.startDate), locale = "en-us", month = objDate.toLocaleString(locale, { month: "long" });
@@ -69,6 +75,11 @@ export class MyoffersComponent implements OnInit {
       }
 
     }, 1000);
+  }
+
+  editOffer(offer) {
+    window.localStorage['offerIdForEdit'] = offer.offerID;
+    this.route.navigateByUrl('/getoffer/step1');
   }
 
 }

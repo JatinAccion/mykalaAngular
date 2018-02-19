@@ -31,6 +31,8 @@ export class OfferInfo4 {
     public userId: string;
     public endDate: Date;
     public startDate: Date;
+    public consumerExist?: boolean;
+    public offerId?: string;
 }
 export class PriceRange {
     public minPrice: number;

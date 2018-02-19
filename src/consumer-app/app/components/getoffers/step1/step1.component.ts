@@ -19,7 +19,7 @@ export class Step1Component implements OnInit {
   loader_category: boolean;
   loader_subCategory: boolean;
   loader_Type: boolean;
-  levelSelection = JSON.parse(window.localStorage['levelSelections']);
+  levelSelection: any;
   userResponse = { place: [], type: [], category: [], subcategory: [] };
   headerMessage: string;
   getPlaceId: string;
@@ -48,6 +48,7 @@ export class Step1Component implements OnInit {
     this.core.show(this.headerMessage);
     this.pageLabel = window.localStorage['browseProductSearch'];
     this.core.pageLabel(this.pageLabel);
+    if (window.localStorage['levelSelections'] != undefined) this.levelSelection = JSON.parse(window.localStorage['levelSelections']);
     if (window.localStorage['GetOfferStep_1'] != undefined) {
       this.checkIfStored = true;
       this.loadedPlaces = true;
