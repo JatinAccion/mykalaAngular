@@ -13,4 +13,9 @@ export class MyOffersService {
         const url: string = `${this.BASE_URL}/myOffer/${emailId}`;
         return this.http.get(url).map((res) => res.json())
     }
+
+    endOffer(offerId) {
+        const url: string = `${this.BASE_URL}/endOffer/${offerId}`;
+        return this.http.delete(url, offerId).map((res) => res.text())
+    }
 }

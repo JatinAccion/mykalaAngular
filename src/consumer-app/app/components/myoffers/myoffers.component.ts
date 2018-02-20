@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CoreService } from '../../services/core.service';
 import { MyOffersService } from '../../services/myOffer.service';
-import { Router } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-myoffers',
@@ -11,14 +11,15 @@ import { Router } from '@angular/router';
 })
 export class MyoffersComponent implements OnInit {
   userData: any;
-  myOffersDetails: any;
+  myOffersDetails = [];
   loader: boolean = false;
   startDate: {};
 
   constructor(
     public core: CoreService,
     private myOffer: MyOffersService,
-    private route: Router
+    private route: Router,
+    private routerOutlet: RouterOutlet
   ) { }
 
   ngOnInit() {
@@ -79,7 +80,16 @@ export class MyoffersComponent implements OnInit {
 
   editOffer(offer) {
     window.localStorage['offerIdForEdit'] = offer.offerID;
-    this.route.navigateByUrl('/getoffer/step1');
+    setTimeout(() => {
+      if (this.routerOutlet.isActivated) this.routerOutlet.deactivate();
+      this.route.navigate(['/getoffer', 'step1']);
+    }, 1000);
+  }
+
+  endOffer(offer) {
+    this.myOffer.endOffer(offer.offerID).subscribe((res) => {
+      this.getOffers();
+    })
   }
 
 }
