@@ -53,6 +53,7 @@ export class Step1Component implements OnInit {
     this.core.show(this.headerMessage);
     this.pageLabel = window.localStorage['browseProductSearch'];
     this.core.pageLabel(this.pageLabel);
+    if (window.localStorage['GetOfferStep_2Request'] != undefined) this.gSCMRequestModal = JSON.parse(window.localStorage['GetOfferStep_2Request'])
     if (window.localStorage['levelSelections'] != undefined) this.levelSelection = JSON.parse(window.localStorage['levelSelections']);
     if (window.localStorage['GetOfferStep_1'] != undefined) {
       this.checkIfStored = true;
@@ -91,6 +92,7 @@ export class Step1Component implements OnInit {
       this.getPlaceId = this.levelSelection.place.id;
       this.getCategoryId = this.levelSelection.category.id;
       this.getSubcategoryId = this.levelSelection.subcategory.id;
+      this.getofferSubCategory(this.Step1SelectedValues.subcategory);
       //this.getType();
     }
   }
@@ -140,16 +142,13 @@ export class Step1Component implements OnInit {
   }
 
   getObjectFromOrderNo(res) {
-    let array = []; let data; let keyword;
-    array.push(res.attributes_orders.attributes_metadata)
-    var resultObject = search("1", array);
+    let data; let keyword;
+    let resultObject = search("1", res.attributes_orders.attributes_metadata);
     function search(nameKey, myArray) {
-      for (var i = 0; i < myArray.length; i++) {
-        for (var key in myArray[i]) {
-          if (myArray[i][key].order === nameKey) {
-            data = myArray[i][key];
-            keyword = key;
-          }
+      for (var key in myArray) {
+        if (myArray[key].order === nameKey) {
+          data = myArray[key];
+          keyword = key;
         }
       }
     }
@@ -228,6 +227,7 @@ export class Step1Component implements OnInit {
   getUpdateTypes() {
     if (this.Step1SelectedValues.type.length > 0) {
       this.gSCMRequestModal.productType = this.Step1SelectedValues.subcategory['name'];
+      if (this.getObjectFromOrder.key == "") this.getObjectFromOrder.key = Object.keys(this.gSCMRequestModal.attributes)[0]
       this.gSCMRequestModal.attributes[this.getObjectFromOrder.key] = [];
       for (var i = 0; i < this.Step1SelectedValues.type.length; i++) {
         let typeName = this.Step1SelectedValues.type[i].name;
@@ -282,7 +282,7 @@ export class Step1Component implements OnInit {
     this.Step1Modal.getoffer_1 = new Array<OfferInfo1>();
     this.Step1Modal.getoffer_1.push(new OfferInfo1(this.Step1SelectedValues.place, this.Step1SelectedValues.category, this.Step1SelectedValues.subcategory, this.Step1SelectedValues.type));
     window.localStorage['GetOfferStep_1'] = JSON.stringify(this.Step1Modal.getoffer_1);
-    window.localStorage['GetOfferStep_2'] = JSON.stringify(this.gSCMRequestModal);
+    window.localStorage['GetOfferStep_2Request'] = JSON.stringify(this.gSCMRequestModal);
     this.route.navigate(['/getoffer', 'step2']);
   };
 

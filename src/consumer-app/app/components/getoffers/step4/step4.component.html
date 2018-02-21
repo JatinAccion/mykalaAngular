@@ -12,24 +12,24 @@
 <div class="col-sm-12 p-4 backgroundWhite">
   <!--Step 1 View-->
   <div class="row" *ngIf="Step1Data != undefined">
-    <div class="col-sm-4"></div>
-    <div class="col-sm-2 colorlightGray">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-3 colorlightGray">
       <p>Category:</p>
     </div>
     <div class="col-sm-6 text-left">{{Step4Summary.category.name}}</div>
   </div>
 
   <div class="row" *ngIf="Step1Data != undefined">
-    <div class="col-sm-4"></div>
-    <div class="col-sm-2 colorlightGray">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-3 colorlightGray">
       <p>Sub - category:</p>
     </div>
     <div class="col-sm-6 text-left">{{Step4Summary.subCategory.name}}</div>
   </div>
 
   <div class="row" *ngIf="Step1Data != undefined">
-    <div class="col-sm-4"></div>
-    <div class="col-sm-2 colorlightGray">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-3 colorlightGray">
       <p>Type:</p>
     </div>
     <div class="col-sm-6 text-left">
@@ -39,59 +39,39 @@
   <!--Step 1 View-->
 
   <!--Step 2 View-->
-  <div class="row" *ngIf="Step2Data != undefined">
-    <div class="col-sm-4"></div>
-    <div class="col-sm-2 colorlightGray">
-      <p>Features:</p>
+  <div class="row" *ngIf="Step2Data != undefined && Step2Data != ''">
+    <div class="col-sm-12">
+      <div class="row" *ngFor="let offers of Step2Data">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-3 colorlightGray">
+          <p>{{offers.key}}:</p>
+        </div>
+        <div class="col-sm-6 text-left">{{offers.values}},</div>
+      </div>
     </div>
-    <div class="col-sm-6 text-left">outdoor, energy star</div>
-  </div>
-
-  <div class="row" *ngIf="Step2Data != undefined">
-    <div class="col-sm-4"></div>
-    <div class="col-sm-2 colorlightGray">
-      <p>Number of bulbs:</p>
-    </div>
-    <div class="col-sm-6 text-left">1 - 2 bulb</div>
-  </div>
-
-  <div class="row" *ngIf="Step2Data != undefined">
-    <div class="col-sm-4"></div>
-    <div class="col-sm-2 colorlightGray">
-      <p>Style:</p>
-    </div>
-    <div class="col-sm-6 text-left">global</div>
-  </div>
-
-  <div class="row" *ngIf="Step2Data != undefined">
-    <div class="col-sm-4"></div>
-    <div class="col-sm-2 colorlightGray">
-      <p>Material:</p>
-    </div>
-    <div class="col-sm-6 text-left">wood</div>
   </div>
   <!--Step 2 View-->
 
   <!--Step 3 View-->
   <div class="row" *ngIf="Step3Data != undefined && Step3Data != ''">
-    <div class="col-sm-4"></div>
-    <div class="col-sm-2 colorlightGray">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-3 colorlightGray">
       <p>Price range:</p>
     </div>
     <div class="col-sm-6 text-left">$ {{Step4Summary.priceRange.minPrice}} - $ {{Step4Summary.priceRange.maxPrice}}</div>
   </div>
 
   <div class="row" *ngIf="Step3Data != undefined && Step3Data != ''">
-    <div class="col-sm-4"></div>
-    <div class="col-sm-2 colorlightGray">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-3 colorlightGray">
       <p>Delivery:</p>
     </div>
     <div class="col-sm-6 text-left">{{Step4Summary.delivery}}</div>
   </div>
 
   <div class="row" *ngIf="Step3Data != undefined && Step3Data != ''">
-    <div class="col-sm-4"></div>
-    <div class="col-sm-2 colorlightGray">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-3 colorlightGray">
       <p>Zip code:</p>
     </div>
     <div class="col-sm-6 text-left" *ngFor="let location of Step4Summary.location">{{location.zipcode}}</div>
@@ -106,7 +86,7 @@
     </div>
     <div class="col-sm-7">
       <a (click)="next()" class="btn btn_red_right pr-5 pl-5">confirm</a>
-      <img src="/consumer-app/assets/images/loader.gif" style="margin-left:15px" *ngIf="loader"/>
+      <img src="/consumer-app/assets/images/loader.gif" style="margin-left:15px" *ngIf="loader" />
     </div>
   </div>
 </div>

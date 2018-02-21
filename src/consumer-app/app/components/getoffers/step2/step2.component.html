@@ -1,5 +1,5 @@
 <div class="title mb-4">
-  <h2>get offers
+  <h2 class="w-100">get offers
     <span class="colorGray"> Step 2/4: detail info</span> |
     <a routerLink="/browse-product">
       <span class="btnClose">X</span>
@@ -9,114 +9,32 @@
     </small>
   </h2>
 </div>
+
 <div class="col-sm-12 p-0">
-  <div class="row">
-    <div class="col-sm-2 colorlightGray">
-      <p>Features:</p>
-    </div>
-    <div class="col-sm-8">
-      <div class="categ_outline_gray mr-2">indoor</div>
-      <div class="categ_outline_red mr-2">outdoor</div>
-      <div class="categ_outline_red mr-2">energy star</div>
-      <div class="categ_outline_gray mr-2">no preference</div>
-      <div class="categ_outline_red mr-2 noBackground colorred">+</div>
-    </div>
-    <div class="col-sm-2"></div>
-  </div>
-  <hr />
-  <div class="row">
-    <div class="col-sm-2 colorlightGray">
-      <p>Number of bulbs:</p>
-    </div>
-    <div class="col-sm-8">
-      <div class="categ_outline_red mr-2">1-2 bulb</div>
-      <div class="categ_outline_red mr-2">2-3 bulb</div>
-    </div>
-    <div class="col-sm-2"></div>
-  </div>
-  <hr />
-  <div class="row">
-    <div class="col-sm-2 colorlightGray">
-      <p>Style:</p>
-    </div>
-    <div class="col-sm-8">
-      <div class="categ_outline_gray mr-2">
-        <div class="text-center">
-          <img src="consumer-app/assets/images/consumer_bowlGray.png" height="32" />
+  <div class="col-sm-12 p-0">
+    <div class="row" *ngFor="let offers of getObjectFromOrder">
+      <div class="col-sm-12" *ngIf="offers.values != undefined">
+        <div class="row">
+          <div class="col-sm-2 colorlightGray">
+            <p>{{offers.key}}</p>
+          </div>
+          <div class="col-sm-10">
+            <div class="categ_outline_gray mr-3 mb-3" style="cursor: pointer" (click)="select(offers, values, $event)" *ngFor="let values of offers.values">{{values}}</div>
+          </div>
         </div>
-        <div>bowl</div>
-      </div>
-      <div class="categ_outline_gray mr-2">
-        <div class="text-center">
-          <img src="consumer-app/assets/images/consumer_drumGray.png" height="32" />
-        </div>
-        <div>drum</div>
-      </div>
-      <div class="categ_outline_gray mr-2">
-        <div class="text-center">
-          <img src="consumer-app/assets/images/consumer_islandGray.png" height="32" />
-        </div>
-        <div>island</div>
-      </div>
-      <div class="categ_outline_red mr-2">
-        <div class="text-center">
-          <img src="consumer-app/assets/images/consumer_globeGray.png" height="32" />
-        </div>
-        <div>globe</div>
-      </div>
-      <div class="categ_outline_gray mr-2">
-        <div>no preference</div>
+        <hr />
       </div>
     </div>
-    <div class="col-sm-2"></div>
   </div>
-  <hr />
+  <div class="clearfix">&nbsp;</div>
   <div class="row">
-    <div class="col-sm-2 colorlightGray">
-      <p>Material:</p>
+    <div class="col-sm-6">
+      <a (click)="prev()" class="colorred">back</a>
     </div>
-    <div class="col-sm-8">
-      <div class="categ_outline_red mr-2">Ceiling</div>
-      <div class="categ_outline_gray mr-2">Floor</div>
-      <div class="categ_outline_gray mr-2">Table</div>
+    <div class="col-sm-6 text-right">
+      <a (click)="next()" class="btn btn_red_right pr-5 pl-5">next step</a>
     </div>
-    <div class="col-sm-2"></div>
   </div>
-  <hr />
-  <div class="row">
-    <div class="col-sm-2 colorlightGray">
-      <p>Finish:</p>
-    </div>
-    <div class="col-sm-8">
-      <div class="categ_outline_red mr-2">Ceiling</div>
-      <div class="categ_outline_gray mr-2">Floor</div>
-      <div class="categ_outline_gray mr-2">Table</div>
-    </div>
-    <div class="col-sm-2"></div>
-  </div>
-  <hr />
-  <div class="row">
-    <div class="col-sm-2 colorlightGray">
-      <p>Brand:</p>
-    </div>
-    <div class="col-sm-8">
-      <div class="categ_outline_red mr-2">Ceiling</div>
-      <div class="categ_outline_gray mr-2">Floor</div>
-      <div class="categ_outline_gray mr-2">Table</div>
-    </div>
-    <div class="col-sm-2"></div>
-  </div>
-  <hr />
-</div>
-<div class="clearfix">&nbsp;</div>
-<div class="row">
-  <div class="col-sm-6">
-    <a (click)="prev()" class="colorred">back</a>
-  </div>
-  <div class="col-sm-6 text-right">
-    <a (click)="next()" class="btn btn_red_right pr-5 pl-5">next step</a>
-  </div>
-</div>
-<div class="clearfix">&nbsp;</div>
-<div class="clearfix">&nbsp;</div>
-<div class="clearfix">&nbsp;</div>
+  <div class="clearfix">&nbsp;</div>
+  <div class="clearfix">&nbsp;</div>
+  <div class="clearfix">&nbsp;</div>

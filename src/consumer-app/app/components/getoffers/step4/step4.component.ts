@@ -37,6 +37,10 @@ export class Step4Component implements OnInit {
     this.core.pageLabel(this.pageLabel);
     if (window.localStorage['GetOfferStep_1'] != undefined) this.Step1Data = JSON.parse(window.localStorage['GetOfferStep_1']);
     if (window.localStorage['GetOfferStep_2'] != undefined) this.Step2Data = JSON.parse(window.localStorage['GetOfferStep_2']);
+    if (window.localStorage['GetOfferStep_2'] == "") {
+      this.Step2Data = "";
+      this.Step4Summary = { ...this.Step1Data[0] };
+    }
     if (window.localStorage['GetOfferStep_3'] == "") {
       this.Step3Data = "";
       this.Step4Summary = { ...this.Step1Data[0], ...this.Step3Data };
@@ -46,7 +50,6 @@ export class Step4Component implements OnInit {
       this.Step4Summary = { ...this.Step1Data[0], ...this.Step3Data[0] };
     }
     if (window.localStorage['userInfo'] != undefined) this.userData = JSON.parse(window.localStorage['userInfo']);
-    console.log(this.Step4Summary)
   }
 
   prev() {
