@@ -18,7 +18,13 @@
 
     <!--Type Section-->
     <div class="title">
-        <h2>
+        <h2 *ngIf="selectedTilesData.subcategory.length == 0">
+            {{selectedTilesData.place.name}}
+            <span class="colorGray">{{selectedTilesData.category.name}} |
+                <span routerLink="/home" style="cursor: pointer" class="btnClose">X</span>
+            </span>
+        </h2>
+        <h2 *ngIf="selectedTilesData.subcategory.length == undefined">
             {{selectedTilesData.place.name}}
             <span class="colorGray">{{selectedTilesData.subcategory.name}} |
                 <span routerLink="/home" style="cursor: pointer" class="btnClose">X</span>

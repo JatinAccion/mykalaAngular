@@ -37,7 +37,8 @@ export class Step1Component implements OnInit {
   loadedCategory: boolean = false;
   loadedSubCategory: boolean = false;
   noTypesAvailable: boolean = false;
-  getObjectFromOrder = { key: "", data: "" }
+  getObjectFromOrder = { key: "", data: "" };
+  showAvailableTypes: boolean = false;
 
   constructor(
     private homeService: HomeService,
@@ -60,6 +61,7 @@ export class Step1Component implements OnInit {
       this.loadedPlaces = true;
       this.loadedCategory = true;
       this.loadedSubCategory = true;
+      this.showAvailableTypes = true;
       this.viewSavedData = JSON.parse(window.localStorage['GetOfferStep_1']);
       for (var i = 0; i < this.viewSavedData.length; i++) {
         this.userResponse.place.push(this.viewSavedData[i].place);
@@ -92,8 +94,9 @@ export class Step1Component implements OnInit {
       this.getPlaceId = this.levelSelection.place.id;
       this.getCategoryId = this.levelSelection.category.id;
       this.getSubcategoryId = this.levelSelection.subcategory.id;
-      this.getofferSubCategory(this.Step1SelectedValues.subcategory);
-      //this.getType();
+      //this.getofferSubCategory(this.Step1SelectedValues.subcategory);
+      if (this.Step1SelectedValues.subcategory.length == 0) this.getSubCategory();
+      else this.getType();
     }
   }
 
@@ -171,6 +174,7 @@ export class Step1Component implements OnInit {
   }
 
   getType() {
+    this.showAvailableTypes = true;
     this.noTypesAvailable = false;
     this.loader_Type = true;
     this.userResponse.type = [];
@@ -202,8 +206,8 @@ export class Step1Component implements OnInit {
       e.currentTarget.className = "categ_outline_red m-2";
       this.checkIfStored = false;
       this.getSubcategoryId = obj.id;
-      this.getofferSubCategory(obj);
-      //this.getType();
+      //this.getofferSubCategory(obj);
+      this.getType();
       this.clearItems(elemName);
       this.userResponse.subcategory = [obj];
       this.Step1SelectedValues.subcategory = obj;

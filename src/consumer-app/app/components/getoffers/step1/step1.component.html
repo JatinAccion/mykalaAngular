@@ -71,25 +71,25 @@
   <hr />
 
   <!--Type-->
-  <div class="row">
+  <div class="row" *ngIf="showAvailableTypes">
     <div class="col-sm-2">
       <p>Type:</p>
       <img src="/consumer-app/assets/images/loader.gif" style="right: -40px; top: 0px" class="absoluteImg_2" *ngIf="loader_Type" />
     </div>
 
-    <div class="col-sm-7" *ngIf="userResponse.type != []">
+    <div class="col-sm-7" *ngIf="userResponse.type != [] && !noTypesAvailable">
       <div style="cursor: pointer" class="m-2" [ngClass]="checkIfStored?'categ_outline_red':'categ_outline_gray'" (click)="loadData(type, 'type', $event)" *ngFor="let type of userResponse.type">{{type.name}}</div>
     </div>
 
     <div class="col-sm-7" *ngIf="noTypesAvailable">
-        <div class="categ_outline_red categ_outline_red_bg m-2">No items to display...</div>
+      <div class="categ_outline_red categ_outline_red_bg m-2">No items to display...</div>
     </div>
 
     <div class="col-sm-3"></div>
   </div>
   <!--Type-->
 
-  <hr />
+  <hr *ngIf="showAvailableTypes" />
 </div>
 
 <div class="clearfix">&nbsp;</div>

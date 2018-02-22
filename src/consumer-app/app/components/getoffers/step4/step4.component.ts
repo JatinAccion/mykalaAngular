@@ -50,6 +50,7 @@ export class Step4Component implements OnInit {
       this.Step4Summary = { ...this.Step1Data[0], ...this.Step3Data[0] };
     }
     if (window.localStorage['userInfo'] != undefined) this.userData = JSON.parse(window.localStorage['userInfo']);
+    console.log(this.Step4Summary)
   }
 
   prev() {

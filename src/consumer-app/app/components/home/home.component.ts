@@ -191,18 +191,10 @@ export class HomeComponent implements OnInit {
     }
     //Get Sub Category
     else if (tile && tile.level == "2") {
-      this.loader = true;
       this.userResponse.category = tile;
-      this.homeService.getTilesSubCategory(tile.id).subscribe((res) => {
-        this.loader = false;
-        for (var i = 0; i < res.length; i++) this.searchData.push(new SearchDataModal(res[i].subCategoryId, res[i].subCategoryName, res[i].subCategoryName, "3", ""));
-        //Temporary for Image
-        for (var i = 0; i < this.searchData.length; i++) {
-          this.searchData[i].imgUrl = "/consumer-app/assets/images/banner_home.png";
-        }
-        //Temporary for Image
-        this.tiles = this.searchData;
-      });
+      window.localStorage['levelSelections'] = JSON.stringify(this.userResponse);
+      if (this.routerOutlet.isActivated) this.routerOutlet.deactivate();
+      this.router.navigateByUrl('/browse-product');
     }
     //Get Type
     else if (tile && tile.level == "3") {
