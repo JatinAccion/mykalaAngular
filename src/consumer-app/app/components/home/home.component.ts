@@ -20,28 +20,28 @@ export class HomeComponent implements OnInit {
   carousalItems = [];
   searchData = [];
   placeIcons = [
-    "/consumer-app/assets/images/icon_home.png",
-    "/consumer-app/assets/images/icon_fashon.png",
-    "/consumer-app/assets/images/icon_electronic.png",
-    "/consumer-app/assets/images/icon_HealthBeauty.png",
-    "/consumer-app/assets/images/icon_kids.png",
-    "/consumer-app/assets/images/icon_travel.png",
-    "/consumer-app/assets/images/icon_pets.png",
     "/consumer-app/assets/images/icon_auto.png",
+    "/consumer-app/assets/images/icon_electronic.png",
+    "/consumer-app/assets/images/icon_fashon.png",
+    "/consumer-app/assets/images/icon_HealthBeauty.png",
+    "/consumer-app/assets/images/icon_home.png",
+    "/consumer-app/assets/images/icon_kids.png",
+    "/consumer-app/assets/images/icon_pets.png",
     "/consumer-app/assets/images/icon_fitness.png",
-    "/consumer-app/assets/images/icon_ToolsHardware.png"
+    "/consumer-app/assets/images/icon_ToolsHardware.png",
+    "/consumer-app/assets/images/icon_travel.png"
   ];
   tempArr = [
-    "/consumer-app/assets/images/banner_home.png",
-    "/consumer-app/assets/images/banner_fashion.png",
-    "/consumer-app/assets/images/banner_electronic.png",
-    "/consumer-app/assets/images/banner_health.png",
-    "/consumer-app/assets/images/banner_kids.png",
-    "/consumer-app/assets/images/banner_travel.png",
-    "/consumer-app/assets/images/banner_pets.png",
     "/consumer-app/assets/images/banner_auto.png",
+    "/consumer-app/assets/images/banner_electronic.png",
+    "/consumer-app/assets/images/banner_fashion.png",
+    "/consumer-app/assets/images/banner_health.png",
+    "/consumer-app/assets/images/banner_home.png",
+    "/consumer-app/assets/images/banner_kids.png",
+    "/consumer-app/assets/images/banner_pets.png",
     "/consumer-app/assets/images/banner_fitness.png",
-    "/consumer-app/assets/images/banner_tools.png"
+    "/consumer-app/assets/images/banner_tools.png",
+    "/consumer-app/assets/images/banner_travel.png"
   ];
   tempArrCategory = [
     "mykala-dev-images/product/Accents+and+Decor.jpg",
