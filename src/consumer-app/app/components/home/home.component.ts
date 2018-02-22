@@ -19,46 +19,10 @@ export class HomeComponent implements OnInit {
   contactKala: boolean = false;
   carousalItems = [];
   searchData = [];
-  placeIcons = [
-    "/consumer-app/assets/images/icon_auto.png",
-    "/consumer-app/assets/images/icon_electronic.png",
-    "/consumer-app/assets/images/icon_fashon.png",
-    "/consumer-app/assets/images/icon_HealthBeauty.png",
-    "/consumer-app/assets/images/icon_home.png",
-    "/consumer-app/assets/images/icon_kids.png",
-    "/consumer-app/assets/images/icon_pets.png",
-    "/consumer-app/assets/images/icon_fitness.png",
-    "/consumer-app/assets/images/icon_ToolsHardware.png",
-    "/consumer-app/assets/images/icon_travel.png"
-  ];
-  tempArr = [
-    "/consumer-app/assets/images/banner_auto.png",
-    "/consumer-app/assets/images/banner_electronic.png",
-    "/consumer-app/assets/images/banner_fashion.png",
-    "/consumer-app/assets/images/banner_health.png",
-    "/consumer-app/assets/images/banner_home.png",
-    "/consumer-app/assets/images/banner_kids.png",
-    "/consumer-app/assets/images/banner_pets.png",
-    "/consumer-app/assets/images/banner_fitness.png",
-    "/consumer-app/assets/images/banner_tools.png",
-    "/consumer-app/assets/images/banner_travel.png"
-  ];
-  tempArrCategory = [
-    "mykala-dev-images/product/Accents+and+Decor.jpg",
-    "mykala-dev-images/product/Appliances.jpg",
-    "mykala-dev-images/product/Bathroom.jpg",
-    "mykala-dev-images/product/Bedding+and+Linens.jpg",
-    "mykala-dev-images/product/Furniture+and+Patio.jpg",
-    "mykala-dev-images/product/Garage.jpg",
-    "mykala-dev-images/product/Kitchen+and+Dining.jpg",
-    "mykala-dev-images/product/Lawn+and+Garden.jpg",
-    "mykala-dev-images/product/Lighting.jpg",
-    "mykala-dev-images/product/Pest+Control.jpg",
-    "mykala-dev-images/product/Pool+and+Spa.jpg",
-    "mykala-dev-images/product/Safety+and+Security.jpg",
-    "mykala-dev-images/product/Supplies.jpg",
-  ];
-
+  s3 = environment.s3;
+  placeIconsUrl: string = "mykala-dev-images/product/Places/icon_";
+  placeImageUrl: string = "mykala-dev-images/product/Places/";
+  categoryImageUrl: string = "mykala-dev-images/product/Places/";
   userResponse = { place: [], type: [], category: [], subcategory: [], subType: {} };
   response: any;
   breadCrums = [];
@@ -136,16 +100,11 @@ export class HomeComponent implements OnInit {
     this.loader = true;
     this.homeService.getTilesPlace().subscribe(res => {
       this.loader = false;
-      for (var i = 0; i < res.length; i++) this.searchData.push(new SearchDataModal(res[i].placeId, res[i].placeName, res[i].placeName, "1", ""));
-      //Temporary for Image
-      for (var i = 0; i < this.tempArr.length && this.placeIcons.length; i++) {
-        this.searchData[i].imgUrl = this.tempArr[i];
-        this.searchData[i].iconUrl = this.placeIcons[i]
-      }
+      for (var i = 0; i < res.length; i++) this.searchData.push(new SearchDataModal(res[i].placeId, res[i].placeName, res[i].placeName, "1", `${this.s3}${this.placeImageUrl}${res[i].placeName}.png`, `${this.s3}${this.placeIconsUrl}${res[i].placeName}.png`));
       let carosal = document.getElementsByClassName('carousel-item');
-      carosal[0].setAttribute("class", "carousel-item active");
+      carosal[0].classList.add("active");
+      carosal[1].classList.remove("active");
       this.carousalItems = this.searchData;
-      //Temporary for Image
       this.tiles = this.searchData;
     });
   }
@@ -173,19 +132,7 @@ export class HomeComponent implements OnInit {
       this.userResponse.place = tile;
       this.homeService.getTilesCategory(tile.id).subscribe((res) => {
         this.loader = false;
-        for (var i = 0; i < res.length; i++) this.searchData.push(new SearchDataModal(res[i].categoryId, res[i].categoryName, res[i].categoryName, "2", ""));
-        //Temporary for Image
-        if (res[0].placeName === "Home & Garden") {
-          for (var i = 0; i < this.tempArrCategory.length; i++) {
-            this.searchData[i].imgUrl = environment.s3.concat(this.tempArrCategory[i]);
-          }
-        }
-        else {
-          for (var i = 0; i < this.searchData.length; i++) {
-            this.searchData[i].imgUrl = '/consumer-app/assets/images/banner_home.png';
-          }
-        }
-        //Temporary for Image
+        for (var i = 0; i < res.length; i++) this.searchData.push(new SearchDataModal(res[i].categoryId, res[i].categoryName, res[i].categoryName, "2", `${this.s3}${this.categoryImageUrl}${tile.name}/${res[i].categoryName}.jpg`));
         this.tiles = this.searchData;
       });
     }
