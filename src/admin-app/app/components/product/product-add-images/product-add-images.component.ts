@@ -7,8 +7,8 @@ import { IAlert } from '../../../../../models/IAlert';
 import { environment } from '../../../../environments/environment';
 import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 import { ProductService } from '../product.service';
-import { Product } from '../../../../../models/Product';
-import { inputValidations } from './messages';
+import { Product, ProductImage } from '../../../../../models/Product';
+import { inputValidations, userMessages } from './messages';
 import { CoreService } from '../../../services/core.service';
 
 
@@ -26,8 +26,8 @@ export class ProductAddImagesComponent implements OnInit {
   @Output() SaveData = new EventEmitter<any>();
   uploadFile: any;
   productImages = new Array<any>();
-  mainImage = '';
-  uploadedImages = new Array<any>();
+  mainImage: ProductImage;
+  otherImages = new Array<ProductImage>();
   fG1 = new FormGroup({});
   step = 1;
   errorMsgs = inputValidations;
@@ -42,14 +42,8 @@ export class ProductAddImagesComponent implements OnInit {
   ) {
   }
   ngOnInit() {
-    // this.setFormValidators();
   }
 
-  // setFormValidators() {
-  //   this.fG1 = this.formBuilder.group({
-  //     productImage: ['', [Validators.required]],
-  //   });
-  // }
   saveData() {
     this.uploadAll(this.productImages);
   }
@@ -59,39 +53,31 @@ export class ProductAddImagesComponent implements OnInit {
     const otherImages = new Array<any>();
     productImages.forEach(element => {
       if (element.mainImage) {
-        mainImage = element;
+        mainImage = element.file;
       } else {
-        otherImages.push(element);
+        otherImages.push(element.file);
       }
     });
-    this.productService.saveProductImages({ kalaUniqueId: this.product.kalaUniqueId, images: otherImages.map(p => p.file), mainImage: mainImage.file }).subscribe(e => {
-      if (e.type == 4) {
-        console.log(e);
-        this.core.message.success('Images Uploaded');
-        const tmpProduct = JSON.parse(e.body);
-        if (tmpProduct.productImages.length > 0) {
-          for (let index = 0; index < tmpProduct.productImages.length; index++) {
-            if (tmpProduct.productImages[index].mainImage) {
-              this.mainImage = environment.s3 + tmpProduct.productImages[index].imageUrl;
-            }
-            this.uploadedImages.push(environment.s3 + tmpProduct.productImages[index].imageUrl);
-          }
+    this.productService.saveProductImages({ kalaUniqueId: this.product.kalaUniqueId, images: otherImages, mainImage: mainImage }).subscribe(e => {
+      if (e.type === 4) {
+        this.core.message.success(userMessages.success);
+        this.product = new Product(JSON.parse(e.body));
+        if (productImages.length > 1) {
+          this.productImages = new Array<any>();
         }
-        productImages.splice(0, productImages.length);
+        this.productImages.splice(this.productImages.indexOf(productImages[0]), 1);
+
       }
       this.saveLoader = false;
-      console.log(e);
     });
   }
+
   remove(item) {
     this.productImages.splice(this.productImages.indexOf(item), 1);
   }
   removeAll() {
     delete this.productImages;
     this.productImages = new Array<any>();
-  }
-  readForm() {
-    return this.product;
   }
   upload(item) {
     this.uploadAll([item]);
@@ -118,5 +104,19 @@ export class ProductAddImagesComponent implements OnInit {
         this.productImages.push({ file: file, mainImage: false });
       }
     }
+  }
+  deleteImage(id) {
+    console.log(id);
+    this.productService.deleteImage(this.product.kalaUniqueId, id).subscribe(p => {
+      this.core.message.success(userMessages.imageDeleted);
+      this.product = p;
+    });
+  }
+  markasMainImage(id) {
+    console.log(id);
+    this.productService.markasMainImage(this.product.kalaUniqueId, id).subscribe(p => {
+      this.core.message.success(userMessages.markasMainImage);
+      this.product = p;
+    });
   }
 }

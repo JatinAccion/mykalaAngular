@@ -20,37 +20,39 @@
             </span>
             <input readonly="readonly" placeholder="Picture file" class="form-control hide" name="filename" type="text">
         </div>
+        <p *ngIf="progress>0" >
+            <ngb-progressbar showValue="true" type="success" [value]="progress" [striped]="true"></ngb-progressbar>
+        </p>
     </div>
-    <p>
-        <ngb-progressbar showValue="true" type="success" [value]="progress" [striped]="true"></ngb-progressbar>
-    </p>
 </div>
 <!-- <a class="btn btn-default w-100" (click)="upload()">Upload</a> -->
+<div class="col-sm-12 p-0 pt-3 pagination_align">
+    <pagination-controls id='server' (pageChange)="getPage($event)"></pagination-controls>
+</div>
 <div class="row">
     <div class="col-sm-8 title">
         <h1>Product files uploaded</h1>
     </div>
 </div>
-<div class="row m-0" *ngFor="">
+<div class="row m-0" *ngFor="let item of data.content | paginate: { id: 'server', itemsPerPage: data.size, currentPage: data.number + 1 , totalItems: data.totalElements }">
     <div class="col-sm-9 p-2 mt-3 ">
         <div class="input-group">
-            <input class="form-control" placeholder="" aria-describedby="basic-addon1" type="text" [(ngModel)]="fileNames">
-            <span class="input-group-addon" id="basic-addon1">({{12}}/{{80}}) uploaded </span>
-            <span class="input-group-addon" id="basic-addon1">X</span>
+            <input class="form-control" placeholder="" aria-describedby="basic-addon1" type="text" [(ngModel)]="item.fileName">
+            <span class="input-group-addon" id="basic-addon1">({{item.addedRecordsCount + item.updatedRecordsCount}}/{{item.totalRecordsCount}}) uploaded  </span>
+            <span class="input-group-addon" id="basic-addon1" *ngIf="item.errorCount>0" > ({{item.errorCount}}) error  </span>            
+            <span class="input-group-addon" id="basic-addon1" (click)="delete(item.productSummaryId)">X</span>
         </div>
-        <p>
-            <ngb-progressbar showValue="true" type="success" [value]="progress" [striped]="true"></ngb-progressbar>
-        </p>
     </div>
     <div class="col-sm-3 p-2 mt-3">
         <div class="btn-group">
-            <button type="button" class="btn btn-default w-100">Download</button>
+            <!-- <button type="button" class="btn btn-default w-100" (click)="download(item.productSummaryId)">Download</button> -->
+            <a href="{{item.updatedFileLink}}" class="btn btn-default w-100">Download</a>
             <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
                 <button class="btn btn-primary dropdown-toggle-split" ngbDropdownToggle></button>
                 <div class="dropdown-menu" ngbDropdownMenu>
-                    <button class="dropdown-item">View Products({{12}})</button>
-                    <button class="dropdown-item">Error({{123}})</button>
-                    <button class="dropdown-item"></button>
+
+                    <button class="dropdown-item" [routerLink]="['../product-list', item.productSummaryId]">View Products({{item.addedRecordsCount + item.updatedRecordsCount}})</button>
+                    <a href="{{item.errorFileLink}}" class="btn btn-default w-100" *ngIf="item.errorCount>0">Error({{item.errorCount}})</a>
                 </div>
             </div>
         </div>

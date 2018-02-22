@@ -140,16 +140,29 @@
     </div>
     <hr />
 </div>
+
+<div class="row">
+    <form #checkout="ngForm" (ngSubmit)="onSubmit(checkout)" class="checkout">
+      <div class="form-row">
+        <div id="card-info" #cardInfo></div>
+        <div id="card-errors" role="alert" *ngIf="error">{{ error }}</div>
+      </div>
+
+      <button type="submit" class="btn btn_red_right">add card</button>
+      <button type="button" (click)="resetAddCard()" class="btn-outer btn_redouter_right btn-outer-margin">cancel</button>
+      <img src="/consumer-app/assets/images/loader.gif" style="margin-left: 7px; margin-top: 7px" *ngIf="loader" />
+    </form>
+  </div>
 <div class="row">
     <div class="col-sm-6">
         <a (click)="paymentInfoBack()" class="ancDefault" *ngIf="paymentInfoStep!==1">back</a>
+        <!-- <a (click)="stripe()" class="ancDefault">Stripe</a> -->
+
     </div>
     <div class="col-sm-6 text-right" [ngClass]="{'show': paymentInfoStep==1, 'hide': paymentInfoStep!==1 }">
         <a class="btn btn-default ancProfile1" (click)="paymentInfoNext()">Next</a>
     </div>
     <div class="col-sm-6 text-right" [ngClass]="{'show': paymentInfoStep==2, 'hide': paymentInfoStep!==2  }">
-        <!-- <a class="btn btn-default ancProfile1" (click)="paymentInfoSave()">Save & Next</a>
-                    <img src="/admin-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="paymentSaveloader" /> -->
         <button class="btn btn-default ancProfile1" [disabled]="paymentSaveloader" (click)="paymentInfoSave();">Save & Next
             <i class="fa fa-repeat fa-spin" aria-hidden="true" *ngIf="paymentSaveloader"></i>
         </button>

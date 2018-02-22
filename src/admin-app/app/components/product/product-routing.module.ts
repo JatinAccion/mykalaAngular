@@ -16,6 +16,12 @@ const appRoutes: Routes = [
     canDeactivate: [CanDeactivateGuard]
   },
   {
+    path: 'product-list/:id',
+    component: ProductListComponent,
+    canActivate: [EnsureAuthenticated],
+    canDeactivate: [CanDeactivateGuard]
+  },
+  {
     path: 'product-add',
     component: ProductAddComponent,
     canActivate: [EnsureAuthenticated]

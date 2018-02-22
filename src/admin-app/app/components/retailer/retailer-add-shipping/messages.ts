@@ -22,7 +22,7 @@ export const userMessages = {
         'Standard5to8businessdays': 'Standard: 5 to 8 business days',
         'Custom': 'Custom'
     },
-    'noShippingmethodselected':'Atleast one shipping method need to be selected'
+    'noShippingmethodselected': 'Atleast one shipping method need to be selected'
 };
 export const inputValidations = {
     'shippingProfileName': { required: 'Please enter a profile name ', error: 'Please enter valid profile name' },

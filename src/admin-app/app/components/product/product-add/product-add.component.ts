@@ -24,6 +24,7 @@ import { CoreService } from '../../../services/core.service';
   encapsulation: ViewEncapsulation.None
 })
 export class ProductAddComponent implements OnInit {
+
   retailers: Array<RetailerProfileInfo>;
   retailer: RetailerProfileInfo;
   reatileDummy: RetailerProfileInfo;
@@ -56,13 +57,27 @@ export class ProductAddComponent implements OnInit {
     public validatorExt: ValidatorExt,
     public core: CoreService
   ) {
-    //this.productId = route.snapshot.params['id'];
+    this.productId = route.snapshot.params['id'];
     this.retailers = new Array<RetailerProfileInfo>();
   }
   ngOnInit() {
-    this.setActiveTab({ nextId: 'tab-category' });
+    // this.setActiveTab({ nextId: 'tab-category' });
     this.setFormValidators();
     this.getRetailersData();
+    if (this.productId) {
+      this.productService.get({ 'productName': this.productId }).subscribe(p => {
+        if (p && p.content.length > 0) {
+          this.product = p.content[0];
+          this.setActiveTab({ nextId: 'tab-category' });
+          this.setRetailerDropDown();
+        }
+      });
+    }
+  }
+  setRetailerDropDown(): any {
+    if (this.retailers.length > 0 && this.product && this.product.retailerId && this.retailers.filter(p => p.retailerId === this.product.retailerId).length > 0) {
+      this.retailer = this.retailers.filter(p => p.retailerId === this.product.retailerId)[0];
+    }
   }
   setFormValidators() {
     this.fG1 = this.formBuilder.group({
@@ -71,7 +86,8 @@ export class ProductAddComponent implements OnInit {
   }
   getRetailersData() {
     this.productService.getSellerNames().subscribe((res) => {
-      return this.retailers = res;
+      this.retailers = res;
+      this.setRetailerDropDown();
     });
   }
   selectSeller(e) {
@@ -85,7 +101,7 @@ export class ProductAddComponent implements OnInit {
   }
   setActiveTab(event) {
     // if (!this.productId && event.nextId !== 'tab-category') { event.preventDefault(); return; }
-    
+
     if (event.nextId !== 'tab-category') {
       this.validatorExt.validateAllFormFields(this.fG1);
       if (this.fG1.invalid) {
@@ -102,13 +118,7 @@ export class ProductAddComponent implements OnInit {
       }
     }
   }
-  saveProductAndShowNext(prevTab) {
-    if (prevTab === 'tab-delivery') {
-      this.saveProduct().then(res => {
-        this.showNextTab(prevTab);
-      });
-    }
-  }
+
   showNextTab(prevTab) {
     switch (prevTab) {
       case 'tab-category': this.status.category = true; this.ngbTabSet.select('tab-basic'); break;
@@ -126,29 +136,4 @@ export class ProductAddComponent implements OnInit {
       }
     }
   }
-  saveProduct(): Promise<any> {
-    this.saveLoader = true;
-    return Promise(resolve => {
-      this.productService
-        .saveProduct(this.product)
-        .then(res => {
-          this.productId = res.json().kalaUniqueId;
-          this.product.kalaUniqueId = this.productId;
-          this.alert = { id: 1, type: 'success', message: 'Saved successfully', show: true };
-          this.saveLoader = false;
-          resolve(this.productId);
-          return true;
-        })
-        .catch(err => {
-          console.log(err);
-          this.alert = { id: 1, type: 'danger', message: 'Not able to Save', show: true };
-          this.saveLoader = false;
-          return false;
-        });
-    });
-  }
-  closeAlert(alert: IAlert) {
-    this.alert.show = false;
-  }
-
 }

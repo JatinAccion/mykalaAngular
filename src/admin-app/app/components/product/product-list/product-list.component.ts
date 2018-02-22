@@ -5,6 +5,7 @@ import { ProductPlace, ProductCategory, ProductSubCategory } from '../../../../.
 import { RetialerService } from '../../retailer/retialer.service';
 import { RetailerProfileInfo } from '../../../../../models/retailer-profile-info';
 import { IdNameParent } from '../../../../../models/nameValue';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-product-list',
@@ -13,6 +14,7 @@ import { IdNameParent } from '../../../../../models/nameValue';
   encapsulation: ViewEncapsulation.None
 })
 export class ProductListComponent implements OnInit {
+  sourceId: any;
   retailer: RetailerProfileInfo;
   reatileDummy: RetailerProfileInfo;
   retailers: RetailerProfileInfo[];
@@ -44,8 +46,9 @@ export class ProductListComponent implements OnInit {
   subCategorySettings = {};
   productTypeSettings = {};
   isCollapsed = true;
-  constructor(private productService: ProductService, private retialerService: RetialerService) {
+  constructor(private productService: ProductService, private retialerService: RetialerService, route: ActivatedRoute) {
     this.products = new Products();
+    this.sourceId = route.snapshot.params['id'];
   }
 
   ngOnInit() {
@@ -155,7 +158,7 @@ export class ProductListComponent implements OnInit {
     // };
 
     const searchParams = {
-      page: page - 1, size: 10, sortOrder: 'asc', elementType: 'createdDate', productName: this.productName, productStatus: [], productPlaceName: [], productCategoryName: [], productSubCategoryName: [], retailerId: []
+      page: page - 1, size: 10, sortOrder: 'asc', elementType: 'createdDate', productName: this.productName, productStatus: [], productPlaceName: [], productCategoryName: [], productSubCategoryName: [], retailerId: [], sourceId: this.sourceId
     };
     searchParams.productStatus = [this.productStatus || true];
     // if (this.productStatus) { searchParams.productStatus = [this.productStatus]; } else { searchParams.productStatus = [true]; }

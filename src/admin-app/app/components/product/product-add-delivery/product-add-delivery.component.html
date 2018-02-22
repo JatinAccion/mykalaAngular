@@ -7,9 +7,10 @@
         <div class="form-group">
             <ul class="list-unstyled">
                 <li *ngFor="let shipping of shippingProfiles; let idx=index; ">
-                    <input type="radio" [(ngModel)]="product.shippingProfileId" value="{{shipping.name}}" name="shippingId" formControlName="shippingId" /> {{shipping.value}}
+                    <input type="radio" [(ngModel)]="product.shipProfileId" value="{{shipping.name}}" name="shippingId" formControlName="shippingId" /> {{shipping.value}}
                 </li>
             </ul>
+            <app-field-error-display [field]="fG1.controls.shippingId" [errorMsg]="errorMsgs"> </app-field-error-display>
             <div *ngIf="!shippingProfiles && getDataloader">
                 The Seller does not setup any Delivery
             </div>

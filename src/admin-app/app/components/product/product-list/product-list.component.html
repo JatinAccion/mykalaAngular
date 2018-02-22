@@ -98,7 +98,7 @@
                         <div ngbDropdownMenu aria-labelledby="dropdown01">
                             <button class="dropdown-item">Activate/Deactivate</button>
                             <button class="dropdown-item">Delete</button>
-                            <button class="dropdown-item">Edit Product</button>
+                            <button class="dropdown-item" [routerLink]="['../product-edit', product.kalaUniqueId]">Edit Product</button>
                         </div>
                     </div>
                 </td>

@@ -19,7 +19,8 @@ export class Product {
     public kalaPrice: number;
     public lowestPrice: number;
     public quantity: number;
-    public shippingProfileId: string;
+    public shipProfileId: string;
+    public shipProfileName: string;
     public productStatus: boolean | null = true;
     public productActivatedDate: Date | null;
     public createdDate: Date | null;
@@ -31,9 +32,16 @@ export class Product {
     public productType: ProductType;
     public isCollapsed: boolean | null = true;
     public mainImage: ProductImage;
+    public otherImages: ProductImage[] | null = new Array<ProductImage>();
+    public attributes: Map<string, object>;
+
+
     constructor(obj?: any) {
+        this.otherImages = new Array<ProductImage>();
+        this.productImages = new Array<ProductImage>();
         if (obj) {
             this.retailerId = obj.retailerId;
+            this.retailerName = obj.retailerName;
             this.kalaUniqueId = obj.kalaUniqueId;
             this.productSkuCode = obj.productSkuCode;
             this.productUpcCode = obj.productUpcCode;
@@ -46,13 +54,23 @@ export class Product {
             this.productTypeName = obj.productTypeName;
             this.retailPrice = obj.retailPrice;
             this.kalaPrice = obj.kalaPrice;
+            this.lowestPrice = obj.lowestPrice;
             this.quantity = obj.quantity;
-            this.shippingProfileId = obj.shippingProfileId;
+            this.shipProfileId = obj.shipProfileId;
+            this.shipProfileName = obj.shipProfileName;
             this.productStatus = obj.productStatus;
             this.productActivatedDate = obj.productActivatedDate;
             this.createdDate = obj.createdDate;
-            this.productImages = obj.productImages ? obj.productImages.map(p => new ProductImage(p)) : new Array<ProductImage>();
-            this.mainImage = this.productImages[0]; // .filter(p => p.mainImage === true)[0];
+            this.attributes = obj.attributes;
+            
+            this.productImages = obj.productImages ? obj.productImages.filter(p => p.location !== null).map(p => new ProductImage(p)) : new Array<ProductImage>();
+            for (let index = 0; index < this.productImages.length; index++) {
+                if (this.productImages[index].mainImage) {
+                    this.mainImage = this.productImages[index];
+                } else {
+                    this.otherImages.push(this.productImages[index]);
+                }
+            }
             if (!this.mainImage) {
                 delete this.mainImage;
             }
@@ -62,12 +80,14 @@ export class Product {
     }
 }
 export class ProductImage {
+    public id: string;
     public imageType: string;
-    public imageUrl: string;
+    public location: string;
     public mainImage: boolean | null = false;
     constructor(obj?: any) {
+        this.id = obj.id;
         this.imageType = obj.imageType;
-        this.imageUrl = environment.s3 + obj.imageUrl;
+        this.location = environment.s3 + obj.location;
         this.mainImage = obj.mainImage;
     }
 }

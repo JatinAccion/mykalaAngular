@@ -5,7 +5,7 @@
 
     <div class="form-group">
         <ol class="ol-3 taxlist">
-            <li *ngFor="let state of statesSelected " class="form-control m-0">
+            <li *ngFor="let state of statesSelected " class="m-0">
                 <label>
                     <input type="checkbox" [(ngModel)]="state.value"> {{state.key}}
                 </label>

@@ -1,5 +1,5 @@
 // #region imports
-import { Component, OnInit, ViewEncapsulation, ViewChild, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, Input, EventEmitter, Output, OnChanges } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { nameValue } from '../../../../../models/nameValue';
@@ -18,7 +18,7 @@ import { ProductPlace, ProductCategory, ProductSubCategory, ProductType } from '
   styleUrls: ['./../product.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class ProductAddCategoryComponent implements OnInit {
+export class ProductAddCategoryComponent implements OnInit, OnChanges {
   // #region declarations
   @Input() product: Product;
   @Output() productChange = new EventEmitter<Product>();
@@ -55,10 +55,14 @@ export class ProductAddCategoryComponent implements OnInit {
   }
   ngOnInit() {
     this.setFormValidators();
-    this.getPlaces();
-    this.getCategories();
-    this.getSubCategories();
-    this.getTypes();
+    if (this.product.productPlaceName) {
+      this.setProductData();
+    } else {
+      this.getPlaces();
+    }
+  }
+  ngOnChanges() {
+    this.setProductData();
   }
   closeAlert(alert: IAlert) {
     this.alert.show = false;
@@ -66,10 +70,10 @@ export class ProductAddCategoryComponent implements OnInit {
 
   setFormValidators() {
     this.fG1 = this.formBuilder.group({
-      productPlaceName: [this.product.productPlace, [Validators.required]],
-      productCategoryName: [this.product.productCategory, [Validators.required]],
-      productSubCategoryName: [this.product.productSubCategory, [Validators.required]],
-      productTypeName: [this.product.productType, [Validators.required]],
+      productPlaceName: [null, [Validators.required]],
+      productCategoryName: [null, [Validators.required]],
+      productSubCategoryName: [null, [Validators.required]],
+      productTypeName: [null, [Validators.required]],
     });
   }
 
@@ -84,7 +88,31 @@ export class ProductAddCategoryComponent implements OnInit {
     }
     return false;
   }
-
+  setProductData() {
+    this.productService.getProductPlaces().subscribe(res => {
+      this.places = res;
+      if (this.product && this.product.productPlaceName && this.places && this.places.filter(p => p.PlaceName === this.product.productPlaceName).length > 0) {
+        this.product.productPlace = this.places.filter(p => p.PlaceName === this.product.productPlaceName)[0];
+        if (this.product.productPlace && this.product.productPlace.PlaceId) {
+          this.productService.getProductCategories([this.product.productPlace.PlaceId]).subscribe(catres => {
+            this.categories = catres;
+            if (this.product && this.product.productCategoryName && this.categories && this.categories.filter(p => p.CategoryName === this.product.productCategoryName).length > 0) {
+              this.product.productCategory = this.categories.filter(p => p.CategoryName === this.product.productCategoryName)[0];
+              if (this.product.productCategory && this.product.productCategory.CategoryId) {
+                this.productService.getProductSubCategories([this.product.productCategory.CategoryId]).subscribe(subres => {
+                  this.subCategories = subres;
+                  if (this.product && this.product.productSubCategoryName && this.subCategories && this.subCategories.filter(p => p.SubCategoryName === this.product.productSubCategoryName).length > 0) {
+                    this.product.productSubCategory = this.subCategories.filter(p => p.SubCategoryName === this.product.productSubCategoryName)[0];
+                    this.getTypes();
+                  }
+                });
+              }
+            }
+          });
+        }
+      }
+    });
+  }
 
   readForm() {
     return this.product;
@@ -96,10 +124,12 @@ export class ProductAddCategoryComponent implements OnInit {
   getPlaces() {
     this.productService.getProductPlaces().subscribe(res => {
       this.places = res;
-
+      this.setPlace();
     });
   }
+  setPlace() {
 
+  }
   placeChanged(event) {
     this.product.productPlaceName = this.product.productPlace.PlaceName;
     this.categories = new Array<ProductCategory>();
@@ -117,9 +147,16 @@ export class ProductAddCategoryComponent implements OnInit {
     if (this.product.productPlace && this.product.productPlace.PlaceId) {
       this.productService.getProductCategories([this.product.productPlace.PlaceId]).subscribe(res => {
         this.categories = res;
-
+        this.setCategory();
       });
     }
+  }
+  setCategory() {
+    // if (this.product && this.product.productCategoryName && this.categories && this.categories.filter(p => p.CategoryName === this.product.productCategoryName).length > 0) {
+    //   this.product.productCategory = this.categories.filter(p => p.CategoryName === this.product.productCategoryName)[0];
+    //   this.getSubCategories();
+    //   // this.setFormValidators();
+    // }
   }
   categoryChanged(event) {
     this.product.productCategoryName = this.product.productCategory.CategoryName;
@@ -135,9 +172,16 @@ export class ProductAddCategoryComponent implements OnInit {
     if (this.product.productCategory && this.product.productCategory.CategoryId) {
       this.productService.getProductSubCategories([this.product.productCategory.CategoryId]).subscribe(res => {
         this.subCategories = res;
-
+        this.setSubCategory();
       });
     }
+  }
+  setSubCategory() {
+    // if (this.product && this.product.productSubCategoryName && this.subCategories && this.subCategories.filter(p => p.SubCategoryName === this.product.productSubCategoryName).length > 0) {
+    //   this.product.productSubCategory = this.subCategories.filter(p => p.SubCategoryName === this.product.productSubCategoryName)[0];
+    //   this.getTypes();
+    //   // this.setFormValidators();
+    // }
   }
   subCategoryChanged(event) {
     this.product.productSubCategoryName = this.product.productSubCategory.SubCategoryName;
@@ -156,11 +200,17 @@ export class ProductAddCategoryComponent implements OnInit {
           this.fG1.controls.productTypeName.setValidators([Validators.required]);
         }
         this.fG1.controls.productTypeName.updateValueAndValidity();
+        this.setType();
+        // this.setFormValidators();
       });
+    }
+  }
+  setType() {
+    if (this.product && this.product.productTypeName && this.productTypes && this.productTypes.filter(p => p.TypeName === this.product.productTypeName).length > 0) {
+      this.product.productType = this.productTypes.filter(p => p.TypeName === this.product.productTypeName)[0];
     }
   }
   typeChanged(event) {
     this.product.productTypeName = this.product.productType ? this.product.productType.TypeName : '';
   }
-
 }

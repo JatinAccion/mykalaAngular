@@ -13,6 +13,7 @@ import { nameValue } from '../../../../models/nameValue';
 import { Product, Products } from '../../../../models/Product';
 import { ProductPlace, ProductType, ProductSubCategory, ProductCategory } from '../../../../models/product-info';
 import { RetailerProfileInfo } from '../../../../models/retailer-profile-info';
+import { ProductUploads } from '../../../../models/productUpload';
 
 @Injectable()
 export class ProductService {
@@ -41,20 +42,29 @@ export class ProductService {
   }
   get(query: any): Observable<Products> {
     this.headers = this.getHttpHeraders();
-    const url = `${this.BASE_URL}/${environment.apis.product.get}`;
-    return this.http
-      .post(url, query, { headers: this.headers })
-      .map(p => p.json())
-      .map(p => new Products(p))
-      .catch(this.handleError);
-
+    let url = `${this.BASE_URL}/${environment.apis.product.get}`;
+    if (query.sourceId) {
+      url = `${this.BASE_URL}/${environment.apis.product.viewUploadedProducts}`;
+      return this.http
+        .get(url, { search: query, headers: this.headers })
+        .map(p => p.json())
+        .map(p => new Products(p))
+        .catch(this.handleError);
+    } else {
+      return this.http
+        .post(url, query, { headers: this.headers })
+        .map(p => p.json())
+        .map(p => new Products(p))
+        .catch(this.handleError);
+    }
   }
-  saveProduct(product: Product): Promise<any> {
+  saveProduct(product: Product): Observable<any> {
     this.headers = this.getHttpHeraders();
     const url = `${this.BASE_URL}/${environment.apis.product.save}`;
     return this.http
       .post(url, product, { headers: this.headers })
-      .toPromise()
+      .map(p => p.json())
+      // .map(p => new Products(p))
       .catch(this.handleError);
   }
 
@@ -82,18 +92,35 @@ export class ProductService {
     const formdata: FormData = new FormData();
     for (let i = 0; i < images.images.length; i++) {
       const element = images.images[i];
-      formdata.append('images', element, element.name);
+      formdata.append('images', element);
     }
-    formdata.append('mainImage', images.mainImage, images.mainImage.name);
-    formdata.append('kalaUniqueId', images.kalaUniqueId);
+    formdata.append('mainImage', images.mainImage);
+    formdata.append('productId', images.kalaUniqueId);
+
 
     const url = `${this.BASE_URL}/${environment.apis.product.saveImage}`;
     const req = new HttpRequest('POST', url, formdata, {
-      reportProgress: true,
+      reportProgress: false,
       responseType: 'text'
     });
 
     return this.httpc.request(req).map(p => p);
+  }
+  markasMainImage(productId, imageId) {
+    this.headers = this.getHttpHeraders();
+    const url = `${this.BASE_URL}/${environment.apis.product.markasMainImage}`.replace('{productId}', productId).replace('{imageId}', imageId);
+    return this.http
+      .put(url, { headers: this.headers })
+      .map(p => new Product(p.json()))
+      .catch(this.handleError);
+  }
+  deleteImage(productId, imageId) {
+    this.headers = this.getHttpHeraders();
+    const url = `${this.BASE_URL}/${environment.apis.product.deleteImage}`.replace('{productId}', productId).replace('{imageId}', imageId);
+    return this.http
+      .delete(url, { headers: this.headers })
+      .map(p => new Product(p.json()))
+      .catch(this.handleError);
   }
   private handleError(error: any) {
     // in a real world app, we may send the server to some remote logging infrastructure
@@ -187,5 +214,25 @@ export class ProductService {
       reportProgress: true,
     });
     return this.httpc.request(req).map(p => p);
+  }
+  getUploadSummary(query: any): Observable<ProductUploads> {
+    const url = `${this.BASE_URL}/${environment.apis.product.uploadSummary}`;
+    return this.http
+      .get(`${url}`, { search: query, headers: this.headers })
+      .map(res => {
+        if (res.text() !== '') {
+          return new ProductUploads(res.json());
+        }
+        return new ProductUploads();
+      })
+      .catch(this.handleError);
+  }
+  deleteuploadSummary(summaryId: any) {
+    this.headers = this.getHttpHeraders();
+    const url = `${this.BASE_URL}/${environment.apis.product.deleteSummary}`.replace('{summaryId}', summaryId);
+    return this.http
+      .delete(url, { headers: this.headers })
+      .map(p => p.text())
+      .catch(this.handleError);
   }
 }

@@ -73,7 +73,7 @@
                 <ng-template ngbTabContent>
                     <div class="row">
                         <div class="col-sm-8 backgroundWhite">
-                            <app-product-add-delivery [(product)]="product" (SaveData)="saveProductAndShowNext($event)"></app-product-add-delivery>
+                            <app-product-add-delivery [(product)]="product" (SaveData)="showNextTab($event)"></app-product-add-delivery>
                         </div>
                         <div class="col-sm-4 backgroundGray"></div>
                     </div>
@@ -86,7 +86,7 @@
                 <ng-template ngbTabContent>
                     <div class="row">
                         <div class="col-sm-8 backgroundWhite">
-                            <!-- <app-product-add-images [(product)]="product" (SaveData)="showNextTab($event)"></app-product-add-images> -->
+                            <app-product-add-images [(product)]="product" (SaveData)="showNextTab($event)"></app-product-add-images>
                         </div>
                         <div class="col-sm-4 backgroundGray">
                             The images are often the most important thing a customer looks at when they’re thinking about purchasing a product.

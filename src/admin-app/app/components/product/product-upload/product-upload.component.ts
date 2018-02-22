@@ -8,6 +8,7 @@ import { IdNameParent } from '../../../../../models/nameValue';
 import { CoreService } from '../../../services/core.service';
 import { environment } from '../../../../environments/environment';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
+import { ProductUploads } from '../../../../../models/productUpload';
 
 @Component({
   selector: 'app-product-upload',
@@ -16,6 +17,7 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
   encapsulation: ViewEncapsulation.None
 })
 export class ProductUploadComponent implements OnInit {
+  data = new ProductUploads();
   fileNames = '';
   saveLoader: boolean;
   retailerId: any;
@@ -28,9 +30,15 @@ export class ProductUploadComponent implements OnInit {
   }
 
   ngOnInit() {
-//get upload history
-// create model
-//     
+    this.getPage(1);
+  }
+  getPage(page: number) {
+    const searchParams = {
+      page: page - 1, size: 10, sortOrder: 'desc', elementType: 'createdDate'
+    };
+    this.productService.getUploadSummary(searchParams).subscribe(p => {
+      this.data = p;
+    });
   }
   upload() {
     this.productService.saveproductFiles(this.retailerId, this.productFiles).subscribe(event => {
@@ -41,9 +49,17 @@ export class ProductUploadComponent implements OnInit {
         const percentDone = Math.round(100 * event.loaded / event.total);
         this.progress = percentDone;
         console.log(`File is ${percentDone}% uploaded.`);
+      } else if (event.type === HttpEventType.Response) {
+        this.progress = 0;
+        this.fileNames = '';
+        this.getPage(1);
       } else if (event instanceof HttpResponse) {
         console.log('File is completely uploaded!');
       }
+    }, err => {
+      this.core.message.error('error');
+      this.progress = 0;
+      this.fileNames = '';
     });
   }
   fileChangeEvent(fileInput: any) {
@@ -58,5 +74,13 @@ export class ProductUploadComponent implements OnInit {
 
       }
     }
+  }
+
+  delete(id) {
+    this.productService.deleteuploadSummary(id).subscribe(p => {
+      this.core.message.success('deleted successfully');
+      this.getPage(this.data.number + 1);
+    });
+
   }
 }

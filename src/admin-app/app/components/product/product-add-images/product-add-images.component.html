@@ -51,9 +51,6 @@
             </table>
 
             <div>
-                <div>
-                    Queue progress:
-                </div>
                 <button type="button" class="btn btn-success btn-s" (click)="saveData()">
                     <span class="fa fa-upload"></span> Upload all
                 </button>
@@ -64,24 +61,25 @@
 
         </div>
     </div>
+    <p class="row" *ngIf="product.mainImage" >Main Image</p>
     <div class="row mt-2 anc_otherImg">
-        <a href="#" class="anc_otherImg" *ngIf="mainImage">
-            <img src="{{mainImage}}">
+        <a href="#" class="anc_otherImg" *ngIf="product.mainImage">
+            <img src="{{product.mainImage.location}}">
         </a>
         <div class="overlay">
             <div class="text">
-                <span class="fa fa-trash"></span>
+                <span class="fa fa-trash" (click)="deleteImage(product.mainImage.id)"></span>
             </div>
         </div>
     </div>
-    <p class="row" *ngIf="uploadedImages.length>0" >Other Images</p>
+    <p class="row" *ngIf="product.otherImages.length>0" >Other Images</p>
     <div class="row">
-        <div class="d-inline anc_otherImg" *ngFor="let image of uploadedImages" >
-            <img src="{{image}}">
+        <div class="d-inline anc_otherImg" *ngFor="let image of product.otherImages" >
+            <img src="{{image.location}}">
             <div class="overlay">
                 <div class="text">
-                    <span class="fa fa-refresh"></span>
-                    <span class="fa fa-trash"></span>
+                    <span class="fa fa-refresh" (click)="markasMainImage(image.id)" ></span>
+                    <span class="fa fa-trash" (click)="deleteImage(image.id)"></span>
                 </div>
             </div>
         </div>       

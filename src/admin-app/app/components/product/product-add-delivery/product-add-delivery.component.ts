@@ -6,8 +6,9 @@ import { IAlert } from '../../../../../models/IAlert';
 import { environment } from '../../../../environments/environment';
 import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 import { ProductService } from '../product.service';
-import { inputValidations } from './messages';
+import { inputValidations, userMessages } from './messages';
 import { Product } from '../../../../../models/Product';
+import { CoreService } from '../../../services/core.service';
 // #endregion imports
 
 @Component({
@@ -23,7 +24,7 @@ export class ProductAddDeliveryComponent implements OnInit {
   @Output() productChange = new EventEmitter<Product>();
   @Output() SaveData = new EventEmitter<any>();
   shippingProfiles: nameValue[];
-  productId = 1;
+  productId = '';
   alert: IAlert = { id: 1, type: 'success', message: '', show: false };
   fG1 = new FormGroup({});
   step = 1;
@@ -34,7 +35,8 @@ export class ProductAddDeliveryComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private productService: ProductService,
-    public validatorExt: ValidatorExt
+    public validatorExt: ValidatorExt,
+    private core: CoreService
   ) {
   }
   ngOnInit() {
@@ -56,19 +58,33 @@ export class ProductAddDeliveryComponent implements OnInit {
   }
 
   saveData() {
-    this.readForm();
     this.validatorExt.validateAllFormFields(this.fG1);
     if (!this.fG1.valid) {
-   } else {
+    } else {
+      this.readForm();
       this.saveLoader = true;
-      this.productChange.emit(this.product);
-      this.SaveData.emit('tab-delivery');
+      this.productService
+        .saveProduct(this.product).subscribe(res => {
+          this.productId = res.kalaUniqueId;
+          this.product.kalaUniqueId = this.productId;
+          this.core.message.success(userMessages.success);
+          this.saveLoader = false;
+          this.productChange.emit(this.product);
+          this.SaveData.emit('tab-delivery');
+        }, err => {
+          console.log(err);
+          this.core.message.error(userMessages.error);
+
+          this.saveLoader = false;
+        });
     }
-    return false;
   }
 
 
   readForm() {
+    if (this.product && this.product.shipProfileId && this.shippingProfiles.filter(p => p.name === this.product.shipProfileId).length > 0) {
+      this.product.shipProfileName = this.shippingProfiles.filter(p => p.name === this.product.shipProfileId)[0].value;
+    }
     return this.product;
   }
 

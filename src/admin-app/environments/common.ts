@@ -60,14 +60,19 @@ export const apiNames = {
     product: {
         get: 'products/filterBy',
         save: 'products/save',
-        saveImage: 'products/saveImages',
+        saveImage: 'products/images',
+        markasMainImage: 'products/{productId}/images/{imageId}',
+        deleteImage: 'products/{productId}/images/{imageId}',
         changeMainImage: 'products/changeMainImage',
         delete: 'products/delete',
         places: 'products/places',
         categories: 'products/categoriesList',
         subCategories: 'products/subCategoriesList',
         types: 'products/typesList',
-        upload: 'products/bulkProducts'
+        upload: 'products/bulkProducts',
+        uploadSummary: 'products/summary',
+        viewUploadedProducts: 'products/dump',
+        deleteSummary: 'products/summary/{summaryId}'
     },
 
 };
