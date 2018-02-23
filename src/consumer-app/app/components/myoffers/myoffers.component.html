@@ -19,8 +19,8 @@
 
               <div>
                 <span class="colorlightGray">Offers started: </span> {{offer.getOffersRequestDTO.startDate}}
-                <span class="colorlightGray">Offer ends in: </span>
-                <span class="colorred remainingTime"></span>
+                <span class="colorlightGray">Offer ends in:</span>
+                <span class="colorred">{{offer.getOffersRequestDTO.remainingTime}}</span>
                 <span class="label label-default">{{offer.getOffersResponse.length}} offers</span>
               </div>
             </div>

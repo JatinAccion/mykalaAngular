@@ -27,6 +27,7 @@ import { CheckoutComponent } from './components/checkout/checkout.component';
 import { MyordersComponent } from './components/myorders/myorders.component';
 import { MyaccountComponent } from './components/myaccount/myaccount.component';
 import { MyoffersComponent } from './components/myoffers/myoffers.component';
+import { LeaveReviewComponent } from './components/leave-review/leave-review.component';
 
 const appRoutes: Routes = [
     {
@@ -103,6 +104,11 @@ const appRoutes: Routes = [
     {
         path: 'myoffer',
         component: MyoffersComponent,
+        data: { header: 'header1' }
+    },
+    {
+        path: 'leave-review',
+        component: LeaveReviewComponent,
         data: { header: 'header1' }
     },
     {

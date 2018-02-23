@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CoreService } from '../../services/core.service';
 import { MyOrdersService } from '../../services/myorder.service';
 import { MyOrders } from '../../../../models/myOrder';
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-myorders',
@@ -16,7 +17,8 @@ export class MyordersComponent implements OnInit {
 
   constructor(
     public core: CoreService,
-    private myOrder: MyOrdersService
+    private myOrder: MyOrdersService,
+    private route: Router
   ) { }
 
   ngOnInit() {
@@ -90,6 +92,10 @@ export class MyordersComponent implements OnInit {
       let getDay = new Date(date.getTime() + 24 * 60 * 60 * 1000); //Calculating on the next 5days basis
       return date.toLocaleString(locale, { month: "short" }) + ' ' + (date.getDate() + 1) + ', ' + weekday[getDay.getDay()]
     }
+  }
+
+  leaveReview(order) {
+    this.route.navigateByUrl("/leave-review");
   }
 
 }

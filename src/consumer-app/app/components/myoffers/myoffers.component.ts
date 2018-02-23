@@ -14,6 +14,7 @@ export class MyoffersComponent implements OnInit {
   myOffersDetails = [];
   loader: boolean = false;
   startDate: {};
+  remainingTime = 'Time';
 
   constructor(
     public core: CoreService,
@@ -40,7 +41,7 @@ export class MyoffersComponent implements OnInit {
       for (var i = 0; i < this.myOffersDetails.length; i++) {
         let objDate = new Date(this.myOffersDetails[i].getOffersRequestDTO.startDate), locale = "en-us", month = objDate.toLocaleString(locale, { month: "long" });
         this.myOffersDetails[i].getOffersRequestDTO.startDate = objDate.toLocaleString(locale, { month: "short" }) + ' ' + objDate.getDate() + ', ' + this.formatAMPM(objDate);
-        this.myOffersDetails[i].getOffersRequestDTO.endDate = this.calculateTimeLeft(this.myOffersDetails[i].getOffersRequestDTO.endDate)
+        this.calculateTimeLeft(this.myOffersDetails[i].getOffersRequestDTO);
       }
     });
   }
@@ -56,8 +57,8 @@ export class MyoffersComponent implements OnInit {
     return strTime;
   }
 
-  calculateTimeLeft(date) {
-    var deadline = new Date(date).getTime();
+  calculateTimeLeft(Obj) {
+    var deadline = new Date(Obj.endDate).getTime();
     var x = setInterval(function () {
       var now = new Date().getTime();
       var t = deadline - now;
@@ -65,16 +66,11 @@ export class MyoffersComponent implements OnInit {
       var hours = Math.floor((t % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
       var seconds = Math.floor((t % (1000 * 60)) / 1000);
-      let remainingTime = document.getElementsByClassName("remainingTime");
-      for (var i = 0; i < remainingTime.length; i++) {
-        remainingTime[i].innerHTML = days + "d "
-          + hours + "h " + minutes + "m " + seconds + "s ";
-        if (t < 0) {
-          clearInterval(x);
-          remainingTime[i].innerHTML = "EXPIRED";
-        }
+      if (t < 0) {
+        clearInterval(x);
+        Obj.remainingTime = "EXPIRED";
       }
-
+      else Obj.remainingTime = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
     }, 1000);
   }
 
