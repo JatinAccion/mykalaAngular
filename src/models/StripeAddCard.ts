@@ -6,4 +6,5 @@ export class StripeAddCardModel {
 export class stripeCustomer {
     public email: string;
     public source: string;
+    public customerId?: string;
 }

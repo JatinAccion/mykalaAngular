@@ -5,11 +5,12 @@ import { environment } from '../../environments/environment';
 
 @Injectable()
 export class CheckoutService {
-    private BASE_URL: string = environment.checkout;
+    private BASE_URL_ORDER: string = environment.checkout;
+    private BASE_URL_CARD: string = environment.card;
     constructor(private http: Http) { }
 
     addCard(stripeAddCard) {
-        const url: string = `${this.BASE_URL}/${environment.apis.consumerCheckout.addCard}`;
+        const url: string = `${this.BASE_URL_CARD}/${environment.apis.consumerCheckout.addCard}`;
         return this.http.post(url, stripeAddCard).map((res) => res.json());
     }
 
@@ -20,17 +21,17 @@ export class CheckoutService {
     }
 
     getCards(userId) {
-        const url: string = `${this.BASE_URL}/${userId}/${environment.apis.consumerCheckout.getCards}`;
+        const url: string = `${this.BASE_URL_CARD}/${userId}/${environment.apis.consumerCheckout.getCards}`;
         return this.http.get(url).map((res) => res.json());
     }
 
-    updateCard(userId) {
-        const url: string = `${this.BASE_URL}/${environment.apis.consumerCheckout.updateCard}`;
-        return this.http.post(url, userId).map((res) => res.json());
+    updateCard(stripeAddCard) {
+        const url: string = `${this.BASE_URL_CARD}/${environment.apis.consumerCheckout.updateCard}`;
+        return this.http.put(url, stripeAddCard).map((res) => res.json());
     }
 
     chargeAmount(productCheckout) {
-        const url: string = `${this.BASE_URL}/${environment.apis.consumerCheckout.orderPayment}`;
+        const url: string = `${this.BASE_URL_ORDER}/${environment.apis.consumerCheckout.orderPayment}`;
         return this.http.post(url, productCheckout).map((res) => res.text());
     }
 

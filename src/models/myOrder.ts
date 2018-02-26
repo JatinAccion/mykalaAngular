@@ -1,23 +1,37 @@
 export class MyOrders {
     constructor(
-        public deliveryMethod: string,
-        public orderShippingCost: string,
-        public orderTaxCost: string,
-        public productDescription: string,
-        public productId: string,
-        public productImage: string,
-        public productName: string,
-        public productPrice: number,
-        public retailerName: string,
-        public purchaseDate: Date,
-        public purchaseAmount: number,
-        public last4Digits: string,
-        public paymentSource: string,
+        public cutomerId: string,
         public userId: string,
+        public source: string,
+        public paymentSource: string,
+        public paymentFunding: string,
+        public last4Digits: string,
         public customerName: string,
-        public customerId: string,
         public address = new Address(),
+        public purchasedDate: Date,
+        public orderItems = Array<OrderItems>(),
+        public purchasedPrice: number,
+        public totalTaxCost: number,
+        public totalShipCost: number,
+        public orderId: string,
         public payment = new Payment()
+    ) { }
+}
+
+export class OrderItems {
+    constructor(
+        public productId: string,
+        public productName: string,
+        public retailerName: string,
+        public retailerId: string,
+        public productDescription: string,
+        public productImage: string,
+        public productQuantity: number,
+        public productPrice: number,
+        public productTaxCost: number,
+        public shippingCost: number,
+        public totalProductPrice: number,
+        public deliveryMethod: string
     ) { }
 }
 

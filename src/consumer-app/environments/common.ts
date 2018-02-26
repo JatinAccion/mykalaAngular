@@ -21,7 +21,8 @@ export const apiNames = {
         myAccountPassword: 'password',
         myAccountLocation: 'address',
         myAccountDOB: 'dateOfBirth',
-        myAccountInterest: 'consumerInterst'
+        myAccountInterest: 'consumerInterst',
+        review: 'review'
     },
     products: {
         getPlaces: 'places',
