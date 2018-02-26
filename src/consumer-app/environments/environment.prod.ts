@@ -1,6 +1,6 @@
 import { apiNames, commonMessages, regexPatterns } from './common';
 export const environment = {
-  production: false,
+  production: true,
   login: 'http://qa-user-service.us-west-1.elasticbeanstalk.com',
   userService: 'http://qa-signup-service.us-west-1.elasticbeanstalk.com/user/v1',
   profileInterest: 'http://qa-consumer-service.us-west-1.elasticbeanstalk.com/consumer/v1',
