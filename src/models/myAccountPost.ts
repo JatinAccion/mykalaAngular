@@ -20,7 +20,7 @@ export class MyAccountAddressModel {
 
 export class MyAccountDOBModel {
     public emailId: string;
-    public dateOfBirth: string;
+    public dateOfBirth: Date;
 }
 
 export class MyAccountInterestModel {

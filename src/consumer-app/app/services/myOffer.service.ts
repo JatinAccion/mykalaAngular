@@ -5,12 +5,17 @@ import { environment } from '../../environments/environment';
 
 @Injectable()
 export class MyOffersService {
-    private BASE_URL: string = environment.productList;
+    private BASE_URL: string = environment.profileInterest;
 
     constructor(private http: Http) { }
 
     loadOffers(emailId) {
-        const url: string = `${this.BASE_URL}/myOffer/${emailId}`;
+        const url: string = `${this.BASE_URL}/consumerOffer/${emailId}`;
         return this.http.get(url).map((res) => res.json())
+    }
+
+    endOffer(offerId) {
+        const url: string = `${this.BASE_URL}/endOffer/${offerId}`;
+        return this.http.delete(url, offerId).map((res) => res.text())
     }
 }

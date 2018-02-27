@@ -3,7 +3,8 @@
   <div style="height:135px;width:100%;"></div>
 
   <div class="row myCart mt-4 mb-4">
-    <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" id="myOfferAccordian">
+    <img src="/consumer-app/assets/images/loader.gif" *ngIf="loader" width="25" height="25" class="ml-3" />
+    <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" id="myOfferAccordian" *ngIf="myOffersDetails.length > 0">
       <ngb-panel *ngFor="let offer of myOffersDetails">
         <!--Title-->
         <ng-template ngbPanelTitle>
@@ -17,8 +18,9 @@
               </p>
 
               <div>
-                <span class="colorlightGray">Get offers started: </span> {{offer.getOffersRequestDTO.startDate}}
-                <span class="colorlightGray">Offer ends in: </span> <span class="colorred remainingTime"></span>
+                <span class="colorlightGray">Offers started: </span> {{offer.getOffersRequestDTO.startDate}}
+                <span class="colorlightGray">Offer ends in:</span>
+                <span class="colorred">{{offer.getOffersRequestDTO.remainingTime}}</span>
                 <span class="label label-default">{{offer.getOffersResponse.length}} offers</span>
               </div>
             </div>
@@ -26,8 +28,8 @@
 
             <!--Right Button-->
             <div class="col-sm-3 mt-2 text-right pr-4">
-              <button class="btn-outer btn_red_right mr-2">edit offer</button>
-              <button class="btn-outer btn_red_right">end offer</button>
+              <button class="btn-outer btn_red_right mr-2" (click)="editOffer(offer)">edit offer</button>
+              <button class="btn-outer btn_red_right" (click)="endOffer(offer)">end offer</button>
             </div>
             <!--Right Button-->
           </div>
@@ -52,8 +54,8 @@
                 <div class="col-sm-3 pb-2 colorlightGray">Type:</div>
                 <div class="col-sm-9 pb-2">
                   <span *ngFor="let type of offer.getOffersRequestDTO.typeName">
-                    {{type}}
-                  </span>,
+                    {{type}},
+                  </span>
                 </div>
               </div>
               <div class="row pl-3">
@@ -96,5 +98,7 @@
         <!--Content-->
       </ngb-panel>
     </ngb-accordion>
+
+    <p *ngIf="myOffersDetails.length == 0" class="ml-4">No offers to display</p>
   </div>
 </div>

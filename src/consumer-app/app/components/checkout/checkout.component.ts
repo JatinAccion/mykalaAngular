@@ -10,7 +10,7 @@ import { GetCustomerCards } from '../../../../models/getCards';
 import { CheckoutShippingAddress } from '../../../../models/checkoutShippingAddress';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ProductCheckout, Address, Payment, OrderItems } from '../../../../models/productCheckout';
+import { ProductCheckout, Address, OrderItems } from '../../../../models/productCheckout';
 import { MyAccountAddressModel } from '../../../../models/myAccountPost';
 
 @Component({
@@ -55,6 +55,10 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   retailerReturnPolicy: string;
   showShippingMethod: boolean = false;
   loader_shippingMethod: boolean = false;
+  customerId: string;
+  editShippingAddressFormWrapper: boolean = false;
+  addShippingAddressFormWrapper: boolean = false;
+  addressFormData: any;
 
   constructor(
     public core: CoreService,
@@ -106,8 +110,11 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.checkout.getCards(this.userId).subscribe((res) => {
       this.getCardsDetails = [];
       this.loader_getCards = false;
-      for (var i = 0; i < res.length; i++) {
-        this.getCardsDetails.push(new GetCustomerCards(res[i].userId, res[i].customerId, res[i].last4Digits, res[i].cardType, res[i].funding, res[i].cardHoldersName))
+      if (res.length > 0) {
+        this.customerId = res[0].customerId;
+        for (var i = 0; i < res.length; i++) {
+          this.getCardsDetails.push(new GetCustomerCards(res[i].userId, res[i].customerId, res[i].last4Digits, res[i].cardType, res[i].funding, res[i].cardHoldersName))
+        }
       }
     });
   }
@@ -124,6 +131,8 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   addAddress() {
+    this.editShippingAddressFormWrapper = false;
+    this.addShippingAddressFormWrapper = true;
     this.addShippingAddressForm = this.formBuilder.group({
       addAddressLineOne: [''],
       addAddressLineTwo: [''],
@@ -131,10 +140,12 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       addState: [''],
       addZipcode: ['']
     });
-    this.open(this.addNewAddressModal, undefined, 'addNewAddress');
+    //this.open(this.addNewAddressModal, undefined, 'addNewAddress');
   }
 
   editAddress(address) {
+    this.editShippingAddressFormWrapper = true;
+    this.addShippingAddressFormWrapper = false;
     this.editShippingAddressForm = this.formBuilder.group({
       editAddressLineOne: [address.addressLineOne],
       editAddressLineTwo: [address.addressLineTwo],
@@ -142,7 +153,53 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       editState: [address.state],
       editZipcode: [address.zipcode]
     });
-    this.open(this.editAddressModal, address, undefined);
+    this.addressFormData = address;
+    //this.open(this.editAddressModal, address, undefined);
+  }
+
+  addEditSave(addressForm, toDo) {
+    if (toDo == 'edit') {
+      for (var i = 0; i < this.shippingAddressCheckout.length; i++) {
+        if (this.shippingAddressCheckout[i].addID == this.addressFormData.addID) {
+          this.shippingAddressCheckout[i].addressLineOne = this.editShippingAddressForm.controls.editAddressLineOne.value;
+          this.shippingAddressCheckout[i].addressLineTwo = this.editShippingAddressForm.controls.editAddressLineTwo.value;
+          this.shippingAddressCheckout[i].city = this.editShippingAddressForm.controls.editCity.value;
+          this.shippingAddressCheckout[i].state = this.editShippingAddressForm.controls.editState.value;
+          this.shippingAddressCheckout[i].zipcode = this.editShippingAddressForm.controls.editZipcode.value;
+        }
+      }
+      this.AddressSaveModel.emailId = this.userData.emailId;
+      this.AddressSaveModel.address = this.shippingAddressCheckout;
+      this.editShippingAddressFormWrapper = false;
+      this.checkout.addEditShippingAddress(this.AddressSaveModel).subscribe((res) => {
+        window.localStorage['userInfo'] = JSON.stringify(res);
+        this.addressFormData.addressLineOne = this.editShippingAddressForm.controls.editAddressLineOne.value;
+        this.addressFormData.addressLineTwo = this.editShippingAddressForm.controls.editAddressLineTwo.value;
+        this.addressFormData.city = this.editShippingAddressForm.controls.editCity.value;
+        this.addressFormData.state = this.editShippingAddressForm.controls.editState.value;
+        this.addressFormData.zipcode = this.editShippingAddressForm.controls.editZipcode.value;
+      }, (err) => {
+        console.log(err);
+      });
+    }
+    else {
+      this.shippingAddressCheckout.push(new CheckoutShippingAddress(null, this.addShippingAddressForm.controls.addAddressLineOne.value, this.addShippingAddressForm.controls.addAddressLineTwo.value, this.addShippingAddressForm.controls.addCity.value, this.addShippingAddressForm.controls.addState.value, this.addShippingAddressForm.controls.addZipcode.value, 'shippingAddress'))
+      this.AddressSaveModel.emailId = this.userData.emailId;
+      this.AddressSaveModel.address = this.shippingAddressCheckout;
+      this.addShippingAddressFormWrapper = false;
+      this.checkout.addEditShippingAddress(this.AddressSaveModel).subscribe((res) => {
+        window.localStorage['userInfo'] = JSON.stringify(res);
+      }, (err) => {
+        console.log(err);
+      });
+    }
+  }
+
+  cancelAddress(address, toDo) {
+    if (toDo == 'edit') this.editShippingAddressForm.reset();
+    else this.addShippingAddressForm.reset();
+    this.editShippingAddressFormWrapper = false;
+    this.addShippingAddressFormWrapper = false;
   }
 
   selectShippingAddress(e, address) {
@@ -213,11 +270,15 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
         this.stripeAddCard.customer.email = this.userData.emailId;
         this.stripeAddCard.customer.source = token.id;
         this.stripeAddCard.userId = this.userId;
-        this.checkout.addCard(this.stripeAddCard).subscribe((res) => {
-          this.loader = false;
-          this.resetAddCard();
-          this.getCards();
-        });
+        this.stripeAddCard.customer.customerId = this.customerId;
+        if (this.getCardsDetails.length > 0) this.updateCard(this.stripeAddCard);
+        else {
+          this.checkout.addCard(this.stripeAddCard).subscribe((res) => {
+            this.loader = false;
+            this.resetAddCard();
+            this.getCards();
+          });
+        }
       }
     }
   }
@@ -234,9 +295,11 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.ngAfterViewInit();
   }
 
-  updateCard() {
-    this.checkout.updateCard(this.userId).subscribe((res) => {
-      console.log(res);
+  updateCard(stripeAddCard) {
+    this.checkout.updateCard(stripeAddCard).subscribe((res) => {
+      this.loader = false;
+      this.resetAddCard();
+      this.getCards();
     });
   }
 
@@ -262,17 +325,19 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.ProductCheckoutModal.customerName = this.userData.firstName + ' ' + this.userData.lastName;
       this.ProductCheckoutModal.address = new Address();
       this.ProductCheckoutModal.address = this.selectedAddressDetails;
-      this.ProductCheckoutModal.purchaseDate = new Date();
-      this.ProductCheckoutModal.payment = new Payment();
+      this.ProductCheckoutModal.purchasedDate = new Date();
       this.ProductCheckoutModal.source = 'card';
       this.ProductCheckoutModal.paymentFunding = this.selectedCardDetails.funding;
       this.ProductCheckoutModal.paymentSource = this.selectedCardDetails.cardType;
       this.ProductCheckoutModal.last4Digits = this.selectedCardDetails.last4Digit;
-      this.ProductCheckoutModal.purchaseAmount = parseFloat(document.getElementsByClassName("totalAmount")[0].innerHTML);
+      this.ProductCheckoutModal.totalShipCost = this.selectedMethodDetails.deliveryFee;
+      this.ProductCheckoutModal.totalTaxCost = parseFloat(document.getElementsByClassName("totalTaxCost")[0].innerHTML);
+      this.ProductCheckoutModal.purchasedPrice = parseFloat(this.totalAmountFromCart.toString());
       for (var i = 0; i < this.itemsInCart.length; i++) {
         let item = this.itemsInCart[i]
-        this.ProductCheckoutModal.orderItems.push(new OrderItems(item.productId, item.productName, item.retailerName, item.retailerId, item.productDescription, item.price, 0.0, 0, this.selectedMethodDetails.deliveryMethodName))
+        this.ProductCheckoutModal.orderItems.push(new OrderItems(item.productId, item.productName, item.retailerName, item.retailerId, item.productDescription, "", item.quantity, item.price, 20, 25, eval(`${item.price * item.quantity}`), this.selectedMethodDetails.deliveryMethodName))
       };
+      console.log(this.ProductCheckoutModal);
       this.checkout.chargeAmount(this.ProductCheckoutModal).subscribe((res) => {
         this.loader_chargeAmount = false;
         this.paymentSuccessfullMsg = res;

@@ -19,13 +19,13 @@ export class MyAccountService {
     }
 
     getCards(userId) {
-        const BASE_URL: string = environment.checkout;
+        const BASE_URL: string = environment.card;
         const url: string = `${BASE_URL}/${userId}/${environment.apis.consumerCheckout.getCards}`;
         return this.http.get(url).map((res) => res.json());
     }
 
     addCard(stripeAddCard) {
-        const BASE_URL: string = environment.checkout;
+        const BASE_URL: string = environment.card;
         const url: string = `${BASE_URL}/${environment.apis.consumerCheckout.addCard}`;
         return this.http.post(url, stripeAddCard).map((res) => res.json());
     }

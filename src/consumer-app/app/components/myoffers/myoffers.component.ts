@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CoreService } from '../../services/core.service';
 import { MyOffersService } from '../../services/myOffer.service';
+import { Router, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-myoffers',
@@ -10,12 +11,16 @@ import { MyOffersService } from '../../services/myOffer.service';
 })
 export class MyoffersComponent implements OnInit {
   userData: any;
-  myOffersDetails: any;
+  myOffersDetails = [];
+  loader: boolean = false;
   startDate: {};
+  remainingTime = 'Time';
 
   constructor(
     public core: CoreService,
-    private myOffer: MyOffersService
+    private myOffer: MyOffersService,
+    private route: Router,
+    private routerOutlet: RouterOutlet
   ) { }
 
   ngOnInit() {
@@ -23,17 +28,20 @@ export class MyoffersComponent implements OnInit {
     this.core.hide();
     this.core.searchMsgToggle();
     this.userData = JSON.parse(window.localStorage['userInfo']);
+    localStorage.removeItem("offerIdForEdit");
     this.getOffers();
   }
 
   getOffers() {
+    this.loader = true;
     let emailId = this.userData.emailId
     this.myOffer.loadOffers(emailId).subscribe((res) => {
+      this.loader = false;
       this.myOffersDetails = res;
       for (var i = 0; i < this.myOffersDetails.length; i++) {
         let objDate = new Date(this.myOffersDetails[i].getOffersRequestDTO.startDate), locale = "en-us", month = objDate.toLocaleString(locale, { month: "long" });
         this.myOffersDetails[i].getOffersRequestDTO.startDate = objDate.toLocaleString(locale, { month: "short" }) + ' ' + objDate.getDate() + ', ' + this.formatAMPM(objDate);
-        this.myOffersDetails[i].getOffersRequestDTO.endDate = this.calculateTimeLeft(this.myOffersDetails[i].getOffersRequestDTO.endDate)
+        this.calculateTimeLeft(this.myOffersDetails[i].getOffersRequestDTO);
       }
     });
   }
@@ -49,8 +57,8 @@ export class MyoffersComponent implements OnInit {
     return strTime;
   }
 
-  calculateTimeLeft(date) {
-    var deadline = new Date(date).getTime();
+  calculateTimeLeft(Obj) {
+    var deadline = new Date(Obj.endDate).getTime();
     var x = setInterval(function () {
       var now = new Date().getTime();
       var t = deadline - now;
@@ -58,17 +66,26 @@ export class MyoffersComponent implements OnInit {
       var hours = Math.floor((t % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
       var seconds = Math.floor((t % (1000 * 60)) / 1000);
-      let remainingTime = document.getElementsByClassName("remainingTime");
-      for (var i = 0; i < remainingTime.length; i++) {
-        remainingTime[i].innerHTML = days + "d "
-          + hours + "h " + minutes + "m " + seconds + "s ";
-        if (t < 0) {
-          clearInterval(x);
-          remainingTime[i].innerHTML = "EXPIRED";
-        }
+      if (t < 0) {
+        clearInterval(x);
+        Obj.remainingTime = "EXPIRED";
       }
-
+      else Obj.remainingTime = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
     }, 1000);
+  }
+
+  editOffer(offer) {
+    window.localStorage['offerIdForEdit'] = offer.offerID;
+    setTimeout(() => {
+      if (this.routerOutlet.isActivated) this.routerOutlet.deactivate();
+      this.route.navigate(['/getoffer', 'step1']);
+    }, 1000);
+  }
+
+  endOffer(offer) {
+    this.myOffer.endOffer(offer.offerID).subscribe((res) => {
+      this.getOffers();
+    })
   }
 
 }

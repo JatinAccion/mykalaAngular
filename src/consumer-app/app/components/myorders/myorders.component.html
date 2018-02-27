@@ -4,86 +4,93 @@
 
   <img src="/consumer-app/assets/images/loader.gif" class="mt-3 mb-3" *ngIf="loader" />
   <div class="myCart">
-    <div class="myCart-list" *ngFor="let order of myorderModal">
-      <h4 class="subtitle">
-        Estimated delivery on: {{order.deliveryMethod}}
-      </h4>
-      <div class="row">
-        <div class="col-sm-2">
-          <img src="/consumer-app/assets/images/catg-1.png" class="img-fluid" />
-        </div>
-        <div class="col-sm-7">
-          <p>
-            <strong>{{order.productName}}</strong>
-          </p>
-          <div class="row">
-            <p class="col-sm-3 colorlightGray">Retailer:</p>
-            <p class="col-sm-9 colorred">{{order.retailerName}}</p>
+    <div *ngFor="let modal of myorderModal">
+      <div class="myCart-list" *ngFor="let order of modal.orderItems">
+        <h4 class="subtitle">
+          Estimated delivery on: {{getDeliveryDate(order.deliveryMethod, modal.purchasedDate)}}
+        </h4>
+        <div class="row">
+          <div class="col-sm-2">
+            <img src="/consumer-app/assets/images/catg-1.png" class="img-fluid" />
           </div>
-          <div class="row">
-            <p class="col-sm-3 colorlightGray">Price:</p>
-            <p class="col-sm-9 colorred">${{order.productPrice}}</p>
-          </div>
-        </div>
-        <div class="col-sm-3">
-          <p>&nbsp;</p>
-          <div class="row">
-            <a class="btn-outer btn_redouter_right">contact retailer</a>
-          </div>
-          <p>&nbsp;</p>
-          <div class="row">
-            <a class="btn-outer btn_redouter_right">leave review</a>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-10">
-          <hr />
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-7">
-          <div class="row">
-            <p class="col-sm-3 colorlightGray">Order placed:</p>
-            <p class="col-sm-9">{{getPurchaseDate(order.purchaseDate)}}</p>
-          </div>
-          <div class="row">
-            <p class="col-sm-3 colorlightGray">{{order.deliveryMethod}}:</p>
-            <p class="col-sm-9">${{order.orderShippingCost}}</p>
-          </div>
-          <div class="row">
-            <p class="col-sm-3 colorlightGray">Total:</p>
-            <p class="col-sm-9">
-              <strong>${{getTotalCost(order.orderShippingCost, order.productPrice)}}</strong>
+          <div class="col-sm-7">
+            <p>
+              <strong>{{order.productName}}</strong>
             </p>
+            <div class="row">
+              <p class="col-sm-3 colorlightGray">Retailer:</p>
+              <p class="col-sm-9 colorred">{{order.retailerName}}</p>
+            </div>
+            <div class="row">
+              <p class="col-sm-3 colorlightGray">Quantity:</p>
+              <p class="col-sm-9 colorred">{{order.productQuantity}}</p>
+            </div>
+            <div class="row">
+              <p class="col-sm-3 colorlightGray">Price:</p>
+              <p class="col-sm-9 colorred">${{order.productPrice}}</p>
+            </div>
           </div>
-          <div class="row">
-            <p class="col-sm-3 colorlightGray">Pay with:</p>
-            <p class="col-sm-9">
-              <strong>{{order.paymentSource}} {{order.last4Digits}}</strong>
-            </p>
-          </div>
-          <div class="row">
-            <p class="col-sm-3 colorlightGray">Ship to:</p>
-            <p class="col-sm-9">
-              <strong>{{order.address.city}}, {{order.address.state}}</strong>
-            </p>
+          <div class="col-sm-3">
+            <p>&nbsp;</p>
+            <div class="row">
+              <a class="btn-outer btn_redouter_right">contact retailer</a>
+            </div>
+            <p>&nbsp;</p>
+            <div class="row">
+              <button class="btn-outer btn_redouter_right" (click)="leaveReview(modal, order.productId)">leave review</button>
+            </div>
           </div>
         </div>
-        <div class="col-sm-3">
-          <p>&nbsp;</p>
-          <div class="row">
-            <a class="btn-outer btn_redouter_right">cancel order</a>
-          </div>
-          <p>&nbsp;</p>
-          <div class="row">
-            <a class="btn-outer btn_red_right">where is it?</a>
+        <div class="row">
+          <div class="col-sm-2"></div>
+          <div class="col-sm-10">
+            <hr />
           </div>
         </div>
+        <div class="row">
+          <div class="col-sm-2"></div>
+          <div class="col-sm-7">
+            <div class="row">
+              <p class="col-sm-3 colorlightGray">Order placed:</p>
+              <p class="col-sm-9">{{getPurchaseDate(modal.purchasedDate)}}</p>
+            </div>
+            <div class="row">
+              <p class="col-sm-3 colorlightGray">{{order.deliveryMethod}}:</p>
+              <p class="col-sm-9">${{modal.totalShipCost}}</p>
+            </div>
+            <div class="row">
+              <p class="col-sm-3 colorlightGray">Total:</p>
+              <p class="col-sm-9">
+                <strong>${{getTotalCost(order.shippingCost, order.productPrice)}}</strong>
+              </p>
+            </div>
+            <div class="row">
+              <p class="col-sm-3 colorlightGray">Pay with:</p>
+              <p class="col-sm-9">
+                <strong>{{modal.paymentSource}} {{modal.last4Digits}}</strong>
+              </p>
+            </div>
+            <div class="row">
+              <p class="col-sm-3 colorlightGray">Ship to:</p>
+              <p class="col-sm-9">
+                <strong>{{modal.address.city}}, {{modal.address.state}}</strong>
+              </p>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <p>&nbsp;</p>
+            <div class="row">
+              <a class="btn-outer btn_redouter_right">cancel order</a>
+            </div>
+            <p>&nbsp;</p>
+            <div class="row">
+              <a class="btn-outer btn_red_right">where is it?</a>
+            </div>
+          </div>
+        </div>
+        <div class="row">&nbsp;</div>
       </div>
-      <div class="row">&nbsp;</div>
     </div>
+
   </div>
 </div>

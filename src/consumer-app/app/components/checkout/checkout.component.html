@@ -22,6 +22,53 @@
               <button (click)="editAddress(address)" class="ancRed txtasbutton cursor colorred">edit</button>
             </div>
           </div>
+          <!--Add Shipping Address-->
+          <form [formGroup]="addShippingAddressForm" *ngIf="addShippingAddressFormWrapper">
+            <div class="form-group">
+              <input type="text" formControlName="addAddressLineOne" class="form-control" placeholder="Address Line 1" />
+            </div>
+            <div class="form-group">
+              <input type="text" formControlName="addAddressLineTwo" class="form-control" placeholder="Address Line 2" />
+            </div>
+            <div class="form-group">
+              <input type="text" formControlName="addCity" class="form-control" placeholder="City" />
+            </div>
+            <div class="form-group">
+              <input type="text" formControlName="addState" class="form-control" placeholder="State" />
+            </div>
+            <div class="form-group">
+              <input type="text" formControlName="addZipcode" class="form-control" placeholder="Zipcode" />
+            </div>
+            <div class="form-group">
+              <button type="text" (click)="addEditSave(addShippingAddressForm, 'add')" class="btn btn_red_right">add</button>
+              <button type="text" (click)="cancelAddress(addShippingAddressForm, 'add')" class="btn btn_red_right">cancel</button>
+            </div>
+          </form>
+          <!--Add Shipping Address-->
+
+          <!--Edit Shipping Address-->
+          <form [formGroup]="editShippingAddressForm" *ngIf="editShippingAddressFormWrapper">
+            <div class="form-group">
+              <input type="text" formControlName="editAddressLineOne" class="form-control" placeholder="Address Line 1" />
+            </div>
+            <div class="form-group">
+              <input type="text" formControlName="editAddressLineTwo" class="form-control" placeholder="Address Line 2" />
+            </div>
+            <div class="form-group">
+              <input type="text" formControlName="editCity" class="form-control" placeholder="City" />
+            </div>
+            <div class="form-group">
+              <input type="text" formControlName="editState" class="form-control" placeholder="State" />
+            </div>
+            <div class="form-group">
+              <input type="text" formControlName="editZipcode" class="form-control" placeholder="Zipcode" />
+            </div>
+            <div class="form-group">
+              <button type="text" (click)="addEditSave(editShippingAddressForm, 'edit')" class="btn btn_red_right">save</button>
+              <button type="text" (click)="cancelAddress(editShippingAddressForm, 'edit')" class="btn btn_red_right">cancel</button>
+            </div>
+          </form>
+          <!--Edit Shipping Address-->
         </div>
       </div>
       <hr />
@@ -137,14 +184,14 @@
           </tr>
           <tr>
             <td class="colorlightGray">Shipping</td>
-            <td>$
-              <span class="amount">22.50</span>
+            <td *ngIf="selectedMethodDetails != undefined">$
+              <span class="amount totalShipCost">{{selectedMethodDetails.deliveryFee}}</span>
             </td>
           </tr>
           <tr>
             <td class="colorlightGray">Tax</td>
             <td>$
-              <span class="amount">27.50</span>
+              <span class="amount totalTaxCost">27.50</span>
             </td>
           </tr>
           <tr>

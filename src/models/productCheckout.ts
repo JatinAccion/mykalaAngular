@@ -7,10 +7,11 @@ export class ProductCheckout {
     public last4Digits: string;
     public customerName: string;
     public address = new Address();
-    public purchaseDate: Date;
-    public payment = new Payment();
+    public purchasedDate: Date;
     public orderItems = Array<OrderItems>();
-    public purchaseAmount: number;
+    public purchasedPrice: number;
+    public totalTaxCost: number;
+    public totalShipCost: number
 };
 
 export class Address {
@@ -23,11 +24,6 @@ export class Address {
     public addressType: string;
 }
 
-export class Payment {
-    public purchasedAmount: number;
-    public paymentAmount: number;
-}
-
 export class OrderItems {
     constructor(
         public productId: string,
@@ -35,9 +31,12 @@ export class OrderItems {
         public retailerName: string,
         public retailerId: string,
         public productDescription: string,
+        public productImage: string,
+        public productQuantity: number,
         public productPrice: number,
-        public orderTaxCost: number,
-        public orderShippingCost: number,
+        public productTaxCost: number,
+        public shippingCost: number,
+        public totalProductPrice: number,
         public deliveryMethod: string
     ) { }
 }

@@ -66,6 +66,8 @@ import { MyaccountComponent } from './components/myaccount/myaccount.component';
 import { MyAccountService } from './services/myAccount.service';
 import { MyoffersComponent } from './components/myoffers/myoffers.component';
 import { MyOffersService } from './services/myOffer.service';
+import { LeaveReviewComponent } from './components/leave-review/leave-review.component';
+import { MyReviewService } from './services/review.service';
 
 @NgModule({
   declarations: [
@@ -101,7 +103,8 @@ import { MyOffersService } from './services/myOffer.service';
     CheckoutComponent,
     MyordersComponent,
     MyaccountComponent,
-    MyoffersComponent
+    MyoffersComponent,
+    LeaveReviewComponent
   ],
   imports: [
     BrowserModule,
@@ -115,7 +118,7 @@ import { MyOffersService } from './services/myOffer.service';
     NgbModule.forRoot(),
     SidebarModule.forRoot()
   ],
-  providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, ConversationalService, JoinKalaService, MyAccountService, MyOrdersService, MyOffersService,
+  providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, ConversationalService, JoinKalaService, MyAccountService, MyOrdersService, MyReviewService, MyOffersService,
     ProfileInfoService, VerificationService, LocalStorageService, ConsumerInterestService, ResetPasswordService, ForgotPasswordService, GetOfferService, CheckoutService,
     { provide: NgbDateParserFormatter, useClass: NgbDateFRParserFormatter }],
   bootstrap: [AppComponent],

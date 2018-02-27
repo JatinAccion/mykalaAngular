@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { SearchDataModal } from '../../../../../models/searchData.modal';
 import { GetOfferModal } from '../../../../../models/getOffer.modal';
 import { OfferInfo1 } from '../../../../../models/steps.modal';
+import { GetOfferService } from '../../../services/getOffer.service';
 
 
 @Component({
@@ -19,7 +20,7 @@ export class Step1Component implements OnInit {
   loader_category: boolean;
   loader_subCategory: boolean;
   loader_Type: boolean;
-  levelSelection = JSON.parse(window.localStorage['levelSelections']);
+  levelSelection: any;
   userResponse = { place: [], type: [], category: [], subcategory: [] };
   headerMessage: string;
   getPlaceId: string;
@@ -27,6 +28,8 @@ export class Step1Component implements OnInit {
   getSubcategoryId: string;
   spliceElem;
   Step1SelectedValues = { place: "", type: [], category: "", subcategory: "" };
+  gSCM = { productType: "" };
+  gSCMRequestModal = { productType: "", attributes: {} };
   Step1Modal = new GetOfferModal();
   viewSavedData;
   checkIfStored: boolean = false;
@@ -34,9 +37,12 @@ export class Step1Component implements OnInit {
   loadedCategory: boolean = false;
   loadedSubCategory: boolean = false;
   noTypesAvailable: boolean = false;
+  getObjectFromOrder = { key: "", data: "" };
+  showAvailableTypes: boolean = false;
 
   constructor(
     private homeService: HomeService,
+    private getoffers: GetOfferService,
     public core: CoreService,
     private route: Router
   ) { }
@@ -48,11 +54,14 @@ export class Step1Component implements OnInit {
     this.core.show(this.headerMessage);
     this.pageLabel = window.localStorage['browseProductSearch'];
     this.core.pageLabel(this.pageLabel);
+    if (window.localStorage['GetOfferStep_2Request'] != undefined) this.gSCMRequestModal = JSON.parse(window.localStorage['GetOfferStep_2Request'])
+    if (window.localStorage['levelSelections'] != undefined) this.levelSelection = JSON.parse(window.localStorage['levelSelections']);
     if (window.localStorage['GetOfferStep_1'] != undefined) {
       this.checkIfStored = true;
       this.loadedPlaces = true;
       this.loadedCategory = true;
       this.loadedSubCategory = true;
+      this.showAvailableTypes = true;
       this.viewSavedData = JSON.parse(window.localStorage['GetOfferStep_1']);
       for (var i = 0; i < this.viewSavedData.length; i++) {
         this.userResponse.place.push(this.viewSavedData[i].place);
@@ -85,7 +94,9 @@ export class Step1Component implements OnInit {
       this.getPlaceId = this.levelSelection.place.id;
       this.getCategoryId = this.levelSelection.category.id;
       this.getSubcategoryId = this.levelSelection.subcategory.id;
-      this.getType();
+      //this.getofferSubCategory(this.Step1SelectedValues.subcategory);
+      if (this.Step1SelectedValues.subcategory.length == 0) this.getSubCategory();
+      else this.getType();
     }
   }
 
@@ -122,7 +133,48 @@ export class Step1Component implements OnInit {
     });
   };
 
+  getofferSubCategory(obj) {
+    this.loader_Type = true;
+    this.noTypesAvailable = false;
+    this.gSCM.productType = obj.name;
+    this.getoffers.getofferSubCategory(this.gSCM).subscribe(res => {
+      this.loader_Type = false;
+      console.log(res);
+      this.getObjectFromOrderNo(res);
+    });
+  }
+
+  getObjectFromOrderNo(res) {
+    let data; let keyword;
+    let resultObject = search("1", res.attributes_orders.attributes_metadata);
+    function search(nameKey, myArray) {
+      for (var key in myArray) {
+        if (myArray[key].order === nameKey) {
+          data = myArray[key];
+          keyword = key;
+        }
+      }
+    }
+    this.getObjectFromOrder.data = data;
+    this.getObjectFromOrder.key = keyword;
+    for (var key in res.attributes) {
+      if (key === this.getObjectFromOrder.key) {
+        data = res.attributes[key]
+      }
+    }
+    this.getObjectFromOrder.data = data;
+    this.userResponse.type = [];
+    if (this.getObjectFromOrder.data.length === 0) this.noTypesAvailable = true;
+    else {
+      for (var i = 0; i < this.getObjectFromOrder.data.length; i++) {
+        let type = this.getObjectFromOrder.data[i]
+        this.userResponse.type.push(new SearchDataModal('id' + i, type, type, '4', ''));
+      }
+    }
+  }
+
   getType() {
+    this.showAvailableTypes = true;
     this.noTypesAvailable = false;
     this.loader_Type = true;
     this.userResponse.type = [];
@@ -154,6 +206,7 @@ export class Step1Component implements OnInit {
       e.currentTarget.className = "categ_outline_red m-2";
       this.checkIfStored = false;
       this.getSubcategoryId = obj.id;
+      //this.getofferSubCategory(obj);
       this.getType();
       this.clearItems(elemName);
       this.userResponse.subcategory = [obj];
@@ -166,12 +219,27 @@ export class Step1Component implements OnInit {
         else if (this.Step1SelectedValues.type[i].name == obj.name) {
           this.Step1SelectedValues.type.splice(i, 1);
           e.currentTarget.className = "categ_outline_gray m-2";
+          this.getUpdateTypes();
           return false;
         }
       }
       this.Step1SelectedValues.type.push(obj);
     }
+    if (this.Step1SelectedValues.type.length > 0) this.getUpdateTypes();
   };
+
+  getUpdateTypes() {
+    if (this.Step1SelectedValues.type.length > 0) {
+      this.gSCMRequestModal.productType = this.Step1SelectedValues.subcategory['name'];
+      if (this.getObjectFromOrder.key == "") this.getObjectFromOrder.key = Object.keys(this.gSCMRequestModal.attributes)[0]
+      this.gSCMRequestModal.attributes[this.getObjectFromOrder.key] = [];
+      for (var i = 0; i < this.Step1SelectedValues.type.length; i++) {
+        let typeName = this.Step1SelectedValues.type[i].name;
+        this.gSCMRequestModal.attributes[this.getObjectFromOrder.key].push(typeName)
+      }
+    }
+    else this.gSCMRequestModal.attributes[this.getObjectFromOrder.key] = [];
+  }
 
   delete(obj, elemName) {
     if (elemName == 'place') {
@@ -218,6 +286,7 @@ export class Step1Component implements OnInit {
     this.Step1Modal.getoffer_1 = new Array<OfferInfo1>();
     this.Step1Modal.getoffer_1.push(new OfferInfo1(this.Step1SelectedValues.place, this.Step1SelectedValues.category, this.Step1SelectedValues.subcategory, this.Step1SelectedValues.type));
     window.localStorage['GetOfferStep_1'] = JSON.stringify(this.Step1Modal.getoffer_1);
+    window.localStorage['GetOfferStep_2Request'] = JSON.stringify(this.gSCMRequestModal);
     this.route.navigate(['/getoffer', 'step2']);
   };
 

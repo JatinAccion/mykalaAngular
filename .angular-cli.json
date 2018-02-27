@@ -52,7 +52,8 @@
       "styles": [
         "../node_modules/bootstrap/dist/css/bootstrap.min.css",
         "../node_modules/font-awesome/css/font-awesome.css",
-        "consumer-app/styles.css"
+        "consumer-app/styles.css",
+        "consumer-app/responsive.css"
       ],
       "scripts": [],
       "environmentSource": "consumer-app/environments/environment.ts",

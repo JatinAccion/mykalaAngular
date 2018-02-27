@@ -31,7 +31,7 @@ export class HeaderComponent implements OnInit {
               this.firstName = JSON.parse(window.localStorage['userInfo']).firstName;
               this.lastName = JSON.parse(window.localStorage['userInfo']).lastName;
               this.emailId = JSON.parse(window.localStorage['userInfo']).emailId;
-              this.userImg = JSON.parse(window.localStorage['userInfo']).userImg;
+              this.userImg = JSON.parse(window.localStorage['userInfo']).consumerImagePath;
             }
             return;
           }

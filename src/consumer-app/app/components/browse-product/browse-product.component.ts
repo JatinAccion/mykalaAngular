@@ -29,6 +29,10 @@ export class BrowseProductComponent implements OnInit {
 
   ngOnInit() {
     this.core.checkIfLoggedOut(); /*** If User Logged Out*/
+    localStorage.removeItem('GetOfferStep_1');
+    localStorage.removeItem('GetOfferStep_2');
+    localStorage.removeItem('GetOfferStep_3');
+    localStorage.removeItem('GetOfferStep_4');
     this.core.headerScroll();
     localStorage.removeItem("selectedProduct");
     this.loader = true;
@@ -74,12 +78,9 @@ export class BrowseProductComponent implements OnInit {
           this.productListingModal.product.productImages = content.productImages;
         this.tilesData.push(this.productListingModal);
       }
-      if (this.tilesData.length > 0) {
-        this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' ' + this.selectedTilesData.subcategory.name + ' for you';
-      }
-      else {
-        this.headerMessage = 'Sorry, but we don\'t have product matches for you';
-      }
+      if (this.tilesData.length > 0) this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' ' + this.selectedTilesData.category.name + ' for you';
+      else this.headerMessage = 'Sorry, but we don\'t have product matches for you';
+      if (this.selectedTilesData.subcategory.length == undefined) this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' ' + this.selectedTilesData.subcategory.name + ' for you';
       this.core.show(this.headerMessage);
       this.core.searchMsgToggle('get offers');
       window.localStorage['browseProductSearch'] = this.headerMessage;
@@ -118,12 +119,9 @@ export class BrowseProductComponent implements OnInit {
         this.productListingModal.product.productImages = content.product.productImages;
       this.tilesData.push(this.productListingModal);
     }
-    if (this.tilesData.length > 0) {
-      this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' ' + this.selectedTilesData.subcategory.name + ' for you';
-    }
-    else {
-      this.headerMessage = 'Sorry, but we don\'t have product matches for you';
-    }
+    if (this.tilesData.length > 0) this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' ' + this.selectedTilesData.category.name + ' for you';
+    else this.headerMessage = 'Sorry, but we don\'t have product matches for you';
+    if (this.selectedTilesData.subcategory.length == undefined) this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' ' + this.selectedTilesData.subcategory.name + ' for you';
     this.core.show(this.headerMessage);
     this.core.searchMsgToggle('get offers');
   }
@@ -163,9 +161,7 @@ export class BrowseProductComponent implements OnInit {
 
   refreshSubcategory(subcategory) {
     let updateStorage = JSON.parse(window.localStorage['levelSelections']);
-    updateStorage.subcategory.id = subcategory.id;
-    updateStorage.subcategory.name = subcategory.name;
-    updateStorage.subcategory.text = subcategory.text;
+    updateStorage.subcategory = subcategory;
     updateStorage.category.id = this.selectedCategoryData.id;
     updateStorage.category.name = this.selectedCategoryData.name;
     updateStorage.category.text = this.selectedCategoryData.text;

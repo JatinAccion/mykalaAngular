@@ -23,8 +23,10 @@ export class HomeService {
     return this.http.get(url).map((res) => res.json());
   }
 
-  getProductList(placeName, categoryName, subCategory) {
-    const url: string = `${this.BASE_URL}/subCategory?page=1&size=2&sortOrder=asc&elementType=createdDate&PlaceName=${placeName}&productCategoryName=${categoryName}&productSubCategoryName=${subCategory}`;
+  getProductList(placeName, categoryName, subCategory?: any) {
+    if (subCategory != undefined) var url: string = `${this.BASE_URL}/subCategory?page=0&size=30&sortOrder=asc&elementType=createdDate&PlaceName=${placeName}&productCategoryName=${categoryName}&productSubCategoryName=${subCategory}`;
+    else var url: string = `${this.BASE_URL}/subCategory?page=0&size=30&sortOrder=asc&elementType=createdDate&PlaceName=${placeName}&productCategoryName=${categoryName}`;
+
     return this.http.get(url).map((res) => res.json());
   }
 

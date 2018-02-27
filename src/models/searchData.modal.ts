@@ -4,6 +4,7 @@ export class SearchDataModal {
         public name: string,
         public text: string,
         public level?: string,
-        public imgUrl?: string
+        public imgUrl?: string,
+        public iconUrl?: string
     ) { }
 }

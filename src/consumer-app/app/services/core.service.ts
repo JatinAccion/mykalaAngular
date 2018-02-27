@@ -55,7 +55,7 @@ export class CoreService {
     if (showuser === true) this.hideUser = true;
     else {
       this.hideUser = false;
-      this.userImg = JSON.parse(window.localStorage['userInfo']).userImg;
+      this.userImg = JSON.parse(window.localStorage['userInfo']).consumerImagePath;
     }
   }
 

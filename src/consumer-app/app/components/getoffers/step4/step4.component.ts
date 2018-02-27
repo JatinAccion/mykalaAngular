@@ -37,6 +37,10 @@ export class Step4Component implements OnInit {
     this.core.pageLabel(this.pageLabel);
     if (window.localStorage['GetOfferStep_1'] != undefined) this.Step1Data = JSON.parse(window.localStorage['GetOfferStep_1']);
     if (window.localStorage['GetOfferStep_2'] != undefined) this.Step2Data = JSON.parse(window.localStorage['GetOfferStep_2']);
+    if (window.localStorage['GetOfferStep_2'] == "") {
+      this.Step2Data = "";
+      this.Step4Summary = { ...this.Step1Data[0] };
+    }
     if (window.localStorage['GetOfferStep_3'] == "") {
       this.Step3Data = "";
       this.Step4Summary = { ...this.Step1Data[0], ...this.Step3Data };
@@ -82,11 +86,18 @@ export class Step4Component implements OnInit {
       this.Step4Modal.emailId = this.userData.emailId;
       this.Step4Modal.userId = this.userData.userId;
     }
+    if (window.localStorage['offerIdForEdit'] != undefined) {
+      this.Step4Modal.startDate = null;
+      this.Step4Modal.endDate = null;
+      this.Step4Modal.offerId = window.localStorage['offerIdForEdit']
+      this.Step4Modal.consumerExist = true;
+    }
     this.getOffer.confirmOffer(this.Step4Modal).subscribe(res => {
       this.loader = false;
       localStorage.removeItem("GetOfferStep_1");
       localStorage.removeItem("GetOfferStep_3");
       window.localStorage['getOffers'] = JSON.stringify(res);
+      localStorage.removeItem("offerIdForEdit");
       this.route.navigateByUrl("/myoffer")
     });
   };
