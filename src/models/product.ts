@@ -62,7 +62,14 @@ export class Product {
             this.productActivatedDate = obj.productActivatedDate;
             this.createdDate = obj.createdDate;
             this.attributes = obj.attributes;
-            
+            if (obj.attributes) {
+                this.brandName = obj.attributes.Brand;
+                this.kalaPrice = obj.attributes['Kala Price'];
+                this.lowestPrice = obj.attributes['Lowest Price'];
+                this.retailPrice = obj.attributes['Retail Price'];
+                this.productTypeName = obj.attributes.ProductType;
+            }
+
             this.productImages = obj.productImages ? obj.productImages.filter(p => p.location !== null).map(p => new ProductImage(p)) : new Array<ProductImage>();
             for (let index = 0; index < this.productImages.length; index++) {
                 if (this.productImages[index].mainImage) {
@@ -87,7 +94,7 @@ export class ProductImage {
     constructor(obj?: any) {
         this.id = obj.id;
         this.imageType = obj.imageType;
-        this.location = environment.s3 + obj.location;
+        this.location = obj.location.toLowerCase().startsWith('https://') ? obj.location : (environment.s3 + obj.location);
         this.mainImage = obj.mainImage;
     }
 }

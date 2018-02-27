@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -21,6 +21,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ProductMetaComponent } from './product-meta/product-meta.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ProductUploadComponent } from './product-upload/product-upload.component';
+import { GlobalErrorHandler } from '../../../../common/GlobalErrorHandler';
 
 @NgModule({
   imports: [
@@ -44,6 +45,9 @@ import { ProductUploadComponent } from './product-upload/product-upload.componen
     ProductMetaComponent,
     ProductUploadComponent
   ],
-  providers: [ProductService, ValidatorExt]
+  providers: [ProductService, ValidatorExt, {
+    provide: ErrorHandler,
+    useClass: GlobalErrorHandler
+  }]
 })
 export class ProductModule { }

@@ -9,6 +9,7 @@ import { CoreService } from '../../../services/core.service';
 import { environment } from '../../../../environments/environment';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { ProductUploads } from '../../../../../models/productUpload';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-product-upload',
@@ -24,18 +25,25 @@ export class ProductUploadComponent implements OnInit {
   productFiles: Array<any>;
   progress = 0;
   loading = false;
-
-  constructor(private productService: ProductService, private retialerService: RetialerService, public core: CoreService) {
+  page = 1;
+  constructor(private productService: ProductService, public route: ActivatedRoute, private retialerService: RetialerService, public core: CoreService) {
+    this.page = route.snapshot.params['page'];
+    if (!this.page) {
+      this.page = 1;
+    }
 
   }
 
   ngOnInit() {
-    this.getPage(1);
+    this.getPage(this.page);
   }
   getPage(page: number) {
     const searchParams = {
       page: page - 1, size: 10, sortOrder: 'desc', elementType: 'createdDate'
     };
+    const locationHash = window.location.hash.split('/page')[0];
+    window.location.hash = locationHash + '/page/' + page;
+    console.log(window.location.hash);
     this.productService.getUploadSummary(searchParams).subscribe(p => {
       this.data = p;
     });

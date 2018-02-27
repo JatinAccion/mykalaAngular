@@ -14,6 +14,7 @@ export class RetailerPaymentInfo {
     public bankAddress: BankAddress;
     public addresses: Array<PostalAddress>;
     public status: boolean;
+    public stripeToken: string;
     constructor(obj?: any) {
         this.retailerBankAddress = new RetailerBankAddress();
         this.bankAddress = new BankAddress();
@@ -38,6 +39,7 @@ export class RetailerPaymentInfo {
                     this.bankAddress = new BankAddress(this.addresses.filter(p => p.addressType === new BankAddress().addressType)[0]);
                 }
             }
+            this.stripeToken = obj.stripeToken;
         }
     }
 }
@@ -45,7 +47,7 @@ export class RetailerBankAddress extends PostalAddress {
     constructor(obj?: any) {
         super(obj);
         if (obj) { } else {
-            this.addressType = "Bank Account Address";
+            this.addressType = 'Bank Account Address';
         }
     }
 }

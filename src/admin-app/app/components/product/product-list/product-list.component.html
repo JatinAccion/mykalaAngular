@@ -1,12 +1,12 @@
-<div class="row">
+<div class="row"   >
     <div class="col-sm-8 title">
         <h1>Products</h1>
     </div>
-    <div class="col-sm-4 top_right text-right">
+    <div class="col-sm-4 top_right text-right" [ngClass]="{ 'hidden': bulkUploadView }" >
         <input class="form-control txt_Search ng-untouched ng-pristine ng-valid" placeholder="search for product by name" [(ngModel)]="productName" (keyup)="getPage(1)" type="text">
     </div> 
 </div>
-<div class="row">
+<div class="row"  [ngClass]="{ 'hidden': bulkUploadView }" >
     <div class="col-sm-12 text-right">
         <ul class="product_search row m-0 p-0">
             <li class="w-5">
@@ -76,7 +76,7 @@
                     <input type="checkbox">
                 </td>
                 <td>{{product.productStatus?'Active': 'InActive'}}</td>
-                <td>{{getSellerName(product.retailerId)}}</td>
+                <td>{{getSellerName(product.retailerName)}}</td>
                 <td>
                     <a class="colorBlue" (click)="product.isCollapsed = !product.isCollapsed" [attr.aria-expanded]="!product.isCollapsed" aria-controls="collapseExample">
                         {{product.productName}}
@@ -84,11 +84,11 @@
                 </td>
                 <td>{{product.brandName}}</td>
                 <td>
-                    <img src="{{product.mainImage.imageUrl}}" *ngIf="product.mainImage" width="40">
+                    <img src="{{product.mainImage.location}}" *ngIf="product.mainImage" width="40">
                     <i class="fa fa-picture-o defaultUser colorGray py-2" *ngIf="!product.mainImage" width="40"></i>
                 </td>
                 <td>{{product.kalaUniqueId}}</td>
-                <td>${{product.kalaPrice}}</td>
+                <td>{{product.kalaPrice|currency}}</td>
                 <td>{{product.quantity}}</td>
                 <td>{{product.quantity}}</td>
                 <td>
@@ -98,7 +98,7 @@
                         <div ngbDropdownMenu aria-labelledby="dropdown01">
                             <button class="dropdown-item">Activate/Deactivate</button>
                             <button class="dropdown-item">Delete</button>
-                            <button class="dropdown-item" [routerLink]="['../product-edit', product.kalaUniqueId]">Edit Product</button>
+                            <button class="dropdown-item"  *ngIf="!bulkUploadView" [routerLink]="['../product-edit', product.kalaUniqueId]">Edit Product</button>
                         </div>
                     </div>
                 </td>
@@ -111,8 +111,8 @@
                                 <tr>
                                     <th>Deactivate</th>
                                     <th>Delete</th>
-                                    <th colspan="2" class="text-right">
-                                        <a class="btn btn-default" href="#">Edit Product</a>
+                                    <th colspan="2" class="text-right" *ngIf="!bulkUploadView" >
+                                        <a class="btn btn-default"  href="#">Edit Product</a>
                                     </th>
                                 </tr>
                             </thead>
@@ -139,19 +139,19 @@
                                     <td class="colorlightGray">Product UPC code: </td>
                                     <td>{{product.productUpcCode}}</td>
                                     <td class="colorlightGray">Retail price:</td>
-                                    <td>${{product.retailPrice}}.00</td>
+                                    <td>{{product.retailPrice| currency}}</td>
                                 </tr>
                                 <tr>
                                     <td class="colorlightGray">Make a bid:</td>
                                     <td>Y</td>
                                     <td class="colorlightGray">Lowest “Make a bid” price:</td>
-                                    <td>${{product.retailPrice}}.00</td>
+                                    <td>{{product.lowestPrice|currency}}</td>
                                 </tr>
                                 <tr>
                                     <td class="colorlightGray">Added date:</td>
-                                    <td>{{product.createdDate}} 5, 2015 9:47:25 PM EST</td>
+                                    <td>{{product.createdDate| date:'fullDate'}}</td>
                                     <td class="colorlightGray">Product description:</td>
-                                    <td>{{product.productDescription}} wood ceiling lamp has a very simply floral shape design to create a modern and elegant home decoration. It perfectly goes with either Edison light bulb or LED bulb.</td>
+                                    <td>{{product.productDescription}}</td>
                                 </tr>
                                 <tr>
                                     <td class="colorlightGray">Special features:</td>
@@ -182,7 +182,7 @@
                                     <td>Furniture shipping</td>
                                     <td class="colorlightGray">Other images:</td>
                                     <td>
-                                        <img src="{{img.imageUrl}}" class="p-2" *ngFor="let img of product.productImages" width="100">
+                                        <img src="{{img.location}}" class="p-2" *ngFor="let img of product.productImages" width="100">
                                     </td>
                                 </tr>
                             </tbody>

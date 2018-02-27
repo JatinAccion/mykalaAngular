@@ -23,7 +23,7 @@
                 <ng-template ngbTabContent>
                     <div class="row backgroundWhite">
                         <div class="col-sm-12 p-2">
-                            <app-retailer-add-payment [retailerId]="retailerId" (SaveData)="showNextTab($event)" (SetRetailerId)=setRetailerId($event) [(paymentData)]="paymentData"></app-retailer-add-payment>
+                            <app-retailer-add-payment [retailerId]="retailerId" (SaveData)="showNextTab($event)" (SetRetailerId)=setRetailerId($event) [(paymentData)]="paymentData" [(profileData)]="profileData"></app-retailer-add-payment>
                         </div>
                         <div class="col-sm-4 pl-2 pr-2 backgroundGray"></div>
                     </div>

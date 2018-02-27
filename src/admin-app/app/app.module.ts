@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { RouterModule, Route } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -40,6 +40,7 @@ import { CanDeactivateGuard } from './services/candeactivate-guard.service';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { NgxStripeModule } from 'ngx-stripe';
 import { environment } from '../environments/environment';
+import { GlobalErrorHandler } from '../../common/GlobalErrorHandler';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,10 @@ import { environment } from '../environments/environment';
   ],
   providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, LocalStorageService, CanDeactivateGuard,
     // ConfirmService, ConfirmState
+    {
+      provide: ErrorHandler,
+      useClass: GlobalErrorHandler
+    }
   ],
   bootstrap: [AppComponent],
   entryComponents: [HomeComponent, LoginComponent]

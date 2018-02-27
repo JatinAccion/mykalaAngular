@@ -40,6 +40,11 @@ const appRoutes: Routes = [
     path: 'product-upload',
     component: ProductUploadComponent,
     canActivate: [EnsureAuthenticated]
+  },
+  {
+    path: 'product-upload/page/:page',
+    component: ProductUploadComponent,
+    canActivate: [EnsureAuthenticated]
   }
 ];
 

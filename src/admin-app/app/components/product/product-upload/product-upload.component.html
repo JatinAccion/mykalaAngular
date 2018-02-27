@@ -10,7 +10,7 @@
             <span class="input-group-btn w-100">
                 <span class="btn btn-file draglogo">
                     <div class="row p-2 text-center">
-                        <div class="col-sm-12 text-center">Drag your Logo here</div>
+                        <div class="col-sm-12 text-center">Drag your product file here</div>
                         <div class="col-sm-12 text-center">or</div>
                         <div class="col-sm-12  text-center">Select..</div>
                         <div class="col-sm-12 text-center"> {{ fileNames}} </div>
@@ -51,7 +51,7 @@
                 <button class="btn btn-primary dropdown-toggle-split" ngbDropdownToggle></button>
                 <div class="dropdown-menu" ngbDropdownMenu>
 
-                    <button class="dropdown-item" [routerLink]="['../product-list', item.productSummaryId]">View Products({{item.addedRecordsCount + item.updatedRecordsCount}})</button>
+                    <a class="dropdown-item" [routerLink]="['/product-list', item.productSummaryId]">View Products({{item.addedRecordsCount + item.updatedRecordsCount}})</a>
                     <a href="{{item.errorFileLink}}" class="btn btn-default w-100" *ngIf="item.errorCount>0">Error({{item.errorCount}})</a>
                 </div>
             </div>

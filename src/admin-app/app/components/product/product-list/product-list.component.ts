@@ -46,9 +46,13 @@ export class ProductListComponent implements OnInit {
   subCategorySettings = {};
   productTypeSettings = {};
   isCollapsed = true;
+  bulkUploadView=false;
   constructor(private productService: ProductService, private retialerService: RetialerService, route: ActivatedRoute) {
     this.products = new Products();
     this.sourceId = route.snapshot.params['id'];
+if (this.sourceId) {
+this.bulkUploadView=true;
+}
   }
 
   ngOnInit() {

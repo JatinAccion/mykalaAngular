@@ -206,6 +206,15 @@ export class RetialerService {
         .catch(this.handleError);
     }
   }
+  addSellerAccount(email, token): Observable<any> {
+    const url = 'http://192.168.169.230:8090/payment/v1/addSellerAccount';
+
+    return this.http
+      .post(`${url}`, { email: email, token: token }, { headers: this.headers })
+      .map(res => res.json())
+      .catch(this.handleError);
+  }
+
   shippingProfileGet(retailerId: string): Observable<RetialerShippingProfiles> {
     if (this.shippingsDataObj && this.shippingsDataObj.retailerId === retailerId) {
       return Observable.of(this.shippingsDataObj);

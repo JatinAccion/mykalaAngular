@@ -1,5 +1,5 @@
 // #region imports
-import { Component, OnInit, ViewEncapsulation, ViewChild, Input, Output, EventEmitter, ElementRef, AfterViewInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, Input, Output, EventEmitter, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgbTabset } from '@ng-bootstrap/ng-bootstrap/tabset/tabset';
@@ -11,6 +11,7 @@ import { RetialerService } from '../retialer.service';
 import { RetailerPaymentInfo, RetailerBankAddress, BankAddress } from '../../../../../models/retailer-payment-info';
 import { inputValidations, userMessages } from './messages';
 import { CoreService } from '../../../services/core.service';
+import { RetailerProfileInfo } from '../../../../../models/retailer-profile-info';
 
 
 
@@ -20,16 +21,13 @@ import { CoreService } from '../../../services/core.service';
   styleUrls: ['./../retailer.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class RetailerAddPaymentComponent implements OnInit, AfterViewInit, OnDestroy  {
+export class RetailerAddPaymentComponent implements OnInit {
   @Input() retailerId: string;
   @Output() SaveData = new EventEmitter<any>();
   @Input() paymentData: RetailerPaymentInfo;
   @Output() paymentDataChange = new EventEmitter<RetailerPaymentInfo>();
-  @ViewChild('cardInfo') cardInfo: ElementRef;
-  card: any;
-  cardHandler = this.onChange.bind(this);
-  error: string;
-  addCard: boolean;
+  @Input() profileData: RetailerProfileInfo;
+  @Output() profileDataChange = new EventEmitter<RetailerProfileInfo>();
   // #region declarations
 
   paymentFG1 = new FormGroup({});
@@ -40,52 +38,14 @@ export class RetailerAddPaymentComponent implements OnInit, AfterViewInit, OnDes
   paymentInfoObj: RetailerPaymentInfo;
   errorMsgs = inputValidations;
   paymentSaveloader = false;
-
+  activateStripe = false;
   // #endregion declaration
   constructor(
     private formBuilder: FormBuilder,
     private retialerService: RetialerService,
     public validatorExt: ValidatorExt,
-    public core: CoreService,
-    private cd: ChangeDetectorRef
-  ) {
-  }
-  ngAfterViewInit() {
-    const style = {
-      base: {
-        lineHeight: '24px',
-        fontFamily: 'monospace',
-        fontSmoothing: 'antialiased',
-        fontSize: '19px',
-        '::placeholder': {
-          //color: 'purple'
-        }
-      }
-    };
-    this.card = elements.create('', { style });
-    this.card.mount(this.cardInfo.nativeElement);
-    this.card.addEventListener('change', this.cardHandler);
-  }
-  resetAddCard() {
-    this.addCard = false;
-    this.error = null;
-    this.card.removeEventListener('change', this.cardHandler);
-    this.card.destroy();
-    this.ngAfterViewInit();
-  }
+    public core: CoreService) { }
 
-  ngOnDestroy() {
-    this.card.removeEventListener('change', this.cardHandler);
-    this.card.destroy();
-  }
-  onChange({ error }) {
-    if (error) {
-      this.error = error.message;
-    } else {
-      this.error = null;
-    }
-    this.cd.detectChanges();
-  }
   ngOnInit() {
     this.getPaymentInfoDropdowndata();
     this.paymentInfoObj = new RetailerPaymentInfo();
@@ -95,29 +55,6 @@ export class RetailerAddPaymentComponent implements OnInit, AfterViewInit, OnDes
       this.paymentMethodChange();
       this.paymentVehicleChange();
     }
-    // this.stripeService.elements(this.elementsOptions)
-    //   .subscribe(elements => {
-    //     this.elements = elements;
-    //     // Only mount the element the first time
-    //     // if (!this.bankAccount) {
-    //     //   this.bankAccount = this.elements.create('bank_account', {
-    //     //     style: {
-    //     //       base: {
-    //     //         iconColor: '#666EE8',
-    //     //         color: '#31325F',
-    //     //         lineHeight: '40px',
-    //     //         fontWeight: 300,
-    //     //         fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-    //     //         fontSize: '18px',
-    //     //         '::placeholder': {
-    //     //           color: '#CFD7E0'
-    //     //         }
-    //     //       }
-    //     //     }
-    //       });
-    //       // this.card.mount(this.cardRef.nativeElement);
-    //     }
-    //   });
   }
 
   setFormValidators() {
@@ -165,7 +102,7 @@ export class RetailerAddPaymentComponent implements OnInit, AfterViewInit, OnDes
 
 
     const isRequired = this.paymentFG1.value.paymentMethod !== '1';
-
+    this.activateStripe = isRequired;
     this.paymentFG1.controls.bankname.setValidators([Validators.pattern(environment.regex.textRegex), this.validatorExt.getRV(isRequired)]);
     this.paymentFG1.controls.addressLine1.setValidators([Validators.pattern(environment.regex.textRegex), this.validatorExt.getRV(isRequired)]);
     this.paymentFG1.controls.city.setValidators([Validators.pattern(environment.regex.textRegex), this.validatorExt.getRV(isRequired)]);
@@ -200,7 +137,6 @@ export class RetailerAddPaymentComponent implements OnInit, AfterViewInit, OnDes
   paymentVehicleChange() {
     this.readPaymenInfo();
   }
-
 
   paymentInfoNext() {
     this.readPaymenInfo();
@@ -275,48 +211,31 @@ export class RetailerAddPaymentComponent implements OnInit, AfterViewInit, OnDes
       });
   }
   stripe() {
-    const accountParams = {
-      country: 'string',
-      currency: 'string',
-      routing_number: 'string',
-      account_number: 'string',
-      account_holder_name: 'string',
-      account_holder_type: 'company'
-    };
-
-    // stripe.bankAccount.createToken({
-    //   country: $('.country').val(),
-    //   currency: $('.currency').val(),
-    //   routing_number: $('.routing-number').val(),
-    //   account_number: $('.account-number').val(),
-    //   account_holder_name: $('.name').val(),
-    //   account_holder_type: $('.account_holder_type').val()
-    // }, this.stripeResponseHandler);
+    this.profileData.businessAddress.email = 'admin@newstore.com';
+    if (this.paymentInfoObj.stripeToken === undefined) {
+      stripe.createToken('bank_account', {
+        country: 'US',
+        currency: 'usd',
+        routing_number: this.paymentInfoObj.bankABARoutingNumber,
+        account_number: this.paymentInfoObj.bankAccountNumber,
+        account_holder_name: this.paymentInfoObj.bankAccountName,
+        account_holder_type: 'company'
+      }).then(response => {
+        if (response.error) {
+          const error = response.error.message;
+          console.error(error);
+        } else {
+          this.core.message.success('Stripe token created');
+          this.paymentInfoObj.stripeToken = response.token.id;
+          this.retialerService.addSellerAccount(this.profileData.businessAddress.email, this.paymentInfoObj.stripeToken).subscribe(p => {
+            this.core.message.success('Stripe integration complted');
+            console.log(p);
+          });
+        }
+      });
+    }
   }
-  stripeResponseHandler(status, response) {
 
-    // // Grab the form:
-    // var $form = $('#payment-form');
-  
-    // if (response.error) { // Problem!
-  
-    //   // Show the errors on the form:
-    //   $form.find('.bank-errors').text(response.error.message);
-    //   $form.find('button').prop('disabled', false); // Re-enable submission
-  
-    // } else { // Token created!
-  
-    //   // Get the token ID:
-    //   var token = response.id;
-  
-    //   // Insert the token into the form so it gets submitted to the server:
-    //   $form.append($('<input type="hidden" name="stripeToken" />').val(token));
-  
-    //   // Submit the form:
-    //   $form.get(0).submit();
-  
-    // }
-  }
   buy() {
     // const name = this.paymentFG1.get("bankname").value;
     // this.stripeService

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawesome';
@@ -21,6 +21,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { RetailerAddTaxComponent } from './retailer-add-tax/retailer-add-tax.component';
 import { NgxStripeModule } from 'ngx-stripe';
 import { environment } from '../../../environments/environment';
+import { GlobalErrorHandler } from '../../../../common/GlobalErrorHandler';
 
 
 @NgModule({
@@ -46,6 +47,9 @@ import { environment } from '../../../environments/environment';
     RetailerAddReturnsComponent,
     RetailerAddTaxComponent
   ],
-  providers: [RetialerService, ValidatorExt]
+  providers: [RetialerService, ValidatorExt, {
+    provide: ErrorHandler,
+    useClass: GlobalErrorHandler
+  }]
 })
 export class RetailerModule { }
