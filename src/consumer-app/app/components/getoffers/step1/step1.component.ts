@@ -282,12 +282,16 @@ export class Step1Component implements OnInit {
   };
 
   next() {
-    this.checkIfStored = true;
-    this.Step1Modal.getoffer_1 = new Array<OfferInfo1>();
-    this.Step1Modal.getoffer_1.push(new OfferInfo1(this.Step1SelectedValues.place, this.Step1SelectedValues.category, this.Step1SelectedValues.subcategory, this.Step1SelectedValues.type));
-    window.localStorage['GetOfferStep_1'] = JSON.stringify(this.Step1Modal.getoffer_1);
-    window.localStorage['GetOfferStep_2Request'] = JSON.stringify(this.gSCMRequestModal);
-    this.route.navigate(['/getoffer', 'step2']);
+    if (this.Step1SelectedValues.subcategory.length != undefined) alert("Please select a sub category");
+    else if (this.Step1SelectedValues.type[0] == undefined || this.Step1SelectedValues.type[0] == "") alert("Please select a type");
+    else {
+      this.checkIfStored = true;
+      this.Step1Modal.getoffer_1 = new Array<OfferInfo1>();
+      this.Step1Modal.getoffer_1.push(new OfferInfo1(this.Step1SelectedValues.place, this.Step1SelectedValues.category, this.Step1SelectedValues.subcategory, this.Step1SelectedValues.type));
+      window.localStorage['GetOfferStep_1'] = JSON.stringify(this.Step1Modal.getoffer_1);
+      window.localStorage['GetOfferStep_2Request'] = JSON.stringify(this.gSCMRequestModal);
+      this.route.navigate(['/getoffer', 'step2']);
+    }
   };
 
 }

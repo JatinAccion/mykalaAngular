@@ -49,6 +49,10 @@
           {{loginInputValMsg.inactiveUser}}
         </div>
 
+        <div *ngIf="unAuthorized" class="alert alert-danger errorMessages">
+          {{loginInputValMsg.unAuthorized}}
+        </div>
+
         <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="loader" />
         <!--Loader-->
       </div>

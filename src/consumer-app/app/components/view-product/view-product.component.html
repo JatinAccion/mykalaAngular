@@ -30,7 +30,7 @@
               <!-- main slider carousel items -->
               <div class="carousel-inner">
                 <div class="item carousel-item" *ngFor="let image of selectedProduct.product.productImages; let i=index" data-slide-number="0">
-                  <img src="/consumer-app/assets/images/product1.png" class="img-fluid">
+                  <img src="{{s3}}{{image.location}}" class="img-fluid">
                 </div>
                 <a class="carousel-control left pt-3" href="#myCarousel" data-slide="prev">
                   <i class="fa fa-chevron-left"></i>

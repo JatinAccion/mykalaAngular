@@ -11,7 +11,7 @@
         </h4>
         <div class="row">
           <div class="col-sm-2">
-            <img src="/consumer-app/assets/images/catg-1.png" class="img-fluid" />
+            <img [src]="order.productImage" class="img-fluid" />
           </div>
           <div class="col-sm-7">
             <p>
@@ -37,7 +37,7 @@
             </div>
             <p>&nbsp;</p>
             <div class="row">
-              <button class="btn-outer btn_redouter_right" (click)="leaveReview(modal, order.productId)">leave review</button>
+              <button class="btn-outer btn_redouter_right" (click)="leaveReview(modal, order)">leave review</button>
             </div>
           </div>
         </div>
@@ -61,7 +61,7 @@
             <div class="row">
               <p class="col-sm-3 colorlightGray">Total:</p>
               <p class="col-sm-9">
-                <strong>${{getTotalCost(order.shippingCost, order.productPrice)}}</strong>
+                <strong>${{getTotalCost(modal.totalShipCost, order.productPrice)}}</strong>
               </p>
             </div>
             <div class="row">

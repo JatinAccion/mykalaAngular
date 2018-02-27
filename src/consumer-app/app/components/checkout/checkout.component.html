@@ -141,7 +141,7 @@
             <ng-template ngbPanelTitle>
               <div class="row">
                 <div class="col-sm-3">
-                  <img src="/consumer-app/assets/images/catg-1.png" class="img-fluid" />
+                  <img [src]="item.productImage" class="img-fluid" />
                 </div>
                 <div class="col-sm-8" style="padding-left: 8px; margin-top: -4px">
                   <b>{{item.productName}}</b>

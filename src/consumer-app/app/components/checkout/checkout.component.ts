@@ -335,13 +335,12 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.ProductCheckoutModal.purchasedPrice = parseFloat(this.totalAmountFromCart.toString());
       for (var i = 0; i < this.itemsInCart.length; i++) {
         let item = this.itemsInCart[i]
-        this.ProductCheckoutModal.orderItems.push(new OrderItems(item.productId, item.productName, item.retailerName, item.retailerId, item.productDescription, "", item.quantity, item.price, 20, 25, eval(`${item.price * item.quantity}`), this.selectedMethodDetails.deliveryMethodName))
+        this.ProductCheckoutModal.orderItems.push(new OrderItems(item.productId, item.productName, item.retailerName, item.retailerId, item.productDescription,item.productImage, item.quantity, item.price, 20, 25, eval(`${item.price * item.quantity}`), this.selectedMethodDetails.deliveryMethodName))
       };
       console.log(this.ProductCheckoutModal);
       this.checkout.chargeAmount(this.ProductCheckoutModal).subscribe((res) => {
         this.loader_chargeAmount = false;
         this.paymentSuccessfullMsg = res;
-        this.open(this.ModalBox);
         localStorage.removeItem('existingItemsInCart');
         this.route.navigateByUrl('/myorder');
       }, (err) => {

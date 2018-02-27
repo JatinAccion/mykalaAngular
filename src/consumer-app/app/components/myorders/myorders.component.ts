@@ -99,8 +99,8 @@ export class MyordersComponent implements OnInit {
     }
   }
 
-  leaveReview(modal, productId) {
-    window.localStorage['forReview'] = JSON.stringify({ modal: modal, productId: productId });
+  leaveReview(modal, order) {
+    window.localStorage['forReview'] = JSON.stringify({ modal: modal, order: order });
     this.route.navigateByUrl("/leave-review");
   }
 

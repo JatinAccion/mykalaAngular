@@ -4,6 +4,7 @@ import { AddToCart } from '../../../../models/addToCart';
 import { Router, RouterOutlet } from '@angular/router';
 import { ViewProductService } from '../../services/viewProduct.service';
 import { ReadReviewModel } from '../../../../models/readReviews';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-view-product',
@@ -19,6 +20,7 @@ export class ViewProductComponent implements OnInit {
   inStock = [];
   productReviews = [];
   alreadyAddedInCart: boolean = false;
+  s3 = environment.s3;
   constructor(
     public core: CoreService,
     private route: Router,
@@ -86,6 +88,10 @@ export class ViewProductComponent implements OnInit {
     this.addToCartModal.retailerReturns = this.selectedProduct.retailerReturns;
     this.addToCartModal.shipProfileId = this.selectedProduct.product.shipProfileId;
     this.addToCartModal.productDescription = this.selectedProduct.product.productDescription;
+    for (var i = 0; i < this.selectedProduct.product.productImages.length; i++) {
+      let image = this.selectedProduct.product.productImages[i]
+      if(image.mainImage == true) this.addToCartModal.productImage = `${this.s3+image.location}`
+    }
     if (to === 'toCart') window.localStorage['addedInCart'] = JSON.stringify(this.addToCartModal);
     else {
       if (window.localStorage['existingItemsInWishList'] != undefined) {

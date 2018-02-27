@@ -8,7 +8,7 @@
       <h4 class="subtitle" id="{{item.retailerId}}">{{item.retailerName}}</h4>
       <div class="row">
         <div class="col-sm-2 pr-0">
-          <img src="/consumer-app/assets/images/catg-1.png" class="img-fluid" />
+          <img [src]="item.productImage" class="img-fluid" />
         </div>
         <div class="col-sm-7 pl-4">
           <div id="{{item.productId}}">

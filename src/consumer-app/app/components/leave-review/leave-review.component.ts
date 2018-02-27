@@ -30,19 +30,13 @@ export class LeaveReviewComponent implements OnInit {
     this.core.searchMsgToggle();
     this.userData = JSON.parse(window.localStorage['userInfo']);
     this.productForReview = JSON.parse(window.localStorage['forReview']);
-    for (var i = 0; i < this.productForReview.modal.orderItems.length; i++) {
-      let prodId = this.productForReview.productId;
-      let ordr = this.productForReview.modal.orderItems[i];
-      if (prodId == ordr.productId) {
-        this.requestReviewModel.retailerName = ordr.retailerName;
-        this.requestReviewModel.productId = ordr.productId;
-        this.requestReviewModel.productName = ordr.productName;
-        this.requestReviewModel.retailerId = ordr.retailerId;
-      }
-    }
     this.requestReviewModel.consumerId = "";
     this.requestReviewModel.emailId = this.userData.emailId;
     this.requestReviewModel.userId = this.userData.userId;
+    this.requestReviewModel.retailerId = this.productForReview.order.retailerId;
+    this.requestReviewModel.retailerName = this.productForReview.order.retailerName;
+    this.requestReviewModel.productId = this.productForReview.order.productId;
+    this.requestReviewModel.productName = this.productForReview.order.productName;
     this.requestReviewModel.firstName = this.userData.firstName;
     this.requestReviewModel.lastName = this.userData.lastName;
   }
