@@ -43,6 +43,8 @@ export class LeaveReviewComponent implements OnInit {
     this.requestReviewModel.consumerId = "";
     this.requestReviewModel.emailId = this.userData.emailId;
     this.requestReviewModel.userId = this.userData.userId;
+    this.requestReviewModel.firstName = this.userData.firstName;
+    this.requestReviewModel.lastName = this.userData.lastName;
   }
 
   selectRating(e) {
@@ -60,14 +62,17 @@ export class LeaveReviewComponent implements OnInit {
   }
 
   postReview() {
+    let regex = /\S+\s+\S+\s+\S+\s+\S+\s+\S+/
     this.requestReviewModel.reviewDescription = this.reviewContent;
-    if (this.requestReviewModel.reviewDescription == "" || this.requestReviewModel.reviewDescription == undefined) alert("Please enter your reviews");
+    if (regex.test(this.requestReviewModel.reviewDescription) != true || this.requestReviewModel.reviewDescription == undefined) alert("Please provide a minimum of 5 words");
     else if (this.requestReviewModel.rating == "" || this.requestReviewModel.rating == undefined) alert("Please select a rating");
     else {
       this.loader = true;
       this.review.postReview(this.requestReviewModel).subscribe((res) => {
         this.loader = false;
-        alert("Your reviews has been saved successfully")
+        alert("Your reviews has been saved successfully");
+        localStorage.removeItem("forReview");
+        this.route.navigateByUrl("/myorder")
       })
     }
   }

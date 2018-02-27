@@ -144,6 +144,35 @@
   </div>
   <!--Brand Details-->
 
+  <!--Reviews-->
+  <div class="row ">
+    <h4 class="subtitle">reviews {{productReviews.length}}</h4>
+    <table class="reviewlayout table">
+      <tr *ngFor="let reviews of productReviews">
+        <td class="p-0">
+          <div class="star-rating">
+            <strong>{{reviews.reviewDescription}}</strong>
+            <span *ngFor="let rating of getRating(reviews.rating)">
+              <i class="fa fa-star starIcon" aria-hidden="true"></i>
+            </span>
+          </div>
+          <div class="colorlightGray">by
+            <u>{{reviews.firstName}} {{reviews.lastName}}</u>
+          </div>
+          <hr />
+        </td>
+      </tr>
+      <!-- <tr>
+        <td class="p-0 text-right">
+          <a href="#" class="colorred">
+            <small>show more</small>
+          </a>
+        </td>
+      </tr> -->
+    </table>
+  </div>
+  <!--Reviews-->
+
   <div class="row">&nbsp;</div>
 
   <!--Return Policy-->

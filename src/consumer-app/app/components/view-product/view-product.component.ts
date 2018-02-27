@@ -2,6 +2,8 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CoreService } from '../../services/core.service';
 import { AddToCart } from '../../../../models/addToCart';
 import { Router, RouterOutlet } from '@angular/router';
+import { ViewProductService } from '../../services/viewProduct.service';
+import { ReadReviewModel } from '../../../../models/readReviews';
 
 @Component({
   selector: 'app-view-product',
@@ -15,10 +17,12 @@ export class ViewProductComponent implements OnInit {
   addToCartModal = new AddToCart();
   quantity: any;
   inStock = [];
+  productReviews = [];
   alreadyAddedInCart: boolean = false;
   constructor(
     public core: CoreService,
-    private route: Router
+    private route: Router,
+    private viewProduct: ViewProductService
   ) { }
 
   ngOnInit() {
@@ -29,6 +33,7 @@ export class ViewProductComponent implements OnInit {
     if (window.localStorage['selectedProduct'] != undefined) {
       this.selectedProduct = JSON.parse(window.localStorage['selectedProduct']);
       this.getStockNumber();
+      this.getReviews(this.selectedProduct.product.kalaUniqueId);
     }
     if (window.localStorage['existingItemsInCart'] != undefined) this.itemsInCart();
     setTimeout(function () {
@@ -37,6 +42,22 @@ export class ViewProductComponent implements OnInit {
       carouselItem.classList.add("active");
       listInlineItem.classList.add("active");
     }, 1000);
+  }
+
+  getReviews(productId) {
+    this.viewProduct.getReviews(productId).subscribe((res) => {
+      this.productReviews = [];
+      for (var i = 0; i < res.content.length; i++) {
+        let review = res.content[i]
+        this.productReviews.push(new ReadReviewModel(review.consumerId, review.consumerReviewId, review.productName, parseFloat(review.rating), review.retailerName, review.reviewDescription, review.reviewImages, review.firstName, review.lastName))
+      }
+    }, (err) => {
+      console.log(err)
+    });
+  }
+
+  getRating(rate) {
+    return Array(rate).fill(rate)
   }
 
   getStockNumber() {
