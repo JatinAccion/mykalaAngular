@@ -5,6 +5,7 @@ import { Router, RouterOutlet } from '@angular/router';
 import { ViewProductService } from '../../services/viewProduct.service';
 import { ReadReviewModel } from '../../../../models/readReviews';
 import { environment } from '../../../environments/environment';
+import animateScrollTo from 'animated-scroll-to';
 
 @Component({
   selector: 'app-view-product',
@@ -44,6 +45,11 @@ export class ViewProductComponent implements OnInit {
       carouselItem.classList.add("active");
       listInlineItem.classList.add("active");
     }, 1000);
+  }
+
+  animateToTiles() {
+    var scroll = document.querySelector('.returnPolicy') as HTMLElement
+    animateScrollTo(scroll);
   }
 
   getReviews(productId) {
@@ -90,7 +96,7 @@ export class ViewProductComponent implements OnInit {
     this.addToCartModal.productDescription = this.selectedProduct.product.productDescription;
     for (var i = 0; i < this.selectedProduct.product.productImages.length; i++) {
       let image = this.selectedProduct.product.productImages[i]
-      if(image.mainImage == true) this.addToCartModal.productImage = `${this.s3+image.location}`
+      if (image.mainImage == true) this.addToCartModal.productImage = `${this.s3 + image.location}`
     }
     if (to === 'toCart') window.localStorage['addedInCart'] = JSON.stringify(this.addToCartModal);
     else {

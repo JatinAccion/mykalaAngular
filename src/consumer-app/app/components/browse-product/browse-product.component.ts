@@ -56,9 +56,9 @@ export class BrowseProductComponent implements OnInit {
         this.productListingModal = new BrowseProductsModal();
         this.productListingModal.product.productImages = new Array<any>();
         let content = res.content[i];
-        this.productListingModal.deliveryMethod = '';
-        this.productListingModal.retailerName = '';
-        this.productListingModal.retailerReturns = '';
+        this.productListingModal.deliveryMethod = content.deliveryMethod;
+        this.productListingModal.retailerName = content.retailerName;
+        this.productListingModal.retailerReturns = content.retailerReturns;
         this.productListingModal.product.brandName = content.brandName;
         this.productListingModal.product.createdDate = content.createdDate;
         this.productListingModal.product.kalaPrice = content.kalaPrice;
