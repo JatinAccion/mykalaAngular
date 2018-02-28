@@ -51,8 +51,8 @@ export class MyordersComponent implements OnInit {
     })
   }
 
-  getTotalCost(shippingCost, productCost) {
-    return eval(`${shippingCost + productCost}`);
+  getTotalCost(shippingCost, productCost, taxCost) {
+    return eval(`${shippingCost + productCost + taxCost}`);
   }
 
   getPurchaseDate(date) {

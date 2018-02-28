@@ -8,6 +8,7 @@
       <div class="myCart-list" *ngFor="let order of modal.orderItems">
         <h4 class="subtitle">
           Estimated delivery on: {{getDeliveryDate(order.deliveryMethod, modal.purchasedDate)}}
+          <span class="float-right">Order Id: {{modal.orderId}}</span>
         </h4>
         <div class="row">
           <div class="col-sm-2">
@@ -59,9 +60,13 @@
               <p class="col-sm-9">${{modal.totalShipCost}}</p>
             </div>
             <div class="row">
+              <p class="col-sm-3 colorlightGray">Tax:</p>
+              <p class="col-sm-9">${{modal.totalTaxCost}}</p>
+            </div>
+            <div class="row">
               <p class="col-sm-3 colorlightGray">Total:</p>
               <p class="col-sm-9">
-                <strong>${{getTotalCost(modal.totalShipCost, order.productPrice)}}</strong>
+                <strong>${{getTotalCost(modal.totalShipCost, order.productPrice, modal.totalTaxCost)}}</strong>
               </p>
             </div>
             <div class="row">
