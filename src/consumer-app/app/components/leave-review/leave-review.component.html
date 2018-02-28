@@ -21,7 +21,7 @@
           <i class="fa fa-star-o starIcon" style="cursor: pointer" (click)="selectRating($event)" data-number="5" aria-hidden="true"></i>
         </span>
       </div>
-      <div class="colorred">{{this.requestReviewModel.retailerName}}</div>
+      <div class="colorred">{{this.requestReviewModel.retailerName}} <br /><br /></div>
       <textarea class="w-100" placeholder="Write your review here..." [(ngModel)]="reviewContent"></textarea>
       <div>
         <small class="colorlightGray">Please provide a minimum of 5 words in your review</small>

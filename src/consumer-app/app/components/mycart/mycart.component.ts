@@ -144,6 +144,7 @@ export class MycartComponent implements OnInit {
   }
 
   move(item, to) {
+    this.cartEmpty = false;
     this.fromMoveFunction = true;
     this.addToCartModal.retailerId = item.retailerId;
     this.addToCartModal.retailerName = item.retailerName;
@@ -152,6 +153,7 @@ export class MycartComponent implements OnInit {
     this.addToCartModal.price = item.price;
     this.addToCartModal.quantity = item.quantity;
     this.addToCartModal.inStock = item.inStock;
+    this.addToCartModal.productImage = item.productImage;
     if (to === 'toCart') {
       let moveToCart: boolean = false;
       let cartItems;
