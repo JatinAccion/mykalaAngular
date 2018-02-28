@@ -30,19 +30,15 @@ export class LeaveReviewComponent implements OnInit {
     this.core.searchMsgToggle();
     this.userData = JSON.parse(window.localStorage['userInfo']);
     this.productForReview = JSON.parse(window.localStorage['forReview']);
-    for (var i = 0; i < this.productForReview.modal.orderItems.length; i++) {
-      let prodId = this.productForReview.productId;
-      let ordr = this.productForReview.modal.orderItems[i];
-      if (prodId == ordr.productId) {
-        this.requestReviewModel.retailerName = ordr.retailerName;
-        this.requestReviewModel.productId = ordr.productId;
-        this.requestReviewModel.productName = ordr.productName;
-        this.requestReviewModel.retailerId = ordr.retailerId;
-      }
-    }
     this.requestReviewModel.consumerId = "";
     this.requestReviewModel.emailId = this.userData.emailId;
     this.requestReviewModel.userId = this.userData.userId;
+    this.requestReviewModel.retailerId = this.productForReview.order.retailerId;
+    this.requestReviewModel.retailerName = this.productForReview.order.retailerName;
+    this.requestReviewModel.productId = this.productForReview.order.productId;
+    this.requestReviewModel.productName = this.productForReview.order.productName;
+    this.requestReviewModel.firstName = this.userData.firstName;
+    this.requestReviewModel.lastName = this.userData.lastName;
   }
 
   selectRating(e) {
@@ -60,14 +56,17 @@ export class LeaveReviewComponent implements OnInit {
   }
 
   postReview() {
+    let regex = /\S+\s+\S+\s+\S+\s+\S+\s+\S+/
     this.requestReviewModel.reviewDescription = this.reviewContent;
-    if (this.requestReviewModel.reviewDescription == "" || this.requestReviewModel.reviewDescription == undefined) alert("Please enter your reviews");
+    if (regex.test(this.requestReviewModel.reviewDescription) != true || this.requestReviewModel.reviewDescription == undefined) alert("Please provide a minimum of 5 words");
     else if (this.requestReviewModel.rating == "" || this.requestReviewModel.rating == undefined) alert("Please select a rating");
     else {
       this.loader = true;
       this.review.postReview(this.requestReviewModel).subscribe((res) => {
         this.loader = false;
-        alert("Your reviews has been saved successfully")
+        alert("Your reviews has been saved successfully");
+        localStorage.removeItem("forReview");
+        this.route.navigateByUrl("/myorder")
       })
     }
   }

@@ -204,15 +204,18 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   selectInterest(e, obj) {
-    obj.selectImg = !obj.selectImg;
-    this.getInterest.push(new MyAccountConsumerInterest(e.currentTarget.id, e.currentTarget.title, e.currentTarget.src));
-    this.getInterest = this.getInterest.filter((elem, index, self) => self.findIndex((img) => {
-      return (img.id === elem.id && img.consumerInterestImageName === elem.consumerInterestImageName)
-    }) === index);
+    let btn = document.getElementsByClassName("changeInterestBtn")[0].innerHTML;
+    if (btn != 'change') {
+      obj.selectImg = !obj.selectImg;
+      this.getInterest.push(new MyAccountConsumerInterest(e.currentTarget.id, e.currentTarget.title, e.currentTarget.src));
+      this.getInterest = this.getInterest.filter((elem, index, self) => self.findIndex((img) => {
+        return (img.id === elem.id && img.consumerInterestImageName === elem.consumerInterestImageName)
+      }) === index);
 
-    if (obj.selectImg == false) {
-      for (var i = 0; i < this.getInterest.length; i++) {
-        if (this.getInterest[i].id == obj.id) this.getInterest.splice(i, 1)
+      if (obj.selectImg == false) {
+        for (var i = 0; i < this.getInterest.length; i++) {
+          if (this.getInterest[i].id == obj.id) this.getInterest.splice(i, 1)
+        }
       }
     }
   }

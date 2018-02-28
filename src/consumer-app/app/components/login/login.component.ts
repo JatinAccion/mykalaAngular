@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit, CuiComponent {
   loader: boolean = false;
   loginError: boolean;
   userInactive: boolean = false;
+  unAuthorized: boolean = false;
   emailRegex = regexPatterns.emailRegex;
   loginUserMessage = userMessages;
   loginInputValMsg = inputValidation;
@@ -79,6 +80,7 @@ export class LoginComponent implements OnInit, CuiComponent {
   onSubmit() {
     this.loginError = false;
     this.userInactive = false;
+    this.unAuthorized = false;
     this.loader = true;
     this.userCredential = new User(this.loginKala.controls.email.value, this.loginKala.controls.email.value, this.loginKala.controls.password.value)
     this.credentialModal.email = this.loginKala.controls.email.value;
@@ -95,15 +97,18 @@ export class LoginComponent implements OnInit, CuiComponent {
           this.userInactive = true;
         }
         else {
-          window.localStorage['userInfo'] = JSON.stringify(res);
-          this.core.hideUserInfo(false);
-          this.core.setUser(res);
-          if (window.localStorage['tbnAfterLogin'] != undefined) {
-            let url = window.localStorage['tbnAfterLogin'];
-            localStorage.removeItem("tbnAfterLogin");
-            this.router.navigateByUrl(url);
+          if (res.roleName[0] != "consumer") this.unAuthorized = true;
+          else {
+            window.localStorage['userInfo'] = JSON.stringify(res);
+            this.core.hideUserInfo(false);
+            this.core.setUser(res);
+            if (window.localStorage['tbnAfterLogin'] != undefined) {
+              let url = window.localStorage['tbnAfterLogin'];
+              localStorage.removeItem("tbnAfterLogin");
+              this.router.navigateByUrl(url);
+            }
+            else this.router.navigateByUrl('/home');
           }
-          else this.router.navigateByUrl('/home');
         }
       }, err => {
         console.log(err);

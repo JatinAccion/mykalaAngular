@@ -40,7 +40,7 @@
     <div class="row">
         <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 46% 10%" *ngIf="loader" />
         <div class="example col-sm-3" style="margin-bottom: 25px" *ngFor="let tile of tilesData" (click)="viewDetails(tile)">
-            <img src="/consumer-app/assets/images/img_03.jpg" class="product_hover img-fluid">
+            <img [src]="tile.product.mainImageSrc" class="product_hover img-fluid">
             <div class="hover_panel">
                 <h5>{{tile.product.productName}}</h5>
                 <span style="font-size:14px;margin-right:10px;">{{tile.product.kalaPrice}}</span>

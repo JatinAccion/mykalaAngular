@@ -8,4 +8,6 @@ export class ReviewModel {
     public retailerName: string;
     public productName: string;
     public productId: string;
+    public firstName: string;
+    public lastName: string;
 }

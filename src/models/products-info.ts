@@ -18,4 +18,5 @@ export class ProductsInfo {
     productActivatedDate: string;
     createdDate: string;
     productImages: Array<any>;
+    mainImageSrc: string;
 }

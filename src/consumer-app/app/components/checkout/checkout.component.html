@@ -37,11 +37,11 @@
               <input type="text" formControlName="addState" class="form-control" placeholder="State" />
             </div>
             <div class="form-group">
-              <input type="text" formControlName="addZipcode" class="form-control" placeholder="Zipcode" />
+              <input onkeypress='return event.charCode >= 48 && event.charCode <= 57' type="number" formControlName="addZipcode" class="form-control" placeholder="Zipcode" />
             </div>
             <div class="form-group">
-              <button type="text" (click)="addEditSave(addShippingAddressForm, 'add')" class="btn btn_red_right">add</button>
-              <button type="text" (click)="cancelAddress(addShippingAddressForm, 'add')" class="btn btn_red_right">cancel</button>
+              <button type="button" (click)="addEditSave(addShippingAddressForm, 'add')" class="btn btn_red_right">add</button>
+              <button type="button" (click)="cancelAddress(addShippingAddressForm, 'add')" class="btn btn_red_right">cancel</button>
             </div>
           </form>
           <!--Add Shipping Address-->
@@ -61,11 +61,11 @@
               <input type="text" formControlName="editState" class="form-control" placeholder="State" />
             </div>
             <div class="form-group">
-              <input type="text" formControlName="editZipcode" class="form-control" placeholder="Zipcode" />
+              <input onkeypress='return event.charCode >= 48 && event.charCode <= 57' type="number" formControlName="editZipcode" class="form-control" placeholder="Zipcode" />
             </div>
             <div class="form-group">
-              <button type="text" (click)="addEditSave(editShippingAddressForm, 'edit')" class="btn btn_red_right">save</button>
-              <button type="text" (click)="cancelAddress(editShippingAddressForm, 'edit')" class="btn btn_red_right">cancel</button>
+              <button type="button" (click)="addEditSave(editShippingAddressForm, 'edit')" class="btn btn_red_right">save</button>
+              <button type="button" (click)="cancelAddress(editShippingAddressForm, 'edit')" class="btn btn_red_right">cancel</button>
             </div>
           </form>
           <!--Edit Shipping Address-->
@@ -141,7 +141,7 @@
             <ng-template ngbPanelTitle>
               <div class="row">
                 <div class="col-sm-3">
-                  <img src="/consumer-app/assets/images/catg-1.png" class="img-fluid" />
+                  <img [src]="item.productImage" class="img-fluid" />
                 </div>
                 <div class="col-sm-8" style="padding-left: 8px; margin-top: -4px">
                   <b>{{item.productName}}</b>

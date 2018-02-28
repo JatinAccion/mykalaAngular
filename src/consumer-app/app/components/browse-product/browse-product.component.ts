@@ -4,6 +4,7 @@ import { CoreService } from '../../services/core.service';
 import { Router, RouterOutlet } from '@angular/router';
 import { SearchDataModal } from '../../../../models/searchData.modal';
 import { BrowseProductsModal } from '../../../../models/browse-products';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-browse-product',
@@ -12,6 +13,7 @@ import { BrowseProductsModal } from '../../../../models/browse-products';
   encapsulation: ViewEncapsulation.None
 })
 export class BrowseProductComponent implements OnInit {
+  s3 = environment.s3
   @Input() selectedTilesData: any;
   tilesData = [];
   subCategory = [];
@@ -54,30 +56,32 @@ export class BrowseProductComponent implements OnInit {
         this.productListingModal = new BrowseProductsModal();
         this.productListingModal.product.productImages = new Array<any>();
         let content = res.content[i];
-        this.productListingModal.deliveryMethod = '',
-          this.productListingModal.retailerName = '',
-          this.productListingModal.retailerReturns = '',
-          this.productListingModal.product.brandName = content.brandName,
-          this.productListingModal.product.createdDate = content.createdDate,
-          this.productListingModal.product.kalaPrice = content.kalaPrice,
-          this.productListingModal.product.kalaUniqueId = content.kalaUniqueId,
-          this.productListingModal.product.productActivatedDate = content.productActivatedDate,
-          this.productListingModal.product.productCategoryName = content.productCategoryName,
-          this.productListingModal.product.productDescription = content.productDescription,
-          this.productListingModal.product.productName = content.productName,
-          this.productListingModal.product.productPlaceName = content.productPlaceName,
-          this.productListingModal.product.productSkuCode = content.productSkuCode,
-          this.productListingModal.product.productStatus = content.productStatus,
-          this.productListingModal.product.productSubCategoryName = content.productSubCategoryName,
-          this.productListingModal.product.productTypeName = content.productTypeName,
-          this.productListingModal.product.productUpcCode = content.productUpcCode,
-          this.productListingModal.product.quantity = content.quantity,
-          this.productListingModal.product.retailPrice = content.retailPrice,
-          this.productListingModal.product.retailerId = content.retailerId,
-          this.productListingModal.product.shipProfileId = content.shipProfileId,
-          this.productListingModal.product.productImages = content.productImages;
+        this.productListingModal.deliveryMethod = content.deliveryMethod;
+        this.productListingModal.retailerName = content.retailerName;
+        this.productListingModal.retailerReturns = content.retailerReturns;
+        this.productListingModal.product.brandName = content.brandName;
+        this.productListingModal.product.createdDate = content.createdDate;
+        this.productListingModal.product.kalaPrice = content.kalaPrice;
+        this.productListingModal.product.kalaUniqueId = content.kalaUniqueId;
+        this.productListingModal.product.productActivatedDate = content.productActivatedDate;
+        this.productListingModal.product.productCategoryName = content.productCategoryName;
+        this.productListingModal.product.productDescription = content.productDescription;
+        this.productListingModal.product.productName = content.productName;
+        this.productListingModal.product.productPlaceName = content.productPlaceName;
+        this.productListingModal.product.productSkuCode = content.productSkuCode;
+        this.productListingModal.product.productStatus = content.productStatus;
+        this.productListingModal.product.productSubCategoryName = content.productSubCategoryName;
+        this.productListingModal.product.productTypeName = content.productTypeName;
+        this.productListingModal.product.productUpcCode = content.productUpcCode;
+        this.productListingModal.product.quantity = content.quantity;
+        this.productListingModal.product.retailPrice = content.retailPrice;
+        this.productListingModal.product.retailerId = content.retailerId;
+        this.productListingModal.product.shipProfileId = content.shipProfileId;
+        this.productListingModal.product.productImages = content.productImages;
+        this.productListingModal.product.mainImageSrc = "";
         this.tilesData.push(this.productListingModal);
       }
+      this.getMainImage();
       if (this.tilesData.length > 0) this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' ' + this.selectedTilesData.category.name + ' for you';
       else this.headerMessage = 'Sorry, but we don\'t have product matches for you';
       if (this.selectedTilesData.subcategory.length == undefined) this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' ' + this.selectedTilesData.subcategory.name + ' for you';
@@ -95,35 +99,46 @@ export class BrowseProductComponent implements OnInit {
       this.productListingModal = new BrowseProductsModal();
       this.productListingModal.product.productImages = new Array<any>();
       let content = this.getOffersData[i];
-      this.productListingModal.deliveryMethod = content.deliveryMethod,
-        this.productListingModal.retailerName = content.retailerName,
-        this.productListingModal.retailerReturns = content.retailerReturns,
-        this.productListingModal.product.brandName = content.product.brandName,
-        this.productListingModal.product.createdDate = content.product.createdDate,
-        this.productListingModal.product.kalaPrice = content.product.kalaPrice,
-        this.productListingModal.product.kalaUniqueId = content.product.kalaUniqueId,
-        this.productListingModal.product.productActivatedDate = content.product.productActivatedDate,
-        this.productListingModal.product.productCategoryName = content.product.productCategoryName,
-        this.productListingModal.product.productDescription = content.product.productDescription,
-        this.productListingModal.product.productName = content.product.productName,
-        this.productListingModal.product.productPlaceName = content.product.productPlaceName,
-        this.productListingModal.product.productSkuCode = content.product.productSkuCode,
-        this.productListingModal.product.productStatus = content.product.productStatus,
-        this.productListingModal.product.productSubCategoryName = content.product.productSubCategoryName,
-        this.productListingModal.product.productTypeName = content.product.productTypeName,
-        this.productListingModal.product.productUpcCode = content.product.productUpcCode,
-        this.productListingModal.product.quantity = content.product.quantity,
-        this.productListingModal.product.retailPrice = content.product.retailPrice,
-        this.productListingModal.product.retailerId = content.product.retailerId,
-        this.productListingModal.product.shipProfileId = content.product.shipProfileId,
-        this.productListingModal.product.productImages = content.product.productImages;
+      this.productListingModal.deliveryMethod = content.deliveryMethod;
+      this.productListingModal.retailerName = content.retailerName;
+      this.productListingModal.retailerReturns = content.retailerReturns;
+      this.productListingModal.product.brandName = content.product.brandName;
+      this.productListingModal.product.createdDate = content.product.createdDate;
+      this.productListingModal.product.kalaPrice = content.product.kalaPrice;
+      this.productListingModal.product.kalaUniqueId = content.product.kalaUniqueId;
+      this.productListingModal.product.productActivatedDate = content.product.productActivatedDate;
+      this.productListingModal.product.productCategoryName = content.product.productCategoryName;
+      this.productListingModal.product.productDescription = content.product.productDescription;
+      this.productListingModal.product.productName = content.product.productName;
+      this.productListingModal.product.productPlaceName = content.product.productPlaceName;
+      this.productListingModal.product.productSkuCode = content.product.productSkuCode;
+      this.productListingModal.product.productStatus = content.product.productStatus;
+      this.productListingModal.product.productSubCategoryName = content.product.productSubCategoryName;
+      this.productListingModal.product.productTypeName = content.product.productTypeName;
+      this.productListingModal.product.productUpcCode = content.product.productUpcCode;
+      this.productListingModal.product.quantity = content.product.quantity;
+      this.productListingModal.product.retailPrice = content.product.retailPrice;
+      this.productListingModal.product.retailerId = content.product.retailerId;
+      this.productListingModal.product.shipProfileId = content.product.shipProfileId;
+      this.productListingModal.product.productImages = content.product.productImages;
+      this.productListingModal.product.mainImageSrc = "";
       this.tilesData.push(this.productListingModal);
     }
+    this.getMainImage();
     if (this.tilesData.length > 0) this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' ' + this.selectedTilesData.category.name + ' for you';
     else this.headerMessage = 'Sorry, but we don\'t have product matches for you';
     if (this.selectedTilesData.subcategory.length == undefined) this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' ' + this.selectedTilesData.subcategory.name + ' for you';
     this.core.show(this.headerMessage);
     this.core.searchMsgToggle('get offers');
+  }
+
+  getMainImage() {
+    for (var i = 0; i < this.tilesData.length; i++) {
+      for (var j = 0; j < this.tilesData[i].product.productImages.length; j++) {
+        let product = this.tilesData[i].product.productImages[j]
+        if (product.mainImage == true) this.tilesData[i].product.mainImageSrc = `${this.s3 + product.location}`
+      }
+    }
   }
 
   openNav() {
@@ -177,7 +192,7 @@ export class BrowseProductComponent implements OnInit {
     updateStorage.subType.name = tile.product.productName;
     updateStorage.subType.text = tile.product.productName;
     updateStorage.subType.level = "5";
-    updateStorage.subType.imgUrl = tile.product.productImages[0].imageUrl;
+    updateStorage.subType.imgUrl = tile.product.mainImageSrc;
     window.localStorage['levelSelections'] = JSON.stringify(updateStorage);
     window.localStorage['selectedProduct'] = JSON.stringify(tile);
     this.route.navigateByUrl("/view-product")

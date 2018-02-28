@@ -109,7 +109,7 @@
                 <p class="colorlightGray">style perferences</p>
               </div>
               <img src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_myAc" *ngIf="loader_Interest" />
-              <button class="col-sm-6 text-right p-2 colorred txtasbutton cursor" (click)="appendInput($event, 'interest')">change</button>
+              <button class="col-sm-6 text-right p-2 colorred txtasbutton cursor changeInterestBtn" (click)="appendInput($event, 'interest')">change</button>
               <div class="col-sm-12 p-2 text-right interestImagesMyAc" *ngFor="let interest of myAccountModel.profileInfo.consumerInterests">
                 <img (click)="selectInterest($event, interest)" style="cursor: pointer" src="{{interest.consumerInterestImagePath}}" title="{{interest.consumerInterestImageName}}" id="{{interest.id}}" />
                 <img class="aboluteImg" src="/consumer-app/assets/images/select.png" *ngIf="interest.selectImg" />

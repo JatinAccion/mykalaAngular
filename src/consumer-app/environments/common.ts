@@ -22,7 +22,8 @@ export const apiNames = {
         myAccountLocation: 'address',
         myAccountDOB: 'dateOfBirth',
         myAccountInterest: 'consumerInterst',
-        review: 'review'
+        review: 'review',
+        getProductReviews: 'productReview'
     },
     products: {
         getPlaces: 'places',
