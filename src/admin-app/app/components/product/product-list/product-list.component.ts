@@ -46,13 +46,13 @@ export class ProductListComponent implements OnInit {
   subCategorySettings = {};
   productTypeSettings = {};
   isCollapsed = true;
-  bulkUploadView=false;
+  bulkUploadView = false;
   constructor(private productService: ProductService, private retialerService: RetialerService, route: ActivatedRoute) {
     this.products = new Products();
     this.sourceId = route.snapshot.params['id'];
-if (this.sourceId) {
-this.bulkUploadView=true;
-}
+    if (this.sourceId) {
+      this.bulkUploadView = true;
+    }
   }
 
   ngOnInit() {
@@ -150,22 +150,17 @@ this.bulkUploadView=true;
   onSubCategoryDeSelectAll(items: any) { this.refreshProductTypes(); }
 
   getRetailersData() {
-    this.retialerService.get(null).subscribe((res) => {
-      return this.retailers = res.content;
+    this.productService.getSellerNames().subscribe((res) => {
+      return this.retailers = res;
     });
   }
   getPage(page: number) {
     this.loading = true;
 
-    // const searchParams = {
-    //   page: page - 1, size: 10, sortOrder: 'asc', elementType: 'createdDate', productStatus: null, productPlaceName: '', productCategoryName: '', productSubCategoryName: '', retailerId: null
-    // };
-
     const searchParams = {
-      page: page - 1, size: 10, sortOrder: 'asc', elementType: 'createdDate', productName: this.productName, productStatus: [], productPlaceName: [], productCategoryName: [], productSubCategoryName: [], retailerId: [], sourceId: this.sourceId
+      page: page - 1, size: 10, sortOrder: 'asc', elementType: 'createdDate,DESC', productName: this.productName, productStatus: [], productPlaceName: [], productCategoryName: [], productSubCategoryName: [], retailerId: [], sourceId: this.sourceId
     };
-    searchParams.productStatus = [this.productStatus || true];
-    // if (this.productStatus) { searchParams.productStatus = [this.productStatus]; } else { searchParams.productStatus = [true]; }
+    if (this.productStatus === undefined) { delete searchParams.productStatus; } else { searchParams.productStatus = [this.productStatus]; }
     if (this.selectedPlaces.length > 0) { searchParams.productPlaceName = this.selectedPlaces.map(p => p.itemName); } else { delete searchParams.productPlaceName; }
     if (this.selectedCategories.length > 0) { searchParams.productCategoryName = this.selectedCategories.map(p => p.itemName); } else { delete searchParams.productCategoryName; }
     if (this.selectedSubCategories.length > 0) { searchParams.productSubCategoryName = this.selectedSubCategories.map(p => p.itemName); } else { delete searchParams.productSubCategoryName; }
@@ -183,35 +178,4 @@ this.bulkUploadView=true;
       return retailerId;
     }
   }
-
-
-
-
-
-
-
-
-  // placeChanged(event) {
-  //   this.categories = new Array<ProductCategory>();
-  //   this.subCategories = new Array<ProductSubCategory>();
-  //   delete this.productCategory;
-  //   delete this.productSubCategory;
-  //   this.getCategories();
-  // }
-  // getCategories() {
-  //   this.productService.getProductCategories([this.productPlace.PlaceId]).subscribe(res => {
-  //     this.categories = res;
-  //     this.getSubCategories();
-  //   });
-  // }
-  // categoryChanged(event) {
-  //   this.subCategories = new Array<ProductSubCategory>();
-  //   delete this.productSubCategory;
-  //   this.getSubCategories();
-  // }
-  // getSubCategories() {
-  //   this.productService.getProductSubCategories([this.productCategory.CategoryId]).subscribe(res => {
-  //     this.subCategories = res;
-  //   });
-  // }
 }

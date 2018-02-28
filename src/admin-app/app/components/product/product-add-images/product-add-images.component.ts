@@ -62,6 +62,7 @@ export class ProductAddImagesComponent implements OnInit {
       if (e.type === 4) {
         this.core.message.success(userMessages.success);
         this.product = new Product(JSON.parse(e.body));
+        this.productChange.emit(this.product);
         if (productImages.length > 1) {
           this.productImages = new Array<any>();
         }
@@ -110,6 +111,7 @@ export class ProductAddImagesComponent implements OnInit {
     this.productService.deleteImage(this.product.kalaUniqueId, id).subscribe(p => {
       this.core.message.success(userMessages.imageDeleted);
       this.product = p;
+      this.productChange.emit(this.product);
     });
   }
   markasMainImage(id) {
@@ -117,6 +119,7 @@ export class ProductAddImagesComponent implements OnInit {
     this.productService.markasMainImage(this.product.kalaUniqueId, id).subscribe(p => {
       this.core.message.success(userMessages.markasMainImage);
       this.product = p;
+      this.productChange.emit(this.product);
     });
   }
 }

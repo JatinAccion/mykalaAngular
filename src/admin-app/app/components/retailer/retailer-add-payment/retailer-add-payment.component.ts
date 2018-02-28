@@ -52,6 +52,7 @@ export class RetailerAddPaymentComponent implements OnInit {
     this.setFormValidators();
     if (this.retailerId) {
       this.getPaymentInfo(this.retailerId);
+      this.getProfileInfo(this.retailerId);
       this.paymentMethodChange();
       this.paymentVehicleChange();
     }
@@ -210,8 +211,15 @@ export class RetailerAddPaymentComponent implements OnInit {
         this.paymentInfoObj = new RetailerPaymentInfo(res);
       });
   }
+  getProfileInfo(retailerId: string) {
+    this.retialerService
+      .profileInfoGet(this.retailerId)
+      .subscribe((res: RetailerProfileInfo) => {
+        this.profileData = res;
+      });
+  }
   stripe() {
-    this.profileData.businessAddress.email = 'admin@newstore.com';
+    // this.profileData.businessAddress.email = 'admin@newstore.com';
     if (this.paymentInfoObj.stripeToken === undefined) {
       stripe.createToken('bank_account', {
         country: 'US',

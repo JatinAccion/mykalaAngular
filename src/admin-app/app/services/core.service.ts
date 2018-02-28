@@ -59,4 +59,15 @@ export class CoreService {
   isZeroValue(subject: string): boolean {
     return /^0*$/.test(subject);
   }
+  /// pass key - tab or page or hash to set
+  /// pass value as tab name or page number
+  setUrl(key: string, value?: string) {
+    if (key && value) {
+      const locationHash = window.location.hash.split('/' + key)[0];
+      window.location.hash = locationHash + '/' + key + '/' + value;
+    }
+    if (key) {
+      window.location.hash = key;
+    }
+  }
 }

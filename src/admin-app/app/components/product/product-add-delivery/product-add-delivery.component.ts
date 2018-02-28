@@ -69,6 +69,7 @@ export class ProductAddDeliveryComponent implements OnInit {
           this.product.kalaUniqueId = this.productId;
           this.core.message.success(userMessages.success);
           this.saveLoader = false;
+          this.core.setUrl('product-add/' + this.productId);
           this.productChange.emit(this.product);
           this.SaveData.emit('tab-delivery');
         }, err => {

@@ -27,7 +27,9 @@ export class ProductUploadComponent implements OnInit {
   loading = false;
   page = 1;
   constructor(private productService: ProductService, public route: ActivatedRoute, private retialerService: RetialerService, public core: CoreService) {
-    this.page = route.snapshot.params['page'];
+    if (window.location.hash.indexOf('/page') > -1) {
+      this.page = route.snapshot.params['page'];
+    }
     if (!this.page) {
       this.page = 1;
     }
@@ -39,21 +41,17 @@ export class ProductUploadComponent implements OnInit {
   }
   getPage(page: number) {
     const searchParams = {
-      page: page - 1, size: 10, sortOrder: 'desc', elementType: 'createdDate'
+      page: page - 1, size: 10, sortOrder: 'desc', elementType: 'createdDate,DESC'
     };
     const locationHash = window.location.hash.split('/page')[0];
     window.location.hash = locationHash + '/page/' + page;
-    console.log(window.location.hash);
     this.productService.getUploadSummary(searchParams).subscribe(p => {
       this.data = p;
     });
   }
   upload() {
     this.productService.saveproductFiles(this.retailerId, this.productFiles).subscribe(event => {
-      // Via this API, you get access to the raw event stream.
-      // Look for upload progress events.
       if (event.type === HttpEventType.UploadProgress) {
-        // This is an upload progress event. Compute and show the % done:
         const percentDone = Math.round(100 * event.loaded / event.total);
         this.progress = percentDone;
         console.log(`File is ${percentDone}% uploaded.`);

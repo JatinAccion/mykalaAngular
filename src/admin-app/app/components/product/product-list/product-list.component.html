@@ -112,7 +112,7 @@
                                     <th>Deactivate</th>
                                     <th>Delete</th>
                                     <th colspan="2" class="text-right" *ngIf="!bulkUploadView" >
-                                        <a class="btn btn-default"  href="#">Edit Product</a>
+                                        <a class="btn btn-default"  [routerLink]="['../product-edit', product.kalaUniqueId]">Edit Product</a>
                                     </th>
                                 </tr>
                             </thead>

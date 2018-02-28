@@ -29,7 +29,7 @@ export class UserListComponent implements OnInit {
     });
   }
   userFilter(username) {
-    return this.users.filter(p => p.username.indexOf(username) > 0);
+    return this.users.filter(p => p.username.indexOf(username) > -1);
   }
   deleteUser(user) {
     const msg = new Alert(userMessages.deleteConfirmation, 'Confirmation');

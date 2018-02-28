@@ -72,7 +72,7 @@ export class LoginComponent implements OnInit {
   onLogin() {
     this.loginError = false;
     this.loader = true;
-    this.user = new User(this.loginKala.controls.email.value.toLowerCase(), this.loginKala.controls.email.value.toLowerCase(), this.loginKala.controls.password.value)
+    this.user = new User(this.loginKala.controls.email.value.toLowerCase(), this.loginKala.controls.email.value.toLowerCase(), this.loginKala.controls.password.value);
     this.credentialModal.email = this.loginKala.controls.email.value.toLowerCase();
     this.credentialModal.password = window.btoa(this.loginKala.controls.password.value);
     this.credentialModal.remember = this.loginKala.controls.remember.value;
@@ -82,9 +82,13 @@ export class LoginComponent implements OnInit {
       this.localStorageService.setItem('token', `${resJson.token_type} ${resJson.access_token}`, resJson.expires_in);
       this.auth.getUserInfo(resJson.access_token).subscribe(usr => {
         this.loader = false;
-        window.localStorage['userInfo'] = JSON.stringify(usr);
-        this.core.setUser(usr);
-        this.router.navigateByUrl('/retailer-list');
+        if (usr.roleName && usr.roleName.length > 0 && usr.roleName.indexOf('admin') > -1) {
+          window.localStorage['userInfo'] = JSON.stringify(usr);
+          this.core.setUser(usr);
+          this.router.navigateByUrl('/retailer-list');
+        } else {
+          this.loginError = true;
+        }
       }, err => {
         console.log(err);
       });
