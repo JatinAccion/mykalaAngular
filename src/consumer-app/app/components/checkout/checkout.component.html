@@ -167,7 +167,8 @@
               <div class="col-3 pl-4">Shipping Method</div>
               <div class="col-5">
                 <span class="plain-select w-100">
-                  <select class="taxAmounts" (change)="selectShippingMethod($event.target.value, orders)">
+                  <select class="taxAmounts" (focus)="getSelectedValue($event.target.value)" (change)="selectShippingMethod($event, $event.target.value, orders)">
+                    <option value selected disabled>Please select a method</option>
                     <option value="${{shippingMethod.deliveryFee}} - {{shippingMethod.deliveryMethodName}}" *ngFor="let shippingMethod of shippingMethod.deliveryMethods">
                       ${{shippingMethod.deliveryFee}} - {{shippingMethod.deliveryMethodName}}
                     </option>
@@ -183,7 +184,8 @@
             <div class="col-3 pl-4">Shipping Method</div>
             <div class="col-5">
               <span class="plain-select w-100">
-                <select class="taxAmounts" (change)="selectShippingMethod($event.target.value, item)">
+                <select class="taxAmounts" (focus)="getSelectedValue($event.target.value)" (change)="selectShippingMethod($event, $event.target.value, item)">
+                  <option value selected disabled>Please select a method</option>
                   <option value="${{shippingMethod.deliveryFee}} - {{shippingMethod.deliveryMethodName}}" *ngFor="let shippingMethod of shippingMethod.deliveryMethods">
                     ${{shippingMethod.deliveryFee}} - {{shippingMethod.deliveryMethodName}}
                   </option>

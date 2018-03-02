@@ -15,6 +15,7 @@ import { MyAccountAddressModel } from '../../../../models/myAccountPost';
 import { OrderListing, Orders } from '../../../../models/orderListing';
 import { Order } from '../../../../models/order';
 import { filter } from 'rxjs/operator/filter';
+import animateScrollTo from 'animated-scroll-to';
 
 @Component({
   selector: 'app-checkout',
@@ -64,6 +65,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   finalShippingAmount: number;
   shippingLabels: string;
   shippingLabelsArr: Array<any>;
+  lastLabel: number;
 
   constructor(
     public core: CoreService,
@@ -336,24 +338,26 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selectedCardDetails = card;
   }
 
-  selectShippingMethod(value, item) {
+  getSelectedValue(value) {
+    this.lastLabel = parseFloat(value.split("-")[0].trim().split("$")[1].trim())
+  }
+
+  selectShippingMethod(e, value, item) {
     let amount = parseFloat(value.split("-")[0].trim().split("$")[1].trim());
     if (this.shippingLabelsArr == undefined) this.shippingLabelsArr = [];
     if (this.finalShippingAmount != undefined) {
       if (this.shippingLabelsArr.indexOf(value) > -1) {
-        this.finalShippingAmount = eval(`${this.finalShippingAmount - amount}`);
+        this.finalShippingAmount = eval(`${this.finalShippingAmount - this.lastLabel}`);
         this.finalShippingAmount = eval(`${this.finalShippingAmount + amount}`);
-        return false
       }
       else {
         this.shippingLabelsArr.push(value);
         this.finalShippingAmount = eval(`${this.finalShippingAmount + amount}`);
-        return false
       }
     }
     else {
       this.finalShippingAmount = amount;
-      this.shippingLabelsArr.push(value)
+      this.shippingLabelsArr.push(value);
     }
     this.selectedMethodDetails = value;
     if (item.productId != undefined) {
@@ -439,11 +443,23 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   chargeAmount() {
+    let proceed = false;
     if ((this.selectedAddressDetails || this.selectedCardDetails || this.selectedMethodDetails) == undefined) alert("Please select a Shipping Address, Shipping Method and a Card");
     else if (this.selectedAddressDetails == undefined) alert("Please select a Shipping Address");
     else if (this.selectedCardDetails == undefined) alert("Please select a Card");
-    else if (this.selectedMethodDetails == undefined) alert("Please select a Shipping Method")
-    else {
+    else if (this.selectedMethodDetails == undefined) alert("Please select a Shipping Method");
+    else if (this.selectedMethodDetails != undefined) {
+      var getAllSelects = document.getElementsByClassName("taxAmounts");
+      for (var i = 0; i < getAllSelects.length; i++) {
+        var selectedValue = getAllSelects[i] as HTMLSelectElement;
+        if (selectedValue.selectedIndex == 0) {
+          alert("Please select per product shipping methods");
+          return false
+        }
+      }
+      proceed = true
+    }
+    if (proceed == true) {
       this.ProductCheckoutModal.orderItems = [];
       this.loader_chargeAmount = true;
       this.ProductCheckoutModal.cutomerId = this.selectedCardDetails.customerId;
@@ -456,7 +472,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.ProductCheckoutModal.paymentFunding = this.selectedCardDetails.funding;
       this.ProductCheckoutModal.paymentSource = this.selectedCardDetails.cardType;
       this.ProductCheckoutModal.last4Digits = this.selectedCardDetails.last4Digit;
-      this.ProductCheckoutModal.totalShipCost = this.selectedMethodDetails.deliveryFee;
+      this.ProductCheckoutModal.totalShipCost = this.finalShippingAmount;
       this.ProductCheckoutModal.totalTaxCost = parseFloat(document.getElementsByClassName("totalTaxCost")[0].innerHTML);
       this.ProductCheckoutModal.purchasedPrice = parseFloat(this.totalAmountFromCart.toString());
       for (var i = 0; i < this.itemsInCart.length; i++) {
@@ -464,15 +480,15 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
         this.ProductCheckoutModal.orderItems.push(new OrderItems(item.productId, item.productName, item.retailerName, item.retailerId, item.productDescription, item.productImage, item.quantity, item.price, 20, item.shippingCost, eval(`${item.price * item.quantity}`), item.deliveryMethod))
       };
       console.log(this.ProductCheckoutModal);
-      // this.checkout.chargeAmount(this.ProductCheckoutModal).subscribe((res) => {
-      //   this.loader_chargeAmount = false;
-      //   this.paymentSuccessfullMsg = res;
-      //   localStorage.removeItem('existingItemsInCart');
-      //   this.route.navigateByUrl('/myorder');
-      // }, (err) => {
-      //   this.loader_chargeAmount = false;
-      //   alert("Something went wrong");
-      // })
+      this.checkout.chargeAmount(this.ProductCheckoutModal).subscribe((res) => {
+        this.loader_chargeAmount = false;
+        this.paymentSuccessfullMsg = res;
+        localStorage.removeItem('existingItemsInCart');
+        this.route.navigateByUrl('/myorder');
+      }, (err) => {
+        this.loader_chargeAmount = false;
+        alert("Something went wrong");
+      })
     }
   }
 
