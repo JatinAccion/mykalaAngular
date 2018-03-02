@@ -12,6 +12,9 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { ProductCheckout, Address, OrderItems } from '../../../../models/productCheckout';
 import { MyAccountAddressModel } from '../../../../models/myAccountPost';
+import { OrderListing, Orders } from '../../../../models/orderListing';
+import { Order } from '../../../../models/order';
+import { filter } from 'rxjs/operator/filter';
 
 @Component({
   selector: 'app-checkout',
@@ -27,9 +30,6 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   addShippingAddressForm: FormGroup;
   @ViewChild('cardInfo') cardInfo: ElementRef;
   @ViewChild('toBeCharged') toBeCharged: ElementRef;
-  @ViewChild('ModalBox') ModalBox: ElementRef;
-  @ViewChild('editAddressModal') editAddressModal: ElementRef;
-  @ViewChild('addNewAddressModal') addNewAddressModal: ElementRef;
   @ViewChild('retialerReturnModal') retialerReturnModal: ElementRef;
   AddressSaveModel = new MyAccountAddressModel();
   card: any;
@@ -59,6 +59,11 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   editShippingAddressFormWrapper: boolean = false;
   addShippingAddressFormWrapper: boolean = false;
   addressFormData: any;
+  retiailerShipIds = [];
+  filteredCartItems = [];
+  finalShippingAmount: number;
+  shippingLabels: string;
+  shippingLabelsArr: Array<any>;
 
   constructor(
     public core: CoreService,
@@ -81,6 +86,9 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.getCards();
     this.loadShippingAddress();
+    this.getRetailerIds();
+    this.filteritemsInCart();
+    this.filterShipiProfileId();
   }
 
   ngAfterViewInit() {
@@ -103,6 +111,95 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy() {
     this.card.removeEventListener('change', this.cardHandler);
     this.card.destroy();
+  }
+
+  getRetailerIds() {
+    this.itemsInCart.sort(function (a, b) {
+      var nameA = a.retailerName.toLowerCase(), nameB = b.retailerName.toLowerCase()
+      if (nameA < nameB) //sort string ascending
+        return -1
+      if (nameA > nameB)
+        return 1
+      return 0 //default return value (no sorting)
+    });
+    let hashTable = {};
+    let deduped = this.itemsInCart.filter(function (el) {
+      var key = JSON.stringify(el);
+      var match = Boolean(hashTable[key]);
+      return (match ? false : hashTable[key] = true);
+    });
+    this.itemsInCart = deduped;
+    for (var i = 0; i < this.itemsInCart.length; i++) {
+      this.retiailerShipIds.push({
+        retailerName: this.itemsInCart[i].retailerName,
+        retailerId: this.itemsInCart[i].retailerId,
+        shipProfileId: this.itemsInCart[i].shipProfileId
+      });
+    }
+  }
+
+  filteritemsInCart() {
+    let filterItems = new OrderListing();
+    let pushIt = false;
+    for (var i = 0; i < this.retiailerShipIds.length; i++) {
+      let retId = this.retiailerShipIds[i].retailerId;
+      for (var j = 0; j < this.itemsInCart.length; j++) {
+        let item = this.itemsInCart[j];
+        if (retId == item.retailerId) {
+          filterItems.differentShippingMethod = true;
+          filterItems.retailerId = item.retailerId;
+          filterItems.retailerName = item.retailerName;
+          filterItems.orderItems.push(new Orders(item.inStock, item.price, item.productDescription, item.productId, item.productImage, item.productName, item.quantity, item.shipProfileId))
+          pushIt = true;
+        }
+        else {
+          if (pushIt == true) {
+            this.filteredCartItems.push(filterItems);
+            pushIt = false;
+          }
+          filterItems = new OrderListing();
+        }
+      }
+    }
+    if (pushIt == true) {
+      this.filteredCartItems.push(filterItems);
+      pushIt = false;
+    }
+    //Remove Duplicates from Main Array
+    let hashTable = {};
+    let deduped = this.filteredCartItems.filter(function (el) {
+      var key = JSON.stringify(el);
+      var match = Boolean(hashTable[key]);
+      return (match ? false : hashTable[key] = true);
+    });
+    //Remove Duplicates from Main Array
+
+    //Remove Duplicates from Child Array
+    for (var i = 0; i < deduped.length; i++) {
+      deduped[i].orderItems = deduped[i].orderItems.filter((thing, index, self) =>
+        index === self.findIndex((t) => (
+          t.productId === thing.productId && t.productName === thing.productName
+        ))
+      )
+    }
+    //Remove Duplicates from Child Array
+    this.filteredCartItems = deduped;
+  }
+
+  filterShipiProfileId() {
+    let filteredItems = this.filteredCartItems;
+    for (var i = 0; i < filteredItems.length; i++) {
+      var countList = filteredItems[i].orderItems.reduce(function (p, c) {
+        p[c.shipProfileId] = (p[c.shipProfileId] || 0) + 1;
+        return p;
+      }, {});
+
+      var result = filteredItems[i].orderItems.filter(function (obj) {
+        if (countList[obj.shipProfileId] > 1) return filteredItems[i].differentShippingMethod = false;
+        else return filteredItems[i].differentShippingMethod = true;
+      });
+    }
+    this.filteredCartItems = filteredItems;
   }
 
   getCards() {
@@ -140,7 +237,6 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       addState: [''],
       addZipcode: ['']
     });
-    //this.open(this.addNewAddressModal, undefined, 'addNewAddress');
   }
 
   editAddress(address) {
@@ -154,7 +250,6 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       editZipcode: [address.zipcode]
     });
     this.addressFormData = address;
-    //this.open(this.editAddressModal, address, undefined);
   }
 
   addEditSave(addressForm, toDo) {
@@ -223,6 +318,10 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  getPerItemTotal(price, quantity) {
+    return eval(`${price * quantity}`);
+  }
+
   selectPayCard(e, card) {
     let allCards = document.getElementsByClassName("customerCards");
     for (var i = 0; i < allCards.length; i++) {
@@ -237,18 +336,45 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selectedCardDetails = card;
   }
 
-  selectShippingMethod(e, method) {
-    let allMethods = document.getElementsByClassName("customerShippingMethod");
-    for (var i = 0; i < allMethods.length; i++) {
-      if (allMethods[i].classList.contains("categ_outline_red")) {
-        allMethods[i].classList.remove("categ_outline_red");
-        allMethods[i].classList.add("categ_outline_gray");
+  selectShippingMethod(value, item) {
+    let amount = parseFloat(value.split("-")[0].trim().split("$")[1].trim());
+    if (this.shippingLabelsArr == undefined) this.shippingLabelsArr = [];
+    if (this.finalShippingAmount != undefined) {
+      if (this.shippingLabelsArr.indexOf(value) > -1) {
+        this.finalShippingAmount = eval(`${this.finalShippingAmount - amount}`);
+        this.finalShippingAmount = eval(`${this.finalShippingAmount + amount}`);
+        return false
+      }
+      else {
+        this.shippingLabelsArr.push(value);
+        this.finalShippingAmount = eval(`${this.finalShippingAmount + amount}`);
+        return false
       }
     }
-    let element = e.currentTarget;
-    element.classList.remove("categ_outline_gray");
-    element.classList.add("categ_outline_red");
-    this.selectedMethodDetails = method;
+    else {
+      this.finalShippingAmount = amount;
+      this.shippingLabelsArr.push(value)
+    }
+    this.selectedMethodDetails = value;
+    if (item.productId != undefined) {
+      for (var i = 0; i < this.itemsInCart.length; i++) {
+        if (item.productId == this.itemsInCart[i].productId) {
+          this.itemsInCart[i].deliveryMethod = value.split("-")[1].trim();
+          this.itemsInCart[i].shippingCost = parseFloat(value.split("-")[0].trim().split("$")[1].trim());
+        }
+      }
+    }
+    else {
+      for (var i = 0; i < item.orderItems.length; i++) {
+        let selectedItem = item.orderItems[i];
+        for (var j = 0; j < this.itemsInCart.length; j++) {
+          if (selectedItem.productId == this.itemsInCart[j].productId) {
+            this.itemsInCart[j].deliveryMethod = value.split("-")[1].trim();
+            this.itemsInCart[j].shippingCost = parseFloat(value.split("-")[0].trim().split("$")[1].trim());
+          }
+        }
+      }
+    }
   }
 
   onChange({ error }) {
@@ -335,18 +461,18 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.ProductCheckoutModal.purchasedPrice = parseFloat(this.totalAmountFromCart.toString());
       for (var i = 0; i < this.itemsInCart.length; i++) {
         let item = this.itemsInCart[i]
-        this.ProductCheckoutModal.orderItems.push(new OrderItems(item.productId, item.productName, item.retailerName, item.retailerId, item.productDescription,item.productImage, item.quantity, item.price, 20, 25, eval(`${item.price * item.quantity}`), this.selectedMethodDetails.deliveryMethodName))
+        this.ProductCheckoutModal.orderItems.push(new OrderItems(item.productId, item.productName, item.retailerName, item.retailerId, item.productDescription, item.productImage, item.quantity, item.price, 20, item.shippingCost, eval(`${item.price * item.quantity}`), item.deliveryMethod))
       };
       console.log(this.ProductCheckoutModal);
-      this.checkout.chargeAmount(this.ProductCheckoutModal).subscribe((res) => {
-        this.loader_chargeAmount = false;
-        this.paymentSuccessfullMsg = res;
-        localStorage.removeItem('existingItemsInCart');
-        this.route.navigateByUrl('/myorder');
-      }, (err) => {
-        this.loader_chargeAmount = false;
-        alert("Something went wrong");
-      })
+      // this.checkout.chargeAmount(this.ProductCheckoutModal).subscribe((res) => {
+      //   this.loader_chargeAmount = false;
+      //   this.paymentSuccessfullMsg = res;
+      //   localStorage.removeItem('existingItemsInCart');
+      //   this.route.navigateByUrl('/myorder');
+      // }, (err) => {
+      //   this.loader_chargeAmount = false;
+      //   alert("Something went wrong");
+      // })
     }
   }
 
@@ -355,43 +481,8 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.open(this.retialerReturnModal);
   }
 
-  open(content, editAddress?: any, addNewAddress?: string) {
+  open(content) {
     this.modalService.open(content).result.then((result) => {
-      //Editing Address
-      if (editAddress != undefined) {
-        for (var i = 0; i < this.shippingAddressCheckout.length; i++) {
-          if (this.shippingAddressCheckout[i].addID == editAddress.addID) {
-            this.shippingAddressCheckout[i].addressLineOne = this.editShippingAddressForm.controls.editAddressLineOne.value;
-            this.shippingAddressCheckout[i].addressLineTwo = this.editShippingAddressForm.controls.editAddressLineTwo.value;
-            this.shippingAddressCheckout[i].city = this.editShippingAddressForm.controls.editCity.value;
-            this.shippingAddressCheckout[i].state = this.editShippingAddressForm.controls.editState.value;
-            this.shippingAddressCheckout[i].zipcode = this.editShippingAddressForm.controls.editZipcode.value;
-          }
-        }
-        this.AddressSaveModel.emailId = this.userData.emailId;
-        this.AddressSaveModel.address = this.shippingAddressCheckout;
-        this.checkout.addEditShippingAddress(this.AddressSaveModel).subscribe((res) => {
-          window.localStorage['userInfo'] = JSON.stringify(res);
-          editAddress.addressLineOne = this.editShippingAddressForm.controls.editAddressLineOne.value;
-          editAddress.addressLineTwo = this.editShippingAddressForm.controls.editAddressLineTwo.value;
-          editAddress.city = this.editShippingAddressForm.controls.editCity.value;
-          editAddress.state = this.editShippingAddressForm.controls.editState.value;
-          editAddress.zipcode = this.editShippingAddressForm.controls.editZipcode.value;
-        }, (err) => {
-          console.log(err);
-        });
-      }
-      //Adding New Address
-      if (addNewAddress != undefined) {
-        this.shippingAddressCheckout.push(new CheckoutShippingAddress(null, this.addShippingAddressForm.controls.addAddressLineOne.value, this.addShippingAddressForm.controls.addAddressLineTwo.value, this.addShippingAddressForm.controls.addCity.value, this.addShippingAddressForm.controls.addState.value, this.addShippingAddressForm.controls.addZipcode.value, 'shippingAddress'))
-        this.AddressSaveModel.emailId = this.userData.emailId;
-        this.AddressSaveModel.address = this.shippingAddressCheckout;
-        this.checkout.addEditShippingAddress(this.AddressSaveModel).subscribe((res) => {
-          window.localStorage['userInfo'] = JSON.stringify(res);
-        }, (err) => {
-          console.log(err);
-        });
-      }
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;

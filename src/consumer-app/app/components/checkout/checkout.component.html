@@ -4,101 +4,106 @@
     <h2>Checkout</h2>
   </div>
 
-  <div class="row">
-    <div class="col-sm-7 checkout_layout">
-      <p class="colorlightGray p-0">Shipping address: </p>
-      <div class="row p-2">
-        <div class="col-sm-3 p-0">
-          <button (click)="addAddress()" class="ancRed txtasbutton cursor colorred">Add new address</button>
-        </div>
-        <div class="col-sm-9">
-          <div class="row mb-3" *ngFor="let address of shippingAddressCheckout">
-            <div class="col-sm-10">
-              <div class="categ_outline_gray customerShippingAddress" style="cursor:pointer" (click)="selectShippingAddress($event, address)">
-                {{address.addressLineOne}}, {{address.city}}, {{address.state}}, {{address.zipcode}}
-              </div>
-            </div>
-            <div class="col-sm-2 text-right">
-              <button (click)="editAddress(address)" class="ancRed txtasbutton cursor colorred">edit</button>
-            </div>
+  <!--Shipping Address and Payment-->
+  <div class="row p-2 backgroundWhite">
+    <!--Shipping Address-->
+    <div class="col-sm-4">
+      <div class="colorlightGray mb-3">Shipping address:</div>
+      <div class="row mb-3" *ngFor="let address of shippingAddressCheckout">
+        <div class="col-sm-10">
+          <div class="categ_outline_gray w-100 text-center customerShippingAddress" style="cursor:pointer" (click)="selectShippingAddress($event, address)">
+            {{address.addressLineOne}}, {{address.city}}, {{address.state}}, {{address.zipcode}}
           </div>
-          <!--Add Shipping Address-->
-          <form [formGroup]="addShippingAddressForm" *ngIf="addShippingAddressFormWrapper">
-            <div class="form-group">
-              <input type="text" formControlName="addAddressLineOne" class="form-control" placeholder="Address Line 1" />
-            </div>
-            <div class="form-group">
-              <input type="text" formControlName="addAddressLineTwo" class="form-control" placeholder="Address Line 2" />
-            </div>
-            <div class="form-group">
-              <input type="text" formControlName="addCity" class="form-control" placeholder="City" />
-            </div>
-            <div class="form-group">
-              <input type="text" formControlName="addState" class="form-control" placeholder="State" />
-            </div>
-            <div class="form-group">
-              <input onkeypress='return event.charCode >= 48 && event.charCode <= 57' type="number" formControlName="addZipcode" class="form-control" placeholder="Zipcode" />
-            </div>
-            <div class="form-group">
-              <button type="button" (click)="addEditSave(addShippingAddressForm, 'add')" class="btn btn_red_right">add</button>
-              <button type="button" (click)="cancelAddress(addShippingAddressForm, 'add')" class="btn btn_red_right">cancel</button>
-            </div>
-          </form>
-          <!--Add Shipping Address-->
-
-          <!--Edit Shipping Address-->
-          <form [formGroup]="editShippingAddressForm" *ngIf="editShippingAddressFormWrapper">
-            <div class="form-group">
-              <input type="text" formControlName="editAddressLineOne" class="form-control" placeholder="Address Line 1" />
-            </div>
-            <div class="form-group">
-              <input type="text" formControlName="editAddressLineTwo" class="form-control" placeholder="Address Line 2" />
-            </div>
-            <div class="form-group">
-              <input type="text" formControlName="editCity" class="form-control" placeholder="City" />
-            </div>
-            <div class="form-group">
-              <input type="text" formControlName="editState" class="form-control" placeholder="State" />
-            </div>
-            <div class="form-group">
-              <input onkeypress='return event.charCode >= 48 && event.charCode <= 57' type="number" formControlName="editZipcode" class="form-control" placeholder="Zipcode" />
-            </div>
-            <div class="form-group">
-              <button type="button" (click)="addEditSave(editShippingAddressForm, 'edit')" class="btn btn_red_right">save</button>
-              <button type="button" (click)="cancelAddress(editShippingAddressForm, 'edit')" class="btn btn_red_right">cancel</button>
-            </div>
-          </form>
-          <!--Edit Shipping Address-->
+        </div>
+        <div class="col-sm-2 text-right">
+          <button (click)="editAddress(address)" class="ancRed txtasbutton cursor colorred">edit</button>
         </div>
       </div>
-      <hr />
 
-      <!--Exsiting Cards-->
-      <div class="row p-2">
-        <div class="col-sm-3 p-0 colorlightGray">
-          <p>Payment method</p>
+      <!--Add Shipping Address-->
+      <form [formGroup]="addShippingAddressForm" *ngIf="addShippingAddressFormWrapper">
+        <div class="form-group">
+          <input type="text" formControlName="addAddressLineOne" class="form-control" placeholder="Address Line 1" />
         </div>
+        <div class="form-group">
+          <input type="text" formControlName="addAddressLineTwo" class="form-control" placeholder="Address Line 2" />
+        </div>
+        <div class="form-group">
+          <input type="text" formControlName="addCity" class="form-control" placeholder="City" />
+        </div>
+        <div class="form-group">
+          <input type="text" formControlName="addState" class="form-control" placeholder="State" />
+        </div>
+        <div class="form-group">
+          <input onkeypress='return event.charCode >= 48 && event.charCode <= 57' type="number" formControlName="addZipcode" class="form-control" placeholder="Zipcode" />
+        </div>
+        <div class="form-group">
+          <button type="button" (click)="addEditSave(addShippingAddressForm, 'add')" class="btn btn_red_right">add</button>
+          <button type="button" (click)="cancelAddress(addShippingAddressForm, 'add')" class="btn btn_red_right">cancel</button>
+        </div>
+      </form>
+      <!--Add Shipping Address-->
+
+      <!--Edit Shipping Address-->
+      <form [formGroup]="editShippingAddressForm" *ngIf="editShippingAddressFormWrapper">
+        <div class="form-group">
+          <input type="text" formControlName="editAddressLineOne" class="form-control" placeholder="Address Line 1" />
+        </div>
+        <div class="form-group">
+          <input type="text" formControlName="editAddressLineTwo" class="form-control" placeholder="Address Line 2" />
+        </div>
+        <div class="form-group">
+          <input type="text" formControlName="editCity" class="form-control" placeholder="City" />
+        </div>
+        <div class="form-group">
+          <input type="text" formControlName="editState" class="form-control" placeholder="State" />
+        </div>
+        <div class="form-group">
+          <input onkeypress='return event.charCode >= 48 && event.charCode <= 57' type="number" formControlName="editZipcode" class="form-control" placeholder="Zipcode" />
+        </div>
+        <div class="form-group">
+          <button type="button" (click)="addEditSave(editShippingAddressForm, 'edit')" class="btn btn_red_right">save</button>
+          <button type="button" (click)="cancelAddress(editShippingAddressForm, 'edit')" class="btn btn_red_right">cancel</button>
+        </div>
+      </form>
+      <!--Edit Shipping Address-->
+
+      <!-- <div class="colorred text-right">
+        <small>+ more</small>
+      </div> -->
+    </div>
+    <div class="col-sm-2 mt-2 pt-4 text-right borderRight">
+      <button (click)="addAddress()" class="ancRed txtasbutton cursor colorred">Add new address</button>
+    </div>
+    <!--Shipping Address-->
+
+    <!--Payment-->
+    <div class="col-sm-6 pl-4">
+      <div class="colorlightGray mb-3 ">Payment:</div>
+      <div class="row">
+        <!--Existing Cards-->
         <div class="col-sm-6">
           <div class="categ_outline_gray customerCards mr-2 mb-2" style="cursor:pointer" *ngFor="let card of getCardsDetails" (click)="selectPayCard($event, card)">
             {{card.cardType}} {{card.last4Digit}}
           </div>
           <img src="/consumer-app/assets/images/loader.gif" style="margin-left: 10px" *ngIf="loader_getCards" />
         </div>
-        <div class="col-sm-3">
+        <!--Existing Cards-->
+
+        <!--Add New Cards-->
+        <div class="col-sm-6">
           <div class="float-right pr-2 d-inline">
             <a (click)="addNewCard()" href="javascript:void(0)" class="ancRed">Add New Card</a>
           </div>
         </div>
+        <!--Add New Cards-->
       </div>
-      <!--Exsiting Cards-->
 
-      <!--Add New Cards-->
       <div class="row p-2" [hidden]="!addCard">
-        <div class="col-sm-3 p-0"></div>
-        <div class="col-sm-9">
-          <hr class="mt-0" />
+        <div class="col-sm-12 p-0">
+          <hr class="mt-1" />
           <div class="row">
-            <form #checkout="ngForm" (ngSubmit)="onSubmit(checkout)" class="checkout">
+            <form #checkout="ngForm" (ngSubmit)="onSubmit(checkout)" class="checkout pl-1 pr-1 pt-0 mt-0">
               <div class="form-row">
                 <div id="card-info" #cardInfo></div>
                 <div id="card-errors" role="alert" *ngIf="error">{{ error }}</div>
@@ -111,138 +116,132 @@
           </div>
         </div>
       </div>
-      <!--Add New Cards-->
-
-      <hr />
-
-      <div class="row p-2">
-        <div class="col-sm-3 p-0 colorlightGray">
-          <p>Shipping method</p>
-        </div>
-        <img src="/consumer-app/assets/images/loader.gif" height="25" width="25" class="ml-3" *ngIf="loader_shippingMethod" />
-        <div *ngIf="showShippingMethod" class="col-sm-8">
-          <div class="categ_outline_gray customerShippingMethod mb-3" style="cursor:pointer" *ngFor="let shippingMethod of shippingMethod.deliveryMethods" (click)="selectShippingMethod($event, shippingMethod)">
-            ${{shippingMethod.deliveryFee}} - {{shippingMethod.deliveryMethodName}}
-          </div>
-        </div>
-        <div class="col-sm-1"></div>
-      </div>
     </div>
+    <!--Payment-->
+    <hr />
+  </div>
+  <!--Shipping Address and Payment-->
 
-    <div class="col-sm-1">&nbsp;</div>
+  <!--Orders and Summary-->
+  <div class="row mt-2">
+    <!--Orders Details-->
+    <div class="col-sm-8 p-0 pr-2">
+      <div class="sellerProduct left mb-4 mt-3" *ngFor="let item of filteredCartItems">
+        <h5 class="colorlightGray">{{item.retailerName}}</h5>
+        <div class="p-2">
+          <div class="row pl-2">
+            <div class="col-sm-3">
+              <small>Item</small>
+            </div>
+            <div class="col-sm-5">
 
-    <!--Order Summary-->
-    <div class="col-sm-4 order_Summary_Rgt">
-      <h4 class="subtitle" style="padding: 0px 25px">Order summary:</h4>
-      <div class="row">
-        <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" id="orderSummaryAccordian">
-          <ngb-panel *ngFor="let item of itemsInCart | reverse">
-            <!--Title-->
-            <ng-template ngbPanelTitle>
-              <div class="row">
-                <div class="col-sm-3">
-                  <img [src]="item.productImage" class="img-fluid" />
-                </div>
-                <div class="col-sm-8" style="padding-left: 8px; margin-top: -4px">
-                  <b>{{item.productName}}</b>
+            </div>
+            <div class="col-sm-2 text-right pr-5">
+              <small>Quantity</small>
+            </div>
+            <div class="col-sm-2 text-left">
+              <small>Total</small>
+            </div>
+          </div>
+          <hr />
+          <div class="sellerProduct" *ngFor="let orders of item.orderItems">
+            <div class="row p-2">
+              <div class="col-sm-3">
+                <div class="prodImageContainer">
+                  <img [src]="orders.productImage" class="img-fluid" />
+                  <div class="checkoutPrice">
+                    <span>Price</span>
+                    <br />
+                    <span class="colorred" style="font-weight:bold">${{orders.price}}</span>
+                  </div>
                 </div>
               </div>
-            </ng-template>
-            <!--Title-->
-
-            <!--Content-->
-            <ng-template ngbPanelContent>
-              <table class="w-100">
-                <tr>
-                  <td width="35%" class="colorlightGray">Retailer</td>
-                  <td width="55%">{{item.retailerName}}</td>
-                </tr>
-                <tr>
-                  <td class="colorlightGray">Quantity</td>
-                  <td>{{item.quantity}}</td>
-                </tr>
-                <tr>
-                  <td class="colorlightGray">Price</td>
-                  <td>${{item.price}}</td>
-                </tr>
-                <tr>
-                  <td colspan="2" class="colorred" (click)="showRetailerReturns(item)">Return policy</td>
-                </tr>
-              </table>
-            </ng-template>
-            <!--Content-->
-          </ngb-panel>
-        </ngb-accordion>
+              <div class="col-sm-5">
+                <strong>{{orders.productName}}</strong>
+              </div>
+              <div class="col-sm-2 text-right pr-5">{{orders.quantity}}</div>
+              <div class="col-sm-2 text-left">${{getPerItemTotal(orders.price, orders.quantity)}}</div>
+            </div>
+            <!--If Shipping Methods are Different-->
+            <div class="row py-3" *ngIf="item.differentShippingMethod && this.selectedAddressDetails != undefined">
+              <div class="col-3 pl-4">Shipping Method</div>
+              <div class="col-5">
+                <span class="plain-select w-100">
+                  <select class="taxAmounts" (change)="selectShippingMethod($event.target.value, orders)">
+                    <option value="${{shippingMethod.deliveryFee}} - {{shippingMethod.deliveryMethodName}}" *ngFor="let shippingMethod of shippingMethod.deliveryMethods">
+                      ${{shippingMethod.deliveryFee}} - {{shippingMethod.deliveryMethodName}}
+                    </option>
+                  </select>
+                </span>
+              </div>
+              <div class="col-4"></div>
+            </div>
+            <!--If Shipping Methods are Different-->
+          </div>
+          <!--If Shipping Methods are same-->
+          <div class="row row pt-3 mt-3 mb-3" *ngIf="!item.differentShippingMethod && this.selectedAddressDetails != undefined">
+            <div class="col-3 pl-4">Shipping Method</div>
+            <div class="col-5">
+              <span class="plain-select w-100">
+                <select class="taxAmounts" (change)="selectShippingMethod($event.target.value, item)">
+                  <option value="${{shippingMethod.deliveryFee}} - {{shippingMethod.deliveryMethodName}}" *ngFor="let shippingMethod of shippingMethod.deliveryMethods">
+                    ${{shippingMethod.deliveryFee}} - {{shippingMethod.deliveryMethodName}}
+                  </option>
+                </select>
+              </span>
+            </div>
+            <div class="col-4"></div>
+          </div>
+          <!--If Shipping Methods are same-->
+        </div>
       </div>
-      <div class="row p-2">
-        <table id="paymentSummary">
+    </div>
+    <!--Orders Details-->
+
+    <!--Order Summary-->
+    <div class="col-sm-4 pr-0 mb-4 mt-3">
+      <div class="sellerProduct right checkOutSticky">
+        <h5 class="colorlightGray">Order Summary</h5>
+        <table class="w-100">
           <tr>
-            <td class="colorlightGray">Subtotal</td>
-            <td>$
+            <td width="60%" class="p-2 pl-3">Items Total : </td>
+            <td width="40%" class="p-2 pl-3"> $
               <span class="amount">{{totalAmountFromCart}}</span>
             </td>
           </tr>
           <tr>
-            <td class="colorlightGray">Shipping</td>
-            <td *ngIf="selectedMethodDetails != undefined">$
-              <span class="amount totalShipCost">{{selectedMethodDetails.deliveryFee}}</span>
+            <td class="p-2 pl-3">Shipping : </td>
+            <td class="p-2 pl-3" *ngIf="selectedMethodDetails != undefined"> $
+              <span class="amount totalShipCost">{{finalShippingAmount}}</span>
             </td>
           </tr>
           <tr>
-            <td class="colorlightGray">Tax</td>
-            <td>$
+            <td class="p-2 pl-3">Tax: </td>
+            <td class="p-2 pl-3"> $
               <span class="amount totalTaxCost">27.50</span>
             </td>
           </tr>
           <tr>
-            <td class="colorred">
-              <strong>Total</strong>
-            </td>
-            <td>
-              <strong class="colorred">$
-                <span #toBeCharged class="totalAmount">{{calculateTotalPayable()}}</span>
-              </strong>
+            <td class="p-2 pl-3">Payable Amount : </td>
+            <td class="p-2 pl-3"> $
+              <span #toBeCharged class="totalAmount">{{calculateTotalPayable()}}</span>
             </td>
           </tr>
         </table>
-      </div>
-      <hr />
-      <div class="col-sm-12 text-center">
-        <button (click)="chargeAmount()" class="btn btn_red_right w-100" [disabled]="core.hideUser">confirm</button>
-        <br />
-        <img src="/consumer-app/assets/images/loader.gif" class="mt-3 mb-2" *ngIf="loader_chargeAmount" />
-        <br />
-        <span *ngIf="core.hideUser" class="colorlightGray" style="font-size: 14px">Please login to continue</span>
+        <div class="p-3">
+          <button (click)="chargeAmount()" class="btn btn_red_right w-100" [disabled]="core.hideUser">confirm</button>
+          <br />
+          <img src="/consumer-app/assets/images/loader.gif" class="mt-3 mb-2" *ngIf="loader_chargeAmount" />
+          <br />
+          <span *ngIf="core.hideUser" class="colorlightGray" style="font-size: 14px">Please login to continue</span>
+        </div>
       </div>
     </div>
     <!--Order Summary-->
   </div>
+  <!--Orders and Summary-->
   <div class="clearfix">&nbsp;</div>
 </div>
-
-<!--Modal Payment Confirmation-->
-<ng-template #ModalBox let-c="close" class="modalBox" let-d="dismiss">
-  <div class="modal-header">
-    <h4 class="modal-title">Payment Confirmation</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body text-center">
-    <p>
-      "Your order is on it's way!"
-      <br />
-      <strong>
-        "Order Number -
-        <u>{{paymentSuccessfullMsg}}"</u>
-      </strong>
-    </p>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn_red_right" style="margin: 0 auto" (click)="c('Close click')">Close</button>
-  </div>
-</ng-template>
-<!--Modal Payment Confirmation-->
 
 <!--Retailer Returns Policy-->
 <ng-template #retialerReturnModal let-c="close" class="modalBox" let-d="dismiss">
@@ -262,69 +261,3 @@
   </div>
 </ng-template>
 <!--Retailer Returns Policy-->
-
-<!--Edit Shipping Address-->
-<ng-template #editAddressModal let-c="close" class="modalBox" let-d="dismiss">
-  <div class="modal-header">
-    <h4 class="modal-title">Edit Shipping Address</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body text-center">
-    <form [formGroup]="editShippingAddressForm">
-      <div class="form-group">
-        <input type="text" formControlName="editAddressLineOne" class="form-control" placeholder="Address Line 1" />
-      </div>
-      <div class="form-group">
-        <input type="text" formControlName="editAddressLineTwo" class="form-control" placeholder="Address Line 2" />
-      </div>
-      <div class="form-group">
-        <input type="text" formControlName="editCity" class="form-control" placeholder="City" />
-      </div>
-      <div class="form-group">
-        <input type="text" formControlName="editState" class="form-control" placeholder="State" />
-      </div>
-      <div class="form-group">
-        <input type="text" formControlName="editZipcode" class="form-control" placeholder="Zipcode" />
-      </div>
-    </form>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn_red_right" style="margin: 0 auto" (click)="c('Close click')">Save</button>
-  </div>
-</ng-template>
-<!--Edit Shipping Address-->
-
-<!--Add New Shipping Address-->
-<ng-template #addNewAddressModal let-c="close" class="modalBox" let-d="dismiss">
-  <div class="modal-header">
-    <h4 class="modal-title">Add Shipping Address</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body text-center">
-    <form [formGroup]="addShippingAddressForm">
-      <div class="form-group">
-        <input type="text" formControlName="addAddressLineOne" class="form-control" placeholder="Address Line 1" />
-      </div>
-      <div class="form-group">
-        <input type="text" formControlName="addAddressLineTwo" class="form-control" placeholder="Address Line 2" />
-      </div>
-      <div class="form-group">
-        <input type="text" formControlName="addCity" class="form-control" placeholder="City" />
-      </div>
-      <div class="form-group">
-        <input type="text" formControlName="addState" class="form-control" placeholder="State" />
-      </div>
-      <div class="form-group">
-        <input type="text" formControlName="addZipcode" class="form-control" placeholder="Zipcode" />
-      </div>
-    </form>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn_red_right" style="margin: 0 auto" (click)="c('Close click')">Add</button>
-  </div>
-</ng-template>
-<!--Add New Shipping Address-->
