@@ -25,28 +25,47 @@
         <!--Validation-->
     </div>
     <hr />
+    <div class="row">
+
+
+        <div class="form-group">
+            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(paymentFG1.controls.commissionRate)">Commission Rate</label>
+            <input type="text" class="form-control" placeholder="" pattern formControlName="commissionRate">
+            <!--Validation-->
+            <app-field-error-display [field]="paymentFG1.controls.commissionRate" [errorMsg]="errorMsgs"> </app-field-error-display>
+            <!--Validation-->
+        </div>
+        <div class="form-group">
+                <label class="control-label" [ngClass]="validatorExt.displayFieldCss(paymentFG1.controls.fixRate)">Fix Rate</label>
+                <input type="text" class="form-control" placeholder="" pattern formControlName="fixRate">
+                <!--Validation-->
+                <app-field-error-display [field]="paymentFG1.controls.fixRate" [errorMsg]="errorMsgs"> </app-field-error-display>
+                <!--Validation-->
+        </div>
+        <hr />
+    </div>
     <div class="form-group">
         <label class="control-label" [ngClass]="validatorExt.displayFieldCss(paymentFG1.controls.bankname)">Bank Name</label>
-        <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="" pattern formControlName="bankname">
+        <input type="text" class="form-control" placeholder="" pattern formControlName="bankname">
         <!--Validation-->
         <app-field-error-display [field]="paymentFG1.controls.bankname" [errorMsg]="errorMsgs"> </app-field-error-display>
         <!--Validation-->
     </div>
     <div class="form-group">
         <label class="control-label" [ngClass]="validatorExt.displayFieldCss(paymentFG1.controls.addressLine1)">Bank Address</label>
-        <input type="text" class="form-control" aria-describedby=" " placeholder="Address line 1" pattern formControlName="addressLine1">
+        <input type="text" class="form-control" placeholder="Address line 1" pattern formControlName="addressLine1">
         <!--Validation-->
         <app-field-error-display [field]="paymentFG1.controls.addressLine1" [errorMsg]="errorMsgs"> </app-field-error-display>
         <!--Validation-->
     </div>
     <div class="form-group">
-        <input type="text" class="form-control" aria-describedby=" " placeholder="Address line 2.(optional)" pattern formControlName="addressLine2">
+        <input type="text" class="form-control" placeholder="Address line 2.(optional)" pattern formControlName="addressLine2">
         <!--Validation-->
         <app-field-error-display [field]="paymentFG1.controls.addressLine2" [errorMsg]="errorMsgs"> </app-field-error-display>
         <!--Validation-->
     </div>
     <div class="form-group">
-        <input type="text" class="form-control" aria-describedby=" " placeholder="City" pattern formControlName="city">
+        <input type="text" class="form-control" placeholder="City" pattern formControlName="city">
         <!--Validation-->
         <app-field-error-display [field]="paymentFG1.controls.city" [errorMsg]="errorMsgs"> </app-field-error-display>
         <!--Validation-->
@@ -71,7 +90,9 @@
         </div>
     </div>
     <hr />
+
 </div>
+
 <div [formGroup]="paymentFG2" [ngClass]="{'show': paymentInfoStep==2, 'hide': paymentInfoStep!==2  }">
     <div class="form-group">
         <label class="control-label" [ngClass]="validatorExt.displayFieldCss(paymentFG2.controls.bankAccountName)">Account Name</label>
@@ -103,19 +124,19 @@
     </div>
     <div class="form-group">
         <label class="control-label" [ngClass]="validatorExt.displayFieldCss(paymentFG2.controls.addressLine1)">Retailer address on Account</label>
-        <input type="text" class="form-control" aria-describedby=" " placeholder="Address line 1" pattern formControlName="addressLine1">
+        <input type="text" class="form-control" placeholder="Address line 1" pattern formControlName="addressLine1">
         <!--Validation-->
         <app-field-error-display [field]="paymentFG2.controls.addressLine1" [errorMsg]="errorMsgs"> </app-field-error-display>
         <!--Validation-->
     </div>
     <div class="form-group">
-        <input type="text" class="form-control" aria-describedby=" " placeholder="Address line 2.(optional)" pattern formControlName="addressLine2">
+        <input type="text" class="form-control" placeholder="Address line 2.(optional)" pattern formControlName="addressLine2">
         <!--Validation-->
         <app-field-error-display [field]="paymentFG2.controls.addressLine2" [errorMsg]="errorMsgs"> </app-field-error-display>
         <!--Validation-->
     </div>
     <div class="form-group">
-        <input type="text" class="form-control" aria-describedby=" " placeholder="City" pattern formControlName="city">
+        <input type="text" class="form-control" placeholder="City" pattern formControlName="city">
         <!--Validation-->
         <app-field-error-display [field]="paymentFG2.controls.city" [errorMsg]="errorMsgs"> </app-field-error-display>
         <!--Validation-->

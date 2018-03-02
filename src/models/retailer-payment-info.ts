@@ -5,6 +5,8 @@ export class RetailerPaymentInfo {
     public retailerId: string;
     public paymentMethod: string;
     public paymentVehicle: string;
+    public commissionRate: string;
+    public fixRate: string;
     public bankName: string;
     public bankAccountName: string;
     public bankAccountNumber: string;
@@ -24,6 +26,8 @@ export class RetailerPaymentInfo {
             this.retailerId = obj.retailerId;
             this.paymentMethod = obj.paymentMethod;
             this.paymentVehicle = obj.paymentVehicle;
+            this.commissionRate = obj.commissionRate;
+            this.fixRate = obj.fixRate;
             this.bankName = obj.bankName;
             this.bankAccountName = obj.bankAccountName;
             this.bankAccountNumber = obj.bankAccountNumber;

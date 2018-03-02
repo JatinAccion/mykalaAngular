@@ -62,6 +62,8 @@ export class RetailerAddPaymentComponent implements OnInit {
     this.paymentFG1 = this.formBuilder.group({
       paymentMethod: [this.paymentData.paymentMethod, [Validators.required]],
       paymentVehicle: [this.paymentData.paymentVehicle, [Validators.required]],
+      commissionRate: [this.paymentData.commissionRate, [Validators.required]],
+      fixRate: [this.paymentData.fixRate, [Validators.required]],
       bankname: [this.paymentData.bankName, [Validators.pattern(environment.regex.textRegex), Validators.required]],
       addressLine1: [this.paymentData.bankAddress.addressLine1, [Validators.pattern(environment.regex.textRegex), Validators.required]],
       addressLine2: [this.paymentData.bankAddress.addressLine2, [Validators.pattern(environment.regex.textRegex)]],
@@ -176,6 +178,8 @@ export class RetailerAddPaymentComponent implements OnInit {
     this.paymentInfoObj.retailerId = this.retailerId;
     this.paymentInfoObj.paymentMethod = this.paymentFG1.value.paymentMethod;
     this.paymentInfoObj.paymentVehicle = this.paymentFG1.value.paymentVehicle;
+    this.paymentInfoObj.commissionRate = this.paymentFG1.value.commissionRate;
+    this.paymentInfoObj.fixRate = this.paymentFG1.value.fixRate;
     this.paymentInfoObj.bankName = this.paymentFG1.value.bankname;
 
     this.paymentInfoObj.bankAddress = this.paymentInfoObj.bankAddress || new BankAddress();

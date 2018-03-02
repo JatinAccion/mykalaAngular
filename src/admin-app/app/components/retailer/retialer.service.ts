@@ -398,7 +398,11 @@ export class RetialerService {
       .map(res => res.text())
       .catch(this.handleError);
   }
-
+  checkSellerName(sellerName: string): Promise<boolean> {
+    const url = `${this.BASE_URL}/${environment.apis.retailers.duplicateSellerName}`.replace('{sellerName}', sellerName);
+    return this.http.get(`${url}`, { headers: this.headers }).toPromise().then(p => p.json());
+    // return response.json();
+  }
   getStates(): Observable<MasterData> {
     if (this.states != null) {
       return Observable.of(this.states);

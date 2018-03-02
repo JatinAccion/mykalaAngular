@@ -11,7 +11,7 @@ import { NgbTabset } from '@ng-bootstrap/ng-bootstrap/tabset/tabset';
 import { environment } from '../../../../environments/environment';
 import { ValidatorExt, ValidateAllZeros } from '../../../../../common/ValidatorExtensions';
 import { inputValidations, userMessages } from './messages';
-import { templateJitUrl } from '@angular/compiler';
+import { templateJitUrl, identifierModuleUrl } from '@angular/compiler';
 import { CoreService } from '../../../services/core.service';
 import { SellerType } from '../../../../../models/retailer';
 // #endregion imports
@@ -43,7 +43,7 @@ export class RetailerAddProfileComponent implements OnInit {
   fileName = '';
   errorMsgs = inputValidations;
   profileSaveloader = false;
-
+  oldBusinessName: string;
   // #endregion declaration
   constructor(
     private formBuilder: FormBuilder,
@@ -63,6 +63,7 @@ export class RetailerAddProfileComponent implements OnInit {
   }
 
   setFormValidators() {
+    this.oldBusinessName = this.profileData.businessName;
     this.profileFG1 = this.formBuilder.group({
       profileImage: [''],
       fileName: [''],
@@ -210,10 +211,18 @@ export class RetailerAddProfileComponent implements OnInit {
   profileInfoBack() {
     this.profileInfoStep = 1;
   }
-  profileInfoSave() {
+
+  async profileInfoSave() {
     this.readProfileInfo();
     this.validatorExt.validateAllFormFields(this.profileFG1);
     this.validatorExt.validateAllFormFields(this.profileFG3);
+    if (!this.retailerId || this.oldBusinessName !== this.profileInfoObj.businessName) {
+      const nameTaken = await this.retialerService.checkSellerName(this.profileInfoObj.businessName);
+      if (nameTaken) {
+        this.core.message.error(userMessages.duplicateBusinessName);
+        return false;
+      }
+    }
     if (this.profileInfoObj.contactPerson.length === 0) {
       this.core.message.info(userMessages.noContacts);
       return;

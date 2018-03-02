@@ -6,6 +6,8 @@ export const userMessages = {
 export const inputValidations = {
     'paymentMethod': { required: 'Please select Payment Method', error: 'Please select valid Payment Method' },
     'paymentVehicle': { required: 'Please select Payment Vehicle', error: 'Please select valid Payment Vehicle' },
+    'commissionRate': { required: 'Please enter Commission Rate', error: 'Please enter valid Commission Rate' },
+    'fixRate': { required: 'Please enter Fix Rate', error: 'Please enter valid Fix Rate' },
     'bankname': { required: 'Please enter Bank name', error: 'Please enter valid Bank name' },
     'bankAccountName': { required: 'Please enter Account Name', error: 'Please enter valid Account Name' },
     'bankAccountNumber': { required: 'Please enter Account Number', error: 'Please enter valid Account Number' },

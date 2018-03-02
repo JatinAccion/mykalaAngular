@@ -201,11 +201,19 @@ export class ProductService {
       .map(res => <Array<any>>res.json().map(obj => new ProductType(obj)))
       .catch(this.handleError);
   }
+  guid() {
+    function s4() {
+      return Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
+    }
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+  }
   saveproductFiles(retailerId: string, files: Array<any>): Observable<any> {
     const formdata: FormData = new FormData();
     for (let i = 0; i < files.length; i++) {
       const element = files[i];
-      formdata.append('files', element.file, element.file.name);
+      formdata.append('files', element.file, element.file.name + this.guid());
     }
     // formdata.append('retailerId', retailerId);
 
@@ -233,6 +241,21 @@ export class ProductService {
     return this.http
       .delete(url, { headers: this.headers })
       .map(p => p.text())
+      .catch(this.handleError);
+  }
+  deleteProduct(productId: any) {
+    this.headers = this.getHttpHeraders();
+    const url = `${this.BASE_URL}/${environment.apis.product.delete}`.replace('{productId}', productId);
+    return this.http
+      .delete(url, { headers: this.headers })
+      .map(p => p.text())
+      .catch(this.handleError);
+  }
+  changeStatus(productId: string, status: boolean | null = true) {
+    const url = `${this.BASE_URL}/${environment.apis.product.changeStatus}`;
+    return this.http
+      .put(`${url}/${productId}/${status}`, { headers: this.headers })
+      .map(res => res.text())
       .catch(this.handleError);
   }
 }

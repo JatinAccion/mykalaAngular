@@ -20,7 +20,8 @@ export const apiNames = {
         getShippingProfileNames: '{retailerId}/shippingMethods',
         changeStatus: 'changeStatus',
         getRetailerNames: 'sellerNames',
-        getStates: 'states/name'
+        getStates: 'states/name',
+        duplicateSellerName: '{sellerName}/sellerName'
     },
     retailerProfileInfo: {
         get: '{retailerId}',
@@ -60,11 +61,12 @@ export const apiNames = {
     product: {
         get: 'products/filterBy',
         save: 'products/save',
+        delete: 'products/{productId}',
+        changeStatus: 'products/changeStatus',
         saveImage: 'products/images',
         markasMainImage: 'products/{productId}/images/{imageId}',
         deleteImage: 'products/{productId}/images/{imageId}',
         changeMainImage: 'products/changeMainImage',
-        delete: 'products/delete',
         places: 'products/places',
         categories: 'products/categoriesList',
         subCategories: 'products/subCategoriesList',

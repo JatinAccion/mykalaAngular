@@ -23,7 +23,6 @@ import { userMessages } from './messages';
   encapsulation: ViewEncapsulation.None
 })
 export class RetailerAddComponent implements OnInit {
-  tab: any;
   // #region declarations
   currentOrientation = 'vertial';
   currentJustify = 'end';
@@ -58,57 +57,45 @@ export class RetailerAddComponent implements OnInit {
     public core: CoreService
   ) {
     this.retailerId = route.snapshot.params['id'];
-    if (window.location.hash.indexOf('/tab') > -1) {
-      this.tab = route.snapshot.params['tab'];
-    }
   }
   ngOnInit() {
     this.retialerService.reset();
-    this.retialerService.profileData.subscribe(p =>
-      this.status.Profile = p.retailerId ? true : false
-    );
+    this.retialerService.profileData.subscribe(p => this.status.Profile = p.retailerId ? true : false);
     this.retialerService.paymentData.subscribe(p => this.status.Payment = p.retailerBankPaymentId ? true : false);
     this.retialerService.productData.subscribe(p => this.status.Product = p.status);
     this.retialerService.taxData.subscribe(p => this.status.Tax = p.taxNexusId ? true : false);
     this.retialerService.shippingsData.subscribe(p => this.status.Shipping = p.shippings.filter(q => q.shippingProfileId).length > 0 ? true : false);
-
     this.retialerService.returnData.subscribe(p => this.status.Return = p.shippingReturnId ? true : false);
     this.retialerService.notificationData.subscribe(p => this.status.Notifications = p.shippingNotificationsId ? true : false);
-    if (this.tab) {
-      this.setActiveTab({ nextId: this.tab });
-    } else {
-      this.setActiveTab({ nextId: 'tab-Profile' });
-    }
+    this.setActiveTab({ nextId: 'tab-Profile' });
     if (this.retailerId) {
       this.retialerService.loadRetailer(this.retailerId);
     }
   }
   setActiveTab(event) {
     if (!this.retailerId && event.nextId !== 'tab-Profile') {
-      this.core.setUrl('tab', 'tab-Profile');
       this.core.message.info(userMessages.profileNotSaved);
       event.preventDefault();
       return;
-    } 
-
+    }
   }
   showNextTab(prevTab) {
     if (this.retailerId) {
       switch (prevTab) {
-        case 'tab-Profile': this.ngbTabSet.select('tab-Payment'); this.core.setUrl('tab', 'tab-Profile'); break;
-        case 'tab-Payment': this.ngbTabSet.select('tab-Tax'); this.core.setUrl('tab', 'tab-Tax'); break;
-        case 'tab-Tax': this.ngbTabSet.select('tab-Product'); this.core.setUrl('tab', 'tab-Product'); break;
-        case 'tab-Product': this.ngbTabSet.select('tab-Shipping'); this.core.setUrl('tab', 'tab-Shipping'); break;
-        case 'tab-Shipping': this.ngbTabSet.select('tab-Return'); this.core.setUrl('tab', 'tab-Return'); break;
-        case 'tab-Return': this.ngbTabSet.select('tab-Notifications'); this.core.setUrl('tab', 'tab-Notifications'); break;
+        case 'tab-Profile': this.ngbTabSet.select('tab-Payment'); break;
+        case 'tab-Payment': this.ngbTabSet.select('tab-Tax'); break;
+        case 'tab-Tax': this.ngbTabSet.select('tab-Product'); break;
+        case 'tab-Product': this.ngbTabSet.select('tab-Shipping'); break;
+        case 'tab-Shipping': this.ngbTabSet.select('tab-Return'); break;
+        case 'tab-Return': this.ngbTabSet.select('tab-Notifications'); break;
         case 'tab-Notifications':
           switch (false) {
-            case this.status.Profile: this.ngbTabSet.select('tab-Profile'); this.core.setUrl('tab', 'tab-Profile'); break;
-            case this.status.Payment: this.ngbTabSet.select('tab-Payment'); this.core.setUrl('tab', 'tab-Payment'); break;
-            case this.status.Tax: this.ngbTabSet.select('tab-Tax'); this.core.setUrl('tab', 'tab-Tax'); break;
-            case this.status.Product: this.ngbTabSet.select('tab-Product'); this.core.setUrl('tab', 'tab-Product'); break;
-            case this.status.Shipping: this.ngbTabSet.select('tab-Shipping'); this.core.setUrl('tab', 'tab-Shipping'); break;
-            case this.status.Return: this.ngbTabSet.select('tab-Return'); this.core.setUrl('tab', 'tab-Return'); break;
+            case this.status.Profile: this.ngbTabSet.select('tab-Profile'); break;
+            case this.status.Payment: this.ngbTabSet.select('tab-Payment'); break;
+            case this.status.Tax: this.ngbTabSet.select('tab-Tax'); break;
+            case this.status.Product: this.ngbTabSet.select('tab-Product'); break;
+            case this.status.Shipping: this.ngbTabSet.select('tab-Shipping'); break;
+            case this.status.Return: this.ngbTabSet.select('tab-Return'); break;
             default:
               this.core.message.success(this.userMsgs.success);
               this.router.navigateByUrl('/retailer-list'); break;
@@ -117,5 +104,4 @@ export class RetailerAddComponent implements OnInit {
       }
     }
   }
-
 }

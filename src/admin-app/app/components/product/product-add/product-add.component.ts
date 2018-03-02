@@ -86,7 +86,7 @@ export class ProductAddComponent implements OnInit {
   }
   getRetailersData() {
     this.productService.getSellerNames().subscribe((res) => {
-      this.retailers = res;
+      this.retailers = res.filter(p => p.status === true || (this.product && this.product.retailerId ? p.retailerId === this.product.retailerId : false));
       this.setRetailerDropDown();
     });
   }

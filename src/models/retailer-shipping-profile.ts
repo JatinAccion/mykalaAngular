@@ -69,4 +69,5 @@ export class Location {
 export class RetailerDeliveryMethodFee {
     public deliveryMethodName: string;
     public deliveryFee: number;
+    public checkMethodStatus: boolean;
 }

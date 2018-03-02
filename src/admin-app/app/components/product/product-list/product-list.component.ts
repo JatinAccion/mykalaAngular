@@ -1,11 +1,13 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Products } from '../../../../../models/Product';
+import { Products, Product } from '../../../../../models/Product';
 import { ProductService } from '../product.service';
 import { ProductPlace, ProductCategory, ProductSubCategory } from '../../../../../models/product-info';
 import { RetialerService } from '../../retailer/retialer.service';
 import { RetailerProfileInfo } from '../../../../../models/retailer-profile-info';
 import { IdNameParent } from '../../../../../models/nameValue';
 import { ActivatedRoute } from '@angular/router';
+import { Alert } from '../../../../../models/IAlert';
+import { CoreService } from '../../../services/core.service';
 
 @Component({
   selector: 'app-product-list',
@@ -47,7 +49,7 @@ export class ProductListComponent implements OnInit {
   productTypeSettings = {};
   isCollapsed = true;
   bulkUploadView = false;
-  constructor(private productService: ProductService, private retialerService: RetialerService, route: ActivatedRoute) {
+  constructor(private productService: ProductService, private retialerService: RetialerService, route: ActivatedRoute, private core: CoreService) {
     this.products = new Products();
     this.sourceId = route.snapshot.params['id'];
     if (this.sourceId) {
@@ -158,7 +160,7 @@ export class ProductListComponent implements OnInit {
     this.loading = true;
 
     const searchParams = {
-      page: page - 1, size: 10, sortOrder: 'asc', elementType: 'createdDate,DESC', productName: this.productName, productStatus: [], productPlaceName: [], productCategoryName: [], productSubCategoryName: [], retailerId: [], sourceId: this.sourceId
+      page: page - 1, size: 10, sortOrder: 'asc', elementType: 'createdDate', productName: this.productName, productStatus: [], productPlaceName: [], productCategoryName: [], productSubCategoryName: [], retailerId: [], sourceId: this.sourceId
     };
     if (this.productStatus === undefined) { delete searchParams.productStatus; } else { searchParams.productStatus = [this.productStatus]; }
     if (this.selectedPlaces.length > 0) { searchParams.productPlaceName = this.selectedPlaces.map(p => p.itemName); } else { delete searchParams.productPlaceName; }
@@ -177,5 +179,28 @@ export class ProductListComponent implements OnInit {
     } else {
       return retailerId;
     }
+  }
+  delete(product: Product) {
+    const msg = new Alert('Are you sure?', 'Confirmation');
+    this.core.showDialog(msg).then(res => {
+      if (res === 'yes') {
+        this.productService.deleteProduct(product.kalaUniqueId).subscribe(p => {
+          this.core.message.success('deleted');
+          this.products.content.splice(this.products.content.indexOf(product), 1);
+          this.getPage(this.products.number + 1);
+        });
+      }
+    });
+  }
+  deactivate(product: Product) {
+    const msg = new Alert(product.productStatus ? 'userMessages.deactivate' : 'userMessages.reactivate', 'Confirmation');
+    this.core.showDialog(msg).then(res => {
+      if (res === 'yes') {
+        this.productService.changeStatus(product.kalaUniqueId, !product.productStatus).subscribe(p => {
+          this.core.message.success(product.productStatus ? 'userMessages.deactivateSuccess' : 'userMessages.reactivateSuccess');
+          product.productStatus = !product.productStatus;
+        });
+      }
+    });
   }
 }

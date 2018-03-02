@@ -9,7 +9,6 @@ export class ProductPlace {
             this.PlaceName = obj.placeName;
         }
     }
-    
 }
 export class ProductCategory extends ProductPlace {
     public CategoryId: string;
@@ -25,6 +24,9 @@ export class ProductCategory extends ProductPlace {
 export class ProductSubCategory extends ProductCategory {
     public SubCategoryId: string;
     public SubCategoryName: string;
+    public taxCode: string;
+    public isLastLevel: boolean;
+
     constructor(obj?: any) {
         if (obj) {
             super(obj);
@@ -36,6 +38,8 @@ export class ProductSubCategory extends ProductCategory {
 export class ProductType extends ProductSubCategory {
     public TypeId: string;
     public TypeName: string;
+    public taxCode: string;
+    public isLastLevel: boolean;
     constructor(obj?: any) {
         if (obj) {
             super(obj);

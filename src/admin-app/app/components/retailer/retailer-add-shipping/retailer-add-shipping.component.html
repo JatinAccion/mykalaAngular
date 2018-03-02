@@ -255,7 +255,10 @@
                                                     <div formArrayName="charges" class="row">
                                                         <div *ngFor="let chargeoption of option.get('charges').controls; let chargeId=index;" [formGroupName]="chargeId" class="col-md-6 p-2">
                                                             <div class="col-sm-12">
-                                                                {{chargeoption.value.tierName}}
+                                                                    <label>
+                                                                            <input type="checkbox" formControlName="checkMethodStatus"> {{chargeoption.value.tierName}}
+                                                                        </label>
+                                                                
                                                                 <!-- {{chargeId}} -->
                                                             </div>
                                                             <div class="col-sm-12">

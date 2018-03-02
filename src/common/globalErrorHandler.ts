@@ -12,7 +12,7 @@ export class GlobalErrorHandler extends ErrorHandler {
             console.log(`[CUSTOM ERROR]:::${error.originalError.toString()}`);
         } else {
             console.log('error');
-            super.handleError(error);
+            // super.handleError(error);
         }
     }
 }

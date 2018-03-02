@@ -77,7 +77,7 @@ export class ProductUploadComponent implements OnInit {
         this.productFiles.push({ file: file, mainImage: false });
         this.fileNames += '; ' + file.name;
         this.upload();
-
+        fileInput.target.value = '';
       }
     }
   }

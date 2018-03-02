@@ -169,10 +169,26 @@ export class RetailerAddShippingComponent implements OnInit {
     });
     if (this.shippingObj.deliveryTiers !== null) {
       this.shippingObj.deliveryTiers.forEach(ele => {
+        let deliveryMethod = new RetailerDeliveryMethodFee();
+        if (shippingName !== 'Custom' && ele.deliveryMethods && ele.deliveryMethods.filter(p => p.deliveryMethodName === shippingName).length > 0) {
+          deliveryMethod = ele.deliveryMethods.filter(p => p.deliveryMethodName === shippingName)[0];
+        }
+        if (shippingName === 'Custom' && ele.deliveryMethods && ele.deliveryMethods.length > 0) {
+          ele.deliveryMethods.forEach(p => {
+            if (p.deliveryMethodName !== userMessages.shippingMethods.Nextday1businessdayshipping &&
+              p.deliveryMethodName !== userMessages.shippingMethods.twoday2businessdayshipping &&
+              p.deliveryMethodName !== userMessages.shippingMethods.Express3to5businessdays &&
+              p.deliveryMethodName !== userMessages.shippingMethods.Standard5to8businessdays
+            ) {
+              deliveryMethod = p;
+            }
+          });
+          this.deliveryMethodCustomName = deliveryMethod.deliveryMethodName;
+        }
         (fg.get('charges') as FormArray).push(this.formBuilder.group({
           tierName: ele.tierName,
-          charge: [ele.deliveryMethods && ele.deliveryMethods[shippingMethodId] ? ele.deliveryMethods[shippingMethodId].deliveryFee : 0.00
-            , [Validators.min(0), Validators.max(10000), Validators.required]],
+          checkMethodStatus: [deliveryMethod.checkMethodStatus, [Validators.requiredTrue]],
+          charge: [deliveryMethod.deliveryFee, [Validators.min(0), Validators.max(10000), Validators.required]],
         }));
       });
     }
@@ -283,11 +299,16 @@ export class RetailerAddShippingComponent implements OnInit {
   validateShippingFG2() {
     return (this.shippingFG2.get('shippingMethods') as FormArray).controls.filter(p => p.get('selected').value == true).length > 0;
   }
+  validateUniqueShippingName() {
+    return this.shippings.shippings.filter(p => p.shippingProfileName === this.shippingObj.shippingProfileName && p.sequence !== this.shippingObj.sequence).length > 0;
+  }
   saveShipping() {
     this.readShipping();
     this.validatorExt.validateAllFormFields(this.shippingFG1);
     this.validatorExt.validateAllFormFields(this.shippingFG2);
     this.validatorExt.validateAllFormFields(this.shippingFG3);
+
+    if (this.validateUniqueShippingName()) { this.core.message.error(userMessages.duplicateShippingName); return false; }
 
     if (!this.shippingFG1.valid) { this.shippingObj.step = 1; } else
       if (!this.validateShippingFG2()) { this.shippingObj.step = 2; this.core.message.info(userMessages.noShippingmethodselected); } else
@@ -344,6 +365,8 @@ export class RetailerAddShippingComponent implements OnInit {
         if (subElement.value.shippingName === userMessages.shippingMethods.Custom) {
           fee.deliveryMethodName = this.deliveryMethodCustomName;
         }
+        fee.checkMethodStatus = (subElement.get('charges') as FormArray).length > tierSequence ?
+          (subElement.get('charges') as FormArray).at(tierSequence).value.checkMethodStatus : false;
         fee.deliveryFee = (subElement.get('charges') as FormArray).length > tierSequence ?
           (subElement.get('charges') as FormArray).at(tierSequence).value.charge : 0;
         deliveryTier.deliveryMethods.push(fee);
@@ -357,14 +380,14 @@ export class RetailerAddShippingComponent implements OnInit {
     return this.shippingObj;
   }
 
-  paymentOptionClick($event, ctrl) {
-    // ctrl.patchValue(ctrl.value);
-    const val = (this.shippingFG2.get('shippingMethods') as FormArray).controls[0].get('selected').value;
-    (this.shippingFG2.get('shippingMethods') as FormArray).controls[0].get('selected').patchValue(!val);
-    $event.stopPropagation();
-    $event.preventDefault();
-    // return false;
-  }
+  // paymentOptionClick($event, ctrl) {
+  //   // ctrl.patchValue(ctrl.value);
+  //   const val = (this.shippingFG2.get('shippingMethods') as FormArray).controls[0].get('selected').value;
+  //   (this.shippingFG2.get('shippingMethods') as FormArray).controls[0].get('selected').patchValue(!val);
+  //   $event.stopPropagation();
+  //   $event.preventDefault();
+  //   // return false;
+  // }
   setoptionSelected($event, index) {
     const val = (this.shippingFG2.get('shippingMethods') as FormArray).controls[index].get('selected').value;
     (this.shippingFG2.get('shippingMethods') as FormArray).controls[index].get('selected').patchValue(!val);
