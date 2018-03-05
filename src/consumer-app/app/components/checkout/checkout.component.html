@@ -82,16 +82,19 @@
       <div class="colorlightGray mb-3 ">Payment:</div>
       <div class="row">
         <!--Existing Cards-->
-        <div class="col-sm-6">
+        <div class="col-sm-8">
           <div class="categ_outline_gray customerCards mr-2 mb-2" style="cursor:pointer" *ngFor="let card of getCardsDetails" (click)="selectPayCard($event, card)">
             {{card.cardType}} {{card.last4Digit}}
+            <span (click)="deleteCard(card)" class="ml-2">
+              <i class="fa fa-times" aria-hidden="true"></i>
+            </span>
           </div>
           <img src="/consumer-app/assets/images/loader.gif" style="margin-left: 10px" *ngIf="loader_getCards" />
         </div>
         <!--Existing Cards-->
 
         <!--Add New Cards-->
-        <div class="col-sm-6">
+        <div class="col-sm-4">
           <div class="float-right pr-2 d-inline">
             <a (click)="addNewCard()" href="javascript:void(0)" class="ancRed">Add New Card</a>
           </div>

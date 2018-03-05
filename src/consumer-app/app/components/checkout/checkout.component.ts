@@ -212,7 +212,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       if (res.length > 0) {
         this.customerId = res[0].customerId;
         for (var i = 0; i < res.length; i++) {
-          this.getCardsDetails.push(new GetCustomerCards(res[i].userId, res[i].customerId, res[i].last4Digits, res[i].cardType, res[i].funding, res[i].cardHoldersName))
+          this.getCardsDetails.push(new GetCustomerCards(res[i].userId, res[i].customerId, res[i].last4Digits, res[i].cardType, res[i].funding, res[i].cardId, res[i].cardHoldersName))
         }
       }
     });
@@ -433,6 +433,13 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  deleteCard(card) {
+    this.loader_getCards = true;
+    this.checkout.deleteCard(card.customerId, card.cardId).subscribe((res) => {
+      this.getCards();
+    })
+  }
+
   calculateTotalPayable() {
     let amounts = [];
     let toBeCalculated = document.getElementsByClassName("amount");
@@ -474,7 +481,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.ProductCheckoutModal.last4Digits = this.selectedCardDetails.last4Digit;
       this.ProductCheckoutModal.totalShipCost = this.finalShippingAmount;
       this.ProductCheckoutModal.totalTaxCost = parseFloat(document.getElementsByClassName("totalTaxCost")[0].innerHTML);
-      this.ProductCheckoutModal.purchasedPrice = parseFloat(this.totalAmountFromCart.toString());
+      this.ProductCheckoutModal.purchasedPrice = parseFloat(this.toBeCharged.nativeElement.innerText);
       for (var i = 0; i < this.itemsInCart.length; i++) {
         let item = this.itemsInCart[i]
         this.ProductCheckoutModal.orderItems.push(new OrderItems(item.productId, item.productName, item.retailerName, item.retailerId, item.productDescription, item.productImage, item.quantity, item.price, 20, item.shippingCost, eval(`${item.price * item.quantity}`), item.deliveryMethod))

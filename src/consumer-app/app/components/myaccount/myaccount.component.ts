@@ -174,7 +174,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
       this.loader_Card = false;
       this.getCardsDetails = [];
       for (var i = 0; i < res.length; i++) {
-        this.getCardsDetails.push(new GetCustomerCards(res[i].userId, res[i].customerId, res[i].last4Digits, res[i].cardType, res[i].cardHoldersName))
+        this.getCardsDetails.push(new GetCustomerCards(res[i].userId, res[i].customerId, res[i].last4Digits, res[i].cardType, res[i].cardId, res[i].cardHoldersName))
       }
     });
   }

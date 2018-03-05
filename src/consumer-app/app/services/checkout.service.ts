@@ -27,7 +27,12 @@ export class CheckoutService {
 
     updateCard(stripeAddCard) {
         const url: string = `${this.BASE_URL_CARD}/${environment.apis.consumerCheckout.updateCard}`;
-        return this.http.put(url, stripeAddCard).map((res) => res.json());
+        return this.http.post(url, stripeAddCard).map((res) => res.json());
+    }
+
+    deleteCard(customerId, cardId) {
+        const url: string = `${this.BASE_URL_CARD}/${customerId}/${cardId}/${environment.apis.consumerCheckout.deleteCard}`;
+        return this.http.delete(url).map((res) => res.text());
     }
 
     chargeAmount(productCheckout) {
