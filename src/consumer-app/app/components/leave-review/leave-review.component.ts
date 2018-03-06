@@ -12,6 +12,7 @@ import { MyReviewService } from '../../services/review.service';
 })
 export class LeaveReviewComponent implements OnInit {
   userData: any;
+  uploadFile: any;
   requestReviewModel = new ReviewModel();
   productForReview: any;
   reviewContent: string;
@@ -40,6 +41,29 @@ export class LeaveReviewComponent implements OnInit {
     this.requestReviewModel.firstName = this.userData.firstName;
     this.requestReviewModel.lastName = this.userData.lastName;
   }
+
+  callUpload() {
+    this.uploadFile = document.getElementsByClassName('uploadImage');
+    this.uploadFile[0].click();
+  };
+
+  fileChangeEvent(fileInput: any) {
+    let image;
+    if (fileInput.target.files && fileInput.target.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function (e: any) {
+        image = e.target.result;
+        window.localStorage['image'] = image;
+      }
+
+      reader.readAsDataURL(fileInput.target.files[0]);
+      setTimeout(() => {
+        this.requestReviewModel.reviewImages = window.localStorage['image'];
+        localStorage.removeItem('image');
+      }, 500)
+    }
+  };
 
   selectRating(e) {
     this.requestReviewModel.rating = e.currentTarget.dataset.number;

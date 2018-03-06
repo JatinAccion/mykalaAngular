@@ -14,6 +14,7 @@ export class Orders {
         public productImage: string,
         public productName: string,
         public quantity: number,
-        public shipProfileId: string
+        public shipProfileId: string,
+        public taxCost: number
     ) { }
 }

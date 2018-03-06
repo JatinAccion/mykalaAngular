@@ -16,6 +16,7 @@ import { OrderListing, Orders } from '../../../../models/orderListing';
 import { Order } from '../../../../models/order';
 import { filter } from 'rxjs/operator/filter';
 import animateScrollTo from 'animated-scroll-to';
+import { AvalaraTaxModel, shippingAddress, ItemsTaxModel, ItemsTaxList, shippingOriginAddress } from '../../../../models/tax';
 
 @Component({
   selector: 'app-checkout',
@@ -26,6 +27,8 @@ import animateScrollTo from 'animated-scroll-to';
 export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   addCard: boolean = false;
   itemsInCart: any;
+  productTaxIIC: number;
+  avalaraTaxModel = new AvalaraTaxModel();
   totalAmountFromCart: number;
   editShippingAddressForm: FormGroup;
   addShippingAddressForm: FormGroup;
@@ -151,7 +154,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
           filterItems.differentShippingMethod = true;
           filterItems.retailerId = item.retailerId;
           filterItems.retailerName = item.retailerName;
-          filterItems.orderItems.push(new Orders(item.inStock, item.price, item.productDescription, item.productId, item.productImage, item.productName, item.quantity, item.shipProfileId))
+          filterItems.orderItems.push(new Orders(item.inStock, item.price, item.productDescription, item.productId, item.productImage, item.productName, item.quantity, item.shipProfileId, 0))
           pushIt = true;
         }
         else {
@@ -317,7 +320,44 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.shippingMethod = res.deliveryTiers[0];
       this.loader_shippingMethod = false;
       this.showShippingMethod = true;
+      this.getTax(address)
     });
+  }
+
+  getTax(address) {
+    let date = new Date();
+    this.avalaraTaxModel = new AvalaraTaxModel();
+    this.avalaraTaxModel.shipToAddress = new shippingAddress();
+    this.avalaraTaxModel.itemTax = new ItemsTaxModel();
+    this.avalaraTaxModel.deliveryLocation = address.state;
+    this.avalaraTaxModel.shipToAddress.addressLine1 = address.addressLineOne;
+    this.avalaraTaxModel.shipToAddress.city = address.city;
+    this.avalaraTaxModel.shipToAddress.state = address.state;
+    this.avalaraTaxModel.shipToAddress.zipcode = address.zipcode;
+    this.avalaraTaxModel.date = date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear();
+    this.avalaraTaxModel.customerCode = this.userData.userId;
+    for (var i = 0; i < this.filteredCartItems.length; i++) {
+      let item = this.filteredCartItems[i];
+      this.avalaraTaxModel.itemTax[item.retailerId] = new Array<ItemsTaxList>();
+      for (var j = 0; j < this.filteredCartItems[i].orderItems.length; j++) {
+        let order = this.filteredCartItems[i].orderItems[j]
+        this.avalaraTaxModel.itemTax[item.retailerId].push(new ItemsTaxList(0, order.quantity, order.price, order.productId, "P0000000", "", "", ""))
+      }
+    }
+    for (var keys in this.avalaraTaxModel.itemTax) {
+      for (var i = 0; i < this.avalaraTaxModel.itemTax[keys].length; i++) {
+        let key = this.avalaraTaxModel.itemTax[keys][i];
+        key.shippingOriginAddress = new shippingOriginAddress();
+        key.shippingOriginAddress.addressLine1 = address.addressLineOne;
+        key.shippingOriginAddress.addressLine2 = address.addressLineTwo;
+      }
+    }
+    console.log(this.avalaraTaxModel);
+    this.checkout.getTax(this.avalaraTaxModel).subscribe((res) => {
+      console.log(res);
+    }, (err) => {
+      console.log(err);
+    })
   }
 
   getPerItemTotal(price, quantity) {
@@ -471,6 +511,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.loader_chargeAmount = true;
       this.ProductCheckoutModal.cutomerId = this.selectedCardDetails.customerId;
       this.ProductCheckoutModal.userId = this.userData.userId;
+      this.ProductCheckoutModal.consumerEmail = this.userData.emailId;
       this.ProductCheckoutModal.customerName = this.userData.firstName + ' ' + this.userData.lastName;
       this.ProductCheckoutModal.address = new Address();
       this.ProductCheckoutModal.address = this.selectedAddressDetails;

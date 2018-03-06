@@ -51,4 +51,9 @@ export class CheckoutService {
         const url: string = `${BASE_URL}/${environment.apis.profileInterest.myAccountLocation}`;
         return this.http.post(url, AddressModel).map((res) => res.json());
     }
+
+    getTax(avalarataxModel) {
+        const url: string = `${this.BASE_URL_ORDER}/${environment.apis.consumerCheckout.getTax}`;
+        return this.http.post(url, avalarataxModel).map((res) => res.json());
+    }
 }

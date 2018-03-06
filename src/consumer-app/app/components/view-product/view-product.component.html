@@ -156,6 +156,11 @@
               <i class="fa fa-star starIcon" aria-hidden="true"></i>
             </span>
           </div>
+          <div class="star-rating mt-3 mb-2" *ngIf="reviews.reviewImages">
+            <span class="readReviewImage">
+              <img [src]="reviews.reviewImages" />
+            </span>
+          </div>
           <div class="colorlightGray">by
             <u>{{reviews.firstName}} {{reviews.lastName}}</u>
           </div>

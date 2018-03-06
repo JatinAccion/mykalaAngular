@@ -364,15 +364,22 @@ a:hover {
   color: #323946; }
 
 .hover_panel {
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-  width: 200px;
-  height: 100px;
-  background: rgba(151, 185, 69, 0.7);
-  padding: 10px;
-  visibility: hidden; 
-  z-index:100;
+    position: absolute;
+    bottom: 0%;
+    cursor: pointer;
+    margin: 1px 0px 0px;
+    left: 50%;
+    width: calc(100% - 20px);
+    height: auto;
+    background: rgba(151, 185, 69, 0.7);
+    padding: 10px;
+    visibility: hidden;
+    z-index: 100;
+    transform: translate(-50%, -8%);
+    -moz-transform: translate(-50%, -8%);
+    -webkit-transform: translate(-50%, -8%);
+    -o-transform: translate(-50%, -8%);
+    -ms-transform: translate(-50%, -8%);
 }
 
 .hover_panel h5 {
@@ -397,7 +404,8 @@ a:hover {
   font-weight: lighter; }
 
 .img_clutter > div:hover {
-  cursor: pointer; }
+  cursor: pointer; 
+}
 ng-sidebar-container[_nghost-c2]{
     z-index: 10;
 }
@@ -2604,6 +2612,28 @@ label{display:block}
     width: 150px;
     height: 150px;
     background: #fff; 
+    transition: .2s ease-in-out;
+    -moz-transition: .2s ease-in-out;
+    -webkit-transition: .2s ease-in-out;
+    -o-transition: .2s ease-in-out;
+    -ms-transition: .2s ease-in-out;
+}
+.prodImageContainer_xl{
+    width: 100%;
+    height: 300px;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    box-shadow: 0px 1px 1px #ccc;
+    -moz-box-shadow: 0px 1px 1px #ccc;
+    -webkit-box-shadow: 0px 1px 1px #ccc;
+    -o-box-shadow: 0px 1px 1px #ccc;
+    -ms-box-shadow: 0px 1px 1px #ccc;
+}
+.prodImageContainer_xl img{
+    width: calc(100% - 30%) !important;
 }
 .prodImageContainer img{
     position: absolute;
@@ -2630,4 +2660,42 @@ label{display:block}
 .sellerProduct:last-child{
     border-bottom: 0 !important;
     padding-bottom: 0;
+}
+.productImage:has(.tobeHidden){
+    display: none;
+}
+.reviewImageContainer{
+    display: inline-block;
+    width: 65px;
+    height: auto;
+    text-align: center;
+    margin-right: 10px;
+}
+.reviewImageContainer img{
+    max-width:100%; 
+}
+.readReviewImage{
+    display: inline-block;
+    padding: 5px;
+    box-sizing: border-box;
+    width: 120px;
+    height: 120px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    position: relative;
+    margin-right: 20px;
+}
+.readReviewImage img{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
 }

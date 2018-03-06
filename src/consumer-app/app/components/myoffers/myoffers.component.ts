@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CoreService } from '../../services/core.service';
 import { MyOffersService } from '../../services/myOffer.service';
 import { Router, RouterOutlet } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-myoffers',
@@ -14,6 +15,7 @@ export class MyoffersComponent implements OnInit {
   myOffersDetails = [];
   loader: boolean = false;
   startDate: {};
+  s3: any;
   remainingTime = 'Time';
 
   constructor(
@@ -30,6 +32,7 @@ export class MyoffersComponent implements OnInit {
     this.userData = JSON.parse(window.localStorage['userInfo']);
     localStorage.removeItem("offerIdForEdit");
     this.getOffers();
+    this.s3 = environment.s3;
   }
 
   getOffers() {

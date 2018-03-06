@@ -1,6 +1,7 @@
 export class ProductCheckout {
     public cutomerId: string;
     public userId: string;
+    public consumerEmail: string;
     public source: string;
     public paymentSource: string;
     public paymentFunding: string;
