@@ -176,13 +176,17 @@
                 <!--Add New Cards Form-->
                 <div class="row" [hidden]="!addCard">
                   <form #checkout="ngForm" (ngSubmit)="onSubmit(checkout)" class="checkout pl-1 pr-0 pb-0 pt-0 mt-0 mb-4">
-                    <div class="form-row">
+                    <div class="form-row" [hidden]="!addCard"> 
                       <div id="card-info" #cardInfo class="mt-0"></div>
+                      <div id="card-number" #cardNumber class="field empty"></div>
+                      <div id="card-expiry" #cardExpiry class="field empty third-width"></div>
+                      <div id="card-cvc" #cardCvc class="field empty third-width"></div>
+                      <div id="card-zip" #cardZip class="field empty third-width" placeholder="94107"></div>
                       <div id="card-errors" role="alert" *ngIf="error">{{ error }}</div>
                     </div>
                     <button type="submit" class="btn btn_red_right">add card</button>
                   </form>
-                </div>
+                </div>               
                 <!--Add New Cards Form-->
               </div>
               <button class="col-sm-2 text-right p-2 colorred txtasbutton cursor" (click)="addNewCard()">add</button>

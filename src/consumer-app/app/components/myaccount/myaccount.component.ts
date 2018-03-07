@@ -20,10 +20,19 @@ import { Router } from '@angular/router';
 export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   addCard: boolean = false;
   savedCardDetails: any;
-  card: any;
+  // card: any;
+  cardNumber: any;
+  cardExpiry: any;
+  cardCvc: any;
+  cardZip: any;
+
   error: string;
   cardHandler = this.onChange.bind(this);
   @ViewChild('cardInfo') cardInfo: ElementRef;
+  @ViewChild('cardNumber') cardNumberInfo: ElementRef;
+  @ViewChild('cardExpiry') cardExpiryInfo: ElementRef;
+  @ViewChild('cardCvc') cardCvcInfo: ElementRef;
+  @ViewChild('cardZip') cardZipInfo: ElementRef;
   getAPICP: any;
   stripeAddCard = new StripeAddCardModel();
   stripeCheckout = new StripeCheckoutModal();
@@ -112,25 +121,65 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    const style = {
+    const elementStyles = {
       base: {
-        lineHeight: '24px',
-        fontFamily: 'monospace',
+        color: '#000',
+        fontWeight: 600,
+        fontFamily: 'Quicksand, Open Sans, Segoe UI, sans-serif',
+        fontSize: '16px',
         fontSmoothing: 'antialiased',
-        fontSize: '19px',
+
+        ':focus': {
+          color: '#424770',
+        },
+
         '::placeholder': {
-          //color: 'purple'
-        }
-      }
+          color: '#9BACC8',
+        },
+
+        ':focus::placeholder': {
+          color: '#CFD7DF',
+        },
+      },
+      invalid: {
+        color: '#000',
+        ':focus': {
+          color: '#FA755A',
+        },
+        '::placeholder': {
+          color: '#FFCCA5',
+        },
+      },
     };
-    this.card = elements.create('card', { style });
-    this.card.mount(this.cardInfo.nativeElement);
-    this.card.addEventListener('change', this.cardHandler);
+
+    const elementClasses = {
+      focus: 'focus',
+      empty: 'empty',
+      invalid: 'invalid',
+    };
+    // this.card = elements.create('card', { style });
+    this.cardNumber = elements.create('cardNumber', { style: elementStyles, classes: elementClasses, });
+    this.cardExpiry = elements.create('cardExpiry', { style: elementStyles, classes: elementClasses, });
+    this.cardCvc = elements.create('cardCvc', { style: elementStyles, classes: elementClasses, });
+    this.cardZip = elements.create('postalCode', { style: elementStyles, classes: elementClasses, });
+
+    // this.card.mount(this.cardInfo.nativeElement);
+    this.cardNumber.mount(this.cardNumberInfo.nativeElement);
+    this.cardExpiry.mount(this.cardExpiryInfo.nativeElement);
+    this.cardCvc.mount(this.cardCvcInfo.nativeElement);
+    this.cardZip.mount(this.cardZipInfo.nativeElement);
+    // // this.card.addEventListener('change', this.cardHandler);
   }
 
   ngOnDestroy() {
-    this.card.removeEventListener('change', this.cardHandler);
-    this.card.destroy();
+    // this.card.removeEventListener('change', this.cardHandler);
+    // this.cardNumber.removeEventListener('change', this.cardHandler);
+    // this.cardExpiry.removeEventListener('change', this.cardHandler);
+    // this.cardCvc.removeEventListener('change', this.cardHandler);
+    // this.card.destroy();
+    this.cardNumber.destroy();
+    this.cardExpiry.destroy();
+    this.cardCvc.destroy();
   }
 
   ngOnInit() {
@@ -173,7 +222,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     this.myAccount.getCards(this.myAccountModel.userId).subscribe((res) => {
       this.loader_Card = false;
       this.getCardsDetails = [];
-      for (var i = 0; i < res.length; i++) {
+      for (let i = 0; i < res.length; i++) {
         this.getCardsDetails.push(new GetCustomerCards(res[i].userId, res[i].customerId, res[i].last4Digits, res[i].cardType, res[i].cardHoldersName))
       }
     });
@@ -185,12 +234,12 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
 
   async onSubmit(form: NgForm) {
     this.loader_Card = true;
-    const { token, error } = await stripe.createToken(this.card);
+    const { token, error } = await stripe.createToken(this.cardNumber);
     if (error) this.loader_Card = false;
     else {
       this.loader_Card = false;
-      this.card.removeEventListener('change', this.cardHandler);
-      this.card.destroy();
+      // this.card.removeEventListener('change', this.cardHandler);
+      // this.card.destroy();
       this.addCard = false;
       this.stripeAddCard.customer.email = this.myAccountModel.userData.emailId;
       this.stripeAddCard.customer.source = token.id;
@@ -213,7 +262,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
       }) === index);
 
       if (obj.selectImg == false) {
-        for (var i = 0; i < this.getInterest.length; i++) {
+        for (let i = 0; i < this.getInterest.length; i++) {
           if (this.getInterest[i].id == obj.id) this.getInterest.splice(i, 1)
         }
       }
@@ -233,12 +282,12 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     this.uploadFile = document.getElementsByClassName('uploadImage');
     this.uploadFile[0].click(e);
     let getText = document.getElementsByClassName("cursor");
-    for (var i = 0; i < getText.length; i++) getText[i].removeAttribute("disabled");
+    for (let i = 0; i < getText.length; i++) getText[i].removeAttribute("disabled");
   };
 
   fileChangeEvent(fileInput: any) {
     if (fileInput.target.files && fileInput.target.files[0]) {
-      var reader = new FileReader();
+      const reader = new FileReader();
 
       reader.onload = function (e: any) {
         window.localStorage['imagesPath'] = e.target.result;
@@ -279,7 +328,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
           input.removeAttribute('readonly');
           this.fetchGeoCode = data.results[0].formatted_address;
           let addProfileAddress: boolean = false;
-          for (var i = 0; i < this.myAccountModel.profileInfo.address.length; i++) {
+          for (let i = 0; i < this.myAccountModel.profileInfo.address.length; i++) {
             let address = this.myAccountModel.profileInfo.address[i]
             if (address.addressType == 'profileAddress') {
               address.city = this.fetchGeoCode.split(',')[0];
@@ -313,7 +362,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     else {
       let getText = document.getElementsByClassName("cursor");
-      for (var i = 0; i < getText.length; i++) {
+      for (let i = 0; i < getText.length; i++) {
         getText[i].setAttribute("disabled", "disabled");
         this.myAccountModel.profileInfo.consumerInterests = this.getAPICP.consumerInterests;
       }
@@ -343,9 +392,9 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
         this.myAccount.getInterest().subscribe(res => {
           this.getInterest = this.myAccountModel.profileInfo.consumerInterests;
           this.myAccountModel.profileInfo.consumerInterests = res;
-          for (var i = 0; i < this.getInterest.length; i++) {
+          for (let i = 0; i < this.getInterest.length; i++) {
             let id = this.getInterest[i].id;
-            for (var j = 0; j < this.myAccountModel.profileInfo.consumerInterests.length; j++) {
+            for (let j = 0; j < this.myAccountModel.profileInfo.consumerInterests.length; j++) {
               if (id == this.myAccountModel.profileInfo.consumerInterests[j].id) {
                 this.myAccountModel.profileInfo.consumerInterests[j].selectImg = true;
               }
@@ -366,7 +415,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
 
   removeInput(e, element, obj?: any) {
     let getText = document.getElementsByClassName("cursor");
-    for (var i = 0; i < getText.length; i++) getText[i].removeAttribute("disabled");
+    for (let i = 0; i < getText.length; i++) getText[i].removeAttribute("disabled");
     e.currentTarget.innerHTML = 'change';
     if (element == 'email') {
       this.loader_emailImage = true;
@@ -498,12 +547,12 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     this.addShippingAddress = !this.addShippingAddress;
     if (this.addShippingAddress) {
       let getText = document.getElementsByClassName("cursor");
-      for (var i = 0; i < getText.length; i++) getText[i].setAttribute("disabled", "disabled");
+      for (let i = 0; i < getText.length; i++) getText[i].setAttribute("disabled", "disabled");
       e.currentTarget.removeAttribute("disabled");
     }
     else {
       let getText = document.getElementsByClassName("cursor");
-      for (var i = 0; i < getText.length; i++) getText[i].removeAttribute("disabled");
+      for (let i = 0; i < getText.length; i++) getText[i].removeAttribute("disabled");
     }
   }
 
@@ -562,5 +611,4 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selectImg = false;
     if (obj != undefined) obj.input_shippingAddress = false;
   }
-
 }
