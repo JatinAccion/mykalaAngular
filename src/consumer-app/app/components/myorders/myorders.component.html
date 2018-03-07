@@ -57,16 +57,16 @@
             </div>
             <div class="row">
               <p class="col-sm-3 colorlightGray">{{order.deliveryMethod}}:</p>
-              <p class="col-sm-9">${{modal.totalShipCost}}</p>
+              <p class="col-sm-9">${{order.shippingCost}}</p>
             </div>
             <div class="row">
               <p class="col-sm-3 colorlightGray">Tax:</p>
-              <p class="col-sm-9">${{modal.totalTaxCost}}</p>
+              <p class="col-sm-9">${{order.productTaxCost}}</p>
             </div>
             <div class="row">
               <p class="col-sm-3 colorlightGray">Total:</p>
               <p class="col-sm-9">
-                <strong>${{getTotalCost(modal.totalShipCost, order.productPrice, modal.totalTaxCost)}}</strong>
+                <strong>${{getTotalCost(order.shippingCost, order.productPrice, order.productTaxCost)}}</strong>
               </p>
             </div>
             <div class="row">

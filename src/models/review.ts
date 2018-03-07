@@ -10,4 +10,5 @@ export class ReviewModel {
     public productId: string;
     public firstName: string;
     public lastName: string;
+    public reviewImages: string;
 }

@@ -5,6 +5,7 @@ export class GetCustomerCards {
         public last4Digit: string,
         public cardType: string,
         public funding: string,
-        public cardHolderName?: string
+        public cardId: string,
+        public cardHolderName?: string,
     ) { }
 }

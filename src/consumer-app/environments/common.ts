@@ -41,7 +41,9 @@ export const apiNames = {
         addCard: 'addCustomer',
         orderPayment: 'orderPayment',
         getCards: 'customerCards',
-        updateCard: 'updateCustomer'
+        updateCard: 'addMultipleCards',
+        deleteCard: 'deleteCard',
+        getTax: ''
     },
     shippingMethod: {
         method: 'retailer/v1'

@@ -12,6 +12,11 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { ProductCheckout, Address, OrderItems } from '../../../../models/productCheckout';
 import { MyAccountAddressModel } from '../../../../models/myAccountPost';
+import { OrderListing, Orders } from '../../../../models/orderListing';
+import { Order } from '../../../../models/order';
+import { filter } from 'rxjs/operator/filter';
+import animateScrollTo from 'animated-scroll-to';
+import { AvalaraTaxModel, shippingAddress, ItemsTaxModel, ItemsTaxList, shippingOriginAddress } from '../../../../models/tax';
 
 @Component({
   selector: 'app-checkout',
@@ -22,14 +27,13 @@ import { MyAccountAddressModel } from '../../../../models/myAccountPost';
 export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   addCard: boolean = false;
   itemsInCart: any;
+  productTaxIIC: number;
+  avalaraTaxModel = new AvalaraTaxModel();
   totalAmountFromCart: number;
   editShippingAddressForm: FormGroup;
   addShippingAddressForm: FormGroup;
   @ViewChild('cardInfo') cardInfo: ElementRef;
   @ViewChild('toBeCharged') toBeCharged: ElementRef;
-  @ViewChild('ModalBox') ModalBox: ElementRef;
-  @ViewChild('editAddressModal') editAddressModal: ElementRef;
-  @ViewChild('addNewAddressModal') addNewAddressModal: ElementRef;
   @ViewChild('retialerReturnModal') retialerReturnModal: ElementRef;
   AddressSaveModel = new MyAccountAddressModel();
   card: any;
@@ -59,6 +63,12 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   editShippingAddressFormWrapper: boolean = false;
   addShippingAddressFormWrapper: boolean = false;
   addressFormData: any;
+  retiailerShipIds = [];
+  filteredCartItems = [];
+  finalShippingAmount: number;
+  shippingLabels: string;
+  shippingLabelsArr: Array<any>;
+  lastLabel: number;
 
   constructor(
     public core: CoreService,
@@ -81,6 +91,9 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.getCards();
     this.loadShippingAddress();
+    this.getRetailerIds();
+    this.filteritemsInCart();
+    this.filterShipiProfileId();
   }
 
   ngAfterViewInit() {
@@ -105,6 +118,95 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.card.destroy();
   }
 
+  getRetailerIds() {
+    this.itemsInCart.sort(function (a, b) {
+      var nameA = a.retailerName.toLowerCase(), nameB = b.retailerName.toLowerCase()
+      if (nameA < nameB) //sort string ascending
+        return -1
+      if (nameA > nameB)
+        return 1
+      return 0 //default return value (no sorting)
+    });
+    let hashTable = {};
+    let deduped = this.itemsInCart.filter(function (el) {
+      var key = JSON.stringify(el);
+      var match = Boolean(hashTable[key]);
+      return (match ? false : hashTable[key] = true);
+    });
+    this.itemsInCart = deduped;
+    for (var i = 0; i < this.itemsInCart.length; i++) {
+      this.retiailerShipIds.push({
+        retailerName: this.itemsInCart[i].retailerName,
+        retailerId: this.itemsInCart[i].retailerId,
+        shipProfileId: this.itemsInCart[i].shipProfileId
+      });
+    }
+  }
+
+  filteritemsInCart() {
+    let filterItems = new OrderListing();
+    let pushIt = false;
+    for (var i = 0; i < this.retiailerShipIds.length; i++) {
+      let retId = this.retiailerShipIds[i].retailerId;
+      for (var j = 0; j < this.itemsInCart.length; j++) {
+        let item = this.itemsInCart[j];
+        if (retId == item.retailerId) {
+          filterItems.differentShippingMethod = true;
+          filterItems.retailerId = item.retailerId;
+          filterItems.retailerName = item.retailerName;
+          filterItems.orderItems.push(new Orders(item.inStock, item.price, item.productDescription, item.productId, item.productImage, item.productName, item.quantity, item.shipProfileId, 0))
+          pushIt = true;
+        }
+        else {
+          if (pushIt == true) {
+            this.filteredCartItems.push(filterItems);
+            pushIt = false;
+          }
+          filterItems = new OrderListing();
+        }
+      }
+    }
+    if (pushIt == true) {
+      this.filteredCartItems.push(filterItems);
+      pushIt = false;
+    }
+    //Remove Duplicates from Main Array
+    let hashTable = {};
+    let deduped = this.filteredCartItems.filter(function (el) {
+      var key = JSON.stringify(el);
+      var match = Boolean(hashTable[key]);
+      return (match ? false : hashTable[key] = true);
+    });
+    //Remove Duplicates from Main Array
+
+    //Remove Duplicates from Child Array
+    for (var i = 0; i < deduped.length; i++) {
+      deduped[i].orderItems = deduped[i].orderItems.filter((thing, index, self) =>
+        index === self.findIndex((t) => (
+          t.productId === thing.productId && t.productName === thing.productName
+        ))
+      )
+    }
+    //Remove Duplicates from Child Array
+    this.filteredCartItems = deduped;
+  }
+
+  filterShipiProfileId() {
+    let filteredItems = this.filteredCartItems;
+    for (var i = 0; i < filteredItems.length; i++) {
+      var countList = filteredItems[i].orderItems.reduce(function (p, c) {
+        p[c.shipProfileId] = (p[c.shipProfileId] || 0) + 1;
+        return p;
+      }, {});
+
+      var result = filteredItems[i].orderItems.filter(function (obj) {
+        if (countList[obj.shipProfileId] > 1) return filteredItems[i].differentShippingMethod = false;
+        else return filteredItems[i].differentShippingMethod = true;
+      });
+    }
+    this.filteredCartItems = filteredItems;
+  }
+
   getCards() {
     this.loader_getCards = true;
     this.checkout.getCards(this.userId).subscribe((res) => {
@@ -113,7 +215,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       if (res.length > 0) {
         this.customerId = res[0].customerId;
         for (var i = 0; i < res.length; i++) {
-          this.getCardsDetails.push(new GetCustomerCards(res[i].userId, res[i].customerId, res[i].last4Digits, res[i].cardType, res[i].funding, res[i].cardHoldersName))
+          this.getCardsDetails.push(new GetCustomerCards(res[i].userId, res[i].customerId, res[i].last4Digits, res[i].cardType, res[i].funding, res[i].cardId, res[i].cardHoldersName))
         }
       }
     });
@@ -140,7 +242,6 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       addState: [''],
       addZipcode: ['']
     });
-    //this.open(this.addNewAddressModal, undefined, 'addNewAddress');
   }
 
   editAddress(address) {
@@ -154,7 +255,6 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       editZipcode: [address.zipcode]
     });
     this.addressFormData = address;
-    //this.open(this.editAddressModal, address, undefined);
   }
 
   addEditSave(addressForm, toDo) {
@@ -220,7 +320,48 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.shippingMethod = res.deliveryTiers[0];
       this.loader_shippingMethod = false;
       this.showShippingMethod = true;
+      this.getTax(address)
     });
+  }
+
+  getTax(address) {
+    let date = new Date();
+    this.avalaraTaxModel = new AvalaraTaxModel();
+    this.avalaraTaxModel.shipToAddress = new shippingAddress();
+    this.avalaraTaxModel.itemTax = new ItemsTaxModel();
+    this.avalaraTaxModel.deliveryLocation = address.state;
+    this.avalaraTaxModel.shipToAddress.addressLine1 = address.addressLineOne;
+    this.avalaraTaxModel.shipToAddress.city = address.city;
+    this.avalaraTaxModel.shipToAddress.state = address.state;
+    this.avalaraTaxModel.shipToAddress.zipcode = address.zipcode;
+    this.avalaraTaxModel.date = date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear();
+    this.avalaraTaxModel.customerCode = this.userData.userId;
+    for (var i = 0; i < this.filteredCartItems.length; i++) {
+      let item = this.filteredCartItems[i];
+      this.avalaraTaxModel.itemTax[item.retailerId] = new Array<ItemsTaxList>();
+      for (var j = 0; j < this.filteredCartItems[i].orderItems.length; j++) {
+        let order = this.filteredCartItems[i].orderItems[j]
+        this.avalaraTaxModel.itemTax[item.retailerId].push(new ItemsTaxList(0, order.quantity, order.price, order.productId, "P0000000", "", "", ""))
+      }
+    }
+    for (var keys in this.avalaraTaxModel.itemTax) {
+      for (var i = 0; i < this.avalaraTaxModel.itemTax[keys].length; i++) {
+        let key = this.avalaraTaxModel.itemTax[keys][i];
+        key.shippingOriginAddress = new shippingOriginAddress();
+        key.shippingOriginAddress.addressLine1 = address.addressLineOne;
+        key.shippingOriginAddress.addressLine2 = address.addressLineTwo;
+      }
+    }
+    console.log(this.avalaraTaxModel);
+    this.checkout.getTax(this.avalaraTaxModel).subscribe((res) => {
+      console.log(res);
+    }, (err) => {
+      console.log(err);
+    })
+  }
+
+  getPerItemTotal(price, quantity) {
+    return eval(`${price * quantity}`);
   }
 
   selectPayCard(e, card) {
@@ -237,18 +378,47 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selectedCardDetails = card;
   }
 
-  selectShippingMethod(e, method) {
-    let allMethods = document.getElementsByClassName("customerShippingMethod");
-    for (var i = 0; i < allMethods.length; i++) {
-      if (allMethods[i].classList.contains("categ_outline_red")) {
-        allMethods[i].classList.remove("categ_outline_red");
-        allMethods[i].classList.add("categ_outline_gray");
+  getSelectedValue(value) {
+    this.lastLabel = parseFloat(value.split("-")[0].trim().split("$")[1].trim())
+  }
+
+  selectShippingMethod(e, value, item) {
+    let amount = parseFloat(value.split("-")[0].trim().split("$")[1].trim());
+    if (this.shippingLabelsArr == undefined) this.shippingLabelsArr = [];
+    if (this.finalShippingAmount != undefined) {
+      if (this.shippingLabelsArr.indexOf(value) > -1) {
+        this.finalShippingAmount = eval(`${this.finalShippingAmount - this.lastLabel}`);
+        this.finalShippingAmount = eval(`${this.finalShippingAmount + amount}`);
+      }
+      else {
+        this.shippingLabelsArr.push(value);
+        this.finalShippingAmount = eval(`${this.finalShippingAmount + amount}`);
       }
     }
-    let element = e.currentTarget;
-    element.classList.remove("categ_outline_gray");
-    element.classList.add("categ_outline_red");
-    this.selectedMethodDetails = method;
+    else {
+      this.finalShippingAmount = amount;
+      this.shippingLabelsArr.push(value);
+    }
+    this.selectedMethodDetails = value;
+    if (item.productId != undefined) {
+      for (var i = 0; i < this.itemsInCart.length; i++) {
+        if (item.productId == this.itemsInCart[i].productId) {
+          this.itemsInCart[i].deliveryMethod = value.split("-")[1].trim();
+          this.itemsInCart[i].shippingCost = parseFloat(value.split("-")[0].trim().split("$")[1].trim());
+        }
+      }
+    }
+    else {
+      for (var i = 0; i < item.orderItems.length; i++) {
+        let selectedItem = item.orderItems[i];
+        for (var j = 0; j < this.itemsInCart.length; j++) {
+          if (selectedItem.productId == this.itemsInCart[j].productId) {
+            this.itemsInCart[j].deliveryMethod = value.split("-")[1].trim();
+            this.itemsInCart[j].shippingCost = parseFloat(value.split("-")[0].trim().split("$")[1].trim());
+          }
+        }
+      }
+    }
   }
 
   onChange({ error }) {
@@ -303,6 +473,13 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  deleteCard(card) {
+    this.loader_getCards = true;
+    this.checkout.deleteCard(card.customerId, card.cardId).subscribe((res) => {
+      this.getCards();
+    })
+  }
+
   calculateTotalPayable() {
     let amounts = [];
     let toBeCalculated = document.getElementsByClassName("amount");
@@ -313,15 +490,28 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   chargeAmount() {
+    let proceed = false;
     if ((this.selectedAddressDetails || this.selectedCardDetails || this.selectedMethodDetails) == undefined) alert("Please select a Shipping Address, Shipping Method and a Card");
     else if (this.selectedAddressDetails == undefined) alert("Please select a Shipping Address");
     else if (this.selectedCardDetails == undefined) alert("Please select a Card");
-    else if (this.selectedMethodDetails == undefined) alert("Please select a Shipping Method")
-    else {
+    else if (this.selectedMethodDetails == undefined) alert("Please select a Shipping Method");
+    else if (this.selectedMethodDetails != undefined) {
+      var getAllSelects = document.getElementsByClassName("taxAmounts");
+      for (var i = 0; i < getAllSelects.length; i++) {
+        var selectedValue = getAllSelects[i] as HTMLSelectElement;
+        if (selectedValue.selectedIndex == 0) {
+          alert("Please select per product shipping methods");
+          return false
+        }
+      }
+      proceed = true
+    }
+    if (proceed == true) {
       this.ProductCheckoutModal.orderItems = [];
       this.loader_chargeAmount = true;
       this.ProductCheckoutModal.cutomerId = this.selectedCardDetails.customerId;
       this.ProductCheckoutModal.userId = this.userData.userId;
+      this.ProductCheckoutModal.consumerEmail = this.userData.emailId;
       this.ProductCheckoutModal.customerName = this.userData.firstName + ' ' + this.userData.lastName;
       this.ProductCheckoutModal.address = new Address();
       this.ProductCheckoutModal.address = this.selectedAddressDetails;
@@ -330,12 +520,12 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.ProductCheckoutModal.paymentFunding = this.selectedCardDetails.funding;
       this.ProductCheckoutModal.paymentSource = this.selectedCardDetails.cardType;
       this.ProductCheckoutModal.last4Digits = this.selectedCardDetails.last4Digit;
-      this.ProductCheckoutModal.totalShipCost = this.selectedMethodDetails.deliveryFee;
+      this.ProductCheckoutModal.totalShipCost = this.finalShippingAmount;
       this.ProductCheckoutModal.totalTaxCost = parseFloat(document.getElementsByClassName("totalTaxCost")[0].innerHTML);
-      this.ProductCheckoutModal.purchasedPrice = parseFloat(this.totalAmountFromCart.toString());
+      this.ProductCheckoutModal.purchasedPrice = parseFloat(this.toBeCharged.nativeElement.innerText);
       for (var i = 0; i < this.itemsInCart.length; i++) {
         let item = this.itemsInCart[i]
-        this.ProductCheckoutModal.orderItems.push(new OrderItems(item.productId, item.productName, item.retailerName, item.retailerId, item.productDescription,item.productImage, item.quantity, item.price, 20, 25, eval(`${item.price * item.quantity}`), this.selectedMethodDetails.deliveryMethodName))
+        this.ProductCheckoutModal.orderItems.push(new OrderItems(item.productId, item.productName, item.retailerName, item.retailerId, item.productDescription, item.productImage, item.quantity, item.price, 20, item.shippingCost, eval(`${item.price * item.quantity}`), item.deliveryMethod))
       };
       console.log(this.ProductCheckoutModal);
       this.checkout.chargeAmount(this.ProductCheckoutModal).subscribe((res) => {
@@ -355,43 +545,8 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.open(this.retialerReturnModal);
   }
 
-  open(content, editAddress?: any, addNewAddress?: string) {
+  open(content) {
     this.modalService.open(content).result.then((result) => {
-      //Editing Address
-      if (editAddress != undefined) {
-        for (var i = 0; i < this.shippingAddressCheckout.length; i++) {
-          if (this.shippingAddressCheckout[i].addID == editAddress.addID) {
-            this.shippingAddressCheckout[i].addressLineOne = this.editShippingAddressForm.controls.editAddressLineOne.value;
-            this.shippingAddressCheckout[i].addressLineTwo = this.editShippingAddressForm.controls.editAddressLineTwo.value;
-            this.shippingAddressCheckout[i].city = this.editShippingAddressForm.controls.editCity.value;
-            this.shippingAddressCheckout[i].state = this.editShippingAddressForm.controls.editState.value;
-            this.shippingAddressCheckout[i].zipcode = this.editShippingAddressForm.controls.editZipcode.value;
-          }
-        }
-        this.AddressSaveModel.emailId = this.userData.emailId;
-        this.AddressSaveModel.address = this.shippingAddressCheckout;
-        this.checkout.addEditShippingAddress(this.AddressSaveModel).subscribe((res) => {
-          window.localStorage['userInfo'] = JSON.stringify(res);
-          editAddress.addressLineOne = this.editShippingAddressForm.controls.editAddressLineOne.value;
-          editAddress.addressLineTwo = this.editShippingAddressForm.controls.editAddressLineTwo.value;
-          editAddress.city = this.editShippingAddressForm.controls.editCity.value;
-          editAddress.state = this.editShippingAddressForm.controls.editState.value;
-          editAddress.zipcode = this.editShippingAddressForm.controls.editZipcode.value;
-        }, (err) => {
-          console.log(err);
-        });
-      }
-      //Adding New Address
-      if (addNewAddress != undefined) {
-        this.shippingAddressCheckout.push(new CheckoutShippingAddress(null, this.addShippingAddressForm.controls.addAddressLineOne.value, this.addShippingAddressForm.controls.addAddressLineTwo.value, this.addShippingAddressForm.controls.addCity.value, this.addShippingAddressForm.controls.addState.value, this.addShippingAddressForm.controls.addZipcode.value, 'shippingAddress'))
-        this.AddressSaveModel.emailId = this.userData.emailId;
-        this.AddressSaveModel.address = this.shippingAddressCheckout;
-        this.checkout.addEditShippingAddress(this.AddressSaveModel).subscribe((res) => {
-          window.localStorage['userInfo'] = JSON.stringify(res);
-        }, (err) => {
-          console.log(err);
-        });
-      }
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;

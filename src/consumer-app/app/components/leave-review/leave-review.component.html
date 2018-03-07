@@ -21,12 +21,21 @@
           <i class="fa fa-star-o starIcon" style="cursor: pointer" (click)="selectRating($event)" data-number="5" aria-hidden="true"></i>
         </span>
       </div>
-      <div class="colorred">{{this.requestReviewModel.retailerName}} <br /><br /></div>
+      <div class="colorred">{{this.requestReviewModel.retailerName}}
+        <br />
+        <br />
+      </div>
       <textarea class="w-100" placeholder="Write your review here..." [(ngModel)]="reviewContent"></textarea>
       <div>
         <small class="colorlightGray">Please provide a minimum of 5 words in your review</small>
         <div class="float-right my-3">
-          <button class="btn-outer btn_redouter_right" disabled>add photos</button>
+          <!--Images Area-->
+          <input (change)="fileChangeEvent($event)" type="file" class="form-control uploadImage" />
+          <span class="reviewImageContainer" *ngIf="requestReviewModel.reviewImages">
+            <img [src]="requestReviewModel.reviewImages" />
+          </span>
+          <!--Images Area-->
+          <button class="btn-outer btn_redouter_right" (click)="callUpload()">add photos</button>
           <button style="cursor: pointer" class="btn-outer btn_red_right" (click)="postReview()">post your review</button>
           <img src="/consumer-app/assets/images/loader.gif" *ngIf="loader" />
         </div>

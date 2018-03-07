@@ -78,8 +78,11 @@
             <!--Right Product Listing-->
             <div class="col-sm-5 multi_scroll">
               <div class="row p-2" *ngFor="let product of offer.getOffersResponse">
-                <div class="col-sm-4 p-0">
-                  <img src="/consumer-app/assets/images/product1.png" class="img-fluid" />
+                <div class="col-sm-4 p-0 productImage" *ngFor="let image of product.product.productImages">
+                  <img *ngIf="image.mainImage;else hideDiv" src="{{s3}}{{image.location}}" class="img-fluid" />
+                  <ng-template #hideDiv>
+                    <span class="tobeHidden">other content...</span>
+                  </ng-template>
                 </div>
                 <div class="col-sm-8">
                   <p>
