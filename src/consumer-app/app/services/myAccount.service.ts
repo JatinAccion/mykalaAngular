@@ -30,6 +30,18 @@ export class MyAccountService {
         return this.http.post(url, stripeAddCard).map((res) => res.json());
     }
 
+    updateCard(stripeAddCard) {
+        const BASE_URL: string = environment.card;
+        const url: string = `${BASE_URL}/${environment.apis.consumerCheckout.updateCard}`;
+        return this.http.post(url, stripeAddCard).map((res) => res.json());
+    }
+
+    deleteCard(customerId, cardId) {
+        const BASE_URL: string = environment.card;
+        const url: string = `${BASE_URL}/${customerId}/${cardId}/${environment.apis.consumerCheckout.deleteCard}`;
+        return this.http.delete(url).map((res) => res.text());
+    }
+
     getInterest() {
         const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.getCatalogue}`;
         return this.http.get(url).map((res) => res.json());

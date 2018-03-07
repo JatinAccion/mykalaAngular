@@ -43,10 +43,10 @@ export const apiNames = {
         getCards: 'customerCards',
         updateCard: 'addMultipleCards',
         deleteCard: 'deleteCard',
-        getTax: ''
     },
     shippingMethod: {
-        method: 'retailer/v1'
+        method: 'retailer/v1',
+        getTax: 'tax/v1/productsTax'
     }
 };
 

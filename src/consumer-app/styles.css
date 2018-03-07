@@ -2266,7 +2266,9 @@ form.checkout button:active {
     -webkit-transition: box-shadow 150ms ease;
     transition: box-shadow 150ms ease;
 }
-  
+.StripeElement.invalid {
+    border:1px solid #fa755a;
+}  
 .StripeElement--focus {
     box-shadow: 0 1px 3px 0 #cfd7df;
 }

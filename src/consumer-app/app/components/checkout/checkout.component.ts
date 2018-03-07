@@ -16,7 +16,7 @@ import { OrderListing, Orders } from '../../../../models/orderListing';
 import { Order } from '../../../../models/order';
 import { filter } from 'rxjs/operator/filter';
 import animateScrollTo from 'animated-scroll-to';
-import { AvalaraTaxModel, shippingAddress, ItemsTaxModel, ItemsTaxList, shippingOriginAddress } from '../../../../models/tax';
+import { AvalaraTaxModel, shippingAddress, ItemsTaxModel, ItemsTaxList } from '../../../../models/tax';
 
 @Component({
   selector: 'app-checkout',
@@ -69,6 +69,14 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   shippingLabels: string;
   shippingLabelsArr: Array<any>;
   lastLabel: number;
+  cardNumber: any;
+  cardExpiry: any;
+  cardCvc: any;
+  cardZip: any;
+  @ViewChild('cardNumber') cardNumberInfo: ElementRef;
+  @ViewChild('cardExpiry') cardExpiryInfo: ElementRef;
+  @ViewChild('cardCvc') cardCvcInfo: ElementRef;
+  @ViewChild('cardZip') cardZipInfo: ElementRef;
 
   constructor(
     public core: CoreService,
@@ -97,25 +105,74 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    const style = {
+    // const style = {
+    //   base: {
+    //     lineHeight: '24px',
+    //     fontFamily: 'monospace',
+    //     fontSmoothing: 'antialiased',
+    //     fontSize: '19px',
+    //     '::placeholder': {
+    //       //color: 'purple'
+    //     }
+    //   }
+    // };
+    // this.card = elements.create('card', { style });
+    // this.card.mount(this.cardInfo.nativeElement);
+    // this.card.addEventListener('change', this.cardHandler);
+    const elementStyles = {
       base: {
-        lineHeight: '24px',
-        fontFamily: 'monospace',
+        color: '#000',
+        fontWeight: 600,
+        fontFamily: 'Quicksand, Open Sans, Segoe UI, sans-serif',
+        fontSize: '16px',
         fontSmoothing: 'antialiased',
-        fontSize: '19px',
+
+        ':focus': {
+          color: '#424770',
+        },
+
         '::placeholder': {
-          //color: 'purple'
-        }
-      }
+          color: '#9BACC8',
+        },
+
+        ':focus::placeholder': {
+          color: '#CFD7DF',
+        },
+      },
+      invalid: {
+        color: '#FA755A',
+        ':focus': {
+          color: '#FA755A'
+        },
+        '::placeholder': {
+          color: '#FFCCA5',
+        },
+      },
     };
-    this.card = elements.create('card', { style });
-    this.card.mount(this.cardInfo.nativeElement);
-    this.card.addEventListener('change', this.cardHandler);
+
+    const elementClasses = {
+      focus: 'focus',
+      empty: 'empty',
+      invalid: 'invalid',
+    };
+
+    this.cardNumber = elements.create('cardNumber', { style: elementStyles, classes: elementClasses, });
+    this.cardExpiry = elements.create('cardExpiry', { style: elementStyles, classes: elementClasses, });
+    this.cardCvc = elements.create('cardCvc', { style: elementStyles, classes: elementClasses, });
+    this.cardZip = elements.create('postalCode', { style: elementStyles, classes: elementClasses, });
+    this.cardNumber.mount(this.cardNumberInfo.nativeElement);
+    this.cardExpiry.mount(this.cardExpiryInfo.nativeElement);
+    this.cardCvc.mount(this.cardCvcInfo.nativeElement);
+    this.cardZip.mount(this.cardZipInfo.nativeElement);
   }
 
   ngOnDestroy() {
-    this.card.removeEventListener('change', this.cardHandler);
-    this.card.destroy();
+    // this.card.removeEventListener('change', this.cardHandler);
+    // this.card.destroy();
+    this.cardNumber.destroy();
+    this.cardExpiry.destroy();
+    this.cardCvc.destroy();
+    this.cardZip.destroy();
   }
 
   getRetailerIds() {
@@ -320,21 +377,22 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.shippingMethod = res.deliveryTiers[0];
       this.loader_shippingMethod = false;
       this.showShippingMethod = true;
-      this.getTax(address)
+      this.getTax(address, res.shippingOriginAddress)
     });
   }
 
-  getTax(address) {
+  getTax(address, toAddress) {
     let date = new Date();
     this.avalaraTaxModel = new AvalaraTaxModel();
     this.avalaraTaxModel.shipToAddress = new shippingAddress();
     this.avalaraTaxModel.itemTax = new ItemsTaxModel();
     this.avalaraTaxModel.deliveryLocation = address.state;
     this.avalaraTaxModel.shipToAddress.addressLine1 = address.addressLineOne;
+    this.avalaraTaxModel.shipToAddress.addressLine2 = address.addressLineTwo;
     this.avalaraTaxModel.shipToAddress.city = address.city;
     this.avalaraTaxModel.shipToAddress.state = address.state;
     this.avalaraTaxModel.shipToAddress.zipcode = address.zipcode;
-    this.avalaraTaxModel.date = date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear();
+    this.avalaraTaxModel.date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
     this.avalaraTaxModel.customerCode = this.userData.userId;
     for (var i = 0; i < this.filteredCartItems.length; i++) {
       let item = this.filteredCartItems[i];
@@ -347,9 +405,8 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     for (var keys in this.avalaraTaxModel.itemTax) {
       for (var i = 0; i < this.avalaraTaxModel.itemTax[keys].length; i++) {
         let key = this.avalaraTaxModel.itemTax[keys][i];
-        key.shippingOriginAddress = new shippingOriginAddress();
-        key.shippingOriginAddress.addressLine1 = address.addressLineOne;
-        key.shippingOriginAddress.addressLine2 = address.addressLineTwo;
+        key.shippingOriginAddress = new shippingAddress();
+        key.shippingOriginAddress = toAddress;
       }
     }
     console.log(this.avalaraTaxModel);
@@ -431,10 +488,19 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   async onSubmit(form: NgForm) {
+    this.error = null;
+    this.loader = false;
     if (this.userData === undefined) this.error = "Please login to add new card";
+    else if ((this.cardNumberInfo.nativeElement.classList.contains("invalid") || this.cardNumberInfo.nativeElement.classList.contains("empty"))
+      || (this.cardExpiryInfo.nativeElement.classList.contains("invalid") || this.cardExpiryInfo.nativeElement.classList.contains("empty"))
+      || (this.cardCvcInfo.nativeElement.classList.contains("invalid") || this.cardCvcInfo.nativeElement.classList.contains("empty"))
+      || (this.cardZipInfo.nativeElement.classList.contains("invalid") || this.cardZipInfo.nativeElement.classList.contains("empty"))) {
+      this.error = "All fields are mandatory";
+      return false;
+    }
     else {
       this.loader = true;
-      const { token, error } = await stripe.createToken(this.card);
+      const { token, error } = await stripe.createToken(this.cardNumber);
       if (error) this.loader = false;
       else {
         this.stripeAddCard.customer.email = this.userData.emailId;
@@ -455,13 +521,14 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
   addNewCard() {
     this.addCard = !this.addCard;
+    if (this.addCard) this.ngAfterViewInit();
+    else this.resetAddCard();
   }
 
   resetAddCard() {
     this.addCard = false;
     this.error = null;
-    this.card.removeEventListener('change', this.cardHandler);
-    this.card.destroy();
+    this.ngOnDestroy();
     this.ngAfterViewInit();
   }
 
@@ -474,10 +541,13 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   deleteCard(card) {
-    this.loader_getCards = true;
-    this.checkout.deleteCard(card.customerId, card.cardId).subscribe((res) => {
-      this.getCards();
-    })
+    let proceed = confirm("Are you sure you want to delete the card?");
+    if (proceed == true) {
+      this.loader_getCards = true;
+      this.checkout.deleteCard(card.customerId, card.cardId).subscribe((res) => {
+        this.getCards();
+      })
+    }
   }
 
   calculateTotalPayable() {

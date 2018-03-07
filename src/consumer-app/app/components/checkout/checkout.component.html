@@ -86,7 +86,7 @@
           <div class="categ_outline_gray customerCards mr-2 mb-2" style="cursor:pointer" *ngFor="let card of getCardsDetails" (click)="selectPayCard($event, card)">
             {{card.cardType}} {{card.last4Digit}}
             <span (click)="deleteCard(card)" class="ml-2">
-              <i class="fa fa-times" aria-hidden="true"></i>
+              <i title="delete card" class="fa fa-times" aria-hidden="true"></i>
             </span>
           </div>
           <img src="/consumer-app/assets/images/loader.gif" style="margin-left: 10px" *ngIf="loader_getCards" />
@@ -102,24 +102,24 @@
         <!--Add New Cards-->
       </div>
 
-      <div class="row p-2" [hidden]="!addCard">
-        <div class="col-sm-12 p-0">
-          <hr class="mt-1" />
-          <div class="row">
-            <form #checkout="ngForm" (ngSubmit)="onSubmit(checkout)" class="checkout pl-1 pr-1 pt-0 mt-0">
-              <div class="form-row">
-                <div id="card-info" #cardInfo></div>
-                <div id="card-errors" role="alert" *ngIf="error">{{ error }}</div>
-              </div>
-
-              <button type="submit" class="btn btn_red_right">add card</button>
-              <button type="button" (click)="resetAddCard()" class="btn-outer btn_redouter_right btn-outer-margin">cancel</button>
-              <img src="/consumer-app/assets/images/loader.gif" style="margin-left: 7px; margin-top: 7px" *ngIf="loader" />
-            </form>
+      <div class="row" [hidden]="!addCard">
+        <form #checkout="ngForm" (ngSubmit)="onSubmit(checkout)" class="checkout pl-1 pr-0 pb-0 pt-0 mt-0 mb-4">
+          <div class="form-row" [hidden]="!addCard">
+            <hr class="mb-4" />
+            <div id="card-info" #cardInfo class="mt-0"></div>
+            <div id="card-number" #cardNumber class="field empty"></div>
+            <div id="card-expiry" #cardExpiry class="field empty third-width"></div>
+            <div id="card-cvc" #cardCvc class="field empty third-width"></div>
+            <div id="card-zip" #cardZip class="field empty third-width" placeholder="ZIPCODE"></div>
+            <div id="card-errors" role="alert" *ngIf="error">{{ error }}</div>
           </div>
-        </div>
+          <button type="submit" class="btn btn_red_right">add card</button>
+          <button type="button" (click)="resetAddCard()" class="btn-outer btn_redouter_right btn-outer-margin">cancel</button>
+          <img src="/consumer-app/assets/images/loader.gif" style="margin-left: 7px; margin-top: 7px" *ngIf="loader" />
+        </form>
       </div>
     </div>
+
     <!--Payment-->
     <hr />
   </div>

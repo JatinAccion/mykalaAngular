@@ -7,6 +7,7 @@ import { environment } from '../../environments/environment';
 export class CheckoutService {
     private BASE_URL_ORDER: string = environment.checkout;
     private BASE_URL_CARD: string = environment.card;
+    private BASE_URL_RETAILER: string = environment.shippingMethod;
     constructor(private http: Http) { }
 
     addCard(stripeAddCard) {
@@ -53,7 +54,7 @@ export class CheckoutService {
     }
 
     getTax(avalarataxModel) {
-        const url: string = `${this.BASE_URL_ORDER}/${environment.apis.consumerCheckout.getTax}`;
+        const url: string = `${this.BASE_URL_RETAILER}/${environment.apis.shippingMethod.getTax}`;
         return this.http.post(url, avalarataxModel).map((res) => res.json());
     }
 }

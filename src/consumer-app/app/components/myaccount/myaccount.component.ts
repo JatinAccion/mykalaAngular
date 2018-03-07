@@ -47,6 +47,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   loader_Interest: boolean = false;
   loader_shippingAddress: boolean = false;
   loader_Card: boolean = false;
+  loader_addCard: boolean = false;
   myAccountModel = new MyAccountGetModel();
   imgS3: string;
   input_Email: boolean = false;
@@ -100,6 +101,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   DOBSaveModel = new MyAccountDOBModel();
   InterestSaveModel = new MyAccountInterestModel();
   getUserInfo: any;
+  customerId: string;
 
   constructor(
     public core: CoreService,
@@ -179,6 +181,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.card.destroy();
     this.cardNumber.destroy();
     this.cardExpiry.destroy();
+    this.cardZip.destroy();
     this.cardCvc.destroy();
   }
 
@@ -222,33 +225,75 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     this.myAccount.getCards(this.myAccountModel.userId).subscribe((res) => {
       this.loader_Card = false;
       this.getCardsDetails = [];
-      for (var i = 0; i < res.length; i++) {
-        this.getCardsDetails.push(new GetCustomerCards(res[i].userId, res[i].customerId, res[i].last4Digits, res[i].cardType, res[i].cardId, res[i].cardHoldersName))
+      if (res.length > 0) {
+        this.customerId = res[0].customerId;
+        for (var i = 0; i < res.length; i++) {
+          this.getCardsDetails.push(new GetCustomerCards(res[i].userId, res[i].customerId, res[i].last4Digits, res[i].cardType, res[i].funding, res[i].cardId, res[i].cardHoldersName))
+        }
       }
     });
   }
 
+  resetAddCard() {
+    this.addCard = false;
+    this.error = null;
+    this.ngOnDestroy();
+    this.ngAfterViewInit();
+  }
+
+  updateCard(stripeAddCard) {
+    this.myAccount.updateCard(stripeAddCard).subscribe((res) => {
+      this.loader_addCard = false;
+      this.resetAddCard();
+      this.getCard();
+    });
+  }
+
+  deleteCard(card) {
+    let proceed = confirm("Are you sure you want to delete the card?");
+    if (proceed == true) {
+      this.loader_Card = true;
+      this.myAccount.deleteCard(card.customerId, card.cardId).subscribe((res) => {
+        this.getCard();
+      })
+    }
+  }
+
   addNewCard() {
     this.addCard = !this.addCard;
+    if (this.addCard) this.ngAfterViewInit();
+    else this.resetAddCard();
   }
 
   async onSubmit(form: NgForm) {
-    this.loader_Card = true;
-    const { token, error } = await stripe.createToken(this.cardNumber);
-    if (error) this.loader_Card = false;
+    this.error = null;
+    this.loader_addCard = false;
+    if (this.getUserInfo === undefined) this.error = "Please login to add new card";
+    else if ((this.cardNumberInfo.nativeElement.classList.contains("invalid") || this.cardNumberInfo.nativeElement.classList.contains("empty"))
+      || (this.cardExpiryInfo.nativeElement.classList.contains("invalid") || this.cardExpiryInfo.nativeElement.classList.contains("empty"))
+      || (this.cardCvcInfo.nativeElement.classList.contains("invalid") || this.cardCvcInfo.nativeElement.classList.contains("empty"))
+      || (this.cardZipInfo.nativeElement.classList.contains("invalid") || this.cardZipInfo.nativeElement.classList.contains("empty"))) {
+      this.error = "All fields are mandatory";
+      return false;
+    }
     else {
-      this.loader_Card = false;
-      // this.card.removeEventListener('change', this.cardHandler);
-      // this.card.destroy();
-      this.addCard = false;
-      this.stripeAddCard.customer.email = this.myAccountModel.userData.emailId;
-      this.stripeAddCard.customer.source = token.id;
-      this.stripeAddCard.userId = this.myAccountModel.userId;
-      this.myAccount.addCard(this.stripeAddCard).subscribe((res) => {
-        this.savedCardDetails = res;
-        this.getCard();
-        this.ngAfterViewInit();
-      });
+      this.loader_addCard = true;
+      const { token, error } = await stripe.createToken(this.cardNumber);
+      if (error) this.loader_addCard = false;
+      else {
+        this.stripeAddCard.customer.email = this.getUserInfo.emailId;
+        this.stripeAddCard.customer.source = token.id;
+        this.stripeAddCard.userId = this.getUserInfo.userId;
+        this.stripeAddCard.customer.customerId = this.customerId;
+        if (this.getCardsDetails.length > 0) this.updateCard(this.stripeAddCard);
+        else {
+          this.myAccount.addCard(this.stripeAddCard).subscribe((res) => {
+            this.loader_addCard = false;
+            this.resetAddCard();
+            this.getCard();
+          });
+        }
+      }
     }
   }
 
