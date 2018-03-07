@@ -1,7 +1,10 @@
 export const userMessages = {
     success: 'Payment Info Saved',
-    error: '',
+    error: 'Not able to save',
     requiredFeilds: 'Please complete all mandatory fields',
+    stripe_token_created: 'Stripe token created',
+    stripe_integration_completed: 'Stripe integration completed',
+    stripe_integration_error: 'Stripe integration error'
 };
 export const inputValidations = {
     'paymentMethod': { required: 'Please select Payment Method', error: 'Please select valid Payment Method' },

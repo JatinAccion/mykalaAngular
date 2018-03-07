@@ -4,7 +4,7 @@ import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl } from
 import { Router, ActivatedRoute } from '@angular/router';
 import { nameValue } from '../../../../../models/nameValue';
 import { RetailerProfileInfo } from '../../../../../models/retailer-profile-info';
-import { RetailerBuinessAddress, PostalAddress } from '../../../../../models/retailer-business-adress';
+import { RetailerBusinessAddress, PostalAddress } from '../../../../../models/retailer-business-adress';
 import { RetailerContact } from '../../../../../models/retailer-contact';
 import { RetialerService } from '../retialer.service';
 import { NgbTabset } from '@ng-bootstrap/ng-bootstrap/tabset/tabset';
@@ -74,9 +74,9 @@ export class RetailerAddProfileComponent implements OnInit {
       bussines_address2: [this.profileData.businessAddress.addressLine2, [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
       city: [this.profileData.businessAddress.city, [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
       state: [this.profileData.businessAddress.state, [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
-      zipcode: [this.profileData.businessAddress.zipcode, [Validators.maxLength(5), Validators.minLength(5), Validators.pattern(environment.regex.numberRegex), Validators.required]],
+      zipcode: [this.profileData.businessAddress.zipcode, [Validators.maxLength(5), Validators.minLength(5), Validators.pattern(environment.regex.zipcodeRegex), Validators.required]],
       email: [this.profileData.businessAddress.email, [Validators.maxLength(255), Validators.pattern(environment.regex.emailRegex)]],
-      phone_number: [this.profileData.businessAddress.phoneNo, [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(environment.regex.numberRegex)]],
+      phone_number: [this.profileData.businessAddress.phoneNo, [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(environment.regex.phoneNumberRegex)]],
       sellerTypeId: [this.profileData.sellerTypeId, [Validators.required]]
     });
     this.profileFG3 = this.formBuilder.group({
@@ -93,9 +93,9 @@ export class RetailerAddProfileComponent implements OnInit {
       contact_address2: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
       contact_city: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex),]],
       contact_state: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex),]],
-      contact_zipcode: ['', [Validators.maxLength(5), Validators.minLength(5), Validators.pattern(environment.regex.numberRegex),]],
+      contact_zipcode: ['', [Validators.maxLength(5), Validators.minLength(5), Validators.pattern(environment.regex.zipcodeRegex),]],
       contact_email: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.emailRegex), Validators.required]],
-      contact_phone_number: ['', [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(environment.regex.numberRegex), Validators.required]],
+      contact_phone_number: ['', [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(environment.regex.phoneNumberRegex), Validators.required]],
       contactType: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
     });
     this.profileData.contactPerson.map(p => {
@@ -268,7 +268,7 @@ export class RetailerAddProfileComponent implements OnInit {
     this.profileInfoObj.websiteUserName = this.profileFG3.value.websiteUserName;
     this.profileInfoObj.websitePassword = this.profileFG3.value.websitePassword;
 
-    this.profileInfoObj.businessAddress = this.profileInfoObj.businessAddress || new RetailerBuinessAddress();
+    this.profileInfoObj.businessAddress = this.profileInfoObj.businessAddress || new RetailerBusinessAddress();
     this.profileInfoObj.businessAddress.addressLine1 = this.profileFG1.value.bussines_address;
     this.profileInfoObj.businessAddress.addressLine2 = this.profileFG1.value.bussines_address2;
     this.profileInfoObj.businessAddress.city = this.profileFG1.value.city;

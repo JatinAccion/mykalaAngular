@@ -33,8 +33,17 @@
                 <a routerLink="/forgot-password" class="colorlightGray">forgot password?</a>
             </small>
         </div>
+
         <div *ngIf="loginError" class="alert alert-danger errorMessages">
-            {{userMessages.error}}
+            {{loginUserMessage.error}}
+        </div>
+
+        <div *ngIf="userInactive" class="alert alert-danger errorMessages">
+            {{loginUserMessage.inactiveUser}}
+        </div>
+
+        <div *ngIf="unAuthorized" class="alert alert-danger errorMessages">
+            {{loginUserMessage.unAuthorized}}
         </div>
         <img src="/admin-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="loader" />
     </div>

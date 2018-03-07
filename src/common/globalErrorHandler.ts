@@ -11,7 +11,7 @@ export class GlobalErrorHandler extends ErrorHandler {
         if (error.originalError instanceof AuthorizationError) {
             console.log(`[CUSTOM ERROR]:::${error.originalError.toString()}`);
         } else {
-            console.log('error');
+            console.log('error' + error);
             // super.handleError(error);
         }
     }

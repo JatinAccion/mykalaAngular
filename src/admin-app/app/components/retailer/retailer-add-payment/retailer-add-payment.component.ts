@@ -12,6 +12,7 @@ import { RetailerPaymentInfo, RetailerBankAddress, BankAddress } from '../../../
 import { inputValidations, userMessages } from './messages';
 import { CoreService } from '../../../services/core.service';
 import { RetailerProfileInfo } from '../../../../../models/retailer-profile-info';
+import { StripePayment, TosAcceptance } from '../../../../../models/stripe-payment';
 
 
 
@@ -39,6 +40,7 @@ export class RetailerAddPaymentComponent implements OnInit {
   errorMsgs = inputValidations;
   paymentSaveloader = false;
   activateStripe = false;
+  stripeInegrated = false;
   // #endregion declaration
   constructor(
     private formBuilder: FormBuilder,
@@ -70,7 +72,7 @@ export class RetailerAddPaymentComponent implements OnInit {
       city: [this.paymentData.bankAddress.city, [Validators.pattern(environment.regex.textRegex), Validators.required]],
       state: [this.paymentData.bankAddress.state, [Validators.pattern(environment.regex.textRegex), Validators.required]],
       zipcode: [this.paymentData.bankAddress.zipcode, [Validators.maxLength(5), Validators.minLength(5),
-      Validators.pattern(environment.regex.numberRegex), Validators.required]]
+      Validators.pattern(environment.regex.zipcodeRegex), Validators.required]]
     });
     this.paymentFG2 = this.formBuilder.group({
       bankAccountName: [this.paymentData.bankAccountName, [Validators.pattern(environment.regex.textRegex), Validators.required]],
@@ -82,7 +84,7 @@ export class RetailerAddPaymentComponent implements OnInit {
       city: [this.paymentData.retailerBankAddress.city, [Validators.pattern(environment.regex.textRegex), Validators.required]],
       state: [this.paymentData.retailerBankAddress.state, [Validators.pattern(environment.regex.textRegex), Validators.required]],
       zipcode: [this.paymentData.retailerBankAddress.zipcode, [Validators.maxLength(5), Validators.minLength(5),
-      Validators.pattern(environment.regex.numberRegex), Validators.required]]
+      Validators.pattern(environment.regex.zipcodeRegex), Validators.required]]
     });
     this.getPaymentVehicles(this.paymentData.paymentMethod);
   }
@@ -111,7 +113,7 @@ export class RetailerAddPaymentComponent implements OnInit {
     this.paymentFG1.controls.city.setValidators([Validators.pattern(environment.regex.textRegex), this.validatorExt.getRV(isRequired)]);
     this.paymentFG1.controls.state.setValidators([Validators.pattern(environment.regex.textRegex), this.validatorExt.getRV(isRequired)]);
     this.paymentFG1.controls.zipcode.setValidators([Validators.maxLength(5), Validators.minLength(5),
-    Validators.pattern(environment.regex.numberRegex), this.validatorExt.getRV(isRequired)]);
+    Validators.pattern(environment.regex.zipcodeRegex), this.validatorExt.getRV(isRequired)]);
 
     this.paymentFG2.controls.bankAccountName.setValidators([Validators.pattern(environment.regex.textRegex), this.validatorExt.getRV(isRequired)]);
     this.paymentFG2.controls.bankAccountNumber.setValidators([Validators.pattern(environment.regex.numberRegex), this.validatorExt.getRV(isRequired)]);
@@ -121,7 +123,7 @@ export class RetailerAddPaymentComponent implements OnInit {
     this.paymentFG2.controls.city.setValidators([Validators.pattern(environment.regex.textRegex), this.validatorExt.getRV(isRequired)]);
     this.paymentFG2.controls.state.setValidators([Validators.pattern(environment.regex.textRegex), this.validatorExt.getRV(isRequired)]);
     this.paymentFG2.controls.zipcode.setValidators([Validators.maxLength(5), Validators.minLength(5),
-    Validators.pattern(environment.regex.numberRegex), this.validatorExt.getRV(isRequired)]);
+    Validators.pattern(environment.regex.zipcodeRegex), this.validatorExt.getRV(isRequired)]);
 
     this.paymentFG1.controls.bankname.updateValueAndValidity();
     this.paymentFG1.controls.addressLine1.updateValueAndValidity();
@@ -212,6 +214,7 @@ export class RetailerAddPaymentComponent implements OnInit {
       .subscribe((res: RetailerPaymentInfo) => {
         this.paymentData = res;
         this.setFormValidators();
+        this.stripeInegrated = this.paymentData.stripeAccountId !== '';
         this.paymentInfoObj = new RetailerPaymentInfo(res);
       });
   }
@@ -223,44 +226,51 @@ export class RetailerAddPaymentComponent implements OnInit {
       });
   }
   stripe() {
-    // this.profileData.businessAddress.email = 'admin@newstore.com';
-    if (this.paymentInfoObj.stripeToken === undefined) {
-      stripe.createToken('bank_account', {
-        country: 'US',
-        currency: 'usd',
-        routing_number: this.paymentInfoObj.bankABARoutingNumber,
-        account_number: this.paymentInfoObj.bankAccountNumber,
-        account_holder_name: this.paymentInfoObj.bankAccountName,
-        account_holder_type: 'company'
-      }).then(response => {
-        if (response.error) {
-          const error = response.error.message;
-          console.error(error);
-        } else {
-          this.core.message.success('Stripe token created');
-          this.paymentInfoObj.stripeToken = response.token.id;
-          this.retialerService.addSellerAccount(this.profileData.businessAddress.email, this.paymentInfoObj.stripeToken).subscribe(p => {
-            this.core.message.success('Stripe integration complted');
-            console.log(p);
-          });
-        }
-      });
+    this.readPaymenInfo();
+    this.validatorExt.validateAllFormFields(this.paymentFG1);
+    this.validatorExt.validateAllFormFields(this.paymentFG2);
+    if (!this.paymentFG1.valid) {
+      this.paymentInfoBack();
+    } else if (!this.paymentFG2.valid) {
+      this.paymentInfoNext();
+    } else {
+      this.paymentSaveloader = true;
+      if (this.paymentInfoObj.stripeToken === undefined) {
+        stripe.createToken('bank_account', {
+          country: 'US',
+          currency: 'usd',
+          routing_number: this.paymentInfoObj.bankABARoutingNumber,
+          account_number: this.paymentInfoObj.bankAccountNumber,
+          account_holder_name: this.paymentInfoObj.bankAccountName,
+          account_holder_type: 'company'
+        }).then(response => {
+          if (response.error) {
+            const error = response.error.message;
+            console.error(error);
+          } else {
+            this.core.message.success(userMessages.stripe_token_created);
+            this.paymentInfoObj.stripeToken = response.token.id;
+            const stripePaymnentObj = new StripePayment({
+              retailerProfile: this.profileData,
+              retailerPayment: this.paymentData,
+              tosAcceptance: new TosAcceptance(),
+              dob: new Date()
+            });
+            this.retialerService.addSellerAccount(stripePaymnentObj).subscribe(p => {
+              this.core.message.success(userMessages.stripe_integration_completed);
+              this.retialerService
+                .paymentInfoSave(this.paymentInfoObj)
+                .subscribe(res => {
+                  this.SaveData.emit('tab-Payment');
+                  this.paymentSaveloader = false;
+                  this.core.message.success(userMessages.success);
+                  return true;
+                }, err => { this.paymentSaveloader = false; this.core.message.error(userMessages.error); }, () => this.paymentSaveloader = false);
+              return false;
+            }, err => { this.paymentSaveloader = false; this.core.message.error(userMessages.stripe_integration_error); }, () => this.paymentSaveloader = false);
+          }
+        });
+      }
     }
-  }
-
-  buy() {
-    // const name = this.paymentFG1.get("bankname").value;
-    // this.stripeService
-    //   .createToken(this.card.getCard(), { name })
-    //   .subscribe(result => {
-    //     if (result.token) {
-    //       // Use the token to create a charge or a customer
-    //       // https://stripe.com/docs/charges
-    //       // console.log(result.token.id);
-    //     } else if (result.error) {
-    //       // Error creating the token
-    //       console.log(result.error.message);
-    //     }
-    //   });
   }
 }

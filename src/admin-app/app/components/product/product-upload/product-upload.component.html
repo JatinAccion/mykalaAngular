@@ -38,9 +38,9 @@
     <div class="col-sm-9 p-2 mt-3 ">
         <div class="input-group">
             <input class="form-control" placeholder="" aria-describedby="basic-addon1" type="text" [(ngModel)]="item.fileName">
-            <span class="input-group-addon" id="basic-addon1">({{item.addedRecordsCount + item.updatedRecordsCount}}/{{item.totalRecordsCount}}) uploaded  </span>
-            <span class="input-group-addon" id="basic-addon1" *ngIf="item.errorCount>0" > ({{item.errorCount}}) error  </span>            
-            <span class="input-group-addon" id="basic-addon1" (click)="delete(item.productSummaryId)">X</span>
+            <span class="input-group-addon" >({{item.addedRecordsCount + item.updatedRecordsCount}}/{{item.totalRecordsCount}}) uploaded  </span>
+            <span class="input-group-addon"  *ngIf="item.errorCount>0" > ({{item.errorCount}}) error  </span>            
+            <span class="input-group-addon pointer" (click)="delete(item.productSummaryId)">X</span>
         </div>
     </div>
     <div class="col-sm-3 p-2 mt-3">

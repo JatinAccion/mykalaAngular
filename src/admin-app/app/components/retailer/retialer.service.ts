@@ -18,6 +18,7 @@ import { RetialerShippingProfile, RetialerShippingProfiles } from '../../../../m
 import { RetailerProductInfo } from '../../../../models/retailer-product-info';
 import { Subject } from 'rxjs/Subject';
 import { MasterData } from '../../../../models/masterData';
+import { StripePayment } from '../../../../models/stripe-payment';
 
 @Injectable()
 export class RetialerService {
@@ -206,11 +207,11 @@ export class RetialerService {
         .catch(this.handleError);
     }
   }
-  addSellerAccount(email, token): Observable<any> {
+  addSellerAccount( stripePayment: StripePayment): Observable<any> {
     const url = 'http://192.168.169.230:8090/payment/v1/addSellerAccount';
 
     return this.http
-      .post(`${url}`, { email: email, token: token }, { headers: this.headers })
+      .post(`${url}`, stripePayment, { headers: this.headers })
       .map(res => res.json())
       .catch(this.handleError);
   }

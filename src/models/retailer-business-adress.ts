@@ -1,3 +1,5 @@
+import { AddressType } from "./address-type";
+
 export class PostalAddress {
     public name: string;
     public position: string;
@@ -5,6 +7,7 @@ export class PostalAddress {
     public addressLine2: string;
     public city: string;
     public state: string;
+    public country: string;
     public zipcode: string;
     public email: string;
     public phoneNo: string;
@@ -21,15 +24,16 @@ export class PostalAddress {
             this.email = obj.email;
             this.phoneNo = obj.phoneNo;
             this.addressType = obj.addressType;
+            this.country = 'US';
         }
     }
 }
-export class RetailerBuinessAddress extends PostalAddress {
+export class RetailerBusinessAddress extends PostalAddress {
     constructor(obj?: any) {
         super(obj);
         if (obj) {
         } else {
-            this.addressType = "Buiness Address";
-        }
+            this.addressType = AddressType.business;
+        }   
     }
 }

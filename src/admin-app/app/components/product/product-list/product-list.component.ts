@@ -137,7 +137,7 @@ export class ProductListComponent implements OnInit {
     this.selectedProductTypes = [];
     if (this.selectedSubCategories.length > 0) {
       this.productService.getProductTypes(this.selectedSubCategories.map(p => p.id)).subscribe(res => {
-        this.productTypes = res.map(p => new IdNameParent(p.TypeId, p.TypeName, p.SubCategoryId, p.SubCategoryName));
+        this.productTypes = res.map(p => new IdNameParent(p.TypeId, p.TypeName, p.parentId, p.parentName));
       });
       // this.fG1.controls.productType.setValidators([Validators.required]);
       // this.fG1.controls.productType.updateValueAndValidity();

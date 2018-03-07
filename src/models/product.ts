@@ -34,7 +34,7 @@ export class Product {
     public mainImage: ProductImage;
     public otherImages: ProductImage[] | null = new Array<ProductImage>();
     public attributes: Map<string, object>;
-
+    public taxCode: string;
 
     constructor(obj?: any) {
         this.otherImages = new Array<ProductImage>();
@@ -61,6 +61,7 @@ export class Product {
             this.productStatus = obj.productStatus;
             this.productActivatedDate = obj.productActivatedDate;
             this.createdDate = obj.createdDate;
+            this.taxCode = obj.taxCode;
             this.attributes = obj.attributes;
             if (obj.attributes) {
                 this.brandName = obj.attributes.Brand;

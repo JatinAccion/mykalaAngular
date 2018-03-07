@@ -48,7 +48,7 @@ export class ProductAddBasicComponent implements OnInit {
       productSkuCode: ['', [Validators.pattern(environment.regex.textRegex), Validators.maxLength(255), Validators.required]],
       productUpcCode: ['', [Validators.pattern(environment.regex.numberRegex), Validators.maxLength(255), Validators.required]],
       productDescription: ['', [Validators.pattern(environment.regex.textRegex), Validators.maxLength(255), Validators.required]],
-      quantity: ['', [Validators.pattern(environment.regex.numberValueRegex), Validators.maxLength(255), Validators.required]],
+      quantity: ['', [Validators.pattern(environment.regex.numberValueRegex), Validators.min(0), Validators.required]],
     });
   }
 

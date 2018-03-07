@@ -1,6 +1,7 @@
 export const userMessages = {
     success: 'saved  successfully',
     error: '',
+    requiredFeilds: 'Please complete all mandatory fields',
 };
 export const inputValidations = {
     'productPlaceName': { required: 'Please select Place ', error: 'Please select valid Place' },

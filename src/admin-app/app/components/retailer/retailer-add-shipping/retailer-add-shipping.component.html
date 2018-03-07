@@ -12,7 +12,7 @@
                             <div [formGroup]="shippingFG1">
                                 <div class="form-group">
                                     <label class="control-label" [ngClass]="validatorExt.displayFieldCss(shippingFG1.controls.shippingProfileName)">Profile name</label>
-                                    <input type="text" class="form-control" step="{0.01}" value="{0.00}" pattern formControlName="shippingProfileName">
+                                    <input type="text" class="form-control" step="0.01" value="0.00"  placeholder="0.00" pattern formControlName="shippingProfileName">
                                     <app-field-error-display [field]="shippingFG1.controls.shippingProfileName" [errorMsg]="errorMsgs"> </app-field-error-display>
                                 </div>
                             </div>
@@ -52,7 +52,7 @@
                                                         <div>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon" id="basic-addon1">&nbsp;</span>
-                                                                <input class="form-control" step="{0.01}" value="{0.00}" aria-describedby="basic-addon1" formControlName="min" type="number">
+                                                                <input class="form-control" step="0.01" value="0.00"  placeholder="0.00" aria-describedby="basic-addon1" formControlName="min" type="number">
                                                             </div>
                                                         </div>
                                                         <div class="row p-2">
@@ -67,7 +67,7 @@
                                                         <div>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon" id="basic-addon1">&nbsp;</span>
-                                                                <input class="form-control" step="{0.01}" value="{0.00}" aria-describedby="basic-addon1" formControlName="max" type="number">
+                                                                <input class="form-control" step="0.01" value="0.00"  placeholder="0.00" aria-describedby="basic-addon1" formControlName="max" type="number">
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -96,7 +96,7 @@
                                                         <div>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon" id="basic-addon1">$</span>
-                                                                <input class="form-control" step="{0.01}" value="{0.00}" aria-describedby="basic-addon1" formControlName="min" type="number">
+                                                                <input class="form-control" step="0.01" value="0.00"  placeholder="0.00" aria-describedby="basic-addon1" formControlName="min" type="number">
                                                             </div>
                                                             <div class="row">
                                                                 <app-field-error-display [field]="tier.controls.min" [errorMsg]="errorMsgs"> </app-field-error-display>
@@ -111,7 +111,7 @@
                                                         <div>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon" id="basic-addon1">$</span>
-                                                                <input class="form-control" step="{0.01}" value="{0.00}" aria-describedby="basic-addon1" formControlName="max" type="number">
+                                                                <input class="form-control" step="0.01" value="0.00"  placeholder="0.00" aria-describedby="basic-addon1" formControlName="max" type="number">
                                                             </div>
                                                             <div class="row">
                                                                 <app-field-error-display [field]="tier.controls.max" [errorMsg]="errorMsgs"> </app-field-error-display>
@@ -140,7 +140,7 @@
                                                         <div>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon" id="basic-addon1">lbs.</span>
-                                                                <input class="form-control" step="{0.01}" value="{0.00}" aria-describedby="basic-addon1" formControlName="min" type="number">
+                                                                <input class="form-control" step="0.01" value="0.00"  placeholder="0.00" aria-describedby="basic-addon1" formControlName="min" type="number">
                                                             </div>
                                                             <div class="row">
                                                                 <app-field-error-display [field]="tier.controls.min" [errorMsg]="errorMsgs"> </app-field-error-display>
@@ -155,7 +155,7 @@
                                                         <div>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon" id="basic-addon1">lbs.</span>
-                                                                <input class="form-control" step="{0.01}" value="{0.00}" aria-describedby="basic-addon1" formControlName="max" type="number">
+                                                                <input class="form-control" step="0.01" value="0.00"  placeholder="0.00" aria-describedby="basic-addon1" formControlName="max" type="number">
                                                             </div>
                                                             <div class="row">
                                                                 <app-field-error-display [field]="tier.controls.max" [errorMsg]="errorMsgs"> </app-field-error-display>
@@ -264,7 +264,7 @@
                                                             <div class="col-sm-12">
                                                                 <div class="input-group">
                                                                     <span class="input-group-addon" id="basic-addon1">$</span>
-                                                                    <input class="form-control" step="{0.01}" value="{0.00}" aria-describedby="basic-addon1" formControlName="charge" type="number">
+                                                                    <input class="form-control" step="0.01" value="0.00"  placeholder="0.00" aria-describedby="basic-addon1" formControlName="charge" type="number">
                                                                     <!-- entry: {{chargeoption.value.charge}}:  -->
                                                                 </div>
                                                                 <div class="col-sm-12">
@@ -343,7 +343,7 @@
                                                         <div class="col-sm-12">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon" id="basic-addon1">$</span>
-                                                                <input type="number" class="form-control" step="{0.01}" value="{0.00}" aria-describedby="basic-addon1" formControlName="locationFee">
+                                                                <input type="number" class="form-control" step="0.01" value="0.00"  placeholder="0.00" aria-describedby="basic-addon1" formControlName="locationFee">
                                                             </div>
                                                             <app-field-error-display [field]="item.controls.locationFee" [errorMsg]="errorMsgs"> </app-field-error-display>
                                                         </div>

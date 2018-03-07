@@ -17,6 +17,8 @@ import { environment } from '../../../environments/environment';
   encapsulation: ViewEncapsulation.None
 })
 export class LoginComponent implements OnInit {
+  userInactive: boolean;
+  unAuthorized = false;
   loginKala: FormGroup;
   passwordRegex = new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$');
   usernameRegex = new RegExp('^[a-zA-Z0-9_.-]*$');
@@ -82,12 +84,18 @@ export class LoginComponent implements OnInit {
       this.localStorageService.setItem('token', `${resJson.token_type} ${resJson.access_token}`, resJson.expires_in);
       this.auth.getUserInfo(resJson.access_token).subscribe(usr => {
         this.loader = false;
-        if (usr.roleName && usr.roleName.length > 0 && usr.roleName.indexOf('admin') > -1) {
-          window.localStorage['userInfo'] = JSON.stringify(usr);
-          this.core.setUser(usr);
-          this.router.navigateByUrl('/retailer-list');
+        if (res.userCreateStatus === false) {
+          localStorage.removeItem('token');
+          this.userInactive = true;
         } else {
-          this.loginError = true;
+          if (usr.roleName && usr.roleName.length > 0 && usr.roleName.indexOf('admin') > -1) {
+            window.localStorage['userInfo'] = JSON.stringify(usr);
+            this.core.setUser(usr);
+            this.router.navigateByUrl('/retailer-list');
+          } else {
+            this.loginError = true;
+            this.unAuthorized = true;
+          }
         }
       }, err => {
         console.log(err);

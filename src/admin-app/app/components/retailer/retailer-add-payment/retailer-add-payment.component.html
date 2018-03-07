@@ -23,27 +23,28 @@
         <!--Validation-->
         <app-field-error-display [field]="paymentFG1.controls.paymentVehicle" [errorMsg]="errorMsgs"> </app-field-error-display>
         <!--Validation-->
+    </div> 
+    <div class="row">
+        <div class="col-sm-6">
+                <div class="form-group">
+                        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(paymentFG1.controls.commissionRate)">Commission Rate</label>
+                        <input type="text" class="form-control" placeholder="" pattern formControlName="commissionRate">
+                        <!--Validation-->
+                        <app-field-error-display [field]="paymentFG1.controls.commissionRate" [errorMsg]="errorMsgs"> </app-field-error-display>
+                        <!--Validation-->
+                    </div>
+        </div>
+        <div class="col-sm-6">
+                <div class="form-group">
+                        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(paymentFG1.controls.fixRate)">Fix Rate</label>
+                        <input type="text" class="form-control" placeholder="" pattern formControlName="fixRate">
+                        <!--Validation-->
+                        <app-field-error-display [field]="paymentFG1.controls.fixRate" [errorMsg]="errorMsgs"> </app-field-error-display>
+                        <!--Validation-->
+                </div>
+            </div>  
     </div>
     <hr />
-    <div class="row">
-
-
-        <div class="form-group">
-            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(paymentFG1.controls.commissionRate)">Commission Rate</label>
-            <input type="text" class="form-control" placeholder="" pattern formControlName="commissionRate">
-            <!--Validation-->
-            <app-field-error-display [field]="paymentFG1.controls.commissionRate" [errorMsg]="errorMsgs"> </app-field-error-display>
-            <!--Validation-->
-        </div>
-        <div class="form-group">
-                <label class="control-label" [ngClass]="validatorExt.displayFieldCss(paymentFG1.controls.fixRate)">Fix Rate</label>
-                <input type="text" class="form-control" placeholder="" pattern formControlName="fixRate">
-                <!--Validation-->
-                <app-field-error-display [field]="paymentFG1.controls.fixRate" [errorMsg]="errorMsgs"> </app-field-error-display>
-                <!--Validation-->
-        </div>
-        <hr />
-    </div>
     <div class="form-group">
         <label class="control-label" [ngClass]="validatorExt.displayFieldCss(paymentFG1.controls.bankname)">Bank Name</label>
         <input type="text" class="form-control" placeholder="" pattern formControlName="bankname">
@@ -162,13 +163,15 @@
     <hr />
 </div>
 
-<div class="row" *ngIf="paymentInfoStep!==1 && activateStripe">
-    <a (click)="stripe()" class="btn btn-default ancProfile1">Register Your Account with Stripe
-        <i class="fa fa-repeat fa-spin" aria-hidden="true" *ngIf="paymentSaveloader"></i>
-    </a>
-    <p>By registering your account, you agree to our
-        <a href="https://stripe.com/docs/connect/updating-accounts#tos-acceptance" target="_blank">Services Agreement</a> and the
-        <a href="https://stripe.com/us/connect-account/legal" target="_blank">Stripe Connected Account Agreement</a>.</p>
+<div class="row" *ngIf="paymentInfoStep!==1 && activateStripe && stripeInegrated">
+    <div class="col-sm-12">
+            <a (click)="stripe()" class="btn btn-default ancProfile1">Register Your Account with Stripe
+                    <i class="fa fa-repeat fa-spin" aria-hidden="true" *ngIf="paymentSaveloader"></i>
+                </a>
+                <p>By registering your account, you agree to our
+                    <a href="https://stripe.com/docs/connect/updating-accounts#tos-acceptance" target="_blank">Services Agreement</a> and the
+                    <a href="https://stripe.com/us/connect-account/legal" target="_blank">Stripe Connected Account Agreement</a>.</p>
+    </div> 
 </div>
 <div class="row">
     <div class="col-sm-6">

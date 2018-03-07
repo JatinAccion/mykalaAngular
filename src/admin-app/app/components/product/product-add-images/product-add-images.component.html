@@ -22,7 +22,7 @@
                     <tr>
                         <th width="50%">Name</th>
                         <th>Size</th>
-                        <th>MainImage</th>
+                        <th *ngIf="!product.mainImage">MainImage</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -32,7 +32,7 @@
                             <strong>{{ item.file?.name }}</strong>
                         </td>
                         <td nowrap>{{ item.file?.size/1024/1024 | number:'.2' }} MB</td>
-                        <td nowrap>
+                        <td nowrap *ngIf="!product.mainImage">
                             <input type="radio" name="mainImage" 
                             [checked]="item.mainImage" 
                             [value]="item" 
@@ -61,10 +61,10 @@
 
         </div>
     </div>
-    <p class="row" *ngIf="product.mainImage" >Main Image</p>
-    <div class="row mt-2 anc_otherImg">
+    <div class="row p-2" *ngIf="product.mainImage" >Main Image</div>
+    <div class="row anc_otherImg">
         <a href="#" class="anc_otherImg" *ngIf="product.mainImage">
-            <img src="{{product.mainImage.location}}">
+            <img src="{{product.mainImage.location}}" class="img-fluid">
         </a>
         <div class="overlay">
             <div class="text">
@@ -72,10 +72,10 @@
             </div>
         </div>
     </div>
-    <p class="row" *ngIf="product.otherImages.length>0" >Other Images</p>
+    <div class="row p-2" *ngIf="product.otherImages.length>0" >Other Images</div>
     <div class="row">
         <div class="d-inline anc_otherImg" *ngFor="let image of product.otherImages" >
-            <img src="{{image.location}}">
+            <img src="{{image.location}}" class="img-fluid">
             <div class="overlay">
                 <div class="text">
                     <span class="fa fa-refresh" (click)="markasMainImage(image.id)" ></span>

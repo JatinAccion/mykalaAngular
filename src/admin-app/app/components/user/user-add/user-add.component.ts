@@ -63,7 +63,7 @@ export class UserAddComponent implements OnInit {
       password: !this.userId ? [{ value: '', disabled: false }, [Validators.pattern(environment.regex.password), Validators.required]] : [{ value: null, disabled: true }, []],
       firstname: [user.firstName, [Validators.pattern(environment.regex.textRegex), Validators.maxLength(250), Validators.required]],
       lastname: [user.lastName, [Validators.pattern(environment.regex.textRegex), Validators.maxLength(250), Validators.required]],
-      phone: [user.phone, [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(environment.regex.numberRegex), Validators.required]],
+      phone: [user.phone, [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(environment.regex.phoneNumberRegex), Validators.required]],
       role: [user.role, [Validators.pattern(environment.regex.textRegex), Validators.maxLength(250), Validators.required]],
     });
   }
