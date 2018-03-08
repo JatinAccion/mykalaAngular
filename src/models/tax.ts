@@ -13,7 +13,6 @@ export class ItemsTaxModel {
 export class shippingAddress {
     public addressLine1: string;
     public addressLine2: string;
-    public region: string;
     public city: string;
     public state: string;
     public zipcode: string;
@@ -29,11 +28,6 @@ export class ItemsTaxList {
         public description: string,
         public orderNumber: string,
         public isTaxNexus: string,
-        public shippingOriginAddress?: shippingOriginAddress
+        public shippingOriginAddress?: shippingAddress
     ) { }
-}
-
-export class shippingOriginAddress {
-    public addressLine1: string;
-    public addressLine2: string;
 }

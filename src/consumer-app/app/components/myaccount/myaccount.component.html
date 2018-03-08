@@ -176,7 +176,7 @@
                 <!--Add New Cards Form-->
                 <div class="row" [hidden]="!addCard">
                   <form #checkout="ngForm" (ngSubmit)="onSubmit(checkout)" class="checkout pl-1 pr-0 pb-0 pt-0 mt-0 mb-4">
-                    <div class="form-row" [hidden]="!addCard"> 
+                    <div class="form-row">
                       <div id="card-info" #cardInfo class="mt-0"></div>
                       <div id="card-number" #cardNumber class="field empty"></div>
                       <div id="card-expiry" #cardExpiry class="field empty third-width"></div>
@@ -185,8 +185,11 @@
                       <div id="card-errors" role="alert" *ngIf="error">{{ error }}</div>
                     </div>
                     <button type="submit" class="btn btn_red_right">add card</button>
+                    <button type="button" (click)="resetAddCard()" class="btn-outer btn_redouter_right btn-outer-margin">cancel</button>
+                    <img src="/consumer-app/assets/images/loader.gif" style="margin-left: 7px; margin-top: 7px" *ngIf="loader_addCard" />
+                    <hr class="mb-0" />
                   </form>
-                </div>               
+                </div>
                 <!--Add New Cards Form-->
               </div>
               <button class="col-sm-2 text-right p-2 colorred txtasbutton cursor" (click)="addNewCard()">add</button>
@@ -196,8 +199,11 @@
             <!--Listing All The Cards-->
             <div class="row">
               <div class="col-sm-12 pt-0 pl-3 pr-3">
-                <div class="categ_outline_gray mr-2 mb-2" *ngFor="let card of getCardsDetails">
+                <div class="categ_outline_gray mr-2 mb-2" style="cursor:pointer" *ngFor="let card of getCardsDetails">
                   {{card.cardType}} {{card.last4Digit}}
+                  <span (click)="deleteCard(card)" class="ml-2">
+                    <i title="delete card" class="fa fa-times" aria-hidden="true"></i>
+                  </span>
                 </div>
                 <img src="/consumer-app/assets/images/loader.gif" *ngIf="loader_Card" class="ml-2" />
               </div>
