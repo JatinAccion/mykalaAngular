@@ -8,4 +8,5 @@ export const inputValidations = {
     'productCategoryName': { required: 'Please select Category', error: 'Please select valid Category' },
     'productSubCategoryName': { required: 'Please select Sub Category', error: 'Please select valid Sub Category' },
     'productTypeName': { required: 'Please select Type', error: 'Please select valid Type' },
+    'taxCode': {required: 'Tax Code is not associated with the current selection'}
 };

@@ -1,52 +1,64 @@
-<div class="col-sm-12 p-0" [formGroup]="fG1">
+<div class="col-sm-12 p-0">
     <table class="table w-100">
         <tbody>
             <tr>
                 <td class="border-0">
-                    <select class="ddl_default form-control" [(ngModel)]="product.productPlace" formControlName="productPlaceName" (change)="placeChanged($event)" >
-                            <option [ngValue]="productPlaceDummy">Select Place</option>
-                            <option *ngFor="let option of places" [ngValue]="option">
-                                {{option.PlaceName}}
-                            </option>
+                    <select class="ddl_default form-control" [(ngModel)]="product.productPlace" (change)="placeChanged($event)">
+                        <option [ngValue]="productPlaceDummy">Select Place</option>
+                        <option *ngFor="let option of places" [ngValue]="option">
+                            {{option.PlaceName}}
+                        </option>
                     </select>
-                    <app-field-error-display [field]="fG1.controls.productPlaceName" [errorMsg]="errorMsgs"> </app-field-error-display>
+                    <div *ngIf="required.productPlaceName" class="alert alert-danger errorMessages">
+                        {{inputValidations.productPlaceName.required}}
+                    </div>
                 </td>
             </tr>
             <tr>
                 <td class="border-0">
-                    <select class="ddl_default form-control" [(ngModel)]="product.productCategory" formControlName="productCategoryName" (change)="categoryChanged($event)" >
-                            <option [ngValue]="productCategoryDummy">Select Category</option>
-                            <option *ngFor="let option of categories" [ngValue]="option">
-                                {{option.CategoryName}}
-                            </option>
+                    <select class="ddl_default form-control" [(ngModel)]="product.productCategory" (change)="categoryChanged($event)">
+                        <option [ngValue]="productCategoryDummy">Select Category</option>
+                        <option *ngFor="let option of categories" [ngValue]="option">
+                            {{option.CategoryName}}
+                        </option>
                     </select>
-                    <app-field-error-display [field]="fG1.controls.productCategoryName" [errorMsg]="errorMsgs"> </app-field-error-display>
+                    <div *ngIf="required.productCategoryName" class="alert alert-danger errorMessages">
+                        {{inputValidations.productCategoryName.required}}
+                    </div>
                 </td>
             </tr>
             <tr>
                 <td class="border-0">
-                    <select class="ddl_default form-control" [(ngModel)]="product.productSubCategory" formControlName="productSubCategoryName" (change)="subCategoryChanged($event)" >
-                            <option [ngValue]="productSubCategoryDummy">Select Sub Catetory</option>
-                            <option *ngFor="let option of subCategories" [ngValue]="option">
-                                {{option.SubCategoryName}}
-                            </option>
+                    <select class="ddl_default form-control" [(ngModel)]="product.productSubCategory" [disabled]="typesLoading" (change)="subCategoryChanged($event)">
+                        <option [ngValue]="productSubCategoryDummy">Select Sub Catetory</option>
+                        <option *ngFor="let option of subCategories" [ngValue]="option">
+                            {{option.SubCategoryName}}
+                        </option>
                     </select>
-                    <app-field-error-display [field]="fG1.controls.productSubCategoryName" [errorMsg]="errorMsgs"> </app-field-error-display>
+                    <div *ngIf="required.productSubCategoryName" class="alert alert-danger errorMessages">
+                        {{inputValidations.productSubCategoryName.required}}
+                    </div>
                 </td>
             </tr>
-            <tr>
+            <tr *ngFor="let level of levels.levels">
                 <td class="border-0">
-                    <select class="ddl_default form-control" [(ngModel)]="product.productType" formControlName="productTypeName" (change)="typeChanged($event)" >
-                            <option [ngValue]="productTypeDummy">Select Type</option>
-                            <option *ngFor="let option of productTypes" [ngValue]="option">
-                                {{option.TypeName}}
-                            </option>
+                    <select class="ddl_default form-control" [(ngModel)]="level.level" [disabled]="typesLoading" (change)="levelChanged($event, level)">
+                        <option [ngValue]="productTypeDummy">Select {{level.levelName}}</option>
+                        <option *ngFor="let option of level.levelOptions" [ngValue]="option">
+                            {{option.TypeName}}
+                        </option>
                     </select>
-                    <app-field-error-display [field]="fG1.controls.productTypeName" [errorMsg]="errorMsgs"> </app-field-error-display>
+                    <div *ngIf="required.productTypeName" class="alert alert-danger errorMessages">
+                        {{inputValidations.productTypeName.required}}
+                    </div>
                 </td>
             </tr>
         </tbody>
     </table>
+    TaxCode: {{product.taxCode|json}}
+    <div *ngIf="required.taxCode" class="alert alert-danger errorMessages">
+        {{inputValidations.taxCode.required}}
+    </div>
     <!-- {{product|json}} -->
     <hr />
     <div class="text-right pb-3">

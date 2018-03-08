@@ -27,7 +27,12 @@ export class StripePayment {
                 this.businessSummary = obj.retailerProfile.businessSummary;
                 this.websiteUrl = obj.retailerProfile.websiteUrl;
                 this.tin = obj.retailerProfile.tin;
-                this.addressOrContact = obj.retailerProfile.addresses ? obj.retailerProfile.addresses.filter(p => (p.addressType === AddressType.business) || (p.addressType === AddressType.primary)) : obj.retailerProfile.addresses;
+                if (obj.retailerProfile.addresses && obj.retailerProfile.addresses.length > 0) {
+                    const businessAddress = obj.retailerProfile.addresses.filter(p => (p.addressType === AddressType.business))[0];
+                    const generalAddress = obj.retailerProfile.addresses.filter(p => (p.addressType === AddressType.primary))[0];
+                    generalAddress.addressType = AddressType.generalStripe;
+                    this.addressOrContact = [businessAddress, generalAddress];
+                }
             }
             if (obj.retailerPayment instanceof RetailerPaymentInfo) {
                 this.commissionRate = obj.retailerPayment.commissionRate;
@@ -39,7 +44,7 @@ export class StripePayment {
             }
             if (obj.dob) {
                 if (obj.dob instanceof Date) {
-                    this.dob = new CustomDate(obj.date);
+                    this.dob = new CustomDate(obj.dob);
                 } else if (obj.dov instanceof CustomDate) {
                     this.dob = obj.dob;
                 }
@@ -62,8 +67,10 @@ export class CustomDate {
 export class TosAcceptance {
     public date: number;
     public ip: string;
-    constructor() {
-        this.date = 1518194684;
-        this.ip = '49.207.52.254';
+    constructor(obj?: any) {
+        if (obj) {
+            this.date = obj.created;
+            this.ip = obj.client_ip;
+        }
     }
 }

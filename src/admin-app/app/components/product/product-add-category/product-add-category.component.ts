@@ -8,8 +8,9 @@ import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 import { IAlert } from '../../../../../models/IAlert';
 import { ProductService } from '../product.service';
 import { Product } from '../../../../../models/Product';
-import { inputValidations } from './messages';
-import { ProductPlace, ProductCategory, ProductSubCategory, ProductType } from '../../../../../models/product-info';
+import { inputValidations, userMessages } from './messages';
+import { ProductPlace, ProductCategory, ProductSubCategory, ProductType, ProductTypeLevels, ProductTypeLevel } from '../../../../../models/product-info';
+import { CoreService } from '../../../services/core.service';
 // #endregion imports
 
 @Component({
@@ -33,6 +34,7 @@ export class ProductAddCategoryComponent implements OnInit, OnChanges {
   categories = new Array<ProductCategory>();
   subCategories = new Array<ProductSubCategory>();
   productTypes = new Array<ProductType>();
+  levels = new ProductTypeLevels();
   // productPlace: ProductPlace;
   // productCategory: ProductCategory;
   // productSubCategory: ProductSubCategory;
@@ -41,20 +43,27 @@ export class ProductAddCategoryComponent implements OnInit, OnChanges {
   productCategoryDummy: ProductCategory;
   productSubCategoryDummy: ProductSubCategory;
   productTypeDummy: ProductType;
-  fG1 = new FormGroup({});
-  step = 1;
-  errorMsgs = inputValidations;
-  saveLoader = true;
 
+  step = 1;
+  inputValidations = inputValidations;
+  saveLoader = true;
+  typesLoading = false;
+  required = {
+    productPlaceName: false,
+    productCategoryName: false,
+    productSubCategoryName: false,
+    productTypeName: false,
+    taxCode: false
+  };
   // #endregion declaration
   constructor(
     private formBuilder: FormBuilder,
     private productService: ProductService,
-    public validatorExt: ValidatorExt
+    public validatorExt: ValidatorExt,
+    private core: CoreService
   ) {
   }
   ngOnInit() {
-    this.setFormValidators();
     if (this.product.productPlaceName) {
       this.setProductData();
     } else {
@@ -64,23 +73,18 @@ export class ProductAddCategoryComponent implements OnInit, OnChanges {
   ngOnChanges() {
     this.setProductData();
   }
-  closeAlert(alert: IAlert) {
-    this.alert.show = false;
-  }
-
-  setFormValidators() {
-    this.fG1 = this.formBuilder.group({
-      productPlaceName: [null, [Validators.required]],
-      productCategoryName: [null, [Validators.required]],
-      productSubCategoryName: [null, [Validators.required]],
-      productTypeName: [null, [Validators.required]],
-    });
-  }
-
   saveData() {
     this.readForm();
-    this.validatorExt.validateAllFormFields(this.fG1);
-    if (!this.fG1.valid) {
+    this.required.productPlaceName = this.product.productPlaceName === '';
+    this.required.productCategoryName = this.product.productCategoryName === '';
+    this.required.productSubCategoryName = this.product.productSubCategoryName === '';
+    this.required.productTypeName = this.product.productTypeName === '';
+    this.required.taxCode = this.product.taxCode === '';
+    if (this.required.productPlaceName || this.required.productCategoryName || this.required.productSubCategoryName
+      // || this.required.productTypeName
+      // || this.required.taxCode
+    ) {
+      this.core.message.info(userMessages.requiredFeilds);
     } else {
       this.saveLoader = true;
       this.productChange.emit(this.product);
@@ -103,7 +107,7 @@ export class ProductAddCategoryComponent implements OnInit, OnChanges {
                   this.subCategories = subres;
                   if (this.product && this.product.productSubCategoryName && this.subCategories && this.subCategories.filter(p => p.SubCategoryName === this.product.productSubCategoryName).length > 0) {
                     this.product.productSubCategory = this.subCategories.filter(p => p.SubCategoryName === this.product.productSubCategoryName)[0];
-                    this.getTypes();
+                    this.getTypes(this.product.productSubCategory.SubCategoryId);
                   }
                 });
               }
@@ -118,89 +122,84 @@ export class ProductAddCategoryComponent implements OnInit, OnChanges {
     return this.product;
   }
 
-  getData(retailerId) {
-
-  }
+  getData(retailerId) { }
   getPlaces() {
+    this.typesLoading = true;
     this.productService.getProductPlaces().subscribe(res => {
       this.places = res;
-      this.setPlace();
+      this.typesLoading = false;
     });
-  }
-  setPlace() {
-
   }
   placeChanged(event) {
     this.product.productPlaceName = this.product.productPlace.PlaceName;
     this.categories = new Array<ProductCategory>();
     this.subCategories = new Array<ProductSubCategory>();
-    this.productTypes = new Array<ProductType>();
+    this.levels = new ProductTypeLevels();
+
     delete this.product.productCategory;
     delete this.product.productSubCategory;
     delete this.product.productType;
     this.product.productCategoryName = '';
     this.product.productSubCategoryName = '';
     this.product.productTypeName = '';
+    this.product.taxCode = '';
     this.getCategories();
   }
   getCategories() {
     if (this.product.productPlace && this.product.productPlace.PlaceId) {
+      this.typesLoading = true;
       this.productService.getProductCategories([this.product.productPlace.PlaceId]).subscribe(res => {
         this.categories = res;
-        this.setCategory();
+        this.typesLoading = false;
       });
     }
-  }
-  setCategory() {
-    // if (this.product && this.product.productCategoryName && this.categories && this.categories.filter(p => p.CategoryName === this.product.productCategoryName).length > 0) {
-    //   this.product.productCategory = this.categories.filter(p => p.CategoryName === this.product.productCategoryName)[0];
-    //   this.getSubCategories();
-    //   // this.setFormValidators();
-    // }
   }
   categoryChanged(event) {
     this.product.productCategoryName = this.product.productCategory.CategoryName;
     this.subCategories = new Array<ProductSubCategory>();
-    this.productTypes = new Array<ProductType>();
+    this.levels = new ProductTypeLevels();
     delete this.product.productSubCategory;
     delete this.product.productType;
     this.product.productSubCategoryName = '';
     this.product.productTypeName = '';
+    this.product.taxCode = '';
     this.getSubCategories();
   }
   getSubCategories() {
     if (this.product.productCategory && this.product.productCategory.CategoryId) {
       this.productService.getProductSubCategories([this.product.productCategory.CategoryId]).subscribe(res => {
         this.subCategories = res;
-        this.setSubCategory();
       });
     }
   }
-  setSubCategory() {
-    // if (this.product && this.product.productSubCategoryName && this.subCategories && this.subCategories.filter(p => p.SubCategoryName === this.product.productSubCategoryName).length > 0) {
-    //   this.product.productSubCategory = this.subCategories.filter(p => p.SubCategoryName === this.product.productSubCategoryName)[0];
-    //   this.getTypes();
-    //   // this.setFormValidators();
-    // }
-  }
   subCategoryChanged(event) {
-    this.product.productSubCategoryName = this.product.productSubCategory.SubCategoryName;
-    this.productTypes = new Array<ProductType>();
     delete this.product.productType;
     this.product.productTypeName = '';
-    this.getTypes();
+    this.product.taxCode = '';
+    this.product.productSubCategoryName = '';
+    if (this.product.productSubCategory) {
+      this.product.productSubCategoryName = this.product.productSubCategory.SubCategoryName;
+      this.getTypes(this.product.productSubCategory.SubCategoryId);
+    }
+    this.levels = new ProductTypeLevels();
   }
-  getTypes() {
-    if (this.product.productSubCategory && this.product.productSubCategory.SubCategoryId) {
-      this.productService.getProductTypes([this.product.productSubCategory.SubCategoryId]).subscribe(res => {
+  getTypes(parentId) {
+    if (parentId) {
+      this.typesLoading = true;
+      this.productService.getProductTypes([parentId]).subscribe(res => {
         this.productTypes = res;
-        if (res.length === 0) {
-          this.fG1.controls.productTypeName.clearValidators();
-        } else {
-          this.fG1.controls.productTypeName.setValidators([Validators.required]);
+        this.typesLoading = false;
+        if (res.length > 0) {
+          const newLevel = new ProductTypeLevel({ levelOptions: res, levelName: 'level' + this.levels.levels.length });
+          this.levels.levels.push(newLevel);
         }
-        this.fG1.controls.productTypeName.updateValueAndValidity();
-        this.setType();
+        // if (res.length === 0) {
+        //   this.fG1.controls.productTypeName.clearValidators();
+        // } else {
+        //   this.fG1.controls.productTypeName.setValidators([Validators.required]);
+        // }
+        // this.fG1.controls.productTypeName.updateValueAndValidity();
+        // this.setType();
         // this.setFormValidators();
       });
     }
@@ -210,7 +209,22 @@ export class ProductAddCategoryComponent implements OnInit, OnChanges {
       this.product.productType = this.productTypes.filter(p => p.TypeName === this.product.productTypeName)[0];
     }
   }
-  typeChanged(event) {
-    this.product.productTypeName = this.product.productType ? this.product.productType.TypeName : '';
+  spliceLevels(parentId) {
+    if (this.levels.levels.length > 0 && this.levels.levels.filter(p => p.level.TypeId === parentId).length > 0) {
+      const existingLevel = this.levels.levels.filter(p => p.level.TypeId === parentId)[0];
+      const levelIndex = this.levels.levels.indexOf(existingLevel);
+      this.levels.levels.splice(levelIndex + 1);
+    }
+    this.product.taxCode = '';
+  }
+  levelChanged(event, level) {
+    // this.product.productTypeName = this.product.productType ? this.product.productType.TypeName : '';
+    this.spliceLevels(level.level.TypeId);
+    if (level.level.nextLevelProductTypeStatus) {
+      this.getTypes(level.level.TypeId);
+    }
+    if (level.level.taxCode) {
+      this.product.taxCode = level.level.taxCode;
+    }
   }
 }

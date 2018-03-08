@@ -247,13 +247,14 @@ export class RetailerAddPaymentComponent implements OnInit {
           if (response.error) {
             const error = response.error.message;
             console.error(error);
+            this.core.message.info(response.error.message);
           } else {
             this.core.message.success(userMessages.stripe_token_created);
             this.paymentInfoObj.stripeToken = response.token.id;
             const stripePaymnentObj = new StripePayment({
               retailerProfile: this.profileData,
               retailerPayment: this.paymentData,
-              tosAcceptance: new TosAcceptance(),
+              tosAcceptance: new TosAcceptance({ client_ip: response.token.client_ip, created: response.token.created }),
               dob: new Date()
             });
             this.retialerService.addSellerAccount(stripePaymnentObj).subscribe(p => {

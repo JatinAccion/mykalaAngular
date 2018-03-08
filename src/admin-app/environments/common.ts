@@ -31,6 +31,7 @@ export const apiNames = {
     retailerPaymentInfo: {
         get: '{retailerId}/bankDetails',
         save: 'bankDetails',
+        addSellerAccount: 'addSellerAccount',
         delete: 'delete',
     },
     retailerShippingInfo: {

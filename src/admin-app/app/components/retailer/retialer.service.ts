@@ -207,8 +207,9 @@ export class RetialerService {
         .catch(this.handleError);
     }
   }
-  addSellerAccount( stripePayment: StripePayment): Observable<any> {
-    const url = 'http://192.168.169.230:8090/payment/v1/addSellerAccount';
+  addSellerAccount(stripePayment: StripePayment): Observable<any> {
+    this.headers = this.getHttpHeraders();
+    const url = `${'http://192.168.169.230:8090/payment/v1'}/${environment.apis.retailerPaymentInfo.addSellerAccount}`;
 
     return this.http
       .post(`${url}`, stripePayment, { headers: this.headers })

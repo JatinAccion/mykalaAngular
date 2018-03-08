@@ -41,6 +41,7 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
 import { NgxStripeModule } from 'ngx-stripe';
 import { environment } from '../environments/environment';
 import { GlobalErrorHandler } from '../../common/GlobalErrorHandler';
+import { ReportsModule } from './components/reports/reports.module';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { GlobalErrorHandler } from '../../common/GlobalErrorHandler';
     UserModule,
     EnquiryModule,
     OrderModule,
+    ReportsModule,
     Angular2FontawesomeModule,
     AngularMultiSelectModule,
     NgxPaginationModule,
