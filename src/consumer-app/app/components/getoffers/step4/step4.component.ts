@@ -21,6 +21,7 @@ export class Step4Component implements OnInit {
   Step4Summary: any; // Contains Selections from Step 1 to Step 4
   Step4Modal = new OfferInfo4(); // Contains Step 4 Request Modal
   userData: any;
+  step2DataArr = [];
 
   constructor(
     private route: Router,
@@ -36,18 +37,26 @@ export class Step4Component implements OnInit {
     this.pageLabel = 'You\'re almost done! Please confirm that we got everything right';
     this.core.pageLabel(this.pageLabel);
     if (window.localStorage['GetOfferStep_1'] != undefined) this.Step1Data = JSON.parse(window.localStorage['GetOfferStep_1']);
-    if (window.localStorage['GetOfferStep_2'] != undefined) this.Step2Data = JSON.parse(window.localStorage['GetOfferStep_2']);
+    if (window.localStorage['GetOfferStep_2'] != undefined) {
+      this.Step2Data = JSON.parse(window.localStorage['GetOfferStep_2']);
+      for (var keys in this.Step2Data.attributes) {
+        this.step2DataArr.push({
+          key: keys,
+          values: this.Step2Data.attributes[keys]
+        })
+      }
+    }
     if (window.localStorage['GetOfferStep_2'] == "") {
       this.Step2Data = "";
       this.Step4Summary = { ...this.Step1Data[0] };
     }
     if (window.localStorage['GetOfferStep_3'] == "") {
       this.Step3Data = "";
-      this.Step4Summary = { ...this.Step1Data[0], ...this.Step3Data };
+      this.Step4Summary = { ...this.Step1Data[0], ...this.Step2Data, ...this.Step3Data };
     }
     else if (window.localStorage['GetOfferStep_3'] != undefined) {
       this.Step3Data = JSON.parse(window.localStorage['GetOfferStep_3']);
-      this.Step4Summary = { ...this.Step1Data[0], ...this.Step3Data[0] };
+      this.Step4Summary = { ...this.Step1Data[0], ...this.Step2Data, ...this.Step3Data[0] };
     }
     if (window.localStorage['userInfo'] != undefined) this.userData = JSON.parse(window.localStorage['userInfo']);
     console.log(this.Step4Summary)

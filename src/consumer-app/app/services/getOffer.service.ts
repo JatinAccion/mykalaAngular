@@ -22,7 +22,7 @@ export class GetOfferService {
     }
 
     getofferSubCategory(gSCM) {
-        const url: string = 'http://192.168.169.67:8080/products/partial';
+        const url: string = 'http://192.168.169.185:8080/products/partial';
         return this.http.post(url, gSCM).map((res) => res.json());
     }
 }
