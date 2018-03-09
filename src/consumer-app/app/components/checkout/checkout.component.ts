@@ -77,6 +77,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('cardExpiry') cardExpiryInfo: ElementRef;
   @ViewChild('cardCvc') cardCvcInfo: ElementRef;
   @ViewChild('cardZip') cardZipInfo: ElementRef;
+  totalProductTax: number;
 
   constructor(
     public core: CoreService,
@@ -399,7 +400,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.avalaraTaxModel.itemTax[item.retailerId] = new Array<ItemsTaxList>();
       for (var j = 0; j < this.filteredCartItems[i].orderItems.length; j++) {
         let order = this.filteredCartItems[i].orderItems[j]
-        this.avalaraTaxModel.itemTax[item.retailerId].push(new ItemsTaxList(0, order.quantity, order.price, order.productId, "P0000000", "", "", ""))
+        this.avalaraTaxModel.itemTax[item.retailerId].push(new ItemsTaxList(j, order.quantity, order.price, order.productId, "P0000000", "", "", ""))
       }
     }
     for (var keys in this.avalaraTaxModel.itemTax) {
@@ -411,7 +412,16 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     console.log(this.avalaraTaxModel);
     this.checkout.getTax(this.avalaraTaxModel).subscribe((res) => {
-      console.log(res);
+      this.totalProductTax = res.totalTax;
+      for (var i = 0; i < res.lines.length; i++) {
+        let line = res.lines[i];
+        for (var j = 0; j < this.itemsInCart.length; j++) {
+          let items = this.itemsInCart[j];
+          if (line.itemCode == items.productId) {
+            items["productTaxCost"] = line.taxCalculated;
+          }
+        }
+      }
     }, (err) => {
       console.log(err);
     })
@@ -595,7 +605,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.ProductCheckoutModal.purchasedPrice = parseFloat(this.toBeCharged.nativeElement.innerText);
       for (var i = 0; i < this.itemsInCart.length; i++) {
         let item = this.itemsInCart[i]
-        this.ProductCheckoutModal.orderItems.push(new OrderItems(item.productId, item.productName, item.retailerName, item.retailerId, item.productDescription, item.productImage, item.quantity, item.price, 20, item.shippingCost, eval(`${item.price * item.quantity}`), item.deliveryMethod))
+        this.ProductCheckoutModal.orderItems.push(new OrderItems(item.productId, item.productName, item.retailerName, item.retailerId, item.productDescription, item.productImage, item.quantity, item.price, item.productTaxCost, item.shippingCost, eval(`${item.price * item.quantity}`), item.deliveryMethod))
       };
       console.log(this.ProductCheckoutModal);
       this.checkout.chargeAmount(this.ProductCheckoutModal).subscribe((res) => {

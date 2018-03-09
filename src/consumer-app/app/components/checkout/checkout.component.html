@@ -222,8 +222,8 @@
           </tr>
           <tr>
             <td class="p-2 pl-3">Tax: </td>
-            <td class="p-2 pl-3"> $
-              <span class="amount totalTaxCost">27.50</span>
+            <td class="p-2 pl-3" *ngIf="totalProductTax != undefined"> $
+              <span class="amount totalTaxCost">{{totalProductTax}}</span>
             </td>
           </tr>
           <tr>

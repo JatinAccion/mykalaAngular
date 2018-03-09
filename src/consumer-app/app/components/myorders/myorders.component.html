@@ -61,7 +61,10 @@
             </div>
             <div class="row">
               <p class="col-sm-3 colorlightGray">Tax:</p>
-              <p class="col-sm-9">${{order.productTaxCost}}</p>
+              <p class="col-sm-9" *ngIf="order.productTaxCost != undefined;else otherContent">${{order.productTaxCost}}</p>
+              <ng-template #otherContent>
+                <p class="col-sm-9">$0</p>
+              </ng-template>
             </div>
             <div class="row">
               <p class="col-sm-3 colorlightGray">Total:</p>

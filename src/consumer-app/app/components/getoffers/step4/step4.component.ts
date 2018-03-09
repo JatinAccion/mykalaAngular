@@ -85,8 +85,10 @@ export class Step4Component implements OnInit {
     this.Step4Modal.price.maxPrice = this.Step4Summary.priceRange.maxPrice;
     this.Step4Modal.startDate = current;
     this.Step4Modal.endDate = forThreeDays;
-    this.Step4Modal.typeName = new Array<any>();
-    for (var i = 0; i < this.Step4Summary.type.length; i++) this.Step4Modal.typeName.push(this.Step4Summary.type[i].name);
+    this.Step4Modal.attributes = this.Step4Summary.attributes;
+    this.Step4Modal.productType = this.Step4Summary.productType;
+    // this.Step4Modal.typeName = new Array<any>();
+    // for (var i = 0; i < this.Step4Summary.type.length; i++) this.Step4Modal.typeName.push(this.Step4Summary.type[i].name);
     if (this.userData == undefined) {
       this.Step4Modal.emailId = '';
       this.Step4Modal.userId = '';
@@ -101,13 +103,17 @@ export class Step4Component implements OnInit {
       this.Step4Modal.offerId = window.localStorage['offerIdForEdit']
       this.Step4Modal.consumerExist = true;
     }
+    console.log(this.Step4Modal)
     this.getOffer.confirmOffer(this.Step4Modal).subscribe(res => {
       this.loader = false;
       localStorage.removeItem("GetOfferStep_1");
+      localStorage.removeItem("GetOfferStep_2");
       localStorage.removeItem("GetOfferStep_3");
       window.localStorage['getOffers'] = JSON.stringify(res);
       localStorage.removeItem("offerIdForEdit");
       this.route.navigateByUrl("/myoffer")
+    }, (err) => {
+      this.loader = false;
     });
   };
 
