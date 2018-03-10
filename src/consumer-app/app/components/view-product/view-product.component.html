@@ -25,17 +25,17 @@
       <div class="container">
         <!-- main slider carousel -->
         <div class="row">
-          <div id="slider">
-            <div id="myCarousel" class="carousel slide">
+          <div id="slider" class="w-100 customSlider">
+            <div id="myCarousel" class="carousel slide" style="height:100%">
               <!-- main slider carousel items -->
-              <div class="carousel-inner">
-                <div class="item carousel-item" *ngFor="let image of selectedProduct.product.productImages; let i=index" data-slide-number="0">
+              <div class="carousel-inner" style="height:100%">
+                <div class="item carousel-item customCI" *ngFor="let image of selectedProduct.product.productImages; let i=index" data-slide-number="0">
                   <img src="{{s3}}{{image.location}}" class="img-fluid">
                 </div>
-                <a class="carousel-control left pt-3" href="#myCarousel" data-slide="prev">
+                <a class="carousel-control left pt-3" data-slide="prev">
                   <i class="fa fa-chevron-left"></i>
                 </a>
-                <a class="carousel-control right pt-3" href="#myCarousel" data-slide="next">
+                <a class="carousel-control right pt-3" data-slide="next">
                   <i class="fa fa-chevron-right"></i>
                 </a>
               </div>
@@ -58,9 +58,9 @@
 
     <!--Right Details-->
     <div class="col-sm-6 productDtl-right">
-      <h4>${{selectedProduct.product.kalaPrice}}
-        <br />
-        <span style="text-decoration: line-through">${{selectedProduct.product.retailPrice}}</span>
+      <h4>
+        {{selectedProduct.product.kalaPrice | currency}}
+        <span style="text-decoration: line-through; font-size: 16px; margin-left: 20px;">{{selectedProduct.product.retailPrice | currency}}</span>
       </h4>
 
       <!-- <strike>$258.00 +</strike> -->

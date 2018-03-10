@@ -15,6 +15,7 @@ export class Orders {
         public productName: string,
         public quantity: number,
         public shipProfileId: string,
-        public taxCost: number
+        public taxCost: number,
+        public taxCode: string
     ) { }
 }

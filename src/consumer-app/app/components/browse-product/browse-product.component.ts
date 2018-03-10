@@ -78,6 +78,7 @@ export class BrowseProductComponent implements OnInit {
         this.productListingModal.product.retailerId = content.retailerId;
         this.productListingModal.product.shipProfileId = content.shipProfileId;
         this.productListingModal.product.productImages = content.productImages;
+        this.productListingModal.product.taxCode = content.taxCode;
         this.productListingModal.product.mainImageSrc = "";
         this.tilesData.push(this.productListingModal);
       }
@@ -121,6 +122,7 @@ export class BrowseProductComponent implements OnInit {
       this.productListingModal.product.retailerId = content.product.retailerId;
       this.productListingModal.product.shipProfileId = content.product.shipProfileId;
       this.productListingModal.product.productImages = content.product.productImages;
+      this.productListingModal.product.taxCode = content.taxCode;
       this.productListingModal.product.mainImageSrc = "";
       this.tilesData.push(this.productListingModal);
     }

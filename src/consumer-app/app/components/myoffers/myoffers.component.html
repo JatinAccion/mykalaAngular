@@ -64,7 +64,7 @@
               </div>
               <div class="row pl-3">
                 <div class="col-sm-3 pb-2 colorlightGray">Price range:</div>
-                <div class="col-sm-9 pb-2">$ {{getOffersData.getOffersRequestDTO.price.minPrice}} - $ {{getOffersData.getOffersRequestDTO.price.maxPrice}}</div>
+                <div class="col-sm-9 pb-2">{{getOffersData.getOffersRequestDTO.price.minPrice | currency}} - {{getOffersData.getOffersRequestDTO.price.maxPrice | currency}}</div>
               </div>
               <div class="row pl-3">
                 <div class="col-sm-3 pb-2 colorlightGray">Delivery:</div>
@@ -91,11 +91,11 @@
                   </p>
                   <div>
                     <u>{{product.retailerName}}</u>
-                    <span class="float-right colorred w-100"> Offer Price: ${{product.offerPrice}} </span>
+                    <span class="float-right colorred w-100"> Offer Price: {{product.offerPrice | currency}} </span>
                     <br />
-                    <span class="float-right colorred w-100"> Difference: ${{product.difference}} </span>
+                    <span class="float-right colorred w-100"> Difference: {{product.difference}} </span>
                     <br />
-                    <span class="float-right colorred w-100"> Price Match Score: ${{product.priceMatchScore}} </span>
+                    <span class="float-right colorred w-100"> Price Match Score: {{product.priceMatchScore}} </span>
                   </div>
                 </div>
               </div>

@@ -132,7 +132,10 @@
                   <input [(ngModel)]="append_addAddressLine1" type="text" class="txtnml width100 appendedInput" placeholder="Address Line 1">
                   <input [(ngModel)]="append_addAddressLine2" type="text" class="txtnml width100 appendedInput" placeholder="Address Line 2">
                   <input [(ngModel)]="append_addShippingCity" type="text" class="txtnml width100 appendedInput" placeholder="City">
-                  <input [(ngModel)]="append_addShippingState" type="text" class="txtnml width100 appendedInput" placeholder="State">
+                  <select [(ngModel)]="append_addShippingState" class="txtnml width100 appendedInput">
+                    <option value selected disabled>Select a state</option>
+                    <option *ngFor="let state of getStates" value="{{state}}">{{state}}</option>
+                  </select>
                   <input onkeypress='return event.charCode >= 48 && event.charCode <= 57' [(ngModel)]="append_addShippingZipcode" type="number" class="txtnml width100 appendedInput" placeholder="Zipcode">
                 </div>
                 <button *ngIf="addShippingAddress" (click)="saveNewAddress($event)" class="col-sm-2 p-2 mb-2 text-right txtasbutton colorred" style="padding-top: 0 !important; cursor: pointer; padding-left: 0px !important">done</button>
@@ -154,7 +157,10 @@
                         <input style="position: relative; top: -37px;" *ngIf="shippingAddress.input_shippingAddress" type="text" [(ngModel)]="shippingAddress.append_editAddressLine1" class="txtnml width100 appendedInput" placeholder="Address Line 1">
                         <input style="position: relative; top: -37px;" *ngIf="shippingAddress.input_shippingAddress" type="text" [(ngModel)]="shippingAddress.append_editAddressLine2" class="txtnml width100 appendedInput" placeholder="Address Line 2">
                         <input style="position: relative; top: -37px;" *ngIf="shippingAddress.input_shippingAddress" type="text" [(ngModel)]="shippingAddress.append_editShippingCity" class="txtnml width100 appendedInput" placeholder="City">
-                        <input style="position: relative; top: -37px;" *ngIf="shippingAddress.input_shippingAddress" type="text" [(ngModel)]="shippingAddress.append_editShippingState" class="txtnml width100 appendedInput" placeholder="State">
+                        <select style="position: relative; top: -37px;" *ngIf="shippingAddress.input_shippingAddress" [(ngModel)]="shippingAddress.append_editShippingState" class="txtnml width100 appendedInput">
+                          <option value selected disabled>Select a state</option>
+                          <option *ngFor="let state of getStates" value="{{state}}" selected="shippingAddress.append_editShippingState == state">{{state}}</option>
+                        </select>
                         <input style="position: relative; top: -37px;" *ngIf="shippingAddress.input_shippingAddress" type="number" onkeypress='return event.charCode >= 48 && event.charCode <= 57' [(ngModel)]="shippingAddress.append_editShippingZipcode" class="txtnml width100 appendedInput" placeholder="Zipcode">
                       </div>
 

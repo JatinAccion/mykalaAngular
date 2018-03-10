@@ -369,9 +369,10 @@ a:hover {
     cursor: pointer;
     margin: 1px 0px 0px;
     left: 50%;
+    top: 30px;
     width: calc(100% - 20px);
-    height: auto;
-    background: rgba(151, 185, 69, 0.7);
+    height: calc(100% - 18px);
+    background: rgba(151, 185, 69, 0.9);
     padding: 10px;
     visibility: hidden;
     z-index: 100;
@@ -2652,7 +2653,7 @@ label{display:block}
     display: inline-block;
     position: absolute;
     bottom: 0;
-    right: -80px;
+    right: -110px;
 }
 .checkOutSticky{
     position: -webkit-sticky;
@@ -2700,4 +2701,47 @@ label{display:block}
     -webkit-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     -o-transform: translate(-50%, -50%);
+}
+.customSlider{
+    background: #fff;
+    height: 400px;
+    box-shadow: 3px 2px 3px #eee;
+    -moz-box-shadow: 3px 2px 3px #eee;
+    -webkit-box-shadow: 3px 2px 3px #eee;
+    -o-box-shadow: 3px 2px 3px #eee;
+    -ms-box-shadow: 3px 2px 3px #eee;
+    position: relative;
+    z-index: 1;
+}
+.customCI{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: auto;
+    transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+}
+.customSlider .carousel-indicators li{
+    background:rgba(224, 97, 99, 0.3);
+}
+.customSlider .carousel-indicators li.active{
+    background:rgb(224, 97, 99);
+}
+.customSlider a.carousel-control{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+}
+.customSlider a.carousel-control.left{
+    left:20px
+}
+.customSlider a.carousel-control.right{
+    right:20px
 }

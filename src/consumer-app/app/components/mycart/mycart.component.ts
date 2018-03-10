@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class MycartComponent implements OnInit {
   @ViewChild("TotalAmountPayable") TotalAmountPayable: ElementRef;
+  TotalAmountCartPayable: number
   itemsInCart = [];
   cartEmpty: boolean = false;
   noItemsInCart: boolean = false;
@@ -116,8 +117,13 @@ export class MycartComponent implements OnInit {
 
   totalPayableAmount() {
     let amounts = [];
-    let itemPrices = document.getElementsByClassName("itemPrices");
-    for (var i = 0; i < itemPrices.length; i++) amounts.push(parseFloat(itemPrices[i].innerHTML));
+    for (var i = 0; i < this.itemsInCart.length; i++) {
+      let item = this.itemsInCart[i];
+      amounts.push(eval(`${item.quantity * item.price}`));
+    }
+    // let itemPrices = document.getElementsByClassName("itemPrices");
+    // for (var i = 0; i < itemPrices.length; i++) amounts.push(parseFloat(itemPrices[i].innerHTML));
+    this.TotalAmountCartPayable = eval(amounts.join("+"));
     return eval(amounts.join("+"));
   }
 
@@ -154,6 +160,7 @@ export class MycartComponent implements OnInit {
     this.addToCartModal.quantity = item.quantity;
     this.addToCartModal.inStock = item.inStock;
     this.addToCartModal.productImage = item.productImage;
+    this.addToCartModal.taxCode = item.taxCode
     if (to === 'toCart') {
       let moveToCart: boolean = false;
       let cartItems;
@@ -273,7 +280,8 @@ export class MycartComponent implements OnInit {
       else return false;
     }
     else {
-      window.localStorage['TotalAmount'] = parseInt(this.TotalAmountPayable.nativeElement.innerText);
+      //window.localStorage['TotalAmount'] = this.TotalAmountPayable.nativeElement.innerText;
+      window.localStorage['TotalAmount'] = this.TotalAmountCartPayable;
       this.route.navigateByUrl("/checkout");
     }
   }

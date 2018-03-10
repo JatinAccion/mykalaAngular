@@ -10,4 +10,5 @@ export class AddToCart {
     public retailerReturns: string;
     public shipProfileId: string;
     public productDescription: string;
+    public taxCode: string;
 }

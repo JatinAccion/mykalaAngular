@@ -94,6 +94,7 @@ export class ViewProductComponent implements OnInit {
     this.addToCartModal.retailerReturns = this.selectedProduct.retailerReturns;
     this.addToCartModal.shipProfileId = this.selectedProduct.product.shipProfileId;
     this.addToCartModal.productDescription = this.selectedProduct.product.productDescription;
+    this.addToCartModal.taxCode = this.selectedProduct.product.taxCode;
     for (var i = 0; i < this.selectedProduct.product.productImages.length; i++) {
       let image = this.selectedProduct.product.productImages[i]
       if (image.mainImage == true) this.addToCartModal.productImage = `${this.s3 + image.location}`

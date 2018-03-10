@@ -24,14 +24,13 @@
           </div>
           <div class="row pb-2">
             <div class="col-sm-3 colorlightGray">Price:</div>
-            <div class="col-sm-9">${{item.price}}</div>
+            <div class="col-sm-9">{{item.price | currency}}</div>
           </div>
           <hr />
           <div class="row p-2">
             <p class="col-sm-3 colorred">Total price:</p>
             <p class="col-sm-9 colorred">
-              $
-              <strong class="itemPrices">{{itemTotal(item.price, item.quantity)}}</strong>
+              <strong class="itemPrices">{{itemTotal(item.price, item.quantity) | currency}}</strong>
             </p>
           </div>
         </div>
@@ -51,8 +50,7 @@
         <div class="row">
           <div class="col-sm-2 colorred p-0 text-left">Total Amount:</div>
           <div class="col-sm-4 colorred text-left">
-            $
-            <strong #TotalAmountPayable>{{totalPayableAmount()}}</strong>
+            <strong #TotalAmountPayable>{{totalPayableAmount() | currency}}</strong>
           </div>
           <div class="col-sm-6 colorred text-right">
             <a routerLink="/browse-product" class="btn-outer btn_redouter_right colorred mr-2">continue shopping</a>
@@ -92,14 +90,13 @@
           </div>
           <div class="row pb-2">
             <div class="col-sm-3 colorlightGray">Price:</div>
-            <div class="col-sm-9">${{item.price}}</div>
+            <div class="col-sm-9">${{item.price | currency}}</div>
           </div>
           <hr />
           <div class="row">
             <p class="col-sm-3 colorred">Total price:</p>
             <p class="col-sm-9 colorred">
-              $
-              <strong>{{itemTotal(item.price, item.quantity)}}</strong>
+              <strong>{{itemTotal(item.price, item.quantity) | currency}}</strong>
             </p>
           </div>
         </div>
