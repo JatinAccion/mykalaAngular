@@ -121,15 +121,15 @@ export class PaymentsReportComponent implements OnInit {
         break;
       case 'automatic':
         this.reportsService.getPaymentReports('Automatic', this.widget.automatic.year.toString(), (this.widget.automatic.month + 1).toString()).subscribe((res) => { this.setupSummary(res[0]); });
-        this.reportsService.getconsumerPaymentReports('Automatic', this.widget.total.year.toString(), (this.widget.total.month + 1).toString()).subscribe((res) => { this.setupChartData(res); });
+        this.reportsService.getconsumerPaymentReports('Automatic', this.widget.automatic.year.toString(), (this.widget.automatic.month + 1).toString()).subscribe((res) => { this.setupChartData(res); });
         break;
       case 'manual':
         this.reportsService.getPaymentReports('Manual', this.widget.manual.year.toString(), (this.widget.manual.month + 1).toString()).subscribe((res) => { this.setupSummary(res[0]); });
-        this.reportsService.getconsumerPaymentReports('Manual', this.widget.total.year.toString(), (this.widget.total.month + 1).toString()).subscribe((res) => { this.setupChartData(res); });
+        this.reportsService.getconsumerPaymentReports('Manual', this.widget.manual.year.toString(), (this.widget.manual.month + 1).toString()).subscribe((res) => { this.setupChartData(res); });
         break;
       case 'pending':
         this.reportsService.getPaymentReports('Pending', this.widget.pending.year.toString(), (this.widget.pending.month + 1).toString()).subscribe((res) => { this.setupSummary(res[0]); });
-        this.reportsService.getconsumerPaymentReports('Pending', this.widget.total.year.toString(), (this.widget.total.month + 1).toString()).subscribe((res) => { this.setupChartData(res); });
+        this.reportsService.getconsumerPaymentReports('Pending', this.widget.pending.year.toString(), (this.widget.pending.month + 1).toString()).subscribe((res) => { this.setupChartData(res); });
         break;
     }
   }
