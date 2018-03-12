@@ -13,7 +13,6 @@ import { Router } from '@angular/router';
 import { ProductCheckout, Address, OrderItems } from '../../../../models/productCheckout';
 import { MyAccountAddressModel } from '../../../../models/myAccountPost';
 import { OrderListing, Orders } from '../../../../models/orderListing';
-import { Order } from '../../../../models/order';
 import { filter } from 'rxjs/operator/filter';
 import animateScrollTo from 'animated-scroll-to';
 import { AvalaraTaxModel, shippingAddress, ItemsTaxModel, ItemsTaxList } from '../../../../models/tax';

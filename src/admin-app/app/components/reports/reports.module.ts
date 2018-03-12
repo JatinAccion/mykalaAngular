@@ -9,6 +9,7 @@ import { SharedModule } from '../../../../common/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 
 import { ChartModule } from 'angular2-chartjs';
+
 import { ReportsRoutingModule } from './reports-routing.module';
 import { ReportsService } from './reports.service';
 import { CustomersReportComponent } from './customers-report/customers-report.component';

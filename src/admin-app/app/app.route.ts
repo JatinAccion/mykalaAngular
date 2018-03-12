@@ -15,6 +15,7 @@ import { UserRoutingModule } from './components/user/user-routing.module';
 import { EnquiryRoutingModule } from './components/enquiry/enquiry-routing.module';
 import { OrderRoutingModule } from './components/order/order-routing.module';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { ReportsRoutingModule } from './components/reports/reports-routing.module';
 
 const appRoutes: Routes = [
     {
@@ -61,6 +62,7 @@ const appRoutes: Routes = [
         UserRoutingModule,
         EnquiryRoutingModule,
         OrderRoutingModule,
+        ReportsRoutingModule,
         RouterModule.forRoot(appRoutes, { useHash: true })],
     exports: [RouterModule]
 })

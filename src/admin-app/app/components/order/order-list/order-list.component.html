@@ -1,31 +1,32 @@
 <div class="container">
     <div class="title col-sm-12 p-0">
-        <h1>Orders</h1> 
-    </div> 
+        <h1>Orders</h1>
+    </div>
     <div class="row p-2">
-        <div class="col-sm-9 pl-2">
-            <input placeholder="search for user" class="form-control txt_Search w-50" type="text">
+        <div class="col-sm-6 pl-2">
+            <input placeholder="search for order" class="form-control txt_Search w-50" type="text"  [(ngModel)]="search" (keyup)="getPage(1)">
         </div>
-        <div class="col-sm-3 pr-2 text-right">
-            <select class="ddl_default form-control">
-                <option>category</option>
-                <option>category1</option>
-                <option>category2</option>
+        <div class="col-sm-3 pr-2 ">
+            <select class="ddl_default form-control" [(ngModel)]="searchType" >
+                <option>Seller</option>
+                <option>Member</option>
+                <option>Order Number</option>
             </select>
         </div>
     </div>
 
+    <div class="spinner" [ngClass]="{ 'hidden': !loading }"></div>
     <div class="col-sm-12 p-0 mt-3 product_file">
-        <div class="row">
-            <div class="col-sm-2 colorlightGray">Previous</div>
-            <div class="col-sm-8 text-center">Sales Transactions 1-10 of 1,235</div>
-            <div class="col-sm-2 colorlightGray text-right">Next</div>
+        <div class="col-sm-12 p-0 pt-3 pagination_align">
+            <pagination-controls id='server' class="my-pagination" (pageChange)="getPage($event)" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page"></pagination-controls>
         </div>
         <div class="col-sm-12 p-2 m-1 backgroundWhite">
             <table class="table">
                 <thead>
                     <tr>
-                        <th width="5%"><input type="checkbox" /></th>
+                        <th width="5%">
+                            <input type="checkbox" />
+                        </th>
                         <th width="10%">Order No.</th>
                         <th width="10%">Status</th>
                         <th width="10%">Order Date</th>
@@ -37,27 +38,28 @@
                         <th width="2%"></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody *ngFor="let order of orders.content | paginate: { id: 'server', itemsPerPage: orders.size, currentPage: orders.number + 1 , totalItems: orders.totalElements }">
                     <tr>
-                        <td><input type="checkbox" /></td>
-                        <td>107-3434-27</td>
-                        <td>Delivered</td>
-                        <td>06/12/2015</td>
-                        <td>Collective Fab</td>
-                        <td>Sonya Martinz</td>
-                        <td>0720MPK29QV</td>
-                        <td>$210.00</td>
+                        <td>
+                            <input type="checkbox" />
+                        </td>
+                        <td>{{order.orderId}}</td>
+                        <td>{{order.orderStatus}}</td>
+                        <td>{{order.purchasedDate | date:'shortDate'}}</td>
+                        <td>{{order.orderItems[0].retailerName}}</td>
+                        <td>{{order.customerName}}</td>
+                        <td>{{order.orderItems[0].productId}}</td>
+                        <td>{{order.purchasedPrice | currency }}</td>
                         <td>Y</td>
                         <td>
-                            <a class="colorBlue" (click)="isCollapsed = !isCollapsed"
-                                    [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
-                                    <i class="fa fa-caret-down" aria-hidden="true"></i>
-                            </a> 
+                            <a class="colorBlue" (click)="order.isCollapsed = !order.isCollapsed" [attr.aria-expanded]="!order.isCollapsed" aria-controls="collapseExample">
+                                <i class="fa fa-caret-down" aria-hidden="true"></i>
+                            </a>
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="10" *ngIf="!isCollapsed" class="divOrderDetails">
-                           <app-order-details></app-order-details>
+                        <td colspan="10" *ngIf="!order.isCollapsed" class="divOrderDetails">
+                            <app-order-details [order]="order"></app-order-details>
                         </td>
                     </tr>
                 </tbody>

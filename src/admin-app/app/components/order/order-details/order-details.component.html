@@ -1,79 +1,87 @@
-<div class="row orderdetail_row m-2">
+<div class="row orderdetail_row m-2" *ngFor="let orderItem of order.orderItems">
     <div class="col-sm-2 align-middle">
-        <h4 class="colorGray">Product</h4> 
-        <img src="/admin-app/assets/images/lamp1.png" />
+        <h4 class="colorGray">Product</h4>
+        <img *ngIf="orderItem.productImage" src="{{orderItem.productImage}}" class="img-fluid showDummy" alt="" />
+        <i *ngIf="!orderItem.productImage" class="fa fa-picture-o defaultUser py-2" aria-hidden="true"></i>
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-4" *ngIf="orderItem">
         <table class="no_tdBorder" width="100%" border="0">
             <tr>
-                <td colspan="2"><strong>Wood Floral Ceiling Lamp</strong></td> 
+                <td colspan="2">
+                    <strong>{{orderItem.productName}}</strong>
+                </td>
             </tr>
             <tr>
-                <td>Product Code:</td>
-                <td>093483948</td>
+                <td width="40%">Product Code:</td>
+                <td width="60%">{{orderItem.productId}}</td>
             </tr>
             <tr>
                 <td>Price:</td>
-                <td>$345.00</td>
+                <td>{{orderItem.productPrice | currency}}</td>
             </tr>
             <tr>
-                <td>Quality:</td>
-                <td>1</td>
+                <td>Quantity:</td>
+                <td>{{orderItem.productQuantity}}</td>
             </tr>
-            <tr>
+            <!-- <tr>
                 <td>Size:</td>
                 <td>20cm</td>
-            </tr>
+            </tr> -->
             <tr>
                 <td>Reviews:</td>
-                <td>123</td>
-            </tr> 
-        </table>
-    </div> 
-    <div class="col-sm-4 offset-2">
-        <table width="100%" class="no_tdBorder" border="0"> 
-            <tr>
-                <td>Product Place:</td>
-                <td>Home & Garden</td>
-            </tr>
-            <tr>
-                <td>Category:</td>
-                <td>Lighting</td>
-            </tr>
-            <tr>
-                <td>Type:</td>
-                <td>Lamp, Ceiling</td>
+                <td>{{orderItem.product?orderItem.product.reviewCount:''}}</td>
             </tr>
         </table>
     </div>
+    <div class="col-sm-4 offset-2" *ngIf="orderItem">
+        <table width="100%" class="no_tdBorder" border="0">
+            <tr>
+                <td>Product Place:</td>
+                <td>{{orderItem.product?orderItem.product.productPlaceName:''}}</td>
+            </tr>
+            <tr>
+                <td>Category:</td>
+                <td>{{orderItem.product?orderItem.product.productCategoryName:''}}</td>
+            </tr>
+            <tr>
+                <td>Type:</td>
+                <td>{{orderItem.product?orderItem.product.productSubCategoryName:''}},{{orderItem.product?orderItem.product.productTypeName:''}}</td>
+            </tr>
+            <tr>
+                <td>Delivery Method:</td>
+                <td>{{orderItem.deliveryMethod}}</td>
+            </tr>
+        </table>
+    </div>
+    <hr />
 </div>
 <hr />
 <div class="row orderdetail_row m-2">
     <div class="col-sm-2 align-middle">
-        <h4 class="colorGray">Order</h4> 
-        <img src="/admin-app/assets/images/lamp2.png" />
+        <h4 class="colorGray">Order</h4>
+        <!-- <img src="/admin-app/assets/images/lamp2.png" /> -->
     </div>
     <div class="col-sm-4">
-        <table width="100%" class="no_tdBorder" border="0"> 
+        <table width="100%" class="no_tdBorder" border="0">
             <tr>
                 <td>Order number:</td>
-                <td>093-483948</td>
+                <td>{{order.orderId}}</td>
             </tr>
             <tr>
-                <td>1-5 days delivery:</td>
-                <td>$5.00</td>
+                <td>Shipping cost:</td>
+                <td>{{order.totalShipCost | currency}}</td>
             </tr>
             <tr>
                 <td>Total:</td>
-                <td>$234.00</td>
+                <td>{{order.purchasedPrice | currency}}</td>
             </tr>
             <tr>
-                <td>Pay with:</td>
-                <td>Visa 9876</td>
+                <td>Paid with:</td>
+                <td>{{order.paymentSource + ' ' + order.last4Digits}}</td>
             </tr>
             <tr>
                 <td>Ship to:</td>
-                <td>Xinyu liu, 20 surry rd, arlington, ma,09876</td>
+                <td>{{order.address.toString()}}</td>
             </tr>
         </table>
     </div>
@@ -81,56 +89,61 @@
         <table width="100%" class="no_tdBorder" border="0">
             <tr>
                 <td>Order placed:</td>
-                <td>06/12/2017</td>
+                <td>{{order.purchasedDate | date:'shortDate'}}</td>
             </tr>
             <tr>
                 <td>Processed on:</td>
-                <td>06/12/2017</td>
+                <td>{{order.purchasedDate | date:'shortDate'}}</td>
             </tr>
             <tr>
                 <td>Shipped on:</td>
-                <td>06/12/2017</td>
+                <td>{{order.purchasedDate | date:'shortDate'}}</td>
             </tr>
             <tr>
                 <td>Delivered on:</td>
-                <td>06/12/2017</td>
+                <td>{{order.purchasedDate | date:'shortDate'}}</td>
             </tr>
             <tr>
                 <td>Seller payment status :</td>
-                <td>Paid<span class="float-right"><a href="#">Edit</a></span></td>
+                <td>Paid
+                    <span class="float-right">
+                        <a href="#">Edit</a>
+                    </span>
+                </td>
             </tr>
             <tr>
                 <td>Paid on:</td>
-                <td>06/12/2017 14:35:00</td>
+                <td>{{order.purchasedDate | date:'fullDate'}}</td>
             </tr>
         </table>
     </div>
-</div> 
+</div>
 <hr />
-<div class="row orderdetail_row m-2">
+<div class="row orderdetail_row m-2" *ngIf="consumer">
     <div class="col-sm-2 align-middle">
-        <h4 class="colorGray">Member</h4> 
-        <img src="/admin-app/assets/images/business_logo3.png" />
+        <h4 class="colorGray">Member</h4>
+        <img *ngIf="consumer && consumer.consumerImagePath" src="{{consumer.consumerImagePath}}" class="img-fluid showDummy" alt="" />
+        <i *ngIf="consumer && !consumer.consumerImagePath" class="fa fa-picture-o defaultUser py-2" aria-hidden="true"></i>
     </div>
     <div class="col-sm-4">
-        <table width="100%" class="no_tdBorder" border="0"> 
+        <table width="100%" class="no_tdBorder" border="0">
             <tr>
-                <td>Sonya Martinez</td> 
+                <td>{{consumer.firstName}} {{consumer.lastName}}</td>
             </tr>
             <tr>
-                <td>member since 06/2017</td> 
+                <td>member since {{consumer.createdAt | date:'shortDate'}}</td>
             </tr>
             <tr>
-                <td>4 orders, 7 offer requestis</td> 
+                <td>4 orders, 7 offer requestis</td>
             </tr>
             <tr>
-                <td>1-555-676-3433</td> 
+                <td>{{consumer.phone}}</td>
             </tr>
             <tr>
-                <td>sonya.martinez@gmail.com</td> 
+                <td>{{consumer.emailId}}</td>
             </tr>
             <tr>
-                <td>12345 Mango Dr, Del Mar, CA 98765</td>
+                <td>{{consumer.address?consumer.address.toString():''}}</td>
             </tr>
         </table>
     </div>
@@ -138,14 +151,16 @@
         <table width="100%" class="no_tdBorder" border="0">
             <tr>
                 <td>DOB:</td>
-                <td>08/17/1985</td>
+                <td>{{consumer.dateOfBirth | date:'shortDate'}}</td>
             </tr>
             <tr>
                 <td>Member ID:</td>
-                <td>098765457</td>
+                <td>{{consumer.userId}}</td>
             </tr>
             <tr>
-                <td colspan="2"><strong>Previous Inquiries:</strong></td> 
+                <td colspan="2">
+                    <strong>Previous Inquiries:</strong>
+                </td>
             </tr>
             <tr>
                 <td class="pl-3">complaints:</td>
@@ -163,34 +178,37 @@
     </div>
 </div>
 <hr />
-<div class="row orderdetail_row m-2">
+<div class="row orderdetail_row m-2" *ngIf="seller">
     <div class="col-sm-2 align-middle">
-        <h4 class="colorGray">Seller</h4> 
-        <img src="/admin-app/assets/images/lamp1.png" />
+        <h4 class="colorGray">Seller</h4>
+        <img *ngIf="seller.businessLogoPath" src="{{seller.businessLogoPath}}" class="img-fluid showDummy" alt="" />
+        <i *ngIf="!seller.businessLogoPath" class="fa fa-picture-o defaultUser py-2" aria-hidden="true"></i>
     </div>
     <div class="col-sm-4">
-        <table width="100%" border="0"> 
+        <table width="100%" border="0">
             <tr>
-                <td>Collective Fab</td> 
+                <td>{{seller.businessName}}</td>
             </tr>
             <tr>
-                <td>Reviews: 123</td> 
+                <td>Reviews: 123</td>
             </tr>
             <tr>
-                <td>Contact: Troy Smith</td> 
+                <td>Contact: {{seller.contactPerson && seller.contactPerson[0]?seller.contactPerson[0].name:''}}</td>
             </tr>
             <tr>
-                <td>1-555-342-2343</td> 
+                <td>{{seller.businessAddress?seller.businessAddress.phoneNo:''}}</td>
             </tr>
             <tr>
-                <td>tmsith@collectivefab.com</td> 
+                <td>{{seller.businessAddress?seller.businessAddress.email:''}}</td>
             </tr>
         </table>
     </div>
     <div class="col-sm-3">
-        <table width="100%" border="0"> 
+        <table width="100%" border="0">
             <tr>
-                <td colspan="2"><strong>Previous Inquiries:</strong></td>
+                <td colspan="2">
+                    <strong>Previous Inquiries:</strong>
+                </td>
             </tr>
             <tr>
                 <td class="pl-3">complaints:</td>
@@ -206,45 +224,59 @@
             </tr>
         </table>
     </div>
-    <div class="col-sm-3">
-        <a class=" btn_redouter_right w-100" href="#">view account</a>
+    <div class="col-sm-3" *ngIf="seller">
+        <a class=" btn_redouter_right w-100" [routerLink]="['../retailer-edit', seller.retailerId]">view account</a>
     </div>
 </div>
 <hr />
 <div class="row orderdetail_row m-2">
     <div class="col-sm-2 align-middle">
-        <h4 class="colorGray">Issues</h4> 
+        <h4 class="colorGray">Issues</h4>
     </div>
     <div class="col-sm-4">
-        <table width="100%" class="no_tdBorder" border="0"> 
+        <table width="100%" class="no_tdBorder" border="0">
             <tr>
                 <td>Priority:</td>
-                <td><strong>High</strong></td>
+                <td>
+                    <strong>High</strong>
+                </td>
             </tr>
             <tr>
                 <td>Category:</td>
-                <td><strong>Problem with order</strong></td>
+                <td>
+                    <strong>Problem with order</strong>
+                </td>
             </tr>
             <tr>
                 <td>Issue type:</td>
-                <td><strong>Item arrived damaged</strong></td>
+                <td>
+                    <strong>Item arrived damaged</strong>
+                </td>
             </tr>
             <tr>
                 <td>Issue date:</td>
-                <td><strong>06/15/2017</strong></td>
+                <td>
+                    <strong>06/15/2017</strong>
+                </td>
             </tr>
             <tr>
                 <td>Issue status:</td>
-                <td><strong>Closed - satisfied</strong></td>
+                <td>
+                    <strong>Closed - satisfied</strong>
+                </td>
             </tr>
             <tr>
                 <td>Resolved on:</td>
-                <td><strong>06/15/2017</strong></td>
+                <td>
+                    <strong>06/15/2017</strong>
+                </td>
             </tr>
             <tr>
                 <td>Issue description:</td>
-                <td><strong>Lamp surfaced arrived with deep scratches in finish</strong></td>
-            </tr> 
+                <td>
+                    <strong>Lamp surfaced arrived with deep scratches in finish</strong>
+                </td>
+            </tr>
         </table>
     </div>
     <div class="col-sm-4">
@@ -259,12 +291,16 @@
                     <p class="border_outline p-2">
                         Contacted buyer on 06/23 to confirm issue, contacted seller on 06/23, seller agreed to exchange item, Shipping label sent to Sonya on 06/24, Item exchangein complete and member is satisfied with result on 06/28.
                     </p>
-                </td> 
-            </tr> 
+                </td>
+            </tr>
         </table>
     </div>
     <div class="col-sm-2">
-        <p><a class="btn_red_right  w-100" href="inquiries_create.html">+ create inquiry</a></p>
-        <p><a class="btn_redouter_right w-100" href="#">edit account</a></p> 
+        <p>
+            <a class="btn_red_right  w-100" href="inquiries_create.html">+ create inquiry</a>
+        </p>
+        <p *ngIf="seller">
+            <a class="btn_redouter_right w-100" [routerLink]="['../retailer-edit', seller.retailerId]">edit account</a>
+        </p>
     </div>
 </div>

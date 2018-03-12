@@ -44,7 +44,30 @@ export class ReportsService {
       .map(p => p.json())
       .catch(this.handleError);
   }
-  
+  getPaymentCounts(paymentType: string, year: string, month?: string) {
+    this.headers = this.getHttpHeraders();
+    const url = `${environment.ordersApi}/${environment.apis.orders.paymentCounts}`.replace('{paymentType}', paymentType).replace('{year}', year).replace('{month}', month || '');
+    return this.http
+      .get(url, { headers: this.headers })
+      .map(p => p.json())
+      .catch(this.handleError);
+  }
+  getPaymentReports(paymentType: string, year: string, month?: string) {
+    this.headers = this.getHttpHeraders();
+    const url = `${environment.ordersApi}/${environment.apis.orders.paymentReports}`.replace('{paymentType}', paymentType).replace('{year}', year).replace('{month}', month || '');
+    return this.http
+      .get(url, { headers: this.headers })
+      .map(p => p.json())
+      .catch(this.handleError);
+  }
+  getconsumerPaymentReports(paymentType: string, year: string, month?: string) {
+    this.headers = this.getHttpHeraders();
+    const url = `${environment.ordersApi}/${environment.apis.orders.consumerPayment}`.replace('{paymentType}', paymentType).replace('{year}', year).replace('{month}', month || '');
+    return this.http
+      .get(url, { headers: this.headers })
+      .map(p => p.json())
+      .catch(this.handleError);
+  }
   private handleError(error: any) {
     // in a real world app, we may send the server to some remote logging infrastructure
     // instead of just logging it to the console

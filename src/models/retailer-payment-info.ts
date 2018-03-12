@@ -17,7 +17,9 @@ export class RetailerPaymentInfo {
     public addresses: Array<PostalAddress>;
     public status: boolean;
     public stripeToken: string;
-    public stripeAccountId: string;
+    public stripeConnectAccountId: string;
+    public stripeBankAccountNumber: string;
+
     constructor(obj?: any) {
         this.retailerBankAddress = new RetailerBankAddress();
         this.bankAddress = new BankAddress();
@@ -45,7 +47,8 @@ export class RetailerPaymentInfo {
                 }
             }
             this.stripeToken = obj.stripeToken;
-            this.stripeAccountId = obj.stripeAccountId;
+            this.stripeConnectAccountId = obj.stripeConnectAccountId;
+            this.stripeBankAccountNumber = obj.stripeBankAccountNumber;
         }
     }
 }

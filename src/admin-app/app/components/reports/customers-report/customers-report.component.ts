@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Order } from '../../../../../models/order';
+import { ReportOrders } from '../../../../../models/report-order';
 import { ReportsService } from '../reports.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { ReportsService } from '../reports.service';
   encapsulation: ViewEncapsulation.None
 })
 export class CustomersReportComponent implements OnInit {
-  orders: Array<Order>;
+  orders: ReportOrders;
   isCollapsed = true;
   type = 'line';
   data = {
@@ -26,7 +26,7 @@ export class CustomersReportComponent implements OnInit {
     maintainAspectRatio: false
   };
   constructor(private orderService: ReportsService) {
-    this.orders = new Array<Order>();
+    this.orders = new ReportOrders();
   }
 
   ngOnInit() {
@@ -35,7 +35,7 @@ export class CustomersReportComponent implements OnInit {
   }
   getData() {
     this.orderService.get(null).subscribe((res) => {
-      return res.forEach(obj => { this.orders.push(new Order(obj)); });
+      // return res.forEach(obj => { this.orders.push(new Order(obj)); });
     });
   }
 }

@@ -563,3 +563,7 @@ ol li{
 .btn-primary{
     background-color: #436798 !important;
 }
+
+.orderdetail_row table.no_tdBorder tr td{
+    padding:5px 0px;
+}

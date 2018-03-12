@@ -16,8 +16,8 @@ export class PostalAddress {
         if (obj) {
             this.name = obj.name;
             this.position = obj.position;
-            this.addressLine1 = obj.addressLine1;
-            this.addressLine2 = obj.addressLine2;
+            this.addressLine1 = obj.addressLine1 || obj.addressLineOne;
+            this.addressLine2 = obj.addressLine2 || obj.addressLineTwo;
             this.city = obj.city;
             this.state = obj.state;
             this.zipcode = obj.zipcode;
@@ -27,6 +27,10 @@ export class PostalAddress {
             this.country = 'US';
         }
     }
+    public toString() {
+        return [
+            this.name, this.position, this.addressLine1, this.addressLine2, this.city, this.state, this.zipcode, this.country, this.email, this.phoneNo].toString();
+    }
 }
 export class RetailerBusinessAddress extends PostalAddress {
     constructor(obj?: any) {
@@ -34,6 +38,6 @@ export class RetailerBusinessAddress extends PostalAddress {
         if (obj) {
         } else {
             this.addressType = AddressType.business;
-        }   
+        }
     }
 }

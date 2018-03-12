@@ -75,8 +75,20 @@ export const apiNames = {
         upload: 'products/bulkProducts',
         uploadSummary: 'products/summary',
         viewUploadedProducts: 'products/dump',
-        deleteSummary: 'products/summary/{summaryId}'
+        deleteSummary: 'products/summary/{summaryId}',
+        getProducts: 'products/all',
+        getProductReview: 'consumer/v1/productReviewCount'
     },
+    orders: {
+        get: '',
+        paymentCounts: 'paymentCounts/{paymentType}/{year}/{month}',
+        paymentReports: 'paymentReports/{paymentType}/{year}/{month}',
+        consumerPayment: 'consumerPayment/{paymentType}/{year}/{month}',
+    },
+    consumer: {
+        get: 'consumer/v1/userId'
+    }
+
 
 };
 export const commonMessages = {
