@@ -44,10 +44,10 @@
                 <img [src]="tile.product.mainImageSrc" class="product_hover img-fluid">
                 <div class="hover_panel">
                     <h5>{{tile.product.productName}}</h5>
-                    <span style="font-size:14px;margin-right:10px;">{{tile.product.kalaPrice}}</span>
-                    <span style="font-size:11px;text-decoration:line-through;margin-right:100px;">{{tile.product.retailPrice}}</span>
-                    <br />
-                    <span style="font-size:11px;">{{tile.product.productCategoryName}}</span>
+                    <span style="font-size:17px;margin-right:10px;">{{tile.product.kalaPrice | currency}}</span>
+                    <span style="font-size:14px;text-decoration:line-through;margin-right:100px;">{{tile.product.retailPrice | currency}}</span>
+                    <!-- <br />
+                    <span style="font-size:11px;">{{tile.product.productCategoryName}}</span> -->
                 </div>
             </div>
         </div>

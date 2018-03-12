@@ -76,4 +76,10 @@ export class MyAccountService {
         const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.myAccountInterest}`;
         return this.http.post(url, InterestModel).map((res) => res.json());
     }
+
+    getAllStates() {
+        const BASE_URL_RETAILER: string = environment.shippingMethod;
+        const url: string = `${BASE_URL_RETAILER}/${environment.apis.shippingMethod.getStates}`;
+        return this.http.get(url).map((res) => res.json());
+    }
 }

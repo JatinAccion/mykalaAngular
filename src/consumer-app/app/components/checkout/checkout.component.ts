@@ -16,6 +16,7 @@ import { OrderListing, Orders } from '../../../../models/orderListing';
 import { filter } from 'rxjs/operator/filter';
 import animateScrollTo from 'animated-scroll-to';
 import { AvalaraTaxModel, shippingAddress, ItemsTaxModel, ItemsTaxList } from '../../../../models/tax';
+import { CheckOutMessages } from './checkoutMessages';
 
 @Component({
   selector: 'app-checkout',
@@ -33,7 +34,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   addShippingAddressForm: FormGroup;
   @ViewChild('cardInfo') cardInfo: ElementRef;
   @ViewChild('toBeCharged') toBeCharged: ElementRef;
-  @ViewChild('retialerReturnModal') retialerReturnModal: ElementRef;
+  @ViewChild('confirmProcess') confirmProcess: ElementRef;
   AddressSaveModel = new MyAccountAddressModel();
   card: any;
   cardHandler = this.onChange.bind(this);
@@ -64,7 +65,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   addressFormData: any;
   retiailerShipIds = [];
   filteredCartItems = [];
-  finalShippingAmount: number;
+  finalShippingAmount: number = 0;
   shippingLabels: string;
   shippingLabelsArr: Array<any>;
   lastLabel: number;
@@ -76,6 +77,11 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('cardExpiry') cardExpiryInfo: ElementRef;
   @ViewChild('cardCvc') cardCvcInfo: ElementRef;
   @ViewChild('cardZip') cardZipInfo: ElementRef;
+  totalProductTax: number = 0;
+  getStates: any;
+  confirmProcessMessage: string;
+  checkOutMessages = CheckOutMessages;
+  showUnAvailableItems = [];
 
   constructor(
     public core: CoreService,
@@ -91,7 +97,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.core.hide();
     this.core.searchMsgToggle();
     if (window.localStorage['existingItemsInCart'] != undefined) this.itemsInCart = JSON.parse(window.localStorage['existingItemsInCart']);
-    if (window.localStorage['TotalAmount'] != undefined) this.totalAmountFromCart = window.localStorage['TotalAmount'];
+    if (window.localStorage['TotalAmount'] != undefined) this.totalAmountFromCart = parseFloat(window.localStorage['TotalAmount']);
     if (window.localStorage['userInfo'] != undefined) {
       this.userData = JSON.parse(window.localStorage['userInfo']);
       this.userId = this.userData.userId;
@@ -210,7 +216,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
           filterItems.differentShippingMethod = true;
           filterItems.retailerId = item.retailerId;
           filterItems.retailerName = item.retailerName;
-          filterItems.orderItems.push(new Orders(item.inStock, item.price, item.productDescription, item.productId, item.productImage, item.productName, item.quantity, item.shipProfileId, 0))
+          filterItems.orderItems.push(new Orders(item.inStock, item.price, item.productDescription, item.productId, item.productImage, item.productName, item.quantity, item.shipProfileId, 0, item.taxCode))
           pushIt = true;
         }
         else {
@@ -288,7 +294,16 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
+  getAllStates() {
+    if (this.getStates == undefined) {
+      this.checkout.getAllStates().subscribe((res) => {
+        this.getStates = res.stateAbbreviation;
+      })
+    }
+  }
+
   addAddress() {
+    this.getAllStates();
     this.editShippingAddressFormWrapper = false;
     this.addShippingAddressFormWrapper = true;
     this.addShippingAddressForm = this.formBuilder.group({
@@ -301,6 +316,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   editAddress(address) {
+    this.getAllStates();
     this.editShippingAddressFormWrapper = true;
     this.addShippingAddressFormWrapper = false;
     this.editShippingAddressForm = this.formBuilder.group({
@@ -398,7 +414,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.avalaraTaxModel.itemTax[item.retailerId] = new Array<ItemsTaxList>();
       for (var j = 0; j < this.filteredCartItems[i].orderItems.length; j++) {
         let order = this.filteredCartItems[i].orderItems[j]
-        this.avalaraTaxModel.itemTax[item.retailerId].push(new ItemsTaxList(0, order.quantity, order.price, order.productId, "P0000000", "", "", ""))
+        this.avalaraTaxModel.itemTax[item.retailerId].push(new ItemsTaxList(j, order.quantity, order.price, order.productId, order.taxCode, "", "", ""))
       }
     }
     for (var keys in this.avalaraTaxModel.itemTax) {
@@ -410,7 +426,16 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     console.log(this.avalaraTaxModel);
     this.checkout.getTax(this.avalaraTaxModel).subscribe((res) => {
-      console.log(res);
+      this.totalProductTax = res.totalTax;
+      for (var i = 0; i < res.lines.length; i++) {
+        let line = res.lines[i];
+        for (var j = 0; j < this.itemsInCart.length; j++) {
+          let items = this.itemsInCart[j];
+          if (line.itemCode == items.productId) {
+            items["productTaxCost"] = line.taxCalculated;
+          }
+        }
+      }
     }, (err) => {
       console.log(err);
     })
@@ -550,15 +575,18 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   calculateTotalPayable() {
-    let amounts = [];
-    let toBeCalculated = document.getElementsByClassName("amount");
-    for (var i = 0; i < toBeCalculated.length; i++) {
-      amounts.push(parseFloat(toBeCalculated[i].innerHTML))
-    }
-    return eval(amounts.join("+"));
+    // let amounts = [];
+    // let toBeCalculated = document.getElementsByClassName("amount");
+    // for (var i = 0; i < toBeCalculated.length; i++) {
+    //   amounts.push(parseFloat(toBeCalculated[i].innerHTML))
+    // }
+    // return eval(amounts.join("+"));
+    return eval(`${this.totalProductTax + this.totalAmountFromCart + this.finalShippingAmount}`)
   }
 
   chargeAmount() {
+    let productQuantityInStock = [];
+    let checkInStock = [];
     let proceed = false;
     if ((this.selectedAddressDetails || this.selectedCardDetails || this.selectedMethodDetails) == undefined) alert("Please select a Shipping Address, Shipping Method and a Card");
     else if (this.selectedAddressDetails == undefined) alert("Please select a Shipping Address");
@@ -576,8 +604,8 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       proceed = true
     }
     if (proceed == true) {
+      let outOfStock: boolean = false;
       this.ProductCheckoutModal.orderItems = [];
-      this.loader_chargeAmount = true;
       this.ProductCheckoutModal.cutomerId = this.selectedCardDetails.customerId;
       this.ProductCheckoutModal.userId = this.userData.userId;
       this.ProductCheckoutModal.consumerEmail = this.userData.emailId;
@@ -590,28 +618,72 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.ProductCheckoutModal.paymentSource = this.selectedCardDetails.cardType;
       this.ProductCheckoutModal.last4Digits = this.selectedCardDetails.last4Digit;
       this.ProductCheckoutModal.totalShipCost = this.finalShippingAmount;
-      this.ProductCheckoutModal.totalTaxCost = parseFloat(document.getElementsByClassName("totalTaxCost")[0].innerHTML);
-      this.ProductCheckoutModal.purchasedPrice = parseFloat(this.toBeCharged.nativeElement.innerText);
+      this.ProductCheckoutModal.totalTaxCost = this.totalProductTax;
+      this.ProductCheckoutModal.purchasedPrice = eval(`${this.totalProductTax + this.totalAmountFromCart + this.finalShippingAmount}`);
       for (var i = 0; i < this.itemsInCart.length; i++) {
         let item = this.itemsInCart[i]
-        this.ProductCheckoutModal.orderItems.push(new OrderItems(item.productId, item.productName, item.retailerName, item.retailerId, item.productDescription, item.productImage, item.quantity, item.price, 20, item.shippingCost, eval(`${item.price * item.quantity}`), item.deliveryMethod))
+        this.ProductCheckoutModal.orderItems.push(new OrderItems(item.productId, item.productName, item.retailerName, item.retailerId, item.productDescription, item.productImage, item.quantity, item.price, item.productTaxCost, item.shippingCost, eval(`${item.price * item.quantity}`), item.deliveryMethod))
       };
       console.log(this.ProductCheckoutModal);
-      this.checkout.chargeAmount(this.ProductCheckoutModal).subscribe((res) => {
-        this.loader_chargeAmount = false;
-        this.paymentSuccessfullMsg = res;
-        localStorage.removeItem('existingItemsInCart');
-        this.route.navigateByUrl('/myorder');
-      }, (err) => {
-        this.loader_chargeAmount = false;
-        alert("Something went wrong");
-      })
+      for (var i = 0; i < this.itemsInCart.length; i++) {
+        let item = this.itemsInCart[i];
+        this.checkout.productAvailability(item.productId).subscribe((res) => {
+          productQuantityInStock.push({
+            productName: item.productName,
+            quantity: res.quantity,
+            productId: res.productId
+          });
+        });
+      }
+      setTimeout(() => {
+        this.open(this.confirmProcess);
+        this.loader_chargeAmount = true;
+        this.confirmProcessMessage = this.checkOutMessages.processStart;
+        setTimeout(() => {
+          for (var i = 0; i < productQuantityInStock.length; i++) {
+            let product = productQuantityInStock[i];
+            for (var j = 0; j < this.itemsInCart.length; j++) {
+              let item = this.itemsInCart[j];
+              if (product.productId == item.productId) {
+                if (product.quantity >= item.inStock) {
+                  this.itemsInCart[j].inStock = product.quantity;
+                  this.itemsInCart[j]['availability'] = true;
+                  checkInStock.push(true);
+                }
+                else {
+                  this.itemsInCart[j].inStock = product.quantity;
+                  this.itemsInCart[j]['availability'] = false;
+                  checkInStock.push(false);
+                  this.showUnAvailableItems.push(item.productName)
+                }
+              }
+            }
+          }
+          if (checkInStock.indexOf(false) > -1) {
+            this.loader_chargeAmount = false;
+            this.confirmProcessMessage = this.checkOutMessages.productUnavailable;
+          }
+          else {
+            this.loader_chargeAmount = false;
+            document.getElementById("closeModal").click();
+            this.checkout.chargeAmount(this.ProductCheckoutModal).subscribe((res) => {
+              this.loader_chargeAmount = false;
+              this.paymentSuccessfullMsg = res;
+              localStorage.removeItem('existingItemsInCart');
+              this.route.navigateByUrl('/myorder');
+            }, (err) => {
+              this.loader_chargeAmount = false;
+              alert("Something went wrong");
+            })
+          }
+        }, 3000)
+      }, 1000)
     }
   }
 
   showRetailerReturns(order) {
     this.retailerReturnPolicy = order.retailerReturns;
-    this.open(this.retialerReturnModal);
+    //this.open(this.retialerReturnModal);
   }
 
   open(content) {

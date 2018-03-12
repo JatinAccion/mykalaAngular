@@ -369,9 +369,10 @@ a:hover {
     cursor: pointer;
     margin: 1px 0px 0px;
     left: 50%;
+    top: 30px;
     width: calc(100% - 20px);
-    height: auto;
-    background: rgba(151, 185, 69, 0.7);
+    height: calc(100% - 18px);
+    background: rgba(151, 185, 69, 0.9);
     padding: 10px;
     visibility: hidden;
     z-index: 100;
@@ -2652,7 +2653,7 @@ label{display:block}
     display: inline-block;
     position: absolute;
     bottom: 0;
-    right: -80px;
+    right: -110px;
 }
 .checkOutSticky{
     position: -webkit-sticky;
@@ -2700,4 +2701,69 @@ label{display:block}
     -webkit-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     -o-transform: translate(-50%, -50%);
+}
+.customSlider{
+    background: #fff;
+    height: 400px;
+    box-shadow: 3px 2px 3px #eee;
+    -moz-box-shadow: 3px 2px 3px #eee;
+    -webkit-box-shadow: 3px 2px 3px #eee;
+    -o-box-shadow: 3px 2px 3px #eee;
+    -ms-box-shadow: 3px 2px 3px #eee;
+    position: relative;
+    z-index: 1;
+}
+.customSlider:focus {
+    outline: 0;
+}
+.customSlider .carousel-indicators li{
+    background: rgba(224, 97, 99, 0.3);
+} 
+.customSlider .carousel-indicators .active{
+    background:#e06163;
+}
+.customSlider .carousel-inner{
+    height: 100%;
+}
+.customSlider .carousel-item{
+    position: absolute;
+    top:50%;
+    left:50%;
+    width:auto;
+    transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+}
+.customSlider .carousel-control-prev-icon::before {
+    color: #e06163;
+    content: "\f053";
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+}
+.customSlider .carousel-control-next-icon::before {
+    color: #e06163;
+    content: "\f054";
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+}
+.customSlider .carousel-control-prev-icon,
+.customSlider .carousel-control-next-icon{
+    background: #fff;
+    padding: 10px;
+    width: 35px;
+    height: 35px;
+    line-height: 15px;
+    border-radius: 20px;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
 }

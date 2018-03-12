@@ -57,4 +57,14 @@ export class CheckoutService {
         const url: string = `${this.BASE_URL_RETAILER}/${environment.apis.shippingMethod.getTax}`;
         return this.http.post(url, avalarataxModel).map((res) => res.json());
     }
+
+    getAllStates() {
+        const url: string = `${this.BASE_URL_RETAILER}/${environment.apis.shippingMethod.getStates}`;
+        return this.http.get(url).map((res) => res.json());
+    }
+
+    productAvailability(productId) {
+        const url: string = `${environment.productList}/${environment.apis.consumerCheckout.productQuantity}/${productId}`;
+        return this.http.get(url).map((res) => res.json());
+    }
 }

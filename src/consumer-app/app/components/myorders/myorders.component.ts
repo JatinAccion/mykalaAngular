@@ -44,7 +44,6 @@ export class MyordersComponent implements OnInit {
           this.myorderModal[i].orderItems.push(new OrderItems(orderItem.productId, orderItem.productName, orderItem.retailerName, orderItem.retailerId, orderItem.productDescription, orderItem.productImage, orderItem.productQuantity, orderItem.productPrice, orderItem.productTaxCost, orderItem.shippingCost, orderItem.totalProductPrice, orderItem.deliveryMethod));
         }
       }
-      console.log(this.myorderModal)
     }, (err) => {
       this.loader = false;
       console.log(err);

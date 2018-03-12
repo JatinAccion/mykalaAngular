@@ -19,4 +19,5 @@ export class ProductsInfo {
     createdDate: string;
     productImages: Array<any>;
     mainImageSrc: string;
+    taxCode: string;
 }

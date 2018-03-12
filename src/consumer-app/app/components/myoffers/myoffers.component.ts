@@ -17,6 +17,8 @@ export class MyoffersComponent implements OnInit {
   startDate: {};
   s3: any;
   remainingTime = 'Time';
+  getOffersData: any;
+  getOffersDataAttr = [];
 
   constructor(
     public core: CoreService,
@@ -31,8 +33,27 @@ export class MyoffersComponent implements OnInit {
     this.core.searchMsgToggle();
     this.userData = JSON.parse(window.localStorage['userInfo']);
     localStorage.removeItem("offerIdForEdit");
-    this.getOffers();
+    if (window.localStorage['getOffers'] != undefined) this.getOffersData = JSON.parse(window.localStorage['getOffers']);
+    this.getOffersDataFn() //Temperaroy based on the confirm result
+    //this.getOffers(); //Enable once get offers algorithm is implemented
     this.s3 = environment.s3;
+  }
+
+  getOffersDataFn() {
+    for (var key in this.getOffersData.getOffersRequestDTO.attributes) {
+      if (key == "Zipcode" || key == "DeliveryMethod") { }
+      else {
+        this.getOffersDataAttr.push({
+          key: key,
+          values: this.getOffersData.getOffersRequestDTO.attributes[key]
+        })
+      }
+    }
+    this.getOffersData.getOffersRequestDTO.attributes['getOffersDataAttr'] = [];
+    this.getOffersData.getOffersRequestDTO.attributes['getOffersDataAttr'] = this.getOffersDataAttr;
+    let objDate = new Date(this.getOffersData.getOffersRequestDTO.startDate), locale = "en-us", month = objDate.toLocaleString(locale, { month: "long" });
+    this.getOffersData.getOffersRequestDTO.startDate = objDate.toLocaleString(locale, { month: "short" }) + ' ' + objDate.getDate() + ', ' + this.formatAMPM(objDate);
+    this.calculateTimeLeft(this.getOffersData.getOffersRequestDTO);
   }
 
   getOffers() {

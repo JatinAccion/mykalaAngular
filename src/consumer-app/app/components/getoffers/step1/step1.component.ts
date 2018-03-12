@@ -96,7 +96,8 @@ export class Step1Component implements OnInit {
       this.getSubcategoryId = this.levelSelection.subcategory.id;
       //this.getofferSubCategory(this.Step1SelectedValues.subcategory);
       if (this.Step1SelectedValues.subcategory.length == 0) this.getSubCategory();
-      else this.getType();
+      else this.getofferSubCategory(this.Step1SelectedValues.subcategory);
+      //else this.getType();
     }
   }
 
@@ -123,6 +124,7 @@ export class Step1Component implements OnInit {
   };
 
   getSubCategory() {
+    this.showAvailableTypes = false;
     this.noTypesAvailable = false;
     this.loader_subCategory = true;
     this.userResponse.subcategory = [];
@@ -171,6 +173,7 @@ export class Step1Component implements OnInit {
         this.userResponse.type.push(new SearchDataModal('id' + i, type, type, '4', ''));
       }
     }
+    this.showAvailableTypes = true;
   }
 
   getType() {
@@ -206,8 +209,8 @@ export class Step1Component implements OnInit {
       e.currentTarget.className = "categ_outline_red m-2";
       this.checkIfStored = false;
       this.getSubcategoryId = obj.id;
-      //this.getofferSubCategory(obj);
-      this.getType();
+      this.getofferSubCategory(obj);
+      //this.getType();
       this.clearItems(elemName);
       this.userResponse.subcategory = [obj];
       this.Step1SelectedValues.subcategory = obj;
@@ -225,7 +228,7 @@ export class Step1Component implements OnInit {
       }
       this.Step1SelectedValues.type.push(obj);
     }
-    if (this.Step1SelectedValues.type.length > 0) this.getUpdateTypes();
+    if (this.Step1SelectedValues.type[0].hasOwnProperty("id")) this.getUpdateTypes();
   };
 
   getUpdateTypes() {

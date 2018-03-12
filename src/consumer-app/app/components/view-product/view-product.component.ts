@@ -39,12 +39,9 @@ export class ViewProductComponent implements OnInit {
       this.getReviews(this.selectedProduct.product.kalaUniqueId);
     }
     if (window.localStorage['existingItemsInCart'] != undefined) this.itemsInCart();
-    setTimeout(function () {
-      var carouselItem = document.getElementsByClassName("carousel-item")[0] as HTMLElement;
-      var listInlineItem = document.getElementsByClassName("list-inline-item")[0] as HTMLElement;
-      carouselItem.classList.add("active");
-      listInlineItem.classList.add("active");
-    }, 1000);
+    this.selectedProduct.product.productImages.sort(function (x, y) {
+      return (x.mainImage === y.mainImage) ? 0 : x.mainImage ? -1 : 1;
+    });
   }
 
   animateToTiles() {
@@ -72,6 +69,7 @@ export class ViewProductComponent implements OnInit {
     for (var i = 0; i < this.selectedProduct.product.quantity; i++) {
       this.inStock.push(i + 1);
     }
+    this.quantity = 1;
   }
 
   itemsInCart() {
@@ -94,6 +92,7 @@ export class ViewProductComponent implements OnInit {
     this.addToCartModal.retailerReturns = this.selectedProduct.retailerReturns;
     this.addToCartModal.shipProfileId = this.selectedProduct.product.shipProfileId;
     this.addToCartModal.productDescription = this.selectedProduct.product.productDescription;
+    this.addToCartModal.taxCode = this.selectedProduct.product.taxCode;
     for (var i = 0; i < this.selectedProduct.product.productImages.length; i++) {
       let image = this.selectedProduct.product.productImages[i]
       if (image.mainImage == true) this.addToCartModal.productImage = `${this.s3 + image.location}`

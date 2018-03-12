@@ -25,6 +25,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   cardExpiry: any;
   cardCvc: any;
   cardZip: any;
+  getStates: any;
 
   error: string;
   cardHandler = this.onChange.bind(this);
@@ -448,6 +449,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
         });
       }
       else if (element == 'shippingAddress') {
+        this.getAllStates();
         obj.input_shippingAddress = true;
         obj.append_editAddressLine1 = obj.addressLineOne;
         obj.append_editAddressLine2 = obj.addressLineTwo;
@@ -588,9 +590,18 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  getAllStates() {
+    if (this.getStates == undefined) {
+      this.myAccount.getAllStates().subscribe((res) => {
+        this.getStates = res.stateAbbreviation;
+      })
+    }
+  }
+
   addNewAddress(e) {
     this.addShippingAddress = !this.addShippingAddress;
     if (this.addShippingAddress) {
+      this.getAllStates();
       let getText = document.getElementsByClassName("cursor");
       for (let i = 0; i < getText.length; i++) getText[i].setAttribute("disabled", "disabled");
       e.currentTarget.removeAttribute("disabled");
