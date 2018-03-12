@@ -265,7 +265,9 @@
     </p>
     <div *ngIf="showUnAvailableItems != undefined">
       <ol>
-        <li *ngFor="let itemName of showUnAvailableItems">{{itemName}}</li>
+        <li *ngFor="let itemName of showUnAvailableItems">
+          <strong>{{itemName}}</strong>
+        </li>
       </ol>
     </div>
   </div>
