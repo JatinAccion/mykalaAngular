@@ -25,40 +25,19 @@
       <div class="container">
         <!-- main slider carousel -->
         <div class="row">
-          <div id="slider" class="w-100 customSlider">
-            <div id="myCarousel" class="carousel slide" style="height:100%">
-              <!-- main slider carousel items -->
-              <div class="carousel-inner" style="height:100%">
-                <div class="item carousel-item customCI" *ngFor="let image of selectedProduct.product.productImages; let i=index" data-slide-number="0">
-                  <img src="{{s3}}{{image.location}}" class="img-fluid">
-                </div>
-                <a class="carousel-control left pt-3" data-slide="prev">
-                  <i class="fa fa-chevron-left"></i>
-                </a>
-                <a class="carousel-control right pt-3" data-slide="next">
-                  <i class="fa fa-chevron-right"></i>
-                </a>
-              </div>
-              <!-- main slider carousel nav controls -->
-
-              <ul class="carousel-indicators list-inline">
-                <li class="list-inline-item" *ngFor="let image of selectedProduct.product.productImages; let i=index">
-                  <a id="carousel-selector-{{i}}" class="selected" data-slide-to="0" data-target="#myCarousel">
-                    <img src="/consumer-app/assets/images/product1.png" class="img-fluid">
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
+          <ngb-carousel class="customSlider w-100">
+            <ng-template ngbSlide *ngFor="let image of selectedProduct.product.productImages; let i=index">
+              <img src="{{s3}}{{image.location}}" alt="Slide {{i}}">
+            </ng-template>
+          </ngb-carousel>
         </div>
-        <!--/main slider carousel-->
       </div>
     </div>
     <!--Left Images Carosel-->
 
     <!--Right Details-->
     <div class="col-sm-6 productDtl-right">
-      <h4>
+      <h4 class="pl-2">
         {{selectedProduct.product.kalaPrice | currency}}
         <span style="text-decoration: line-through; font-size: 16px; margin-left: 20px;">{{selectedProduct.product.retailPrice | currency}}</span>
       </h4>

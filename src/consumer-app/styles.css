@@ -2713,35 +2713,57 @@ label{display:block}
     position: relative;
     z-index: 1;
 }
-.customCI{
+.customSlider:focus {
+    outline: 0;
+}
+.customSlider .carousel-indicators li{
+    background: rgba(224, 97, 99, 0.3);
+} 
+.customSlider .carousel-indicators .active{
+    background:#e06163;
+}
+.customSlider .carousel-inner{
+    height: 100%;
+}
+.customSlider .carousel-item{
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: auto;
+    top:50%;
+    left:50%;
+    width:auto;
     transform: translate(-50%, -50%);
     -moz-transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%, -50%);
     -o-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
 }
-.customSlider .carousel-indicators li{
-    background:rgba(224, 97, 99, 0.3);
+.customSlider .carousel-control-prev-icon::before {
+    color: #e06163;
+    content: "\f053";
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
 }
-.customSlider .carousel-indicators li.active{
-    background:rgb(224, 97, 99);
+.customSlider .carousel-control-next-icon::before {
+    color: #e06163;
+    content: "\f054";
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
 }
-.customSlider a.carousel-control{
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    -moz-transform: translateY(-50%);
-    -webkit-transform: translateY(-50%);
-    -o-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-}
-.customSlider a.carousel-control.left{
-    left:20px
-}
-.customSlider a.carousel-control.right{
-    right:20px
+.customSlider .carousel-control-prev-icon,
+.customSlider .carousel-control-next-icon{
+    background: #fff;
+    padding: 10px;
+    width: 35px;
+    height: 35px;
+    line-height: 15px;
+    border-radius: 20px;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
 }
