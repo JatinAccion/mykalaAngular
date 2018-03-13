@@ -42,6 +42,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   loggedIn: boolean = false;
   loader: boolean = false;
   loader_chargeAmount: boolean = false;
+  loader_productTax: boolean = false;
   stripeAddCard = new StripeAddCardModel();
   stripeCheckout = new StripeCheckoutModal();
   shippingAddressCheckout = Array<CheckoutShippingAddress>();
@@ -392,6 +393,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.shippingMethod = res.deliveryTiers[0];
       this.loader_shippingMethod = false;
       this.showShippingMethod = true;
+      this.loader_productTax = true;
       this.getTax(address, res.shippingOriginAddress)
     });
   }
@@ -426,6 +428,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     console.log(this.avalaraTaxModel);
     this.checkout.getTax(this.avalaraTaxModel).subscribe((res) => {
+      this.loader_productTax = false;
       this.totalProductTax = res.totalTax;
       for (var i = 0; i < res.lines.length; i++) {
         let line = res.lines[i];
@@ -437,6 +440,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
     }, (err) => {
+      this.loader_productTax = false;
       console.log(err);
     })
   }
@@ -464,22 +468,6 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   selectShippingMethod(e, value, item) {
-    let amount = parseFloat(value.split("-")[0].trim().split("$")[1].trim());
-    if (this.shippingLabelsArr == undefined) this.shippingLabelsArr = [];
-    if (this.finalShippingAmount != undefined) {
-      if (this.shippingLabelsArr.indexOf(value) > -1) {
-        this.finalShippingAmount = eval(`${this.finalShippingAmount - this.lastLabel}`);
-        this.finalShippingAmount = eval(`${this.finalShippingAmount + amount}`);
-      }
-      else {
-        this.shippingLabelsArr.push(value);
-        this.finalShippingAmount = eval(`${this.finalShippingAmount + amount}`);
-      }
-    }
-    else {
-      this.finalShippingAmount = amount;
-      this.shippingLabelsArr.push(value);
-    }
     this.selectedMethodDetails = value;
     if (item.productId != undefined) {
       for (var i = 0; i < this.itemsInCart.length; i++) {
@@ -500,6 +488,13 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
     }
+    let getShippingCost = [];
+    for (var i = 0; i < this.itemsInCart.length; i++) {
+      let item = this.itemsInCart[i]
+      if (item.shippingCost == undefined) getShippingCost.push(0);
+      else getShippingCost.push(item.shippingCost);
+    }
+    this.finalShippingAmount = eval(getShippingCost.join("+"));
   }
 
   onChange({ error }) {
@@ -665,8 +660,8 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
           }
           else {
             this.loader_chargeAmount = false;
-            document.getElementById("closeModal").click();
             this.checkout.chargeAmount(this.ProductCheckoutModal).subscribe((res) => {
+              document.getElementById("closeModal").click();
               this.loader_chargeAmount = false;
               this.paymentSuccessfullMsg = res;
               localStorage.removeItem('existingItemsInCart');
