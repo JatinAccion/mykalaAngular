@@ -39,8 +39,8 @@ export class RetailerAddPaymentComponent implements OnInit {
   paymentInfoObj: RetailerPaymentInfo;
   errorMsgs = inputValidations;
   paymentSaveloader = false;
-  activateStripe = false;
-  stripeInegrated = false;
+  activateStripe = true;
+  stripeInegrated = true;
   // #endregion declaration
   constructor(
     private formBuilder: FormBuilder,
@@ -176,6 +176,19 @@ export class RetailerAddPaymentComponent implements OnInit {
       return false;
     }
   }
+  paymentInfoNextTab() {
+    this.readPaymenInfo();
+    this.validatorExt.validateAllFormFields(this.paymentFG1);
+    this.validatorExt.validateAllFormFields(this.paymentFG2);
+    if (!this.paymentFG1.valid) {
+      this.paymentInfoBack();
+    } else if (!this.paymentFG2.valid) {
+      this.paymentInfoNext();
+    } else {
+      this.SaveData.emit('tab-Payment');
+      return true;
+    }
+  }
   readPaymenInfo() {
     this.paymentInfoObj.retailerId = this.retailerId;
     this.paymentInfoObj.paymentMethod = this.paymentFG1.value.paymentMethod;
@@ -214,8 +227,9 @@ export class RetailerAddPaymentComponent implements OnInit {
       .subscribe((res: RetailerPaymentInfo) => {
         this.paymentData = res;
         this.setFormValidators();
-        this.stripeInegrated = this.paymentData.stripeAccountId !== '';
         this.paymentInfoObj = new RetailerPaymentInfo(res);
+        this.stripeInegrated = this.paymentInfoObj.stripeConnectAccountId && this.paymentInfoObj.stripeConnectAccountId !== '' || false;
+        this.activateStripe = this.stripeInegrated || this.paymentInfoObj.paymentMethod && this.paymentInfoObj.paymentMethod !== '1' || false;
       });
   }
   getProfileInfo(retailerId: string) {
@@ -253,12 +267,15 @@ export class RetailerAddPaymentComponent implements OnInit {
             this.paymentInfoObj.stripeToken = response.token.id;
             const stripePaymnentObj = new StripePayment({
               retailerProfile: this.profileData,
-              retailerPayment: this.paymentData,
+              retailerPayment: this.paymentInfoObj,
               tosAcceptance: new TosAcceptance({ client_ip: response.token.client_ip, created: response.token.created }),
-              dob: new Date()
+              dob: new Date('1982-12-20')
             });
             this.retialerService.addSellerAccount(stripePaymnentObj).subscribe(p => {
               this.core.message.success(userMessages.stripe_integration_completed);
+              this.paymentInfoObj.stripeConnectAccountId = p;
+              this.paymentInfoObj.stripeBankAccountNumber = this.paymentInfoObj.bankAccountNumber.substr(this.paymentInfoObj.bankAccountNumber.length - 4);
+              this.stripeInegrated = true;
               this.retialerService
                 .paymentInfoSave(this.paymentInfoObj)
                 .subscribe(res => {

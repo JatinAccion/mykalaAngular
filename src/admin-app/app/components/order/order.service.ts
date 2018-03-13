@@ -10,10 +10,12 @@ import 'rxjs/add/operator/catch';
 import { LocalStorageService } from '../../services/LocalStorage.service';
 import { environment } from './../../../environments/environment';
 import { nameValue } from '../../../../models/nameValue';
+import { ReportOrders, ReportConsumer } from '../../../../models/report-order';
+import { Product } from '../../../../models/Product';
 
 @Injectable()
 export class OrderService {
-  private BASE_URL: string = environment.productApi;
+  private BASE_URL: string = environment.ordersApi;
   headers: Headers;
 
   getHttpHeraders() {
@@ -32,19 +34,54 @@ export class OrderService {
     this.seedStaticData();
   }
   seedStaticData() {
-    // this.shippingProfiles.push(new nameValue('1', 'Furniture delivery'));
-    // this.shippingProfiles.push(new nameValue('2', 'Small item delivery'));
-    // this.shippingProfiles.push(new nameValue('3', '1-5 business days shipping'));
   }
-  get(query: any): Observable<any[]> {
+  get(query: any): Observable<ReportOrders> {
     this.headers = this.getHttpHeraders();
-    const url = `${this.BASE_URL}/${environment.apis.retailers.get}`;
+    const url = `${this.BASE_URL}/${environment.apis.orders.get}`;
     return this.http
       .get(url, { search: query, headers: this.headers })
       .map(p => p.json())
+      .map(p => new ReportOrders(p))
       .catch(this.handleError);
   }
-  
+  getProducts(productIds: string[]): Observable<Product[]> {
+    this.headers = this.getHttpHeraders();
+    const url = `${environment.productApi}/${environment.apis.product.getProducts}/${productIds}`;
+    return this.http
+      .get(url, { headers: this.headers })
+      .map(p => p.json())
+      .map(p => p.map(q => new Product(q)))
+      .catch(this.handleError);
+  }
+  getProductReviews(productIds: string[]): Observable<any> {
+    this.headers = this.getHttpHeraders();
+    const url = `${environment.consumerApi}/${environment.apis.product.getProductReview}/${productIds}`;
+    return this.http
+      .get(url, { headers: this.headers })
+      .map(p => p.json())
+      .catch(this.handleError);
+  }
+  getConsumer(consumerId: string): Observable<ReportConsumer> {
+    this.headers = this.getHttpHeraders();
+    const url = `${environment.consumerApi}/${environment.apis.consumer.get}/${consumerId}`;
+    return this.http
+      .get(url, { headers: this.headers })
+      .map(p => p.json())
+      .map(p => new ReportConsumer(p))
+      .catch(this.handleError);
+  }
+  getSellerReviews(retailerId: string): Observable<any> {
+    this.headers = this.getHttpHeraders();
+    const url = `${this.BASE_URL}/${environment.apis.orders.get}/${retailerId}`;
+    return this.http
+      .get(url, { headers: this.headers })
+      .map(p => p.json())
+      .catch(this.handleError);
+  }
+  putPayment() { }
+
+ 
+
   private handleError(error: any) {
     // in a real world app, we may send the server to some remote logging infrastructure
     // instead of just logging it to the console

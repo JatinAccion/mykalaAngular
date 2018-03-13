@@ -32,6 +32,7 @@
     "bootstrap": "^4.0.0-alpha.6",
     "browserify": "^16.1.0",
     "chart.js": "^2.7.2",
+    "chartjs-plugin-datalabels": "^0.2.0",
     "core-js": "^2.4.1",
     "devextreme": "^17.2.4",
     "devextreme-angular": "^17.2.4",

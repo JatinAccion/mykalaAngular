@@ -35,7 +35,7 @@ export class Product {
     public otherImages: ProductImage[] | null = new Array<ProductImage>();
     public attributes: Map<string, object>;
     public taxCode: string;
-
+    public reviewCount: number;
     constructor(obj?: any) {
         this.otherImages = new Array<ProductImage>();
         this.productImages = new Array<ProductImage>();

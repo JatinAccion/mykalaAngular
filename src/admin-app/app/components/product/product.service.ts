@@ -213,7 +213,7 @@ export class ProductService {
     const formdata: FormData = new FormData();
     for (let i = 0; i < files.length; i++) {
       const element = files[i];
-      formdata.append('files', element.file, element.file.name + this.guid());
+      formdata.append('files', element.file, this.guid() + element.file.name );
     }
     // formdata.append('retailerId', retailerId);
 

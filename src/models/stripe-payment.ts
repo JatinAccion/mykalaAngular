@@ -3,8 +3,10 @@ import { RetailerProfileInfo } from './retailer-profile-info';
 import { AddressType } from './address-type';
 import { RetailerPaymentInfo } from './retailer-payment-info';
 import { IfObservable } from 'rxjs/observable/IfObservable';
+import { formatPhoneNumber } from '../common/formatters';
 
 export class StripePayment {
+    public retailerId: string;
     public businessLogoPath: string;
     public businessName: string;
     public businessSummary: string;
@@ -22,16 +24,24 @@ export class StripePayment {
     constructor(obj?: any) {
         if (obj) {
             if (obj.retailerProfile instanceof RetailerProfileInfo) {
+                this.retailerId = obj.retailerProfile.retailerId;
                 this.businessLogoPath = obj.retailerProfile.businessLogoPath;
                 this.businessName = obj.retailerProfile.businessName;
                 this.businessSummary = obj.retailerProfile.businessSummary;
                 this.websiteUrl = obj.retailerProfile.websiteUrl;
                 this.tin = obj.retailerProfile.tin;
                 if (obj.retailerProfile.addresses && obj.retailerProfile.addresses.length > 0) {
-                    const businessAddress = obj.retailerProfile.addresses.filter(p => (p.addressType === AddressType.business))[0];
-                    const generalAddress = obj.retailerProfile.addresses.filter(p => (p.addressType === AddressType.primary))[0];
-                    generalAddress.addressType = AddressType.generalStripe;
-                    this.addressOrContact = [businessAddress, generalAddress];
+                    const businessAddress = new PostalAddress(obj.retailerProfile.addresses.filter(p => (p.addressType === AddressType.business))[0]);
+                    businessAddress.phoneNo = formatPhoneNumber(businessAddress.phoneNo);
+                    businessAddress.name = this.businessName;
+                    if (obj.retailerProfile.addresses.filter(p => (p.addressType === AddressType.primary)).length > 0) {
+                        const generalAddress = new PostalAddress(obj.retailerProfile.addresses.filter(p => (p.addressType === AddressType.primary))[0]);
+                        generalAddress.addressType = AddressType.generalStripe;
+                        generalAddress.phoneNo = formatPhoneNumber(generalAddress.phoneNo);
+                        this.addressOrContact = [businessAddress, generalAddress];
+                    } else {
+                        this.addressOrContact = [businessAddress];
+                    }
                 }
             }
             if (obj.retailerPayment instanceof RetailerPaymentInfo) {

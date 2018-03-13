@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { ChartModule } from 'angular2-chartjs';
 import { OrderDetailsComponent } from './order-details/order-details.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import { OrderDetailsComponent } from './order-details/order-details.component';
     NgbModule,
     ReactiveFormsModule,
     SharedModule, FormsModule, HttpClientModule,
-    ChartModule 
+    ChartModule,
+    NgxPaginationModule
   ],
   declarations: [
     OrderListComponent,
