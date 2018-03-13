@@ -4,7 +4,7 @@
             <h1>Summary</h1>
         </div>
         <div class="col-sm-6 title text-right p-0">
-            <select class="ddl_default mt-3">
+            <select class="ddl_default mt-3" [(ngModel)]="reportModel" (change)="getData()" >
                 <option>Monthly</option>
                 <option>Yearly</option>
             </select>
@@ -27,7 +27,7 @@
                         <a (click)="goto('total',-1)" ><i class="fa fa-caret-left" aria-hidden="true"></i></a>
                     </div>
                     <div class="col-sm-8 text-center colorlightGray">
-                            {{widget.total.month + 1 }}, {{widget.total.year}}
+                            {{this.reportModel !== 'Monthly'?'':(widget.total.month + 1 + ',') }} {{widget.total.year}}
                     </div>
                     <div class="col-sm-2">
                         <a (click)="goto('total',1)"><i class="fa fa-caret-right" aria-hidden="true"></i></a>
@@ -59,7 +59,7 @@
                         <a (click)="goto('automatic',-1)"><i class="fa fa-caret-left" aria-hidden="true"></i></a>
                     </div>
                     <div class="col-sm-8 text-center colorlightGray">
-                            {{widget.automatic.month + 1 }}, {{widget.automatic.year}}
+                            {{this.reportModel !== 'Monthly'?'':(widget.automatic.month + 1 + ',') }} {{widget.automatic.year}}
                     </div>
                     <div class="col-sm-2">
                         <a (click)="goto('automatic',1)"><i class="fa fa-caret-right" aria-hidden="true"></i></a>
@@ -91,7 +91,7 @@
                         <a (click)="goto('manual',-1)"><i class="fa fa-caret-left" aria-hidden="true"></i></a>
                     </div>
                     <div class="col-sm-8 text-center colorlightGray">
-                            {{widget.manual.month + 1 }}, {{widget.manual.year}}
+                            {{this.reportModel !== 'Monthly'?'':(widget.manual.month + 1 + ',') }} {{widget.manual.year}}
                     </div>
                     <div class="col-sm-2">
                         <a (click)="goto('manual',1)"><i class="fa fa-caret-right" aria-hidden="true"></i></a>
@@ -123,7 +123,7 @@
                         <a (click)="goto('pending',-1)"><i class="fa fa-caret-left" aria-hidden="true"></i></a>
                     </div>
                     <div class="col-sm-8 text-center colorlightGray">
-                            {{widget.pending.month + 1 }}, {{widget.pending.year}}
+                            {{this.reportModel !== 'Monthly'?'':(widget.pending.month + 1 + ',')}} {{widget.pending.year}}
                     </div>
                     <div class="col-sm-2">
                         <a (click)="goto('pending',1)"><i class="fa fa-caret-right" aria-hidden="true"></i></a>

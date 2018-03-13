@@ -10,6 +10,7 @@ import 'rxjs/add/operator/catch';
 import { LocalStorageService } from '../../services/LocalStorage.service';
 import { environment } from './../../../environments/environment';
 import { nameValue } from '../../../../models/nameValue';
+import { ReportOrders } from '../../../../models/report-order';
 
 @Injectable()
 export class ReportsService {
@@ -66,6 +67,15 @@ export class ReportsService {
     return this.http
       .get(url, { headers: this.headers })
       .map(p => p.json())
+      .catch(this.handleError);
+  }
+  getOrders(paymentType: string, year: string, month?: string, query?: any): Observable<ReportOrders> {
+    this.headers = this.getHttpHeraders();
+    const url = `${environment.ordersApi}/${environment.apis.orders.getOrders}`.replace('{paymentType}', paymentType).replace('{year}', year).replace('{month}', month || '');
+    return this.http
+      .get(url, { search: query, headers: this.headers })
+      .map(p => p.json())
+      .map(p => new ReportOrders(p))
       .catch(this.handleError);
   }
   private handleError(error: any) {

@@ -10,7 +10,7 @@ import { ReportOrders } from '../../../../../models/report-order';
 })
 export class OrderListComponent implements OnInit {
   search: any;
-  searchType: any;
+  searchType = 'Seller';
   loading: boolean;
   orders: ReportOrders;
   isCollapsed = true;

@@ -10,13 +10,16 @@ import { modelGroupProvider } from '@angular/forms/src/directives/ng_model_group
   encapsulation: ViewEncapsulation.None
 })
 export class PaymentsReportComponent implements OnInit {
+  loading: boolean;
   orders: ReportOrders;
   isCollapsed = true;
+  reportModel = 'Monthly';
+  details = { widgetType: 'total', year: 2018, month: 2 };
   widget = {
-    'total': { year: 2018, month: 2, value: 100 },
-    'automatic': { year: 2018, month: 2, value: 100 },
-    'manual': { year: 2018, month: 2, value: 100 },
-    'pending': { year: 2018, month: 2, value: 100 }
+    'total': { widgetType: 'Total', year: 2018, month: 2, value: 0 },
+    'automatic': { widgetType: 'Automatic', year: 2018, month: 2, value: 0 },
+    'manual': { widgetType: 'Manual', year: 2018, month: 2, value: 0 },
+    'pending': { widgetType: 'Pending', year: 2018, month: 2, value: 0 }
   };
   summary = { totalCostOfGoods: 0, totalTaxesCost: 0, totalShipCost: 0, saleRevenue: 0, netRevenue: 0 };
   backgroundColors = ['#df7970', '#4c9ca0', '#ae7d99', '#c9d45c', '#5592ad', '#6d78ad', '#51cda0', '#f8f378', '#ae6653', '#60df63', '#60c9df'];
@@ -80,58 +83,43 @@ export class PaymentsReportComponent implements OnInit {
     this.goto('total', 0);
     this.goto('automatic', 0);
     this.goto('manual', 0);
-    this.goto('pending', 0);
-    this.getDetails('total');
+    // this.goto('pending', 0);
+    // this.getDetails('total');
   }
   goto(type, incr) {
     let date = new Date();
+    let widget = this.widget.total;
     switch (type) {
-      case 'total':
-        date = new Date(this.widget.total.year, this.widget.total.month, 1);
-        date.setMonth(this.widget.total.month + incr);
-        this.widget.total.year = date.getFullYear();
-        this.widget.total.month = date.getMonth() || 0;
-        this.reportsService.getPaymentCounts('Total', this.widget.total.year.toString(), (this.widget.total.month + 1).toString()).subscribe((res) => { this.widget.total.value = res.values; });
-        break;
-      case 'automatic': date = new Date(this.widget.automatic.year, this.widget.automatic.month, 1);
-        date.setMonth(this.widget.automatic.month + incr);
-        this.widget.automatic.year = date.getFullYear();
-        this.widget.automatic.month = date.getMonth() || 0;
-        this.reportsService.getPaymentCounts('Automatic', this.widget.automatic.year.toString(), (this.widget.automatic.month + 1).toString()).subscribe((res) => { this.widget.automatic.value = res.values; });
-        break;
-      case 'manual': date = new Date(this.widget.manual.year, this.widget.manual.month, 1);
-        date.setMonth(this.widget.manual.month + incr);
-        this.widget.manual.year = date.getFullYear();
-        this.widget.manual.month = date.getMonth() || 0;
-        this.reportsService.getPaymentCounts('Manual', this.widget.manual.year.toString(), (this.widget.manual.month + 1).toString()).subscribe((res) => { this.widget.manual.value = res.values; });
-        break;
-      case 'pending': date = new Date(this.widget.pending.year, this.widget.pending.month, 1);
-        date.setMonth(this.widget.pending.month + incr);
-        this.widget.pending.year = date.getFullYear();
-        this.widget.pending.month = date.getMonth() || 0;
-        this.reportsService.getPaymentCounts('Pending', this.widget.pending.year.toString(), (this.widget.pending.month + 1).toString()).subscribe((res) => { this.widget.pending.value = res.values; });
-        break;
+      case 'total': widget = this.widget.total; break;
+      case 'automatic': widget = this.widget.automatic; break;
+      case 'manual': widget = this.widget.manual; break;
+      case 'pending': widget = this.widget.pending; break;
     }
+    date = new Date(widget.year, widget.month, 1);
+    if (this.reportModel !== 'Monthly') {
+      date.setFullYear(widget.year + incr);
+    } else {
+      date.setMonth(widget.month + incr);
+    }
+    widget.year = date.getFullYear();
+    widget.month = date.getMonth() || 0;
+    this.reportsService.getPaymentCounts(widget.widgetType, widget.year.toString(), this.reportModel !== 'Monthly' ? '' : (widget.month + 1).toString()).subscribe((res) => { widget.value = res.values; });
+    this.getDetails(type);
   }
   getDetails(type) {
+    let widget = this.widget.total;
     switch (type) {
-      case 'total':
-        this.reportsService.getPaymentReports('Total', this.widget.total.year.toString(), (this.widget.total.month + 1).toString()).subscribe((res) => { this.setupSummary(res[0]); });
-        this.reportsService.getconsumerPaymentReports('Total', this.widget.total.year.toString(), (this.widget.total.month + 1).toString()).subscribe((res) => { this.setupChartData(res); });
-        break;
-      case 'automatic':
-        this.reportsService.getPaymentReports('Automatic', this.widget.automatic.year.toString(), (this.widget.automatic.month + 1).toString()).subscribe((res) => { this.setupSummary(res[0]); });
-        this.reportsService.getconsumerPaymentReports('Automatic', this.widget.automatic.year.toString(), (this.widget.automatic.month + 1).toString()).subscribe((res) => { this.setupChartData(res); });
-        break;
-      case 'manual':
-        this.reportsService.getPaymentReports('Manual', this.widget.manual.year.toString(), (this.widget.manual.month + 1).toString()).subscribe((res) => { this.setupSummary(res[0]); });
-        this.reportsService.getconsumerPaymentReports('Manual', this.widget.manual.year.toString(), (this.widget.manual.month + 1).toString()).subscribe((res) => { this.setupChartData(res); });
-        break;
-      case 'pending':
-        this.reportsService.getPaymentReports('Pending', this.widget.pending.year.toString(), (this.widget.pending.month + 1).toString()).subscribe((res) => { this.setupSummary(res[0]); });
-        this.reportsService.getconsumerPaymentReports('Pending', this.widget.pending.year.toString(), (this.widget.pending.month + 1).toString()).subscribe((res) => { this.setupChartData(res); });
-        break;
+      case 'total': widget = this.widget.total; break;
+      case 'automatic': widget = this.widget.automatic; break;
+      case 'manual': widget = this.widget.manual; break;
+      case 'pending': widget = this.widget.pending; break;
     }
+    this.reportsService.getPaymentReports(widget.widgetType, widget.year.toString(), this.reportModel !== 'Monthly' ? '' : (widget.month + 1).toString()).subscribe((res) => { this.setupSummary(res[0]); });
+    this.reportsService.getconsumerPaymentReports(widget.widgetType, widget.year.toString(), this.reportModel !== 'Monthly' ? '' : (widget.month + 1).toString()).subscribe((res) => { this.setupChartData(res); });
+    this.details.widgetType = widget.widgetType;
+    this.details.year = widget.year;
+    this.details.month = widget.month;
+    // this.getPage(1);
   }
   setupSummary(res) {
     if (res) {
@@ -154,5 +142,13 @@ export class PaymentsReportComponent implements OnInit {
         }
       ]
     };
+  }
+  getPage(page: number) {
+    this.loading = true;
+    const searchParams = { page: page - 1, size: 10, sortOrder: 'asc', elementType: 'createdDate' };
+    this.reportsService.getOrders(this.details.widgetType, this.details.year.toString(), (this.details.month + 1).toString(), searchParams).subscribe(res => {
+      this.orders = res;
+      this.loading = false;
+    });
   }
 }

@@ -84,6 +84,7 @@ export const apiNames = {
         paymentCounts: 'paymentCounts/{paymentType}/{year}/{month}',
         paymentReports: 'paymentReports/{paymentType}/{year}/{month}',
         consumerPayment: 'consumerPayment/{paymentType}/{year}/{month}',
+        getOrders: 'orders/{paymentType}/{year}/{month}'
     },
     consumer: {
         get: 'consumer/v1/userId'
