@@ -43,7 +43,8 @@ export const apiNames = {
         getCards: 'customerCards',
         updateCard: 'addMultipleCards',
         deleteCard: 'deleteCard',
-        productQuantity: 'productQuantity'
+        productQuantity: 'productQuantity',
+        cancelOrder: 'cancelOrder'
     },
     shippingMethod: {
         method: 'retailer/v1',

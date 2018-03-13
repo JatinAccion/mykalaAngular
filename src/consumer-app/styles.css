@@ -2767,3 +2767,9 @@ label{display:block}
     -ms-border-radius: 20px;
     -o-border-radius: 20px;
 }
+.orderConfirmed{
+    color: green;
+}
+.orderCancelled{
+    color: red;
+}
