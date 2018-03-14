@@ -28,6 +28,7 @@ import { MyordersComponent } from './components/myorders/myorders.component';
 import { MyaccountComponent } from './components/myaccount/myaccount.component';
 import { MyoffersComponent } from './components/myoffers/myoffers.component';
 import { LeaveReviewComponent } from './components/leave-review/leave-review.component';
+import { TrackOrderComponent } from './components/track-order/track-order.component';
 
 const appRoutes: Routes = [
     {
@@ -68,6 +69,11 @@ const appRoutes: Routes = [
     {
         path: 'checkout',
         component: CheckoutComponent,
+        data: { header: 'header1' }
+    },
+    {
+        path: 'trackOrder',
+        component: TrackOrderComponent,
         data: { header: 'header1' }
     },
     {

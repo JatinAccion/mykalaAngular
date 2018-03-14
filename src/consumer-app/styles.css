@@ -822,6 +822,9 @@ a.categ_close{
 .productDtl-right ul.relatedList li img{
     width:70px;
 }
+.reviewlayout td, .reviewlayout th{
+    border-top: 0px !important;
+}
 .reviewlayout p{
     margin:0px;
 }
@@ -2696,6 +2699,7 @@ label{display:block}
     position: absolute;
     left: 50%;
     top: 50%;
+    width: calc(100% - 5px);
     transform: translate(-50%, -50%);
     -moz-transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%, -50%);

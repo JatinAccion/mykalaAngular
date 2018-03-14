@@ -44,7 +44,8 @@ export const apiNames = {
         updateCard: 'addMultipleCards',
         deleteCard: 'deleteCard',
         productQuantity: 'productQuantity',
-        cancelOrder: 'cancelOrder'
+        cancelOrder: 'cancelOrder',
+        trackOrderShipment: 'trackOrderShipment'
     },
     shippingMethod: {
         method: 'retailer/v1',

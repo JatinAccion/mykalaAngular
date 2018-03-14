@@ -122,4 +122,14 @@ export class MyordersComponent implements OnInit {
       })
     }
   }
+
+  trackOrder(modal, order) {
+    window.localStorage['productForTracking'] = JSON.stringify({ modal: modal, order: order });
+    this.myOrder.trackOrder('12345678').subscribe((res) => {
+      console.log(res);
+      this.route.navigateByUrl("/trackOrder");
+    }, (err) => {
+      console.log(err);
+    })
+  }
 }

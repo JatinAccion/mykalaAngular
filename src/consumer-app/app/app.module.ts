@@ -69,6 +69,7 @@ import { MyOffersService } from './services/myOffer.service';
 import { LeaveReviewComponent } from './components/leave-review/leave-review.component';
 import { MyReviewService } from './services/review.service';
 import { ViewProductService } from './services/viewProduct.service';
+import { TrackOrderComponent } from './components/track-order/track-order.component';
 
 @NgModule({
   declarations: [
@@ -105,7 +106,8 @@ import { ViewProductService } from './services/viewProduct.service';
     MyordersComponent,
     MyaccountComponent,
     MyoffersComponent,
-    LeaveReviewComponent
+    LeaveReviewComponent,
+    TrackOrderComponent
   ],
   imports: [
     BrowserModule,

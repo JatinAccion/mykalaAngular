@@ -19,4 +19,9 @@ export class MyOrdersService {
         return this.http.post(url, cancelOrderModel).map(res => res.text());
     }
 
+    trackOrder(orderId) {
+        const url: string = `${this.BASE_URL}/${environment.apis.consumerCheckout.trackOrderShipment}/${orderId}`;
+        return this.http.get(url).map(res => res.json());
+    }
+
 }
