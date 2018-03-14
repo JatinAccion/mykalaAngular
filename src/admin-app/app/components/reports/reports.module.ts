@@ -17,6 +17,7 @@ import { InquiriesReportComponent } from './inquiries-report/inquiries-report.co
 import { PaymentsReportComponent } from './payments-report/payments-report.component';
 import { ReviewsReportComponent } from './reviews-report/reviews-report.component';
 import { SalesReportComponent } from './sales-report/sales-report.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   imports: [
@@ -25,7 +26,7 @@ import { SalesReportComponent } from './sales-report/sales-report.component';
     NgbModule,
     ReactiveFormsModule,
     SharedModule, FormsModule, HttpClientModule,
-    ChartModule
+    ChartModule, NgxPaginationModule
   ],
   declarations: [
     CustomersReportComponent,

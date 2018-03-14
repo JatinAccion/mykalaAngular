@@ -6,7 +6,8 @@
         <div class="col-sm-6 pl-2">
             <input placeholder="search for order" class="form-control txt_Search w-50" type="text"  [(ngModel)]="search" (keyup)="getPage(1)">
         </div>
-        <div class="col-sm-3 pr-2 ">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-3 pr-2 text-right">
             <select class="ddl_default form-control" [(ngModel)]="searchType" >
                 <option>Seller</option>
                 <option>Member</option>
@@ -49,7 +50,7 @@
                         <td>{{order.orderItems[0].retailerName}}</td>
                         <td>{{order.customerName}}</td>
                         <td>{{order.orderItems[0].productId}}</td>
-                        <td>{{order.purchasedPrice | currency }}</td>
+                        <td class="text-right">{{order.purchasedPrice | currency }}</td>
                         <td>Y</td>
                         <td>
                             <a class="colorBlue" (click)="order.isCollapsed = !order.isCollapsed" [attr.aria-expanded]="!order.isCollapsed" aria-controls="collapseExample">

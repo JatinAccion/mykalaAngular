@@ -93,11 +93,13 @@ export class LoginComponent implements OnInit {
             this.core.setUser(usr);
             this.router.navigateByUrl('/retailer-list');
           } else {
+            this.loader = false;
             this.loginError = true;
             this.unAuthorized = true;
           }
         }
       }, err => {
+        this.loader = false;
         console.log(err);
       });
     }).catch((err) => {

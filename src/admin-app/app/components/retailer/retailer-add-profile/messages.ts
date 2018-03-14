@@ -16,7 +16,7 @@ export const userMessages = {
         addnew: 'Add new contact'
     },
     pleaseSelectLogo: 'Please Select Business Logo',
-    duplicateBusinessName: 'Businnes Name already taken'
+    duplicateBusinessName: 'Business Name already taken'
 };
 export const inputValidations = {
     'profileImage': { required: 'Please select  Business Logo', error: 'Please select Business Logo' },

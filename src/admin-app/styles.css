@@ -567,3 +567,15 @@ ol li{
 .orderdetail_row table.no_tdBorder tr td{
     padding:5px 0px;
 }
+.caretFont{
+    font-size:20px;
+}
+.paymentBars{
+    position: absolute;
+    top: 2px;
+    right: 7px;
+    font-size: 18px;
+}
+.payment_border{
+    border-bottom: solid 1px #edd2ac;
+}

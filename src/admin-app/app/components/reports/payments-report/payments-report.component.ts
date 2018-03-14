@@ -119,7 +119,7 @@ export class PaymentsReportComponent implements OnInit {
     this.details.widgetType = widget.widgetType;
     this.details.year = widget.year;
     this.details.month = widget.month;
-    // this.getPage(1);
+    this.getPage(1);
   }
   setupSummary(res) {
     if (res) {

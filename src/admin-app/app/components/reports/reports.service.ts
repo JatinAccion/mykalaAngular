@@ -71,7 +71,7 @@ export class ReportsService {
   }
   getOrders(paymentType: string, year: string, month?: string, query?: any): Observable<ReportOrders> {
     this.headers = this.getHttpHeraders();
-    const url = `${environment.ordersApi}/${environment.apis.orders.getOrders}`.replace('{paymentType}', paymentType).replace('{year}', year).replace('{month}', month || '');
+    const url = `${environment.ordersApi}/${environment.apis.orders.get}`.replace('{paymentType}', paymentType).replace('{year}', year).replace('{month}', month || '');
     return this.http
       .get(url, { search: query, headers: this.headers })
       .map(p => p.json())

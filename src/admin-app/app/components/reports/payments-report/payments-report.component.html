@@ -3,20 +3,21 @@
         <div class="col-sm-6 title p-0">
             <h1>Summary</h1>
         </div>
-        <div class="col-sm-6 title text-right p-0">
-            <select class="ddl_default mt-3" [(ngModel)]="reportModel" (change)="getData()" >
+        <div class="col-sm-3 title p-0"></div>
+        <div class="col-sm-3 title text-right top_right p-0">
+            <select class="ddl_default form-control mt-3" [(ngModel)]="reportModel" (change)="getData()">
                 <option>Monthly</option>
                 <option>Yearly</option>
             </select>
         </div>
     </div>
     <div class="row ">
-        <div class="col-sm-3">
+        <div class="col-sm-3 pl-0">
             <div class="backgroundWhite">
                 <div class="text-center p-2">
                     Total Payments
                     <span class="float-right">
-                        <a >
+                        <a>
                             <i class="fa fa-refresh" aria-hidden="true"></i>
                         </a>
                     </span>
@@ -24,13 +25,17 @@
                 </div>
                 <div class="row pl-3 pr-2 pb-2">
                     <div class="col-sm-2">
-                        <a (click)="goto('total',-1)" ><i class="fa fa-caret-left" aria-hidden="true"></i></a>
+                        <a (click)="goto('total',-1)">
+                            <i class="fa fa-caret-left caretFont" aria-hidden="true"></i>
+                        </a>
                     </div>
                     <div class="col-sm-8 text-center colorlightGray">
-                            {{this.reportModel !== 'Monthly'?'':(widget.total.month + 1 + ',') }} {{widget.total.year}}
+                        {{this.reportModel !== 'Monthly'?'':(widget.total.month + 1 + ',') }} {{widget.total.year}}
                     </div>
                     <div class="col-sm-2">
-                        <a (click)="goto('total',1)"><i class="fa fa-caret-right" aria-hidden="true"></i></a>
+                        <a (click)="goto('total',1)">
+                            <i class="fa fa-caret-right caretFont" aria-hidden="true"></i>
+                        </a>
                     </div>
                 </div>
                 <div class="row p-2">
@@ -39,11 +44,11 @@
                     </div>
                 </div>
                 <div class="text-center p-2">
-                    <a  class="btn btn-default" (click)="getDetails('total')" >Detail</a>
+                    <a class="btn btn-default" (click)="getDetails('total')">Detail</a>
                 </div>
             </div>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-3 pl-0">
             <div class="backgroundWhite">
                 <div class="text-center p-2">
                     Automated Payments
@@ -56,13 +61,17 @@
                 </div>
                 <div class="row pl-3 pr-2 pb-2">
                     <div class="col-sm-2">
-                        <a (click)="goto('automatic',-1)"><i class="fa fa-caret-left" aria-hidden="true"></i></a>
+                        <a (click)="goto('automatic',-1)">
+                            <i class="fa fa-caret-left caretFont" aria-hidden="true"></i>
+                        </a>
                     </div>
                     <div class="col-sm-8 text-center colorlightGray">
-                            {{this.reportModel !== 'Monthly'?'':(widget.automatic.month + 1 + ',') }} {{widget.automatic.year}}
+                        {{this.reportModel !== 'Monthly'?'':(widget.automatic.month + 1 + ',') }} {{widget.automatic.year}}
                     </div>
                     <div class="col-sm-2">
-                        <a (click)="goto('automatic',1)"><i class="fa fa-caret-right" aria-hidden="true"></i></a>
+                        <a (click)="goto('automatic',1)">
+                            <i class="fa fa-caret-right caretFont" aria-hidden="true"></i>
+                        </a>
                     </div>
                 </div>
                 <div class="row p-2">
@@ -71,11 +80,11 @@
                     </div>
                 </div>
                 <div class="text-center p-2">
-                    <a  class="btn btn-default"  (click)="getDetails('automatic')">Detail</a>
+                    <a class="btn btn-default" (click)="getDetails('automatic')">Detail</a>
                 </div>
             </div>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-3 pl-0">
             <div class="backgroundWhite">
                 <div class="text-center p-2">
                     Manual Payments
@@ -88,13 +97,17 @@
                 </div>
                 <div class="row pl-3 pr-2 pb-2">
                     <div class="col-sm-2">
-                        <a (click)="goto('manual',-1)"><i class="fa fa-caret-left" aria-hidden="true"></i></a>
+                        <a (click)="goto('manual',-1)">
+                            <i class="fa fa-caret-left caretFont" aria-hidden="true"></i>
+                        </a>
                     </div>
                     <div class="col-sm-8 text-center colorlightGray">
-                            {{this.reportModel !== 'Monthly'?'':(widget.manual.month + 1 + ',') }} {{widget.manual.year}}
+                        {{this.reportModel !== 'Monthly'?'':(widget.manual.month + 1 + ',') }} {{widget.manual.year}}
                     </div>
                     <div class="col-sm-2">
-                        <a (click)="goto('manual',1)"><i class="fa fa-caret-right" aria-hidden="true"></i></a>
+                        <a (click)="goto('manual',1)">
+                            <i class="fa fa-caret-right caretFont" aria-hidden="true"></i>
+                        </a>
                     </div>
                 </div>
                 <div class="row p-2">
@@ -103,11 +116,11 @@
                     </div>
                 </div>
                 <div class="text-center p-2">
-                    <a  class="btn btn-default"  (click)="getDetails('manual')">Detail</a>
+                    <a class="btn btn-default" (click)="getDetails('manual')">Detail</a>
                 </div>
             </div>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-3 pl-0">
             <div class="backgroundWhite">
                 <div class="text-center p-2">
                     Pending Payments
@@ -120,13 +133,17 @@
                 </div>
                 <div class="row pl-3 pr-2 pb-2">
                     <div class="col-sm-2">
-                        <a (click)="goto('pending',-1)"><i class="fa fa-caret-left" aria-hidden="true"></i></a>
+                        <a (click)="goto('pending',-1)">
+                            <i class="fa fa-caret-left caretFont" aria-hidden="true"></i>
+                        </a>
                     </div>
                     <div class="col-sm-8 text-center colorlightGray">
-                            {{this.reportModel !== 'Monthly'?'':(widget.pending.month + 1 + ',')}} {{widget.pending.year}}
+                        {{this.reportModel !== 'Monthly'?'':(widget.pending.month + 1 + ',')}} {{widget.pending.year}}
                     </div>
                     <div class="col-sm-2">
-                        <a (click)="goto('pending',1)"><i class="fa fa-caret-right" aria-hidden="true"></i></a>
+                        <a (click)="goto('pending',1)">
+                            <i class="fa fa-caret-right caretFont" aria-hidden="true"></i>
+                        </a>
                     </div>
                 </div>
                 <div class="row p-2">
@@ -135,14 +152,15 @@
                     </div>
                 </div>
                 <div class="text-center p-2">
-                    <a  class="btn btn-default"  (click)="getDetails('pending')">Detail</a>
+                    <a class="btn btn-default" (click)="getDetails('pending')">Detail</a>
                 </div>
             </div>
         </div>
     </div>
     <div class="row mt-5">
-        <div class="col-sm-6 backgroundWhite"> 
-            <chart [type]="type" [data]="data" [options]="options"></chart>  
+        <div class="col-sm-6 backgroundWhite">
+            <chart [type]="type" [data]="data" [options]="options"></chart>
+            <span class="paymentBars"><i class="fa fa-bars" aria-hidden="true"></i></span>
         </div>
         <div class="col-sm-6">
             <div class="backgroundWhite">
@@ -159,24 +177,29 @@
                     <table class="p-0 w-100" width="100">
                         <tbody>
                             <tr class="payment_border">
-                                <td class="p-1 w-50">Sales Revenue: </td>
-                                <td class="p-1 w-50">{{summary.saleRevenue | currency}}</td>
+                                <td class="p-1" width="60%">Sales Revenue: </td>
+                                <td class="p-1 text-right" width="20%">{{summary.saleRevenue | currency}}</td>
+                                <td width="20%"></td>
                             </tr>
                             <tr>
                                 <td class="p-1 text-right">Cost of Goods Sold: </td>
-                                <td class="p-1">{{summary.totalCostOfGoods | currency}}</td>
+                                <td class="p-1 text-right">{{summary.totalCostOfGoods | currency}}</td>
+                                <td></td>
                             </tr>
                             <tr>
                                 <td class="p-1 text-right">Processing / Shipping Fees:</td>
-                                <td class="p-1">{{summary.totalShipCost | currency}}</td>
+                                <td class="p-1 text-right">{{summary.totalShipCost | currency}}</td>
+                                <td></td>
                             </tr>
                             <tr class="payment_border">
                                 <td class="p-1 text-right">Taxes:</td>
-                                <td class="p-1">{{summary.totalTaxesCost | currency}}</td>
+                                <td class="p-1 text-right">{{summary.totalTaxesCost | currency}}</td>
+                                <td></td>
                             </tr>
                             <tr>
                                 <td class="p-1">Net Revenue:</td>
-                                <td class="p-1">{{summary.netRevenue | currency}}</td>
+                                <td class="p-1 text-right">{{summary.netRevenue | currency}}</td>
+                                <td></td>
                             </tr>
                         </tbody>
                     </table>
@@ -185,11 +208,12 @@
         </div>
     </div>
     <div class="row p-2 mt-3">
-        <div class="col-sm-2 colorlightGray">Previous</div>
-        <div class="col-sm-8 text-center">Sales Transactions 1-10 of 1,235</div>
-        <div class="col-sm-2 colorlightGray text-right">Next</div>
+        <div class="col-sm-12 p-0 pt-3 pagination_align">
+            <pagination-controls id='server' class="my-pagination" (pageChange)="getPage($event)" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page"></pagination-controls>
+        </div>
     </div>
     <div class="row p-2">
+
         <table class="table backgroundWhite">
             <thead>
                 <tr>
@@ -204,69 +228,17 @@
                     <th width="12%">Payment Date</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody *ngFor="let order of orders.content | paginate: { id: 'server', itemsPerPage: orders.size, currentPage: orders.number + 1 , totalItems: orders.totalElements }; let idx = index">
                 <tr>
-                    <td>1</td>
-                    <td>1043427</td>
-                    <td>Ada</td>
-                    <td>06/12/2015</td>
-                    <td>Paid</td>
-                    <td>Manual</td>
-                    <td>$45.66</td>
-                    <td>$20.00</td>
-                    <td>06/12/2017</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>34534</td>
-                    <td>Design Reach</td>
-                    <td>07/11/2015</td>
-                    <td>Paid</td>
-                    <td>Manual</td>
-                    <td>$45.66</td>
-                    <td>$70.00</td>
-                    <td>06/12/2017</td>
-                </tr>
-                <tr>
-                    <td>31</td>
-                    <td>1043427</td>
-                    <td>Essential Pets</td>
-                    <td>05/12/2015</td>
-                    <td>Paid</td>
-                    <td>Manual</td>
-                    <td>$45.66</td>
-                    <td>$70.00</td>
-                    <td>06/12/2017</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>1043427</td>
-                    <td>Collective Fab</td>
-                    <td>04/12/2015</td>
-                    <td>Paid</td>
-                    <td>Manual</td>
-                    <td>$45.66</td>
-                    <td>$450.00</td>
-                    <td>06/12/2017</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>1043427</td>
-                    <td>Ada</td>
-                    <td>06/12/2015</td>
-                    <td>Paid</td>
-                    <td>Manual</td>
-                    <td>$45.66</td>
-                    <td>$270.00</td>
-                    <td>06/12/2017</td>
-                </tr>
-                <tr>
-                    <td colspan="9" class="text-right">
-                        <select class="ddl_default mt-3">
-                            <option>Downlaod</option>
-                            <option>PDF</option>
-                        </select>
-                    </td>
+                    <td> {{(orders.size*orders.number) + idx+1}} </td>
+                    <td>{{order.orderId}}</td>
+                    <td>{{order.orderItems[0].retailerName}}</td>
+                    <td>{{order.purchasedDate | date:'shortDate'}}</td>
+                    <td>{{order.payment.paymentStatus || 'unpaid' }}</td>
+                    <td>{{'Manual'}}</td>
+                    <td>{{order.purchasedPrice | currency }}</td>
+                    <td>{{(order.payment.paymentAmount /100) || '0'| currency }}</td>
+                    <td>{{order.payment.paymentDate | date:'shortDate'}}</td>
                 </tr>
             </tbody>
         </table>

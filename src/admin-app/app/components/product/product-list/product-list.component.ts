@@ -8,6 +8,7 @@ import { IdNameParent } from '../../../../../models/nameValue';
 import { ActivatedRoute } from '@angular/router';
 import { Alert } from '../../../../../models/IAlert';
 import { CoreService } from '../../../services/core.service';
+import { userMessages } from './messages';
 
 @Component({
   selector: 'app-product-list',
@@ -181,11 +182,11 @@ export class ProductListComponent implements OnInit {
     }
   }
   delete(product: Product) {
-    const msg = new Alert('Are you sure?', 'Confirmation');
+    const msg = new Alert(userMessages.delete , 'Confirmation');
     this.core.showDialog(msg).then(res => {
       if (res === 'yes') {
         this.productService.deleteProduct(product.kalaUniqueId).subscribe(p => {
-          this.core.message.success('deleted');
+          this.core.message.success(userMessages.deleteSuccess);
           this.products.content.splice(this.products.content.indexOf(product), 1);
           this.getPage(this.products.number + 1);
         });
@@ -193,11 +194,11 @@ export class ProductListComponent implements OnInit {
     });
   }
   deactivate(product: Product) {
-    const msg = new Alert(product.productStatus ? 'userMessages.deactivate' : 'userMessages.reactivate', 'Confirmation');
+    const msg = new Alert(product.productStatus ? userMessages.deactivate : userMessages.reactivate, 'Confirmation');
     this.core.showDialog(msg).then(res => {
       if (res === 'yes') {
         this.productService.changeStatus(product.kalaUniqueId, !product.productStatus).subscribe(p => {
-          this.core.message.success(product.productStatus ? 'userMessages.deactivateSuccess' : 'userMessages.reactivateSuccess');
+          this.core.message.success(product.productStatus ? userMessages.deactivateSuccess : userMessages.reactivateSuccess);
           product.productStatus = !product.productStatus;
         });
       }
