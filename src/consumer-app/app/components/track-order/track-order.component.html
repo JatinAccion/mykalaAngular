@@ -1,8 +1,46 @@
 <div class="container">
   <div style="height:135px;width:100%;"></div>
-
-  <div class="row">
-    <div class="col-sm-6"></div>
-    <div class="col-sm-6"></div>
+  <div class="title">
+    <h2>Track your order</h2>
   </div>
+
+  <div style="background: #fff; padding: 20px; margin-bottom: 50px">
+    <div class="row">
+      <div class="col-sm-6">
+        <div #gmap id="map" class="w-100" style="height:480px;"></div>
+      </div>
+      <div class="col-sm-6">
+        <p>
+          <strong style="font-size: 20px">{{selectedOrder.order.productName}}</strong>
+        </p>
+        <p>
+          <span class="colorlightGray">Order Id:</span>
+          {{selectedOrder.modal.orderId | uppercase}}
+        </p>
+        <p>
+          <span class="colorlightGray">Estimated Delivery:</span>
+          {{getDeliveryDate(selectedOrder.order.deliveryMethod, selectedOrder.modal.purchasedDate)}}
+        </p>
+        <p>
+          <span class="colorlightGray">Order Shipping From: </span> {{selectedOrder.goShippoRes.address_from.city}}, {{selectedOrder.goShippoRes.address_from.state}}, {{selectedOrder.goShippoRes.address_from.country}}, {{selectedOrder.goShippoRes.address_from.zip}}
+        </p>
+        <p>
+          <span class="colorlightGray">Order Shipping To: </span> {{selectedOrder.goShippoRes.address_to.city}}, {{selectedOrder.goShippoRes.address_to.state}}, {{selectedOrder.goShippoRes.address_to.country}}, {{selectedOrder.goShippoRes.address_to.zip}}
+        </p>
+        <p>
+          <span class="colorlightGray">Order Shipment Status: </span> {{selectedOrder.goShippoRes.tracking_status.status_details}}
+        </p>
+        <p>
+          <span class="colorlightGray">Currently At:</span> {{selectedOrder.goShippoRes.tracking_status.location.city}}, {{selectedOrder.goShippoRes.tracking_status.location.state}}, {{selectedOrder.goShippoRes.tracking_status.location.country}}, {{selectedOrder.goShippoRes.tracking_status.location.zip}}
+        </p>
+        <p>
+          <span class="colorlightGray">Arrived at:</span> {{getPurchaseDate(selectedOrder.goShippoRes.tracking_status.object_created)}}
+        </p>
+        <p>
+          <span class="colorlightGray">Status:</span> {{selectedOrder.goShippoRes.tracking_status.status}}
+        </p>
+      </div>
+    </div>
+  </div>
+
 </div>
