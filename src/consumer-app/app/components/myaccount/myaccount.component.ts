@@ -34,6 +34,16 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('cardExpiry') cardExpiryInfo: ElementRef;
   @ViewChild('cardCvc') cardCvcInfo: ElementRef;
   @ViewChild('cardZip') cardZipInfo: ElementRef;
+  cardNumberBrand: any;
+  cardBrandToPfClass = {
+    'visa': 'pf-visa',
+    'mastercard': 'pf-mastercard',
+    'amex': 'pf-american-express',
+    'discover': 'pf-discover',
+    'diners': 'pf-diners',
+    'jcb': 'pf-jcb',
+    'unknown': 'pf-credit-card',
+  }
   getAPICP: any;
   stripeAddCard = new StripeAddCardModel();
   stripeCheckout = new StripeCheckoutModal();
@@ -171,9 +181,25 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     this.cardExpiry.mount(this.cardExpiryInfo.nativeElement);
     this.cardCvc.mount(this.cardCvcInfo.nativeElement);
     this.cardZip.mount(this.cardZipInfo.nativeElement);
-    // // this.card.addEventListener('change', this.cardHandler);
-  }
 
+    this.cardNumber.addEventListener('change', ({ brand }) => {
+      if (brand) {
+        this.setBrandIcon(brand);
+      }
+    });
+  }
+  setBrandIcon(brand) {
+    const brandIconElement = document.getElementById('brand-icon');
+    let pfClass = 'pf-credit-card';
+    if (brand in this.cardBrandToPfClass) {
+      pfClass = this.cardBrandToPfClass[brand];
+    }
+    for (let i = brandIconElement.classList.length - 1; i >= 0; i--) {
+      brandIconElement.classList.remove(brandIconElement.classList[i]);
+    }
+    brandIconElement.classList.add('pf');
+    brandIconElement.classList.add(pfClass);
+  }
   ngOnDestroy() {
     // this.card.removeEventListener('change', this.cardHandler);
     // this.cardNumber.removeEventListener('change', this.cardHandler);
