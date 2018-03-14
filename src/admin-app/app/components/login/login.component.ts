@@ -52,27 +52,9 @@ export class LoginComponent implements OnInit {
       });
     }
   }
-  // onLogin(): void {
-  //   this.core.message.success('Logged in successfully!');
-  //   this.loader = true;
-  //   this.user = new User(this.loginKala.value.email, this.loginKala.value.email, this.loginKala.value.password);
-  //   this.auth.login(this.user)
-  //     .then((res) => {
-  //       const resJson = res.json();
-  //       this.localStorageService.setItem('token', `${resJson.token_type} ${resJson.access_token}`, resJson.expires_in);
-  //       this.core.show();
-  //       this.processRemeberme();
-  //       this.loader = false;
-  //       this.router.navigateByUrl('/retailer-list');
-  //     })
-  //     .catch((err) => {
-  //       this.loader = false;
-  //       this.loginError = true;
-  //       console.log(err);
-  //     });
-  // }
   onLogin() {
     this.loginError = false;
+    this.unAuthorized = false;
     this.loader = true;
     this.user = new User(this.loginKala.controls.email.value.toLowerCase(), this.loginKala.controls.email.value.toLowerCase(), this.loginKala.controls.password.value);
     this.credentialModal.email = this.loginKala.controls.email.value.toLowerCase();
@@ -84,7 +66,7 @@ export class LoginComponent implements OnInit {
       this.localStorageService.setItem('token', `${resJson.token_type} ${resJson.access_token}`, resJson.expires_in);
       this.auth.getUserInfo(resJson.access_token).subscribe(usr => {
         this.loader = false;
-        if (res.userCreateStatus === false) {
+        if (usr.userCreateStatus === false) {
           localStorage.removeItem('token');
           this.userInactive = true;
         } else {
@@ -94,7 +76,6 @@ export class LoginComponent implements OnInit {
             this.router.navigateByUrl('/retailer-list');
           } else {
             this.loader = false;
-            this.loginError = true;
             this.unAuthorized = true;
           }
         }

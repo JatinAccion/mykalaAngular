@@ -35,15 +35,15 @@
         </div>
 
         <div *ngIf="loginError" class="alert alert-danger errorMessages">
-            {{loginUserMessage.error}}
+            {{userMessages.error}}
         </div>
 
         <div *ngIf="userInactive" class="alert alert-danger errorMessages">
-            {{loginUserMessage.inactiveUser}}
+            {{userMessages.inactiveUser}}
         </div>
 
         <div *ngIf="unAuthorized" class="alert alert-danger errorMessages">
-            {{loginUserMessage.unAuthorized}}
+            {{userMessages.unAuthorized}}
         </div>
         <img src="/admin-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="loader" />
     </div>
