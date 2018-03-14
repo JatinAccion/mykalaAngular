@@ -38,7 +38,7 @@
             </div>
             <p>&nbsp;</p>
             <div class="row">
-              <button class="btn-outer btn_redouter_right" (click)="leaveReview(modal, order)">leave review</button>
+              <button class="btn-outer btn_redouter_right" [disabled]="orderCancelled" style="cursor: pointer" (click)="leaveReview(modal, order)">leave review</button>
             </div>
           </div>
         </div>
@@ -88,7 +88,7 @@
           <div class="col-sm-3">
             <p>&nbsp;</p>
             <div class="row">
-              <a class="btn-outer btn_redouter_right">cancel order</a>
+              <button class="btn-outer btn_redouter_right" style="cursor: pointer" [disabled]="orderCancelled" (click)="cancelOrder(modal, order)">cancel order</button>
             </div>
             <p>&nbsp;</p>
             <div class="row">

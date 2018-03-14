@@ -599,7 +599,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       proceed = true
     }
     if (proceed == true) {
-      let outOfStock: boolean = false;
+      this.loader_chargeAmount = true;
       this.ProductCheckoutModal.orderItems = [];
       this.ProductCheckoutModal.cutomerId = this.selectedCardDetails.customerId;
       this.ProductCheckoutModal.userId = this.userData.userId;
@@ -631,9 +631,6 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
         });
       }
       setTimeout(() => {
-        this.open(this.confirmProcess);
-        this.loader_chargeAmount = true;
-        this.confirmProcessMessage = this.checkOutMessages.processStart;
         setTimeout(() => {
           for (var i = 0; i < productQuantityInStock.length; i++) {
             let product = productQuantityInStock[i];
@@ -654,23 +651,15 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
               }
             }
           }
-          if (checkInStock.indexOf(false) > -1) {
+          this.checkout.chargeAmount(this.ProductCheckoutModal).subscribe((res) => {
             this.loader_chargeAmount = false;
-            this.confirmProcessMessage = this.checkOutMessages.productUnavailable;
-          }
-          else {
+            this.paymentSuccessfullMsg = res;
+            localStorage.removeItem('existingItemsInCart');
+            this.route.navigateByUrl('/myorder');
+          }, (err) => {
             this.loader_chargeAmount = false;
-            this.checkout.chargeAmount(this.ProductCheckoutModal).subscribe((res) => {
-              document.getElementById("closeModal").click();
-              this.loader_chargeAmount = false;
-              this.paymentSuccessfullMsg = res;
-              localStorage.removeItem('existingItemsInCart');
-              this.route.navigateByUrl('/myorder');
-            }, (err) => {
-              this.loader_chargeAmount = false;
-              alert("Something went wrong");
-            })
-          }
+            alert("Something went wrong");
+          })
         }, 3000)
       }, 1000)
     }

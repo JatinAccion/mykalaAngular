@@ -4,6 +4,7 @@ import { MyOrdersService } from '../../services/myorder.service';
 import { MyOrders, OrderItems } from '../../../../models/myOrder';
 import { Router } from '@angular/router'
 import { ReviewModel } from '../../../../models/review';
+import { CancelOrder } from '../../../../models/cancelOrder';
 
 @Component({
   selector: 'app-myorders',
@@ -16,6 +17,8 @@ export class MyordersComponent implements OnInit {
   loader: boolean = false;
   requestReviewModel = new ReviewModel();
   myorderModal = new Array<MyOrders>();
+  cancelOrderModel = new CancelOrder();
+  orderCancelled: boolean = false;
 
   constructor(
     public core: CoreService,
@@ -38,7 +41,7 @@ export class MyordersComponent implements OnInit {
       this.myorderModal = new Array<MyOrders>();
       for (var i = 0; i < res.length; i++) {
         let order = res[i]
-        this.myorderModal.push(new MyOrders(order.cutomerId, order.userId, order.source, order.paymentSource, order.paymentFunding, order.last4Digits, order.customerName, order.address, order.purchasedDate, new Array<OrderItems>(), order.purchasedPrice, order.totalTaxCost, order.totalShipCost, order.orderId))
+        this.myorderModal.push(new MyOrders(order.cutomerId, order.userId, order.source, order.paymentSource, order.paymentFunding, order.last4Digits, order.customerName, order.address, order.purchasedDate, new Array<OrderItems>(), order.purchasedPrice, order.totalTaxCost, order.totalShipCost, order.orderId, order.payment))
         for (var j = 0; j < order.orderItems.length; j++) {
           let orderItem = order.orderItems[j]
           this.myorderModal[i].orderItems.push(new OrderItems(orderItem.productId, orderItem.productName, orderItem.retailerName, orderItem.retailerId, orderItem.productDescription, orderItem.productImage, orderItem.productQuantity, orderItem.productPrice, orderItem.productTaxCost, orderItem.shippingCost, orderItem.totalProductPrice, orderItem.deliveryMethod));
@@ -103,4 +106,20 @@ export class MyordersComponent implements OnInit {
     this.route.navigateByUrl("/leave-review");
   }
 
+  cancelOrder(modal, order) {
+    let proceed = confirm("Are you sure you want to cancel the order?");
+    if (proceed == true) {
+      this.cancelOrderModel.amount = order.totalProductPrice;
+      this.cancelOrderModel.customerId = modal.cutomerId;
+      this.cancelOrderModel.orderId = modal.orderId;
+      this.cancelOrderModel.orderItemId = order.productId;
+      this.cancelOrderModel.chargeId = modal.payment.paymentNumber;
+      this.myOrder.cancelOrder(this.cancelOrderModel).subscribe((res) => {
+        this.orderCancelled = true;
+        alert("Your order has been cancelled.")
+      }, (err) => {
+        this.orderCancelled = false;
+      })
+    }
+  }
 }

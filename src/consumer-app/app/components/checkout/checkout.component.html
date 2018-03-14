@@ -241,7 +241,11 @@
           </tr>
         </table>
         <div class="p-3">
-          <button (click)="chargeAmount()" class="btn btn_red_right w-100" [disabled]="core.hideUser">confirm</button>
+          <button (click)="chargeAmount()" class="btn btn_red_right w-100 mb-2" [disabled]="loader_chargeAmount">confirm</button>
+          <span style="font-size:14px" class="d-block text-center" *ngIf="loader_chargeAmount">
+            Please wait while we place your order...
+            <img src="/consumer-app/assets/images/loader.gif" class="ml-2" width="22" *ngIf="loader_chargeAmount" />
+          </span>
         </div>
       </div>
     </div>
