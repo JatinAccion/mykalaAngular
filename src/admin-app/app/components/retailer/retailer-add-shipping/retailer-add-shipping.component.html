@@ -2,8 +2,14 @@
     <div class="col-sm-12">
         <ngb-tabset #tabs="ngbTabset" [orientation]="currentOrientation" class="tabShipping" [justify]="currentJustify" (tabChange)="setActiveTab($event)">
             <ngb-tab id="tab-shipping{{idx}}" *ngFor="let shipping of shippings.shippings; let idx = index;">
-                <ng-template ngbTabTitle>{{ idx + 1 }}
+                <ng-template ngbTabTitle>
                     <img src="/admin-app/assets/images/tick_icon.png" class="float-right mr-2" *ngIf="shipping.status" />
+                    <div class="float-right" *ngIf="idx ===shippings.shippings.length-1 && idx>0 && !shipping.shippingProfileId" class="tabShippingTab">
+                        <a (click)="removeShipping($event)" class="shipping-remove">
+                            <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    {{ idx + 1 }}
                 </ng-template>
                 <ng-template ngbTabContent>
                     <div class="row p-3">
@@ -12,7 +18,7 @@
                             <div [formGroup]="shippingFG1">
                                 <div class="form-group">
                                     <label class="control-label" [ngClass]="validatorExt.displayFieldCss(shippingFG1.controls.shippingProfileName)">Profile name</label>
-                                    <input type="text" class="form-control" step="0.01" value="0.00"  placeholder="0.00" pattern formControlName="shippingProfileName">
+                                    <input type="text" class="form-control" pattern formControlName="shippingProfileName">
                                     <app-field-error-display [field]="shippingFG1.controls.shippingProfileName" [errorMsg]="errorMsgs"> </app-field-error-display>
                                 </div>
                             </div>
@@ -52,7 +58,7 @@
                                                         <div>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon" id="basic-addon1">&nbsp;</span>
-                                                                <input class="form-control" step="0.01" value="0.00"  placeholder="0.00" aria-describedby="basic-addon1" formControlName="min" type="number">
+                                                                <input class="form-control" step="0.01" value="0.00" placeholder="0.00" aria-describedby="basic-addon1" formControlName="min" type="number">
                                                             </div>
                                                         </div>
                                                         <div class="row p-2">
@@ -67,7 +73,7 @@
                                                         <div>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon" id="basic-addon1">&nbsp;</span>
-                                                                <input class="form-control" step="0.01" value="0.00"  placeholder="0.00" aria-describedby="basic-addon1" formControlName="max" type="number">
+                                                                <input class="form-control" step="0.01" value="0.00" placeholder="0.00" aria-describedby="basic-addon1" formControlName="max" type="number">
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -96,7 +102,7 @@
                                                         <div>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon" id="basic-addon1">$</span>
-                                                                <input class="form-control" step="0.01" value="0.00"  placeholder="0.00" aria-describedby="basic-addon1" formControlName="min" type="number">
+                                                                <input class="form-control" step="0.01" value="0.00" placeholder="0.00" aria-describedby="basic-addon1" formControlName="min" type="number">
                                                             </div>
                                                             <div class="row">
                                                                 <app-field-error-display [field]="tier.controls.min" [errorMsg]="errorMsgs"> </app-field-error-display>
@@ -111,7 +117,7 @@
                                                         <div>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon" id="basic-addon1">$</span>
-                                                                <input class="form-control" step="0.01" value="0.00"  placeholder="0.00" aria-describedby="basic-addon1" formControlName="max" type="number">
+                                                                <input class="form-control" step="0.01" value="0.00" placeholder="0.00" aria-describedby="basic-addon1" formControlName="max" type="number">
                                                             </div>
                                                             <div class="row">
                                                                 <app-field-error-display [field]="tier.controls.max" [errorMsg]="errorMsgs"> </app-field-error-display>
@@ -140,7 +146,7 @@
                                                         <div>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon" id="basic-addon1">lbs.</span>
-                                                                <input class="form-control" step="0.01" value="0.00"  placeholder="0.00" aria-describedby="basic-addon1" formControlName="min" type="number">
+                                                                <input class="form-control" step="0.01" value="0.00" placeholder="0.00" aria-describedby="basic-addon1" formControlName="min" type="number">
                                                             </div>
                                                             <div class="row">
                                                                 <app-field-error-display [field]="tier.controls.min" [errorMsg]="errorMsgs"> </app-field-error-display>
@@ -155,7 +161,7 @@
                                                         <div>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon" id="basic-addon1">lbs.</span>
-                                                                <input class="form-control" step="0.01" value="0.00"  placeholder="0.00" aria-describedby="basic-addon1" formControlName="max" type="number">
+                                                                <input class="form-control" step="0.01" value="0.00" placeholder="0.00" aria-describedby="basic-addon1" formControlName="max" type="number">
                                                             </div>
                                                             <div class="row">
                                                                 <app-field-error-display [field]="tier.controls.max" [errorMsg]="errorMsgs"> </app-field-error-display>
@@ -227,7 +233,7 @@
                             </div>
                             <div [formGroup]="shippingFG2" [ngClass]="{'show': shipping.step==2, 'hide': shipping.step!==2  }">
                                 <div class="row m-0 shippingdelivery" [ngClass]="{'show': shippingFG1.value.deliveryOptions !== 'freeshipping', 'hide': shippingFG1.value.deliveryOptions === 'freeshipping' }">
-                                        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(shippingFG1.controls.shippingProfileName)">Available shipping methods</label>
+                                    <label class="control-label" [ngClass]="validatorExt.displayFieldCss(shippingFG1.controls.shippingProfileName)">Available shipping methods</label>
                                     <div formArrayName="shippingMethods" class="well well-lg col-md-12">
                                         <ngb-accordion #acc="ngbAccordion" [closeOthers]="true">
                                             <ngb-panel id="toggle-{{i}}" class="row border_outline m-3 p-2" *ngFor="let option of shippingFG2.get('shippingMethods').controls; let i=index;" [formGroupName]="i" [disabled]="option.value.disabled">
@@ -255,16 +261,16 @@
                                                     <div formArrayName="charges" class="row">
                                                         <div *ngFor="let chargeoption of option.get('charges').controls; let chargeId=index;" [formGroupName]="chargeId" class="col-md-6 p-2">
                                                             <div class="col-sm-12">
-                                                                    <label>
-                                                                            <input type="checkbox" formControlName="checkMethodStatus"> {{chargeoption.value.tierName}}
-                                                                        </label>
-                                                                
+                                                                <label>
+                                                                    <input type="checkbox" formControlName="checkMethodStatus"> {{chargeoption.value.tierName}}
+                                                                </label>
+
                                                                 <!-- {{chargeId}} -->
                                                             </div>
                                                             <div class="col-sm-12">
                                                                 <div class="input-group">
                                                                     <span class="input-group-addon" id="basic-addon1">$</span>
-                                                                    <input class="form-control" step="0.01" value="0.00"  placeholder="0.00" aria-describedby="basic-addon1" formControlName="charge" type="number">
+                                                                    <input class="form-control" step="0.01" value="0.00" placeholder="0.00" aria-describedby="basic-addon1" formControlName="charge" type="number">
                                                                     <!-- entry: {{chargeoption.value.charge}}:  -->
                                                                 </div>
                                                                 <div class="col-sm-12">
@@ -343,7 +349,7 @@
                                                         <div class="col-sm-12">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon" id="basic-addon1">$</span>
-                                                                <input type="number" class="form-control" step="0.01" value="0.00"  placeholder="0.00" aria-describedby="basic-addon1" formControlName="locationFee">
+                                                                <input type="number" class="form-control" step="0.01" value="0.00" placeholder="0.00" aria-describedby="basic-addon1" formControlName="locationFee">
                                                             </div>
                                                             <app-field-error-display [field]="item.controls.locationFee" [errorMsg]="errorMsgs"> </app-field-error-display>
                                                         </div>

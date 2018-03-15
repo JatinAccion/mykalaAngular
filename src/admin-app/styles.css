@@ -579,3 +579,18 @@ ol li{
 .payment_border{
     border-bottom: solid 1px #edd2ac;
 }
+.shipping-remove{
+    position: absolute;
+    top: -14px;
+    right: -25px;
+    padding: 3px 5px 1px 5px;
+    /* background: #999;
+    color: #fff !important; */
+}
+.shipping-remove:hover{ 
+    color: red !important;
+    /* color: #fff !important; */
+}
+.tabShippingTab{
+    position: relative;
+}

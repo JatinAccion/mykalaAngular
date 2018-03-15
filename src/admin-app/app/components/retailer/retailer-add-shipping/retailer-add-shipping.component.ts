@@ -94,6 +94,13 @@ export class RetailerAddShippingComponent implements OnInit {
       this.shippings.shippings.push(shipping);
     }
   }
+  removeShipping(event) {
+    if (!this.shippings.shippings[this.shippings.shippings.length - 1].shippingProfileId) {
+      this.shippings.shippings.pop();
+    }
+    event.stopPropagation();
+    event.preventDefault();
+  }
   setActiveTab(event) {
     this.readShipping();
     this.currentTabIndex = parseInt(event.nextId.replace('tab-shipping', ''), 0);
