@@ -10,7 +10,10 @@
       "outDir": "dist/admin-app",
       "assets": [
         "admin-app/assets",
-        "favicon.ico"
+        "favicon.ico",
+        "terms.html",
+        "privacy.html",
+        "logo.png"
       ],
       "index": "index.html",
       "main": "admin-app/main.ts",
@@ -40,7 +43,10 @@
       "outDir": "dist/consumer-app",
       "assets": [
         "consumer-app/assets",
-        "favicon.ico"
+        "favicon.ico",
+        "terms.html",
+        "privacy.html",
+        "logo.png"
       ],
       "index": "index.html",
       "main": "consumer-app/main.ts",
