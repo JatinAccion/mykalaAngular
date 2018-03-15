@@ -336,7 +336,7 @@ export class RetialerService {
     if (this.taxDataObj && this.taxDataObj.retailerId === retailerId) {
       return Observable.of(this.taxDataObj);
     } else {
-      const url = `${'http://dev-retailer-service-mongo.us-east-1.elasticbeanstalk.com/retailer/v1'}/${environment.apis.retailerTax.get}`.replace('{retailerId}', retailerId.toString());
+      const url = `${environment.TaxApi}/${environment.apis.retailerTax.get}`.replace('{retailerId}', retailerId.toString());
       return this.http
         .get(`${url}`, { headers: this.headers })
         .map(res => {
@@ -350,7 +350,7 @@ export class RetialerService {
   }
   saveTax(tax: RetailerTax): Observable<any> {
     this.headers = this.getHttpHeraders();
-    const url = `${'http://dev-retailer-service-mongo.us-east-1.elasticbeanstalk.com/retailer/v1'}/${environment.apis.retailerTax.save}`;
+    const url = `${environment.TaxApi}/${environment.apis.retailerTax.save}`;
     const requestOptions = { body: tax, method: RequestMethod.Post, headers: this.headers };
     if (tax.taxNexusId) {
       requestOptions.method = RequestMethod.Put;

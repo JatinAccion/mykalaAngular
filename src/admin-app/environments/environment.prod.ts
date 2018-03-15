@@ -5,6 +5,7 @@ export const environment = {
   s3: 'https://s3.us-east-2.amazonaws.com\\',
   Api: 'http://qa-user-service.us-west-1.elasticbeanstalk.com',
   AdminApi: 'http://qa-retailer-service.us-west-1.elasticbeanstalk.com/retailer/v1',
+  TaxApi: 'http://qa-retailer-service.us-west-1.elasticbeanstalk.com/tax/v1',
   productApi: 'http://dev-product-service.us-east-2.elasticbeanstalk.com/api',
   userApi: 'http://qa-signup-service.us-west-1.elasticbeanstalk.com/user/v1',
   ordersApi: 'http://qa-order-service.us-east-1.elasticbeanstalk.com/order/v1',

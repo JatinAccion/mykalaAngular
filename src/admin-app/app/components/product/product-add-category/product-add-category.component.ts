@@ -179,6 +179,9 @@ export class ProductAddCategoryComponent implements OnInit, OnChanges {
     this.product.productSubCategoryName = '';
     if (this.product.productSubCategory) {
       this.product.productSubCategoryName = this.product.productSubCategory.SubCategoryName;
+      if (this.product.productSubCategory.taxCode) {
+        this.product.taxCode = this.product.productSubCategory.taxCode;
+      }
       this.getTypes(this.product.productSubCategory.SubCategoryId);
     }
     this.levels = new ProductTypeLevels();
