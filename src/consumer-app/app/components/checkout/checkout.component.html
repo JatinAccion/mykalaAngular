@@ -176,9 +176,9 @@
               <div class="col-3 pl-4">Shipping Method</div>
               <div class="col-5">
                 <span class="plain-select w-100">
-                  <select class="taxAmounts" (focus)="getSelectedValue($event.target.value)" (change)="selectShippingMethod($event, $event.target.value, orders)">
+                  <select class="taxAmounts" (change)="selectShippingMethod($event, $event.target.value, orders)">
                     <option value selected disabled>Please select a method</option>
-                    <option value="${{shippingMethod.deliveryFee}} - {{shippingMethod.deliveryMethodName}}" *ngFor="let shippingMethod of shippingMethod.deliveryMethods">
+                    <option value="${{shippingMethod.deliveryFee}} - {{shippingMethod.deliveryMethodName}}" *ngFor="let shippingMethod of item.deliveryTiers">
                       ${{shippingMethod.deliveryFee}} - {{shippingMethod.deliveryMethodName}}
                     </option>
                   </select>
@@ -193,9 +193,9 @@
             <div class="col-3 pl-4">Shipping Method</div>
             <div class="col-5">
               <span class="plain-select w-100">
-                <select class="taxAmounts" (focus)="getSelectedValue($event.target.value)" (change)="selectShippingMethod($event, $event.target.value, item)">
+                <select class="taxAmounts" (change)="selectShippingMethod($event, $event.target.value, item)">
                   <option value selected disabled>Please select a method</option>
-                  <option value="${{shippingMethod.deliveryFee}} - {{shippingMethod.deliveryMethodName}}" *ngFor="let shippingMethod of shippingMethod.deliveryMethods">
+                  <option value="${{shippingMethod.deliveryFee}} - {{shippingMethod.deliveryMethodName}}" *ngFor="let shippingMethod of item.deliveryTiers">
                     ${{shippingMethod.deliveryFee}} - {{shippingMethod.deliveryMethodName}}
                   </option>
                 </select>
@@ -211,7 +211,7 @@
 
     <!--Order Summary-->
     <div class="col-sm-4 pr-0 mb-4 mt-3">
-      <div class="sellerProduct right checkOutSticky">
+      <div class="sellerProduct right checkOutSticky pt-0">
         <h5 class="colorlightGray">Order Summary</h5>
         <table class="w-100">
           <tr>

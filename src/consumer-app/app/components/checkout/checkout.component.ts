@@ -389,13 +389,23 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     element.classList.remove("categ_outline_gray");
     element.classList.add("categ_outline_red");
     this.selectedAddressDetails = address;
-    this.checkout.getShippingMethods(address.state, this.itemsInCart[0].shipProfileId).subscribe((res) => {
-      this.shippingMethod = res.deliveryTiers[0];
-      this.loader_shippingMethod = false;
-      this.showShippingMethod = true;
-      this.loader_productTax = true;
-      this.getTax(address, res.shippingOriginAddress)
-    });
+    for (var i = 0; i < this.itemsInCart.length; i++) {
+      this.checkout.getShippingMethods(address.state, this.itemsInCart[i].shipProfileId).subscribe((res) => {
+        this.shippingMethod = res.deliveryTiers[0];
+        this.loader_shippingMethod = false;
+        this.showShippingMethod = true;
+        this.loader_productTax = true;
+        for (var i = 0; i < this.filteredCartItems.length; i++) {
+          for (var j = 0; j < this.filteredCartItems[i].orderItems.length; j++) {
+            let order = this.filteredCartItems[i].orderItems[j];
+            if (order.shipProfileId == res.shippingProfileId) {
+              this.filteredCartItems[i].deliveryTiers = res.deliveryTiers[0].deliveryMethods;
+            }
+          }
+        }
+        this.getTax(address, res.shippingOriginAddress)
+      });
+    }
   }
 
   getTax(address, toAddress) {
@@ -652,9 +662,9 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
             }
           }
           this.checkout.chargeAmount(this.ProductCheckoutModal).subscribe((res) => {
-            this.loader_chargeAmount = false;
             this.paymentSuccessfullMsg = res;
             localStorage.removeItem('existingItemsInCart');
+            this.loader_chargeAmount = false;
             this.route.navigateByUrl('/myorder');
           }, (err) => {
             this.loader_chargeAmount = false;

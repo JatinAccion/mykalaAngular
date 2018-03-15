@@ -30,6 +30,7 @@ export class MyordersComponent implements OnInit {
     this.core.checkIfLoggedOut(); /*** If User Logged Out*/
     this.core.hide();
     this.core.searchMsgToggle();
+    localStorage.removeItem("productForTracking")
     this.userData = JSON.parse(window.localStorage['userInfo']);
     this.getOrders();
   }
@@ -124,9 +125,8 @@ export class MyordersComponent implements OnInit {
   }
 
   trackOrder(modal, order) {
-    window.localStorage['productForTracking'] = JSON.stringify({ modal: modal, order: order });
-    this.myOrder.trackOrder('12345678').subscribe((res) => {
-      console.log(res);
+    this.myOrder.trackOrder('SHIPPO_TRANSIT').subscribe((res) => {
+      window.localStorage['productForTracking'] = JSON.stringify({ modal: modal, order: order, goShippoRes: res });
       this.route.navigateByUrl("/trackOrder");
     }, (err) => {
       console.log(err);
