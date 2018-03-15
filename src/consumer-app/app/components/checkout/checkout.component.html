@@ -110,13 +110,18 @@
 
       <div class="row" [hidden]="!addCard">
         <form #checkout="ngForm" (ngSubmit)="onSubmit(checkout)" class="checkout pl-1 pr-0 pb-0 pt-0 mt-0 mb-4">
-          <div class="form-row" [hidden]="!addCard">
-            <hr class="mb-4" />
+          <hr class="mb-4" />
+          <div class="form-row position-relative" [hidden]="!addCard">
             <div id="card-info" #cardInfo class="mt-0"></div>
             <div id="card-number" #cardNumber class="field empty"></div>
+            <div style="top: 10px; right: 8px; position: absolute">
+              <span class="brand">
+                <i class="pf pf-credit-card" id="brand-icon"></i>
+              </span>
+            </div>
             <div id="card-expiry" #cardExpiry class="field empty third-width"></div>
             <div id="card-cvc" #cardCvc class="field empty third-width"></div>
-            <div id="card-zip" #cardZip class="field empty third-width" placeholder="ZIPCODE"></div>
+            <div id="card-zip" #cardZip class="field empty third-width"></div>
             <div id="card-errors" role="alert" *ngIf="error">{{ error }}</div>
           </div>
           <button type="submit" class="btn btn_red_right">add card</button>
@@ -178,7 +183,7 @@
                 <span class="plain-select w-100">
                   <select class="taxAmounts" (change)="selectShippingMethod($event, $event.target.value, orders)">
                     <option value selected disabled>Please select a method</option>
-                    <option value="${{shippingMethod.deliveryFee}} - {{shippingMethod.deliveryMethodName}}" *ngFor="let shippingMethod of item.deliveryTiers">
+                    <option value="${{shippingMethod.deliveryFee}} - {{shippingMethod.deliveryMethodName}}" *ngFor="let shippingMethod of orders.deliveryTiers">
                       ${{shippingMethod.deliveryFee}} - {{shippingMethod.deliveryMethodName}}
                     </option>
                   </select>

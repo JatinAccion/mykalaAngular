@@ -42,10 +42,10 @@ export class MyordersComponent implements OnInit {
       this.myorderModal = new Array<MyOrders>();
       for (var i = 0; i < res.length; i++) {
         let order = res[i]
-        this.myorderModal.push(new MyOrders(order.cutomerId, order.userId, order.source, order.paymentSource, order.paymentFunding, order.last4Digits, order.customerName, order.address, order.purchasedDate, new Array<OrderItems>(), order.purchasedPrice, order.totalTaxCost, order.totalShipCost, order.orderId, order.payment))
+        this.myorderModal.push(new MyOrders(order.customerOrderStatus, order.customerId, order.userId, order.source, order.paymentSource, order.paymentFunding, order.last4Digits, order.customerName, order.address, order.purchasedDate, new Array<OrderItems>(), order.purchasedPrice, order.totalTaxCost, order.totalShipCost, order.orderId, order.payment))
         for (var j = 0; j < order.orderItems.length; j++) {
           let orderItem = order.orderItems[j]
-          this.myorderModal[i].orderItems.push(new OrderItems(orderItem.productId, orderItem.productName, orderItem.retailerName, orderItem.retailerId, orderItem.productDescription, orderItem.productImage, orderItem.productQuantity, orderItem.productPrice, orderItem.productTaxCost, orderItem.shippingCost, orderItem.totalProductPrice, orderItem.deliveryMethod));
+          this.myorderModal[i].orderItems.push(new OrderItems(orderItem.productId, orderItem.productName, orderItem.retailerName, orderItem.retailerId, orderItem.productDescription, orderItem.productImage, orderItem.productQuantity, orderItem.productPrice, orderItem.productTaxCost, orderItem.shippingCost, orderItem.totalProductPrice, orderItem.deliveryMethod, orderItem.productItemStatus));
         }
       }
     }, (err) => {
@@ -110,8 +110,8 @@ export class MyordersComponent implements OnInit {
   cancelOrder(modal, order) {
     let proceed = confirm("Are you sure you want to cancel the order?");
     if (proceed == true) {
-      this.cancelOrderModel.amount = order.totalProductPrice;
-      this.cancelOrderModel.customerId = modal.cutomerId;
+      this.cancelOrderModel.amount = eval(`${order.totalProductPrice + order.shippingCost + order.productTaxCost}`);
+      this.cancelOrderModel.customerId = modal.customerId;
       this.cancelOrderModel.orderId = modal.orderId;
       this.cancelOrderModel.orderItemId = order.productId;
       this.cancelOrderModel.chargeId = modal.payment.paymentNumber;

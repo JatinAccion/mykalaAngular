@@ -78,6 +78,16 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('cardExpiry') cardExpiryInfo: ElementRef;
   @ViewChild('cardCvc') cardCvcInfo: ElementRef;
   @ViewChild('cardZip') cardZipInfo: ElementRef;
+  cardNumberBrand: any;
+  cardBrandToPfClass = {
+    'visa': 'pf-visa',
+    'mastercard': 'pf-mastercard',
+    'amex': 'pf-american-express',
+    'discover': 'pf-discover',
+    'diners': 'pf-diners',
+    'jcb': 'pf-jcb',
+    'unknown': 'pf-credit-card',
+  }
   totalProductTax: number = 0;
   getStates: any;
   confirmProcessMessage: string;
@@ -170,6 +180,24 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.cardExpiry.mount(this.cardExpiryInfo.nativeElement);
     this.cardCvc.mount(this.cardCvcInfo.nativeElement);
     this.cardZip.mount(this.cardZipInfo.nativeElement);
+    this.cardNumber.addEventListener('change', ({ brand }) => {
+      if (brand) {
+        this.setBrandIcon(brand);
+      }
+    });
+  }
+
+  setBrandIcon(brand) {
+    const brandIconElement = document.getElementById('brand-icon');
+    let pfClass = 'pf-credit-card';
+    if (brand in this.cardBrandToPfClass) {
+      pfClass = this.cardBrandToPfClass[brand];
+    }
+    for (let i = brandIconElement.classList.length - 1; i >= 0; i--) {
+      brandIconElement.classList.remove(brandIconElement.classList[i]);
+    }
+    brandIconElement.classList.add('pf');
+    brandIconElement.classList.add(pfClass);
   }
 
   ngOnDestroy() {
@@ -399,7 +427,12 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
           for (var j = 0; j < this.filteredCartItems[i].orderItems.length; j++) {
             let order = this.filteredCartItems[i].orderItems[j];
             if (order.shipProfileId == res.shippingProfileId) {
-              this.filteredCartItems[i].deliveryTiers = res.deliveryTiers[0].deliveryMethods;
+              if (this.filteredCartItems[i].differentShippingMethod) {
+                this.filteredCartItems[i].orderItems[j].deliveryTiers = res.deliveryTiers[0].deliveryMethods;
+              }
+              else {
+                this.filteredCartItems[i].deliveryTiers = res.deliveryTiers[0].deliveryMethods;
+              }
             }
           }
         }
@@ -611,7 +644,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     if (proceed == true) {
       this.loader_chargeAmount = true;
       this.ProductCheckoutModal.orderItems = [];
-      this.ProductCheckoutModal.cutomerId = this.selectedCardDetails.customerId;
+      this.ProductCheckoutModal.customerId = this.selectedCardDetails.customerId;
       this.ProductCheckoutModal.userId = this.userData.userId;
       this.ProductCheckoutModal.consumerEmail = this.userData.emailId;
       this.ProductCheckoutModal.customerName = this.userData.firstName + ' ' + this.userData.lastName;

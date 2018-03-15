@@ -1,6 +1,7 @@
 export class MyOrders {
     constructor(
-        public cutomerId: string,
+        public customerOrderStatus: string,
+        public customerId: string,
         public userId: string,
         public source: string,
         public paymentSource: string,
@@ -31,7 +32,8 @@ export class OrderItems {
         public productTaxCost: number,
         public shippingCost: number,
         public totalProductPrice: number,
-        public deliveryMethod: string
+        public deliveryMethod: string,
+        public productItemStatus: string
     ) { }
 }
 

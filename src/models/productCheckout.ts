@@ -1,5 +1,5 @@
 export class ProductCheckout {
-    public cutomerId: string;
+    public customerId: string;
     public userId: string;
     public consumerEmail: string;
     public source: string;

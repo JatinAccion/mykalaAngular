@@ -138,7 +138,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
       base: {
         color: '#000',
         fontWeight: 600,
-        fontFamily: 'Quicksand, Open Sans, Segoe UI, sans-serif',
+        fontFamily: 'Open Sans',
         fontSize: '16px',
         fontSmoothing: 'antialiased',
 
@@ -188,6 +188,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     });
   }
+
   setBrandIcon(brand) {
     const brandIconElement = document.getElementById('brand-icon');
     let pfClass = 'pf-credit-card';
@@ -200,6 +201,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     brandIconElement.classList.add('pf');
     brandIconElement.classList.add(pfClass);
   }
+
   ngOnDestroy() {
     // this.card.removeEventListener('change', this.cardHandler);
     // this.cardNumber.removeEventListener('change', this.cardHandler);

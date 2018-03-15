@@ -7,7 +7,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
   encapsulation: ViewEncapsulation.None
 })
 export class FooterComponent implements OnInit {
-
+  year = new Date().getFullYear();
   constructor() { }
 
   ngOnInit() {

@@ -182,13 +182,17 @@
                 <!--Add New Cards Form-->
                 <div class="row" [hidden]="!addCard">
                   <form #checkout="ngForm" (ngSubmit)="onSubmit(checkout)" class="checkout pl-1 pr-0 pb-0 pt-0 mt-0 mb-4">
-                    <div class="form-row">
+                    <div class="form-row position-relative">
                       <div id="card-info" #cardInfo class="mt-0"></div>
                       <div id="card-number" #cardNumber class="field empty"></div>
-                     <div> <span class="brand"><i class="pf pf-credit-card" id="brand-icon"></i></span></div>
+                      <div style="top: 10px; right: 8px; position: absolute">
+                        <span class="brand">
+                          <i class="pf pf-credit-card" id="brand-icon"></i>
+                        </span>
+                      </div>
                       <div id="card-expiry" #cardExpiry class="field empty third-width"></div>
                       <div id="card-cvc" #cardCvc class="field empty third-width"></div>
-                      <div id="card-zip" #cardZip class="field empty third-width" placeholder="94107"></div>
+                      <div id="card-zip" #cardZip class="field empty third-width"></div>
                       <div id="card-errors" role="alert" *ngIf="error">{{ error }}</div>
                     </div>
                     <button type="submit" class="btn btn_red_right">add card</button>
