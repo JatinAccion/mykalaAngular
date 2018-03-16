@@ -2771,7 +2771,7 @@ label{display:block}
     -ms-border-radius: 20px;
     -o-border-radius: 20px;
 }
-.orderConfirmed{
+.orderSuccess{
     background: green;
     font-size: 15px;
     color: #fff;
@@ -2787,7 +2787,7 @@ label{display:block}
     padding: 5px 10px;
     font-family: open_sansbold;
 }
-.orderProcessing{
+.orderProcess{
     background: orange;
     font-size: 15px;
     color: #fff;

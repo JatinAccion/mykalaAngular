@@ -4,7 +4,7 @@
 
   <!--Cart-->
   <div class="myCart">
-    <div class="myCart-list" *ngFor="let item of itemsInCart">
+    <div class="myCart-list" *ngFor="let item of itemsInCart | reverse">
       <h4 class="subtitle" id="{{item.retailerId}}">{{item.retailerName}}</h4>
       <div class="row">
         <div class="col-sm-2 pr-0">
@@ -90,7 +90,7 @@
           </div>
           <div class="row pb-2">
             <div class="col-sm-3 colorlightGray">Price:</div>
-            <div class="col-sm-9">${{item.price | currency}}</div>
+            <div class="col-sm-9">{{item.price | currency}}</div>
           </div>
           <hr />
           <div class="row">

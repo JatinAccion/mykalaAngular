@@ -174,7 +174,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     this.cardNumber = elements.create('cardNumber', { style: elementStyles, classes: elementClasses, });
     this.cardExpiry = elements.create('cardExpiry', { style: elementStyles, classes: elementClasses, });
     this.cardCvc = elements.create('cardCvc', { style: elementStyles, classes: elementClasses, });
-    this.cardZip = elements.create('postalCode', { style: elementStyles, classes: elementClasses, placeholder: 'Postal code', });
+    this.cardZip = elements.create('postalCode', { style: elementStyles, classes: elementClasses, placeholder: 'Zipcode', });
 
     // this.card.mount(this.cardInfo.nativeElement);
     this.cardNumber.mount(this.cardNumberInfo.nativeElement);

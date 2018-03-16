@@ -15,7 +15,11 @@ export class MyOrders {
         public totalTaxCost: number,
         public totalShipCost: number,
         public orderId: string,
-        public payment = new Payment()
+        public payment = new Payment(),
+        public leaveReview?: boolean,
+        public contactSupport?: boolean,
+        public cancelOrder?: boolean,
+        public trackOrder?: boolean
     ) { }
 }
 
@@ -33,7 +37,11 @@ export class OrderItems {
         public shippingCost: number,
         public totalProductPrice: number,
         public deliveryMethod: string,
-        public productItemStatus: string
+        public productItemStatus: string,
+        public leaveReview?: boolean,
+        public contactSupport?: boolean,
+        public cancelOrder?: boolean,
+        public trackOrder?: boolean
     ) { }
 }
 

@@ -47,11 +47,64 @@ export class MyordersComponent implements OnInit {
           this.myorderModal[i].orderItems.push(new OrderItems(orderItem.productId, orderItem.productName, orderItem.retailerName, orderItem.retailerId, orderItem.productDescription, orderItem.productImage, orderItem.productQuantity, orderItem.productPrice, orderItem.productTaxCost, orderItem.shippingCost, orderItem.totalProductPrice, orderItem.deliveryMethod, orderItem.productItemStatus));
         }
       }
-      console.log(this.myorderModal);
+      this.refineMyorderModal()
     }, (err) => {
       this.loader = false;
       console.log(err);
     })
+  }
+
+  refineMyorderModal() {
+    for (var i = 0; i < this.myorderModal.length; i++) {
+      if (this.myorderModal[i].customerOrderStatus == 'ORDERPENDING') {
+        this.myorderModal[i].customerOrderStatus = 'ORDER PENDING';
+        this.myorderModal[i].leaveReview = true;
+        this.myorderModal[i].cancelOrder = false;
+        this.myorderModal[i].trackOrder = true;
+        this.myorderModal[i].contactSupport = true;
+        for (var j = 0; j < this.myorderModal[i].orderItems.length; j++) {
+          let order = this.myorderModal[i].orderItems[j];
+          this.myorderModal[i].orderItems[j].leaveReview = true;
+          this.myorderModal[i].orderItems[j].cancelOrder = false;
+          this.myorderModal[i].orderItems[j].contactSupport = true;
+          this.myorderModal[i].orderItems[j].trackOrder = true;
+        }
+      }
+      else {
+        for (var j = 0; j < this.myorderModal[i].orderItems.length; j++) {
+          let order = this.myorderModal[i].orderItems[j];
+          if (order.productItemStatus == 'ORDERPROCESSED') {
+            this.myorderModal[i].orderItems[j].productItemStatus = 'ORDER PROCESSED';
+            this.myorderModal[i].orderItems[j].leaveReview = true;
+            this.myorderModal[i].orderItems[j].cancelOrder = true;
+            this.myorderModal[i].orderItems[j].contactSupport = false;
+            this.myorderModal[i].orderItems[j].trackOrder = false;
+          }
+          else if (order.productItemStatus == 'ORDERSHIPPED') {
+            this.myorderModal[i].orderItems[j].productItemStatus = 'ORDER SHIPPED';
+            this.myorderModal[i].orderItems[j].leaveReview = true;
+            this.myorderModal[i].orderItems[j].cancelOrder = true;
+            this.myorderModal[i].orderItems[j].contactSupport = false;
+            this.myorderModal[i].orderItems[j].trackOrder = false;
+          }
+          else if (order.productItemStatus == 'ORDERCANCELED') {
+            this.myorderModal[i].orderItems[j].productItemStatus = 'ORDER CANCELED';
+            this.myorderModal[i].orderItems[j].leaveReview = true;
+            this.myorderModal[i].orderItems[j].cancelOrder = true;
+            this.myorderModal[i].orderItems[j].contactSupport = true;
+            this.myorderModal[i].orderItems[j].trackOrder = true;
+          }
+          else if (order.productItemStatus == 'ORDERDELIVERED') {
+            this.myorderModal[i].orderItems[j].productItemStatus = 'ORDER DELIVERED';
+            this.myorderModal[i].orderItems[j].leaveReview = false;
+            this.myorderModal[i].orderItems[j].cancelOrder = true;
+            this.myorderModal[i].orderItems[j].contactSupport = true;
+            this.myorderModal[i].orderItems[j].trackOrder = true;
+          }
+        }
+      }
+    }
+    console.log(this.myorderModal)
   }
 
   getTotalCost(shippingCost, productCost, taxCost) {
@@ -116,6 +169,7 @@ export class MyordersComponent implements OnInit {
       this.cancelOrderModel.orderItemId = order.productId;
       this.cancelOrderModel.chargeId = modal.payment.paymentNumber;
       this.myOrder.cancelOrder(this.cancelOrderModel).subscribe((res) => {
+        if (res == 'ORDERCANCELED') res = 'ORDER CANCELED';
         order.productItemStatus = res;
       }, (err) => {
         console.log(err)
