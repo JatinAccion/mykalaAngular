@@ -18,7 +18,6 @@ export class MyordersComponent implements OnInit {
   requestReviewModel = new ReviewModel();
   myorderModal = new Array<MyOrders>();
   cancelOrderModel = new CancelOrder();
-  orderCancelled: boolean = false;
 
   constructor(
     public core: CoreService,
@@ -48,6 +47,7 @@ export class MyordersComponent implements OnInit {
           this.myorderModal[i].orderItems.push(new OrderItems(orderItem.productId, orderItem.productName, orderItem.retailerName, orderItem.retailerId, orderItem.productDescription, orderItem.productImage, orderItem.productQuantity, orderItem.productPrice, orderItem.productTaxCost, orderItem.shippingCost, orderItem.totalProductPrice, orderItem.deliveryMethod, orderItem.productItemStatus));
         }
       }
+      console.log(this.myorderModal);
     }, (err) => {
       this.loader = false;
       console.log(err);
@@ -116,10 +116,9 @@ export class MyordersComponent implements OnInit {
       this.cancelOrderModel.orderItemId = order.productId;
       this.cancelOrderModel.chargeId = modal.payment.paymentNumber;
       this.myOrder.cancelOrder(this.cancelOrderModel).subscribe((res) => {
-        this.orderCancelled = true;
-        alert("Your order has been cancelled.")
+        order.productItemStatus = res;
       }, (err) => {
-        this.orderCancelled = false;
+        console.log(err)
       })
     }
   }
