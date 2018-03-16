@@ -187,7 +187,6 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
         this.setBrandIcon(brand);
       }
     });
-    this.cardZip.placeholder = 'postalCode';
   }
 
   setBrandIcon(brand) {
