@@ -14,7 +14,7 @@ export const environment = {
   TaxApi: 'http://qa-retailer-service.us-west-1.elasticbeanstalk.com/tax/v1',
   productApi: 'http://qa-product-service.us-west-1.elasticbeanstalk.com/api',
   userApi: 'http://qa-signup-service.us-west-1.elasticbeanstalk.com/user/v1',
-  ordersApi: 'http://qa-order-service.us-east-1.elasticbeanstalk.com/order/v1',
+  ordersApi: 'http://qa-order-service.us-east-1.elasticbeanstalk.com/order/v1/reports',
   paymentApi: 'http://qa-order-service.us-east-1.elasticbeanstalk.com/payment/v1',
   consumerApi: 'http://qa-consumer-service.us-west-1.elasticbeanstalk.com',
   stripePK: 'pk_test_9th9u2YsJ2y1ms60AgtpXoMS',
