@@ -41,7 +41,8 @@ export class OrderItems {
         public leaveReview?: boolean,
         public contactSupport?: boolean,
         public cancelOrder?: boolean,
-        public trackOrder?: boolean
+        public trackOrder?: boolean,
+        public showCustomerSupport?: boolean
     ) { }
 }
 

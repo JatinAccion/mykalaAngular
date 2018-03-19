@@ -37,7 +37,7 @@
           <div class="col-sm-3">
             <p>&nbsp;</p>
             <div class="row">
-              <button class="btn btn-outer btn_redouter_right" [disabled]="order.contactSupport">contact retailer</button>
+              <button class="btn btn-outer btn_redouter_right" (click)="showSupportPanel(order)">contact retailer</button>
             </div>
             <p>&nbsp;</p>
             <div class="row">
@@ -51,6 +51,34 @@
             <hr />
           </div>
         </div>
+
+        <!--Support Section-->
+        <div class="row position-relative suportWrapper" *ngIf="order.showCustomerSupport">
+          <div class="supportMessages w-100">
+            <div class="float-left w-100 mb-3" *ngFor="let message of supportMessages">
+              <div [ngClass]="{'float-left ligherBack':message.from == 'Kala', 'float-right darkerBack':message.from == 'User'}">
+                <img [src]="message.mainImage" class="mr-2 chatImage" /> {{message.message}}
+              </div>
+            </div>
+          </div>
+
+          <div class="supportOptions" *ngIf="showSupportOptions">
+            <span *ngIf="showBack" (click)="goBack(order)">back</span>
+            <span *ngFor="let option of supportOptions.data" (click)="loadOptions(supportOptions, option)">{{option}}</span>
+          </div>
+
+          <div *ngIf="OtherOption" class="col-sm-12 text-center">
+            <textarea class="form-control" [(ngModel)]="commentBox" rows="4" placeholder="please write your description here..."></textarea>
+            <button class="btn btn-outer btn_red_right mt-3" [disabled]="!commentBox" (click)="submitComment(commentBox)">Submit</button>
+            <button class="btn btn-outer btn_red_right mt-3" (click)="cancelComment(commentBox)">Cancel</button>
+          </div>
+
+          <div class="col-sm-12 text-center" *ngIf="saveAndCloseSection">
+            <button (click)="saveAndClose(order)" class="btn btn-outer btn_red_right">Close</button>
+          </div>
+        </div>
+        <!--Support Section-->
+
         <div class="row">
           <div class="col-sm-2"></div>
           <div class="col-sm-7">
