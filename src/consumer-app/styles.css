@@ -2877,3 +2877,50 @@ label{display:block}
     right: -65px;
     top: -1px;
 }
+.switch label input[type=checkbox] {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.switch label .lever {
+    content: "";
+    display: inline-block;
+    position: relative;
+    width: 40px;
+    height: 15px;
+    background-color: #818181;
+    border-radius: 15px;
+    margin-right: 10px;
+    -webkit-transition: background .3s ease;
+    transition: background .3s ease;
+    vertical-align: middle;
+    margin: 0 16px;
+}
+.switch label .lever:after {
+    content: "";
+    position: absolute;
+    display: inline-block;
+    width: 21px;
+    height: 21px;
+    background-color: #f1f1f1;
+    border-radius: 21px;
+    box-shadow: 0 1px 3px 1px rgba(0,0,0,.4);
+    left: -5px;
+    top: -3px;
+    -webkit-transition: left .3s ease,background .3s ease,box-shadow .1s ease;
+    transition: left .3s ease,background .3s ease,box-shadow .1s ease;
+}
+.switch label input[type=checkbox]:checked+.lever {
+    background-color: #dccfe2;
+}
+.switch.primary-switch label input[type=checkbox]:checked + .lever {
+    background-color: #689DF6;
+}
+.switch.primary-switch label input[type=checkbox]:checked + .lever:after {
+    background-color: #4285F4;
+}
+.switch label input[type=checkbox]:checked+.lever:after {
+    background-color: #a6c;
+    left: 24px;
+}
+                    

@@ -350,6 +350,10 @@ export class MyordersComponent implements OnInit {
       this.myOrder.cancelOrder(this.cancelOrderModel).subscribe((res) => {
         if (res == 'ORDERCANCELED') res = 'ORDER CANCELED';
         order.productItemStatus = res;
+        order.cancelOrder = true;
+        order.trackOrder = true;
+        order.leaveReview = true;
+        order.contactSupport = true;
       }, (err) => {
         console.log(err)
       })

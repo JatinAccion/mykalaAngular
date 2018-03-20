@@ -221,6 +221,36 @@
             </div>
             <!--Listing All The Cards-->
           </div>
+
+          <div class="myaccount_row">
+            <p class="colorlightGray">settings and privacy</p>
+            <div class="row pl-2">
+              <div class="col-sm-6 p-2 text-left colorred">email notifications</div>
+              <div class="col-sm-6 p-2 text-right">
+                <span class="switch primary-switch float-right">
+                  <label>
+                    <input type="checkbox" [checked]="!getUserInfo.emailNotification" (change)="turnOnOffNotifications($event, 'email')">
+                    <span class="lever"></span>
+                  </label>
+                </span>
+              </div>
+            </div>
+            <div class="row pl-2">
+              <div class="col-sm-6 p-2 text-left colorred">alerts notifications</div>
+              <div class="col-sm-6 p-2 text-right">
+                <span class="switch primary-switch float-right">
+                  <label>
+                    <input type="checkbox" [checked]="!getUserInfo.alertNotification" (change)="turnOnOffNotifications($event, 'alert')">
+                    <span class="lever"></span>
+                  </label>
+                </span>
+              </div>
+            </div>
+            <div class="row pl-2">
+              <div class="col-sm-6 p-2 text-left colorred" (click)="closeAccount()" style="cursor: pointer">close your account</div>
+              <div class="col-sm-6 p-2 text-right"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
