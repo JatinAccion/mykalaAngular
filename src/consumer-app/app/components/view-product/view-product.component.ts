@@ -66,10 +66,13 @@ export class ViewProductComponent implements OnInit {
   }
 
   getStockNumber() {
-    for (var i = 0; i < this.selectedProduct.product.quantity; i++) {
-      this.inStock.push(i + 1);
+    if (this.selectedProduct.product.quantity < 0) this.selectedProduct.product.quantity = 0
+    else {
+      for (var i = 0; i < this.selectedProduct.product.quantity; i++) {
+        this.inStock.push(i + 1);
+      }
+      this.quantity = 1;
     }
-    this.quantity = 1;
   }
 
   itemsInCart() {

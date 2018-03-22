@@ -85,7 +85,10 @@ export class BrowseProductComponent implements OnInit {
       this.getMainImage();
       if (this.tilesData.length > 0) this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' ' + this.selectedTilesData.category.name + ' for you';
       else this.headerMessage = 'Sorry, but we don\'t have product matches for you';
-      if (this.selectedTilesData.subcategory.length == undefined) this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' ' + this.selectedTilesData.subcategory.name + ' for you';
+      if (this.selectedTilesData.subcategory.length == undefined) {
+        if (this.tilesData.length > 0) this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' ' + this.selectedTilesData.subcategory.name + ' for you';
+        else this.headerMessage = 'Sorry, but we don\'t have product matches for you';
+      }
       this.core.show(this.headerMessage);
       this.core.searchMsgToggle('get offers');
       window.localStorage['browseProductSearch'] = this.headerMessage;
@@ -129,7 +132,10 @@ export class BrowseProductComponent implements OnInit {
     this.getMainImage();
     if (this.tilesData.length > 0) this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' ' + this.selectedTilesData.category.name + ' for you';
     else this.headerMessage = 'Sorry, but we don\'t have product matches for you';
-    if (this.selectedTilesData.subcategory.length == undefined) this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' ' + this.selectedTilesData.subcategory.name + ' for you';
+    if (this.selectedTilesData.subcategory.length == undefined) {
+      if (this.tilesData.length > 0) this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' ' + this.selectedTilesData.subcategory.name + ' for you';
+      else this.headerMessage = 'Sorry, but we don\'t have product matches for you';
+    }
     this.core.show(this.headerMessage);
     this.core.searchMsgToggle('get offers');
   }

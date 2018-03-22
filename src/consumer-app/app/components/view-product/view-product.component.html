@@ -48,13 +48,13 @@
           <label>
             <strong>Select Quantity</strong>
           </label>
-          <select [(ngModel)]="quantity" class="form-control">
+          <select [(ngModel)]="quantity" [disabled]="selectedProduct.product.quantity == 0" class="form-control">
             <option *ngFor="let i of inStock" value="{{i}}">{{i}}</option>
           </select> {{selectedProduct.product.quantity}} in stock
         </div>
 
         <div *ngIf="!alreadyAddedInCart" class="col-sm-12 p-2 pl-4 pr-4">
-          <input class="btn btn_red_right w-100" type="button" [disabled]="!quantity" (click)="addToCart('toCart')" value="buy it now" />
+          <input class="btn btn_red_right w-100" type="button" [disabled]="!quantity || selectedProduct.product.quantity == 0" (click)="addToCart('toCart')" value="buy it now" />
         </div>
 
         <div *ngIf="alreadyAddedInCart" class="col-sm-12 p-2 pl-4 pr-4 mt-3">
@@ -110,10 +110,11 @@
       <tr *ngFor="let reviews of productReviews">
         <td class="p-0">
           <div class="star-rating">
-            <strong>{{reviews.reviewDescription}}</strong>
             <span *ngFor="let rating of getRating(reviews.rating)">
               <i class="fa fa-star starIcon" aria-hidden="true"></i>
             </span>
+            <br />
+            <strong>{{reviews.reviewDescription}}</strong>
           </div>
           <div class="star-rating mt-3 mb-2" *ngIf="reviews.reviewImages">
             <span class="readReviewImage">
