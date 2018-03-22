@@ -7,6 +7,7 @@ import { EnsureAuthenticated } from '../../services/ensure-authenticated.service
 import { ProductMetaComponent } from './product-meta/product-meta.component';
 import { CanDeactivateGuard } from '../../services/candeactivate-guard.service';
 import { ProductUploadComponent } from './product-upload/product-upload.component';
+import { ProductUploadMetaComponent } from './product-upload-meta/product-upload-meta.component';
 
 const appRoutes: Routes = [
   {
@@ -39,6 +40,11 @@ const appRoutes: Routes = [
   {
     path: 'product-upload',
     component: ProductUploadComponent,
+    canActivate: [EnsureAuthenticated]
+  },
+  {
+    path: 'product-upload-meta',
+    component: ProductUploadMetaComponent,
     canActivate: [EnsureAuthenticated]
   },
   {

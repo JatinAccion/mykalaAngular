@@ -22,8 +22,10 @@ export const environment = {
   // paymentApi: 'http://192.168.169.230:8090/payment/v1',
   paymentApi: 'http://qa-order-service.us-east-1.elasticbeanstalk.com/payment/v1',
   consumerApi: 'http://dev-consumer-profile.us-east-2.elasticbeanstalk.com',
+  InquiryApi: 'http://dev-retailer-service-mongo.us-east-1.elasticbeanstalk.com/retailer/v1',
   stripePK: 'pk_test_9th9u2YsJ2y1ms60AgtpXoMS',
   apis: apiNames,
   regex: regexPatterns,
-  commonMsg: commonMessages
+  commonMsg: commonMessages,
+  add: 'add'
 };

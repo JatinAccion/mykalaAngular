@@ -78,6 +78,23 @@ export class ReportsService {
       .map(p => new ReportOrders(p))
       .catch(this.handleError);
   }
+  getConsumerCount(memberType: string, year: string, month?: string) {
+    this.headers = this.getHttpHeraders();
+    const url = `${'http://192.168.169.185:6090/consumer/v1'}/${environment.apis.orders.consumerCount}`.replace('{memberType}', memberType).replace('{year}', year).replace('{month}', month || '');
+    return this.http
+      .get(url, { headers: this.headers })
+      .map(p => p.json())
+      .catch(this.handleError);
+  }
+  getConsumerYearlyReport(memberType: string, year: string, month?: string) {
+    this.headers = this.getHttpHeraders();
+    const url = `${'http://192.168.169.185:6090/consumer/v1'}/${environment.apis.orders.consumerYearlyReport}`.replace('{memberType}', memberType).replace('{year}', year).replace('{month}', month || '');
+    return this.http
+      .get(url, { headers: this.headers })
+      .map(p => p.json())
+      .catch(this.handleError);
+  }
+
   private handleError(error: any) {
     // in a real world app, we may send the server to some remote logging infrastructure
     // instead of just logging it to the console

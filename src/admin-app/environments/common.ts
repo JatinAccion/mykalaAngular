@@ -84,15 +84,19 @@ export const apiNames = {
         paymentCounts: 'paymentCounts/{paymentType}/{year}/{month}',
         paymentReports: 'paymentReports/{paymentType}/{year}/{month}',
         consumerPayment: 'consumerPayment/{paymentType}/{year}/{month}',
-        getOrders: 'orders/{paymentType}/{year}/{month}'
+        getOrders: 'orders/{paymentType}/{year}/{month}',
+        consumerYearlyReport: 'customerYearlyReport/{memberType}/{year}/{month}',
+        consumerCount: 'customerCount/{memberType}/{year}/{month}',
     },
     consumer: {
         get: 'consumer/v1/userId'
+    },
+    inquiry: {
+        get: 'support/inquiriesList',
+        save: 'support/saveInquiryRequest',
+        update: 'support/updateInquiryRequest ',
     }
-
-
 };
 export const commonMessages = {
     error404: 'Server is not available',
 };
-

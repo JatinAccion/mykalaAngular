@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { ReportOrders } from '../../../../../models/report-order';
 import { ReportsService } from '../reports.service';
-import { modelGroupProvider } from '@angular/forms/src/directives/ng_model_group';
 
 @Component({
   selector: 'app-payments-report',

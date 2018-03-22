@@ -33,7 +33,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 import { ToastrModule } from 'ngx-toastr';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { UserModule } from './components/user/user.module';
-import { EnquiryModule } from './components/enquiry/enquiry.module';
+import { InquiryModule } from './components/inquiry/inquiry.module';
 import { OrderModule } from './components/order/order.module';
 import { CanDeactivateGuard } from './services/candeactivate-guard.service';
 // import { ConfirmService, ConfirmState } from './services/confirm-modal.service';
@@ -66,7 +66,7 @@ import { ReportsModule } from './components/reports/reports.module';
     RetailerModule,
     ProductModule,
     UserModule,
-    EnquiryModule,
+    InquiryModule,
     OrderModule,
     ReportsModule,
     Angular2FontawesomeModule,

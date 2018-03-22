@@ -1,24 +1,24 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { EnquiryListComponent } from './enquiry-list/enquiry-list.component';
-import { EnquiryAddComponent } from './enquiry-add/enquiry-add.component';
+import { InquiryListComponent } from './inquiry-list/inquiry-list.component';
+import { InquiryAddComponent } from './inquiry-add/inquiry-add.component';
 import { LoginRedirect } from '../../services/login-redirect.service';
 import { EnsureAuthenticated } from '../../services/ensure-authenticated.service';
 
 const appRoutes: Routes = [
   {
-    path: 'enquiry-list',
-    component: EnquiryListComponent,
+    path: 'inquiry-list',
+    component: InquiryListComponent,
     canActivate: [EnsureAuthenticated]
   },
   {
-    path: 'enquiry-add',
-    component: EnquiryAddComponent,
+    path: 'inquiry-add',
+    component: InquiryAddComponent,
     canActivate: [EnsureAuthenticated]
   },
   {
-    path: 'enquiry-edit/:id',
-    component: EnquiryAddComponent,
+    path: 'inquiry-edit/:id',
+    component: InquiryAddComponent,
     canActivate: [EnsureAuthenticated]
   },
 ];
@@ -27,4 +27,4 @@ const appRoutes: Routes = [
   imports: [RouterModule.forChild(appRoutes)],
   exports: [RouterModule]
 })
-export class EnquiryRoutingModule { }
+export class InquiryRoutingModule { }

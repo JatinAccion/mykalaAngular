@@ -22,6 +22,7 @@ import { ProductMetaComponent } from './product-meta/product-meta.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ProductUploadComponent } from './product-upload/product-upload.component';
 import { GlobalErrorHandler } from '../../../../common/GlobalErrorHandler';
+import { ProductUploadMetaComponent } from './product-upload-meta/product-upload-meta.component';
 
 @NgModule({
   imports: [
@@ -43,7 +44,8 @@ import { GlobalErrorHandler } from '../../../../common/GlobalErrorHandler';
     ProductAddMoreComponent,
     ProductAddPricingComponent,
     ProductMetaComponent,
-    ProductUploadComponent
+    ProductUploadComponent,
+    ProductUploadMetaComponent
   ],
   providers: [ProductService, ValidatorExt, {
     provide: ErrorHandler,

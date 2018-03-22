@@ -1,0 +1,446 @@
+<div class="container">
+    <div class="title col-sm-12 p-0">
+        <h1>Summary</h1>
+        <div class="float-right top_right">
+            <a class="btn btn-default" routerLink="/inquiry-add" routerLinkActive="inquiry-add">+ New Inquiry</a>
+        </div>
+    </div>
+    <div class="row p-2">
+        <div class="col-sm-6 pl-2">
+            <input placeholder="search for order" class="form-control txt_Search w-50" type="text" [(ngModel)]="search" (keyup)="getPage(1)">
+        </div>
+        <div class="col-sm-3"></div>
+        <div class="col-sm-3 pr-2 text-right">
+            <select class="ddl_default form-control" [(ngModel)]="searchType">
+                <option>Seller</option>
+                <option>Member</option>
+                <option>Order Number</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-sm-12 p-0 mt-3 product_file">
+        <div class="row">
+            <div class="col-sm-2 colorlightGray">Previous</div>
+            <div class="col-sm-8 text-center">Sales Transactions 1-10 of 1,235</div>
+            <div class="col-sm-2 colorlightGray text-right">Next</div>
+        </div>
+        <div class="col-sm-12 p-2 m-1 backgroundWhite">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th width="5%">
+                            <input type="checkbox" />
+                        </th>
+                        <th width="10%">Status</th>
+                        <th width="30%">Inquiry Details</th>
+                        <th width="30%">Inquiry Type</th>
+                        <th width="10%">Priority</th>
+                        <th width="18%">Created on</th>
+                        <th width="2%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <input type="checkbox" />
+                        </td>
+                        <td>Resolved-Answered</td>
+                        <td>
+                            <div>
+                                <a href="#">107-3434234-23433</a>
+                            </div>
+                            <div>Wood Floral Ceiling Lamp</div>
+                            <p>Assigned : Ryan Wegner</p>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm-5">Type:</div>
+                                <div class="col-sm-7">Member Question</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-5">Category:</div>
+                                <div class="col-sm-7">Product size</div>
+                            </div>
+                        </td>
+                        <td>Low</td>
+                        <td>Apr 5, 2015 9:29PM EST</td>
+                        <td>
+                            <a class="colorBlue" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+                                <i class="fa fa-caret-down" aria-hidden="true"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr *ngIf="!isCollapsed">
+                        <td colspan="7" class="divOrderSummary">
+                            <div class="orderdetail_row m-2">
+                                <div class="row m-2">
+                                    <div class="col-sm-12 align-middle">
+                                        <h4 class="colorGray">Inquiry Details</h4>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <table class="no_tdBorder" width="100%" border="0">
+                                            <tr>
+                                                <td>Status:</td>
+                                                <td>Resolved, Satisfied</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Date of Inquiry:</td>
+                                                <td>02/06/2017</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Created on:</td>
+                                                <td>02/06/2017</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Last updated:</td>
+                                                <td>02/06/2017</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Resolved on:</td>
+                                                <td>02/06/2017</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <table class="no_tdBorder" width="100%" border="0">
+                                            <tr>
+                                                <td>Priority:</td>
+                                                <td>Medium</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Assigned to:</td>
+                                                <td>Ashley</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Order Number:</td>
+                                                <td>776456</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Order date:</td>
+                                                <td>02/12/2017</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Sale Total:</td>
+                                                <td>$345.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Products:</td>
+                                                <td>11234</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <p>
+                                            <a class="btn_redouter_right w-100" href="#">edit inquiry</a>
+                                        </p>
+                                        <p>
+                                            <a class="btn_red_right  w-100" href="#">- delete inquiry</a>
+                                        </p>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="row m-2">
+                                    <div class="col-sm-4">
+                                        <table class="no_tdBorder" width="100%" border="0">
+                                            <tbody>
+                                                <tr>
+                                                    <td>Inquiry type:</td>
+                                                    <td>Order Problem</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Category:</td>
+                                                    <td>Product Damaged</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Resolution :</td>
+                                                    <td>Product Exchange</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Description:</td>
+                                                    <td>Due set was delivered with rip in cover</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div>Notes:</div>
+                                        <p class="border_outline p-2">
+                                            Contacted buyer on 06/23 to confirm issue, contacted seller on 06/23, seller agreed to exchange item, Shipping label sent to Sonya on 06/24, Item exchangein complete and member is satisfied with result on 06/28.
+                                        </p>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <p>
+                                            <a class="btn_red_right  w-100" href="#">+ Add Note</a>
+                                        </p>
+                                        <p>
+                                            <a class="btn_redouter_right w-100" href="#">- Delete Note</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row orderdetail_row m-2">
+                                <div class="col-sm-2 align-middle">
+                                    <h4 class="colorGray">Member</h4>
+                                    <img src="/admin-app/assets/images/business_logo3.png" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <table class="no_tdBorder" width="100%" border="0">
+                                        <tr>
+                                            <td>Sonya Martinez</td>
+                                        </tr>
+                                        <tr>
+                                            <td>member since 06/2017</td>
+                                        </tr>
+                                        <tr>
+                                            <td>4 orders, 7 offer requestis</td>
+                                        </tr>
+                                        <tr>
+                                            <td>1-555-676-3433</td>
+                                        </tr>
+                                        <tr>
+                                            <td>sonya.martinez@gmail.com</td>
+                                        </tr>
+                                        <tr>
+                                            <td>12345 Mango Dr, Del Mar, CA 98765</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-sm-4 offset-2">
+                                    <table class="no_tdBorder" width="100%" border="0">
+                                        <tr>
+                                            <td>DOB:</td>
+                                            <td>08/17/1985</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Member ID:</td>
+                                            <td>098765457</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <strong>Previous Inquiries:</strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="pl-3">complaints:</td>
+                                            <td>1</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="pl-3">Returns:</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="pl-3">Questions:</td>
+                                            <td>5</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row orderdetail_row m-2">
+                                <div class="col-sm-2 align-middle">
+                                    <h4 class="colorGray">Seller</h4>
+                                    <img src="/admin-app/assets/images/lamp1.png" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <table class="no_tdBorder" width="100%" border="0">
+                                        <tr>
+                                            <td>Collective Fab</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Reviews: 123</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Contact: Troy Smith</td>
+                                        </tr>
+                                        <tr>
+                                            <td>1-555-342-2343</td>
+                                        </tr>
+                                        <tr>
+                                            <td>tmsith@collectivefab.com</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-sm-3">
+                                    <table class="no_tdBorder" width="100%" border="0">
+                                        <tr>
+                                            <td colspan="2">
+                                                <strong>Previous Inquiries:</strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="pl-3">complaints:</td>
+                                            <td>1</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="pl-3">Returns:</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="pl-3">Questions:</td>
+                                            <td>5</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-sm-3">
+                                    <a class=" btn_redouter_right w-100" href="#">view account</a>
+                                </div>
+                            </div>
+                            <hr />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" />
+                        </td>
+                        <td>Resolved-Answered</td>
+                        <td>
+                            <div>
+                                <a href="#">107-3434234-23433</a>
+                            </div>
+                            <div>Wood Floral Ceiling Lamp</div>
+                            <p>Assigned : Ryan Wegner</p>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm-5">Type:</div>
+                                <div class="col-sm-7">Member Question</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-5">Category:</div>
+                                <div class="col-sm-7">Product size</div>
+                            </div>
+                        </td>
+                        <td>Low</td>
+                        <td>Apr 5, 2015 9:29PM EST</td>
+                        <td>
+                            <a href="#" class="">
+                                <i class="fa fa-caret-down" aria-hidden="true"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" />
+                        </td>
+                        <td>Resolved-Answered</td>
+                        <td>
+                            <div>
+                                <a href="#">107-3434234-23433</a>
+                            </div>
+                            <div>Wood Floral Ceiling Lamp</div>
+                            <p>Assigned : Ryan Wegner</p>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm-5">Type:</div>
+                                <div class="col-sm-7">Member Question</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-5">Category:</div>
+                                <div class="col-sm-7">Product size</div>
+                            </div>
+                        </td>
+                        <td>Low</td>
+                        <td>Apr 5, 2015 9:29PM EST</td>
+                        <td>
+                            <a href="#" class="">
+                                <i class="fa fa-caret-down" aria-hidden="true"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" />
+                        </td>
+                        <td>Resolved-Answered</td>
+                        <td>
+                            <div>
+                                <a href="#">107-3434234-23433</a>
+                            </div>
+                            <div>Wood Floral Ceiling Lamp</div>
+                            <p>Assigned : Ryan Wegner</p>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm-5">Type:</div>
+                                <div class="col-sm-7">Member Question</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-5">Category:</div>
+                                <div class="col-sm-7">Product size</div>
+                            </div>
+                        </td>
+                        <td>Low</td>
+                        <td>Apr 5, 2015 9:29PM EST</td>
+                        <td>
+                            <a href="#" class="">
+                                <i class="fa fa-caret-down" aria-hidden="true"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" />
+                        </td>
+                        <td>Resolved-Answered</td>
+                        <td>
+                            <div>
+                                <a href="#">107-3434234-23433</a>
+                            </div>
+                            <div>Wood Floral Ceiling Lamp</div>
+                            <p>Assigned : Ryan Wegner</p>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm-5">Type:</div>
+                                <div class="col-sm-7">Member Question</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-5">Category:</div>
+                                <div class="col-sm-7">Product size</div>
+                            </div>
+                        </td>
+                        <td>Low</td>
+                        <td>Apr 5, 2015 9:29PM EST</td>
+                        <td>
+                            <a href="#" class="">
+                                <i class="fa fa-caret-down" aria-hidden="true"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" />
+                        </td>
+                        <td>Resolved-Answered</td>
+                        <td>
+                            <div>
+                                <a href="#">107-3434234-23433</a>
+                            </div>
+                            <div>Wood Floral Ceiling Lamp</div>
+                            <p>Assigned : Ryan Wegner</p>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm-5">Type:</div>
+                                <div class="col-sm-7">Member Question</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-5">Category:</div>
+                                <div class="col-sm-7">Product size</div>
+                            </div>
+                        </td>
+                        <td>Low</td>
+                        <td>Apr 5, 2015 9:29PM EST</td>
+                        <td>
+                            <a href="#" class="">
+                                <i class="fa fa-caret-down" aria-hidden="true"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -12,7 +12,7 @@ import { RetailerRoutingModule } from './components/retailer/retailer-routing.mo
 import { ProductRoutingModule } from './components/product/product-routing.module';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { UserRoutingModule } from './components/user/user-routing.module';
-import { EnquiryRoutingModule } from './components/enquiry/enquiry-routing.module';
+import { InquiryRoutingModule } from './components/inquiry/inquiry-routing.module';
 import { OrderRoutingModule } from './components/order/order-routing.module';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { ReportsRoutingModule } from './components/reports/reports-routing.module';
@@ -60,9 +60,10 @@ const appRoutes: Routes = [
     imports: [RetailerRoutingModule,
         ProductRoutingModule,
         UserRoutingModule,
-        EnquiryRoutingModule,
+        InquiryRoutingModule,
         OrderRoutingModule,
         ReportsRoutingModule,
+        InquiryRoutingModule,
         RouterModule.forRoot(appRoutes, { useHash: true })],
     exports: [RouterModule]
 })

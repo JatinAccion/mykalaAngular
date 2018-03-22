@@ -285,7 +285,7 @@ export class RetailerAddPaymentComponent implements OnInit {
                   return true;
                 }, err => { this.paymentSaveloader = false; this.core.message.error(userMessages.error); }, () => this.paymentSaveloader = false);
               return false;
-            }, err => { this.paymentSaveloader = false; this.core.message.error(userMessages.stripe_integration_error); }, () => this.paymentSaveloader = false);
+            }, err => { this.paymentSaveloader = false; this.core.message.error(err, userMessages.stripe_integration_error); }, () => this.paymentSaveloader = false);
           }
         });
       }

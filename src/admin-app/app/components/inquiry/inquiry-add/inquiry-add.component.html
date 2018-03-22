@@ -1,0 +1,188 @@
+<div class="container">
+    <div class="title col-sm-12">
+        <h1>Create</h1>
+    </div>
+    <div class="backgroundWhite p-3" [formGroup]="fG1">
+        <div class="row">
+            <div class="col-sm-8">
+                <p>
+                    <select class="ddl_default w-50 form-control" formControlName="inquiryType" (change)="inquiryTypeChange()">
+                        <option value=''>Inquiry Type</option>
+                        <option *ngFor="let option of inquiryTypes" value="{{option.name}}">
+                            {{option.value}}
+                        </option>
+                    </select>
+                    <!--Validation-->
+                    <app-field-error-display [field]="fG1.controls.inquiryType" [errorMsg]="errorMsgs"> </app-field-error-display>
+                    <!--Validation-->
+                </p>
+                <p *ngIf="showInquiryTypeOther">
+                    <input class="form-control w-50" type="text" placeholder="Other.." formControlName="inquiryTypeOther" />
+                    <!--Validation-->
+                    <app-field-error-display [field]="fG1.controls.inquiryTypeOther" [errorMsg]="errorMsgs"> </app-field-error-display>
+                    <!--Validation-->
+                </p>
+                <p *ngIf="!showInquiryTypeOther">
+                    <select class="ddl_default w-50 form-control" formControlName="inquiryTypeCategory" (change)="inquiryTypeCategoryChange()">
+                        <option value=''>Inquiry Category</option>
+                        <option *ngFor="let option of inquiryTypeCategorys" value="{{option}}">
+                            {{option}}
+                        </option>
+                    </select>
+                    <!--Validation-->
+                    <app-field-error-display [field]="fG1.controls.inquiryTypeCategory" [errorMsg]="errorMsgs"> </app-field-error-display>
+                    <!--Validation-->
+                </p>
+                <p *ngIf="showInquiryTypeCategoryOther">
+                    <input class="form-control w-50" type="text" placeholder="Other.." formControlName="inquiryTypeCategoryOther" />
+                    <!--Validation-->
+                    <app-field-error-display [field]="fG1.controls.inquiryTypeCategoryOther" [errorMsg]="errorMsgs"> </app-field-error-display>
+                    <!--Validation-->
+                </p>
+                <p>
+                    <input class="form-control" type="text" placeholder="Summary Description" formControlName="description" />
+                    <!--Validation-->
+                    <app-field-error-display [field]="fG1.controls.description" [errorMsg]="errorMsgs"> </app-field-error-display>
+                    <!--Validation-->
+                </p>
+
+                <p>
+                    <input class="form-control" type="text" placeholder="Order ID" formControlName="orderId" />
+                    <!--Validation-->
+                    <app-field-error-display [field]="fG1.controls.orderId" [errorMsg]="errorMsgs"> </app-field-error-display>
+                    <!--Validation-->
+                </p>
+                <p>
+                    <select class="ddl_default form-control w-50" formControlName="priority" (change)="paymentVehicleChange()">
+                        <option value=''>Priority</option>
+                        <option *ngFor="let option of inquiryPrioritys" value="{{option}}">
+                            {{option}}
+                        </option>
+                    </select>
+                    <!--Validation-->
+                    <app-field-error-display [field]="fG1.controls.priority" [errorMsg]="errorMsgs"> </app-field-error-display>
+                    <!--Validation-->
+                </p>
+                <p>
+                    <select class="ddl_default form-control w-50" formControlName="assignedTo" (change)="paymentVehicleChange()">
+                        <option value=''>Assigned to</option>
+                        <option *ngFor="let option of users" value="{{option.userId}}">
+                            {{option.firstName + ' ' + option.lastName }}
+                        </option>
+                    </select>
+                    <!--Validation-->
+                    <app-field-error-display [field]="fG1.controls.assignedTo" [errorMsg]="errorMsgs"> </app-field-error-display>
+                    <!--Validation-->
+                </p>
+                <p>
+                    <select class="ddl_default form-control w-20" formControlName="inquiryStatus" (change)="inquiryStatusChange()">
+                        <option value=''>Status</option>
+                        <option *ngFor="let option of inquiryStatuses" value="{{option}}">
+                            {{option}}
+                        </option>
+                    </select>
+                    <!--Validation-->
+                    <app-field-error-display [field]="fG1.controls.inquiryStatus" [errorMsg]="errorMsgs"> </app-field-error-display>
+                    <!--Validation-->
+                </p>
+            </div> {{op}}
+            <div class="col-sm-4 ">
+                <div class="input-group">
+                    <input formControlName="inquiryDate" (focus)="d.open()" [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker #d="ngbDatepicker" class="form-control" placeholder="Date of Inquiry (mm-dd-yyyy)">
+                    <div class="input-group-append">
+                        <button class="btn btn-default ancProfile1" (click)="d.toggle()">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+                <!--Validation-->
+                <app-field-error-display [field]="fG1.controls.inquiryDate" [errorMsg]="errorMsgs"> </app-field-error-display>
+                <!--Validation-->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-8 clearfix">
+                <div>Notes</div>
+                <div class="pt-1">
+                    <textarea class="h-50 w-100 txt" formControlName="inquiryNotes"></textarea>
+                </div>
+                <!--Validation-->
+                <app-field-error-display [field]="fG1.controls.inquiryNotes" [errorMsg]="errorMsgs"> </app-field-error-display>
+                <!--Validation-->
+            </div>
+            <div class="col-sm-4 text-left">
+                <p>
+                    <a class="btn_redouter_right w-50" href="#">Add Note</a>
+                </p>
+                <p>
+                    <a class="btn_red_right w-50 " href="#">Edit Note</a>
+                </p>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <p class="col-sm-8" *ngIf="showResoltionOutcome">
+                <select class="ddl_default form-control w-50" formControlName="resolutionOutcome">
+                    <option value=''>Resolution Outcome</option>
+                    <option *ngFor="let option of inquiryResolvedOutcomes" value="{{option}}">
+                        {{option}}
+                    </option>
+                </select>
+                <!--Validation-->
+                <app-field-error-display [field]="fG1.controls.resolutionOutcome" [errorMsg]="errorMsgs"> </app-field-error-display>
+                <!--Validation-->
+            </p>
+        </div>
+        <div class="row">
+            <p class="col-sm-8" *ngIf="showResoltion">
+                <select class="ddl_default form-control w-50" formControlName="resolution">
+                    <option value=''>Resolution</option>
+                    <option *ngFor="let option of inquiryResolutions" value="{{option}}">
+                        {{option}}
+                    </option>
+                </select>
+                <!--Validation-->
+                <app-field-error-display [field]="fG1.controls.resolution" [errorMsg]="errorMsgs"> </app-field-error-display>
+                <!--Validation-->
+            </p>
+        </div>
+        <div class="row">
+            <div class="col-sm-8 clearfix" *ngIf="showResoltionDescription">
+                <input class="form-control" type="text" placeholder="Summary Description" formControlName="resolutionDescription" />
+                <!--Validation-->
+                <app-field-error-display [field]="fG1.controls.resolutionDescription" [errorMsg]="errorMsgs"> </app-field-error-display>
+                <!--Validation-->
+            </div>
+            <div class="col-sm-4" *ngIf="showResoltionDate">
+                <div class="input-group">
+                    <input formControlName="resolutionDate" (focus)="d.open()" [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker #d="ngbDatepicker" class="form-control" placeholder="Date of Resolution (mm-dd-yyyy)">
+                    <div class="input-group-append">
+                        <button class="btn btn-default ancProfile1" (click)="d.toggle()">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+                <!--Validation-->
+                <app-field-error-display [field]="fG1.controls.resolutionDate" [errorMsg]="errorMsgs"> </app-field-error-display>
+                <!--Validation-->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-8 clearfix" *ngIf="showResolutionNotes">
+                <div>Resoltuion Notes</div>
+                <div class="pt-1">
+                    <textarea class="h-50 w-100 txt" formControlName="resolutionNotes"></textarea>
+                </div>
+                <!--Validation-->
+                <app-field-error-display [field]="fG1.controls.resolutionNotes" [errorMsg]="errorMsgs"> </app-field-error-display>
+                <!--Validation-->
+            </div>
+        </div>
+
+        <div class="col-sm-12 py-3 text-right">
+            <button class="btn btn-default ancProfile1" [disabled]="saveloader" (click)="saveInquiry();">Save
+                <i class="fa fa-repeat fa-spin" aria-hidden="true" *ngIf="saveloader"></i>
+            </button>
+        </div>
+    </div>
+</div>
