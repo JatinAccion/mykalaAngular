@@ -18,6 +18,30 @@ export class MyordersComponent implements OnInit {
   requestReviewModel = new ReviewModel();
   myorderModal = new Array<MyOrders>();
   cancelOrderModel = new CancelOrder();
+  supportOptions = { level: 0, name: '', data: [] };
+  showBack: boolean = false;
+  supportData = {
+    "options": [{
+      "name": "Order Issue",
+      "options": ["Product Not Received", "Product Damaged", "Payment Issue", "Wrong Product Received", "Didn't Receive Order Confirmation", "Didn't Receive Shipping Confirmation", "Other"]
+    }, {
+      "name": "Return",
+      "options": ["Product Defect", "Wrong Size", "Wrong Color", "Wrong Style", "Don't Like the Product", "Personal Reasons", "Other"]
+    }, {
+      "name": "Exchange",
+      "options": ["Product Defect", "Wrong Size", "Wrong Color", "Wrong Style", "Don't Like the Product", "Personal Reasons", "Other"]
+    }, {
+      "name": "Other",
+      "options": ["Other"]
+    }]
+  };
+  questionCounter: number = 0;
+  supportMessages = [];
+  OtherOption: boolean = false;
+  commentBox: string;
+  saveAndCloseSection: boolean = false;
+  showSupportOptions: boolean = true;
+  selection = { parent: '', child: '' }
 
   constructor(
     public core: CoreService,
@@ -47,11 +71,219 @@ export class MyordersComponent implements OnInit {
           this.myorderModal[i].orderItems.push(new OrderItems(orderItem.productId, orderItem.productName, orderItem.retailerName, orderItem.retailerId, orderItem.productDescription, orderItem.productImage, orderItem.productQuantity, orderItem.productPrice, orderItem.productTaxCost, orderItem.shippingCost, orderItem.totalProductPrice, orderItem.deliveryMethod, orderItem.productItemStatus));
         }
       }
-      console.log(this.myorderModal);
+      this.refineMyorderModal()
     }, (err) => {
       this.loader = false;
       console.log(err);
     })
+  }
+
+  refineMyorderModal() {
+    for (var i = 0; i < this.myorderModal.length; i++) {
+      if (this.myorderModal[i].customerOrderStatus == 'ORDERPENDING') {
+        this.myorderModal[i].customerOrderStatus = 'ORDER PENDING';
+        this.myorderModal[i].leaveReview = true;
+        this.myorderModal[i].cancelOrder = false;
+        this.myorderModal[i].trackOrder = true;
+        this.myorderModal[i].contactSupport = true;
+        for (var j = 0; j < this.myorderModal[i].orderItems.length; j++) {
+          let order = this.myorderModal[i].orderItems[j];
+          this.myorderModal[i].orderItems[j].leaveReview = true;
+          this.myorderModal[i].orderItems[j].cancelOrder = false;
+          this.myorderModal[i].orderItems[j].contactSupport = true;
+          this.myorderModal[i].orderItems[j].trackOrder = true;
+          this.myorderModal[i].orderItems[j].showCustomerSupport = false;
+        }
+      }
+      else {
+        for (var j = 0; j < this.myorderModal[i].orderItems.length; j++) {
+          let order = this.myorderModal[i].orderItems[j];
+          if (order.productItemStatus == 'ORDERPROCESSED') {
+            this.myorderModal[i].orderItems[j].productItemStatus = 'ORDER PROCESSED';
+            this.myorderModal[i].orderItems[j].leaveReview = true;
+            this.myorderModal[i].orderItems[j].cancelOrder = true;
+            this.myorderModal[i].orderItems[j].contactSupport = false;
+            this.myorderModal[i].orderItems[j].trackOrder = false;
+            this.myorderModal[i].orderItems[j].showCustomerSupport = false;
+          }
+          else if (order.productItemStatus == 'ORDERSHIPPED') {
+            this.myorderModal[i].orderItems[j].productItemStatus = 'ORDER SHIPPED';
+            this.myorderModal[i].orderItems[j].leaveReview = true;
+            this.myorderModal[i].orderItems[j].cancelOrder = true;
+            this.myorderModal[i].orderItems[j].contactSupport = false;
+            this.myorderModal[i].orderItems[j].trackOrder = false;
+            this.myorderModal[i].orderItems[j].showCustomerSupport = false;
+          }
+          else if (order.productItemStatus == 'ORDERCANCELED') {
+            this.myorderModal[i].orderItems[j].productItemStatus = 'ORDER CANCELED';
+            this.myorderModal[i].orderItems[j].leaveReview = true;
+            this.myorderModal[i].orderItems[j].cancelOrder = true;
+            this.myorderModal[i].orderItems[j].contactSupport = true;
+            this.myorderModal[i].orderItems[j].trackOrder = true;
+            this.myorderModal[i].orderItems[j].showCustomerSupport = false;
+          }
+          else if (order.productItemStatus == 'ORDERDELIVERED') {
+            this.myorderModal[i].orderItems[j].productItemStatus = 'ORDER DELIVERED';
+            this.myorderModal[i].orderItems[j].leaveReview = false;
+            this.myorderModal[i].orderItems[j].cancelOrder = true;
+            this.myorderModal[i].orderItems[j].contactSupport = true;
+            this.myorderModal[i].orderItems[j].trackOrder = true;
+            this.myorderModal[i].orderItems[j].showCustomerSupport = false;
+          }
+        }
+      }
+    }
+  }
+
+  showSupportPanel(order) {
+    order.showCustomerSupport = !order.showCustomerSupport;
+    if (order.showCustomerSupport) {
+      this.supportMessages.push({
+        mainImage: '/consumer-app/assets/images/logo.png',
+        from: 'Kala',
+        message: 'Hi ' + this.userData.firstName + ', what can i help you with today ?'
+      })
+      for (var i = 0; i < this.supportData.options.length; i++) {
+        this.supportOptions.level = 1;
+        this.supportOptions.data.push(this.supportData.options[i].name);
+      }
+      this.showBack = false;
+    }
+    else this.saveAndClose(order);
+  }
+
+  loadOptions(option, name) {
+    this.selection.child = name;
+    if (name != 'Other') {
+      this.showBack = true;
+      this.questionCounter++;
+      if (this.supportOptions.level < 2) {
+        for (var i = 0; i < this.supportData.options.length; i++) {
+          if (this.supportData.options[i].name == name) {
+            this.supportOptions.level = this.supportOptions.level + 1;
+            this.supportOptions.name = name;
+            this.selection.parent = this.supportOptions.name;
+            this.supportOptions.data = this.supportData.options[i].options;
+          }
+        }
+      }
+      else if (this.supportOptions.level > 2 && name == 'Yes') {
+        this.OtherOption = true;
+        this.showSupportOptions = false;
+      }
+      else if (this.supportOptions.level > 2 && name == 'No') {
+        setTimeout(() => {
+          this.supportMessages.push({
+            mainImage: '/consumer-app/assets/images/logo.png',
+            from: 'Kala',
+            message: 'Thanks for the info. We will contact you shortly via email with more details.'
+          });
+          this.saveAndCloseSection = true;
+        }, 2000)
+        this.supportOptions.data = [];
+        this.showBack = false;
+      }
+      else {
+        this.supportOptions.level = this.supportOptions.level + 1;
+        this.supportOptions.name = name;
+        this.supportOptions.data = ["Yes", "No"];
+      }
+
+      //Updating User Message
+      this.supportMessages.push({
+        mainImage: this.userData.consumerImagePath,
+        from: 'User',
+        message: name
+      });
+      //Updating User Message
+
+      //Auto Generated Data from Kala System
+      if (this.questionCounter == 1) {
+        setTimeout(() => {
+          this.supportMessages.push({
+            mainImage: '/consumer-app/assets/images/logo.png',
+            from: 'Kala',
+            message: 'Can you give me a little more info so i can better help you ?'
+          })
+        }, 2000)
+      }
+      else if (this.questionCounter == 2) {
+        setTimeout(() => {
+          this.supportMessages.push({
+            mainImage: '/consumer-app/assets/images/logo.png',
+            from: 'Kala',
+            message: 'I\'ll look into this for you right away, Is there any other information that you want me to know ?'
+          })
+        }, 2000)
+      }
+      //Auto Generated Data from Kala System
+    }
+    else {
+      this.OtherOption = true;
+      this.showSupportOptions = false;
+    }
+  }
+
+  submitComment(commentBox) {
+    this.supportMessages.push({
+      mainImage: this.userData.consumerImagePath,
+      from: 'User',
+      message: commentBox
+    });
+    this.commentBox = '';
+    this.OtherOption = false;
+    setTimeout(() => {
+      this.supportMessages.push({
+        mainImage: '/consumer-app/assets/images/logo.png',
+        from: 'Kala',
+        message: 'Thanks for the info. We will contact you shortly via email with more details.'
+      });
+      this.saveAndCloseSection = true;
+    }, 2000);
+    this.supportOptions.data = [];
+    this.showBack = false;
+  }
+
+  cancelComment(commentBox) {
+    this.commentBox = '';
+    this.OtherOption = false;
+    this.showSupportOptions = true;
+  }
+
+  saveAndClose(order) {
+    this.supportOptions = { level: 0, name: '', data: [] };
+    this.showBack = false;
+    this.questionCounter = 0;
+    this.supportMessages = [];
+    this.OtherOption = false;
+    this.commentBox = '';
+    this.saveAndCloseSection = false;
+    this.showBack = false;
+    this.showSupportOptions = true;
+    order.showCustomerSupport = false;
+  }
+
+  goBack(order) {
+    if (this.supportOptions.level > 2) {
+      this.questionCounter--;
+      this.supportOptions.data = []
+      for (var i = 0; i < this.supportData.options.length; i++) {
+        if (this.supportData.options[i].name == this.selection.parent) {
+          this.supportOptions.level = this.supportOptions.level - 1;
+          this.supportOptions.name = this.selection.parent;
+          this.supportOptions.data = this.supportData.options[i].options;
+        }
+      }
+    }
+    else {
+      this.questionCounter--;
+      this.supportOptions.data = [];
+      for (var i = 0; i < this.supportData.options.length; i++) {
+        this.supportOptions.level = 1;
+        this.supportOptions.data.push(this.supportData.options[i].name);
+      }
+      this.showBack = false;
+    }
   }
 
   getTotalCost(shippingCost, productCost, taxCost) {
@@ -116,7 +348,12 @@ export class MyordersComponent implements OnInit {
       this.cancelOrderModel.orderItemId = order.productId;
       this.cancelOrderModel.chargeId = modal.payment.paymentNumber;
       this.myOrder.cancelOrder(this.cancelOrderModel).subscribe((res) => {
+        if (res == 'ORDERCANCELED') res = 'ORDER CANCELED';
         order.productItemStatus = res;
+        order.cancelOrder = true;
+        order.trackOrder = true;
+        order.leaveReview = true;
+        order.contactSupport = true;
       }, (err) => {
         console.log(err)
       })

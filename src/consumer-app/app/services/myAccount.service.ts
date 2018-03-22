@@ -82,4 +82,14 @@ export class MyAccountService {
         const url: string = `${BASE_URL_RETAILER}/${environment.apis.shippingMethod.getStates}`;
         return this.http.get(url).map((res) => res.json());
     }
+
+    emailNotification(model) {
+        const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.emailNotification}`;
+        return this.http.post(url, model).map((res) => res.json());
+    }
+
+    alertNotification(model) {
+        const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.alertNotification}`;
+        return this.http.post(url, model).map((res) => res.json());
+    }
 }

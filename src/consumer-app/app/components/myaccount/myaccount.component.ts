@@ -124,6 +124,32 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     this.maxDate = { year: this.today.getFullYear(), month: this.today.getMonth() + 1, day: this.today.getDate() };
   }
 
+  turnOnOffNotifications(e, from) {
+    let emailId = this.getUserInfo.emailId;
+    let emailNotification: boolean;
+    let alertNotification: boolean;
+    if (from == 'email') {
+      if (e.target.checked) emailNotification = false;
+      else emailNotification = true;
+      let model = { emailId: emailId, emailNotification: emailNotification };
+      this.myAccount.emailNotification(model).subscribe((res) => {
+        window.localStorage['userInfo'] = JSON.stringify(res);
+      });
+    }
+    else {
+      if (e.target.checked) alertNotification = false;
+      else alertNotification = true;
+      let model = { emailId: emailId, alertNotification: alertNotification };
+      this.myAccount.alertNotification(model).subscribe((res) => {
+        window.localStorage['userInfo'] = JSON.stringify(res);
+      });
+    }
+  }
+
+  closeAccount() {
+
+  }
+
   onChange({ error }) {
     if (error) {
       this.error = error.message;
@@ -174,7 +200,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     this.cardNumber = elements.create('cardNumber', { style: elementStyles, classes: elementClasses, });
     this.cardExpiry = elements.create('cardExpiry', { style: elementStyles, classes: elementClasses, });
     this.cardCvc = elements.create('cardCvc', { style: elementStyles, classes: elementClasses, });
-    this.cardZip = elements.create('postalCode', { style: elementStyles, classes: elementClasses, placeholder: 'Postal code', });
+    this.cardZip = elements.create('postalCode', { style: elementStyles, classes: elementClasses, placeholder: 'Zipcode', });
 
     // this.card.mount(this.cardInfo.nativeElement);
     this.cardNumber.mount(this.cardNumberInfo.nativeElement);
@@ -227,6 +253,8 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   getConsumerProfile() {
     let emailId = this.getUserInfo.emailId;
     this.myAccount.getUserDetails(emailId).subscribe((res) => {
+      window.localStorage['userInfo'] = JSON.stringify(res);
+      this.getUserInfo = JSON.parse(window.localStorage['userInfo']);
       this.getAPICP = res;
       this.myAccountModel.profileInfo = new MyaccountProfileInfo();
       this.myAccountModel.userData = new MyAccountUserData();
