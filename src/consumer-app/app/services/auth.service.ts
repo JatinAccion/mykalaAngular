@@ -42,6 +42,12 @@ export class AuthService {
     return this.http.get(url).map((res) => res.json());
   }
 
+  verifyAccount(emailId) {
+    const BASE_URL = environment.userService;
+    const url: string = `${BASE_URL}/${environment.apis.userService.resendVerification}/${emailId}`;
+    return this.http.get(url).map((res) => res.json());
+  }
+
   /* For Mobile/Conversational UI
   login(user: User): Promise<any> {
     let url: string = `${this.BASE_URL}/login`;

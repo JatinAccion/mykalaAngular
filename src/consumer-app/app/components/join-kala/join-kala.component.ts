@@ -132,13 +132,31 @@ export class JoinKalaComponent implements OnInit, CuiComponent {
         this.joinKala.reset();
       }
       else if (this.userInfo.user_status === "alreadyExists") {
-        this.signUpResponse.status = true;
-        this.signUpResponse.message = this.joinUserMsg.emailExists;
+        if (this.userInfo.userCreateStatus == false) {
+          this.userInfo.user_status = "inactive";
+          this.signUpResponse.status = true;
+          this.signUpResponse.message = this.joinUserMsg.inactiveUser;
+        }
+        else {
+          this.signUpResponse.status = true;
+          this.signUpResponse.message = this.joinUserMsg.emailExists;
+        }
       }
     }, err => {
       this.loader = false;
       this.signUpResponse.status = true;
       this.signUpResponse.message = this.joinUserMsg.fail;
     });
+  }
+
+  verifyAccount() {
+    this.loader = true;
+    this.signUpResponse.status = false;
+    this.auth.verifyAccount(this.joinKala.controls.email.value).subscribe((res) => {
+      this.loader = false;
+      this.userInfo.user_status = "success";
+      this.signUpResponse.status = true;
+      this.signUpResponse.message = this.joinUserMsg.success;
+    })
   }
 }

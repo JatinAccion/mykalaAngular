@@ -40,6 +40,8 @@ export class LeaveReviewComponent implements OnInit {
     this.requestReviewModel.productName = this.productForReview.order.productName;
     this.requestReviewModel.firstName = this.userData.firstName;
     this.requestReviewModel.lastName = this.userData.lastName;
+    this.requestReviewModel.orderId = this.productForReview.modal.orderId;
+    this.requestReviewModel.orderDate = new Date(this.productForReview.modal.purchasedDate)
   }
 
   callUpload() {

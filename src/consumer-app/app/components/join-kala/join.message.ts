@@ -2,6 +2,7 @@ export const userMessages = {
     success: "A verfication link has been sent to the email address you have provided. Please verifiy your account at the earliest.",
     accountExist: "Account already exists",
     emailExists: "Email already exists",
+    inactiveUser: 'Email already exists. Your account is not yet verfied with Kala.',
     fail: "Something went wrong, please try again",
 };
 

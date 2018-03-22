@@ -10,7 +10,8 @@ export const apiNames = {
         createAccount: 'consumer',
         forgotPassword: 'forgotPassword',
         resetPassword: 'resetPassword',
-        validateToken: 'validateToken'
+        validateToken: 'validateToken',
+        resendVerification: 'resendVerification'
     },
     profileInterest: {
         saveProfile: '',
@@ -25,7 +26,8 @@ export const apiNames = {
         review: 'review',
         getProductReviews: 'productReview',
         emailNotification: 'emailNotification',
-        alertNotification: 'alertNotification'
+        alertNotification: 'alertNotification',
+        closeAccount: 'closeAccount'
     },
     products: {
         getPlaces: 'places',

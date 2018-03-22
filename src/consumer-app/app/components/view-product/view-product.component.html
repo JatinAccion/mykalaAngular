@@ -106,7 +106,7 @@
   <!--Reviews-->
   <div class="row mt-5">
     <h4 class="subtitle">reviews {{productReviews.length}}</h4>
-    <table class="reviewlayout table">
+    <table class="reviewlayout table" *ngIf="productReviews.length > 0;else noReviews">
       <tr *ngFor="let reviews of productReviews">
         <td class="p-0">
           <div class="star-rating">
@@ -134,6 +134,11 @@
         </td>
       </tr> -->
     </table>
+    <ng-template #noReviews>
+      <div class="row w-100">
+        <div class="col-sm-12">No reviews available for this product.</div>
+      </div>
+    </ng-template>
   </div>
   <!--Reviews-->
 

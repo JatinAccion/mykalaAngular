@@ -41,12 +41,19 @@
         </div>
 
         <!--Loader-->
+        <div *ngIf="verificationMail" class="alert alert-success successMessage">
+          {{loginInputValMsg.verifyMail}}
+        </div>
+
         <div *ngIf="loginError" class="alert alert-danger errorMessages">
           {{loginUserMessage.error}}
         </div>
 
         <div *ngIf="userInactive" class="alert alert-danger errorMessages">
           {{loginInputValMsg.inactiveUser}}
+          <a class="d-inline" (click)="verifyAccount()">
+            <u>Click here</u>
+          </a> to verify your account.
         </div>
 
         <div *ngIf="unAuthorized" class="alert alert-danger errorMessages">

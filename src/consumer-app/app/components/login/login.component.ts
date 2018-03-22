@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit, CuiComponent {
   loginError: boolean;
   userInactive: boolean = false;
   unAuthorized: boolean = false;
+  verificationMail: boolean = false;
   emailRegex = regexPatterns.emailRegex;
   loginUserMessage = userMessages;
   loginInputValMsg = inputValidation;
@@ -81,6 +82,7 @@ export class LoginComponent implements OnInit, CuiComponent {
     this.loginError = false;
     this.userInactive = false;
     this.unAuthorized = false;
+    this.verificationMail = false;
     this.loader = true;
     this.userCredential = new User(this.loginKala.controls.email.value, this.loginKala.controls.email.value, this.loginKala.controls.password.value)
     this.credentialModal.email = this.loginKala.controls.email.value;
@@ -118,6 +120,18 @@ export class LoginComponent implements OnInit, CuiComponent {
       this.loginError = true;
       console.log(err);
     });
+  }
+
+  verifyAccount() {
+    this.loginError = false;
+    this.userInactive = false;
+    this.unAuthorized = false;
+    this.verificationMail = false;
+    this.loader = true;
+    this.auth.verifyAccount(this.loginKala.controls.email.value).subscribe((res) => {
+      this.loader = false;
+      this.verificationMail = true;
+    })
   }
 
   checkRememberMe() {
