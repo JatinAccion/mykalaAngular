@@ -27,7 +27,9 @@ export const apiNames = {
         getProductReviews: 'productReview',
         emailNotification: 'emailNotification',
         alertNotification: 'alertNotification',
-        closeAccount: 'closeAccount'
+        closeAccount: 'closeAccount',
+        consumerOffer: 'consumerOffer',
+        userReviewList: 'userReviewList'
     },
     products: {
         getPlaces: 'places',

@@ -29,6 +29,7 @@ import { MyaccountComponent } from './components/myaccount/myaccount.component';
 import { MyoffersComponent } from './components/myoffers/myoffers.component';
 import { LeaveReviewComponent } from './components/leave-review/leave-review.component';
 import { TrackOrderComponent } from './components/track-order/track-order.component';
+import { MyNewsAlertsComponent } from './components/my-news-alerts/my-news-alerts.component';
 
 const appRoutes: Routes = [
     {
@@ -110,6 +111,11 @@ const appRoutes: Routes = [
     {
         path: 'myoffer',
         component: MyoffersComponent,
+        data: { header: 'header1' }
+    },
+    {
+        path: 'myalerts',
+        component: MyNewsAlertsComponent,
         data: { header: 'header1' }
     },
     {

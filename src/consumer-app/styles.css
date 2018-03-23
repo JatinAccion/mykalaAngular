@@ -2923,4 +2923,14 @@ label{display:block}
     background-color: #a6c;
     left: 24px;
 }
+.offerStatus{
+    font-size: 14px;
+    font-family: open_sanssemibold;
+}
+.offerStatus.inactive{
+    color: red;
+}
+.offerStatus.active{
+    color: #1ba71b;
+}
                     
