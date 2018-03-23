@@ -128,7 +128,7 @@ export class MyordersComponent implements OnInit {
             this.myorderModal[i].orderItems[j].productItemStatus = 'ORDER DELIVERED';
             this.myorderModal[i].orderItems[j].leaveReview = false;
             this.myorderModal[i].orderItems[j].cancelOrder = true;
-            this.myorderModal[i].orderItems[j].contactSupport = true;
+            this.myorderModal[i].orderItems[j].contactSupport = false;
             this.myorderModal[i].orderItems[j].trackOrder = true;
             this.myorderModal[i].orderItems[j].showCustomerSupport = false;
           }

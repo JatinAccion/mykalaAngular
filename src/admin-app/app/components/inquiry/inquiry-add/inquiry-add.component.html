@@ -85,7 +85,7 @@
                     <app-field-error-display [field]="fG1.controls.inquiryStatus" [errorMsg]="errorMsgs"> </app-field-error-display>
                     <!--Validation-->
                 </p>
-            </div> {{op}}
+            </div>
             <div class="col-sm-4 ">
                 <div class="input-group">
                     <input formControlName="inquiryDate" (focus)="d.open()" [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker #d="ngbDatepicker" class="form-control" placeholder="Date of Inquiry (mm-dd-yyyy)">
