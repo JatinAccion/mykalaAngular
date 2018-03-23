@@ -10,12 +10,12 @@ import 'rxjs/add/operator/catch';
 import { LocalStorageService } from '../../services/LocalStorage.service';
 import { environment } from './../../../environments/environment';
 import { nameValue } from '../../../../models/nameValue';
-import { ReportOrders, ReportConsumer } from '../../../../models/report-order';
+import { ReportOrders, ReportConsumer, ReportOrder } from '../../../../models/report-order';
 import { Product } from '../../../../models/Product';
 
 @Injectable()
 export class OrderService {
-  private BASE_URL: string = environment.ordersApi;
+  private BASE_URL: string = environment.ordersReportApi;
   headers: Headers;
 
   getHttpHeraders() {
@@ -44,6 +44,21 @@ export class OrderService {
       .map(p => new ReportOrders(p))
       .catch(this.handleError);
   }
+
+  getById(orderId: any): Observable<ReportOrder> {
+    this.headers = this.getHttpHeraders();
+    const url = `${environment.ordersApi}/${orderId}`;
+    return this.http
+      .get(url, { headers: this.headers })
+      .map(res => {
+        if (res.text() === '') {
+          return new ReportOrder();
+        } else {
+          return new ReportOrder(res.json());
+        }
+      }).catch(this.handleError);
+  }
+
   getProducts(productIds: string[]): Observable<Product[]> {
     this.headers = this.getHttpHeraders();
     const url = `${environment.productApi}/${environment.apis.product.getProducts}/${productIds}`;
@@ -80,7 +95,7 @@ export class OrderService {
   }
   putPayment() { }
 
- 
+
 
   private handleError(error: any) {
     // in a real world app, we may send the server to some remote logging infrastructure

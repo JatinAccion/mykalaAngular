@@ -1,0 +1,58 @@
+<div class="row orderdetail_row m-2" *ngIf="consumer">
+    <div class="col-sm-2 align-middle">
+        <h4 class="colorGray">Member</h4>
+        <img *ngIf="consumer && consumer.consumerImagePath" src="{{consumer.consumerImagePath}}" class="img-fluid showDummy" alt="" />
+        <i *ngIf="consumer && !consumer.consumerImagePath" class="fa fa-picture-o defaultUser py-2" aria-hidden="true"></i>
+    </div>
+    <div class="col-sm-4">
+        <table width="100%" class="no_tdBorder" border="0">
+            <tr>
+                <td>{{consumer.firstName}} {{consumer.lastName}}</td>
+            </tr>
+            <tr>
+                <td>member since {{consumer.createdAt | date:'shortDate'}}</td>
+            </tr>
+            <tr>
+                <td>4 orders, 7 offer requestis</td>
+            </tr>
+            <tr>
+                <td>{{consumer.phone}}</td>
+            </tr>
+            <tr>
+                <td>{{consumer.emailId}}</td>
+            </tr>
+            <tr>
+                <td>{{consumer.address?consumer.address.toString():''}}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-sm-4 offset-2">
+        <table width="100%" class="no_tdBorder" border="0">
+            <tr>
+                <td>DOB:</td>
+                <td>{{consumer.dateOfBirth | date:'shortDate'}}</td>
+            </tr>
+            <tr>
+                <td>Member ID:</td>
+                <td>{{consumer.userId}}</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <strong>Previous Inquiries:</strong>
+                </td>
+            </tr>
+            <tr>
+                <td class="pl-3">complaints:</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td class="pl-3">Returns:</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td class="pl-3">Questions:</td>
+                <td>5</td>
+            </tr>
+        </table>
+    </div>
+</div>

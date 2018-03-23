@@ -119,7 +119,8 @@
     </div>
 </div>
 <hr />
-<div class="row orderdetail_row m-2" *ngIf="consumer">
+<app-tile-member *ngIf="order && order.userId" [id]="order.userId"></app-tile-member>
+<!-- <div class="row orderdetail_row m-2" *ngIf="consumer">
     <div class="col-sm-2 align-middle">
         <h4 class="colorGray">Member</h4>
         <img *ngIf="consumer && consumer.consumerImagePath" src="{{consumer.consumerImagePath}}" class="img-fluid showDummy" alt="" />
@@ -176,9 +177,10 @@
             </tr>
         </table>
     </div>
-</div>
+</div> -->
 <hr />
-<div class="row orderdetail_row m-2" *ngIf="seller">
+<app-tile-retailer *ngIf="order && order.orderItems && order.orderItems.length > 0 && order.orderItems[0].retailerId" [id]="order.orderItems[0].retailerId"></app-tile-retailer>
+<!-- <div class="row orderdetail_row m-2" *ngIf="seller">
     <div class="col-sm-2 align-middle">
         <h4 class="colorGray">Seller</h4>
         <img *ngIf="seller.businessLogoPath" src="{{seller.businessLogoPath}}" class="img-fluid showDummy" alt="" />
@@ -227,7 +229,7 @@
     <div class="col-sm-3" *ngIf="seller">
         <a class=" btn_redouter_right w-100" [routerLink]="['../retailer-edit', seller.retailerId]">view account</a>
     </div>
-</div>
+</div> -->
 <hr />
 <div class="row orderdetail_row m-2">
     <div class="col-sm-2 align-middle">

@@ -12,5 +12,8 @@ export const inputValidations = {
     assignedTo: { required: '', error: '' },
     status: { required: '', error: '' },
     inquiryDate: { required: '', error: '' },
-    inquiryNotes: { required: '', error: '' }
+    inquiryNotes: { required: '', error: '' },
+    resolutionOutcome: { required: '', error: '' },
+    resolutionType: { required: '', error: '' },
+    
 };

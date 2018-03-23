@@ -23,20 +23,20 @@
                     <!--Validation-->
                 </p>
                 <p *ngIf="!showInquiryTypeOther">
-                    <select class="ddl_default w-50 form-control" formControlName="inquiryTypeCategory" (change)="inquiryTypeCategoryChange()">
+                    <select class="ddl_default w-50 form-control" formControlName="inquiryCategory" (change)="inquiryCategoryChange()">
                         <option value=''>Inquiry Category</option>
-                        <option *ngFor="let option of inquiryTypeCategorys" value="{{option}}">
+                        <option *ngFor="let option of inquiryCategorys" value="{{option}}">
                             {{option}}
                         </option>
                     </select>
                     <!--Validation-->
-                    <app-field-error-display [field]="fG1.controls.inquiryTypeCategory" [errorMsg]="errorMsgs"> </app-field-error-display>
+                    <app-field-error-display [field]="fG1.controls.inquiryCategory" [errorMsg]="errorMsgs"> </app-field-error-display>
                     <!--Validation-->
                 </p>
-                <p *ngIf="showInquiryTypeCategoryOther">
-                    <input class="form-control w-50" type="text" placeholder="Other.." formControlName="inquiryTypeCategoryOther" />
+                <p *ngIf="showinquiryCategoryOther">
+                    <input class="form-control w-50" type="text" placeholder="Other.." formControlName="inquiryCategoryOther" />
                     <!--Validation-->
-                    <app-field-error-display [field]="fG1.controls.inquiryTypeCategoryOther" [errorMsg]="errorMsgs"> </app-field-error-display>
+                    <app-field-error-display [field]="fG1.controls.inquiryCategoryOther" [errorMsg]="errorMsgs"> </app-field-error-display>
                     <!--Validation-->
                 </p>
                 <p>
@@ -53,7 +53,7 @@
                     <!--Validation-->
                 </p>
                 <p>
-                    <select class="ddl_default form-control w-50" formControlName="priority" (change)="paymentVehicleChange()">
+                    <select class="ddl_default form-control w-50" formControlName="priority">
                         <option value=''>Priority</option>
                         <option *ngFor="let option of inquiryPrioritys" value="{{option}}">
                             {{option}}
@@ -64,7 +64,7 @@
                     <!--Validation-->
                 </p>
                 <p>
-                    <select class="ddl_default form-control w-50" formControlName="assignedTo" (change)="paymentVehicleChange()">
+                    <select class="ddl_default form-control w-50" formControlName="assignedTo" >
                         <option value=''>Assigned to</option>
                         <option *ngFor="let option of users" value="{{option.userId}}">
                             {{option.firstName + ' ' + option.lastName }}
@@ -85,7 +85,7 @@
                     <app-field-error-display [field]="fG1.controls.inquiryStatus" [errorMsg]="errorMsgs"> </app-field-error-display>
                     <!--Validation-->
                 </p>
-            </div> {{op}}
+            </div>
             <div class="col-sm-4 ">
                 <div class="input-group">
                     <input formControlName="inquiryDate" (focus)="d.open()" [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker #d="ngbDatepicker" class="form-control" placeholder="Date of Inquiry (mm-dd-yyyy)">
@@ -135,14 +135,14 @@
         </div>
         <div class="row">
             <p class="col-sm-8" *ngIf="showResoltion">
-                <select class="ddl_default form-control w-50" formControlName="resolution">
+                <select class="ddl_default form-control w-50" formControlName="resolutionType">
                     <option value=''>Resolution</option>
                     <option *ngFor="let option of inquiryResolutions" value="{{option}}">
                         {{option}}
                     </option>
                 </select>
                 <!--Validation-->
-                <app-field-error-display [field]="fG1.controls.resolution" [errorMsg]="errorMsgs"> </app-field-error-display>
+                <app-field-error-display [field]="fG1.controls.resolutionType" [errorMsg]="errorMsgs"> </app-field-error-display>
                 <!--Validation-->
             </p>
         </div>

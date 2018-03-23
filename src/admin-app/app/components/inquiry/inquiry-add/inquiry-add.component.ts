@@ -9,11 +9,12 @@ import { environment } from '../../../../environments/environment';
 import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 import { IAlert } from '../../../../../models/IAlert';
 import { Inquiry, InquiryTypes, InquiryResolutions, InquiryResolvedOutcomes, InquiryStatuses, InquiryTypeOther, InquiryPrioritys, InquiryResolvedStatus } from '../../../../../models/inquiry';
-import { Promise } from 'q';
 import { inputValidations } from './messages';
 import { UserService } from '../../user/user.service';
 import { CoreService } from '../../../services/core.service';
 import { userMessages } from './messages';
+import { OrderService } from '../../order/order.service';
+import { ReportOrder } from '../../../../../models/report-order';
 // #endregion imports
 
 
@@ -24,9 +25,8 @@ import { userMessages } from './messages';
   encapsulation: ViewEncapsulation.None
 })
 export class InquiryAddComponent implements OnInit {
-  fromDate(arg0: any): any {
-    throw new Error("Method not implemented.");
-  }
+  order: ReportOrder;
+
   saveloader: boolean;
   users: any[];
   showResoltionDate: any;
@@ -34,9 +34,9 @@ export class InquiryAddComponent implements OnInit {
   showResolutionNotes: boolean;
   showResoltionOutcome: boolean;
   showResoltion: boolean;
-  showInquiryTypeCategoryOther: boolean;
+  showinquiryCategoryOther: boolean;
   showInquiryTypeOther: boolean;
-  inquiryTypeCategorys: string[];
+  inquiryCategorys: string[];
   fG1: FormGroup;
   saveLoader: boolean;
   // #region declarations
@@ -57,6 +57,7 @@ export class InquiryAddComponent implements OnInit {
     private inquiryService: InquiryService,
     public validatorExt: ValidatorExt,
     private userService: UserService,
+    private orderService: OrderService,
     private core: CoreService
   ) {
     this.inquiryId = route.snapshot.params['id'];
@@ -71,9 +72,9 @@ export class InquiryAddComponent implements OnInit {
   setFormValidators() {
     this.fG1 = this.formBuilder.group({
       inquiryType: [{ value: this.inquiry.inquiryType, disabled: false }, [Validators.required]],
-      inquiryTypeOther: [{ value: this.inquiry.inquiryTypeOther, disabled: false }, [Validators.required]],
-      inquiryTypeCategory: [{ value: this.inquiry.inquiryCategory, disabled: false }, [Validators.required]],
-      inquiryTypeCategoryOther: [{ value: this.inquiry.inquiryCategoryOther, disabled: false }, [Validators.required]],
+      inquiryTypeOther: [{ value: this.inquiry.otherTypeDesc, disabled: false }, [Validators.required]],
+      inquiryCategory: [{ value: this.inquiry.inquiryCategory, disabled: false }, [Validators.required]],
+      inquiryCategoryOther: [{ value: this.inquiry.otherCategoryDesc, disabled: false }, [Validators.required]],
       description: [{ value: this.inquiry.description, disabled: false }, [Validators.required]],
       orderId: [{ value: this.inquiry.orderId, disabled: false }, [Validators.required]],
       priority: [{ value: this.inquiry.priority, disabled: false }, [Validators.required]],
@@ -81,8 +82,8 @@ export class InquiryAddComponent implements OnInit {
       inquiryStatus: [{ value: this.inquiry.inquiryStatus, disabled: false }, [Validators.required]],
       inquiryDate: [{ value: this.fromDate(this.inquiry.inquiryDate), disabled: false }, [Validators.required]],
       inquiryNotes: [{ value: this.inquiry.notes && this.inquiry.notes.length > 0 ? this.inquiry.notes[0] : '', disabled: false }, [Validators.required]],
-      resolutionOutcome: [{ value: '', disabled: false }, [Validators.required]],
-      resolution: [{ value: this.inquiry.resolutionType, disabled: false }, [Validators.required]],
+      resolutionOutcome: [{ value: this.inquiry.resolvedInquiryStatus, disabled: false }, [Validators.required]],
+      resolutionType: [{ value: this.inquiry.resolutionType, disabled: false }, [Validators.required]],
       resolutionNotes: [{ value: this.inquiry.resolutionNotes && this.inquiry.resolutionNotes.length > 0 ? this.inquiry.resolutionNotes[0] : '', disabled: false }, [Validators.required]],
       resolutionDescription: [{ value: this.inquiry.resolutionDescription, disabled: false }, [Validators.required]],
       resolutionDate: [{ value: this.fromDate(this.inquiry.resolutionDate), disabled: false }, [Validators.required]],
@@ -94,46 +95,59 @@ export class InquiryAddComponent implements OnInit {
     });
   }
   getInquiryData(id) {
-    this.inquiryService.get(id).subscribe((res) => {
-      return this.inquiry = res[0];
+    this.inquiryService.get({ supportId: id }).subscribe((res) => {
+      this.inquiry = res.content.filter(p => p.supportId === id)[0];
+      this.setFormValidators();
+      this.inquiryTypeChange();
+      this.inquiryCategoryChange();
+      this.inquiryStatusChange();
     });
   }
-  saveInquiry() {
+  async saveInquiry() {
     this.saveLoader = true;
     this.readForm();
     this.validatorExt.validateAllFormFields(this.fG1);
     if (!this.fG1.valid) {
       this.core.message.info(userMessages.requiredFeilds);
     } else {
-      this.saveloader = true;
-      this.inquiryService
-        .save(this.inquiry)
-        .subscribe(res => {
-          this.saveloader = false;
-          this.core.message.success(userMessages.success);
-          return true;
-        }, err => { this.saveloader = false; this.core.message.error(userMessages.error); }, () => this.saveloader = false);
+      await this.getOrderDetails(this.inquiry.orderId);
+      if (!this.order || !this.order.orderId || this.order.orderId !== this.inquiry.orderId) {
+        this.core.message.info('order id is wrong');
+      } else {
+        this.inquiry.customerId = this.order.userId;
+        this.inquiry.retailerId = this.order.orderItems[0].retailerId;
+        this.inquiry.orderDate = this.toDate(this.order.purchasedDate);
+        this.saveloader = true;
+        this.inquiryService
+          .save(this.inquiry)
+          .subscribe(res => {
+            this.saveloader = false;
+            this.core.message.success(userMessages.success);
+            this.router.navigateByUrl('/inquiry-list');
+            return true;
+          }, err => { this.saveloader = false; this.core.message.error(userMessages.error); }, () => this.saveloader = false);
+
+      }
       return false;
     }
   }
-  paymentVehicleChange() { }
   inquiryTypeChange() {
     const form = this.fG1.value;
     const formControls = this.fG1.controls;
     this.showInquiryTypeOther = form.inquiryType === InquiryTypeOther;
     formControls.inquiryTypeOther.setValidators([Validators.pattern(environment.regex.textRegex), this.validatorExt.getRV(this.showInquiryTypeOther)]);
-    formControls.inquiryTypeCategory.setValidators([this.validatorExt.getRV(!this.showInquiryTypeOther)]);
+    formControls.inquiryCategory.setValidators([this.validatorExt.getRV(!this.showInquiryTypeOther)]);
     formControls.inquiryTypeOther.updateValueAndValidity();
-    formControls.inquiryTypeCategory.updateValueAndValidity();
+    formControls.inquiryCategory.updateValueAndValidity();
 
-    this.inquiryTypeCategorys = this.inquiryTypes.filter(p => p.name === form.inquiryType)[0].categories;
+    this.inquiryCategorys = this.inquiryTypes.filter(p => p.name === form.inquiryType)[0].categories;
   }
-  inquiryTypeCategoryChange() {
+  inquiryCategoryChange() {
     const form = this.fG1.value;
     const formControls = this.fG1.controls;
-    this.showInquiryTypeCategoryOther = form.inquiryTypeCategory === InquiryTypeOther;
-    formControls.inquiryTypeCategoryOther.setValidators([Validators.pattern(environment.regex.textRegex), this.validatorExt.getRV(this.showInquiryTypeCategoryOther)]);
-    formControls.inquiryTypeCategoryOther.updateValueAndValidity();
+    this.showinquiryCategoryOther = form.inquiryCategory === InquiryTypeOther;
+    formControls.inquiryCategoryOther.setValidators([Validators.pattern(environment.regex.textRegex), this.validatorExt.getRV(this.showinquiryCategoryOther)]);
+    formControls.inquiryCategoryOther.updateValueAndValidity();
   }
   inquiryStatusChange() {
     const form = this.fG1.value;
@@ -143,14 +157,18 @@ export class InquiryAddComponent implements OnInit {
     this.showResoltionOutcome = form.inquiryStatus === InquiryResolvedStatus;
     this.showResoltionDescription = form.inquiryStatus === InquiryResolvedStatus;
     this.showResoltionDate = form.inquiryStatus === InquiryResolvedStatus;
-
-    formControls.resolutionOutcome.setValidators([this.validatorExt.getRV(this.showResoltionOutcome)]);
-    formControls.resolution.setValidators([this.validatorExt.getRV(this.showResoltion)]);
-    formControls.resolutionNotes.setValidators([this.validatorExt.getRV(this.showResolutionNotes)]);
-    formControls.resolutionDescription.setValidators([this.validatorExt.getRV(this.showResoltionDescription)]);
-    formControls.resolutionDate.setValidators([this.validatorExt.getRV(this.showResoltionDate)]);
+    formControls.resolutionOutcome.patchValue('');
+    formControls.resolutionType.patchValue('');
+    formControls.resolutionNotes.patchValue('');
+    formControls.resolutionDescription.patchValue('');
+    formControls.resolutionDate.patchValue('');
+    formControls.resolutionOutcome.clearValidators();
+    formControls.resolutionType.clearValidators();
+    formControls.resolutionNotes.setValidators([this.validatorExt.getRV(this.showResoltion)]);
+    formControls.resolutionDescription.setValidators([this.validatorExt.getRV(this.showResoltion)]);
+    formControls.resolutionDate.clearValidators();
     formControls.resolutionOutcome.updateValueAndValidity();
-    formControls.resolution.updateValueAndValidity();
+    formControls.resolutionType.updateValueAndValidity();
     formControls.resolutionNotes.updateValueAndValidity();
     formControls.resolutionDescription.updateValueAndValidity();
     formControls.resolutionDate.updateValueAndValidity();
@@ -167,22 +185,38 @@ export class InquiryAddComponent implements OnInit {
     this.inquiry.productName = form.productName;
     this.inquiry.productCost = form.productCost;
     this.inquiry.inquiryType = form.inquiryType;
+    this.inquiry.otherTypeDesc = form.inquiryTypeOther;
     this.inquiry.inquiryDate = this.toDate(form.inquiryDate);
     this.inquiry.inquiryCategory = form.inquiryCategory;
+    this.inquiry.otherCategoryDesc = form.inquiryCategoryOther;
     this.inquiry.description = form.description;
     this.inquiry.priority = form.priority;
     this.inquiry.assignedTo = form.assignedTo;
     this.inquiry.inquiryStatus = form.inquiryStatus;
     this.inquiry.notes = [form.inquiryNotes];
-    this.inquiry.resolvedInquiryStatus = form.resolvedInquiryStatus;
-    this.inquiry.resolutionDate = form.resolutionDate;
+    this.inquiry.resolvedInquiryStatus = form.resolutionOutcome;
+    this.inquiry.resolutionDate = this.toDate(form.resolutionDate);
     this.inquiry.resolutionType = form.resolutionType;
     this.inquiry.resolutionDescription = form.resolutionDescription;
     this.inquiry.resolutionNotes = [form.resolutionNotes];
+    this.inquiry.createdDate = this.toDate(this.inquiry.createdDate || new Date());
+    this.inquiry.modifiedDate = this.toDate(new Date());
   }
   toDate(obj) {
     if (obj.year && obj.month && obj.day) {
       return `${obj.year}-${obj.month}-${obj.day}`;
+    } else if (new Date(obj)) {
+      const date = new Date(obj);
+      if (date.getDate() ? true : false) {
+        return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+      } else { return ''; }
     }
+  }
+  fromDate(obj: any): any {
+    const date = obj ? new Date(obj) : new Date();
+    return { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
+  }
+  getOrderDetails(orderId) {
+    return this.orderService.getById(orderId).toPromise().then(p => { this.order = p; return p; });
   }
 }

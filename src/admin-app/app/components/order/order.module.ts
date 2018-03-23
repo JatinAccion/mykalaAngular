@@ -15,6 +15,7 @@ import { ChartModule } from 'angular2-chartjs';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 
+
 @NgModule({
   imports: [
     CommonModule,
@@ -28,6 +29,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
   declarations: [
     OrderListComponent,
     OrderDetailsComponent
+
+
   ],
   providers: [OrderService, ValidatorExt]
 })

@@ -7,6 +7,7 @@ import { InquiryListComponent } from './inquiry-list/inquiry-list.component';
 import { InquiryAddComponent } from './inquiry-add/inquiry-add.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { InquiryService } from './inquiry.service';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { ValidatorExt } from '../../../../common/ValidatorExtensions';
 import { SharedModule } from '../../../../common/shared.module';
@@ -18,7 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
     InquiryRoutingModule,
     NgbModule,
     ReactiveFormsModule,
-    SharedModule, FormsModule, HttpClientModule
+    SharedModule, FormsModule, HttpClientModule, NgxPaginationModule
   ],
   declarations: [
     InquiryListComponent,

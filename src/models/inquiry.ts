@@ -7,12 +7,15 @@ export class Inquiry {
   public orderId: string;
   public orderDate: string;
   public productName: string;
-  public productCost: string;
+  public productCost: number;
+  public productsCount: number;
   public inquiryType: string;
-  public inquiryTypeOther: string;
+  // public inquiryTypeOther: string;
+  public otherTypeDesc: string;
   public inquiryDate: string;
   public inquiryCategory: string;
-  public inquiryCategoryOther: string;
+  // public inquiryCategoryOther: string;
+  public otherCategoryDesc: string;
   public description: string;
   public priority: string;
   public assignedTo: string;
@@ -22,8 +25,12 @@ export class Inquiry {
   public resolutionDate: string;
   public resolutionType: string;
   public resolutionDescription: string;
+  public retailerId: string;
+  public consumerId: string;
+  public createdDate: string;
+  public modifiedDate: string;
   public resolutionNotes: string[];
-
+  public isCollapsed = true;
   constructor(obj?: any) {
     if (obj) {
       this.supportId = obj.supportId;
@@ -46,10 +53,14 @@ export class Inquiry {
       this.resolutionType = obj.resolutionType;
       this.resolutionDescription = obj.resolutionDescription;
       this.resolutionNotes = obj.resolutionNotes;
+      this.retailerId = obj.retailerId;
+      this.consumerId = obj.consumerId;
+      this.createdDate = obj.createdDate;
+      this.modifiedDate = obj.modifiedDate;
     }
   }
 }
-export class Inquirys  extends Pagination {
+export class Inquirys extends Pagination {
   constructor(obj?: any) {
     if (obj) {
       super(obj);

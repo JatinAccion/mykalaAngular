@@ -1,0 +1,50 @@
+<div class="row orderdetail_row m-2" *ngIf="seller">
+        <div class="col-sm-2 align-middle">
+            <h4 class="colorGray">Seller</h4>
+            <img *ngIf="seller.businessLogoPath" src="{{seller.businessLogoPath}}" class="img-fluid showDummy" alt="" />
+            <i *ngIf="!seller.businessLogoPath" class="fa fa-picture-o defaultUser py-2" aria-hidden="true"></i>
+        </div>
+        <div class="col-sm-4">
+            <table width="100%" class="no_tdBorder" border="0">
+                <tr>
+                    <td>{{seller.businessName}}</td>
+                </tr>
+                <tr>
+                    <td>Reviews: 123</td>
+                </tr>
+                <tr>
+                    <td>Contact: {{seller.contactPerson && seller.contactPerson[0]?seller.contactPerson[0].name:''}}</td>
+                </tr>
+                <tr>
+                    <td>{{seller.businessAddress?seller.businessAddress.phoneNo:''}}</td>
+                </tr>
+                <tr>
+                    <td>{{seller.businessAddress?seller.businessAddress.email:''}}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-sm-3">
+            <table width="100%" class="no_tdBorder" border="0">
+                <tr>
+                    <td colspan="2">
+                        <strong>Previous Inquiries:</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="pl-3">complaints:</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td class="pl-3">Returns:</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td class="pl-3">Questions:</td>
+                    <td>5</td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-sm-3" *ngIf="seller">
+            <a class=" btn_redouter_right w-100" [routerLink]="['../retailer-edit', seller.retailerId]">view account</a>
+        </div>
+    </div>

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule, Route } from '@angular/router';
+import { Routes, RouterModule, Route } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -9,11 +9,13 @@ import { FieldErrorDisplayComponent } from './field-error-display/field-error-di
 import { CommonModule } from '@angular/common';
 import { ValidatorExt } from './ValidatorExtensions';
 import { InputMaskDirective } from './input-mask.directive';
+import { MemberTileComponent } from '../admin-app/app/components/tile/member/member.component';
+import { RetailerTileComponent } from '../admin-app/app/components/tile/retailer/retailer.component';
 
 @NgModule({
-    imports: [CommonModule, BrowserModule, FormsModule],
-    declarations: [FieldErrorDisplayComponent, InputMaskDirective],
-    exports: [FieldErrorDisplayComponent, InputMaskDirective],
+    imports: [CommonModule, BrowserModule, FormsModule, RouterModule],
+    declarations: [FieldErrorDisplayComponent, InputMaskDirective, MemberTileComponent, RetailerTileComponent],
+    exports: [FieldErrorDisplayComponent, InputMaskDirective, MemberTileComponent, RetailerTileComponent],
     providers: [ValidatorExt]
 })
 export class SharedModule { }

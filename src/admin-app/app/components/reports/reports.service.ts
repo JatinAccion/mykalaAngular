@@ -47,7 +47,7 @@ export class ReportsService {
   }
   getPaymentCounts(paymentType: string, year: string, month?: string) {
     this.headers = this.getHttpHeraders();
-    const url = `${environment.ordersApi}/${environment.apis.orders.paymentCounts}`.replace('{paymentType}', paymentType).replace('{year}', year).replace('{month}', month || '');
+    const url = `${environment.ordersReportApi}/${environment.apis.orders.paymentCounts}`.replace('{paymentType}', paymentType).replace('{year}', year).replace('{month}', month || '');
     return this.http
       .get(url, { headers: this.headers })
       .map(p => p.json())
@@ -55,7 +55,7 @@ export class ReportsService {
   }
   getPaymentReports(paymentType: string, year: string, month?: string) {
     this.headers = this.getHttpHeraders();
-    const url = `${environment.ordersApi}/${environment.apis.orders.paymentReports}`.replace('{paymentType}', paymentType).replace('{year}', year).replace('{month}', month || '');
+    const url = `${environment.ordersReportApi}/${environment.apis.orders.paymentReports}`.replace('{paymentType}', paymentType).replace('{year}', year).replace('{month}', month || '');
     return this.http
       .get(url, { headers: this.headers })
       .map(p => p.json())
@@ -63,7 +63,7 @@ export class ReportsService {
   }
   getconsumerPaymentReports(paymentType: string, year: string, month?: string) {
     this.headers = this.getHttpHeraders();
-    const url = `${environment.ordersApi}/${environment.apis.orders.consumerPayment}`.replace('{paymentType}', paymentType).replace('{year}', year).replace('{month}', month || '');
+    const url = `${environment.ordersReportApi}/${environment.apis.orders.consumerPayment}`.replace('{paymentType}', paymentType).replace('{year}', year).replace('{month}', month || '');
     return this.http
       .get(url, { headers: this.headers })
       .map(p => p.json())
@@ -71,7 +71,7 @@ export class ReportsService {
   }
   getOrders(paymentType: string, year: string, month?: string, query?: any): Observable<ReportOrders> {
     this.headers = this.getHttpHeraders();
-    const url = `${environment.ordersApi}/${environment.apis.orders.get}`.replace('{paymentType}', paymentType).replace('{year}', year).replace('{month}', month || '');
+    const url = `${environment.ordersReportApi}/${environment.apis.orders.get}`.replace('{paymentType}', paymentType).replace('{year}', year).replace('{month}', month || '');
     return this.http
       .get(url, { search: query, headers: this.headers })
       .map(p => p.json())
