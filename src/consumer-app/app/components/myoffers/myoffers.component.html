@@ -21,7 +21,7 @@
                 <span class="colorlightGray">Offers started: </span> {{getOffersData.getOffersRequestDTO.startDate}}
                 <span class="colorlightGray">Offer ends in:</span>
                 <span class="colorred">{{getOffersData.getOffersRequestDTO.remainingTime}}</span>
-                <span class="label label-default">{{getOffersData.getOfferResponseDTOList.length}} offers</span>
+                <span class="label label-default">{{getOffersData.getOffersResponse.length}} offers</span>
               </div>
             </div>
             <!--Left Heading and Time-->
@@ -50,15 +50,15 @@
                 <div class="col-sm-3 pb-2 colorlightGray">Sub - category:</div>
                 <div class="col-sm-9 pb-2">{{getOffersData.getOffersRequestDTO.subCategoryName}}</div>
               </div>
-              <div class="row pl-3">
+              <!-- <div class="row pl-3">
                 <div class="col-sm-3 pb-2 colorlightGray">Type:</div>
                 <div class="col-sm-9 pb-2">{{getOffersData.getOffersRequestDTO.productType}}</div>
-              </div>
+              </div> -->
               <div class="row pl-3" *ngFor="let keys of getOffersData.getOffersRequestDTO.attributes.getOffersDataAttr">
                 <div class="col-sm-3 pb-2 colorlightGray">{{keys.key}}</div>
                 <div class="col-sm-9 pb-2">
-                  <span *ngFor="let values of keys.values">
-                    {{values}},
+                  <span *ngFor="let values of keys.values; let isLast=last">
+                    {{values}}{{isLast ? '' : ', '}}
                   </span>
                 </div>
               </div>
@@ -81,7 +81,7 @@
 
             <!--Right Product Listing-->
             <div class="col-sm-5 multi_scroll" style="height: 400px">
-              <div class="row p-2 mb-4" *ngFor="let product of getOffersData.getOfferResponseDTOList">
+              <div class="row p-2 mb-4" *ngFor="let product of getOffersData.getOffersResponse">
                 <div class="col-sm-4 p-0 productImage">
                   <img src="/consumer-app/assets/images/product1.png" class="img-fluid" />
                 </div>

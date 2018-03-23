@@ -33,7 +33,7 @@
       <p>Type:</p>
     </div>
     <div class="col-sm-6 text-left">
-      <span *ngFor="let type of Step4Summary.type">{{type.name}}, </span>
+      <span *ngFor="let type of Step4Summary.type; let isLast=last">{{type.name}}{{isLast ? '' : ', '}}</span>
     </div>
   </div>
   <!--Step 1 View-->
@@ -47,7 +47,7 @@
           <p>{{data.key}}:</p>
         </div>
         <div class="col-sm-6 text-left">
-          <span *ngFor="let values of data.values">{{values}}, </span>
+          <span *ngFor="let values of data.values; let isLast=last">{{values}}{{isLast ? '' : ', '}}</span>
         </div>
       </div>
     </div>

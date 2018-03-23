@@ -4,132 +4,142 @@
 
   <img src="/consumer-app/assets/images/loader.gif" class="mt-3 mb-3" *ngIf="loader" />
   <div class="myCart">
-    <div *ngFor="let modal of myorderModal">
-      <div class="myCart-list" *ngFor="let order of modal.orderItems">
-        <h4 class="subtitle clearfix">
-          Estimated delivery on: {{getDeliveryDate(order.deliveryMethod, modal.purchasedDate)}}
-          <span class="float-right">Order Id: {{modal.orderId}}
-            <span class="float-right" *ngIf="modal.customerOrderStatus != undefined && order.productItemStatus == undefined;else showProductStatus" [ngClass]="{'orderProcess':modal.customerOrderStatus == 'ORDER PENDING'}">{{modal.customerOrderStatus}}</span>
-            <span #showProductStatus class="float-right" *ngIf="order.productItemStatus != undefined" [ngClass]="{'orderProcess':order.productItemStatus == 'ORDER PROCESSED' || order.productItemStatus == 'ORDER SHIPPED', 'orderCancelled':order.productItemStatus == 'ORDER CANCELED', 'orderSuccess':order.productItemStatus == 'ORDER DELIVERED'}">{{order.productItemStatus}}</span>
-          </span>
-        </h4>
-        <div class="row">
-          <div class="col-sm-2">
-            <img [src]="order.productImage" class="img-fluid" />
-          </div>
-          <div class="col-sm-7">
-            <p>
-              <strong>{{order.productName}}</strong>
-            </p>
-            <div class="row">
-              <p class="col-sm-3 colorlightGray">Retailer:</p>
-              <p class="col-sm-9 colorred">{{order.retailerName}}</p>
+    <!--Orders Available-->
+    <div *ngIf="myorderModal.length > 0;else noOrders">
+      <div *ngFor="let modal of myorderModal">
+        <div class="myCart-list" *ngFor="let order of modal.orderItems">
+          <h4 class="subtitle clearfix">
+            Estimated delivery on: {{getDeliveryDate(order.deliveryMethod, modal.purchasedDate)}}
+            <span class="float-right">Order Id: {{modal.orderId}}
+              <span class="float-right" *ngIf="modal.customerOrderStatus != undefined && order.productItemStatus == undefined;else showProductStatus" [ngClass]="{'orderProcess':modal.customerOrderStatus == 'ORDER PENDING'}">{{modal.customerOrderStatus}}</span>
+              <span #showProductStatus class="float-right" *ngIf="order.productItemStatus != undefined" [ngClass]="{'orderProcess':order.productItemStatus == 'ORDER PROCESSED' || order.productItemStatus == 'ORDER SHIPPED', 'orderCancelled':order.productItemStatus == 'ORDER CANCELED', 'orderSuccess':order.productItemStatus == 'ORDER DELIVERED'}">{{order.productItemStatus}}</span>
+            </span>
+          </h4>
+          <div class="row">
+            <div class="col-sm-2">
+              <img [src]="order.productImage" class="img-fluid" />
             </div>
-            <div class="row">
-              <p class="col-sm-3 colorlightGray">Quantity:</p>
-              <p class="col-sm-9 colorred">{{order.productQuantity}}</p>
+            <div class="col-sm-7">
+              <p>
+                <strong>{{order.productName}}</strong>
+              </p>
+              <div class="row">
+                <p class="col-sm-3 colorlightGray">Retailer:</p>
+                <p class="col-sm-9 colorred">{{order.retailerName}}</p>
+              </div>
+              <div class="row">
+                <p class="col-sm-3 colorlightGray">Quantity:</p>
+                <p class="col-sm-9 colorred">{{order.productQuantity}}</p>
+              </div>
+              <div class="row">
+                <p class="col-sm-3 colorlightGray">Price:</p>
+                <p class="col-sm-9 colorred">{{order.productPrice | currency}}</p>
+              </div>
             </div>
-            <div class="row">
-              <p class="col-sm-3 colorlightGray">Price:</p>
-              <p class="col-sm-9 colorred">{{order.productPrice | currency}}</p>
-            </div>
-          </div>
-          <div class="col-sm-3">
-            <p>&nbsp;</p>
-            <div class="row">
-              <button class="btn btn-outer btn_redouter_right" [disabled]="order.contactSupport" (click)="showSupportPanel(order)">contact retailer</button>
-            </div>
-            <p>&nbsp;</p>
-            <div class="row">
-              <button class="btn btn-outer btn_redouter_right" [disabled]="order.leaveReview" (click)="leaveReview(modal, order)">leave review</button>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-2"></div>
-          <div class="col-sm-10">
-            <hr />
-          </div>
-        </div>
-
-        <!--Support Section-->
-        <div class="row position-relative suportWrapper" *ngIf="order.showCustomerSupport">
-          <div class="supportMessages w-100">
-            <div class="float-left w-100 mb-3" *ngFor="let message of supportMessages">
-              <div [ngClass]="{'float-left ligherBack':message.from == 'Kala', 'float-right darkerBack':message.from == 'User'}">
-                <img [src]="message.mainImage" class="mr-2 chatImage" /> {{message.message}}
+            <div class="col-sm-3">
+              <p>&nbsp;</p>
+              <div class="row">
+                <button class="btn btn-outer btn_redouter_right" [disabled]="order.contactSupport" (click)="showSupportPanel(order)">contact retailer</button>
+              </div>
+              <p>&nbsp;</p>
+              <div class="row">
+                <button class="btn btn-outer btn_redouter_right" [disabled]="order.leaveReview" (click)="leaveReview(modal, order)">leave review</button>
               </div>
             </div>
           </div>
-
-          <div class="supportOptions" *ngIf="showSupportOptions">
-            <span *ngIf="showBack" (click)="goBack(order)">back</span>
-            <span *ngFor="let option of supportOptions.data" (click)="loadOptions(supportOptions, option)">{{option}}</span>
+          <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-10">
+              <hr />
+            </div>
           </div>
 
-          <div *ngIf="OtherOption" class="col-sm-12 text-center">
-            <textarea class="form-control" [(ngModel)]="commentBox" rows="4" placeholder="please write your description here..."></textarea>
-            <button class="btn btn-outer btn_red_right mt-3" [disabled]="!commentBox" (click)="submitComment(commentBox)">Submit</button>
-            <button class="btn btn-outer btn_red_right mt-3" (click)="cancelComment(commentBox)">Cancel</button>
-          </div>
+          <!--Support Section-->
+          <div class="row position-relative suportWrapper" *ngIf="order.showCustomerSupport">
+            <div class="supportMessages w-100">
+              <div class="float-left w-100 mb-3" *ngFor="let message of supportMessages">
+                <div [ngClass]="{'float-left ligherBack':message.from == 'Kala', 'float-right darkerBack':message.from == 'User'}">
+                  <img [src]="message.mainImage" class="mr-2 chatImage" /> {{message.message}}
+                </div>
+              </div>
+            </div>
 
-          <div class="col-sm-12 text-center" *ngIf="saveAndCloseSection">
-            <button (click)="saveAndClose(order)" class="btn btn-outer btn_red_right">Close</button>
+            <div class="supportOptions" *ngIf="showSupportOptions">
+              <span *ngIf="showBack" (click)="goBack(order)">back</span>
+              <span *ngFor="let option of supportOptions.data" (click)="loadOptions(supportOptions, option)">{{option}}</span>
+            </div>
+
+            <div *ngIf="OtherOption" class="col-sm-12 text-center">
+              <textarea class="form-control" [(ngModel)]="commentBox" rows="4" placeholder="please write your description here..."></textarea>
+              <button class="btn btn-outer btn_red_right mt-3" [disabled]="!commentBox" (click)="submitComment(commentBox)">Submit</button>
+              <button class="btn btn-outer btn_red_right mt-3" (click)="cancelComment(commentBox)">Cancel</button>
+            </div>
+
+            <div class="col-sm-12 text-center" *ngIf="saveAndCloseSection">
+              <button (click)="saveAndClose(order)" class="btn btn-outer btn_red_right">Close</button>
+            </div>
           </div>
+          <!--Support Section-->
+
+          <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-7">
+              <div class="row">
+                <p class="col-sm-3 colorlightGray">Order placed:</p>
+                <p class="col-sm-9">{{getPurchaseDate(modal.purchasedDate)}}</p>
+              </div>
+              <div class="row">
+                <p class="col-sm-3 colorlightGray">{{order.deliveryMethod}}:</p>
+                <p class="col-sm-9">{{order.shippingCost | currency}}</p>
+              </div>
+              <div class="row">
+                <p class="col-sm-3 colorlightGray">Tax:</p>
+                <p class="col-sm-9" *ngIf="order.productTaxCost != undefined;else otherContent">{{order.productTaxCost | currency}}</p>
+                <ng-template #otherContent>
+                  <p class="col-sm-9">$0</p>
+                </ng-template>
+              </div>
+              <div class="row">
+                <p class="col-sm-3 colorlightGray">Total:</p>
+                <p class="col-sm-9">
+                  <strong>{{getTotalCost(order.shippingCost, order.productPrice, order.productTaxCost) | currency}}</strong>
+                </p>
+              </div>
+              <div class="row">
+                <p class="col-sm-3 colorlightGray">Pay with:</p>
+                <p class="col-sm-9">
+                  <strong>{{modal.paymentSource}} {{modal.last4Digits}}</strong>
+                </p>
+              </div>
+              <div class="row">
+                <p class="col-sm-3 colorlightGray">Ship to:</p>
+                <p class="col-sm-9">
+                  <strong>{{modal.address.city}}, {{modal.address.state}}</strong>
+                </p>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <p>&nbsp;</p>
+              <div class="row">
+                <button class="btn btn-outer btn_redouter_right" [disabled]="order.cancelOrder" (click)="cancelOrder(modal, order)">cancel order</button>
+              </div>
+              <p>&nbsp;</p>
+              <div class="row">
+                <button class="btn btn-outer btn_red_right" [disabled]="order.trackOrder" (click)="trackOrder(modal, order)">where is it?</button>
+              </div>
+            </div>
+          </div>
+          <div class="row">&nbsp;</div>
         </div>
-        <!--Support Section-->
-
-        <div class="row">
-          <div class="col-sm-2"></div>
-          <div class="col-sm-7">
-            <div class="row">
-              <p class="col-sm-3 colorlightGray">Order placed:</p>
-              <p class="col-sm-9">{{getPurchaseDate(modal.purchasedDate)}}</p>
-            </div>
-            <div class="row">
-              <p class="col-sm-3 colorlightGray">{{order.deliveryMethod}}:</p>
-              <p class="col-sm-9">{{order.shippingCost | currency}}</p>
-            </div>
-            <div class="row">
-              <p class="col-sm-3 colorlightGray">Tax:</p>
-              <p class="col-sm-9" *ngIf="order.productTaxCost != undefined;else otherContent">{{order.productTaxCost | currency}}</p>
-              <ng-template #otherContent>
-                <p class="col-sm-9">$0</p>
-              </ng-template>
-            </div>
-            <div class="row">
-              <p class="col-sm-3 colorlightGray">Total:</p>
-              <p class="col-sm-9">
-                <strong>{{getTotalCost(order.shippingCost, order.productPrice, order.productTaxCost) | currency}}</strong>
-              </p>
-            </div>
-            <div class="row">
-              <p class="col-sm-3 colorlightGray">Pay with:</p>
-              <p class="col-sm-9">
-                <strong>{{modal.paymentSource}} {{modal.last4Digits}}</strong>
-              </p>
-            </div>
-            <div class="row">
-              <p class="col-sm-3 colorlightGray">Ship to:</p>
-              <p class="col-sm-9">
-                <strong>{{modal.address.city}}, {{modal.address.state}}</strong>
-              </p>
-            </div>
-          </div>
-          <div class="col-sm-3">
-            <p>&nbsp;</p>
-            <div class="row">
-              <button class="btn btn-outer btn_redouter_right" [disabled]="order.cancelOrder" (click)="cancelOrder(modal, order)">cancel order</button>
-            </div>
-            <p>&nbsp;</p>
-            <div class="row">
-              <button class="btn btn-outer btn_red_right" [disabled]="order.trackOrder" (click)="trackOrder(modal, order)">where is it?</button>
-            </div>
-          </div>
-        </div>
-        <div class="row">&nbsp;</div>
       </div>
     </div>
+    <!--Orders Available-->
+
+    <!--No Orders Available-->
+    <ng-template #noOrders>
+      <div class="myCart-list text-center mt-2">No orders available</div>
+    </ng-template>
+    <!--No Orders Available-->
 
   </div>
 </div>

@@ -20,6 +20,7 @@ export class MyordersComponent implements OnInit {
   cancelOrderModel = new CancelOrder();
   supportOptions = { level: 0, name: '', data: [] };
   showBack: boolean = false;
+  remainingTime: any;
   supportData = {
     "options": [{
       "name": "Order Issue",
@@ -93,6 +94,7 @@ export class MyordersComponent implements OnInit {
           this.myorderModal[i].orderItems[j].contactSupport = true;
           this.myorderModal[i].orderItems[j].trackOrder = true;
           this.myorderModal[i].orderItems[j].showCustomerSupport = false;
+          this.disableCancel(this.myorderModal[i], this.myorderModal[i].orderItems[j])
         }
       }
       else {
@@ -126,7 +128,7 @@ export class MyordersComponent implements OnInit {
             this.myorderModal[i].orderItems[j].productItemStatus = 'ORDER DELIVERED';
             this.myorderModal[i].orderItems[j].leaveReview = false;
             this.myorderModal[i].orderItems[j].cancelOrder = true;
-            this.myorderModal[i].orderItems[j].contactSupport = true;
+            this.myorderModal[i].orderItems[j].contactSupport = false;
             this.myorderModal[i].orderItems[j].trackOrder = true;
             this.myorderModal[i].orderItems[j].showCustomerSupport = false;
           }
@@ -358,6 +360,23 @@ export class MyordersComponent implements OnInit {
         console.log(err)
       })
     }
+  }
+
+  disableCancel(modal, order) {
+    modal.deadline = new Date(new Date(modal.purchasedDate).getTime() + 1 * 60 * 60 * 1000);
+    var deadline = new Date(modal.deadline).getTime();
+    var x = setInterval(function () {
+      var now = new Date().getTime();
+      var t = deadline - now;
+      var hours = Math.floor((t % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((t % (1000 * 60)) / 1000);
+      if (t < 0) {
+        clearInterval(x);
+        order.cancelOrder = true;
+      }
+      else modal.remainingTime = hours + "h " + minutes + "m " + seconds + "s ";
+    }, 1000);
   }
 
   trackOrder(modal, order) {

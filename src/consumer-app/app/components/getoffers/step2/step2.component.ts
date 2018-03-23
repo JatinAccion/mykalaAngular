@@ -52,17 +52,20 @@ export class Step2Component implements OnInit {
     for (var key in resMetaData) search(resMetaData[key].order, resMetaData);
     function search(nameKey, myObject) {
       for (var key in myObject) {
-        if (myObject[key].order === nameKey) {
-          order = myObject[key];
-          keyword = key;
-          pushData(order, keyword);
+        if (myObject[key].Page != "1") {
+          if (myObject[key].order === nameKey) {
+            order = myObject[key];
+            keyword = key;
+            pushData(order, keyword);
+          }
         }
       }
     }
     function pushData(order, keyword) {
       getObjectFromOrder.push({
         key: keyword,
-        order: order
+        order: order,
+        orderNo: order.order
       });
     }
     for (var i = 0; i < getObjectFromOrder.length; i++) {
@@ -71,6 +74,14 @@ export class Step2Component implements OnInit {
     for (var i = 0; i < getObjectFromOrder.length; i++) {
       if (getObjectFromOrder[i].values === undefined) getObjectFromOrder.splice(i, 1);
     }
+    getObjectFromOrder.sort(function (a, b) {
+      var nameA = a.orderNo, nameB = b.orderNo
+      if (nameA < nameB) //sort string ascending
+        return -1
+      if (nameA > nameB)
+        return 1
+      return 0 //default return value (no sorting)
+    });
     //Filter data from internal API response
     if (this.fromAPI) {
       for (var key in this.GetOfferStep_2PS.attributes) {
@@ -98,7 +109,7 @@ export class Step2Component implements OnInit {
     else {
       this.getObjectFromOrder = getObjectFromOrder;
       // this.getObjectFromOrder.splice(this.getObjectFromOrder.length - 1, 1)
-      this.getObjectFromOrder.splice(0, 1);
+      //this.getObjectFromOrder.splice(0, 1);
     }
   }
 

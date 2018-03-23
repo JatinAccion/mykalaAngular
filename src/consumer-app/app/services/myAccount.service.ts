@@ -92,4 +92,9 @@ export class MyAccountService {
         const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.alertNotification}`;
         return this.http.post(url, model).map((res) => res.json());
     }
+
+    closeAccount(model) {
+        const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.closeAccount}`;
+        return this.http.post(url, model).map((res) => res.json());
+    }
 }

@@ -48,6 +48,8 @@ export class InquiryAddComponent implements OnInit {
   inquiryResolvedOutcomes = InquiryResolvedOutcomes;
   inquiryResolutions = InquiryResolutions;
   inquiryPrioritys = InquiryPrioritys;
+  minDate: any;
+  maxDate: any;
   // #endregion declaration
   // tslint:disable-next-line:whitespace
   constructor(

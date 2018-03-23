@@ -40,8 +40,8 @@
                 <tr>
                     <td class="border-0">
                         <select class="ddl_default form-control" [(ngModel)]="product.productSubCategory" [disabled]="typesLoading">
-                            <option [ngValue]="metadata">metadata</option>
-                            <option [ngValue]="configuration">configuration</option>
+                            <option [ngValue]="'metadata'">metadata</option>
+                            <option [ngValue]="'configuration'">configuration</option>
                         </select>
                     </td>
                 </tr>

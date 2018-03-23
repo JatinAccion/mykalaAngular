@@ -61,6 +61,11 @@
                 <!--Response Message-->
                 <div *ngIf="signUpResponse.status" [ngClass]="userInfo.user_status == 'success' ? 'alert-success successMessage' : 'alert-danger errorMessages'" class="alert">
                     {{signUpResponse.message}}
+                    <span *ngIf="userInfo.user_status == 'inactive'">
+                        <a class="d-inline" (click)="verifyAccount()">
+                            <u>Click here</u>
+                        </a> to verify your account.
+                    </span>
                 </div>
 
                 <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="loader" />
