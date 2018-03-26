@@ -48,9 +48,24 @@ export class MyNewsAlertsComponent implements OnInit {
     })
   }
 
+  goToPage(offer, from) {
+    if (from == 'offer') {
+      this.myalerts.updateOffer(offer.offerID).subscribe((res) => {
+        this.route.navigateByUrl('/myoffer');
+      }, (err) => {
+        console.log(err)
+      })
+    }
+  }
+
   loopNumber(number, from) {
     if (from == 'offers') return Array(number).fill(number)
     else return Array(parseFloat(number)).fill(parseFloat(number))
+  }
+
+  getFullDate(date) {
+    let objDate = new Date(date), locale = "en-us", month = objDate.toLocaleString(locale, { month: "long" });
+    return objDate.toLocaleString(locale, { month: "short" }) + ' ' + objDate.getDate() + ', ' + this.formatAMPM(objDate);
   }
 
   formatAMPM(date) {

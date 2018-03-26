@@ -1,0 +1,390 @@
+/*  
+@media only screen 
+and (min-device-width: 320px) 
+and (max-device-width: 480px) {
+    body {
+        background-color: olive;
+      }
+    .hdr_footer{
+        display: none;
+    }
+} */
+@media only screen 
+and (min-width: 320px) { 
+    .banner_action{
+        width: 280px !important;
+    }
+    .banner_content{
+        padding: 50px 0px 0px !important;
+    }
+    
+}
+@media only screen 
+and (min-width: 320px) 
+and (max-width: 640px) { 
+    body{
+        height:auto;
+        font-size:12px;
+        /* background-color: #23130f !important; */
+    }
+    .hdr_footer, .hdr_menuTop, #homeWorks, #homeRequest, #homeCreate, #homeBuy, #homeFAQ, #homequestions, .sub_Menu,
+    .mob-social, .web-header, .web-category, .web-footer, .web-title, .web-desription, .myCart-btn_web{
+        display: none;
+    }
+    .mob-header, .mob-footer, .mob-title, .mob-producttabs, .myCart-btn_mob{
+        display:block;
+    }
+    .title h2{
+        font-size: 18px;
+        margin: 0px;
+    } 
+    .banner_content{
+        margin: 0px;
+        padding: 50px;
+        background: #23130f;
+    }
+    .banner_content h1{
+        display: none;
+    }  
+    .banner_content h4{
+        padding: 30px 20px 0px 20px;
+        font-size:14px;
+    }
+    .bcpointer{
+        font-size: 10px;
+        padding-left: 10px;
+    }
+    #homegarden{
+        padding-top:30px;
+    }
+    #homegarden .container {
+        padding:0px !important;
+    }
+    #homegarden .btn_more_gray{
+        display: none;
+    }
+    .header{
+        border-top:none;
+    }
+    .header.bgimage{
+        background-color: #23130f !important;
+        background: transparent !important;  
+    }
+    .header.bgimage::before{
+        opacity: 1 !important;
+        background: transparent;
+    }
+    .banner_title h1, .banner_title h4{
+        display: none;
+    }
+    #homeBuy, #homequestions, #homegarden{
+        background: #23130f;
+    }
+    /* .card-columns .card{  
+        display: inline-block; 
+    }  */
+    .banner_title img{
+        height:auto;
+    } 
+    .card-columns{
+        -webkit-column-count: 3;
+        column-count: 3;
+        -webkit-column-gap: 0.1rem;
+        column-gap: 0.1rem;
+    }
+    @media screen and (-webkit-min-device-pixel-ratio:0)
+    { 
+        .card{
+            display:inline;
+        }
+    } 
+    .banner_action{
+        width: 300px;
+    }
+    .banner_action input{
+        font-size: 11px;
+    }
+    .banner_action .btn-red{
+        padding: 9px 12px;
+        font-size: 11px;
+    } 
+    .imageOverlayText{
+        font-size: 8px;
+        padding: 5px 7px;
+        bottom: 4px;
+        font-weight: normal;
+    } 
+    .overlay{
+        height:auto !important;
+    }
+    .btn_more_gray{
+        padding: 6px 15px;
+        font-size: 11px;
+    }
+    .overlay .explore img {
+        width: 32px;
+    }
+    .explore {  
+        top:20%;
+        font-weight:normal;
+        font-size: 9px; 
+    }  
+    .explore p {
+        padding: 0px !important;
+    }
+    .browseProduct .example {
+        display: inline-block; 
+    }
+    .browseProduct .example.col-6{
+        padding: 3px;
+        margin-bottom:0px !important;
+    }
+    .prodImageContainer_xl{
+        height: 200px;
+    }
+    .hover_panel{
+        top: 20px;
+    }
+    .hover_panel h5{
+        font-size: 11px;
+    }
+    .hover_panel span{
+        font-size: 12px;
+    }
+    .btn-outer{
+        font-size:12px;
+    }
+    .header_Scroll{
+        background: transparent;
+    }
+    .mob-header{
+        background:rgba(255, 255, 255, 0.5);
+        padding:5px 10px;
+        position: fixed;
+        z-index: 9999;
+        width: 100%;
+    }
+    .mob-header img{
+        width: 32px;
+    }
+    footer{
+        border-bottom: none;
+        background: #23130f;
+        position: fixed;
+        bottom: 0px;
+        width: 100%;
+        padding: 0px !important;
+        z-index: 9999;
+    }
+    footer .mob-footer ul li{
+        list-style-type: none; 
+        display: inline-block;
+        padding:5px; 
+        width:19%;
+        text-align: center;
+        font-size:25px;
+        border-right: solid 1px #ccc;
+    }
+    footer .mob-footer ul li:last-child{
+        border-right:none;
+    }
+    footer .mob-footer ul{
+         margin: 0px;
+         padding:0px;
+         width: 100%;
+    }
+    footer .mob-footer ul li i{
+        color: #fff;
+    }
+    footer.py-4.bg-dark{
+        padding-top:0px !important;
+        padding-bottom: 0px !important;
+    }
+    .contentHeight{
+        height:40px;
+        width: 100%;
+    }
+    .productDtl-right h4.web-title{
+        display: none;
+    }
+    .productDtl-right .text_multiple{
+        text-align: right;
+        position: relative;
+        top: -20px;
+    }
+    .title.mob-title h2{
+        padding: 10px 10px 0px;
+        line-height: 25px;
+    } 
+    .mob-producttabs{
+        border-top:solid 1px #ccc;
+        padding-bottom: 5px;
+    }
+    .mob-producttabs .nav-tabs{ 
+        border-bottom: none; 
+        margin:0px auto;
+        text-align:center;
+        background: #fff;
+    }
+    .mob-producttabs .nav-tabs li{
+        width: 33%; 
+    } 
+    .mob-producttabs .tab-pane{
+        background: #f3f3f4;
+    }
+    .mob-producttabs .nav-tabs li.nav-item a{
+        border-right: solid 1px #ccc;
+    }
+    .mob-producttabs .nav-tabs li.nav-item a:last-child{
+        border-right:none;
+    }
+    .mob-producttabs .nav-tabs .nav-link{
+        padding: 6px 10px 10px !important;
+    }
+    .mob-producttabs .nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover{
+        border:none;
+        border-color: none;
+        padding: 7px 10px 10px !important;
+    }
+    .mob-producttabs .nav-tabs .nav-link.active{
+        padding: 5px 10px 10px !important;
+        border-color: none;
+        border:none;
+        background: url("/consumer-app/assets/images/bottom-arrow.png") no-repeat bottom center;
+        position: relative;
+        bottom:-2px;
+    } 
+    .customSlider{
+        height:300px;
+    }
+    .myCart-price p{
+        text-align:right;
+    } 
+    .myCart-btn_mob div{
+        text-align:right !important;
+        padding: 0px;
+    }
+    .myCart-btn_mob a.btn_redouter_right{
+        border: none;
+        text-align: right;
+        color:#e06263 ;
+    }
+    .productsHome .card-img-top{
+        border-radius: 0px;
+    }
+}
+@media only screen 
+and (min-width: 640px) 
+and (max-width: 768px) { 
+    body{
+        height:auto;
+        font-size:12px;
+        /* background-color: #23130f !important; */
+    }
+    .hdr_footer, .hdr_menuTop, #homeWorks, #homeRequest, #homeCreate, #homeBuy, #homeFAQ, #homequestions, .sub_Menu,
+    .mob-social{
+        display: none;
+    }
+    .title h2{
+        font-size: 20px;
+        margin: 0px;
+    }
+    footer{
+        display: none;
+    }
+    .banner_content{
+        margin: 0px;
+        padding: 50px;
+        background: #23130f;
+    }
+    .banner_content h1{
+        display: none;
+    }  
+    .banner_content h4{
+        padding: 30px 0px;
+    }
+    .header.bgimage{
+        background-color: #23130f !important;
+        background: transparent !important;  
+    }
+    .header.bgimage::before{
+        opacity: 1 !important;
+        background: transparent;
+    }
+    .banner_title h1, .banner_title h4{
+        display: none;
+    }
+    #homeBuy, #homequestions, #homegarden{
+        background: #23130f;
+    }
+    /* .card-columns .card{  
+        display: inline-block; 
+    }  */
+    .banner_title img{
+        height:auto;
+    }
+    .imageOverlayText{
+        bottom: 4px;
+    }
+    .card-columns{
+        -webkit-column-count: 3;
+        column-count: 3;
+        -webkit-column-gap: 0.75rem;
+        column-gap: 0.75rem;
+    }
+    .banner_action{
+        width: 300px;
+    }
+    .banner_action input{
+        font-size: 11px;
+    }
+    .banner_action .btn-red{
+        padding: 9px 12px;
+        font-size: 11px;
+    } 
+    .imageOverlayText{
+        font-size: 10px;
+        padding: 5px 7px;
+    } 
+    .overlay{
+        height:auto !important;
+    }
+    .btn_more_gray{
+        padding: 6px 15px;
+        font-size: 11px;
+    }
+    .overlay .explore img {
+        width: 32px;
+    }
+    .explore {
+        top: 8px;
+        font-size: 12px;
+    }  
+    .explore p {
+        padding: 0px !important;
+    }  
+    .browseProduct .example {
+        display: inline-block; 
+    }
+    .prodImageContainer_xl{
+        height: 200px;
+    }
+    .hover_panel{
+        top: 20px;
+    }
+    .hover_panel h5{
+        font-size: 11px;
+    }
+    .hover_panel span{
+        font-size: 12px;
+    }
+    .btn-outer{
+        font-size:12px;
+    }
+}
+@media only screen 
+and (min-width: 1024px) { 
+    .banner_action{
+        width: 400px !important;
+    }
+}

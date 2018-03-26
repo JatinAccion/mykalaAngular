@@ -930,6 +930,11 @@ ul.prd_Soc_icon li{
     background:#fff;
     padding:20px 20px;
 }
+.myCart-list-nobg{
+    margin-bottom: 20px;
+    padding: 20px 20px;
+    border: 1px solid #dedede;
+}
 .myaccount{  
 }
 .myaccount_row .clearfix{
@@ -1816,7 +1821,7 @@ input::-webkit-inner-spin-button {
      padding-bottom:20px;
  }
  .banner_action{ 
-     width:400px;
+    width:400px !important;
      margin:0px auto;
      border-radius:30px;
      position:relative;
@@ -1861,6 +1866,7 @@ input::-webkit-inner-spin-button {
      text-align:center;
      color:#fff;
      margin:10px 0px;
+     font-size: 14px;
  }
  .banner_title h1{
      color:#e06263;
@@ -2098,9 +2104,9 @@ input::-webkit-inner-spin-button {
    ul.hdr_menuTop li:nth-child(1){
        width: auto;
    }
-   .banner_action{
+   /* .banner_action{
        width:300px;
-   }
+   } */
    .hdr_footer li img{
        width:16px;
    }
@@ -2876,6 +2882,19 @@ label{display:block}
 .darkerBack .chatImage {
     right: -65px;
     top: -1px;
+}
+.mob-social, .web-header, .web-footer, .web-title, .web-desription, .myCart-btn_web {
+    display: block;
+}
+.mob-header, .mob-footer, .mob-title, .mob-producttabs, .myCart-btn_mob {
+    display: none;	  
+}
+.contentHeight{
+    height:120px;					   
+    width:100%;
+}
+.productDtl-right .text_multiple {                                                                 
+    text-align: left;
 }
 .switch label input[type=checkbox] {
     opacity: 0;

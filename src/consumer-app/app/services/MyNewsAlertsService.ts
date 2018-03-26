@@ -18,4 +18,9 @@ export class MyAlertsService {
         const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.userReviewList}/${emailId}`;
         return this.http.get(url).map((res) => res.json())
     }
+
+    updateOffer(offerId) {
+        const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.updateOffer}/${offerId}`;
+        return this.http.get(url).map((res) => res.json())
+    }
 }

@@ -1,23 +1,23 @@
 <div class="container">
-  <div style="height:120px;width:100%;"></div>
+  <div class="contentHeight"></div>
   <!--Title-->
-  <div class="title">
+  <div class="title web-title">
     <h2>{{selectedProduct.product.productName}} |
       <span class="btnClose" routerLink="/browse-product" style="cursor: pointer">X</span>
     </h2>
   </div>
   <!--Title-->
 
-  <div class="row">&nbsp;</div>
+  <div class="row web-title">&nbsp;</div>
 
   <!--Social Media and Retailer-->
-  <div>
+  <div class="web-title">
     <!-- <img src="/consumer-app/assets/images/prod-thumb.png" /> -->
     <u style="cursor:pointer" (click)="animateToTiles()">{{selectedProduct.retailerName}}</u>
   </div>
   <!--Social Media and Retailer-->
 
-  <div class="row">&nbsp;</div>
+  <div class="row web-title">&nbsp;</div>
 
   <div class="row">
     <!--Left Images Carosel-->
@@ -31,17 +31,33 @@
             </ng-template>
           </ngb-carousel>
         </div>
+        <!-- mobile screen -->
+        <div class="title backgroundWhite row mob-title">
+          <div class="col-12 p-0">
+            <h2>{{selectedProduct.product.productName}} |
+              <span class="btnClose" routerLink="/browse-product" style="cursor: pointer">X</span>
+            </h2>
+          </div>
+        </div>
+        <!-- mobile screen -->
       </div>
     </div>
     <!--Left Images Carosel-->
 
     <!--Right Details-->
-    <div class="col-sm-6 productDtl-right">
-      <h4 class="pl-2">
-        {{selectedProduct.product.kalaPrice | currency}}
-        <span style="text-decoration: line-through; font-size: 16px; margin-left: 20px;">{{selectedProduct.product.retailPrice | currency}}</span>
-      </h4>
-
+    <div class="col-sm-6 col-12 productDtl-right">
+      <div class="row mob-title">
+        <div class="col-12 p-0 pl-2">
+          <!-- <img src="/consumer-app/assets/images/prod-thumb.png" /> -->
+          <u style="cursor:pointer" (click)="animateToTiles()">{{selectedProduct.retailerName}}</u>
+        </div>
+      </div>
+      <div class="row">
+        <h4 class="pl-2 col-12 text_multiple">
+          {{selectedProduct.product.kalaPrice | currency}}
+          <span style="text-decoration: line-through; font-size: 16px; margin-left: 20px;">{{selectedProduct.product.retailPrice | currency}}</span>
+        </h4>
+      </div>
       <!-- <strike>$258.00 +</strike> -->
       <div class="row">
         <div *ngIf="!alreadyAddedInCart" class="col-sm-12 pl-4 pt-3 mb-4">
@@ -78,78 +94,142 @@
     </div>
     <!--Right Details-->
   </div>
-
-  <div class="row">&nbsp;</div>
-
-  <!--Description-->
-  <div class="row">
-    <h4 class="subtitle">Description</h4>
-    <br />
-    <p class="w-100">{{selectedProduct.product.productDescription}}</p>
-  </div>
-  <!--Description-->
-
-  <!--Brand Details-->
-  <div class="row">
-    <h4 class="subtitle">details</h4>
-    <div class="col-sm-12 p-0">
-      <table width="100%">
-        <tr>
-          <td width="40%">Brand:</td>
-          <td width="60%" class="colorred">{{selectedProduct.product.brandName}}</td>
-        </tr>
-      </table>
-    </div>
-  </div>
-  <!--Brand Details-->
-
-  <!--Reviews-->
-  <div class="row mt-5">
-    <h4 class="subtitle">reviews {{productReviews.length}}</h4>
-    <table class="reviewlayout table" *ngIf="productReviews.length > 0;else noReviews">
-      <tr *ngFor="let reviews of productReviews">
-        <td class="p-0">
-          <div class="star-rating">
-            <span *ngFor="let rating of getRating(reviews.rating)">
-              <i class="fa fa-star starIcon" aria-hidden="true"></i>
-            </span>
+  <!-- mobile Desription -->
+  <div class="row mob-producttabs backgroundWhite">
+    <ngb-tabset>
+      <ngb-tab>
+        <ng-template ngbTabTitle>description</ng-template>
+        <ng-template ngbTabContent>
+          <div class="row p-4">
+            <h4 class="subtitle">details</h4>
+            <div class="col-sm-12 p-0">
+              <table width="100%">
+                <tr>
+                  <td width="40%">Brand:</td>
+                  <td width="60%" class="colorred">{{selectedProduct.product.brandName}}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab>
+        <ng-template ngbTabTitle>
+          <span class="float-left">|</span>reviews
+          <span class="float-right">|</span>
+        </ng-template>
+        <ng-template ngbTabContent>
+          <div class="row p-4">
+            <h4 class="subtitle">reviews {{productReviews.length}}</h4>
+            <table class="reviewlayout table">
+              <tr *ngFor="let reviews of productReviews">
+                <td class="p-0">
+                  <div class="star-rating">
+                    <strong>{{reviews.reviewDescription}}</strong>
+                    <span *ngFor="let rating of getRating(reviews.rating)">
+                      <i class="fa fa-star starIcon" aria-hidden="true"></i>
+                    </span>
+                  </div>
+                  <div class="star-rating mt-3 mb-2" *ngIf="reviews.reviewImages">
+                    <span class="readReviewImage">
+                      <img [src]="reviews.reviewImages" />
+                    </span>
+                  </div>
+                  <div class="colorlightGray">by
+                    <u>{{reviews.firstName}} {{reviews.lastName}}</u>
+                  </div>
+                  <hr />
+                </td>
+              </tr>
+            </table>
+          </div>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab>
+        <ng-template ngbTabTitle>fit your room?</ng-template>
+        <ng-template ngbTabContent>
+          <div class="row p-4 returnPolicy">
+            <h4 class="subtitle">Returns and exchange policy</h4>
             <br />
-            <strong>{{reviews.reviewDescription}}</strong>
+            <p class="w-100">{{selectedProduct.retailerReturns}}</p>
           </div>
-          <div class="star-rating mt-3 mb-2" *ngIf="reviews.reviewImages">
-            <span class="readReviewImage">
-              <img [src]="reviews.reviewImages" />
-            </span>
-          </div>
-          <div class="colorlightGray">by
-            <u>{{reviews.firstName}} {{reviews.lastName}}</u>
-          </div>
-          <hr />
-        </td>
-      </tr>
-      <!-- <tr>
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
+  </div>
+
+  <!-- mobile Desription -->
+  <div class="web-desription">
+    <!--Description-->
+    <div class="row">
+      <h4 class="subtitle mt-4">Description</h4>
+      <br />
+      <p class="w-100">{{selectedProduct.product.productDescription}}</p>
+    </div>
+    <!--Description-->
+
+    <!--Brand Details-->
+    <div class="row">
+      <h4 class="subtitle mt-4">details</h4>
+      <div class="col-sm-12 p-0">
+        <table width="100%">
+          <tr>
+            <td width="40%">Brand:</td>
+            <td width="60%" class="colorred">{{selectedProduct.product.brandName}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <!--Brand Details-->
+
+    <!--Reviews-->
+    <div class="row">
+      <h4 class="subtitle mt-4">reviews {{productReviews.length}}</h4>
+      <table class="reviewlayout table" *ngIf="productReviews.length > 0;else noReviews">
+        <tr *ngFor="let reviews of productReviews">
+          <td class="p-0">
+            <div class="star-rating">
+              <strong>{{reviews.reviewDescription}}</strong>
+              <span *ngFor="let rating of getRating(reviews.rating)">
+                <i class="fa fa-star starIcon" aria-hidden="true"></i>
+              </span>
+
+            </div>
+            <div class="star-rating mt-3 mb-2" *ngIf="reviews.reviewImages">
+              <span class="readReviewImage">
+                <img [src]="reviews.reviewImages" />
+              </span>
+            </div>
+            <div class="colorlightGray">by
+              <u>{{reviews.firstName}} {{reviews.lastName}}</u>
+            </div>
+            <hr />
+          </td>
+        </tr>
+        <!-- <tr>
         <td class="p-0 text-right">
           <a href="#" class="colorred">
             <small>show more</small>
           </a>
         </td>
       </tr> -->
-    </table>
-    <ng-template #noReviews>
-      <div class="row w-100">
-        <div class="col-sm-12">No reviews available for this product.</div>
-      </div>
-    </ng-template>
-  </div>
-  <!--Reviews-->
+      </table>
+      <ng-template #noReviews>
+        <div class="row w-100">
+          <div class="col-sm-12">No reviews available for this product.</div>
+        </div>
+      </ng-template>
+    </div>
+    <!--Reviews-->
 
-  <div class="row">&nbsp;</div>
+    <div class="row">&nbsp;</div>
 
-  <!--Return Policy-->
-  <div class="row returnPolicy">
-    <h4 class="subtitle">Returns and exchange policy</h4>
-    <br />
-    <p class="w-100">{{selectedProduct.retailerReturns}}</p>
+    <!--Return Policy-->
+    <div class="row returnPolicy">
+      <h4 class="subtitle">Returns and exchange policy</h4>
+      <br />
+      <p class="w-100">{{selectedProduct.retailerReturns}}</p>
+    </div>
+    <!--Return Policy-->
   </div>
-  <!--Return Policy-->
 </div>

@@ -12,23 +12,21 @@
     </li>
   </ul> -->
   <div class="container">
-    <div class="row">
-      <div class="card-columns">
-        <!--Product-->
-        <div class="card productsHome imgHover" *ngFor="let tile of tilesData" [id]="tile.id" (click)="getSelectedTile(tile)">
-          <img src="{{tile.imgUrl}}" class="img-fluid card-img-top" />
-          <span class="imageOverlayText">{{tile.text}}</span>
-          <!--Overlay-->
-          <div class="overlay ml-3 text-center">
-            <div class="explore col-sm-12 p-0">
-              <img src="/consumer-app/assets/images/icon_explore.png" />
-              <p class="pt-3">Explore</p>
-            </div>
+    <div class="card-columns">
+      <!--Product-->
+      <div class="card productsHome imgHover" *ngFor="let tile of tilesData" [id]="tile.id" (click)="getSelectedTile(tile)">
+        <img src="{{tile.imgUrl}}" class="img-fluid card-img-top" />
+        <span class="imageOverlayText">{{tile.text}}</span>
+        <!--Overlay-->
+        <div class="overlay ml-3 text-center">
+          <div class="explore col-sm-12 p-0">
+            <img src="/consumer-app/assets/images/icon_explore.png" />
+            <p class="pt-3">Explore</p>
           </div>
-          <!--Overlay-->
         </div>
-        <!--Product-->
+        <!--Overlay-->
       </div>
+      <!--Product-->
     </div>
   </div>
 
