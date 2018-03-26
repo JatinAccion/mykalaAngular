@@ -48,12 +48,9 @@ export class MyNewsAlertsComponent implements OnInit {
     })
   }
 
-  getImages(image) {
-    return Array(image).fill(image)
-  }
-
-  getRating(rate) {
-    return Array(parseFloat(rate)).fill(parseFloat(rate))
+  loopNumber(number, from) {
+    if (from == 'offers') return Array(number).fill(number)
+    else return Array(parseFloat(number)).fill(parseFloat(number))
   }
 
   formatAMPM(date) {

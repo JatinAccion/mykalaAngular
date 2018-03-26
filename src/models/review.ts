@@ -13,4 +13,5 @@ export class ReviewModel {
     public reviewImages: string;
     public orderId: string;
     public orderDate: Date;
+    public productImage: string;
 }
