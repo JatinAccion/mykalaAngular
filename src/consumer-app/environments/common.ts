@@ -39,7 +39,8 @@ export const apiNames = {
         getTypes: 'types'
     },
     getOffers: {
-        confirmOffer: 'getOffersRequest'
+        confirmOffer: 'getOffersRequest',
+        partial: 'partial'
     },
     geoCode: {
         key: '&key=AIzaSyDPSk91ksjR47kqdFbElVwL7eM8FgIZEHw'
