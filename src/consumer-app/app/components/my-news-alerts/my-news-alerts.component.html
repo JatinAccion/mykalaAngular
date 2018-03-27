@@ -6,7 +6,7 @@
   <div *ngIf="offers != undefined || reviews != undefined; else noOffer">
     <!--Offer Blocks-->
     <ng-container *ngFor="let offer of offers">
-      <div [ngClass]="{'myCart-list':!offer.unRead, 'myCart-list-nobg':offer.unRead}" *ngIf="offer.getOffersResponse.length > 0" (click)="goToPage(offer, 'offer')">
+      <div [ngClass]="{'myCart-list':offer.unRead, 'myCart-list-nobg':!offer.unRead}" *ngIf="offer.getOffersResponse.length > 0" (click)="goToPage(offer, 'offer')">
         <div class="mb-3">Get Offers for
           <strong>{{offer.getOffersRequestDTO.placeName}} - {{offer.getOffersRequestDTO.categoryName}} - {{offer.getOffersRequestDTO.subCategoryName}}</strong> is complete! You received
           <strong>{{offer.getOffersResponse.length}}</strong> offers!

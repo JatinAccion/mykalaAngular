@@ -2952,4 +2952,8 @@ label{display:block}
 .offerStatus.active{
     color: #1ba71b;
 }
-                    
+.productWrap{
+    word-break: break-all;
+    width: 100%;
+    display: inline-block;
+}
