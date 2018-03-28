@@ -40,7 +40,7 @@
     {
       "name": "consumer",
       "root": "src",
-      "outDir": "dist/consumer-app",
+      "outDir": "myKalaMobile/www",
       "assets": [
         "consumer-app/assets",
         "favicon.ico",

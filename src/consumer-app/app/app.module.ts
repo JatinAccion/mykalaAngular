@@ -70,6 +70,8 @@ import { LeaveReviewComponent } from './components/leave-review/leave-review.com
 import { MyReviewService } from './services/review.service';
 import { ViewProductService } from './services/viewProduct.service';
 import { TrackOrderComponent } from './components/track-order/track-order.component';
+import { MyNewsAlertsComponent } from './components/my-news-alerts/my-news-alerts.component';
+import { MyAlertsService } from './services/MyNewsAlertsService';
 
 @NgModule({
   declarations: [
@@ -107,7 +109,8 @@ import { TrackOrderComponent } from './components/track-order/track-order.compon
     MyaccountComponent,
     MyoffersComponent,
     LeaveReviewComponent,
-    TrackOrderComponent
+    TrackOrderComponent,
+    MyNewsAlertsComponent
   ],
   imports: [
     BrowserModule,
@@ -122,7 +125,7 @@ import { TrackOrderComponent } from './components/track-order/track-order.compon
     SidebarModule.forRoot()
   ],
   providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, ConversationalService, JoinKalaService, MyAccountService, MyOrdersService, MyReviewService, ViewProductService, MyOffersService,
-    ProfileInfoService, VerificationService, LocalStorageService, ConsumerInterestService, ResetPasswordService, ForgotPasswordService, GetOfferService, CheckoutService,
+    ProfileInfoService, MyAlertsService, VerificationService, LocalStorageService, ConsumerInterestService, ResetPasswordService, ForgotPasswordService, GetOfferService, CheckoutService,
     { provide: NgbDateParserFormatter, useClass: NgbDateFRParserFormatter }],
   bootstrap: [AppComponent],
   entryComponents: [cmsgComponent, HomeComponent, cListComponent, JoinKalaComponent, LoginComponent]

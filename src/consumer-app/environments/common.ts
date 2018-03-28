@@ -27,7 +27,10 @@ export const apiNames = {
         getProductReviews: 'productReview',
         emailNotification: 'emailNotification',
         alertNotification: 'alertNotification',
-        closeAccount: 'closeAccount'
+        closeAccount: 'closeAccount',
+        consumerOffer: 'consumerOffer',
+        userReviewList: 'userReviewList',
+        updateOffer: 'updateOffer'
     },
     products: {
         getPlaces: 'places',
@@ -36,7 +39,8 @@ export const apiNames = {
         getTypes: 'types'
     },
     getOffers: {
-        confirmOffer: 'getOffersRequest'
+        confirmOffer: 'getOffersRequest',
+        partial: 'partial'
     },
     geoCode: {
         key: '&key=AIzaSyDPSk91ksjR47kqdFbElVwL7eM8FgIZEHw'
@@ -49,7 +53,8 @@ export const apiNames = {
         deleteCard: 'deleteCard',
         productQuantity: 'productQuantity',
         cancelOrder: 'cancelOrder',
-        trackOrderShipment: 'trackOrderShipment'
+        trackOrderShipment: 'trackOrderShipment',
+        support: 'support/saveSupportRequest'
     },
     shippingMethod: {
         method: 'retailer/v1',

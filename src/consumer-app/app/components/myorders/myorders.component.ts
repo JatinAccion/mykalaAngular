@@ -5,6 +5,7 @@ import { MyOrders, OrderItems } from '../../../../models/myOrder';
 import { Router } from '@angular/router'
 import { ReviewModel } from '../../../../models/review';
 import { CancelOrder } from '../../../../models/cancelOrder';
+import { ConsumerSupportModal, ConsumerSupportConversations } from '../../../../models/support';
 
 @Component({
   selector: 'app-myorders',
@@ -21,6 +22,7 @@ export class MyordersComponent implements OnInit {
   supportOptions = { level: 0, name: '', data: [] };
   showBack: boolean = false;
   remainingTime: any;
+  consumerSupport: any;
   supportData = {
     "options": [{
       "name": "Order Issue",
@@ -137,14 +139,24 @@ export class MyordersComponent implements OnInit {
     }
   }
 
-  showSupportPanel(order) {
+  showSupportPanel(modal, order) {
     order.showCustomerSupport = !order.showCustomerSupport;
     if (order.showCustomerSupport) {
+      this.consumerSupport = new ConsumerSupportModal();
+      this.consumerSupport.customerEmail = this.userData.emailId;
+      this.consumerSupport.customerId = modal.customerId;
+      this.consumerSupport.customerName = modal.customerName;
+      this.consumerSupport.orderId = modal.orderId;
+      this.consumerSupport.orderDate = new Date(modal.purchasedDate);
+      this.consumerSupport.productName = order.productName;
+      this.consumerSupport.productCost = order.totalProductPrice;
+      this.consumerSupport.message = new Array<ConsumerSupportConversations>();
       this.supportMessages.push({
         mainImage: '/consumer-app/assets/images/logo.png',
         from: 'Kala',
         message: 'Hi ' + this.userData.firstName + ', what can i help you with today ?'
-      })
+      });
+      this.consumerSupport.message.push(new ConsumerSupportConversations("Kala", `Hi ${this.userData.firstName}, what can i help you with today ?`, "User", ""))
       for (var i = 0; i < this.supportData.options.length; i++) {
         this.supportOptions.level = 1;
         this.supportOptions.data.push(this.supportData.options[i].name);
@@ -172,6 +184,7 @@ export class MyordersComponent implements OnInit {
       else if (this.supportOptions.level > 2 && name == 'Yes') {
         this.OtherOption = true;
         this.showSupportOptions = false;
+        this.consumerSupport.message.push(new ConsumerSupportConversations("Kala", "", "User", name))
       }
       else if (this.supportOptions.level > 2 && name == 'No') {
         setTimeout(() => {
@@ -180,8 +193,9 @@ export class MyordersComponent implements OnInit {
             from: 'Kala',
             message: 'Thanks for the info. We will contact you shortly via email with more details.'
           });
+          this.consumerSupport.message.push(new ConsumerSupportConversations("Kala", "Thanks for the info. We will contact you shortly via email with more details.", "User", name))
           this.saveAndCloseSection = true;
-        }, 2000)
+        }, 1500)
         this.supportOptions.data = [];
         this.showBack = false;
       }
@@ -206,8 +220,9 @@ export class MyordersComponent implements OnInit {
             mainImage: '/consumer-app/assets/images/logo.png',
             from: 'Kala',
             message: 'Can you give me a little more info so i can better help you ?'
-          })
-        }, 2000)
+          });
+          this.consumerSupport.message.push(new ConsumerSupportConversations("Kala", "Can you give me a little more info so i can better help you ?", "User", name))
+        }, 1500)
       }
       else if (this.questionCounter == 2) {
         setTimeout(() => {
@@ -215,8 +230,9 @@ export class MyordersComponent implements OnInit {
             mainImage: '/consumer-app/assets/images/logo.png',
             from: 'Kala',
             message: 'I\'ll look into this for you right away, Is there any other information that you want me to know ?'
-          })
-        }, 2000)
+          });
+          this.consumerSupport.message.push(new ConsumerSupportConversations("Kala", "I\'ll look into this for you right away, Is there any other information that you want me to know ?", "User", name))
+        }, 1500)
       }
       //Auto Generated Data from Kala System
     }
@@ -240,8 +256,9 @@ export class MyordersComponent implements OnInit {
         from: 'Kala',
         message: 'Thanks for the info. We will contact you shortly via email with more details.'
       });
+      this.consumerSupport.message.push(new ConsumerSupportConversations("Kala", "Thanks for the info. We will contact you shortly via email with more details.", "User", commentBox))
       this.saveAndCloseSection = true;
-    }, 2000);
+    }, 1500);
     this.supportOptions.data = [];
     this.showBack = false;
   }
@@ -253,16 +270,22 @@ export class MyordersComponent implements OnInit {
   }
 
   saveAndClose(order) {
-    this.supportOptions = { level: 0, name: '', data: [] };
-    this.showBack = false;
-    this.questionCounter = 0;
-    this.supportMessages = [];
-    this.OtherOption = false;
-    this.commentBox = '';
-    this.saveAndCloseSection = false;
-    this.showBack = false;
-    this.showSupportOptions = true;
-    order.showCustomerSupport = false;
+    console.log(this.consumerSupport);
+    this.myOrder.support(this.consumerSupport).subscribe((res) => {
+      alert("Thank you for contacting Kala");
+      this.supportOptions = { level: 0, name: '', data: [] };
+      this.showBack = false;
+      this.questionCounter = 0;
+      this.supportMessages = [];
+      this.OtherOption = false;
+      this.commentBox = '';
+      this.saveAndCloseSection = false;
+      this.showBack = false;
+      this.showSupportOptions = true;
+      order.showCustomerSupport = false;
+    }, (err) => {
+      console.log('Something went wrong')
+    })
   }
 
   goBack(order) {

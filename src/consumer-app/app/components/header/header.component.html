@@ -1,6 +1,6 @@
 <header *ngIf="getHeader == 'header1'">
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top header_Scroll">
-    <div class="container">
+    <div class="container web-header">
       <div class="row">
         <div class="col-sm-1 col-12 pt-3">
           <ul class="list-unstyled m-0">
@@ -80,7 +80,7 @@
                       <span>My Offers</span>
                     </div>
 
-                    <div class="dropdown-item" routerLink="/news-alerts">
+                    <div class="dropdown-item" routerLink="/myalerts">
                       <i class="fa fa-bell-o" aria-hidden="true"></i>
                       <span>News & Alerts</span>
                     </div>
@@ -109,11 +109,22 @@
       </div>
     </div>
   </nav>
+  <div class="mob-header">
+    <div class="row">
+      <div class="col-6">
+        Home & Garden
+      </div>
+      <div class="col-6 text-right">
+        category
+        <img src="/consumer-app/assets/images/category.png">
+      </div>
+    </div>
+  </div>
 </header>
 
 <header *ngIf="getHeader == 'header2'">
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top header_sub">
-    <div class="container">
+    <div class="container web-header">
       <div class="row">
         <div class="col-sm-1 pt-3">
           <ul class="list-unstyled d-none m-0 logo">
@@ -123,7 +134,7 @@
               </a>
             </li>
           </ul>
-          <ul class="list-unstyled">
+          <ul class="list-unstyled mob-social">
             <li class="list-unstyled d-inline pr-2">
               <a href="https://www.facebook.com/KalaMarketplace" target="_blank">
                 <img src="/consumer-app/assets/images/face.png" />
@@ -214,7 +225,7 @@
                       <span>My Offers</span>
                     </div>
 
-                    <div class="dropdown-item" routerLink="/news-alerts">
+                    <div class="dropdown-item" routerLink="/myalerts">
                       <i class="fa fa-bell-o" aria-hidden="true"></i>
                       <span>News & Alerts</span>
                     </div>

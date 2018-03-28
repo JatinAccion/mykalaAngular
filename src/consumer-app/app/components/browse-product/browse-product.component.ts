@@ -80,7 +80,7 @@ export class BrowseProductComponent implements OnInit {
         this.productListingModal.product.productImages = content.productImages;
         this.productListingModal.product.taxCode = content.taxCode;
         this.productListingModal.product.mainImageSrc = "";
-        this.tilesData.push(this.productListingModal);
+        if (this.productListingModal.product.productStatus != false) this.tilesData.push(this.productListingModal);
       }
       this.getMainImage();
       if (this.tilesData.length > 0) this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' ' + this.selectedTilesData.category.name + ' for you';
@@ -127,7 +127,7 @@ export class BrowseProductComponent implements OnInit {
       this.productListingModal.product.productImages = content.product.productImages;
       this.productListingModal.product.taxCode = content.taxCode;
       this.productListingModal.product.mainImageSrc = "";
-      this.tilesData.push(this.productListingModal);
+      if (this.productListingModal.product.productStatus != false) this.tilesData.push(this.productListingModal);
     }
     this.getMainImage();
     if (this.tilesData.length > 0) this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' ' + this.selectedTilesData.category.name + ' for you';

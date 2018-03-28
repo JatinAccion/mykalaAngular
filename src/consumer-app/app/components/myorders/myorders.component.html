@@ -39,11 +39,13 @@
             <div class="col-sm-3">
               <p>&nbsp;</p>
               <div class="row">
-                <button class="btn btn-outer btn_redouter_right" [disabled]="order.contactSupport" (click)="showSupportPanel(order)">contact retailer</button>
+                <button class="btn btn-outer btn_redouter_right" (click)="showSupportPanel(modal, order)">contact kala</button>
+                <!--[disabled]="order.contactSupport"-->
               </div>
               <p>&nbsp;</p>
               <div class="row">
-                <button class="btn btn-outer btn_redouter_right" [disabled]="order.leaveReview" (click)="leaveReview(modal, order)">leave review</button>
+                <button class="btn btn-outer btn_redouter_right" (click)="leaveReview(modal, order)">leave review</button>
+                <!--[disabled]="order.leaveReview"-->
               </div>
             </div>
           </div>
@@ -121,11 +123,13 @@
             <div class="col-sm-3">
               <p>&nbsp;</p>
               <div class="row">
-                <button class="btn btn-outer btn_redouter_right" [disabled]="order.cancelOrder" (click)="cancelOrder(modal, order)">cancel order</button>
+                <button class="btn btn-outer btn_redouter_right" (click)="cancelOrder(modal, order)">cancel order</button>
+                <!--[disabled]="order.cancelOrder"-->
               </div>
               <p>&nbsp;</p>
               <div class="row">
-                <button class="btn btn-outer btn_red_right" [disabled]="order.trackOrder" (click)="trackOrder(modal, order)">where is it?</button>
+                <button class="btn btn-outer btn_red_right" (click)="trackOrder(modal, order)">where is it?</button>
+                <!--[disabled]="order.trackOrder"-->
               </div>
             </div>
           </div>
@@ -137,7 +141,9 @@
 
     <!--No Orders Available-->
     <ng-template #noOrders>
-      <div class="myCart-list text-center mt-2">No orders available</div>
+      <div class="myCart-list text-center mt-2 colorred">
+        <u routerLink="/home">You have not placed any orders yet. Click here to continue shopping.</u>
+      </div>
     </ng-template>
     <!--No Orders Available-->
 
