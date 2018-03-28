@@ -11,6 +11,7 @@ import { LocalStorageService } from '../../services/LocalStorage.service';
 import { environment } from './../../../environments/environment';
 import { nameValue } from '../../../../models/nameValue';
 import { ReportOrders } from '../../../../models/report-order';
+import { ReportReviewSummary } from '../../../../models/report-review';
 
 @Injectable()
 export class ReportsService {
@@ -78,9 +79,43 @@ export class ReportsService {
       .map(p => new ReportOrders(p))
       .catch(this.handleError);
   }
+  getReviews(query?: any): Observable<any> {
+    this.headers = this.getHttpHeraders();
+    const url = `${environment.AdminApi}/${environment.apis.orders.getRetailerReviews}`;
+    return this.http
+      .get(url, { search: query, headers: this.headers })
+      .map(p => p.json())
+      .map(p => new ReportOrders(p))
+      .catch(this.handleError);
+  }
   getConsumerCount(memberType: string, year: string, month?: string) {
     this.headers = this.getHttpHeraders();
-    const url = `${'http://192.168.169.185:6090/consumer/v1'}/${environment.apis.orders.consumerCount}`.replace('{memberType}', memberType).replace('{year}', year).replace('{month}', month || '');
+    const url = `${environment.consumerApi}/${environment.apis.orders.consumerCount}`.replace('{memberType}', memberType).replace('{year}', year).replace('{month}', month || '');
+    return this.http
+      .get(url, { headers: this.headers })
+      .map(p => p.json())
+      .catch(this.handleError);
+  }
+  getCompletedReview(year: string, month?: string): Observable<ReportReviewSummary> {
+    this.headers = this.getHttpHeraders();
+    const url = `${environment.consumerApi}/${environment.apis.orders.orderReviewCount}`.replace('{year}', year).replace('{month}', month || '');
+    return this.http
+      .get(url, { headers: this.headers })
+      .map(p => p.json())
+      .map(p => new ReportReviewSummary(p))
+      .catch(this.handleError);
+  }
+  getAvgReview(year: string, month?: string): Observable<ReportReviewSummary> {
+    this.headers = this.getHttpHeraders();
+    const url = `${environment.consumerApi}/${environment.apis.orders.avgReviewCount}`.replace('{year}', year).replace('{month}', month || '');
+    return this.http
+      .get(url, { headers: this.headers })
+      .map(p => p.json()).map(p => new ReportReviewSummary(p))
+      .catch(this.handleError);
+  }
+  getAvgResponseTime(year: string, month?: string): Observable<any> {
+    this.headers = this.getHttpHeraders();
+    const url = `${environment.consumerApi}/${environment.apis.orders.avgResponseTime}`.replace('{year}', year).replace('{month}', month || '');
     return this.http
       .get(url, { headers: this.headers })
       .map(p => p.json())
@@ -88,7 +123,7 @@ export class ReportsService {
   }
   getConsumerYearlyReport(memberType: string, year: string, month?: string) {
     this.headers = this.getHttpHeraders();
-    const url = `${'http://192.168.169.185:6090/consumer/v1'}/${environment.apis.orders.consumerYearlyReport}`.replace('{memberType}', memberType).replace('{year}', year).replace('{month}', month || '');
+    const url = `${environment.consumerApi}/${environment.apis.orders.consumerYearlyReport}`.replace('{memberType}', memberType).replace('{year}', year).replace('{month}', month || '');
     return this.http
       .get(url, { headers: this.headers })
       .map(p => p.json())

@@ -42,10 +42,10 @@
                     <td>
                         <input type="checkbox" />
                     </td>
-                    <td>{{inquiry.resolvedInquiryStatus}}-{{inquiry.resolutionType}}</td>
+                    <td>{{inquiry.inquiryStatus}} - {{inquiry.resolutionType}}</td>
                     <td>
                         <div>
-                            <a href="#">{{inquiry.orderId}}</a>
+                            <a class="ancDefault" (click)="getOrderDetails(inquiry, inquiry.orderId)">{{inquiry.orderId}}</a>
                         </div>
                         <div>{{inquiry.productName}}</div>
                         <p>Assigned : {{getUser(inquiry.assignedTo).username}}</p>
@@ -53,11 +53,11 @@
                     <td>
                         <div class="row">
                             <div class="col-sm-5">Type:</div>
-                            <div class="col-sm-7">{{inquiry.inquiryType}}-{{inquiry.inquiryTypeOther}}</div>
+                            <div class="col-sm-7">{{inquiry.inquiryType}} - {{inquiry.inquiryTypeOther}}</div>
                         </div>
                         <div class="row">
                             <div class="col-sm-5">Category:</div>
-                            <div class="col-sm-7">{{inquiry.inquiryCategory}}-{{inquiry.inquiryCategoryOther}}</div>
+                            <div class="col-sm-7">{{inquiry.inquiryCategory}} - {{inquiry.inquiryCategoryOther}}</div>
                         </div>
                     </td>
                     <td>{{inquiry.priority}}</td>
@@ -79,7 +79,7 @@
                                     <table class="no_tdBorder" width="100%" border="0">
                                         <tr>
                                             <td>Status:</td>
-                                            <td>{{inquiry.resolvedInquiryStatus}}, {{inquiry.resolutionType}}</td>
+                                            <td>{{inquiry.inquiryStatus}}, {{inquiry.resolutionType}}</td>
                                         </tr>
                                         <tr>
                                             <td>Date of Inquiry:</td>
@@ -132,7 +132,7 @@
                                         <a class="btn_redouter_right w-100" [routerLink]="['../inquiry-edit', inquiry.supportId]">edit inquiry</a>
                                     </p>
                                     <p>
-                                        <a class="btn_red_right  w-100" href="#">- delete inquiry</a>
+                                        <a class="btn_red_right  w-100" (click)="delete(inquiry.supportId)">- delete inquiry</a>
                                     </p>
                                 </div>
                             </div>
@@ -166,7 +166,7 @@
                                         {{inquiry.notes[0]}}
                                     </p>
                                 </div>
-                                <div class="col-sm-2">
+                                <div class="col-sm-2" *ngIf="false">
                                     <p>
                                         <a class="btn_red_right  w-100" href="#">+ Add Note</a>
                                     </p>

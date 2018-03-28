@@ -1,12 +1,13 @@
 
 // #region imports
 import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
-import { ReportOrders, ReportOrder, ReportConsumer } from '../../../../../models/report-order';
+import { ReportOrders, ReportOrder, ReportConsumer, SellerPayment } from '../../../../../models/report-order';
 import { OrderService } from '../order.service';
 import { RetialerService } from '../../retailer/retialer.service';
 import { RetailerProfileInfo } from '../../../../../models/retailer-profile-info';
 import { Product } from '../../../../../models/Product';
 import { forkJoin } from 'rxjs/observable/forkJoin';
+import { CoreService } from '../../../services/core.service';
 // #endregion imports
 
 
@@ -24,7 +25,7 @@ export class OrderDetailsComponent implements OnInit {
   loading: boolean;
   isCollapsed = true;
   @Input() order: ReportOrder;
-  constructor(private orderService: OrderService, public retialerService: RetialerService) {
+  constructor(private orderService: OrderService, public retialerService: RetialerService, private core: CoreService) {
 
   }
 
@@ -36,6 +37,7 @@ export class OrderDetailsComponent implements OnInit {
     this.getProfileInfo(this.order.orderItems[0].retailerId);
     this.getProductInfo(this.order.orderItems.map(p => p.productId));
     this.getConsumer(this.order.userId);
+    this.getSellerPaymentStatus(this.order.orderId, this.order.orderItems[0].retailerId);
   }
   getProfileInfo(retailerId: string) {
     this.retialerService
@@ -65,5 +67,32 @@ export class OrderDetailsComponent implements OnInit {
       .subscribe((res: ReportConsumer) => {
         this.consumer = res;
       });
+  }
+  getSellerPaymentStatus(orderId: string, retailerId: string) {
+    this.orderService
+      .getSellerPaymentStatus(orderId, retailerId)
+      .subscribe((res) => {
+        this.order.sellerPayment = new SellerPayment(res);
+      });
+  }
+  sellerPayment(orderId, retailerId, status) {
+    const sellerPayment = { orderId: orderId, retailerId: retailerId, paymentStatus: status, paymentType: 'MANUAL', retailerName: this.seller.businessName, paymentDate: this.toDate(new Date()) };
+    this.orderService
+      .saveSellerPayment(sellerPayment)
+      .subscribe((res) => {
+        this.getSellerPaymentStatus(orderId, retailerId);
+        this.core.message.success('Payment Updated');
+      });
+  }
+
+  toDate(obj) {
+    if (obj.year && obj.month && obj.day) {
+      return `${obj.year}-${obj.month}-${obj.day}`;
+    } else if (new Date(obj)) {
+      const date = new Date(obj);
+      if (date.getDate() ? true : false) {
+        return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+      } else { return ''; }
+    }
   }
 }

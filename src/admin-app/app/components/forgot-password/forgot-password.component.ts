@@ -23,7 +23,7 @@ export class ForgotPasswordComponent implements OnInit {
   resetLink: string;
   fpModal = new ForgotPasswordModal();
   userInfo: UserProfile;
-  responseHandling = { status: false, response: '' }
+  responseHandling = { status: false, response: '' };
 
   constructor(
     private routerOutlet: RouterOutlet,
@@ -36,6 +36,7 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.core.clearUser();
     this.forgotPassword = this.formBuilder.group({
       email: ['', [Validators.required, Validators.pattern(environment.regex.emailRegex)]],
     });
@@ -46,8 +47,9 @@ export class ForgotPasswordComponent implements OnInit {
     this.loader = true;
     this.fpModal.email = this.forgotPassword.controls.email.value;
     this.fpService.getUserByEmail(this.fpModal.email).subscribe(p => {
-      if (p === 'User Not found' || p.userId === null) {
+      if (p === 'User Not found' || p.userId === null || p.roleName.indexOf('admin') === -1) {
         this.core.message.error(userMessages.unknownEmail);
+        this.loader = false;
       } else {
         this.userInfo = p;
         this.fpModal.resetLink = window.location.origin + `/#/reset-password/${this.userInfo.userId}`;

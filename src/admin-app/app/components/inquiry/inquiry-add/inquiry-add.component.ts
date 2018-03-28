@@ -14,7 +14,7 @@ import { UserService } from '../../user/user.service';
 import { CoreService } from '../../../services/core.service';
 import { userMessages } from './messages';
 import { OrderService } from '../../order/order.service';
-import { ReportOrder } from '../../../../../models/report-order';
+import { ReportOrder, ReportOrderItem } from '../../../../../models/report-order';
 // #endregion imports
 
 
@@ -25,6 +25,7 @@ import { ReportOrder } from '../../../../../models/report-order';
   encapsulation: ViewEncapsulation.None
 })
 export class InquiryAddComponent implements OnInit {
+  showProduct: boolean;
   order: ReportOrder;
 
   saveloader: boolean;
@@ -62,7 +63,7 @@ export class InquiryAddComponent implements OnInit {
     private orderService: OrderService,
     private core: CoreService
   ) {
-    this.inquiryId = route.snapshot.params['id'];
+    this.inquiryId = route.snapshot.params['id'] || '';
   }
   ngOnInit() {
     this.setFormValidators();
@@ -73,19 +74,20 @@ export class InquiryAddComponent implements OnInit {
   }
   setFormValidators() {
     this.fG1 = this.formBuilder.group({
-      inquiryType: [{ value: this.inquiry.inquiryType, disabled: false }, [Validators.required]],
+      inquiryType: [{ value: this.inquiry.inquiryType || '', disabled: false }, [Validators.required]],
       inquiryTypeOther: [{ value: this.inquiry.otherTypeDesc, disabled: false }, [Validators.required]],
-      inquiryCategory: [{ value: this.inquiry.inquiryCategory, disabled: false }, [Validators.required]],
+      inquiryCategory: [{ value: this.inquiry.inquiryCategory || '', disabled: false }, [Validators.required]],
       inquiryCategoryOther: [{ value: this.inquiry.otherCategoryDesc, disabled: false }, [Validators.required]],
       description: [{ value: this.inquiry.description, disabled: false }, [Validators.required]],
       orderId: [{ value: this.inquiry.orderId, disabled: false }, [Validators.required]],
-      priority: [{ value: this.inquiry.priority, disabled: false }, [Validators.required]],
-      assignedTo: [{ value: this.inquiry.assignedTo, disabled: false }, [Validators.required]],
-      inquiryStatus: [{ value: this.inquiry.inquiryStatus, disabled: false }, [Validators.required]],
+      product: [{ value: null, disabled: false }],
+      priority: [{ value: this.inquiry.priority || '', disabled: false }, [Validators.required]],
+      assignedTo: [{ value: this.inquiry.assignedTo || '', disabled: false }, [Validators.required]],
+      inquiryStatus: [{ value: this.inquiry.inquiryStatus || '', disabled: false }, [Validators.required]],
       inquiryDate: [{ value: this.fromDate(this.inquiry.inquiryDate), disabled: false }, [Validators.required]],
       inquiryNotes: [{ value: this.inquiry.notes && this.inquiry.notes.length > 0 ? this.inquiry.notes[0] : '', disabled: false }, [Validators.required]],
-      resolutionOutcome: [{ value: this.inquiry.resolvedInquiryStatus, disabled: false }, [Validators.required]],
-      resolutionType: [{ value: this.inquiry.resolutionType, disabled: false }, [Validators.required]],
+      resolutionOutcome: [{ value: this.inquiry.resolvedInquiryStatus || '', disabled: false }, [Validators.required]],
+      resolutionType: [{ value: this.inquiry.resolutionType || '', disabled: false }, [Validators.required]],
       resolutionNotes: [{ value: this.inquiry.resolutionNotes && this.inquiry.resolutionNotes.length > 0 ? this.inquiry.resolutionNotes[0] : '', disabled: false }, [Validators.required]],
       resolutionDescription: [{ value: this.inquiry.resolutionDescription, disabled: false }, [Validators.required]],
       resolutionDate: [{ value: this.fromDate(this.inquiry.resolutionDate), disabled: false }, [Validators.required]],
@@ -97,23 +99,22 @@ export class InquiryAddComponent implements OnInit {
     });
   }
   getInquiryData(id) {
-    this.inquiryService.get({ supportId: id }).subscribe((res) => {
-      this.inquiry = res.content.filter(p => p.supportId === id)[0];
+    this.inquiryService.getInquiryDetails(id).subscribe((res) => {
+      this.inquiry = res;
       this.setFormValidators();
       this.inquiryTypeChange();
       this.inquiryCategoryChange();
       this.inquiryStatusChange();
     });
   }
-  async saveInquiry() {
+  saveInquiry() {
     this.saveLoader = true;
     this.readForm();
     this.validatorExt.validateAllFormFields(this.fG1);
     if (!this.fG1.valid) {
       this.core.message.info(userMessages.requiredFeilds);
     } else {
-      await this.getOrderDetails(this.inquiry.orderId);
-      if (!this.order || !this.order.orderId || this.order.orderId !== this.inquiry.orderId) {
+      if (!this.order || !this.inquiry.productName || !this.inquiry.retailerId) {
         this.core.message.info('order id is wrong');
       } else {
         this.inquiry.customerId = this.order.userId;
@@ -132,6 +133,24 @@ export class InquiryAddComponent implements OnInit {
       }
       return false;
     }
+  }
+  async checkOrder() {
+    if (true) {
+      await this.getOrderDetails(this.fG1.value.orderId);
+      if (this.order.orderItems && this.order.orderItems.length > 0) {
+        if (this.order.orderItems.length === 1) {
+          this.setInquiryOrderDetails(this.order.orderItems[0]);
+        } else {
+          this.showProduct = true;
+        }
+      }
+    }
+  }
+  setInquiryOrderDetails(orderItem: ReportOrderItem) {
+    this.inquiry = this.inquiry || new Inquiry();
+    this.inquiry.productName = orderItem.productName;
+    this.inquiry.retailerId = orderItem.retailerId;
+    this.inquiry.productCost = orderItem.productPrice;
   }
   inquiryTypeChange() {
     const form = this.fG1.value;
@@ -184,8 +203,8 @@ export class InquiryAddComponent implements OnInit {
     this.inquiry.customerName = form.customerName;
     this.inquiry.orderId = form.orderId;
     this.inquiry.orderDate = form.orderDate;
-    this.inquiry.productName = form.productName;
-    this.inquiry.productCost = form.productCost;
+    // this.inquiry.productName = form.productName;
+    // this.inquiry.productCost = form.productCost;
     this.inquiry.inquiryType = form.inquiryType;
     this.inquiry.otherTypeDesc = form.inquiryTypeOther;
     this.inquiry.inquiryDate = this.toDate(form.inquiryDate);

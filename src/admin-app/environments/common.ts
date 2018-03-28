@@ -73,6 +73,7 @@ export const apiNames = {
         subCategories: 'products/subCategoriesList',
         types: 'products/typesList',
         upload: 'products/bulkProducts',
+        bulkUpload: 'products/upload',
         uploadSummary: 'products/summary',
         viewUploadedProducts: 'products/dump',
         deleteSummary: 'products/summary/{summaryId}',
@@ -87,14 +88,22 @@ export const apiNames = {
         getOrders: 'orders/{paymentType}/{year}/{month}',
         consumerYearlyReport: 'customerYearlyReport/{memberType}/{year}/{month}',
         consumerCount: 'customerCount/{memberType}/{year}/{month}',
+        orderReviewCount: 'consumer/v1/report/completeReview/{year}/{month}',
+        avgReviewCount: 'consumer/v1/report/avgReview/{year}/{month}',
+        avgResponseTime: 'consumer/v1/report/avgResponseTime/{year}/{month}',
+        sellerPayment: 'sellerPayment',
+        sellerPaymentStatus: '{orderId}/{retailerId}/sellerPaymentStatus',
+        getRetailerReviews: 'reports/review'
     },
     consumer: {
         get: 'consumer/v1/userId'
     },
     inquiry: {
         get: 'support/inquiriesList',
+        getInquiryDetails: 'support/{supportId}/inquiryDetails',
         save: 'support/saveInquiryRequest',
         update: 'support/updateInquiryRequest ',
+        delete: 'support/{supportId}/deleteInquiry'
     }
 };
 export const commonMessages = {

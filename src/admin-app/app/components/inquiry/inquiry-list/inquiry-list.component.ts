@@ -5,6 +5,9 @@ import { OrderService } from '../../order/order.service';
 import { ReportOrder } from '../../../../../models/report-order';
 import { UserService } from '../../user/user.service';
 import { UserProfile } from '../../../../../models/user';
+import { userMessages } from './messages';
+import { Alert } from '../../../../../models/IAlert';
+import { CoreService } from '../../../services/core.service';
 
 @Component({
   selector: 'app-inquiry-list',
@@ -20,7 +23,7 @@ export class InquiryListComponent implements OnInit {
   inquirys: Inquirys;
   isCollapsed = true;
   order: ReportOrder;
-  constructor(private inquiryService: InquiryService, private orderService: OrderService, private userService: UserService) {
+  constructor(private inquiryService: InquiryService, private orderService: OrderService, private userService: UserService, private core: CoreService) {
     this.inquirys = new Inquirys();
   }
 
@@ -59,5 +62,16 @@ export class InquiryListComponent implements OnInit {
     if (this.users && this.users.filter(p => p.userId === id).length > 0) {
       return this.users.filter(p => p.userId === id)[0] as UserProfile;
     } else { return new UserProfile(); }
+  }
+  delete(inquiryId) {
+    const msg = new Alert(userMessages.delete, 'Confirmation');
+    this.core.showDialog(msg).then(res => {
+      if (res === 'yes') {
+        this.inquiryService.deleteInquiry(inquiryId).subscribe(p => {
+          this.core.message.success(userMessages.deleteSuccess );
+          this.getPage(this.inquirys.number);
+        });
+      }
+    });
   }
 }

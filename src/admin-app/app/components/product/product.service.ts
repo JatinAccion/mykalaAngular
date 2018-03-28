@@ -213,11 +213,30 @@ export class ProductService {
     const formdata: FormData = new FormData();
     for (let i = 0; i < files.length; i++) {
       const element = files[i];
-      formdata.append('files', element.file, this.guid() + element.file.name );
+      formdata.append('files', element.file, this.guid() + element.file.name);
     }
     // formdata.append('retailerId', retailerId);
 
     const url = `${this.BASE_URL}/${environment.apis.product.upload}`;
+    const req = new HttpRequest('POST', url, formdata, {
+      reportProgress: true,
+    });
+    return this.httpc.request(req).map(p => p);
+  }
+  saveproductMetaFiles(placeName: string, category: string, subCategory: string, uploadType: string, files: Array<any>): Observable<any> {
+    const formdata: FormData = new FormData();
+    formdata.append('placeName', placeName);
+    formdata.append('category', category);
+    formdata.append('subCategory', subCategory);
+    formdata.append('uploadType', uploadType);
+
+    for (let i = 0; i < files.length; i++) {
+      const element = files[i];
+      formdata.append('files', element.file, this.guid() + element.file.name);
+    }
+    // formdata.append('retailerId', retailerId);
+
+    const url = `${this.BASE_URL}/${environment.apis.product.bulkUpload}`;
     const req = new HttpRequest('POST', url, formdata, {
       reportProgress: true,
     });

@@ -41,9 +41,26 @@ export class InquiryService {
     this.headers = this.getHttpHeraders();
     const url = `${this.BASE_URL}/${environment.apis.inquiry.get}`;
     return this.http
-      .get(url,  {search: query, headers: this.headers })
+      .get(url, { search: query, headers: this.headers })
       .map(p => p.json())
       .map(p => new Inquirys(p))
+      .catch(this.handleError);
+  }
+  getInquiryDetails(inquiryId): Observable<Inquiry> {
+    this.headers = this.getHttpHeraders();
+    const url = `${this.BASE_URL}/${environment.apis.inquiry.getInquiryDetails}`.replace('{supportId}', inquiryId);
+    return this.http
+      .get(url, { headers: this.headers })
+      .map(p => p.json())
+      .map(p => new Inquiry(p))
+      .catch(this.handleError);
+  }
+  deleteInquiry(inquiryId): Observable<any> {
+    this.headers = this.getHttpHeraders();
+    const url = `${this.BASE_URL}/${environment.apis.inquiry.delete}`.replace('{supportId}', inquiryId);
+    return this.http
+      .delete(url, { headers: this.headers })
+      .map(p => p.text())
       .catch(this.handleError);
   }
   save(inquiry: Inquiry): Observable<any> {

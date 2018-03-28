@@ -1,5 +1,5 @@
 import { AddressType } from "./address-type";
-import { removeDuplicates } from "../common/formatters";
+import { removeDuplicates, toAddressString } from "../common/formatters";
 
 export class PostalAddress {
     public name: string;
@@ -29,8 +29,8 @@ export class PostalAddress {
         }
     }
     public toString() {
-        const address = [this.name, this.position, this.addressLine1, this.addressLine2, this.city, this.state, this.zipcode, this.country, this.email, this.phoneNo].toString();
-        return removeDuplicates(address, ',');
+        return toAddressString([this.name, this.position, this.addressLine1, this.addressLine2, this.city, this.state, this.zipcode, this.country, this.email, this.phoneNo]);
+        
     }
 }
 export class RetailerBusinessAddress extends PostalAddress {

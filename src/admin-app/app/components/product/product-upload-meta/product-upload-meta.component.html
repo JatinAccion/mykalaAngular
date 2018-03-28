@@ -39,9 +39,9 @@
                 </tr>
                 <tr>
                     <td class="border-0">
-                        <select class="ddl_default form-control" [(ngModel)]="product.productSubCategory" [disabled]="typesLoading">
-                            <option [ngValue]="'metadata'">metadata</option>
-                            <option [ngValue]="'configuration'">configuration</option>
+                        <select class="ddl_default form-control" [(ngModel)]="uploadType" [disabled]="typesLoading">
+                            <option [ngValue]="'Metadata'">Metadata</option>
+                            <option [ngValue]="'Config'">Config</option>
                         </select>
                     </td>
                 </tr>
@@ -72,7 +72,7 @@
 </div>
 
 <!-- <a class="btn btn-default w-100" (click)="upload()">Upload</a> -->
-<div class="col-sm-12 p-0 pt-3 pagination_align">
+<!-- <div class="col-sm-12 p-0 pt-3 pagination_align">
     <pagination-controls id='server' (pageChange)="getPage($event)"></pagination-controls>
 </div>
 <div class="row">
@@ -91,7 +91,6 @@
     </div>
     <div class="col-sm-3 p-2 mt-3">
         <div class="btn-group">
-            <!-- <button type="button" class="btn btn-default w-100" (click)="download(item.productSummaryId)">Download</button> -->
             <a href="{{item.updatedFileLink}}" class="btn btn-default w-100">Download</a>
             <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
                 <button class="btn btn-primary dropdown-toggle-split" ngbDropdownToggle></button>
@@ -103,7 +102,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 
 

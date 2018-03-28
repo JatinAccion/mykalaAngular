@@ -21,6 +21,7 @@ export class ReportOrder {
   address: PostalAddress;
   orderItems: ReportOrderItem[];
   isCollapsed: true;
+  sellerPayment: SellerPayment;
   constructor(obj?: any) {
     this.isCollapsed = true;
     if (obj) {
@@ -135,6 +136,20 @@ export class ReportConsumer {
       this.userId = obj.userId;
 
     }
+  }
+}
+export class SellerPayment {
+  public orderId: string; // "5ab22cb2a27cbc47f0e1d67a"
+  public paymentDate: string; // null
+  public paymentStatus: string; // null
+  public paymentType: string; //  null
+  public retailerId: string; // "5a9558e28998e6452cb9ed5b"
+  constructor(obj?: any) {
+    this.orderId = obj.orderId;
+    this.paymentDate = obj.paymentDate;
+    this.paymentStatus = obj.paymentStatus;
+    this.paymentType = obj.paymentType;
+    this.retailerId = obj.retailerId;
   }
 }
 

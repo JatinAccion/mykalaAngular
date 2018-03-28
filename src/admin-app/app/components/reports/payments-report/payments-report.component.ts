@@ -108,10 +108,10 @@ export class PaymentsReportComponent implements OnInit {
   getDetails(type) {
     let widget = this.widget.total;
     switch (type) {
-      case 'total': widget = this.widget.total; break;
-      case 'automatic': widget = this.widget.automatic; break;
-      case 'manual': widget = this.widget.manual; break;
-      case 'pending': widget = this.widget.pending; break;
+      case 'one': widget = this.widget.total; break;
+      case 'two': widget = this.widget.automatic; break;
+      case 'three': widget = this.widget.manual; break;
+      case 'four': widget = this.widget.pending; break;
     }
     this.reportsService.getPaymentReports(widget.widgetType, widget.year.toString(), this.reportModel !== 'Monthly' ? '' : (widget.month + 1).toString()).subscribe((res) => { this.setupSummary(res[0]); });
     this.reportsService.getconsumerPaymentReports(widget.widgetType, widget.year.toString(), this.reportModel !== 'Monthly' ? '' : (widget.month + 1).toString()).subscribe((res) => { this.setupChartData(res); });

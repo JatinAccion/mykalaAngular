@@ -105,131 +105,27 @@
             </tr>
             <tr>
                 <td>Seller payment status :</td>
-                <td>Paid
-                    <span class="float-right">
-                        <a href="#">Edit</a>
+                <!-- {{order.sellerPayment|json}} -->
+                <td>{{order.sellerPayment && order.sellerPayment.paymentStatus ? order.sellerPayment.paymentStatus:'Unpaid'}}
+                    <span class="float-right" *ngIf="!order.sellerPayment || (order.sellerPayment.paymentStatus !== 'PENDING' && order.sellerPayment.paymentStatus !== 'PAID')">
+                        <a class="ancDefault" (click)='sellerPayment(order.orderId, order.orderItems[0].retailerId, "PENDING")'>Pending </a>
+                    </span>
+                    <span class="float-right ancDefault" *ngIf="!order.sellerPayment || order.sellerPayment.paymentStatus !== 'PAID'">
+                        <a class="ancDefault" (click)='sellerPayment(order.orderId, order.orderItems[0].retailerId, "PAID")'>Paid </a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td>Paid on:</td>
-                <td>{{order.purchasedDate | date:'fullDate'}}</td>
+                <td>{{order.sellerPayment?(order.sellerPayment.paymentDate | date:'fullDate'):''}}</td>
             </tr>
         </table>
     </div>
 </div>
 <hr />
 <app-tile-member *ngIf="order && order.userId" [id]="order.userId"></app-tile-member>
-<!-- <div class="row orderdetail_row m-2" *ngIf="consumer">
-    <div class="col-sm-2 align-middle">
-        <h4 class="colorGray">Member</h4>
-        <img *ngIf="consumer && consumer.consumerImagePath" src="{{consumer.consumerImagePath}}" class="img-fluid showDummy" alt="" />
-        <i *ngIf="consumer && !consumer.consumerImagePath" class="fa fa-picture-o defaultUser py-2" aria-hidden="true"></i>
-    </div>
-    <div class="col-sm-4">
-        <table width="100%" class="no_tdBorder" border="0">
-            <tr>
-                <td>{{consumer.firstName}} {{consumer.lastName}}</td>
-            </tr>
-            <tr>
-                <td>member since {{consumer.createdAt | date:'shortDate'}}</td>
-            </tr>
-            <tr>
-                <td>4 orders, 7 offer requestis</td>
-            </tr>
-            <tr>
-                <td>{{consumer.phone}}</td>
-            </tr>
-            <tr>
-                <td>{{consumer.emailId}}</td>
-            </tr>
-            <tr>
-                <td>{{consumer.address?consumer.address.toString():''}}</td>
-            </tr>
-        </table>
-    </div>
-    <div class="col-sm-4 offset-2">
-        <table width="100%" class="no_tdBorder" border="0">
-            <tr>
-                <td>DOB:</td>
-                <td>{{consumer.dateOfBirth | date:'shortDate'}}</td>
-            </tr>
-            <tr>
-                <td>Member ID:</td>
-                <td>{{consumer.userId}}</td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <strong>Previous Inquiries:</strong>
-                </td>
-            </tr>
-            <tr>
-                <td class="pl-3">complaints:</td>
-                <td>1</td>
-            </tr>
-            <tr>
-                <td class="pl-3">Returns:</td>
-                <td>0</td>
-            </tr>
-            <tr>
-                <td class="pl-3">Questions:</td>
-                <td>5</td>
-            </tr>
-        </table>
-    </div>
-</div> -->
 <hr />
 <app-tile-retailer *ngIf="order && order.orderItems && order.orderItems.length > 0 && order.orderItems[0].retailerId" [id]="order.orderItems[0].retailerId"></app-tile-retailer>
-<!-- <div class="row orderdetail_row m-2" *ngIf="seller">
-    <div class="col-sm-2 align-middle">
-        <h4 class="colorGray">Seller</h4>
-        <img *ngIf="seller.businessLogoPath" src="{{seller.businessLogoPath}}" class="img-fluid showDummy" alt="" />
-        <i *ngIf="!seller.businessLogoPath" class="fa fa-picture-o defaultUser py-2" aria-hidden="true"></i>
-    </div>
-    <div class="col-sm-4">
-        <table width="100%" class="no_tdBorder" border="0">
-            <tr>
-                <td>{{seller.businessName}}</td>
-            </tr>
-            <tr>
-                <td>Reviews: 123</td>
-            </tr>
-            <tr>
-                <td>Contact: {{seller.contactPerson && seller.contactPerson[0]?seller.contactPerson[0].name:''}}</td>
-            </tr>
-            <tr>
-                <td>{{seller.businessAddress?seller.businessAddress.phoneNo:''}}</td>
-            </tr>
-            <tr>
-                <td>{{seller.businessAddress?seller.businessAddress.email:''}}</td>
-            </tr>
-        </table>
-    </div>
-    <div class="col-sm-3">
-        <table width="100%" class="no_tdBorder" border="0">
-            <tr>
-                <td colspan="2">
-                    <strong>Previous Inquiries:</strong>
-                </td>
-            </tr>
-            <tr>
-                <td class="pl-3">complaints:</td>
-                <td>1</td>
-            </tr>
-            <tr>
-                <td class="pl-3">Returns:</td>
-                <td>0</td>
-            </tr>
-            <tr>
-                <td class="pl-3">Questions:</td>
-                <td>5</td>
-            </tr>
-        </table>
-    </div>
-    <div class="col-sm-3" *ngIf="seller">
-        <a class=" btn_redouter_right w-100" [routerLink]="['../retailer-edit', seller.retailerId]">view account</a>
-    </div>
-</div> -->
 <hr />
 <div class="row orderdetail_row m-2">
     <div class="col-sm-2 align-middle">

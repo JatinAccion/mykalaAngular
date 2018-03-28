@@ -21,3 +21,12 @@ export function removeDuplicates(string: string, char: string) {
     }
     return result.join('').startsWith(',') ? result.join('').substr(1) : result.join('');
 }
+export function toAddressString(strings: string[]) {
+    let result = '';
+    strings.forEach(element => {
+        if (element && element.trim() !== '') {
+            result += element + ', ';
+        }
+    });
+    return result;
+}

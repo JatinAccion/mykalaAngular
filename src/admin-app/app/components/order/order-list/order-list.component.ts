@@ -32,5 +32,4 @@ export class OrderListComponent implements OnInit {
       this.loading = false;
     });
   }
-  
 }

@@ -93,8 +93,22 @@ export class OrderService {
       .map(p => p.json())
       .catch(this.handleError);
   }
-  putPayment() { }
-
+  saveSellerPayment(sellerPayment: any) {
+    this.headers = this.getHttpHeraders();
+    const url = `${environment.ordersApi}/${environment.apis.orders.sellerPayment}`;
+    return this.http
+      .post(url, sellerPayment, { headers: this.headers })
+      .map(p => p.text())
+      .catch(this.handleError);
+  }
+  getSellerPaymentStatus(orderId: string, retailerId: string) {
+    this.headers = this.getHttpHeraders();
+    const url = `${environment.ordersApi}/${environment.apis.orders.sellerPaymentStatus}`.replace('{orderId}', orderId).replace('{retailerId}', retailerId);
+    return this.http
+      .get(url, { headers: this.headers })
+      .map(p => p.json())
+      .catch(this.handleError);
+  }
 
 
   private handleError(error: any) {

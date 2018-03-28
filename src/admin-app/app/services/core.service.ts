@@ -38,6 +38,7 @@ export class CoreService {
     this.show();
   }
   clearUser() {
+    localStorage.removeItem('token');
     this.user = null;
     this.hide();
   }

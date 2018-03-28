@@ -18,7 +18,9 @@ import { ActivatedRoute } from '@angular/router';
   encapsulation: ViewEncapsulation.None
 })
 export class ProductUploadMetaComponent implements OnInit {
-  product = new Product();
+  uploadType: string;
+  product= new Product();
+
   typesLoading: boolean;
   data = new ProductUploads();
   fileNames = '';
@@ -38,7 +40,7 @@ export class ProductUploadMetaComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getPage(this.page);
+    // this.getPage(this.page);
     this.getPlaces();
   }
   getPage(page: number) {
@@ -52,7 +54,7 @@ export class ProductUploadMetaComponent implements OnInit {
     });
   }
   upload() {
-    this.productService.saveproductFiles(this.retailerId, this.productFiles).subscribe(event => {
+    this.productService.saveproductMetaFiles(this.product.productPlace.PlaceName, this.product.productCategory.CategoryName, this.product.productSubCategory.SubCategoryName, this.uploadType, this.productFiles).subscribe(event => {
       if (event.type === HttpEventType.UploadProgress) {
         const percentDone = Math.round(100 * event.loaded / event.total);
         this.progress = percentDone;
@@ -60,7 +62,7 @@ export class ProductUploadMetaComponent implements OnInit {
       } else if (event.type === HttpEventType.Response) {
         this.progress = 0;
         this.fileNames = '';
-        this.getPage(1);
+        // this.getPage(1);
       } else if (event instanceof HttpResponse) {
         console.log('File is completely uploaded!');
       }
