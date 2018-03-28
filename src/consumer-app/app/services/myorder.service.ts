@@ -24,4 +24,9 @@ export class MyOrdersService {
         return this.http.get(url).map(res => res.json());
     }
 
+    support(model) {
+        const url: string = `${this.BASE_URL}/${environment.apis.consumerCheckout.support}`;
+        return this.http.post(url, model).map(res => res.json());
+    }
+
 }

@@ -53,7 +53,8 @@ export const apiNames = {
         deleteCard: 'deleteCard',
         productQuantity: 'productQuantity',
         cancelOrder: 'cancelOrder',
-        trackOrderShipment: 'trackOrderShipment'
+        trackOrderShipment: 'trackOrderShipment',
+        support: 'support/saveSupportRequest'
     },
     shippingMethod: {
         method: 'retailer/v1',
