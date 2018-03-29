@@ -125,43 +125,21 @@ export class Step2Component implements OnInit {
         }
       }
       this.sort(this.getObjectFromOrder)
-      // for (var key in this.GetOfferStep_2PS.attributes) {
-      //   for (var i = 0; i < getObjectFromOrder.length; i++) {
-      //     if (this.lastValueForAPI != getObjectFromOrder[i].key) {
-      //       if (key == getObjectFromOrder[i].key) getObjectFromOrder.splice(i, 1);
-      //     }
-      //     else getObjectFromOrder.splice(i, 1);
-      //   }
-      // }
-      // for (var j = 0; j < getObjectFromOrder.length; j++) {
-      //   let newObj = getObjectFromOrder[j];
-      //   for (var k = 0; k < this.getObjectFromOrder.length; k++) {
-      //     let oldObj = this.getObjectFromOrder[k];
-      //     if (this.lastValueForAPI != oldObj.key) {
-      //       if (newObj.key == oldObj.key) {
-      //         this.getObjectFromOrder.splice(k, 1, newObj)
-      //       }
-      //     }
-      //   }
-      // }
       this.fromAPI = false;
     }
     //Filter data from internal API response
     else {
       this.getObjectFromOrder = getObjectFromOrder;
-      // this.getObjectFromOrder.splice(this.getObjectFromOrder.length - 1, 1)
-      //this.getObjectFromOrder.splice(0, 1);
     }
   }
 
   sort(arr) {
     arr.sort(function (a, b) {
-      var nameA = a.orderNo, nameB = b.orderNo
-      if (nameA < nameB) //sort string ascending
-        return -1
-      if (nameA > nameB)
-        return 1
-      return 0 //default return value (no sorting)
+      var keyA = parseFloat(a.orderNo),
+        keyB = parseFloat(b.orderNo);
+      if (keyA < keyB) return -1;
+      if (keyA > keyB) return 1;
+      return 0;
     });
   }
 
@@ -233,6 +211,7 @@ export class Step2Component implements OnInit {
       console.log("History", this.GetOfferStep_2PS)
       this.getoffers.getofferSubCategory(this.GetOfferStep_2).subscribe(res => {
         this.fromAPI = true;
+        this.GetOfferStep_2.attributes = {};
         this.getObjectFromOrderNo(res);
       });
     }

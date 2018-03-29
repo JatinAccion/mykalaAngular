@@ -1,7 +1,7 @@
 <div class="container">
   <app-sub-menus></app-sub-menus>
   <div style="height:135px;width:100%;"></div>
-  <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 49%" class="mb-3 mt-3" *ngIf="loader">
+  <img src="./consumer-app/assets/images/loader.gif" style="margin: 0 49%" class="mb-3 mt-3" *ngIf="loader">
 
   <div *ngIf="offers != undefined || reviews != undefined; else noOffer">
     <!--Offer Blocks-->
@@ -26,7 +26,7 @@
           <!--Expire Soon True-->
         </div>
         <small class="pull-right colorlightGray">{{getFullDate(offer.startDate)}}</small>
-        <img src="/consumer-app/assets/images/img_17.jpg" class="img-fluid mr-4 mb-3" width="55" *ngFor="let images of loopNumber(offer.getOffersResponse.length, 'offers')" />
+        <img src="./consumer-app/assets/images/img_17.jpg" class="img-fluid mr-4 mb-3" width="55" *ngFor="let images of loopNumber(offer.getOffersResponse.length, 'offers')" />
       </div>
     </ng-container>
 
