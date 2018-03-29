@@ -10,10 +10,20 @@
         <div class="mb-3">Get Offers for
           <strong>{{offer.getOffersRequestDTO.placeName}} - {{offer.getOffersRequestDTO.categoryName}} - {{offer.getOffersRequestDTO.subCategoryName}}</strong> is complete! You received
           <strong>{{offer.getOffersResponse.length}}</strong> offers!
-          <span class="d-inline float-right offerStatus inactive" *ngIf="offer.expire;else activeOffer">Offer Expired</span>
-          <ng-template #activeOffer>
-            <span class="d-inline float-right offerStatus active">Offer Active</span>
+          <!--Expire Soon False-->
+          <span class="d-inline float-right offerStatus" *ngIf="!offer.expireSoon;else expireSoon">
+            <span class="d-inline float-right offerStatus inactive" *ngIf="offer.expire;else activeOffer">Offer Expired</span>
+            <ng-template #activeOffer>
+              <span class="d-inline float-right offerStatus active">Offer Active</span>
+            </ng-template>
+          </span>
+          <!--Expire Soon False-->
+
+          <!--Expire Soon True-->
+          <ng-template #expireSoon>
+            <span class="d-inline float-right offerStatus expireSoon">Offer Expiring Soon</span>
           </ng-template>
+          <!--Expire Soon True-->
         </div>
         <small class="pull-right colorlightGray">{{getFullDate(offer.startDate)}}</small>
         <img src="/consumer-app/assets/images/img_17.jpg" class="img-fluid mr-4 mb-3" width="55" *ngFor="let images of loopNumber(offer.getOffersResponse.length, 'offers')" />

@@ -2952,6 +2952,9 @@ label{display:block}
 .offerStatus.active{
     color: #1ba71b;
 }
+.offerStatus.expireSoon{
+    color: orange;
+}
 .productWrap{
     word-break: break-all;
     width: 100%;

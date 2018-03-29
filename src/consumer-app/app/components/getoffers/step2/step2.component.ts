@@ -18,6 +18,7 @@ export class Step2Component implements OnInit {
   Step2SelectedValues = [];
   fromAPI: boolean = false;
   lastValueForAPI: string;
+  noFilterValue: string;
 
   constructor(
     private route: Router,
@@ -41,12 +42,13 @@ export class Step2Component implements OnInit {
 
   getofferSubCategory(GetOfferStep_1Data) {
     this.getoffers.getofferSubCategory(GetOfferStep_1Data).subscribe(res => {
+      this.GetOfferStep_2.attributes = {};
       this.getObjectFromOrderNo(res)
     });
   }
 
   getObjectFromOrderNo(res) {
-    let order; let keyword; let getObjectFromOrder = []; let values: any;
+    let order; let keyword; let getObjectFromOrder = []; let values: any; let withValues = [];
     let resAttribute = res.attributes;
     let resMetaData = res.attributes_orders.attributes_metadata;
     for (var key in resMetaData) search(resMetaData[key].order, resMetaData);
@@ -68,41 +70,80 @@ export class Step2Component implements OnInit {
         orderNo: order.order
       });
     }
+    //Assigning Values
     for (var i = 0; i < getObjectFromOrder.length; i++) {
       for (var key in resAttribute) if (getObjectFromOrder[i].key === key) getObjectFromOrder[i].values = resAttribute[key];
     }
+    //Splicing the Objects without Values
     for (var i = 0; i < getObjectFromOrder.length; i++) {
-      if (getObjectFromOrder[i].values === undefined) getObjectFromOrder.splice(i, 1);
+      if (getObjectFromOrder[i].values != undefined) withValues.push(getObjectFromOrder[i]);
     }
-    getObjectFromOrder.sort(function (a, b) {
-      var nameA = a.orderNo, nameB = b.orderNo
-      if (nameA < nameB) //sort string ascending
-        return -1
-      if (nameA > nameB)
-        return 1
-      return 0 //default return value (no sorting)
-    });
-    //Filter data from internal API response
-    if (this.fromAPI) {
-      for (var key in this.GetOfferStep_2PS.attributes) {
-        for (var i = 0; i < getObjectFromOrder.length; i++) {
-          if (this.lastValueForAPI != getObjectFromOrder[i].key) {
-            if (key == getObjectFromOrder[i].key) getObjectFromOrder.splice(i, 1);
-          }
-          else getObjectFromOrder.splice(i, 1);
+    //Filtering the Array Based on Filter Key as Yes
+    this.sort(withValues)
+    getObjectFromOrder = [];
+
+    for (var i = 0; i < withValues.length; i++) {
+      getObjectFromOrder.push(withValues[i]);
+      if (this.noFilterValue != withValues[i].key) {
+        if (withValues[i].order.Filter == 'Y') {
+          this.noFilterValue = withValues[i].key;
+          break;
         }
       }
-      for (var j = 0; j < getObjectFromOrder.length; j++) {
-        let newObj = getObjectFromOrder[j];
-        for (var k = 0; k < this.getObjectFromOrder.length; k++) {
-          let oldObj = this.getObjectFromOrder[k];
-          if (this.lastValueForAPI != oldObj.key) {
-            if (newObj.key == oldObj.key) {
-              this.getObjectFromOrder.splice(k, 1, newObj)
+    }
+    //Filter data from internal API response
+    if (this.fromAPI) {
+      let a = this.getObjectFromOrder;
+      let b = getObjectFromOrder
+      let onlyInA = a.filter(this.compare(b));
+      let onlyInB = b.filter(this.compare(a));
+      let result = onlyInA.concat(onlyInB);
+      if (result.length > 0) {
+        for (var i = 0; i < result.length; i++) {
+          this.getObjectFromOrder.push(result[i])
+        }
+      }
+      else {
+        for (var key in this.GetOfferStep_2PS.attributes) {
+          for (var i = 0; i < getObjectFromOrder.length; i++) {
+            if (this.lastValueForAPI != getObjectFromOrder[i].key) {
+              if (key == getObjectFromOrder[i].key) getObjectFromOrder.splice(i, 1);
+            }
+            else getObjectFromOrder.splice(i, 1);
+          }
+        }
+        for (var j = 0; j < getObjectFromOrder.length; j++) {
+          let newObj = getObjectFromOrder[j];
+          for (var k = 0; k < this.getObjectFromOrder.length; k++) {
+            let oldObj = this.getObjectFromOrder[k];
+            if (this.lastValueForAPI != oldObj.key) {
+              if (newObj.key == oldObj.key) {
+                this.getObjectFromOrder.splice(k, 1, newObj)
+              }
             }
           }
         }
       }
+      this.sort(this.getObjectFromOrder)
+      // for (var key in this.GetOfferStep_2PS.attributes) {
+      //   for (var i = 0; i < getObjectFromOrder.length; i++) {
+      //     if (this.lastValueForAPI != getObjectFromOrder[i].key) {
+      //       if (key == getObjectFromOrder[i].key) getObjectFromOrder.splice(i, 1);
+      //     }
+      //     else getObjectFromOrder.splice(i, 1);
+      //   }
+      // }
+      // for (var j = 0; j < getObjectFromOrder.length; j++) {
+      //   let newObj = getObjectFromOrder[j];
+      //   for (var k = 0; k < this.getObjectFromOrder.length; k++) {
+      //     let oldObj = this.getObjectFromOrder[k];
+      //     if (this.lastValueForAPI != oldObj.key) {
+      //       if (newObj.key == oldObj.key) {
+      //         this.getObjectFromOrder.splice(k, 1, newObj)
+      //       }
+      //     }
+      //   }
+      // }
       this.fromAPI = false;
     }
     //Filter data from internal API response
@@ -110,6 +151,25 @@ export class Step2Component implements OnInit {
       this.getObjectFromOrder = getObjectFromOrder;
       // this.getObjectFromOrder.splice(this.getObjectFromOrder.length - 1, 1)
       //this.getObjectFromOrder.splice(0, 1);
+    }
+  }
+
+  sort(arr) {
+    arr.sort(function (a, b) {
+      var nameA = a.orderNo, nameB = b.orderNo
+      if (nameA < nameB) //sort string ascending
+        return -1
+      if (nameA > nameB)
+        return 1
+      return 0 //default return value (no sorting)
+    });
+  }
+
+  compare(otherArray) {
+    return function (current) {
+      return otherArray.filter(function (other) {
+        return other.key == current.key
+      }).length == 0;
     }
   }
 
@@ -156,7 +216,8 @@ export class Step2Component implements OnInit {
       console.log(s2SValuesFinal);
       console.log(this.GetOfferStep_2PS)
     }
-    else {
+    //else {
+    if (offer.order.Filter == "Y") {
       addSelected = true;
       let elements = e.currentTarget.parentElement.children;
       for (var i = 0; i < elements.length; i++) elements[i].className = "categ_outline_gray mr-3 mb-3";
