@@ -37,7 +37,7 @@ export class Step1Component implements OnInit {
   loadedCategory: boolean = false;
   loadedSubCategory: boolean = false;
   noTypesAvailable: boolean = false;
-  getObjectFromOrder = { key: "", data: "" };
+  getObjectFromOrder = { key: "", data: "", selection: {} };
   showAvailableTypes: boolean = false;
 
   constructor(
@@ -147,7 +147,7 @@ export class Step1Component implements OnInit {
   }
 
   getObjectFromOrderNo(res) {
-    let data; let keyword;
+    let data; let keyword; let selection;
     let resultObject = search("1", res.attributes_orders.attributes_metadata);
     function search(nameKey, myArray) {
       for (var key in myArray) {
@@ -161,16 +161,18 @@ export class Step1Component implements OnInit {
     this.getObjectFromOrder.key = keyword;
     for (var key in res.attributes) {
       if (key === this.getObjectFromOrder.key) {
-        data = res.attributes[key]
+        data = res.attributes[key];
+        selection = res.attributes_orders.attributes_metadata[key];
       }
     }
     this.getObjectFromOrder.data = data;
+    this.getObjectFromOrder.selection = selection;
     this.userResponse.type = [];
     if (this.getObjectFromOrder.data.length === 0) this.noTypesAvailable = true;
     else {
       for (var i = 0; i < this.getObjectFromOrder.data.length; i++) {
         let type = this.getObjectFromOrder.data[i]
-        this.userResponse.type.push(new SearchDataModal('id' + i, type, type, '4', ''));
+        this.userResponse.type.push(new SearchDataModal('id' + i, type, type, '4', '', '', this.getObjectFromOrder.selection));
       }
     }
     this.showAvailableTypes = true;

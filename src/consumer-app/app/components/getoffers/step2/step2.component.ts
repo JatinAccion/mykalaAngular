@@ -80,9 +80,11 @@ export class Step2Component implements OnInit {
     }
     //Filtering the Array Based on Filter Key as Yes
     this.sort(withValues)
-    getObjectFromOrder = [];
+    getObjectFromOrder = withValues;
 
-    for (var i = 0; i < withValues.length; i++) {
+    //getObjectFromOrder = [];
+
+    /*for (var i = 0; i < withValues.length; i++) {
       getObjectFromOrder.push(withValues[i]);
       if (this.noFilterValue != withValues[i].key) {
         if (withValues[i].order.Filter == 'Y') {
@@ -90,17 +92,37 @@ export class Step2Component implements OnInit {
           break;
         }
       }
-    }
+    }*/
+
     //Filter data from internal API response
     if (this.fromAPI) {
-      let a = this.getObjectFromOrder;
+      for (var i = 0; i < this.getObjectFromOrder.length; i++) {
+        if (this.lastValueForAPI == this.getObjectFromOrder[i].key) {
+          while ((i + 1) < this.getObjectFromOrder.length) this.getObjectFromOrder.pop();
+          break;
+        }
+      }
+      for (var i = 0; i < getObjectFromOrder.length; i++) {
+        this.getObjectFromOrder.push(getObjectFromOrder[i])
+      }
+      /*let a = this.getObjectFromOrder;
       let b = getObjectFromOrder
       let onlyInA = a.filter(this.compare(b));
       let onlyInB = b.filter(this.compare(a));
       let result = onlyInA.concat(onlyInB);
-      if (result.length > 0) {
-        for (var i = 0; i < result.length; i++) {
-          this.getObjectFromOrder.push(result[i])
+      result = result.filter((thing, index, self) =>
+        index === self.findIndex((t) => (
+          t.key === thing.key
+        ))
+      )
+      let c = this.getObjectFromOrder;
+      let d = result
+      let onlyInC = c.filter(this.finalCompare(d));
+      let onlyInD = d.filter(this.finalCompare(c));
+      let final = onlyInC.concat(onlyInD);
+      if (final.length > 0) {
+        for (var i = 0; i < final.length; i++) {
+          this.getObjectFromOrder.push(final[i])
         }
       }
       else {
@@ -123,7 +145,7 @@ export class Step2Component implements OnInit {
             }
           }
         }
-      }
+      }*/
       this.sort(this.getObjectFromOrder)
       this.fromAPI = false;
     }
@@ -144,6 +166,14 @@ export class Step2Component implements OnInit {
   }
 
   compare(otherArray) {
+    return function (current) {
+      return otherArray.filter(function (other) {
+        return other.key != current.key
+      }).length != 0;
+    }
+  }
+
+  finalCompare(otherArray) {
     return function (current) {
       return otherArray.filter(function (other) {
         return other.key == current.key
