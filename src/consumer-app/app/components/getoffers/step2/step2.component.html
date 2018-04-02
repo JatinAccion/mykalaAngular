@@ -13,7 +13,7 @@
 <div class="col-sm-12 p-0">
   <div class="col-sm-12 p-0">
     <div class="row" *ngFor="let offers of getObjectFromOrder">
-      <div class="col-sm-12" *ngIf="offers.values != undefined && offers.key != 'Price'">
+      <div class="col-sm-12" *ngIf="offers.key != 'Price'">
         <div class="row">
           <div class="col-sm-2 colorlightGray">
             <p>{{offers.key}}</p>
