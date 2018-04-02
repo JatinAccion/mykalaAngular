@@ -78,7 +78,7 @@
     </div>
 
     <div class="col-sm-7" *ngIf="userResponse.type != [] && !noTypesAvailable">
-      <div style="cursor: pointer" class="m-2" [ngClass]="checkIfStored?'categ_outline_red':'categ_outline_gray'" (click)="loadData(type, 'type', $event)" *ngFor="let type of userResponse.type">{{type.name}}</div>
+      <div style="cursor: pointer" class="m-2 typeList" [ngClass]="checkIfStored?'categ_outline_red':'categ_outline_gray'" (click)="loadData(type, 'type', $event)" *ngFor="let type of userResponse.type">{{type.name}}</div>
     </div>
 
     <div class="col-sm-7" *ngIf="noTypesAvailable">
