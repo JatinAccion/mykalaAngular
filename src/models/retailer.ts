@@ -3,6 +3,7 @@ import { RetailerPaymentInfo } from './retailer-payment-info';
 import { ProductInfo } from './product-info';
 import { RetialerShippingProfile } from './retailer-shipping-profile';
 import { Pagination } from './pagination';
+import { transition } from '@angular/core';
 
 export class Retailers extends Pagination {
     constructor(obj?: any) {
@@ -85,4 +86,57 @@ export class RetailerTax {
         }
     }
 }
+export class RetailerReview {
+    public retailerId: string;
+    public businessName: string;
+    public status: boolean;
+    public createdDate: Date;
+    public transcation: number;
+    public avgRating: number;
+    public avgResponseTime: number;
+    public totalReviews: number;
+    public isCollapsed: boolean | null = true;
+    public avgRatings: ReviewRating[];
+    constructor(obj?: any) {
+        this.isCollapsed = true;
+        if (obj) {
+            this.retailerId = obj.retailerId;
+            this.businessName = obj.businessName;
+            this.status = obj.status;
+            this.createdDate = obj.createdDate;
+            this.transcation = obj.transcation;
+            this.avgRating = obj.avgRating;
+            this.avgResponseTime = obj.avgResponseTime;
+            this.totalReviews = obj.totalReviews;
+            this.avgRatings = Array.apply(null, { length: 5 }).fill(obj.avgRating);
+        }
+    }
+}
+export class ReviewRating {
+    public rating: number;
+    public count: number;
+    constructor(obj?: any) {
+        if (obj) {
+            this.rating = obj.rating;
+            this.count = obj.count;
+        }
+    }
+}
+export class ReviewRatings {
+    public content: ReviewRating[];
+    constructor(obj?: any) {
+        if (obj && obj.length > 0) {
+            this.content = obj.map(p => new ReviewRating(p));
+        }
+    }
 
+}
+export class RetailerReviews extends Pagination {
+    constructor(obj?: any) {
+        if (obj) {
+            super(obj);
+            this.content = obj.content.map(p => new RetailerReview(p));
+        }
+    }
+    public content: RetailerReview[];
+}

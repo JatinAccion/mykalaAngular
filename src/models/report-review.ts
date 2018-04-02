@@ -17,10 +17,12 @@ export class ReviewItem {
     public completed: number;
     public avg: number;
     constructor(obj?: any) {
-        this.year = obj.year;
-        this.month = obj.month;
-        this.total = obj.total;
-        this.completed = obj.completed;
-        this.avg = obj.avg;
+        if (obj) {
+            this.year = obj.year;
+            this.month = obj.month;
+            this.total = obj.total;
+            this.completed = obj.completed;
+            this.avg = obj.avg;
+        }
     }
 }

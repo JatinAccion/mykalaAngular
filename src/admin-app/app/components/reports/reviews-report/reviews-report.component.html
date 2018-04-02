@@ -1,17 +1,22 @@
 <div class="container">
-    <div class="title col-sm-12 p-0">
-        <h1>Reviews</h1>
-    </div>
-    <div class="row p-2">
-        <div class="col-sm-9 pl-2">
-
+    <div class=" row title  p-0">
+        <div class="col-sm-7">
+            <h1>Reviews</h1>
         </div>
-        <div class="col-sm-3 pr-2 text-right">
-            <input class="form-control mt-3" type="number" [(ngModel)]="currentYear" (change)="getData()">
-            <select class="ddl_default form-control mt-3" [(ngModel)]="reportModel" (change)="getData()">
+        <div class="col-sm-2 pr-2 text-right">
+            <select class="ddl_default form-control " [(ngModel)]="reportModel" (change)="getData()">
                 <option>Monthly</option>
                 <option>Yearly</option>
             </select>
+        </div>
+        <div class="col-sm-3 pr-2 text-right">
+            <input class="form-control " type="number" [(ngModel)]="currentYear" (input)="getData()">
+            <select *ngIf="reportModel=='Monthly'" class="ddl_default form-control" [(ngModel)]="currentMonth" (change)="getData()">
+                <option *ngFor="let option of monthLabels" [ngValue]="option.value">
+                    {{option.name}}
+                </option>
+            </select>
+
         </div>
     </div>
     <div class="row p-2">
@@ -34,15 +39,15 @@
                 </div>
                 <div class="row pl-3 pr-2 pb-2">
                     <div class="col-sm-2">
-                        <a (click)="goto('one',-1)" *ngIf="widget.one.year.toString()!==yearLabels[0]">
+                        <a (click)="goto('one',-1)" *ngIf="!widget.one.first">
                             <i class="fa fa-caret-left caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
                     <div class="col-sm-8 text-center colorlightGray">
-                        {{reportModel !== 'Monthly'?'':(widget.one.month + 1 + ',') }} {{widget.one.year}}
+                        {{reportModel !== 'Monthly'?'':( widget.one.monthName + ',') }} {{widget.one.year}}
                     </div>
                     <div class="col-sm-2">
-                        <a (click)="goto('one',1)" *ngIf="widget.one.year.toString()!==yearLabels[reportYears-1]">
+                        <a (click)="goto('one',1)" *ngIf="!widget.one.last">
                             <i class="fa fa-caret-right caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -70,15 +75,15 @@
                 </div>
                 <div class="row pl-3 pr-2 pb-2">
                     <div class="col-sm-2">
-                        <a (click)="goto('two',-1)" *ngIf="widget.two.year.toString()!==yearLabels[0]">
+                        <a (click)="goto('two',-1)" *ngIf="!widget.two.first">
                             <i class="fa fa-caret-left caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
                     <div class="col-sm-8 text-center colorlightGray">
-                        {{reportModel !== 'Monthly'?'':(widget.two.month + 1 + ',') }} {{widget.two.year}}
+                        {{reportModel !== 'Monthly'?'':(widget.two.monthName + ',') }} {{widget.two.year}}
                     </div>
                     <div class="col-sm-2">
-                        <a (click)="goto('two',1)" *ngIf="widget.two.year.toString()!==yearLabels[reportYears-1]">
+                        <a (click)="goto('two',1)" *ngIf="!widget.two.last">
                             <i class="fa fa-caret-right caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -106,15 +111,15 @@
                 </div>
                 <div class="row pl-3 pr-2 pb-2">
                     <div class="col-sm-2">
-                        <a (click)="goto('three',-1)" *ngIf="widget.three.year.toString()!==yearLabels[0]">
+                        <a (click)="goto('three',-1)" *ngIf="!widget.three.first">
                             <i class="fa fa-caret-left caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
                     <div class="col-sm-8 text-center colorlightGray">
-                        {{reportModel !== 'Monthly'?'':(widget.three.month + 1 + ',') }} {{widget.three.year}}
+                        {{reportModel !== 'Monthly'?'':(widget.three.monthName + ',') }} {{widget.three.year}}
                     </div>
                     <div class="col-sm-2">
-                        <a (click)="goto('three',1)" *ngIf="widget.three.year.toString()!==yearLabels[reportYears-1]">
+                        <a (click)="goto('three',1)" *ngIf="!widget.three.last">
                             <i class="fa fa-caret-right caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -142,15 +147,15 @@
                 </div>
                 <div class="row pl-3 pr-2 pb-2">
                     <div class="col-sm-2">
-                        <a (click)="goto('four',-1)" *ngIf="widget.four.year.toString()!==yearLabels[0]">
+                        <a (click)="goto('four',-1)" *ngIf="!widget.four.first">
                             <i class="fa fa-caret-left caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
                     <div class="col-sm-8 text-center colorlightGray">
-                        {{reportModel !== 'Monthly'?'':(widget.four.month + 1 + ',')}} {{widget.four.year}}
+                        {{reportModel !== 'Monthly'?'':(widget.four.monthName + ',')}} {{widget.four.year}}
                     </div>
                     <div class="col-sm-2">
-                        <a (click)="goto('four',1)" *ngIf="widget.four.year.toString()!==yearLabels[reportYears-1]">
+                        <a (click)="goto('four',1)" *ngIf="!widget.four.last">
                             <i class="fa fa-caret-right caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -169,18 +174,18 @@
 
     <div class="row mt-5">
         <div class="col-sm-12">
-            <div class="row p-3">
-                <div class="col-sm-12 text-right p-0">
-                    <div class="col-sm-4">
-                        <input type="text" placeholder="search for seller by name" class="form-control txt_Search" [(ngModel)]="retailerName" (keyup.enter)="getPage(1)" />
-                    </div>
-                    <div class="col-sm-8 text-right">
-                        <select class="ddl_default mt-3">
-                            <option>Download</option>
-                            <option>PDF</option>
-                        </select>
-                    </div>
+            <div class="row col-sm-12 text-right p-0">
+                <div class="col-sm-4">
+                    <input type="text" placeholder="search for seller by name" class="form-control txt_Search" [(ngModel)]="retailerName" (keyup.enter)="getPage(1)" />
                 </div>
+                <div class="col-sm-8 text-right">
+                    <select class="ddl_default mt-3">
+                        <option>Download</option>
+                        <option>PDF</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row p-3">
                 <div class="col-sm-12 p-0 mt-3 ">
                     <div class="col-sm-12 p-0 pt-3 pagination_align">
                         <pagination-controls id='server' class="my-pagination" (pageChange)="getPage($event)" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page"></pagination-controls>
@@ -201,25 +206,27 @@
                                     <th width="16%">Avg.Response Time</th>
                                 </tr>
                             </thead>
-                            <tbody  *ngFor="let retailer of retailers.content | paginate: { id: 'server', itemsPerPage: retailers.size, currentPage: retailers.number + 1 , totalItems: retailers.totalElements }">
+                            <tbody *ngFor="let retailer of retailers.content | paginate: { id: 'server', itemsPerPage: retailers.size, currentPage: retailers.number + 1 , totalItems: retailers.totalElements }">
                                 <tr>
                                     <td>
                                         <input type="checkbox" />
                                     </td>
-                                    <td>{{retailer.status?'deactive':'active'}}</td>
-                                    <td>{{retailer.businessName}}</td>
+                                    <td>{{retailer.status?'Active':'Inactive'}}</td>
+                                    <td>
+                                        <a class="colorBlue" (click)="getRetailerReviewRatings(retailer)" [attr.aria-expanded]="!retailer.isCollapsed" aria-controls="collapseExample">{{retailer.businessName}}</a>
+                                    </td>
                                     <td>{{retailer.createdDate | date: 'shortDate'}}</td>
-                                    <td>{{retailer.businessName}}</td>
-                                    <td>{{retailer.businessName}}</td>
-                                    <td>{{retailer.businessName}}</td>
-                                    <td>{{retailer.businessName}} days</td>
+                                    <td>{{retailer.avgRating}}</td>
+                                    <td>{{retailer.transcation}}</td>
+                                    <td>{{retailer.totalReviews}}</td>
+                                    <td>{{retailer.avgResponseTime}} days</td>
                                 </tr>
-                                <tr>
+                                <tr *ngIf="!retailer.isCollapsed" style="height:130px;">
                                     <td colspan="4">
 
                                     </td>
                                     <td colspan="4">
-
+                                        <chart [type]="'horizontalBar'" [data]="retailer.chartData" [options]="options_retailerRatings" style="width:200px;" class="backgroundWhite"></chart>
                                     </td>
                                 </tr>
 

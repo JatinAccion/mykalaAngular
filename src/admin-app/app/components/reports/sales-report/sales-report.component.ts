@@ -13,10 +13,10 @@ export class SalesReportComponent implements OnInit {
   isCollapsed = true;
   type = 'line';
   data = {
-    labels: ["January", "February", "March", "April", "May", "June", "July"],
+    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
     datasets: [
       {
-        label: "My First dataset",
+        label: 'My First dataset',
         data: [65, 59, 80, 81, 56, 55, 40]
       }
     ]

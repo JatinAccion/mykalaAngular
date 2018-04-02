@@ -1,4 +1,4 @@
-import { Pagination } from "./pagination";
+import { Pagination } from './pagination';
 
 export class Inquiry {
   public supportId: string;
@@ -26,6 +26,7 @@ export class Inquiry {
   public resolutionType: string;
   public resolutionDescription: string;
   public retailerId: string;
+  public retailerName: string;
   public consumerId: string;
   public createdDate: string;
   public modifiedDate: string;
@@ -54,6 +55,7 @@ export class Inquiry {
       this.resolutionDescription = obj.resolutionDescription;
       this.resolutionNotes = obj.resolutionNotes;
       this.retailerId = obj.retailerId;
+      this.retailerName = obj.retailerName;
       this.consumerId = obj.consumerId;
       this.createdDate = obj.createdDate;
       this.modifiedDate = obj.modifiedDate;

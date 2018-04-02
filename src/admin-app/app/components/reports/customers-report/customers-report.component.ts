@@ -21,14 +21,14 @@ export class CustomersReportComponent implements OnInit {
     'closed': { widgetType: 'Closed', year: 2018, month: 2, value: 0 }
   };
   summary = { totalCostOfGoods: 0, totalTaxesCost: 0, totalShipCost: 0, saleRevenue: 0, netRevenue: 0 };
-  backgroundColors = '#60c9df';//, '#4c9ca0', '#ae7d99', '#c9d45c', '#5592ad', '#6d78ad', '#51cda0', '#f8f378', '#ae6653', '#60df63', '#60c9df'];
+  backgroundColors = '#60c9df';
   type = 'bar';
   data = {
-    labels: [],//['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    labels: [],
     datasets: [
       {
         label: 'Consumer',
-        data: [],//[65, 59, 80, 81, 56, 55, 40],
+        data: [],
         backgroundColor: this.backgroundColors,
       }
     ]

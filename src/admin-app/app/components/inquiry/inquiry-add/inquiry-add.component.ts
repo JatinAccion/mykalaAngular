@@ -70,6 +70,7 @@ export class InquiryAddComponent implements OnInit {
     this.getUsers();
     if (this.inquiryId) {
       this.getInquiryData(this.inquiryId);
+
     }
   }
   setFormValidators() {
@@ -105,6 +106,7 @@ export class InquiryAddComponent implements OnInit {
       this.inquiryTypeChange();
       this.inquiryCategoryChange();
       this.inquiryStatusChange();
+      this.checkOrder();
     });
   }
   saveInquiry() {
@@ -115,11 +117,8 @@ export class InquiryAddComponent implements OnInit {
       this.core.message.info(userMessages.requiredFeilds);
     } else {
       if (!this.order || !this.inquiry.productName || !this.inquiry.retailerId) {
-        this.core.message.info('order id is wrong');
+        this.core.message.info(userMessages.invalidOrder);
       } else {
-        this.inquiry.customerId = this.order.userId;
-        this.inquiry.retailerId = this.order.orderItems[0].retailerId;
-        this.inquiry.orderDate = this.toDate(this.order.purchasedDate);
         this.saveloader = true;
         this.inquiryService
           .save(this.inquiry)
@@ -135,13 +134,23 @@ export class InquiryAddComponent implements OnInit {
     }
   }
   async checkOrder() {
-    if (true) {
+    if (this.fG1.value.orderId) {
       await this.getOrderDetails(this.fG1.value.orderId);
-      if (this.order.orderItems && this.order.orderItems.length > 0) {
-        if (this.order.orderItems.length === 1) {
-          this.setInquiryOrderDetails(this.order.orderItems[0]);
-        } else {
-          this.showProduct = true;
+      if (!this.order || !this.inquiry.productName || !this.inquiry.retailerId) {
+        this.core.message.info(userMessages.invalidOrder);
+      } else {
+        this.inquiry.customerId = this.order.userId;
+        this.inquiry.orderDate = this.toDate(this.order.purchasedDate);
+        if (this.order.orderItems && this.order.orderItems.length > 0) {
+          if (this.order.orderItems.length === 1) {
+            this.setInquiryOrderDetails(this.order.orderItems[0]);
+          } else {
+            const orderItems = this.order.orderItems.filter(p => p.productName === this.inquiry.productName);
+            if (orderItems && orderItems.length > 0) {
+              this.setInquiryOrderDetails(orderItems[0]);
+            }
+            this.showProduct = true;
+          }
         }
       }
     }
@@ -149,8 +158,14 @@ export class InquiryAddComponent implements OnInit {
   setInquiryOrderDetails(orderItem: ReportOrderItem) {
     this.inquiry = this.inquiry || new Inquiry();
     this.inquiry.productName = orderItem.productName;
-    this.inquiry.retailerId = orderItem.retailerId;
     this.inquiry.productCost = orderItem.productPrice;
+    this.inquiry.retailerId = orderItem.retailerId;
+    this.inquiry.retailerName = orderItem.retailerName;
+    if (!this.fG1.value.product) {
+      this.fG1.controls.product.setValue(orderItem);
+      this.fG1.controls.product.updateValueAndValidity();
+
+    }
   }
   inquiryTypeChange() {
     const form = this.fG1.value;
@@ -178,21 +193,23 @@ export class InquiryAddComponent implements OnInit {
     this.showResoltionOutcome = form.inquiryStatus === InquiryResolvedStatus;
     this.showResoltionDescription = form.inquiryStatus === InquiryResolvedStatus;
     this.showResoltionDate = form.inquiryStatus === InquiryResolvedStatus;
-    formControls.resolutionOutcome.patchValue('');
-    formControls.resolutionType.patchValue('');
-    formControls.resolutionNotes.patchValue('');
-    formControls.resolutionDescription.patchValue('');
-    formControls.resolutionDate.patchValue('');
-    formControls.resolutionOutcome.clearValidators();
-    formControls.resolutionType.clearValidators();
-    formControls.resolutionNotes.setValidators([this.validatorExt.getRV(this.showResoltion)]);
-    formControls.resolutionDescription.setValidators([this.validatorExt.getRV(this.showResoltion)]);
-    formControls.resolutionDate.clearValidators();
-    formControls.resolutionOutcome.updateValueAndValidity();
-    formControls.resolutionType.updateValueAndValidity();
-    formControls.resolutionNotes.updateValueAndValidity();
-    formControls.resolutionDescription.updateValueAndValidity();
-    formControls.resolutionDate.updateValueAndValidity();
+    if (!this.showResoltion) {
+      formControls.resolutionOutcome.patchValue('');
+      formControls.resolutionType.patchValue('');
+      formControls.resolutionNotes.patchValue('');
+      formControls.resolutionDescription.patchValue('');
+      formControls.resolutionDate.patchValue('');
+      formControls.resolutionOutcome.clearValidators();
+      formControls.resolutionType.clearValidators();
+      formControls.resolutionNotes.setValidators([this.validatorExt.getRV(this.showResoltion)]);
+      formControls.resolutionDescription.setValidators([this.validatorExt.getRV(this.showResoltion)]);
+      formControls.resolutionDate.clearValidators();
+      formControls.resolutionOutcome.updateValueAndValidity();
+      formControls.resolutionType.updateValueAndValidity();
+      formControls.resolutionNotes.updateValueAndValidity();
+      formControls.resolutionDescription.updateValueAndValidity();
+      formControls.resolutionDate.updateValueAndValidity();
+    }
   }
   readForm() {
     const form = this.fG1.value;

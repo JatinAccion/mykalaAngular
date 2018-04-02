@@ -64,7 +64,7 @@
     <div class="row p-2" *ngIf="product.mainImage" >Main Image</div>
     <div class="row anc_otherImg">
         <a href="#" class="anc_otherImg" *ngIf="product.mainImage">
-            <img src="{{product.mainImage.location}}" class="img-fluid">
+            <img src="{{product.mainImage.imageUrl}}" class="img-fluid">
         </a>
         <div class="overlay">
             <div class="text">
@@ -75,7 +75,7 @@
     <div class="row p-2" *ngIf="product.otherImages.length>0" >Other Images</div>
     <div class="row">
         <div class="d-inline anc_otherImg" *ngFor="let image of product.otherImages" >
-            <img src="{{image.location}}" class="img-fluid">
+            <img src="{{image.imageUrl}}" class="img-fluid">
             <div class="overlay">
                 <div class="text">
                     <span class="fa fa-refresh" (click)="markasMainImage(image.id)" ></span>

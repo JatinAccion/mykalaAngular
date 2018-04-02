@@ -145,11 +145,13 @@ export class SellerPayment {
   public paymentType: string; //  null
   public retailerId: string; // "5a9558e28998e6452cb9ed5b"
   constructor(obj?: any) {
-    this.orderId = obj.orderId;
-    this.paymentDate = obj.paymentDate;
-    this.paymentStatus = obj.paymentStatus;
-    this.paymentType = obj.paymentType;
-    this.retailerId = obj.retailerId;
+    if (obj) {
+      this.orderId = obj.orderId;
+      this.paymentDate = obj.paymentDate;
+      this.paymentStatus = obj.paymentStatus;
+      this.paymentType = obj.paymentType;
+      this.retailerId = obj.retailerId;
+    }
   }
 }
 

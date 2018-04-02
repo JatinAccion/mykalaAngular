@@ -1,14 +1,13 @@
 <div class="container">
-    <div class="title col-sm-12 p-0">
-        <h1>Orders</h1>
-    </div>
-    <div class="row p-2">
-        <div class="col-sm-6 pl-2">
-            <input placeholder="search for order" class="form-control txt_Search w-50" type="text"  [(ngModel)]="search" (keyup)="getPage(1)">
+    <div class="row title py-3">
+        <div class="col-sm-6 p-0">
+            <h1>Orders</h1>
         </div>
-        <div class="col-sm-3"></div>
-        <div class="col-sm-3 pr-2 text-right">
-            <select class="ddl_default form-control" [(ngModel)]="searchType" >
+        <div class="col-sm-4">
+            <input placeholder="search for order" class="form-control txt_Search" type="text" [(ngModel)]="search" (keyup)="getPage(1)">
+        </div>
+        <div class="col-sm-2 pr-2 text-right">
+            <select class="ddl_default form-control" [(ngModel)]="searchType" (change)="getPage(1)">
                 <option>Seller</option>
                 <option>Member</option>
                 <option>Order Number</option>
@@ -17,7 +16,7 @@
     </div>
 
     <div class="spinner" [ngClass]="{ 'hidden': !loading }"></div>
-    <div class="col-sm-12 p-0 mt-3 product_file">
+    <div class="col-sm-12 p-0 product_file">
         <div class="col-sm-12 p-0 pt-3 pagination_align">
             <pagination-controls id='server' class="my-pagination" (pageChange)="getPage($event)" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page"></pagination-controls>
         </div>

@@ -1,17 +1,20 @@
 <div class="container">
-    <div class="title col-sm-12 p-0">
-        <h1>Summary</h1>
-        <div class="float-right top_right">
+    <div class="row title p-0">
+        <div class="col-sm-9 p-0">
+            <h1>Summary</h1>
+        </div>
+        <div class="col-sm-3 text-right p-0">
             <a class="btn btn-default" routerLink="/inquiry-add" routerLinkActive="inquiry-add">+ New Inquiry</a>
         </div>
     </div>
-    <div class="row p-2">
+    <div class="row p-2 text-right">
         <div class="col-sm-6 pl-2">
-            <input placeholder="search for order" class="form-control txt_Search w-50" type="text" [(ngModel)]="search" (keyup)="getPage(1)">
         </div>
-        <div class="col-sm-3"></div>
-        <div class="col-sm-3 pr-2 text-right">
-            <select class="ddl_default form-control" [(ngModel)]="searchType">
+        <div class="col-sm-4 pl-2">
+            <input placeholder="search for order" class="form-control txt_Search" type="text" [(ngModel)]="search" (keyup)="getPage(1)">
+        </div>
+        <div class="col-sm-2 pr-2 text-right">
+            <select class="ddl_default form-control" [(ngModel)]="searchType" (change)="getPage(1)" >
                 <option>Seller</option>
                 <option>Member</option>
                 <option>Order Number</option>

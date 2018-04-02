@@ -1,336 +1,209 @@
 <div class="container">
-    <div class="title col-sm-12 p-0">
-        <h1>Orders</h1> 
-    </div> 
-    <div class="row p-2">
-        <div class="col-sm-9 pl-2">
-            <input placeholder="search for user" class="form-control txt_Search w-50" type="text">
+    <div class="row title py-3">
+        <div class="col-sm-9 p-0">
+            <h1>Summary</h1>
         </div>
-        <div class="col-sm-3 pr-2 text-right">
-            <select class="ddl_default form-control">
-                <option>category</option>
-                <option>category1</option>
-                <option>category2</option>
+        <div class="col-sm-3 p-0">
+            <select class="ddl_default form-control" [(ngModel)]="reportModel" (change)="getData()">
+                <option>Monthly</option>
+                <option>Yearly</option>
             </select>
         </div>
     </div>
-    <chart [type]="type" [data]="data" [options]="options"></chart> 
-    <div class="col-sm-12 p-0 mt-3 product_file">
-        <div class="row">
-            <div class="col-sm-2 colorlightGray">Previous</div>
-            <div class="col-sm-8 text-center">Sales Transactions 1-10 of 1,235</div>
-            <div class="col-sm-2 colorlightGray text-right">Next</div>
+    <div class="row ">
+        <div class="col-sm-3 pl-0">
+            <div class="backgroundWhite">
+                <div class="text-center p-2">
+                    Total Inquiries
+                    <span class="float-right">
+                        <a>
+                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                        </a>
+                    </span>
+                    <hr class="m-2" />
+                </div>
+                <div class="row pl-3 pr-2 pb-2">
+                    <div class="col-sm-2">
+                        <a (click)="goto('total',-1)">
+                            <i class="fa fa-caret-left caretFont" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div class="col-sm-8 text-center colorlightGray">
+                        {{this.reportModel !== 'Monthly'?'':(widget.total.month + 1 + ',') }} {{widget.total.year}}
+                    </div>
+                    <div class="col-sm-2">
+                        <a (click)="goto('total',1)">
+                            <i class="fa fa-caret-right caretFont" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="row p-2">
+                    <div class="col-sm-12 text-center colorDarkBlue">
+                        <h4>{{widget.total.value}}</h4>
+                    </div>
+                </div>
+                <div class="text-center p-2">
+                    <a class="btn btn-default" (click)="getDetails('total')">Detail</a>
+                </div>
+            </div>
         </div>
-        <div class="col-sm-12 p-2 m-1 backgroundWhite">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th width="5%"><input type="checkbox" /></th>
-                        <th width="10%">Order No.</th>
-                        <th width="10%">Status</th>
-                        <th width="10%">Order Date</th>
-                        <th width="15%">Seller</th>
-                        <th width="20%">Buyer</th>
-                        <th width="12%">Product</th>
-                        <th width="10%">Sale Total</th>
-                        <th width="6%">Issue</th>
-                        <th width="2%"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><input type="checkbox" /></td>
-                        <td>107-3434-27</td>
-                        <td>Delivered</td>
-                        <td>06/12/2015</td>
-                        <td>Collective Fab</td>
-                        <td>Sonya Martinz</td>
-                        <td>0720MPK29QV</td>
-                        <td>$210.00</td>
-                        <td>Y</td>
-                        <td>
-                            <a class="colorBlue" (click)="isCollapsed = !isCollapsed"
-                                    [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
-                                    <i class="fa fa-caret-down" aria-hidden="true"></i>
-                            </a> 
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="10" *ngIf="!isCollapsed" class="divOrderDetails">
-                            <div class="row orderdetail_row m-2">
-                                <div class="col-sm-2 align-middle">
-                                    <h4 class="colorGray">Product</h4> 
-                                    <img src="/admin-app/assets/images/lamp1.png" />
-                                </div>
-                                <div class="col-sm-4">
-                                    <table class="no_tdBorder" width="100%" border="0">
-                                        <tr>
-                                            <td colspan="2"><strong>Wood Floral Ceiling Lamp</strong></td> 
-                                        </tr>
-                                        <tr>
-                                            <td>Product Code:</td>
-                                            <td>093483948</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Price:</td>
-                                            <td>$345.00</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Quality:</td>
-                                            <td>1</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Size:</td>
-                                            <td>20cm</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Reviews:</td>
-                                            <td>123</td>
-                                        </tr> 
-                                    </table>
-                                </div> 
-                                <div class="col-sm-4 offset-2">
-                                    <table width="100%" class="no_tdBorder" border="0"> 
-                                        <tr>
-                                            <td>Product Place:</td>
-                                            <td>Home & Garden</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Category:</td>
-                                            <td>Lighting</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Type:</td>
-                                            <td>Lamp, Ceiling</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                            <hr />
-                            <div class="row orderdetail_row m-2">
-                                <div class="col-sm-2 align-middle">
-                                    <h4 class="colorGray">Order</h4> 
-                                    <img src="/admin-app/assets/images/lamp2.png" />
-                                </div>
-                                <div class="col-sm-4">
-                                    <table width="100%" class="no_tdBorder" border="0"> 
-                                        <tr>
-                                            <td>Order number:</td>
-                                            <td>093-483948</td>
-                                        </tr>
-                                        <tr>
-                                            <td>1-5 days delivery:</td>
-                                            <td>$5.00</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Total:</td>
-                                            <td>$234.00</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Pay with:</td>
-                                            <td>Visa 9876</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Ship to:</td>
-                                            <td>Xinyu liu, 20 surry rd, arlington, ma,09876</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div class="col-sm-4 offset-2">
-                                    <table width="100%" class="no_tdBorder" border="0">
-                                        <tr>
-                                            <td>Order placed:</td>
-                                            <td>06/12/2017</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Processed on:</td>
-                                            <td>06/12/2017</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Shipped on:</td>
-                                            <td>06/12/2017</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Delivered on:</td>
-                                            <td>06/12/2017</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Seller payment status :</td>
-                                            <td>Paid<span class="float-right"><a href="#">Edit</a></span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Paid on:</td>
-                                            <td>06/12/2017 14:35:00</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div> 
-                            <hr />
-                            <div class="row orderdetail_row m-2">
-                                <div class="col-sm-2 align-middle">
-                                    <h4 class="colorGray">Member</h4> 
-                                    <img src="/admin-app/assets/images/business_logo3.png" />
-                                </div>
-                                <div class="col-sm-4">
-                                    <table width="100%" class="no_tdBorder" border="0"> 
-                                        <tr>
-                                            <td>Sonya Martinez</td> 
-                                        </tr>
-                                        <tr>
-                                            <td>member since 06/2017</td> 
-                                        </tr>
-                                        <tr>
-                                            <td>4 orders, 7 offer requestis</td> 
-                                        </tr>
-                                        <tr>
-                                            <td>1-555-676-3433</td> 
-                                        </tr>
-                                        <tr>
-                                            <td>sonya.martinez@gmail.com</td> 
-                                        </tr>
-                                        <tr>
-                                            <td>12345 Mango Dr, Del Mar, CA 98765</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div class="col-sm-4 offset-2">
-                                    <table width="100%" class="no_tdBorder" border="0">
-                                        <tr>
-                                            <td>DOB:</td>
-                                            <td>08/17/1985</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Member ID:</td>
-                                            <td>098765457</td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2"><strong>Previous Inquiries:</strong></td> 
-                                        </tr>
-                                        <tr>
-                                            <td class="pl-3">complaints:</td>
-                                            <td>1</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="pl-3">Returns:</td>
-                                            <td>0</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="pl-3">Questions:</td>
-                                            <td>5</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                            <hr />
-                            <div class="row orderdetail_row m-2">
-                                <div class="col-sm-2 align-middle">
-                                    <h4 class="colorGray">Seller</h4> 
-                                    <img src="/admin-app/assets/images/lamp1.png" />
-                                </div>
-                                <div class="col-sm-4">
-                                    <table width="100%" border="0"> 
-                                        <tr>
-                                            <td>Collective Fab</td> 
-                                        </tr>
-                                        <tr>
-                                            <td>Reviews: 123</td> 
-                                        </tr>
-                                        <tr>
-                                            <td>Contact: Troy Smith</td> 
-                                        </tr>
-                                        <tr>
-                                            <td>1-555-342-2343</td> 
-                                        </tr>
-                                        <tr>
-                                            <td>tmsith@collectivefab.com</td> 
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div class="col-sm-3">
-                                    <table width="100%" border="0"> 
-                                        <tr>
-                                            <td colspan="2"><strong>Previous Inquiries:</strong></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="pl-3">complaints:</td>
-                                            <td>1</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="pl-3">Returns:</td>
-                                            <td>0</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="pl-3">Questions:</td>
-                                            <td>5</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div class="col-sm-3">
-                                    <a class=" btn_redouter_right w-100" href="#">view account</a>
-                                </div>
-                            </div>
-                            <hr />
-                            <div class="row orderdetail_row m-2">
-                                <div class="col-sm-2 align-middle">
-                                    <h4 class="colorGray">Issues</h4> 
-                                </div>
-                                <div class="col-sm-4">
-                                    <table width="100%" class="no_tdBorder" border="0"> 
-                                        <tr>
-                                            <td>Priority:</td>
-                                            <td><strong>High</strong></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Category:</td>
-                                            <td><strong>Problem with order</strong></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Issue type:</td>
-                                            <td><strong>Item arrived damaged</strong></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Issue date:</td>
-                                            <td><strong>06/15/2017</strong></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Issue status:</td>
-                                            <td><strong>Closed - satisfied</strong></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Resolved on:</td>
-                                            <td><strong>06/15/2017</strong></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Issue description:</td>
-                                            <td><strong>Lamp surfaced arrived with deep scratches in finish</strong></td>
-                                        </tr> 
-                                    </table>
-                                </div>
-                                <div class="col-sm-4">
-                                    <table width="100%" class="no_tdBorder" border="0">
-                                        <tr>
-                                            <td>Assigned to :</td>
-                                            <td>Ryan Wegner</td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2">
-                                                <div>Notes:</div>
-                                                <p class="border_outline p-2">
-                                                    Contacted buyer on 06/23 to confirm issue, contacted seller on 06/23, seller agreed to exchange item, Shipping label sent to Sonya on 06/24, Item exchangein complete and member is satisfied with result on 06/28.
-                                                </p>
-                                            </td> 
-                                        </tr> 
-                                    </table>
-                                </div>
-                                <div class="col-sm-2">
-                                    <p><a class="btn_red_right  w-100" href="inquiries_create.html">+ create inquiry</a></p>
-                                    <p><a class="btn_redouter_right w-100" href="#">edit account</a></p> 
-                                </div>
-                            </div>
-                        </td>
-                    </tr>                    
-                </tbody>
-            </table>
+        <div class="col-sm-3 pl-0">
+            <div class="backgroundWhite">
+                <div class="text-center p-2">
+                    Complaints
+                    <span class="float-right">
+                        <a (click)="goto('automatic',0)">
+                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                        </a>
+                    </span>
+                    <hr class="m-2" />
+                </div>
+                <div class="row pl-3 pr-2 pb-2">
+                    <div class="col-sm-2">
+                        <a (click)="goto('automatic',-1)">
+                            <i class="fa fa-caret-left caretFont" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div class="col-sm-8 text-center colorlightGray">
+                        {{this.reportModel !== 'Monthly'?'':(widget.automatic.month + 1 + ',') }} {{widget.automatic.year}}
+                    </div>
+                    <div class="col-sm-2">
+                        <a (click)="goto('automatic',1)">
+                            <i class="fa fa-caret-right caretFont" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="row p-2">
+                    <div class="col-sm-12 text-center colorDarkBlue">
+                        <h4>{{widget.automatic.value}}</h4>
+                    </div>
+                </div>
+                <div class="text-center p-2">
+                    <a class="btn btn-default" (click)="getDetails('automatic')">Detail</a>
+                </div>
+            </div>
         </div>
+        <div class="col-sm-3 pl-0">
+            <div class="backgroundWhite">
+                <div class="text-center p-2">
+                    Returns
+                    <span class="float-right">
+                        <a (click)="goto('manual',0)">
+                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                        </a>
+                    </span>
+                    <hr class="m-2" />
+                </div>
+                <div class="row pl-3 pr-2 pb-2">
+                    <div class="col-sm-2">
+                        <a (click)="goto('manual',-1)">
+                            <i class="fa fa-caret-left caretFont" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div class="col-sm-8 text-center colorlightGray">
+                        {{this.reportModel !== 'Monthly'?'':(widget.manual.month + 1 + ',') }} {{widget.manual.year}}
+                    </div>
+                    <div class="col-sm-2">
+                        <a (click)="goto('manual',1)">
+                            <i class="fa fa-caret-right caretFont" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="row p-2">
+                    <div class="col-sm-12 text-center colorDarkBlue">
+                        <h4>{{widget.manual.value}}</h4>
+                    </div>
+                </div>
+                <div class="text-center p-2">
+                    <a class="btn btn-default" (click)="getDetails('manual')">Detail</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3 pl-0">
+            <div class="backgroundWhite">
+                <div class="text-center p-2">
+                    Open Inquiries
+                    <span class="float-right">
+                        <a (click)="goto('pending',0)">
+                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                        </a>
+                    </span>
+                    <hr class="m-2" />
+                </div>
+                <div class="row pl-3 pr-2 pb-2">
+                    <div class="col-sm-2">
+                        <a (click)="goto('pending',-1)">
+                            <i class="fa fa-caret-left caretFont" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div class="col-sm-8 text-center colorlightGray">
+                        {{this.reportModel !== 'Monthly'?'':(widget.pending.month + 1 + ',')}} {{widget.pending.year}}
+                    </div>
+                    <div class="col-sm-2">
+                        <a (click)="goto('pending',1)">
+                            <i class="fa fa-caret-right caretFont" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="row p-2">
+                    <div class="col-sm-12 text-center colorDarkBlue">
+                        <h4>{{widget.pending.value}}</h4>
+                    </div>
+                </div>
+                <div class="text-center p-2">
+                    <a class="btn btn-default" (click)="getDetails('pending')">Detail</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-sm-6 backgroundWhite">
+            <chart [type]="type" [data]="data" [options]="options" style="width: 80%;height:400px;"></chart>
+            <!-- <span class="paymentBars"><i class="fa fa-bars" aria-hidden="true"></i></span> -->
+        </div>
+        <div class="col-sm-6">
+            <div class="backgroundWhite">
+                <div class="text-center p-2">
+                    Top Inquiries, by Seller
+                    <span class="float-right">
+                        <select class="ddl_default">
+                            <option>Complaints</option>
+                            <option>Total1</option>
+                        </select>
+                    </span>
+                </div>
+                <div class="row p-2 m-2">                  
+                    <table class="p-0 w-100" width="100">
+                    <thead>
+                        <tr>
+                            <th width="40%">Seller</th>
+                            <th width="30%">Complaints</th>
+                            <th width="30%">Open</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let order of orders.content | paginate: { id: 'server', itemsPerPage: orders.size, currentPage: orders.number + 1 , totalItems: orders.totalElements }; let idx = index">
+                        <tr>
+                            <td>{{order.orderItems[0].retailerName}}</td>
+                            <td>{{order.purchasedPrice | currency }}</td>
+                            <td>{{(order.payment.paymentAmount /100) || '0'| currency }}</td>                            
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="col-sm-12 p-0 pt-3 pagination_align">
+                    <pagination-controls id='server' class="my-pagination" (pageChange)="getPage($event)" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page"></pagination-controls>
+                </div>
+                </div>
+            </div>
+            <div class="row p-2 mt-3">
+                
+            </div>
+            <div class="row p-2">
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="row p-2 mt-3">
+            <chart [type]="type" [data]="data" [options]="options" style="width: 80%;height:400px;"></chart>
     </div>
 </div>

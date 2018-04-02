@@ -62,13 +62,17 @@ header{
     color:#fff;
     padding:14px;
 }
+.title {
+    /* margin:70px 0px 20px; */
+    margin-top: 70px;
+    margin-right: 0px
+}
 .title h1{
     color: #a7a9ab;
     font-weight: lighter;
     display: inline-block;
     font-size: 30px;
     font-family:open_sanslight;
-    margin:70px 0px 20px;
 }
 .login_layout{
     background:#fff;

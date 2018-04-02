@@ -93,7 +93,8 @@ export const apiNames = {
         avgResponseTime: 'consumer/v1/report/avgResponseTime/{year}/{month}',
         sellerPayment: 'sellerPayment',
         sellerPaymentStatus: '{orderId}/{retailerId}/sellerPaymentStatus',
-        getRetailerReviews: 'reports/review'
+        getRetailerReviews: 'reports/review',
+        getRetailerReviewRatings: 'consumer/v1/report/retailerReviewRatings/{retailerId}'
     },
     consumer: {
         get: 'consumer/v1/userId'

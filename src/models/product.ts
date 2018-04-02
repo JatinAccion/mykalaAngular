@@ -92,10 +92,12 @@ export class ProductImage {
     public imageType: string;
     public location: string;
     public mainImage: boolean | null = false;
+    public imageUrl: string;
     constructor(obj?: any) {
         this.id = obj.id;
         this.imageType = obj.imageType;
-        this.location = obj.location.toLowerCase().startsWith('https://') ? obj.location : (environment.s3 + obj.location);
+        this.location = obj.location;
+        this.imageUrl = obj.location.toLowerCase().startsWith('https://') ? obj.location : (environment.s3 + obj.location);
         this.mainImage = obj.mainImage;
     }
 }

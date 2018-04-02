@@ -12,6 +12,7 @@ import { environment } from './../../../environments/environment';
 import { nameValue } from '../../../../models/nameValue';
 import { ReportOrders } from '../../../../models/report-order';
 import { ReportReviewSummary } from '../../../../models/report-review';
+import { Retailers, RetailerReviews, ReviewRatings } from '../../../../models/retailer';
 
 @Injectable()
 export class ReportsService {
@@ -79,13 +80,32 @@ export class ReportsService {
       .map(p => new ReportOrders(p))
       .catch(this.handleError);
   }
-  getReviews(query?: any): Observable<any> {
+  getReviews(query?: any): Observable<RetailerReviews> {
     this.headers = this.getHttpHeraders();
     const url = `${environment.AdminApi}/${environment.apis.orders.getRetailerReviews}`;
     return this.http
       .get(url, { search: query, headers: this.headers })
-      .map(p => p.json())
-      .map(p => new ReportOrders(p))
+      .map(res => {
+        if (res.text() === '') {
+          return new RetailerReviews();
+        } else {
+          return new RetailerReviews(res.json());
+        }
+      })
+      .catch(this.handleError);
+  }
+  getRetailerReviewRatings(retailerId: string): Observable<ReviewRatings> {
+    this.headers = this.getHttpHeraders();
+    const url = `${environment.consumerApi}/${environment.apis.orders.getRetailerReviewRatings}`.replace('{retailerId}', retailerId);
+    return this.http
+      .get(url, { headers: this.headers })
+      .map(res => {
+        if (res.text() === '') {
+          return '';
+        } else {
+          return new ReviewRatings(res.json());
+        }
+      })
       .catch(this.handleError);
   }
   getConsumerCount(memberType: string, year: string, month?: string) {
@@ -110,7 +130,13 @@ export class ReportsService {
     const url = `${environment.consumerApi}/${environment.apis.orders.avgReviewCount}`.replace('{year}', year).replace('{month}', month || '');
     return this.http
       .get(url, { headers: this.headers })
-      .map(p => p.json()).map(p => new ReportReviewSummary(p))
+      .map(res => {
+        if (res.text() === '') {
+          return new ReportReviewSummary();
+        } else {
+          return new ReportReviewSummary(res.json());
+        }
+      })
       .catch(this.handleError);
   }
   getAvgResponseTime(year: string, month?: string): Observable<any> {
