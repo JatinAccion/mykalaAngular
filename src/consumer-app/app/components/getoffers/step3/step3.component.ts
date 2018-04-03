@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';  
+import { Router } from '@angular/router';
 import { GetOfferService } from '../../../services/getOffer.service';
 import { CoreService } from '../../../services/core.service';
 import { GetOfferModal } from '../../../../../models/getOffer.modal';
@@ -28,7 +28,10 @@ export class Step3Component implements OnInit {
   loaderLocation: boolean = false;
   Step3Modal = new GetOfferModal();
   Step3SelectedValues = { price: { minPrice: "", maxPrice: "" }, location: [], delivery: "", instruction: "" };
+  step2PriceData: any;
   viewSavedData;
+  minPrice;
+  maxPrice;
 
   constructor(
     private route: Router,
@@ -63,14 +66,35 @@ export class Step3Component implements OnInit {
     this.core.show(this.headerMessage);
     this.pageLabel = 'What\'s your budget and delivery preference for this item?';
     this.core.pageLabel(this.pageLabel);
-    if (window.localStorage['userInfo'] === undefined) this.showExistingLocation = false;
+    if (window.localStorage['GetOfferPrice'] != undefined) {
+      let price;
+      this.step2PriceData = JSON.parse(window.localStorage['GetOfferPrice']);
+      for (var i = 0; i < this.step2PriceData.length; i++) {
+        let item = this.step2PriceData[i];
+        if (item.key == 'Price') {
+          price = item.values;
+          break;
+        }
+      }
+      this.minPrice = price[0].split("-")[0];
+      this.maxPrice = price[0].split("-")[1];
+    }
+    if (window.localStorage['userInfo'] === undefined) {
+      this.existingLocation = [];
+      this.showExistingLocation = false;
+    }
     else {
-      this.goService.getExistingLocations().subscribe(res => {
-        this.existingLocation.push({
-          "zipcode": res.consumerAddress.zipcode,
-          "country": res.consumerAddress.country,
-          "state": res.consumerAddress.state
-        });
+      let userData = JSON.parse(window.localStorage['userInfo'])
+      this.existingLocation = [];
+      this.goService.getExistingLocations(userData.userId).subscribe(res => {
+        for (var i = 0; i < res.length; i++) {
+          this.existingLocation.push({
+            "zipcode": res[i].zipcode,
+            "country": res[i].country,
+            "city": res[i].city,
+            "state": res[i].state
+          });
+        }
         this.showExistingLocation = true;
         console.log(this.existingLocation);
       });
@@ -91,14 +115,30 @@ export class Step3Component implements OnInit {
     }
     else {
       this.getOffer_orderInfo = this.formBuilder.group({
-        "minPrice": ['123'],
-        "maxPrice": ['10000'],
+        "minPrice": [this.minPrice],
+        "maxPrice": [this.maxPrice],
         "delivery": [''],
         "zipCode": ['', Validators.compose([Validators.pattern(this.zipCodeRegex), Validators.minLength(5), Validators.maxLength(5)])],
         "instruction": ['']
       });
     }
   };
+
+  selectAddress(address, e) {
+    this.getCSC = [];
+    let elements = document.getElementsByClassName("deliveryLocations");
+    for (var i = 0; i < elements.length; i++) {
+      elements[i].classList.remove("categ_outline_red");
+      elements[i].classList.add("categ_outline_gray")
+    }
+    e.currentTarget.classList.add("categ_outline_red");
+    e.currentTarget.classList.remove("categ_outline_gray");
+    this.getCSC.push({
+      "zipcode": address.zipcode,
+      "country": address.country,
+      "state": address.state
+    });
+  }
 
   format(value) {
     return value + "%";
@@ -119,6 +159,11 @@ export class Step3Component implements OnInit {
       input.setAttribute('readonly', true);
       this.goService.getLocation(this.getOffer_orderInfo.controls.zipCode.value)
         .subscribe(data => {
+          let elements = document.getElementsByClassName("deliveryLocations");
+          for (var i = 0; i < elements.length; i++) {
+            elements[i].classList.remove("categ_outline_red");
+            elements[i].classList.add("categ_outline_gray")
+          }
           this.loaderLocation = false;
           input.removeAttribute('readonly');
           this.fetchGeoCode = data.results[0].formatted_address;

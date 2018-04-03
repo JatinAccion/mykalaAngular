@@ -105,13 +105,19 @@ export class Step4Component implements OnInit {
     }
     console.log(this.Step4Modal)
     this.getOffer.confirmOffer(this.Step4Modal).subscribe(res => {
-      this.loader = false;
-      localStorage.removeItem("GetOfferStep_1");
-      localStorage.removeItem("GetOfferStep_2");
-      localStorage.removeItem("GetOfferStep_3");
-      window.localStorage['getOffers'] = JSON.stringify(res);
-      localStorage.removeItem("offerIdForEdit");
-      this.route.navigateByUrl("/myoffer")
+      if (res.getOffersResponse == null) {
+        alert("No Offer Available")
+        this.route.navigateByUrl('/browse-product')
+      }
+      else {
+        this.loader = false;
+        localStorage.removeItem("GetOfferStep_1");
+        localStorage.removeItem("GetOfferStep_2");
+        localStorage.removeItem("GetOfferStep_3");
+        window.localStorage['getOffers'] = JSON.stringify(res);
+        localStorage.removeItem("offerIdForEdit");
+        this.route.navigateByUrl("/myoffer")
+      }
     }, (err) => {
       this.loader = false;
     });

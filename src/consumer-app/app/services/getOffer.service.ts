@@ -11,8 +11,8 @@ export class GetOfferService {
         return this.http.get(url).map(res => res.json());
     };
 
-    getExistingLocations() {
-        const url = '/consumer-app/assets/zipcode.json';
+    getExistingLocations(userId) {
+        const url: string = `${environment.profileInterest}/${environment.apis.profileInterest.addressList}/${userId}`;
         return this.http.get(url).map(res => res.json());
     }
 
