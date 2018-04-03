@@ -7,7 +7,7 @@
     <div class="col-sm-8 joinScreen_layout">
       <div class="row">
         <div class="col-sm-12 p-3" *ngIf="loadInterest">
-          <img src="./consumer-app/assets/images/loader.gif" style="margin: 0 46%" />
+          <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 46%" />
         </div>
 
         <!--Block 1-->
@@ -15,7 +15,7 @@
           <div *ngFor="let interest of interestImages; let i=index">
             <div *ngIf="i<=3" class="img_holder banner p-2">
               <img (click)="selectInterest($event, interest)" style="cursor: pointer" src="{{interest.consumerInterestImagePath}}" title="{{interest.consumerInterestImageName}}" id="{{interest.id}}" class="img-fluid" alt="" />
-              <img class="aboluteImg" src="./consumer-app/assets/images/select.png" *ngIf="interest.selectImg" />
+              <img class="aboluteImg" src="/consumer-app/assets/images/select.png" *ngIf="interest.selectImg" />
             </div>
           </div>
         </div>
@@ -26,7 +26,7 @@
           <div *ngFor="let interest of interestImages; let i=index">
             <div *ngIf="i>3 && i<=8" class="img_holder banner p-2">
               <img (click)="selectInterest($event, interest)" style="cursor: pointer" src="{{interest.consumerInterestImagePath}}" title="{{interest.consumerInterestImageName}}" id="{{interest.id}}" class="img-fluid" alt="" />
-              <img class="aboluteImg" src="./consumer-app/assets/images/select.png" *ngIf="interest.selectImg" />
+              <img class="aboluteImg" src="/consumer-app/assets/images/select.png" *ngIf="interest.selectImg" />
             </div>
           </div>
         </div>
@@ -37,7 +37,7 @@
           <div *ngFor="let interest of interestImages; let i=index">
             <div *ngIf="i>8 && i<=13" class="img_holder banner p-2">
               <img (click)="selectInterest($event, interest)" style="cursor: pointer" src="{{interest.consumerInterestImagePath}}" title="{{interest.consumerInterestImageName}}" id="{{interest.id}}" class="img-fluid" alt="" />
-              <img class="aboluteImg" src="./consumer-app/assets/images/select.png" *ngIf="interest.selectImg" />
+              <img class="aboluteImg" src="/consumer-app/assets/images/select.png" *ngIf="interest.selectImg" />
             </div>
           </div>
         </div>
@@ -58,7 +58,7 @@
         </div>
         <!--Loader-->
         <div class="col-sm-12 p-3" *ngIf="loader">
-          <img src="./consumer-app/assets/images/loader.gif" style="margin: 0 46%" />
+          <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 46%" />
         </div>
         <!--Loader-->
 

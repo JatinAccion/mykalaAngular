@@ -102,9 +102,23 @@ export class Step2Component implements OnInit {
           break;
         }
       }
+      //If data is already selected before the API calls
+      for (var i = 0; i < getObjectFromOrder.length; i++) {
+        for (var j = 0; j < this.Step2SelectedValues.length; j++) {
+          if (getObjectFromOrder[i].key == this.Step2SelectedValues[j].key) {
+            delete this.Step2SelectedValues[j];
+            this.Step2SelectedValues = this.Step2SelectedValues.filter(function (item) {
+              return item !== undefined;
+            });
+          }
+        }
+      }
+
+      //If data is already selected before the API calls
       for (var i = 0; i < getObjectFromOrder.length; i++) {
         this.getObjectFromOrder.push(getObjectFromOrder[i])
       }
+
       /*let a = this.getObjectFromOrder;
       let b = getObjectFromOrder
       let onlyInA = a.filter(this.compare(b));
@@ -183,68 +197,211 @@ export class Step2Component implements OnInit {
 
   select(offer, values, e) {
     let addSelected: boolean = false;
-    if (offer.order.multiSelect == "Y") {
-      if (e.currentTarget.className == 'categ_outline_gray mr-3 mb-3') {
-        e.currentTarget.className = "categ_outline_red mr-3 mb-3";
-        this.Step2SelectedValues.push({
-          key: offer.key,
-          values: values
-        });
+    if (offer.order.multiSelect == "Y" && offer.order.Filter != "Y") {
+      if (e.currentTarget.classList.contains("categ_outline_gray")) {
+        //When No Preferences Selected
+        if (values == 'No Preference') {
+          offer.lastSelection = values;
+          this.noPreferences(offer, values)
+        }
+        //When Other Selected
+        else if (values == 'Others') this.others(offer, values)
+        else {
+          if (offer.lastSelection == 'No Preference') {
+            let elements = document.getElementsByClassName(`${offer.key}`);
+            for (var i = 0; i < elements.length; i++) {
+              elements[i].classList.add("categ_outline_gray");
+              elements[i].classList.remove("categ_outline_red");
+            }
+            this.Step2SelectedValues = this.Step2SelectedValues.filter(function (item) {
+              return item !== undefined;
+            });
+            for (var i = 0; i < this.Step2SelectedValues.length; i++) {
+              if (this.Step2SelectedValues[i].key == offer.key &&
+                this.Step2SelectedValues[i].values == 'No Preference') {
+                this.Step2SelectedValues[i].values = values;
+              }
+            }
+            delete offer.lastSelection
+          }
+          this.Step2SelectedValues.push({
+            key: offer.key,
+            values: values
+          });
+        }
+        e.currentTarget.classList.add("categ_outline_red");
+        e.currentTarget.classList.remove("categ_outline_gray");
       }
       else {
         for (var i = 0; i < this.Step2SelectedValues.length; i++) {
           if (this.Step2SelectedValues[i].length == 0) this.Step2SelectedValues.splice(i, 1);
           else if (this.Step2SelectedValues[i].values == values) {
             this.Step2SelectedValues.splice(i, 1);
-            e.currentTarget.className = "categ_outline_gray mr-3 mb-3";
+            e.currentTarget.classList.add("categ_outline_gray");
+            e.currentTarget.classList.remove("categ_outline_red");
             return false;
           }
         }
       }
-      window.localStorage['s2SValues'] = JSON.stringify(this.Step2SelectedValues)
-      let s2SValuesFinal = [];
-      let s2SValues = JSON.parse(window.localStorage['s2SValues']);
-      s2SValues.forEach(function (value) {
-        var existing = s2SValuesFinal.filter(function (v, i) {
-          return v.key == value.key;
-        });
-        if (existing.length) {
-          var existingIndex = s2SValuesFinal.indexOf(existing[0]);
-          s2SValuesFinal[existingIndex].values = s2SValuesFinal[existingIndex].values.concat(value.values);
-        } else {
-          if (typeof value.values == 'string')
-            value.values = [value.values];
-          s2SValuesFinal.push(value);
-        }
-      });
-      localStorage.removeItem("s2SValues");
-      for (var i = 0; i < s2SValuesFinal.length; i++) {
-        this.GetOfferStep_2PS.attributes[s2SValuesFinal[i].key] = s2SValuesFinal[i].values
-      }
-      console.log(s2SValuesFinal);
-      console.log(this.GetOfferStep_2PS)
+      this.commonAsParent()
     }
     //else {
     if (offer.order.Filter == "Y") {
-      addSelected = true;
-      let elements = e.currentTarget.parentElement.children;
-      for (var i = 0; i < elements.length; i++) elements[i].className = "categ_outline_gray mr-3 mb-3";
-      e.currentTarget.className = "categ_outline_red mr-3 mb-3";
+      if (values == 'No Preference') {
+        offer.lastSelection = values;
+        this.noPreferences(offer, values);
+        this.GetOfferStep_2.attributes[offer.key] = [];
+        this.GetOfferStep_2.attributes[offer.key].push(values);
+        this.commonAsParent()
+      }
+      else if (values == 'Others') { this.others(offer, values) }
+      else {
+        addSelected = true;
+        //API with Single Select Option
+        if (offer.order.multiSelect == "N") {
+          let elements = e.currentTarget.parentElement.children;
+          for (var i = 0; i < elements.length; i++) {
+            elements[i].classList.add("categ_outline_gray")
+            elements[i].classList.remove("categ_outline_red")
+          }
+          e.currentTarget.classList.add("categ_outline_red");
+          e.currentTarget.classList.remove("categ_outline_gray");
+          this.GetOfferStep_2.attributes[offer.key] = [];
+          this.GetOfferStep_2PS.attributes[offer.key] = [];
+          this.GetOfferStep_2.attributes[offer.key].push(values);
+          this.GetOfferStep_2PS.attributes[offer.key].push(values);
+        }
+        //API with Multi Select Option
+        else {
+          window.localStorage['multiSelectAPI'] = true;
+          if (this.GetOfferStep_2.attributes[offer.key] == undefined) this.GetOfferStep_2.attributes[offer.key] = [];
+          if (this.GetOfferStep_2PS.attributes[offer.key] == undefined) this.GetOfferStep_2PS.attributes[offer.key] = [];
+          if (e.currentTarget.classList.contains("categ_outline_red")) {
+            e.currentTarget.classList.remove("categ_outline_red");
+            e.currentTarget.classList.add("categ_outline_gray");
+            for (var key in this.GetOfferStep_2.attributes) {
+              if (key == offer.key) {
+                for (var i = 0; i < this.GetOfferStep_2.attributes[key].length; i++) {
+                  if (values == this.GetOfferStep_2.attributes[key][i]) {
+                    this.GetOfferStep_2.attributes[key].splice(i, 1);
+                  }
+                }
+              }
+            }
+            for (var key in this.GetOfferStep_2PS.attributes) {
+              if (key == offer.key) {
+                for (var i = 0; i < this.GetOfferStep_2PS.attributes[key].length; i++) {
+                  if (values == this.GetOfferStep_2PS.attributes[key][i]) {
+                    this.GetOfferStep_2PS.attributes[key].splice(i, 1);
+                  }
+                }
+              }
+            }
+          }
+          else {
+            if (offer.lastSelection == 'No Preference') {
+              let elements = document.getElementsByClassName(`${offer.key}`);
+              for (var i = 0; i < elements.length; i++) {
+                elements[i].classList.add("categ_outline_gray");
+                elements[i].classList.remove("categ_outline_red");
+              }
+              this.Step2SelectedValues = this.Step2SelectedValues.filter(function (item) {
+                return item !== undefined;
+              });
+              for (var i = 0; i < this.Step2SelectedValues.length; i++) {
+                if (this.Step2SelectedValues[i].key == offer.key &&
+                  this.Step2SelectedValues[i].values == 'No Preference') {
+                  this.Step2SelectedValues[i].values = values;
+                }
+              }
+              delete offer.lastSelection;
+              this.GetOfferStep_2.attributes[offer.key] = [];
+              this.GetOfferStep_2PS.attributes[offer.key] = []
+            }
+            e.currentTarget.classList.add("categ_outline_red");
+            e.currentTarget.classList.remove("categ_outline_gray");
+            this.GetOfferStep_2.attributes[offer.key].push(values);
+            this.GetOfferStep_2PS.attributes[offer.key].push(values);
+          }
+        }
+      }
+      e.currentTarget.classList.add("categ_outline_red");
+      e.currentTarget.classList.remove("categ_outline_gray");
     }
     if (addSelected) {
-      this.GetOfferStep_2.attributes[offer.key] = [];
-      this.GetOfferStep_2.attributes[offer.key].push(values);
-      this.GetOfferStep_2PS.attributes[offer.key] = [];
-      this.GetOfferStep_2PS.attributes[offer.key].push(values);
       this.lastValueForAPI = offer.key;
       console.log("Request::::", this.GetOfferStep_2)
       console.log("History", this.GetOfferStep_2PS)
       this.getoffers.getofferSubCategory(this.GetOfferStep_2).subscribe(res => {
         this.fromAPI = true;
-        this.GetOfferStep_2.attributes = {};
+        if (!window.localStorage['multiSelectAPI']) this.GetOfferStep_2.attributes = {};
+        localStorage.removeItem("multiSelectAPI");
         this.getObjectFromOrderNo(res);
       });
     }
+  }
+
+  commonAsParent() {
+    window.localStorage['s2SValues'] = JSON.stringify(this.Step2SelectedValues)
+    let s2SValuesFinal = [];
+    let s2SValues = JSON.parse(window.localStorage['s2SValues']);
+    s2SValues.forEach(function (value) {
+      var existing = s2SValuesFinal.filter(function (v, i) {
+        return v.key == value.key;
+      });
+      if (existing.length) {
+        var existingIndex = s2SValuesFinal.indexOf(existing[0]);
+        s2SValuesFinal[existingIndex].values = s2SValuesFinal[existingIndex].values.concat(value.values);
+      } else {
+        if (typeof value.values == 'string')
+          value.values = [value.values];
+        s2SValuesFinal.push(value);
+      }
+    });
+    localStorage.removeItem("s2SValues");
+    this.removeDuplicates(s2SValuesFinal);
+    for (var i = 0; i < s2SValuesFinal.length; i++) {
+      this.GetOfferStep_2PS.attributes[s2SValuesFinal[i].key] = s2SValuesFinal[i].values
+    }
+    console.log(s2SValuesFinal);
+    console.log(this.GetOfferStep_2PS)
+  }
+
+  noPreferences(offer, values) {
+    let proceed: boolean = false;
+    let elements = document.getElementsByClassName(`${offer.key}`);
+    for (var key in this.Step2SelectedValues) {
+      if (this.Step2SelectedValues[key].key == offer.key) proceed = true;
+    }
+    if (proceed) {
+      for (var i = 0; i < this.Step2SelectedValues.length; i++) {
+        let item = this.Step2SelectedValues[i];
+        if (item.key == offer.key) {
+          this.Step2SelectedValues[i].values = values
+        }
+      }
+    }
+    else {
+      this.Step2SelectedValues.push({
+        key: offer.key,
+        values: values
+      });
+    }
+    for (var i = 0; i < elements.length; i++) {
+      elements[i].classList.remove("categ_outline_red");
+      elements[i].classList.add("categ_outline_gray");
+    }
+  }
+
+  removeDuplicates(s2SValuesFinal) {
+    for (var i = 0; i < s2SValuesFinal.length; i++) {
+      let val = Array.from(new Set(s2SValuesFinal[i].values));
+      s2SValuesFinal[i].values = val;
+    }
+  }
+
+  others(offer, values) {
+    console.log(offer)
   }
 
   skip() {
@@ -257,6 +414,7 @@ export class Step2Component implements OnInit {
   };
 
   next() {
+    window.localStorage['GetOfferPrice'] = JSON.stringify(this.getObjectFromOrder);
     window.localStorage['GetOfferStep_2'] = JSON.stringify(this.GetOfferStep_2PS)
     this.route.navigate(['/getoffer', 'step3']);
   };

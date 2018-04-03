@@ -19,7 +19,7 @@
             <p>{{offers.key}}</p>
           </div>
           <div class="col-sm-10">
-            <div class="categ_outline_gray mr-3 mb-3" style="cursor: pointer" (click)="select(offers, values, $event)" *ngFor="let values of offers.values">{{values}}</div>
+            <div class="categ_outline_gray mr-3 mb-3" [ngClass]="offers.key" style="cursor: pointer" (click)="select(offers, values, $event)" *ngFor="let values of offers.values">{{values}}</div>
           </div>
         </div>
         <hr />

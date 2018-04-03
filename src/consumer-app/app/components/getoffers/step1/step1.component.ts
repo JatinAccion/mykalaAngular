@@ -28,8 +28,8 @@ export class Step1Component implements OnInit {
   getSubcategoryId: string;
   spliceElem;
   Step1SelectedValues = { place: "", type: [], category: "", subcategory: "" };
-  gSCM = { productType: "" };
-  gSCMRequestModal = { productType: "", attributes: {} };
+  gSCM = { productType: "", placeName: "", categoryName: "" };
+  gSCMRequestModal = { productType: "", placeName: "", categoryName: "", attributes: {} };
   Step1Modal = new GetOfferModal();
   viewSavedData;
   checkIfStored: boolean = false;
@@ -138,7 +138,10 @@ export class Step1Component implements OnInit {
   getofferSubCategory(obj) {
     this.loader_Type = true;
     this.noTypesAvailable = false;
+    let placeCategory = JSON.parse(window.localStorage['levelSelections'])
     this.gSCM.productType = obj.name;
+    this.gSCM.categoryName = placeCategory.category.name;
+    this.gSCM.placeName = placeCategory.place.name;
     this.getoffers.getofferSubCategory(this.gSCM).subscribe(res => {
       this.loader_Type = false;
       console.log(res);
@@ -218,14 +221,27 @@ export class Step1Component implements OnInit {
       this.Step1SelectedValues.subcategory = obj;
     }
     else {
-      e.currentTarget.className = "categ_outline_red m-2";
-      for (var i = 0; i < this.Step1SelectedValues.type.length; i++) {
-        if (this.Step1SelectedValues.type[i].length == 0) this.Step1SelectedValues.type.splice(i, 1);
-        else if (this.Step1SelectedValues.type[i].name == obj.name) {
-          this.Step1SelectedValues.type.splice(i, 1);
-          e.currentTarget.className = "categ_outline_gray m-2";
-          this.getUpdateTypes();
-          return false;
+      if (obj.selection.multiSelect == 'N') {
+        this.Step1SelectedValues.type = [];
+        let elements = document.querySelectorAll(".typeList");
+        for (var i = 0; i < elements.length; i++) {
+          if (elements[i].classList.contains("categ_outline_red") == true) {
+            elements[i].classList.remove("categ_outline_red")
+            elements[i].classList.add("categ_outline_gray")
+          }
+        }
+        e.currentTarget.className = "categ_outline_red m-2 typeList";
+      }
+      else {
+        e.currentTarget.className = "categ_outline_red m-2 typeList";
+        for (var i = 0; i < this.Step1SelectedValues.type.length; i++) {
+          if (this.Step1SelectedValues.type[i].length == 0) this.Step1SelectedValues.type.splice(i, 1);
+          else if (this.Step1SelectedValues.type[i].name == obj.name) {
+            this.Step1SelectedValues.type.splice(i, 1);
+            e.currentTarget.className = "categ_outline_gray m-2 typeList";
+            this.getUpdateTypes();
+            return false;
+          }
         }
       }
       this.Step1SelectedValues.type.push(obj);
@@ -234,6 +250,9 @@ export class Step1Component implements OnInit {
   };
 
   getUpdateTypes() {
+    let userSelection = JSON.parse(window.localStorage['levelSelections']);
+    this.gSCMRequestModal.placeName = userSelection.place.name;
+    this.gSCMRequestModal.categoryName = userSelection.category.name;
     if (this.Step1SelectedValues.type.length > 0) {
       this.gSCMRequestModal.productType = this.Step1SelectedValues.subcategory['name'];
       if (this.getObjectFromOrder.key == "") this.getObjectFromOrder.key = Object.keys(this.gSCMRequestModal.attributes)[0]

@@ -30,7 +30,8 @@ export const apiNames = {
         closeAccount: 'closeAccount',
         consumerOffer: 'consumerOffer',
         userReviewList: 'userReviewList',
-        updateOffer: 'updateOffer'
+        updateOffer: 'updateOffer',
+        addressList: 'addressList'
     },
     products: {
         getPlaces: 'places',

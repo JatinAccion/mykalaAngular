@@ -27,7 +27,7 @@
     <div class="col-sm-6 text-left">{{Step4Summary.subCategory.name}}</div>
   </div>
 
-  <div class="row" *ngIf="Step1Data != undefined">
+  <!-- <div class="row" *ngIf="Step1Data != undefined">
     <div class="col-sm-3"></div>
     <div class="col-sm-3 colorlightGray">
       <p>Type:</p>
@@ -35,7 +35,7 @@
     <div class="col-sm-6 text-left">
       <span *ngFor="let type of Step4Summary.type; let isLast=last">{{type.name}}{{isLast ? '' : ', '}}</span>
     </div>
-  </div>
+  </div> -->
   <!--Step 1 View-->
 
   <!--Step 2 View-->
@@ -88,7 +88,7 @@
     </div>
     <div class="col-sm-7">
       <a (click)="next()" class="btn btn_red_right pr-5 pl-5">confirm</a>
-      <img src="./consumer-app/assets/images/loader.gif" style="margin-left:15px" *ngIf="loader" />
+      <img src="/consumer-app/assets/images/loader.gif" style="margin-left:15px" *ngIf="loader" />
     </div>
   </div>
 </div>

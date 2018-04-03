@@ -3,7 +3,7 @@
   <div style="height:135px;width:100%;"></div>
 
   <div class="row myCart mt-4 mb-4">
-    <img src="./consumer-app/assets/images/loader.gif" *ngIf="loader" width="25" height="25" class="ml-3" />
+    <img src="/consumer-app/assets/images/loader.gif" *ngIf="loader" width="25" height="25" class="ml-3" />
     <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" id="myOfferAccordian">
       <ngb-panel>
         <!--Title-->
@@ -83,7 +83,7 @@
             <div class="col-sm-5 multi_scroll" style="height: 400px">
               <div class="row p-2 mb-4" *ngFor="let product of getOffersData.getOffersResponse">
                 <div class="col-sm-4 p-0 productImage">
-                  <img src="./consumer-app/assets/images/product1.png" class="img-fluid" />
+                  <img src="/consumer-app/assets/images/product1.png" class="img-fluid" />
                 </div>
                 <div class="col-sm-8">
                   <p>
@@ -109,7 +109,7 @@
   </div>
 
   <!-- <div class="row myCart mt-4 mb-4">
-    <img src="./consumer-app/assets/images/loader.gif" *ngIf="loader" width="25" height="25" class="ml-3" />
+    <img src="/consumer-app/assets/images/loader.gif" *ngIf="loader" width="25" height="25" class="ml-3" />
     <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" id="myOfferAccordian" *ngIf="myOffersDetails.length > 0">
       <ngb-panel *ngFor="let offer of myOffersDetails">
         

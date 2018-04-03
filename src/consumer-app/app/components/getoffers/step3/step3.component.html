@@ -22,7 +22,7 @@
             <div class="dx-field-value">
               <span style="position: relative" class="d-block">
                 <span class="currencySymbol">$</span>
-                <dx-number-box formControlName="minPrice" onkeypress='return event.charCode >= 48 && event.charCode <= 57' style="padding-left: 30px;" [min]="123" [max]="10000" [showSpinButtons]="true" [(value)]="rangeSlider.start" class="categ_outline_red w-100 mr-2"></dx-number-box>
+                <dx-number-box formControlName="minPrice" onkeypress='return event.charCode >= 48 && event.charCode <= 57' style="padding-left: 30px;" [min]="minPrice" [max]="maxPrice" [showSpinButtons]="true" [(value)]="rangeSlider.start" class="categ_outline_red w-100 mr-2"></dx-number-box>
               </span>
             </div>
           </div>
@@ -30,12 +30,12 @@
             <div class="dx-field-value">
               <span style="position: relative" class="d-block">
                 <span class="currencySymbol">$</span>
-                <dx-number-box formControlName="maxPrice" onkeypress='return event.charCode >= 48 && event.charCode <= 57' style="padding-left: 30px;" [min]="123" [max]="10000" [showSpinButtons]="true" [(value)]="rangeSlider.end" class="categ_outline_red  w-100 mr-2"></dx-number-box>
+                <dx-number-box formControlName="maxPrice" onkeypress='return event.charCode >= 48 && event.charCode <= 57' style="padding-left: 30px;" [min]="minPrice" [max]="maxPrice" [showSpinButtons]="true" [(value)]="rangeSlider.end" class="categ_outline_red  w-100 mr-2"></dx-number-box>
               </span>
             </div>
           </div>
           <div class="dx-field">
-            <dx-range-slider #rangeSlider [min]="123" [max]="10000" [start]="getOffer_orderInfo.controls.minPrice.value" [end]="getOffer_orderInfo.controls.maxPrice.value"></dx-range-slider>
+            <dx-range-slider #rangeSlider [min]="0" [max]="maxPrice" [start]="getOffer_orderInfo.controls.minPrice.value" [end]="getOffer_orderInfo.controls.maxPrice.value"></dx-range-slider>
           </div>
         </div>
       </div>
@@ -74,14 +74,14 @@
         <div>
           <!--Predefined Zipcodes-->
           <span *ngIf="showExistingLocation">
-            <span class="categ_outline_red text-center mr-2" *ngFor="let location of existingLocation">{{location.zipcode}}</span>
+            <span class="deliveryLocations categ_outline_gray text-center mr-2" style="cursor:pointer" (click)="selectAddress(location, $event)" *ngFor="let location of existingLocation">{{location.zipcode}}</span>
           </span>
           <!--Predefined Zipcodes-->
 
           <!--Custom Zipcodes Entry-->
           <span *ngIf="inputNewLocation" style="position: relative;">
             <input (keyup)="_keuyp($event)" onkeypress='return event.charCode >= 48 && event.charCode <= 57' formControlName="zipCode" type="text" class="categ_outline_red text-center w-15 mr-2" />
-            <img style="top:5px; right:20px" width="15" src="./consumer-app/assets/images/loader.gif" class="absoluteImg_2" *ngIf="loaderLocation" />
+            <img style="top:5px; right:20px" width="15" src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2" *ngIf="loaderLocation" />
           </span>
           <div style="cursor: pointer" (click)="addNewLocation($event)" class="categ_outline_red mr-2 noBackground colorred">+</div>
           <!--Custom Zipcodes Entry-->
