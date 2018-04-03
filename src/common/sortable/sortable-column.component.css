@@ -1,0 +1,10 @@
+.error-msg {
+  color: #a94442;
+}
+.fix-error-icon {
+  top: 27px;
+}
+th[sortable-column]{
+  color: #436798;
+  cursor: pointer;
+}

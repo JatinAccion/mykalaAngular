@@ -23,6 +23,9 @@ export class InquiryListComponent implements OnInit {
   inquirys: Inquirys;
   isCollapsed = true;
   order: ReportOrder;
+  page = 1;
+  sortColumn = 'createdDate';
+  sortDirection = 'asc';
   constructor(private inquiryService: InquiryService, private orderService: OrderService, private userService: UserService, private core: CoreService) {
     this.inquirys = new Inquirys();
   }
@@ -33,8 +36,12 @@ export class InquiryListComponent implements OnInit {
 
   }
   getPage(page: number) {
+    this.page = page;
+    this.getPageSorted(this.page, this.sortColumn, this.sortDirection);
+  }
+  getPageSorted(page: number, sortColumn: string, sortDirection: string) {
     this.loading = true;
-    const searchParams = { page: page - 1, size: 10, sortOrder: 'asc', elementType: 'inquiryDate', retailerName: this.search, customerName: this.search, orderId: this.search };
+    const searchParams = { page: page - 1, size: 10, sortOrder: sortDirection, elementType: sortColumn, retailerName: this.search, customerName: this.search, orderId: this.search };
     if (this.search === '' || this.searchType !== 'Seller') { delete searchParams.retailerName; }
     if (this.search === '' || this.searchType !== 'Member') { delete searchParams.customerName; }
     if (this.search === '' || this.searchType !== 'Order Number') { delete searchParams.orderId; }
@@ -42,6 +49,11 @@ export class InquiryListComponent implements OnInit {
       this.inquirys = res;
       this.loading = false;
     });
+  }
+  onSorted($event) { // $event = {sortColumn: 'id', sortDirection:'asc'}
+    this.sortColumn = $event.sortColumn;
+    this.sortDirection = $event.sortDirection;
+    this.getPageSorted(this.page, this.sortColumn, this.sortDirection);
   }
   getOrderDetails(inquiry: Inquiry, orderId) {
     inquiry.isCollapsed = !inquiry.isCollapsed;
@@ -68,7 +80,7 @@ export class InquiryListComponent implements OnInit {
     this.core.showDialog(msg).then(res => {
       if (res === 'yes') {
         this.inquiryService.deleteInquiry(inquiryId).subscribe(p => {
-          this.core.message.success(userMessages.deleteSuccess );
+          this.core.message.success(userMessages.deleteSuccess);
           this.getPage(this.inquirys.number);
         });
       }

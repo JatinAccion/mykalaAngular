@@ -24,7 +24,7 @@
         <app-field-error-display [field]="paymentFG1.controls.paymentVehicle" [errorMsg]="errorMsgs"> </app-field-error-display>
         <!--Validation-->
     </div>
-    <div class="row">
+    <div class="row" *ngIf="isAdminUser">
         <div class="col-sm-6">
             <div class="form-group">
                 <label class="control-label" [ngClass]="validatorExt.displayFieldCss(paymentFG1.controls.commissionRate)">Commission Rate(%)</label>

@@ -26,17 +26,17 @@
         <pagination-controls id='server' (pageChange)="getPage($event)"></pagination-controls>
     </div>
     <div class="backgroundWhite">
-        <table class="table table-responsive">
+        <table class="table table-responsive"  sortable-table (sorted)="onSorted($event)">
             <thead>
                 <tr>
                     <th width="5%">
                         <input type="checkbox" />
                     </th>
-                    <th width="10%">Status</th>
-                    <th width="30%">Inquiry Details</th>
-                    <th width="30%">Inquiry Type</th>
-                    <th width="10%">Priority</th>
-                    <th width="18%">Created on</th>
+                    <th sortable-column="inquiryStatus" width="10%">Status</th>
+                    <th sortable-column="orderId" width="30%">Inquiry Details</th>
+                    <th sortable-column="inquiryType" width="30%">Inquiry Type</th>
+                    <th sortable-column="priority" width="10%">Priority</th>
+                    <th sortable-column="inquiryDate" width="18%">Created on</th>
                     <th width="2%"></th>
                 </tr>
             </thead>

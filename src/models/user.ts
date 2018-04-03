@@ -16,7 +16,7 @@ export class BasicAuth {
 }
 
 export class UserProfile {
-  
+
   public userId: string;
   public password: string;
   public firstName: string;
@@ -47,5 +47,9 @@ export class UserProfile {
   }
   get username(): string {
     return this.firstName + ' ' + this.lastName;
+  }
+
+  get isAdmin(): boolean {
+    return this.roleName && this.roleName.length > 0 && this.roleName.indexOf('admin') > -1;
   }
 }

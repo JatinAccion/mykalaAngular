@@ -1,6 +1,6 @@
 import { Injectable, transition } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { User } from '../../../models/user';
+import { User, UserProfile } from '../../../models/user';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import { Subject } from 'rxjs/Subject';
@@ -8,7 +8,7 @@ import { Promise } from 'q';
 import { Alert } from '../../../models/IAlert';
 @Injectable()
 export class CoreService {
-  user = new User('', '', '');
+  user = new UserProfile({});
 
   navVisible = true;
   spinnerVisible = false;
@@ -33,7 +33,7 @@ export class CoreService {
 
   showLogout() { return this.user !== null; }
 
-  setUser(usr: User) {
+  setUser(usr: UserProfile) {
     this.user = usr;
     this.show();
   }
@@ -42,7 +42,7 @@ export class CoreService {
     this.user = null;
     this.hide();
   }
-  getUser() {
+  getUser(): UserProfile {
     return this.user;
   }
 

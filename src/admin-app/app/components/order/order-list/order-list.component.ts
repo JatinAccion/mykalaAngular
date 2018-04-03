@@ -14,6 +14,9 @@ export class OrderListComponent implements OnInit {
   loading: boolean;
   orders: ReportOrders;
   isCollapsed = true;
+  page = 1;
+  sortColumn = 'createdDate';
+  sortDirection = 'asc';
   constructor(private orderService: OrderService) {
     this.orders = new ReportOrders();
   }
@@ -22,8 +25,12 @@ export class OrderListComponent implements OnInit {
     this.getPage(1);
   }
   getPage(page: number) {
+    this.page = page;
+    this.getPageSorted(this.page, this.sortColumn, this.sortDirection);
+  }
+  getPageSorted(page: number, sortColumn: string, sortDirection: string) {
     this.loading = true;
-    const searchParams = { page: page - 1, size: 10, sortOrder: 'asc', elementType: 'createdDate', retailerName: this.search, customerName: this.search, orderId: this.search };
+    const searchParams = { page: page - 1, size: 10, sortOrder: sortDirection, elementType: sortColumn, retailerName: this.search, customerName: this.search, orderId: this.search };
     if (this.search === '' || this.searchType !== 'Seller') { delete searchParams.retailerName; }
     if (this.search === '' || this.searchType !== 'Member') { delete searchParams.customerName; }
     if (this.search === '' || this.searchType !== 'Order Number') { delete searchParams.orderId; }
@@ -31,5 +38,10 @@ export class OrderListComponent implements OnInit {
       this.orders = res;
       this.loading = false;
     });
+  }
+  onSorted($event) { // $event = {sortColumn: 'id', sortDirection:'asc'}
+    this.sortColumn = $event.sortColumn;
+    this.sortDirection = $event.sortDirection;
+    this.getPageSorted(this.page, this.sortColumn, this.sortDirection);
   }
 }

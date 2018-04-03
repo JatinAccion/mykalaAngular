@@ -29,9 +29,15 @@ export class AuthService {
     const url = `${environment.Api}/${environment.apis.Auth.token}?client_id=${this.basicAuth.client_id}&grant_type=password&username=${user.username}&password=${user.password}`;
     return this.http.post(url, '', { headers: this.headers }).toPromise();
   }
-  getUserInfo(token) {
+  getUserInfo(token): Observable<UserProfile> {
     const url = `${environment.Api}/${environment.apis.Auth.userInfo}?access_token=${token}`;
-    return this.http.get(url).map((res) => res.json());
+    return this.http.get(url).map(res => {
+      if (res.text() === '') {
+        return new UserProfile();
+      } else {
+        return new UserProfile(res.json());
+      }
+    });
   }
   // register(user: User): Promise<any> {
   //   const url = `${this.BASE_URL}/${environment.apis.Auth.register}`;
@@ -42,7 +48,7 @@ export class AuthService {
     return this.http
       .get(`${url}`)
       .map(res => {
-        if (res.text() == '') {
+        if (res.text() === '') {
           return 'User Not found';
         } else {
           return new UserProfile(res.json());

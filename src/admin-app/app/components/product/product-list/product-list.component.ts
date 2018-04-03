@@ -50,6 +50,9 @@ export class ProductListComponent implements OnInit {
   productTypeSettings = {};
   isCollapsed = true;
   bulkUploadView = false;
+  page = 1;
+  sortColumn = 'createdDate';
+  sortDirection = 'asc';
   constructor(private productService: ProductService, private retialerService: RetialerService, route: ActivatedRoute, private core: CoreService) {
     this.products = new Products();
     this.sourceId = route.snapshot.params['id'];
@@ -158,10 +161,14 @@ export class ProductListComponent implements OnInit {
     });
   }
   getPage(page: number) {
+    this.page = page;
+    this.getPageSorted(this.page, this.sortColumn, this.sortDirection);
+  }
+  getPageSorted(page: number, sortColumn: string, sortDirection: string) {
     this.loading = true;
 
     const searchParams = {
-      page: page - 1, size: 10, sortOrder: 'asc', elementType: 'createdDate', productName: this.productName, productStatus: [], productPlaceName: [], productCategoryName: [], productSubCategoryName: [], retailerId: [], sourceId: this.sourceId
+      page: page - 1, size: 10, sortOrder: sortDirection, elementType: sortColumn, productName: this.productName, productStatus: [], productPlaceName: [], productCategoryName: [], productSubCategoryName: [], retailerId: [], sourceId: this.sourceId
     };
     if (this.productStatus === undefined) { delete searchParams.productStatus; } else { searchParams.productStatus = [this.productStatus]; }
     if (this.selectedPlaces.length > 0) { searchParams.productPlaceName = this.selectedPlaces.map(p => p.itemName); } else { delete searchParams.productPlaceName; }
@@ -174,6 +181,11 @@ export class ProductListComponent implements OnInit {
       this.loading = false;
     });
   }
+  onSorted($event) { // $event = {sortColumn: 'id', sortDirection:'asc'}
+    this.sortColumn = $event.sortColumn;
+    this.sortDirection = $event.sortDirection;
+    this.getPageSorted(this.page, this.sortColumn, this.sortDirection);
+  }
   getSellerName(retailerId: string) {
     if (this.retailers && this.retailers.length > 0 && this.retailers.filter(p => p.retailerId === retailerId).length > 0) {
       return this.retailers.filter(p => p.retailerId === retailerId)[0].businessName;
@@ -182,7 +194,7 @@ export class ProductListComponent implements OnInit {
     }
   }
   delete(product: Product) {
-    const msg = new Alert(userMessages.delete , 'Confirmation');
+    const msg = new Alert(userMessages.delete, 'Confirmation');
     this.core.showDialog(msg).then(res => {
       if (res === 'yes') {
         this.productService.deleteProduct(product.kalaUniqueId).subscribe(p => {

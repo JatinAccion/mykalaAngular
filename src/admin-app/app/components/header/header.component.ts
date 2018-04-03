@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CoreService } from '../../services/core.service';
+import { UserProfile } from '../../../../models/user';
 
 @Component({
   selector: 'app-header',
@@ -13,7 +14,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     if (window.localStorage['userInfo']) {
-      const usr = JSON.parse(window.localStorage['userInfo']);
+      const usr = new UserProfile(JSON.parse(window.localStorage['userInfo']));
       this.core.setUser(usr);
     }
   }
