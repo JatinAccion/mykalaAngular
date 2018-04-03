@@ -95,7 +95,7 @@
               <i title="delete card" class="fa fa-times" aria-hidden="true"></i>
             </span>
           </div>
-          <img src="./consumer-app/assets/images/loader.gif" style="margin-left: 10px" *ngIf="loader_getCards" />
+          <img src="/consumer-app/assets/images/loader.gif" style="margin-left: 10px" *ngIf="loader_getCards" />
         </div>
         <!--Existing Cards-->
 
@@ -126,7 +126,7 @@
           </div>
           <button type="submit" class="btn btn_red_right">add card</button>
           <button type="button" (click)="resetAddCard()" class="btn-outer btn_redouter_right btn-outer-margin">cancel</button>
-          <img src="./consumer-app/assets/images/loader.gif" style="margin-left: 7px; margin-top: 7px" *ngIf="loader" />
+          <img src="/consumer-app/assets/images/loader.gif" style="margin-left: 7px; margin-top: 7px" *ngIf="loader" />
         </form>
       </div>
     </div>
@@ -234,7 +234,7 @@
           <tr>
             <td class="p-2 pl-3">Tax: </td>
             <td class="p-2 pl-3" *ngIf="totalProductTax != undefined">
-              <img src="./consumer-app/assets/images/loader.gif" width="22" *ngIf="loader_productTax" />
+              <img src="/consumer-app/assets/images/loader.gif" width="22" *ngIf="loader_productTax" />
               <span *ngIf="!loader_productTax" class="amount totalTaxCost">{{totalProductTax | currency}}</span>
             </td>
           </tr>
@@ -249,7 +249,7 @@
           <button (click)="chargeAmount()" class="btn btn_red_right w-100 mb-2" [disabled]="loader_chargeAmount">confirm</button>
           <span style="font-size:14px" class="d-block text-center" *ngIf="loader_chargeAmount">
             Please wait while we place your order...
-            <img src="./consumer-app/assets/images/loader.gif" class="ml-2" width="22" *ngIf="loader_chargeAmount" />
+            <img src="/consumer-app/assets/images/loader.gif" class="ml-2" width="22" *ngIf="loader_chargeAmount" />
           </span>
         </div>
       </div>
@@ -271,7 +271,7 @@
   <div class="modal-body text-center">
     <p>
       {{confirmProcessMessage}}
-      <img src="./consumer-app/assets/images/loader.gif" class="ml-3" *ngIf="loader_chargeAmount" />
+      <img src="/consumer-app/assets/images/loader.gif" class="ml-3" *ngIf="loader_chargeAmount" />
     </p>
     <div *ngIf="showUnAvailableItems != undefined">
       <ol>

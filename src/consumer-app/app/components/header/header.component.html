@@ -6,7 +6,7 @@
           <ul class="list-unstyled m-0">
             <li class="list-unstyled d-inline pr-2">
               <a routerLink="/home">
-                <img src="./consumer-app/assets/images/logo.png" />
+                <img src="/consumer-app/assets/images/logo.png" />
               </a>
             </li>
           </ul>
@@ -15,7 +15,7 @@
           <div class="dialogue dialogue_right clearfix">
             <input type="text" placeholder="what can we help you find?">
             <span>
-              <img src="./consumer-app/assets/images/voice.png">
+              <img src="/consumer-app/assets/images/voice.png">
             </span>
           </div>
         </div>
@@ -24,7 +24,7 @@
             <!--Non Logged In User-->
             <li *ngIf="core.hideUser">
               <span class="float-left">
-                <img src="./consumer-app/assets/images/icon_user.png" />
+                <img src="/consumer-app/assets/images/icon_user.png" />
               </span>
               <h4>
                 <a routerLink="/login" style="color:white">ACCOUNT LOGIN</a>
@@ -99,7 +99,7 @@
               <a class="anc_Cart" routerLink="/mycart">
                 <span class="cartNotify" *ngIf="core.showNoOfItemsInCart()">{{core.noOfItemsInCart}}</span>
                 <span class="float-left">
-                  <img src="./consumer-app/assets/images/icon_cart.png">
+                  <img src="/consumer-app/assets/images/icon_cart.png">
                 </span>
                 <h4>CART</h4>
               </a>
@@ -116,7 +116,7 @@
       </div>
       <div class="col-6 text-right">
         category
-        <img src="./consumer-app/assets/images/category.png">
+        <img src="/consumer-app/assets/images/category.png">
       </div>
     </div>
   </div>
@@ -130,19 +130,19 @@
           <ul class="list-unstyled d-none m-0 logo">
             <li class="list-unstyled d-inline pr-2">
               <a routerLink="/home">
-                <img src="./consumer-app/assets/images/logo.png" />
+                <img src="/consumer-app/assets/images/logo.png" />
               </a>
             </li>
           </ul>
           <ul class="list-unstyled mob-social">
             <li class="list-unstyled d-inline pr-2">
               <a href="https://www.facebook.com/KalaMarketplace" target="_blank">
-                <img src="./consumer-app/assets/images/face.png" />
+                <img src="/consumer-app/assets/images/face.png" />
               </a>
             </li>
             <li class="list-unstyled d-inline">
               <a href="https://twitter.com/kalamarketplace" target="_blank">
-                <img src="./consumer-app/assets/images/twitter.png" />
+                <img src="/consumer-app/assets/images/twitter.png" />
               </a>
             </li>
           </ul>
@@ -157,7 +157,7 @@
           <div class="dialogue dialogue_right clearfix searchBox" *ngIf="core.showSearch">
             <input type="text" placeholder="what can we help you find?">
             <span>
-              <img src="./consumer-app/assets/images/voice.png">
+              <img src="/consumer-app/assets/images/voice.png">
             </span>
           </div>
           <div *ngIf="!core.showSearch" class="col-sm-12 mb-3 p-0 text-right pr-3">
@@ -169,7 +169,7 @@
             <!--Non Logged In User-->
             <li *ngIf="core.hideUser">
               <span class="float-left">
-                <img src="./consumer-app/assets/images/icon_user.png" />
+                <img src="/consumer-app/assets/images/icon_user.png" />
               </span>
               <h4>
                 <a routerLink="/login" style="color:white">ACCOUNT LOGIN</a>
@@ -244,7 +244,7 @@
               <a class="anc_Cart" routerLink="/mycart">
                 <span class="cartNotify" *ngIf="core.showNoOfItemsInCart()">{{core.noOfItemsInCart}}</span>
                 <span class="float-left">
-                  <img src="./consumer-app/assets/images/icon_cart.png">
+                  <img src="/consumer-app/assets/images/icon_cart.png">
                 </span>
                 <h4>CART</h4>
               </a>

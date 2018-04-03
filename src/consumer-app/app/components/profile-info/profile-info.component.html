@@ -17,7 +17,7 @@
               <span class="profImageWrapper" *ngIf="profileInfo.controls.profileImage.value">
                 <img src="{{profileInfo.controls.profileImage.value}}" />
                 <span class="profile_Edit" (click)="callUpload()">
-                  <img src="./consumer-app/assets/images/icon_edit.png" />
+                  <img src="/consumer-app/assets/images/icon_edit.png" />
                 </span>
               </span>
               <!--Images Area-->
@@ -81,7 +81,7 @@
           <div class="col-sm-8">
             <div class="form-group">
               <input formControlName="location" type="text" (keyup)="_keuyp($event)" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control" placeholder="Zipcode">
-              <img src="./consumer-app/assets/images/loader.gif" class="absoluteImg_2" *ngIf="loaderLocation" />
+              <img src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2" *ngIf="loaderLocation" />
 
               <!--Validation-->
               <div *ngIf="profileInfo.controls.location.dirty || profileInfo.controls.location.touched">
@@ -120,7 +120,7 @@
               {{profileInfoResponse.message}}
             </div>
 
-            <img src="./consumer-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="loader" />
+            <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="loader" />
           </div>
           <!--Response Message-->
         </div>

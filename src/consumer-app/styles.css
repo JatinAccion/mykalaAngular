@@ -1,43 +1,43 @@
 /* You can add global styles to this file, and also import other style files */
 @font-face {
     font-family: 'open_sansbold';
-    src: url('./assets/fonts/opensans-bold-webfont.eot');
-    src: url('./assets/fonts/opensans-bold-webfont.eot?#iefix') format('embedded-opentype'),
-         url('./assets/fonts/opensans-bold-webfont.woff2') format('woff2'),
-         url('./assets/fonts/opensans-bold-webfont.woff') format('woff'),
-         url('./assets/fonts/opensans-bold-webfont.ttf') format('truetype'),
-         url('./assets/fonts/opensans-bold-webfont.svg#open_sansbold') format('svg');
+    src: url('/consumer-app/assets/fonts/opensans-bold-webfont.eot');
+    src: url('/consumer-app/assets/fonts/opensans-bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/consumer-app/assets/fonts/opensans-bold-webfont.woff2') format('woff2'),
+         url('/consumer-app/assets/fonts/opensans-bold-webfont.woff') format('woff'),
+         url('/consumer-app/assets/fonts/opensans-bold-webfont.ttf') format('truetype'),
+         url('/consumer-app/assets/fonts/opensans-bold-webfont.svg#open_sansbold') format('svg');
     font-weight: normal;
     font-style: normal; 
 }  
 @font-face {
     font-family: 'open_sanssemibold';
-    src: url('./assets/fonts/opensans-semibold-webfont.eot');
-    src: url('./assets/fonts/opensans-semibold-webfont.eot?#iefix') format('embedded-opentype'),
-         url('./assets/fonts/opensans-semibold-webfont.woff2') format('woff2'),
-         url('./assets/fonts/opensans-semibold-webfont.woff') format('woff'),
-         url('./assets/fonts/opensans-semibold-webfont.ttf') format('truetype'),
-         url('./assets/fonts/opensans-semibold-webfont.svg#open_sanssemibold') format('svg');
+    src: url('/consumer-app/assets/fonts/opensans-semibold-webfont.eot');
+    src: url('/consumer-app/assets/fonts/opensans-semibold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/consumer-app/assets/fonts/opensans-semibold-webfont.woff2') format('woff2'),
+         url('/consumer-app/assets/fonts/opensans-semibold-webfont.woff') format('woff'),
+         url('/consumer-app/assets/fonts/opensans-semibold-webfont.ttf') format('truetype'),
+         url('/consumer-app/assets/fonts/opensans-semibold-webfont.svg#open_sanssemibold') format('svg');
     font-weight: normal;
     font-style: normal; 
 }
 @font-face {
     font-family: 'open_sansregular';
-    src: url('./assets/fonts/opensans-regular-webfont.eot');
-    src: url('./assets/fonts/opensans-regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('./assets/fonts/opensans-regular-webfont.woff') format('woff'),
-         url('./assets/fonts/opensans-regular-webfont.ttf') format('truetype'),
-         url('./assets/fonts/opensans-regular-webfont.svg#open_sansbold') format('svg');
+    src: url('/consumer-app/assets/fonts/opensans-regular-webfont.eot');
+    src: url('/consumer-app/assets/fonts/opensans-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/consumer-app/assets/fonts/opensans-regular-webfont.woff') format('woff'),
+         url('/consumer-app/assets/fonts/opensans-regular-webfont.ttf') format('truetype'),
+         url('/consumer-app/assets/fonts/opensans-regular-webfont.svg#open_sansbold') format('svg');
     font-weight: normal;
     font-style: normal; 
 }  
 @font-face {
     font-family: 'open_sanslight';
-    src: url('./assets/fonts/opensans-light-webfont.eot');
-    src: url('./assets/fonts/opensans-light-webfont.eot?#iefix') format('embedded-opentype'),
-         url('./assets/fonts/opensans-light-webfont.woff') format('woff'),
-         url('./assets/fonts/opensans-light-webfont.ttf') format('truetype'),
-         url('./assets/fonts/opensans-light-webfont.svg#open_sanssemibold') format('svg');
+    src: url('/consumer-app/assets/fonts/opensans-light-webfont.eot');
+    src: url('/consumer-app/assets/fonts/opensans-light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/consumer-app/assets/fonts/opensans-light-webfont.woff') format('woff'),
+         url('/consumer-app/assets/fonts/opensans-light-webfont.ttf') format('truetype'),
+         url('/consumer-app/assets/fonts/opensans-light-webfont.svg#open_sanssemibold') format('svg');
     font-weight: normal;
     font-style: normal; 
 } 
@@ -53,7 +53,7 @@ body {
   height: 100%;
   font-family: open_sansregular;
   position: relative; 
-  src: url('./assets/fonts/opensans-bold-webfont.eot');
+  src: url('/consumer-app/assets/fonts/opensans-bold-webfont.eot');
 }
 
 a:hover {

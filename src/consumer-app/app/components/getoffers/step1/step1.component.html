@@ -14,7 +14,7 @@
   <div class="row">
     <div class="col-sm-2">
       <p>Place:</p>
-      <img src="./consumer-app/assets/images/loader.gif" style="right: -40px; top: 0px" class="absoluteImg_2" *ngIf="loader_place" />
+      <img src="/consumer-app/assets/images/loader.gif" style="right: -40px; top: 0px" class="absoluteImg_2" *ngIf="loader_place" />
     </div>
     <div class="col-sm-7">
       <div style="cursor: pointer" (click)="loadData(place, 'place', $event)" *ngFor="let place of userResponse.place" class="m-2" [ngClass]="loadedPlaces == true ? 'categ_outline_red' : 'categ_outline_gray'">
@@ -34,7 +34,7 @@
   <div class="row">
     <div class="col-sm-2">
       <p>Category:</p>
-      <img src="./consumer-app/assets/images/loader.gif" style="right: -40px; top: 0px" class="absoluteImg_2" *ngIf="loader_category" />
+      <img src="/consumer-app/assets/images/loader.gif" style="right: -40px; top: 0px" class="absoluteImg_2" *ngIf="loader_category" />
     </div>
     <div class="col-sm-7">
       <div style="cursor: pointer" (click)="loadData(category, 'category', $event)" *ngFor="let category of userResponse.category" class="m-2" [ngClass]="loadedCategory == true ? 'categ_outline_red' : 'categ_outline_gray'">
@@ -54,7 +54,7 @@
   <div class="row">
     <div class="col-sm-2">
       <p>Sub-category:</p>
-      <img src="./consumer-app/assets/images/loader.gif" style="right: -40px; top: 0px" class="absoluteImg_2" *ngIf="loader_subCategory" />
+      <img src="/consumer-app/assets/images/loader.gif" style="right: -40px; top: 0px" class="absoluteImg_2" *ngIf="loader_subCategory" />
     </div>
     <div class="col-sm-7">
       <div style="cursor: pointer" (click)="loadData(subCategory, 'subcategory', $event)" *ngFor="let subCategory of userResponse.subcategory" class="m-2" [ngClass]="loadedSubCategory == true ? 'categ_outline_red' : 'categ_outline_gray'">
@@ -74,7 +74,7 @@
   <div class="row" *ngIf="showAvailableTypes">
     <div class="col-sm-2">
       <p>Type:</p>
-      <img src="./consumer-app/assets/images/loader.gif" style="right: -40px; top: 0px" class="absoluteImg_2" *ngIf="loader_Type" />
+      <img src="/consumer-app/assets/images/loader.gif" style="right: -40px; top: 0px" class="absoluteImg_2" *ngIf="loader_Type" />
     </div>
 
     <div class="col-sm-7" *ngIf="userResponse.type != [] && !noTypesAvailable">

@@ -14,7 +14,7 @@
                 <img [src]="myAccountModel.profileInfo.consumerImagePath" class="userIcon" />
                 <input (change)="fileChangeEvent($event)" type="file" class="form-control uploadImage" />
               </div>
-              <img src="./consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_myAc" *ngIf="loader_profileImage" />
+              <img src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_myAc" *ngIf="loader_profileImage" />
               <button class="col-sm-3 text-right p-2 colorred txtasbutton cursor" (click)="appendInput($event, 'profileImage')">change</button>
             </div>
             <!--Profile Image-->
@@ -36,7 +36,7 @@
                 <p *ngIf="emptyEmailAddress" class="clearfix colorlightGray pt-0 mb-0" style="font-size: 13px; color: #e06263">Please enter your email address</p>
                 <p *ngIf="invalidEmailAddress" class="clearfix colorlightGray pt-0 mb-0" style="font-size: 13px; color: #e06263">Please enter your valid email address</p>
               </div>
-              <img src="./consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_myAc" *ngIf="loader_emailImage" />
+              <img src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_myAc" *ngIf="loader_emailImage" />
               <button class="col-sm-3 text-right p-2 colorred txtasbutton cursor" (click)="appendInput($event, 'email')">change</button>
             </div>
             <!--Email Address-->
@@ -56,7 +56,7 @@
                 <p *ngIf="oldNewPassword" class="clearfix colorlightGray mb-0" style="font-size: 13px; color: #e06263">Old password and New password cannot be same</p>
                 <p *ngIf="newConfirmPassword" class="clearfix colorlightGray mb-0" style="font-size: 13px; color: #e06263">New password and confirm password doesn't match</p>
               </div>
-              <img src="./consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_myAc" *ngIf="loader_password" />
+              <img src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_myAc" *ngIf="loader_password" />
               <button class="col-sm-3 text-right p-2 colorred txtasbutton cursor" (click)="appendInput($event, 'password')">change</button>
             </div>
             <!--Password-->
@@ -83,10 +83,10 @@
                   </span>
                 </span>
                 <input *ngIf="input_Location" (keyup)="_keuyp($event)" onkeypress='return event.charCode >= 48 && event.charCode <= 57' [(ngModel)]="append_Location" type="number" class="txtnml width100 appendedInput" placeholder="zipcode">
-                <img src="./consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_3" *ngIf="loader" />
+                <img src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_3" *ngIf="loader" />
                 <p *ngIf="input_getLocation" class="clearfix colorlightGray pt-0 mb-0">{{fetchGeoCode}}</p>
               </div>
-              <img src="./consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_myAc" *ngIf="loader_profileAddress" />
+              <img src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_myAc" *ngIf="loader_profileAddress" />
               <button class="col-sm-3 text-right p-2 colorred txtasbutton cursor" (click)="appendInput($event, 'location')">change</button>
             </div>
             <!--Location-->
@@ -98,7 +98,7 @@
                 <span #dobElement *ngIf="!input_dob">{{myAccountModel.profileInfo.birthMonth}}/{{myAccountModel.profileInfo.birthDate}}/{{myAccountModel.profileInfo.birthYear}}</span>
                 <input *ngIf="input_dob" [(ngModel)]="append_dob" (focus)="d.open()" [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker #d="ngbDatepicker" class="txtnml width100 appendedInput" placeholder="mm-dd-yyyy">
               </div>
-              <img src="./consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_myAc" *ngIf="loader_DOB" />
+              <img src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_myAc" *ngIf="loader_DOB" />
               <button class="col-sm-3 text-right p-2 colorred txtasbutton cursor" (click)="appendInput($event, 'dob'); selectSelected($event)">change</button>
             </div>
             <!--Date Of Birth-->
@@ -108,11 +108,11 @@
               <div class="col-sm-6 p-2 colorlightGray">
                 <p class="colorlightGray">style perferences</p>
               </div>
-              <img src="./consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_myAc" *ngIf="loader_Interest" />
+              <img src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_myAc" *ngIf="loader_Interest" />
               <button class="col-sm-6 text-right p-2 colorred txtasbutton cursor changeInterestBtn" (click)="appendInput($event, 'interest')">change</button>
               <div class="col-sm-12 p-2 text-right interestImagesMyAc" *ngFor="let interest of myAccountModel.profileInfo.consumerInterests">
                 <img (click)="selectInterest($event, interest)" style="cursor: pointer" src="{{interest.consumerInterestImagePath}}" title="{{interest.consumerInterestImageName}}" id="{{interest.id}}" />
-                <img class="aboluteImg" src="./consumer-app/assets/images/select.png" *ngIf="interest.selectImg" />
+                <img class="aboluteImg" src="/consumer-app/assets/images/select.png" *ngIf="interest.selectImg" />
               </div>
             </div>
             <!--Style Preferences-->
@@ -197,7 +197,7 @@
                     </div>
                     <button type="submit" class="btn btn_red_right">add card</button>
                     <button type="button" (click)="resetAddCard()" class="btn-outer btn_redouter_right btn-outer-margin">cancel</button>
-                    <img src="./consumer-app/assets/images/loader.gif" style="margin-left: 7px; margin-top: 7px" *ngIf="loader_addCard" />
+                    <img src="/consumer-app/assets/images/loader.gif" style="margin-left: 7px; margin-top: 7px" *ngIf="loader_addCard" />
                     <hr class="mb-0" />
                   </form>
                 </div>
@@ -216,7 +216,7 @@
                     <i title="delete card" class="fa fa-times" aria-hidden="true"></i>
                   </span>
                 </div>
-                <img src="./consumer-app/assets/images/loader.gif" *ngIf="loader_Card" class="ml-2" />
+                <img src="/consumer-app/assets/images/loader.gif" *ngIf="loader_Card" class="ml-2" />
               </div>
             </div>
             <!--Listing All The Cards-->

@@ -2,13 +2,13 @@
     <div class="contentHeight"></div>
     <!--Side Bar-->
     <div id="mySidenav" class="sidenav">
-        <img src="./consumer-app/assets/images/loader_2.gif" class="absoluteImg_2" style="left: 20px; top: 20px" *ngIf="loaderCategory" />
+        <img src="/consumer-app/assets/images/loader_2.gif" class="absoluteImg_2" style="left: 20px; top: 20px" *ngIf="loaderCategory" />
         <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
         <ul class="category_tiles" *ngFor="let category of categoryList">
             <li>
                 <span (click)="loadSubcategory($event, category)" class="pr-3">{{category.name}}</span>
                 <ul class="cat_subMenu">
-                    <img src="./consumer-app/assets/images/loader_2.gif" style="margin: 10% 46% 0%" *ngIf="loadersubCategory" />
+                    <img src="/consumer-app/assets/images/loader_2.gif" style="margin: 10% 46% 0%" *ngIf="loadersubCategory" />
                     <li *ngFor="let subcategory of subCategory" (click)="refreshSubcategory(subcategory)">{{subcategory.name}}</li>
                 </ul>
             </li>
@@ -32,13 +32,13 @@
         </h2>
         <span class="float-right mt-4 web-category">
             <a (click)="openNav()">
-                <img src="./consumer-app/assets/images/category.png" />
+                <img src="/consumer-app/assets/images/category.png" />
             </a>
         </span>
     </div>
     <!--Type Section-->
     <div class="row browseProduct">
-        <img src="./consumer-app/assets/images/loader.gif" style="margin: 0 46% 10%" *ngIf="loader" />
+        <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 46% 10%" *ngIf="loader" />
         <div class="example col-sm-3 col-6" style="margin-bottom: 25px" *ngFor="let tile of tilesData" (click)="viewDetails(tile)">
             <div class="prodImageContainer prodImageContainer_xl">
                 <img [src]="tile.product.mainImageSrc" class="product_hover img-fluid">

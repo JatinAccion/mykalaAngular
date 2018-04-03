@@ -1,6 +1,6 @@
 <div class="header bgimage">
     <div class="banner_content">
-        <img src="./consumer-app/assets/images/kala_logo.png" class="img-fluid" />
+        <img src="/consumer-app/assets/images/kala_logo.png" class="img-fluid" />
         <h1>Take the Search out of Shopping</h1>
         <h4>Your Online Shopping Experience. Personalized.</h4>
         <div class="banner_action d-inline-block">
@@ -52,7 +52,7 @@
     <div class="container banner_title">
         <h1>Explore. Bid. Create & Buy.</h1>
         <h4>Are you ready to shop your own way?</h4>
-        <img src="./consumer-app/assets/images/loader.gif" style="right: 15px; top: 245px; width: 20px; height:20px" class="absoluteImg_2" *ngIf="loader" />
+        <img src="/consumer-app/assets/images/loader.gif" style="right: 15px; top: 245px; width: 20px; height:20px" class="absoluteImg_2" *ngIf="loader" />
         <app-breadcrums [breadCrums]="breadCrums" (selectTile)="tileSelected($event, 'IsBc')"></app-breadcrums>
         <app-tiles [tilesData]="tiles" (selectTile)="tileSelected($event, undefined)"></app-tiles>
     </div>
@@ -74,7 +74,7 @@
                 </div>
             </div>
             <div class="col-sm-6">
-                <img src="./consumer-app/assets/images/banner_how_work.png" class="img-fluid" />
+                <img src="/consumer-app/assets/images/banner_how_work.png" class="img-fluid" />
             </div>
         </div>
     </div>
@@ -83,7 +83,7 @@
     <div class="container banner_title_gray">
         <div class="row">
             <div class="col-sm-6 text-left">
-                <img src="./consumer-app/assets/images/banner_request_offer.png" class="img-fluid" />
+                <img src="/consumer-app/assets/images/banner_request_offer.png" class="img-fluid" />
             </div>
             <div class="col-sm-6">
                 <div class="banner_steps pt-5">
@@ -110,7 +110,7 @@
                 </div>
             </div>
             <div class="col-sm-6">
-                <img src="./consumer-app/assets/images/banner_create.png" class="img-fluid" />
+                <img src="/consumer-app/assets/images/banner_create.png" class="img-fluid" />
             </div>
         </div>
     </div>
@@ -119,7 +119,7 @@
     <div class="container banner_title_gray">
         <div class="row p-4">
             <div class="col-sm-6">
-                <img src="./consumer-app/assets/images/banner_buy.png" class="img-fluid" />
+                <img src="/consumer-app/assets/images/banner_buy.png" class="img-fluid" />
             </div>
             <div class="col-sm-6">
                 <div class="banner_steps pt-5">
@@ -196,7 +196,7 @@
 
 
 <!-- <div style="position: relative;">
-    <img src="./consumer-app/assets/images/loader.gif" style="right: 28px; width: 20px;" class="absoluteImg_2" *ngIf="loader" />
+    <img src="/consumer-app/assets/images/loader.gif" style="right: 28px; width: 20px;" class="absoluteImg_2" *ngIf="loader" />
     <app-breadcrums [breadCrums]="breadCrums" (selectTile)="tileSelected($event, 'IsBc')"></app-breadcrums>
     <app-tiles [tilesData]="tiles" (selectTile)="tileSelected($event)"></app-tiles>
     <app-browse-product [selectedTilesData]="userResponse" [tilesData]="tiles" *ngIf="!showTilesLayout" (selectTile)="tileSelected($event)"></app-browse-product>
