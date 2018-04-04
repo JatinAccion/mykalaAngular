@@ -1,7 +1,7 @@
 <div class="container">
   <app-sub-menus></app-sub-menus>
   <div style="height:135px;width:100%;"></div>
-  <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 49%" class="mb-3 mt-3" *ngIf="loader">
+  <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 49%" class="mb-4 mt-3" *ngIf="loader">
 
   <div *ngIf="offers != undefined || reviews != undefined; else noOffer">
     <!--Get Offer Block-->
@@ -93,7 +93,7 @@
     <!--Reviews Block-->
   </div>
 
-  <ng-template #noOffer>
+  <ng-template *ngIf="!loader" #noOffer>
     <div class="myCart-list text-center mt-2 colorred">
       <u routerLink="/home">You don’t currently have any active news or alerts to display. Click here to continue shopping.</u>
     </div>

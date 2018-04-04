@@ -1,12 +1,15 @@
 <div class="container">
   <div style="height:135px;width:100%;"></div>
   <div class="title">
-    <h2>Track your order</h2>
+    <h2>Track your order
+      <span class="btnClose" routerLink="/myorder" style="cursor: pointer">X</span>
+    </h2>
   </div>
 
   <div style="background: #fff; padding: 20px; margin-bottom: 50px">
     <div class="row">
-      <div class="col-sm-6">
+      <div class="col-sm-6" position-relative>
+        <img src="/consumer-app/assets/images/loader.gif" class="absoluteMapLoader" *ngIf="loader" />
         <div #gmap id="map" class="w-100" style="height:480px;"></div>
       </div>
       <div class="col-sm-6">

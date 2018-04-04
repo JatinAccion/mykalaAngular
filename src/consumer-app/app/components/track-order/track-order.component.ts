@@ -15,6 +15,7 @@ export class TrackOrderComponent implements OnInit {
   selectedOrder: any;
   markers = [];
   getMarkersForMap = [];
+  loader: boolean = true;
 
   constructor(
     public core: CoreService,
@@ -28,7 +29,9 @@ export class TrackOrderComponent implements OnInit {
     this.selectedOrder = JSON.parse(window.localStorage['productForTracking']);
     console.log(this.selectedOrder);
     this.getAddress();
-    setTimeout(() => { this.loadMap() }, 2000);
+    setTimeout(() => {
+      this.loadMap()
+    }, 4000);
   }
 
   getAddress() {
@@ -53,7 +56,7 @@ export class TrackOrderComponent implements OnInit {
     }
     setTimeout(() => {
       window.localStorage['Cordinates'] = JSON.stringify(Cordinates)
-    }, 1000)
+    }, 3000)
   }
 
   loadMap() {
@@ -92,6 +95,7 @@ export class TrackOrderComponent implements OnInit {
       destination: end,
       travelMode: google.maps.TravelMode.DRIVING
     };
+    this.loader = false;
     directionsService.route(request, function (response, status) {
       if (status == google.maps.DirectionsStatus.OK) {
         directionsDisplay.setDirections(response);
