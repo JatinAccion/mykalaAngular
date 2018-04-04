@@ -16,6 +16,7 @@ export class MyNewsAlertsComponent implements OnInit {
   loader: boolean = false;
   offers: Array<any>;
   reviews: Array<any>;
+  orders: Array<any>;
 
   constructor(
     public core: CoreService,
@@ -38,20 +39,34 @@ export class MyNewsAlertsComponent implements OnInit {
     this.myalerts.loadOffers(this.userData.emailId).subscribe((res) => {
       this.loader = false;
       this.offers = res;
-      this.myalerts.loadReviews(this.userData.emailId).subscribe((res) => {
-        this.reviews = res;
+      this.myalerts.loadOrders(this.userData.userId).subscribe((res) => {
+        this.orders = res;
+        this.myalerts.loadReviews(this.userData.emailId).subscribe((res) => {
+          this.reviews = res;
+        }, (err) => {
+          console.log("Reviews::::", err)
+        })
       }, (err) => {
-        console.log(err)
+        console.log("Orders::::", err)
       })
     }, (err) => {
-      console.log(err)
+      console.log("Offers::::", err)
     })
   }
 
-  goToPage(offer, from) {
+  goToPage(data, from) {
+    //Offers
     if (from == 'offer') {
-      this.myalerts.updateOffer(offer.offerID).subscribe((res) => {
+      this.myalerts.updateOffer(data.offerID).subscribe((res) => {
         this.route.navigateByUrl('/myoffer');
+      }, (err) => {
+        console.log(err)
+      })
+    }
+    //Reviews
+    else {
+      this.myalerts.updateReview(data.consumerReviewId).subscribe((res) => {
+        this.route.navigateByUrl('/view-product');
       }, (err) => {
         console.log(err)
       })

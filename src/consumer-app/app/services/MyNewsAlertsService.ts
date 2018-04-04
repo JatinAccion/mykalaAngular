@@ -14,6 +14,12 @@ export class MyAlertsService {
         return this.http.get(url).map((res) => res.json())
     }
 
+    loadOrders(userId) {
+        const BASE_URL: string = environment.checkout;
+        const url: string = `${BASE_URL}/${environment.apis.consumerCheckout.shippedItems}/${userId}`;
+        return this.http.get(url).map((res) => res.json())
+    }
+
     loadReviews(emailId) {
         const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.userReviewList}/${emailId}`;
         return this.http.get(url).map((res) => res.json())
@@ -21,6 +27,11 @@ export class MyAlertsService {
 
     updateOffer(offerId) {
         const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.updateOffer}/${offerId}`;
+        return this.http.get(url).map((res) => res.json())
+    }
+
+    updateReview(reviewId) {
+        const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.updateReview}/${reviewId}/${false}`;
         return this.http.get(url).map((res) => res.json())
     }
 }

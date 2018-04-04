@@ -31,6 +31,7 @@ export const apiNames = {
         consumerOffer: 'consumerOffer',
         userReviewList: 'userReviewList',
         updateOffer: 'updateOffer',
+        updateReview: 'reviewRead',
         addressList: 'addressList'
     },
     products: {
@@ -55,7 +56,8 @@ export const apiNames = {
         productQuantity: 'productQuantity',
         cancelOrder: 'cancelOrder',
         trackOrderShipment: 'trackOrderShipment',
-        support: 'support/saveSupportRequest'
+        support: 'support/saveSupportRequest',
+        shippedItems: 'shippedItems'
     },
     shippingMethod: {
         method: 'retailer/v1',

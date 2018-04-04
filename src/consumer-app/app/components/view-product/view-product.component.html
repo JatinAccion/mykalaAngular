@@ -61,12 +61,16 @@
       <!-- <strike>$258.00 +</strike> -->
       <div class="row">
         <div *ngIf="!alreadyAddedInCart" class="col-sm-12 pl-4 pt-3 mb-4">
-          <label>
+          <!-- <label>
             <strong>Select Quantity</strong>
           </label>
           <select [(ngModel)]="quantity" [disabled]="selectedProduct.product.quantity == 0" class="form-control">
             <option *ngFor="let i of inStock" value="{{i}}">{{i}}</option>
-          </select> {{selectedProduct.product.quantity}} in stock
+          </select> -->
+          <span *ngIf="selectedProduct.product.quantity > 0;else outOfStock">{{selectedProduct.product.quantity}} in stock</span>
+          <ng-template #outOfStock>
+            <span>{{selectedProduct.product.quantity}} in stock</span>
+          </ng-template>
         </div>
 
         <div *ngIf="!alreadyAddedInCart" class="col-sm-12 p-2 pl-4 pr-4">
@@ -131,7 +135,7 @@
                     <br />
                     <strong>{{reviews.reviewDescription}}</strong>
                   </div>
-                  <div class="star-rating mt-3 mb-2" *ngIf="reviews.reviewImages">
+                  <div class="star-rating mt-3 mb-2" *ngIf="reviews.reviewImages != ''">
                     <span class="readReviewImage">
                       <img [src]="reviews.reviewImages" />
                     </span>

@@ -54,7 +54,7 @@ export class ViewProductComponent implements OnInit {
       this.productReviews = [];
       for (var i = 0; i < res.content.length; i++) {
         let review = res.content[i]
-        this.productReviews.push(new ReadReviewModel(review.consumerId, review.consumerReviewId, review.productName, review.rating, review.retailerName, review.reviewDescription, `${this.s3 + review.reviewImages}`, review.firstName, review.lastName))
+        this.productReviews.push(new ReadReviewModel(review.consumerId, review.consumerReviewId, review.productName, review.rating, review.retailerName, review.reviewDescription, review.reviewImages != undefined || review.reviewImages != null ? `${this.s3 + review.reviewImages}` : '', review.firstName, review.lastName))
       }
     }, (err) => {
       console.log(err)

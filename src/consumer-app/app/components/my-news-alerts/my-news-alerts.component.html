@@ -4,12 +4,25 @@
   <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 49%" class="mb-3 mt-3" *ngIf="loader">
 
   <div *ngIf="offers != undefined || reviews != undefined; else noOffer">
-    <!--Offer Blocks-->
+    <!--Get Offer Block-->
     <ng-container *ngFor="let offer of offers">
       <div [ngClass]="{'myCart-list':offer.unRead, 'myCart-list-nobg':!offer.unRead}" *ngIf="offer.getOffersResponse.length > 0" (click)="goToPage(offer, 'offer')">
-        <div class="mb-3">Get Offers for
-          <strong>{{offer.getOffersRequestDTO.placeName}} - {{offer.getOffersRequestDTO.categoryName}} - {{offer.getOffersRequestDTO.subCategoryName}}</strong> is complete! You received
-          <strong>{{offer.getOffersResponse.length}}</strong> offers!
+        <div class="mb-3">
+          <!--Expire Soon False-->
+          <span *ngIf="!offer.expireSoon; else showDefault">
+            Get Offers for
+            <strong>{{offer.getOffersRequestDTO.placeName}} - {{offer.getOffersRequestDTO.categoryName}} - {{offer.getOffersRequestDTO.subCategoryName}}</strong> is complete! You received
+            <strong>{{offer.getOffersResponse.length}}</strong> offers!
+          </span>
+          <!--Expire Soon False-->
+
+          <!--Expire Soon True-->
+          <ng-template #showDefault>
+            Your offers are set to expire in
+            <strong>24 hours</strong>! Click here to view them now
+          </ng-template>
+          <!--Expire Soon True-->
+
           <!--Expire Soon False-->
           <span class="d-inline float-right offerStatus" *ngIf="!offer.expireSoon;else expireSoon">
             <span class="d-inline float-right offerStatus inactive" *ngIf="offer.expire;else activeOffer">Offer Expired</span>
@@ -20,17 +33,43 @@
           <!--Expire Soon False-->
 
           <!--Expire Soon True-->
-          <ng-template #expireSoon>
+          <!-- <ng-template #expireSoon>
             <span class="d-inline float-right offerStatus expireSoon">Offer Expiring Soon</span>
-          </ng-template>
+          </ng-template> -->
           <!--Expire Soon True-->
         </div>
         <small class="pull-right colorlightGray">{{getFullDate(offer.startDate)}}</small>
         <img src="/consumer-app/assets/images/img_17.jpg" class="img-fluid mr-4 mb-3" width="55" *ngFor="let images of loopNumber(offer.getOffersResponse.length, 'offers')" />
       </div>
     </ng-container>
+    <!--Get Offer Block-->
 
-    <div class="myCart-list" *ngFor="let review of reviews">
+    <!--Order Shipment Block-->
+    <!-- <div class="myCart-list" *ngFor="let review of reviews">
+      <small class="pull-right colorlightGray">{{getFullDate(review.reviewDate)}}</small>
+      <div class="mb-2">You reviewed
+        <strong>{{review.productName}}</strong>
+      </div>
+      <div class="row p-0">
+        <div class="col-sm-2">
+          <img style="width:100%" [src]="review.productImage" />
+        </div>
+        <div class="col-sm-10 mt-4">
+          <div class="mb-2">
+            Ratings:
+            <span *ngFor="let rating of loopNumber(review.rating, 'ratings')">
+              <i class="fa fa-star starIcon" aria-hidden="true"></i>
+            </span>
+          </div>
+          <div>Comments:
+            <br />{{review.reviewDescription}}</div>
+        </div>
+      </div>
+    </div> -->
+    <!--Order Shipment Block-->
+
+    <!--Reviews Block-->
+    <div [ngClass]="{'myCart-list':review.unRead, 'myCart-list-nobg':!review.unRead}" *ngFor="let review of reviews" (click)="goToPage(review, 'review')">
       <small class="pull-right colorlightGray">{{getFullDate(review.reviewDate)}}</small>
       <div class="mb-2">You reviewed
         <strong>{{review.productName}}</strong>
@@ -51,7 +90,7 @@
         </div>
       </div>
     </div>
-    <!--Offer Blocks-->
+    <!--Reviews Block-->
   </div>
 
   <ng-template #noOffer>
