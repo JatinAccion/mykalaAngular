@@ -3,7 +3,7 @@ export class ReviewModel {
     public emailId: string;
     public userId: string;
     public reviewDescription: string;
-    public rating: string;
+    public rating: number;
     public retailerId: string;
     public retailerName: string;
     public productName: string;

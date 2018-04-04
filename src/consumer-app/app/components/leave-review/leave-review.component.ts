@@ -69,7 +69,7 @@ export class LeaveReviewComponent implements OnInit {
   };
 
   selectRating(e) {
-    this.requestReviewModel.rating = e.currentTarget.dataset.number;
+    this.requestReviewModel.rating = parseFloat(e.currentTarget.dataset.number);
     let reviewIcons = document.getElementsByClassName("starIcon")
     for (var i = 0; i < reviewIcons.length; i++) {
       reviewIcons[i].classList.remove("fa-star");
@@ -86,7 +86,7 @@ export class LeaveReviewComponent implements OnInit {
     let regex = /\S+\s+\S+\s+\S+\s+\S+\s+\S+/
     this.requestReviewModel.reviewDescription = this.reviewContent;
     if (regex.test(this.requestReviewModel.reviewDescription) != true || this.requestReviewModel.reviewDescription == undefined) alert("Please provide a minimum of 5 words");
-    else if (this.requestReviewModel.rating == "" || this.requestReviewModel.rating == undefined) alert("Please select a rating");
+    else if (!this.requestReviewModel.rating || this.requestReviewModel.rating == undefined) alert("Please select a rating");
     else {
       this.loader = true;
       this.review.postReview(this.requestReviewModel).subscribe((res) => {
