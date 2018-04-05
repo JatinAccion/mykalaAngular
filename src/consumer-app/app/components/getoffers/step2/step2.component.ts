@@ -162,10 +162,25 @@ export class Step2Component implements OnInit {
       }*/
       this.sort(this.getObjectFromOrder)
       this.fromAPI = false;
+      this.OtherOptionAvailable('fromAPI')
     }
     //Filter data from internal API response
     else {
       this.getObjectFromOrder = getObjectFromOrder;
+      this.OtherOptionAvailable('fromCommon')
+    }
+  }
+
+  OtherOptionAvailable(from) {
+    for (var i = 0; i < this.getObjectFromOrder.length; i++) {
+      if (this.getObjectFromOrder[i].values.indexOf("Other") > -1) {
+        if (from == 'fromAPI') {
+          if (this.getObjectFromOrder[i].otherInput != undefined && !this.getObjectFromOrder[i].otherInput) {
+            this.getObjectFromOrder[i].otherInput = false;
+          }
+        }
+        else this.getObjectFromOrder[i].otherInput = false;
+      }
     }
   }
 
@@ -196,18 +211,37 @@ export class Step2Component implements OnInit {
   }
 
   select(offer, values, e) {
+    let activate: boolean = true;
     let addSelected: boolean = false;
     if (offer.order.multiSelect == "Y" && offer.order.Filter != "Y") {
       if (e.currentTarget.classList.contains("categ_outline_gray")) {
         //When No Preferences Selected
         if (values == 'No Preference') {
+          if (offer.lastSelection == 'Other') {
+            delete offer.lastSelection;
+            offer.otherInput = false;
+          }
           offer.lastSelection = values;
-          this.noPreferences(offer, values)
+          this.noPreferencesOther(offer, values, 'noPreference')
         }
         //When Other Selected
-        else if (values == 'Others') this.others(offer, values)
+        else if (values == 'Other') {
+          offer.otherInput = true;
+          if (offer.lastSelection == 'No Preference') {
+            for (var i = 0; i < this.Step2SelectedValues.length; i++) {
+              if (this.Step2SelectedValues[i].key == offer.key &&
+                this.Step2SelectedValues[i].values == 'No Preference') {
+                this.Step2SelectedValues.splice(i, 1);
+              }
+            }
+            delete offer.lastSelection
+          }
+          offer.lastSelection = values;
+          this.noPreferencesOther(offer, values, 'others')
+        }
         else {
           if (offer.lastSelection == 'No Preference') {
+            if (offer.otherInput) offer.otherInput = false;
             let elements = document.getElementsByClassName(`${offer.key}`);
             for (var i = 0; i < elements.length; i++) {
               elements[i].classList.add("categ_outline_gray");
@@ -239,8 +273,12 @@ export class Step2Component implements OnInit {
             this.Step2SelectedValues.splice(i, 1);
             e.currentTarget.classList.add("categ_outline_gray");
             e.currentTarget.classList.remove("categ_outline_red");
-            return false;
           }
+        }
+        if (values == 'Other') {
+          offer.otherInput = false;
+          e.currentTarget.classList.add("categ_outline_gray");
+          e.currentTarget.classList.remove("categ_outline_red");
         }
       }
       this.commonAsParent()
@@ -249,12 +287,11 @@ export class Step2Component implements OnInit {
     if (offer.order.Filter == "Y") {
       if (values == 'No Preference') {
         offer.lastSelection = values;
-        this.noPreferences(offer, values);
+        this.noPreferencesOther(offer, values, 'noPreference');
         this.GetOfferStep_2.attributes[offer.key] = [];
         this.GetOfferStep_2.attributes[offer.key].push(values);
         this.commonAsParent()
       }
-      else if (values == 'Others') { this.others(offer, values) }
       else {
         addSelected = true;
         //API with Single Select Option
@@ -277,6 +314,7 @@ export class Step2Component implements OnInit {
           if (this.GetOfferStep_2.attributes[offer.key] == undefined) this.GetOfferStep_2.attributes[offer.key] = [];
           if (this.GetOfferStep_2PS.attributes[offer.key] == undefined) this.GetOfferStep_2PS.attributes[offer.key] = [];
           if (e.currentTarget.classList.contains("categ_outline_red")) {
+            activate = false;
             e.currentTarget.classList.remove("categ_outline_red");
             e.currentTarget.classList.add("categ_outline_gray");
             for (var key in this.GetOfferStep_2.attributes) {
@@ -310,7 +348,7 @@ export class Step2Component implements OnInit {
               });
               for (var i = 0; i < this.Step2SelectedValues.length; i++) {
                 if (this.Step2SelectedValues[i].key == offer.key &&
-                  this.Step2SelectedValues[i].values == 'No Preference') {
+                  (this.Step2SelectedValues[i].values == 'No Preference')) {
                   this.Step2SelectedValues[i].values = values;
                 }
               }
@@ -325,8 +363,10 @@ export class Step2Component implements OnInit {
           }
         }
       }
-      e.currentTarget.classList.add("categ_outline_red");
-      e.currentTarget.classList.remove("categ_outline_gray");
+      if (activate) {
+        e.currentTarget.classList.add("categ_outline_red");
+        e.currentTarget.classList.remove("categ_outline_gray");
+      }
     }
     if (addSelected) {
       this.lastValueForAPI = offer.key;
@@ -367,29 +407,40 @@ export class Step2Component implements OnInit {
     console.log(this.GetOfferStep_2PS)
   }
 
-  noPreferences(offer, values) {
+  noPreferencesOther(offer, values, from?: any) {
     let proceed: boolean = false;
     let elements = document.getElementsByClassName(`${offer.key}`);
     for (var key in this.Step2SelectedValues) {
       if (this.Step2SelectedValues[key].key == offer.key) proceed = true;
     }
-    if (proceed) {
-      for (var i = 0; i < this.Step2SelectedValues.length; i++) {
-        let item = this.Step2SelectedValues[i];
-        if (item.key == offer.key) {
-          this.Step2SelectedValues[i].values = values
+    if (from != 'others') {
+      if (proceed) {
+        for (var i = 0; i < this.Step2SelectedValues.length; i++) {
+          let item = this.Step2SelectedValues[i];
+          if (item.key == offer.key) {
+            this.Step2SelectedValues[i].values = values
+          }
         }
+      }
+      else {
+        this.Step2SelectedValues.push({
+          key: offer.key,
+          values: values
+        });
+      }
+      for (var i = 0; i < elements.length; i++) {
+        elements[i].classList.remove("categ_outline_red");
+        elements[i].classList.add("categ_outline_gray");
       }
     }
     else {
-      this.Step2SelectedValues.push({
-        key: offer.key,
-        values: values
-      });
-    }
-    for (var i = 0; i < elements.length; i++) {
-      elements[i].classList.remove("categ_outline_red");
-      elements[i].classList.add("categ_outline_gray");
+      for (var i = 0; i < elements.length; i++) {
+        if (elements[i].innerHTML == 'No Preference') {
+          elements[i].classList.remove("categ_outline_red");
+          elements[i].classList.add("categ_outline_gray");
+          break;
+        }
+      }
     }
   }
 
@@ -398,10 +449,6 @@ export class Step2Component implements OnInit {
       let val = Array.from(new Set(s2SValuesFinal[i].values));
       s2SValuesFinal[i].values = val;
     }
-  }
-
-  others(offer, values) {
-    console.log(offer)
   }
 
   skip() {
@@ -413,7 +460,19 @@ export class Step2Component implements OnInit {
     this.route.navigate(['/getoffer', 'step1']);
   };
 
+  getOtherValue() {
+    for (var i = 0; i < this.getObjectFromOrder.length; i++) {
+      for (var key in this.GetOfferStep_2PS.attributes) {
+        if (key == this.getObjectFromOrder[i].key && this.getObjectFromOrder[i].otherInput) {
+          if (this.GetOfferStep_2PS.attributes[key].indexOf("No Preference") > -1) this.GetOfferStep_2PS.attributes[key] = [];
+          this.GetOfferStep_2PS.attributes[key].push(this.getObjectFromOrder[i].otherInputValue)
+        }
+      }
+    }
+  }
+
   next() {
+    this.getOtherValue()
     window.localStorage['GetOfferPrice'] = JSON.stringify(this.getObjectFromOrder);
     window.localStorage['GetOfferStep_2'] = JSON.stringify(this.GetOfferStep_2PS)
     this.route.navigate(['/getoffer', 'step3']);

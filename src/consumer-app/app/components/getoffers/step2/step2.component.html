@@ -16,10 +16,13 @@
       <div class="col-sm-12" *ngIf="offers.key != 'Price'">
         <div class="row">
           <div class="col-sm-2 colorlightGray">
-            <p>{{offers.key}}</p>
+            <p>{{offers.key}}
+              <span *ngIf="offers.order.Units != '' && offers.order.Units != undefined">({{offers.order.Units}})</span>
+            </p>
           </div>
           <div class="col-sm-10">
             <div class="categ_outline_gray mr-3 mb-3" [ngClass]="offers.key" style="cursor: pointer" (click)="select(offers, values, $event)" *ngFor="let values of offers.values">{{values}}</div>
+            <input type="text" [(ngModel)]="offers.otherInputValue" class="form-control d-inline w-25" *ngIf="offers.otherInput" style="height: 30px" />
           </div>
         </div>
         <hr />
