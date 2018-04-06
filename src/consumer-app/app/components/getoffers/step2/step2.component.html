@@ -20,13 +20,15 @@
               <span *ngIf="offers.order.Units != '' && offers.order.Units != undefined">({{offers.order.Units}})</span>
             </p>
           </div>
-          <div class="col-sm-10">
-            <div class="categ_outline_gray mr-3 mb-3" [ngClass]="offers.key" style="cursor: pointer" (click)="select(offers, values, $event)" *ngFor="let values of offers.values">{{values}}</div>
+          <div class="col-sm-8">
+            <div class="categ_outline_gray mr-3 mb-3 {{offers.key}} {{offers.orderNo}}" style="cursor: pointer" (click)="select(offers, values, $event)" *ngFor="let values of offers.values">{{values}}</div>
             <input type="text" [(ngModel)]="offers.otherInputValue" class="form-control d-inline w-25" *ngIf="offers.otherInput" style="height: 30px" />
           </div>
+          <div class="col-sm-2" style="cursor: pointer" *ngIf="offers.hideRemaining != undefined" class="colorred" (click)="toggleElements(offers, $event)">show more +</div>
         </div>
         <hr />
       </div>
+      {{filterShowHide(offers)}}
     </div>
   </div>
   <div class="clearfix">&nbsp;</div>

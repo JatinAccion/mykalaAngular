@@ -162,12 +162,47 @@ export class Step2Component implements OnInit {
       }*/
       this.sort(this.getObjectFromOrder)
       this.fromAPI = false;
-      this.OtherOptionAvailable('fromAPI')
+      this.OtherOptionAvailable('fromAPI');
     }
     //Filter data from internal API response
     else {
       this.getObjectFromOrder = getObjectFromOrder;
       this.OtherOptionAvailable('fromCommon')
+    }
+    this.showHideElements()
+  }
+
+  showHideElements() {
+    for (var i = 0; i < this.getObjectFromOrder.length; i++) {
+      let elements = this.getObjectFromOrder[i];
+      if (elements.values.length > 5) this.getObjectFromOrder[i].hideRemaining = true;
+    }
+  }
+
+  filterShowHide(offer) {
+    if (offer.hideRemaining) {
+      let elements = document.getElementsByClassName(`${offer.orderNo}`);
+      for (var i = 0; i < elements.length; i++) {
+        if (i > 4) elements[i].classList.add("d-none");
+      }
+    }
+  }
+
+  toggleElements(offer, e) {
+    let elements = document.getElementsByClassName(`${offer.orderNo}`);
+    if (!offer.hideRemaining) {
+      e.currentTarget.innerHTML = "show more +"
+      for (var i = 0; i < elements.length; i++) {
+        if (i > 4) elements[i].classList.add("d-none");
+      }
+      offer.hideRemaining = true;
+    }
+    else {
+      e.currentTarget.innerHTML = "show less -"
+      for (var i = 0; i < elements.length; i++) {
+        if (elements[i].classList.contains("d-none")) elements[i].classList.remove("d-none");
+      }
+      offer.hideRemaining = false;
     }
   }
 
@@ -468,8 +503,7 @@ export class Step2Component implements OnInit {
     for (var i = 0; i < this.getObjectFromOrder.length; i++) {
       for (var key in this.GetOfferStep_2PS.attributes) {
         if (key == this.getObjectFromOrder[i].key && this.getObjectFromOrder[i].otherInput) {
-          if ((this.GetOfferStep_2PS.attributes[key].indexOf("Other") > -1 || this.GetOfferStep_2PS.attributes[key].indexOf("No Preference") > -1)
-            && this.GetOfferStep_2PS.attributes[key].length == 1) {
+          if (this.GetOfferStep_2PS.attributes[key].indexOf("Other") > -1 && this.GetOfferStep_2PS.attributes[key].length == 1) {
             this.GetOfferStep_2PS.attributes[key] = [];
           }
           if (this.GetOfferStep_2PS.attributes[key].indexOf("Other") > -1) {
@@ -479,6 +513,9 @@ export class Step2Component implements OnInit {
                 break;
               }
             }
+          }
+          if (this.GetOfferStep_2PS.attributes[key].indexOf("No Preference") > -1 && this.GetOfferStep_2PS.attributes[key].length == 1) {
+            this.GetOfferStep_2PS.attributes[key] = [];
           }
           if (this.GetOfferStep_2PS.attributes[key].indexOf("No Preference") > -1) {
             for (var j = 0; j < this.GetOfferStep_2PS.attributes[key].length; j++) {
