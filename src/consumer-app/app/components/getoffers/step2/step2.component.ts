@@ -441,6 +441,10 @@ export class Step2Component implements OnInit {
           break;
         }
       }
+      this.Step2SelectedValues.push({
+        key: offer.key,
+        values: values
+      });
     }
   }
 
@@ -464,7 +468,26 @@ export class Step2Component implements OnInit {
     for (var i = 0; i < this.getObjectFromOrder.length; i++) {
       for (var key in this.GetOfferStep_2PS.attributes) {
         if (key == this.getObjectFromOrder[i].key && this.getObjectFromOrder[i].otherInput) {
-          if (this.GetOfferStep_2PS.attributes[key].indexOf("No Preference") > -1) this.GetOfferStep_2PS.attributes[key] = [];
+          if ((this.GetOfferStep_2PS.attributes[key].indexOf("Other") > -1 || this.GetOfferStep_2PS.attributes[key].indexOf("No Preference") > -1)
+            && this.GetOfferStep_2PS.attributes[key].length == 1) {
+            this.GetOfferStep_2PS.attributes[key] = [];
+          }
+          if (this.GetOfferStep_2PS.attributes[key].indexOf("Other") > -1) {
+            for (var j = 0; j < this.GetOfferStep_2PS.attributes[key].length; j++) {
+              if (this.GetOfferStep_2PS.attributes[key][j] == 'Other') {
+                this.GetOfferStep_2PS.attributes[key].splice(j, 1);
+                break;
+              }
+            }
+          }
+          if (this.GetOfferStep_2PS.attributes[key].indexOf("No Preference") > -1) {
+            for (var j = 0; j < this.GetOfferStep_2PS.attributes[key].length; j++) {
+              if (this.GetOfferStep_2PS.attributes[key][j] == 'No Preference') {
+                this.GetOfferStep_2PS.attributes[key].splice(j, 1);
+                break;
+              }
+            }
+          }
           this.GetOfferStep_2PS.attributes[key].push(this.getObjectFromOrder[i].otherInputValue)
         }
       }
