@@ -6,6 +6,7 @@ import { userMessages, inputValidation } from './fp.message';
 import { ForgotPasswordService } from '../../services/forgotPassword.service';
 import { ForgotPasswordModal } from '../../../../models/forgotPassword.modal';
 import { regexPatterns } from '../../../../common/regexPatterns';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -29,7 +30,8 @@ export class ForgotPasswordComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     public core: CoreService,
-    private fpService: ForgotPasswordService
+    private fpService: ForgotPasswordService,
+    private auth: AuthService
   ) { }
 
   ngOnInit() {
@@ -45,19 +47,26 @@ export class ForgotPasswordComponent implements OnInit {
     this.fpModal.email = this.forgotPassword.controls.email.value;
     this.fpService.getUserByEmailId(this.fpModal.email).subscribe((res) => {
       if (res.userId != null || res.userId != undefined) {
-        let userId = res.userId;
-        this.fpModal.resetLink = window.location.origin + `/#/reset-password?id=${userId}`;
-        this.fpService.forgotPassword(this.fpModal).subscribe(res => {
+        if (res.userCreateStatus) {
+          let userId = res.userId;
+          this.fpModal.resetLink = window.location.origin + `/#/reset-password?id=${userId}`;
+          this.fpService.forgotPassword(this.fpModal).subscribe(res => {
+            this.loader = false;
+            this.responseHandling.status = true;
+            this.responseHandling.response = "success";
+            window.localStorage['userInfo'] = JSON.stringify(res);
+            this.forgotPassword.reset();
+          }, err => {
+            this.loader = false;
+            this.responseHandling.status = true;
+            this.responseHandling.response = "fail";
+          })
+        }
+        else {
           this.loader = false;
           this.responseHandling.status = true;
-          this.responseHandling.response = "success";
-          window.localStorage['userInfo'] = JSON.stringify(res);
-          this.forgotPassword.reset();
-        }, err => {
-          this.loader = false;
-          this.responseHandling.status = true;
-          this.responseHandling.response = "fail";
-        })
+          this.responseHandling.response = "notVerified";
+        }
       }
       else {
         this.loader = false;
@@ -67,10 +76,16 @@ export class ForgotPasswordComponent implements OnInit {
     }, (err) => {
       console.log("Error", err)
     });
+  }
 
-
-
-
+  verifyAccount() {
+    this.loader = true;
+    this.responseHandling.status = false;
+    this.auth.verifyAccount(this.forgotPassword.controls.email.value).subscribe((res) => {
+      this.loader = false;
+      this.responseHandling.status = true;
+      this.responseHandling.response = "verificationSent";
+    })
   }
 
 }
