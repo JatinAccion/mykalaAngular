@@ -6,14 +6,8 @@ export class ConsumerSupportModal {
     public orderDate: Date;
     public productName: string;
     public productCost: string;
-    public message: Array<ConsumerSupportConversations>;
-}
-
-export class ConsumerSupportConversations {
-    constructor(
-        public from: string,
-        public fromText: string,
-        public to: string,
-        public toText: string,
-    ) { }
+    public inquiryType: string;
+    public inquiryCategory: string;
+    public inquiryDate: Date;
+    public description: string;
 }
