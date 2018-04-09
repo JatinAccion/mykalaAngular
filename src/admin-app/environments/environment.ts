@@ -11,7 +11,7 @@ export const environment = {
   userApi: 'http://dev-user-signup.us-east-2.elasticbeanstalk.com/user/v1',
   ordersReportApi: 'http://dev-orderservice.us-east-1.elasticbeanstalk.com/order/v1/reports',
   ordersApi: 'http://dev-orderservice.us-east-1.elasticbeanstalk.com/order/v1',
-  paymentApi: 'http://qa-order-service.us-east-1.elasticbeanstalk.com/payment/v1',
+  paymentApi: 'http://dev-orderservice.us-east-1.elasticbeanstalk.com/payment/v1',
   consumerApi: 'http://dev-consumer-profile.us-east-2.elasticbeanstalk.com',
   // consumerApi: 'http://qa-consumer-service.us-west-1.elasticbeanstalk.com',
   // consumerApi: 'http://192.168.169.185:6090',

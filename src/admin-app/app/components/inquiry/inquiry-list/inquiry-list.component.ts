@@ -17,7 +17,7 @@ import { CoreService } from '../../../services/core.service';
 })
 export class InquiryListComponent implements OnInit {
   users: any[];
-  searchType: string;
+  searchType = 'Seller';
   search: any;
   loading: boolean;
   inquirys: Inquirys;

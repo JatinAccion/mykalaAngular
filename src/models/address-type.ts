@@ -4,4 +4,6 @@ export const AddressType = {
     general: 'General contact', generalStripe: 'GeneralContact',
     billing: 'Billing contact',
     shipping: 'Shipping contact',
-}
+    legalContact: 'LegalContact', bankAddress: 'Bank Address',
+    bankAccountAddress: 'Bank Account Address'
+};

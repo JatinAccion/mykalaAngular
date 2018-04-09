@@ -119,6 +119,8 @@ export class ReportConsumer {
   public lastName: string;
   public phone: string;
   public userId: string;
+  public offersCount = 0;
+  public ordersCount = 0;
   constructor(obj?: any) {
     if (obj) {
       this.address = obj.address.map(p => new PostalAddress(p));
@@ -134,7 +136,20 @@ export class ReportConsumer {
       this.lastName = obj.lastName;
       this.phone = obj.phone;
       this.userId = obj.userId;
+    }
+  }
+  get getOffersOrdersString(): string {
+    return `${this.ordersCount} orders, ${this.offersCount} offer requests`;
+  }
+}
+export class ConsumerOffersOrdersCount {
+  public offerTotal: number;
+  public orderTotal: number;
 
+  constructor(obj?: any) {
+    if (obj) {
+      this.offerTotal = obj.offerTotal;
+      this.orderTotal = obj.orderTotal;
     }
   }
 }
@@ -154,4 +169,5 @@ export class SellerPayment {
     }
   }
 }
+
 

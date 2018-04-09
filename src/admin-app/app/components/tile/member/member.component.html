@@ -13,7 +13,7 @@
                 <td>member since {{consumer.createdAt | date:'shortDate'}}</td>
             </tr>
             <tr>
-                <td>4 orders, 7 offer requestis</td>
+                <td>{{consumer.getOffersOrdersString}}</td>
             </tr>
             <tr>
                 <td>{{consumer.phone}}</td>

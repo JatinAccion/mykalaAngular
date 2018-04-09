@@ -10,15 +10,15 @@
     <div class="row p-2 text-right">
         <div class="col-sm-6 pl-2">
         </div>
-        <div class="col-sm-4 pl-2">
-            <input placeholder="search for order" class="form-control txt_Search" type="text" [(ngModel)]="search" (keyup)="getPage(1)">
-        </div>
         <div class="col-sm-2 pr-2 text-right">
-            <select class="ddl_default form-control" [(ngModel)]="searchType" (change)="getPage(1)" >
+            <select class="ddl_default form-control" [(ngModel)]="searchType" (change)="getPage(1)">
                 <option>Seller</option>
                 <option>Member</option>
                 <option>Order Number</option>
             </select>
+        </div>
+        <div class="col-sm-4 pl-2">
+            <input placeholder="search for {{searchType}}" class="form-control txt_Search" type="text" [(ngModel)]="search" (keyup)="getPage(1)">
         </div>
     </div>
 
@@ -26,7 +26,7 @@
         <pagination-controls id='server' (pageChange)="getPage($event)"></pagination-controls>
     </div>
     <div class="backgroundWhite">
-        <table class="table table-responsive"  sortable-table (sorted)="onSorted($event)">
+        <table class="table table-responsive" sortable-table (sorted)="onSorted($event)">
             <thead>
                 <tr>
                     <th width="5%">
@@ -180,7 +180,7 @@
                             </div>
                         </div>
                         <hr />
-                        <app-tile-member *ngIf="inquiry && inquiry.customerId" [id]="inquiry.customerId"></app-tile-member>
+                        <app-tile-member *ngIf="inquiry && inquiry.customerId" [id]="inquiry.customerId" [orderId]="inquiry.orderId" ></app-tile-member>
                         <hr />
                         <app-tile-retailer *ngIf="inquiry && inquiry.retailerId" [id]="inquiry.retailerId"></app-tile-retailer>
                     </td>

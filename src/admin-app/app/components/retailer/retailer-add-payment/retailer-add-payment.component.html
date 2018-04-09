@@ -28,7 +28,7 @@
         <div class="col-sm-6">
             <div class="form-group">
                 <label class="control-label" [ngClass]="validatorExt.displayFieldCss(paymentFG1.controls.commissionRate)">Commission Rate(%)</label>
-                <input type="number" class="form-control" placeholder="" pattern formControlName="commissionRate" max="100" min ="0">
+                <input type="number" class="form-control" placeholder="" pattern formControlName="commissionRate" max="100" min="0">
                 <!--Validation-->
                 <app-field-error-display [field]="paymentFG1.controls.commissionRate" [errorMsg]="errorMsgs"> </app-field-error-display>
                 <!--Validation-->
@@ -91,7 +91,6 @@
         </div>
     </div>
     <hr />
-
 </div>
 
 <div [formGroup]="paymentFG2" [ngClass]="{'show': paymentInfoStep==2, 'hide': paymentInfoStep!==2  }">
@@ -122,6 +121,84 @@
         <!--Validation-->
         <app-field-error-display [field]="paymentFG2.controls.bankSwiftCode" [errorMsg]="errorMsgs"> </app-field-error-display>
         <!--Validation-->
+    </div>
+    <div *ngIf="activateStripe">
+        <div>
+            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(paymentFG2.controls.addressLine1)">Legal Contact</label>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-6" *ngIf="activateStripe">
+                <input type="text" class="form-control" placeholder="First Name" pattern formControlName="firstName">
+                <!--Validation-->
+                <app-field-error-display [field]="paymentFG2.controls.firstName" [errorMsg]="errorMsgs"> </app-field-error-display>
+                <!--Validation-->
+            </div>
+            <div class="form-group col-sm-6" *ngIf="activateStripe">
+                <input type="text" class="form-control" placeholder="Last Name" pattern formControlName="lastName">
+                <!--Validation-->
+                <app-field-error-display [field]="paymentFG2.controls.lastName" [errorMsg]="errorMsgs"> </app-field-error-display>
+                <!--Validation-->
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-6" *ngIf="activateStripe">
+                <input type="text" class="form-control" placeholder="Last 4 digits of SSN" pattern formControlName="ssnlast4">
+                <!--Validation-->
+                <app-field-error-display [field]="paymentFG2.controls.ssnlast4" [errorMsg]="errorMsgs"> </app-field-error-display>
+                <!--Validation-->
+            </div>
+            <div class="form-group col-sm-6" *ngIf="activateStripe">
+                <div class="input-group">
+                    <input formControlName="inquiryDate" (focus)="d.open()" [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker #d="ngbDatepicker" class="form-control" pattern formControlName="dob" placeholder="Date of Birth (mm-dd-yyyy)">
+                    <div class="input-group-append">
+                        <button class="btn btn-default ancProfile1" (click)="d.toggle()">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+                <!--Validation-->
+                <app-field-error-display [field]="paymentFG2.controls.dob" [errorMsg]="errorMsgs"> </app-field-error-display>
+                <!--Validation-->
+            </div>
+        </div>
+        <div class="form-group">
+            <!-- <label class="control-label" [ngClass]="validatorExt.displayFieldCss(paymentFG2.controls.addressLine1LegalContact)">Retailer address on Account</label> -->
+            <input type="text" class="form-control" placeholder="Address line 1" pattern formControlName="addressLine1LegalContact">
+            <!--Validation-->
+            <app-field-error-display [field]="paymentFG2.controls.addressLine1LegalContact" [errorMsg]="errorMsgs"> </app-field-error-display>
+            <!--Validation-->
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Address line 2.(optional)" pattern formControlName="addressLine2LegalContact">
+            <!--Validation-->
+            <app-field-error-display [field]="paymentFG2.controls.addressLine2LegalContact" [errorMsg]="errorMsgs"> </app-field-error-display>
+            <!--Validation-->
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="City" pattern formControlName="cityLegalContact">
+            <!--Validation-->
+            <app-field-error-display [field]="paymentFG2.controls.cityLegalContact" [errorMsg]="errorMsgs"> </app-field-error-display>
+            <!--Validation-->
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <input type="text" class="form-control" aria-describedby="" placeholder="State" pattern formControlName="stateLegalContact">
+                    <!--Validation-->
+                    <app-field-error-display [field]="paymentFG2.controls.stateLegalContact" [errorMsg]="errorMsgs"> </app-field-error-display>
+                    <!--Validation-->
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <input type="text" class="form-control" aria-describedby="" placeholder="Zipcode" pattern formControlName="zipcodeLegalContact">
+                    <!--Validation-->
+                    <app-field-error-display [field]="paymentFG2.controls.zipcodeLegalContact" [errorMsg]="errorMsgs"> </app-field-error-display>
+                    <!--Validation-->
+                </div>
+            </div>
+        </div>
+        <hr />
     </div>
     <div class="form-group">
         <label class="control-label" [ngClass]="validatorExt.displayFieldCss(paymentFG2.controls.addressLine1)">Retailer address on Account</label>
@@ -163,19 +240,9 @@
     <hr />
 </div>
 
-<div class="row" *ngIf="paymentInfoStep!==1 && activateStripe && !stripeInegrated">
-    <div class="col-sm-12">
-        <button (click)="stripe()" class="btn btn-default ancProfile1" [disabled]="paymentSaveloader">Register Your Account with Stripe
-            <i class="fa fa-repeat fa-spin" aria-hidden="true" *ngIf="paymentSaveloader"></i>
-        </button>
-        <p>By registering your account, you agree to our
-            <a href="/terms.html" target="_blank">Services Agreement</a>.</p>
-    </div>
-</div>
 <div class="row">
     <div class="col-sm-6">
         <a (click)="paymentInfoBack()" class="ancDefault" *ngIf="paymentInfoStep!==1">back</a>
-
     </div>
     <div class="col-sm-6 text-right" [ngClass]="{'show': paymentInfoStep==1, 'hide': paymentInfoStep!==1 }">
         <a class="btn btn-default ancProfile1" (click)="paymentInfoNext()">Next</a>
@@ -185,10 +252,16 @@
             <i class="fa fa-repeat fa-spin" aria-hidden="true" *ngIf="paymentSaveloader"></i>
         </button>
     </div>
-    <div class="col-sm-6 text-right" [ngClass]="{'show': paymentInfoStep==2, 'hide': paymentInfoStep!==2  }" *ngIf="activateStripe">
+    <!-- <div class="col-sm-6 text-right" [ngClass]="{'show': paymentInfoStep==2, 'hide': paymentInfoStep!==2  }" *ngIf="activateStripe">
         <button class="btn btn-default ancProfile1" [disabled]="paymentSaveloader" (click)="paymentInfoNextTab();">Next
             <i class="fa fa-repeat fa-spin" aria-hidden="true" *ngIf="paymentSaveloader"></i>
         </button>
+    </div> -->
+    <div class="col-sm-6" *ngIf="paymentInfoStep!==1 && activateStripe && !stripeInegrated">
+        <button (click)="stripe()" class="btn btn-default ancProfile1" [disabled]="paymentSaveloader">Register Your Account with Stripe
+            <i class="fa fa-repeat fa-spin" aria-hidden="true" *ngIf="paymentSaveloader"></i>
+        </button>
+        <!-- <p>By registering your account, you agree to our <a href="/terms.html" target="_blank">Services Agreement</a>.</p> -->
     </div>
 </div>
 <!-- </form> -->

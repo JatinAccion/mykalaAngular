@@ -134,23 +134,26 @@ export class InquiryAddComponent implements OnInit {
     }
   }
   async checkOrder() {
-    if (this.fG1.value.orderId) {
+    if (this.fG1.value.orderId && (!this.order || !this.order.orderId || this.fG1.value.orderId !== this.order.orderId)) {
       await this.getOrderDetails(this.fG1.value.orderId);
-      if (!this.order || !this.inquiry.productName || !this.inquiry.retailerId) {
+      if (!this.order) {
         this.core.message.info(userMessages.invalidOrder);
       } else {
         this.inquiry.customerId = this.order.userId;
         this.inquiry.orderDate = this.toDate(this.order.purchasedDate);
+        this.inquiry.customerName = this.order.customerName;
         if (this.order.orderItems && this.order.orderItems.length > 0) {
-          if (this.order.orderItems.length === 1) {
+          if (this.order.orderItems.length === 1 || !this.inquiry.productName) {
             this.setInquiryOrderDetails(this.order.orderItems[0]);
           } else {
-            const orderItems = this.order.orderItems.filter(p => p.productName === this.inquiry.productName);
-            if (orderItems && orderItems.length > 0) {
-              this.setInquiryOrderDetails(orderItems[0]);
+            if (this.inquiry.productName) {
+              const orderItems = this.order.orderItems.filter(p => p.productName === this.inquiry.productName);
+              if (orderItems && orderItems.length > 0) {
+                this.setInquiryOrderDetails(orderItems[0]);
+              }
             }
-            this.showProduct = true;
           }
+          this.showProduct = this.order.orderItems.length > 1;
         }
       }
     }

@@ -16,9 +16,10 @@ export class StripePayment {
     public addressOrContact: PostalAddress[];
     public dob: CustomDate;
     public tosAcceptance: TosAcceptance;
-    public token: string;//: btok_1C1DWsFYNDZqR6Poj00xPqsn,
-    public commissionRate: string;//: 0.0,
-    public fixedRate: string;//: 0.0
+    public token: string;
+    public commissionRate: string;
+    public fixedRate: string;
+    public last4SSN: string;
 
     /** retailerProfile instanceof RetailerProfileInfo, retailerPayment instanceof RetailerPaymentInfo, tosAcceptance instanceof TosAcceptance, dob instanceof Date */
     constructor(obj?: any) {
@@ -34,20 +35,17 @@ export class StripePayment {
                     const businessAddress = new PostalAddress(obj.retailerProfile.addresses.filter(p => (p.addressType === AddressType.business))[0]);
                     businessAddress.phoneNo = formatPhoneNumber(businessAddress.phoneNo);
                     businessAddress.name = this.businessName;
-                    if (obj.retailerProfile.addresses.filter(p => (p.addressType === AddressType.primary)).length > 0) {
-                        const generalAddress = new PostalAddress(obj.retailerProfile.addresses.filter(p => (p.addressType === AddressType.primary))[0]);
-                        generalAddress.addressType = AddressType.generalStripe;
-                        generalAddress.phoneNo = formatPhoneNumber(generalAddress.phoneNo);
-                        this.addressOrContact = [businessAddress, generalAddress];
-                    } else {
-                        this.addressOrContact = [businessAddress];
-                    }
+                    this.addressOrContact = [businessAddress];
                 }
             }
             if (obj.retailerPayment instanceof RetailerPaymentInfo) {
                 this.commissionRate = obj.retailerPayment.commissionRate;
                 this.fixedRate = obj.retailerPayment.fixRate;
                 this.token = obj.retailerPayment.stripeToken;
+                if (obj.retailerPayment.legalContact) {
+                    const legalContact = new PostalAddress(obj.retailerPayment.legalContact);
+                    this.addressOrContact.push(legalContact);
+                }
             }
             if (obj.tosAcceptance instanceof TosAcceptance) {
                 this.tosAcceptance = obj.tosAcceptance;
@@ -57,7 +55,12 @@ export class StripePayment {
                     this.dob = new CustomDate(obj.dob);
                 } else if (obj.dov instanceof CustomDate) {
                     this.dob = obj.dob;
+                } else {
+                    this.dob = obj.dob;
                 }
+            }
+            if (obj.ssnlast4) {
+                this.last4SSN = obj.ssnlast4;
             }
         }
     }

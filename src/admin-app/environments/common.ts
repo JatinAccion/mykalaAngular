@@ -97,7 +97,8 @@ export const apiNames = {
         getRetailerReviewRatings: 'consumer/v1/report/retailerReviewRatings/{retailerId}'
     },
     consumer: {
-        get: 'consumer/v1/userId'
+        get: 'consumer/v1/userId',
+        orderOfferNumber: 'orderOfferNumber'
     },
     inquiry: {
         get: 'support/inquiriesList',

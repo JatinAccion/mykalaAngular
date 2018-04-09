@@ -123,7 +123,7 @@
     </div>
 </div>
 <hr />
-<app-tile-member *ngIf="order && order.userId" [id]="order.userId"></app-tile-member>
+<app-tile-member *ngIf="order && order.userId" [id]="order.userId" [orderId]="order.orderId" ></app-tile-member>
 <hr />
 <app-tile-retailer *ngIf="order && order.orderItems && order.orderItems.length > 0 && order.orderItems[0].retailerId" [id]="order.orderItems[0].retailerId"></app-tile-retailer>
 <hr />

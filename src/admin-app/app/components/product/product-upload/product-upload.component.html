@@ -1,9 +1,20 @@
-<div class="row">
-    <div class="col-sm-8 title">
+<div class="row title">
+    <div class="col-sm-9">
         <h1>Products > Add multiple products</h1>
     </div>
-
+    <div class="col-sm-3 p-0">
+        <select class="ddl_default form-control" [ngClass]="!uploadOperation?'text-danger':'text-secondary'" [(ngModel)]="uploadOperation">
+            <option value=''>Select file type</option>
+            <option>Add Products</option>
+            <option>Update Products</option>
+            <option>Update Quantity</option>
+        </select>
+        <p *ngIf="!uploadOperation" class="text-danger">
+            Please select file type
+        </p>
+    </div>
 </div>
+
 <div class="row">
     <div class="col-sm-12 text-right">
         <div class="input-group">
@@ -15,12 +26,12 @@
                         <div class="col-sm-12  text-center">Select..</div>
                         <div class="col-sm-12 text-center"> {{ fileNames}} </div>
                     </div>
-                    <input (change)="fileChangeEvent($event)" type="file" class="uploadImage" />
+                    <input (change)="fileChangeEvent($event)" type="file" [disabled]="!uploadOperation" class="uploadImage" />
                 </span>
             </span>
             <input readonly="readonly" placeholder="Picture file" class="form-control hide" name="filename" type="text">
         </div>
-        <p *ngIf="progress>0" >
+        <p *ngIf="progress>0">
             <ngb-progressbar showValue="true" type="success" [value]="progress" [striped]="true"></ngb-progressbar>
         </p>
     </div>
@@ -38,8 +49,8 @@
     <div class="col-sm-9 p-2 mt-3 ">
         <div class="input-group">
             <input class="form-control" placeholder="" aria-describedby="basic-addon1" type="text" [(ngModel)]="item.fileName">
-            <span class="input-group-addon" >({{item.addedRecordsCount + item.updatedRecordsCount}}/{{item.totalRecordsCount}}) uploaded  </span>
-            <span class="input-group-addon"  *ngIf="item.errorCount>0" > ({{item.errorCount}}) error  </span>            
+            <span class="input-group-addon">({{item.addedRecordsCount + item.updatedRecordsCount}}/{{item.totalRecordsCount}}) uploaded </span>
+            <span class="input-group-addon" *ngIf="item.errorCount>0"> ({{item.errorCount}}) error </span>
             <span class="input-group-addon pointer" (click)="delete(item.productSummaryId)">X</span>
         </div>
     </div>

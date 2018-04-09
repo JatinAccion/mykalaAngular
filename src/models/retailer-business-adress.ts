@@ -1,7 +1,12 @@
-import { AddressType } from "./address-type";
-import { removeDuplicates, toAddressString } from "../common/formatters";
+import { AddressType } from './address-type';
+import { removeDuplicates, toAddressString } from '../common/formatters';
 
 export class PostalAddress {
+    public firstName: string;
+    public lastName: string;
+    public dob: Date;
+    public ssnlast4: string;
+
     public name: string;
     public position: string;
     public addressLine1: string;
@@ -15,6 +20,10 @@ export class PostalAddress {
     public addressType: string;
     constructor(obj?: any) {
         if (obj) {
+            this.firstName = obj.firstName;
+            this.lastName = obj.lastName;
+            this.dob = obj.dob;
+            this.ssnlast4 = obj.ssnlast4;
             this.name = obj.name;
             this.position = obj.position;
             this.addressLine1 = obj.addressLine1 || obj.addressLineOne;
@@ -30,7 +39,6 @@ export class PostalAddress {
     }
     public toString() {
         return toAddressString([this.name, this.position, this.addressLine1, this.addressLine2, this.city, this.state, this.zipcode, this.country, this.email, this.phoneNo]);
-        
     }
 }
 export class RetailerBusinessAddress extends PostalAddress {

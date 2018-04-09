@@ -1,8 +1,10 @@
 import { PostalAddress } from './retailer-business-adress';
+import { AddressType } from './address-type';
 
 export class RetailerPaymentInfo {
     public retailerBankPaymentId: string;
     public retailerId: string;
+    public retailerName: string;
     public paymentMethod: string;
     public paymentVehicle: string;
     public commissionRate: string;
@@ -13,6 +15,7 @@ export class RetailerPaymentInfo {
     public bankABARoutingNumber: string;
     public bankSwiftCode: string;
     public retailerBankAddress: RetailerBankAddress;
+    public legalContact: LegalContact;
     public bankAddress: BankAddress;
     public addresses: Array<PostalAddress>;
     public status: boolean;
@@ -27,6 +30,7 @@ export class RetailerPaymentInfo {
         if (obj) {
             this.retailerBankPaymentId = obj.retailerBankPaymentId;
             this.retailerId = obj.retailerId;
+            this.retailerName = obj.retailerName;
             this.paymentMethod = obj.paymentMethod;
             this.paymentVehicle = obj.paymentVehicle;
             this.commissionRate = obj.commissionRate;
@@ -39,11 +43,14 @@ export class RetailerPaymentInfo {
             this.status = obj.status;
             if (obj.addresses && obj.addresses.length > 0) {
                 this.addresses = obj.addresses.map(p => new PostalAddress(p));
-                if (this.addresses.filter(p => p.addressType === new RetailerBankAddress().addressType).length > 0) {
-                    this.retailerBankAddress = new RetailerBankAddress(this.addresses.filter(p => p.addressType === new RetailerBankAddress().addressType)[0]);
+                if (this.addresses.filter(p => p.addressType === AddressType.bankAccountAddress).length > 0) {
+                    this.retailerBankAddress = new RetailerBankAddress(this.addresses.filter(p => p.addressType === AddressType.bankAccountAddress)[0]);
                 }
-                if (this.addresses.filter(p => p.addressType === new BankAddress().addressType).length > 0) {
-                    this.bankAddress = new BankAddress(this.addresses.filter(p => p.addressType === new BankAddress().addressType)[0]);
+                if (this.addresses.filter(p => p.addressType ===  AddressType.bankAddress).length > 0) {
+                    this.bankAddress = new BankAddress(this.addresses.filter(p => p.addressType ===  AddressType.bankAddress)[0]);
+                }
+                if (this.addresses.filter(p => p.addressType === AddressType.legalContact).length > 0) {
+                    this.legalContact = new LegalContact(this.addresses.filter(p => p.addressType === AddressType.legalContact)[0]);
                 }
             }
             this.stripeToken = obj.stripeToken;
@@ -56,7 +63,7 @@ export class RetailerBankAddress extends PostalAddress {
     constructor(obj?: any) {
         super(obj);
         if (obj) { } else {
-            this.addressType = 'Bank Account Address';
+            this.addressType = AddressType.bankAccountAddress;
         }
     }
 }
@@ -64,7 +71,16 @@ export class BankAddress extends PostalAddress {
     constructor(obj?: any) {
         super(obj);
         if (obj) { } else {
-            this.addressType = "Bank Address";
+            this.addressType = AddressType.bankAddress;
+        }
+    }
+
+}
+export class LegalContact extends PostalAddress {
+    constructor(obj?: any) {
+        super(obj);
+        if (obj) { } else {
+            this.addressType = AddressType.legalContact;
         }
     }
 

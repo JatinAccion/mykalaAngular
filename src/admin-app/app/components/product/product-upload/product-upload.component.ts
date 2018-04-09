@@ -26,6 +26,7 @@ export class ProductUploadComponent implements OnInit {
   progress = 0;
   loading = false;
   page = 1;
+  uploadOperation = '';
   constructor(private productService: ProductService, public route: ActivatedRoute, private retialerService: RetialerService, public core: CoreService) {
     if (window.location.hash.indexOf('/page') > -1) {
       this.page = route.snapshot.params['page'];

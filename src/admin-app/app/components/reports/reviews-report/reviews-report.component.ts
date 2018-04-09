@@ -96,6 +96,10 @@ export class ReviewsReportComponent implements OnInit {
   options = {
     responsive: true,
     maintainAspectRatio: false,
+    title: {
+      display: true,
+      text: 'Retailer Reviews'
+    },
     plugins: {
       datalabels: {
         color: 'blue',
@@ -124,6 +128,10 @@ export class ReviewsReportComponent implements OnInit {
   options_avg = {
     responsive: true,
     maintainAspectRatio: false,
+    title: {
+      display: true,
+      text: 'Retailer Average Ratings'
+    },
     plugins: {
       datalabels: {
         color: 'blue',
@@ -147,6 +155,10 @@ export class ReviewsReportComponent implements OnInit {
     maintainAspectRatio: true,
     responsive: true,
     legend: false,
+    title: {
+      display: false,
+      text: 'Retailer Ratings'
+    },
     plugins: {
       datalabels: {
         color: 'blue',
@@ -299,6 +311,10 @@ export class ReviewsReportComponent implements OnInit {
       this.options = {
         responsive: true,
         maintainAspectRatio: false,
+        title: {
+          display: true,
+          text: 'Retailer Reviews'
+        },
         plugins: {
           datalabels: {
             color: 'blue',
@@ -321,6 +337,10 @@ export class ReviewsReportComponent implements OnInit {
       this.options_avg = {
         responsive: true,
         maintainAspectRatio: false,
+        title: {
+          display: true,
+          text: 'Retailer Average Ratings'
+        },
         plugins: {
           datalabels: {
             color: 'blue',
