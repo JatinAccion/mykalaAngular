@@ -23,7 +23,8 @@ export class ForgotPasswordComponent implements OnInit {
   resetLink: string;
   emailRegex = regexPatterns.emailRegex;
   fpModal = new ForgotPasswordModal();
-  responseHandling = { status: false, response: "" }
+  responseHandling = { status: false, response: "" };
+  emailValidation: boolean = false;
 
   constructor(
     private routerOutlet: RouterOutlet,
@@ -41,41 +42,53 @@ export class ForgotPasswordComponent implements OnInit {
     });
   }
 
-  onSubmit() {
+  hideValidations() {
+    this.emailValidation = false;
     this.responseHandling.status = false;
-    this.loader = true;
-    this.fpModal.email = this.forgotPassword.controls.email.value;
-    this.fpService.getUserByEmailId(this.fpModal.email).subscribe((res) => {
-      if (res.userId != null || res.userId != undefined) {
-        if (res.userCreateStatus) {
-          let userId = res.userId;
-          this.fpModal.resetLink = window.location.origin + `/#/reset-password?id=${userId}`;
-          this.fpService.forgotPassword(this.fpModal).subscribe(res => {
+    this.loader = false;
+  }
+
+  onSubmit() {
+    this.emailValidation = false;
+    this.responseHandling.status = false;
+    this.loader = false;
+    if (!this.forgotPassword.controls.email.value) this.emailValidation = true;
+    else if (this.forgotPassword.controls.email.value && this.forgotPassword.controls.email.errors) this.emailValidation = true;
+    else {
+      this.loader = true;
+      this.fpModal.email = this.forgotPassword.controls.email.value;
+      this.fpService.getUserByEmailId(this.fpModal.email).subscribe((res) => {
+        if (res.userId != null || res.userId != undefined) {
+          if (res.userCreateStatus) {
+            let userId = res.userId;
+            this.fpModal.resetLink = window.location.origin + `/#/reset-password?id=${userId}`;
+            this.fpService.forgotPassword(this.fpModal).subscribe(res => {
+              this.loader = false;
+              this.responseHandling.status = true;
+              this.responseHandling.response = "success";
+              window.localStorage['userInfo'] = JSON.stringify(res);
+              this.forgotPassword.reset();
+            }, err => {
+              this.loader = false;
+              this.responseHandling.status = true;
+              this.responseHandling.response = "fail";
+            })
+          }
+          else {
             this.loader = false;
             this.responseHandling.status = true;
-            this.responseHandling.response = "success";
-            window.localStorage['userInfo'] = JSON.stringify(res);
-            this.forgotPassword.reset();
-          }, err => {
-            this.loader = false;
-            this.responseHandling.status = true;
-            this.responseHandling.response = "fail";
-          })
+            this.responseHandling.response = "notVerified";
+          }
         }
         else {
           this.loader = false;
           this.responseHandling.status = true;
-          this.responseHandling.response = "notVerified";
+          this.responseHandling.response = "notExists";
         }
-      }
-      else {
-        this.loader = false;
-        this.responseHandling.status = true;
-        this.responseHandling.response = "notExists";
-      }
-    }, (err) => {
-      console.log("Error", err)
-    });
+      }, (err) => {
+        console.log("Error", err)
+      });
+    }
   }
 
   verifyAccount() {

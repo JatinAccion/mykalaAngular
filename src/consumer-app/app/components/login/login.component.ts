@@ -30,6 +30,8 @@ export class LoginComponent implements OnInit, CuiComponent {
   getCredentials = window.localStorage['rememberMe'];
   credentialModal = new RememberMe();
   userCredential: any;
+  emailValidation: boolean = false;
+  passwordValidation: boolean = false;
 
   @Input() data: any;
   @Output() clicked = new EventEmitter<Conversation>();
@@ -64,6 +66,7 @@ export class LoginComponent implements OnInit, CuiComponent {
       });
     }
   }
+
   onLogin(): void {
     this.auth.login(this.user)
       .then((user) => {
@@ -78,48 +81,65 @@ export class LoginComponent implements OnInit, CuiComponent {
       });
   }
 
-  onSubmit() {
+  hideValidation() {
+    this.emailValidation = false;
+    this.passwordValidation = false;
     this.loginError = false;
     this.userInactive = false;
     this.unAuthorized = false;
     this.verificationMail = false;
-    this.loader = true;
-    this.userCredential = new User(this.loginKala.controls.email.value, this.loginKala.controls.email.value, this.loginKala.controls.password.value)
-    this.credentialModal.email = this.loginKala.controls.email.value;
-    this.credentialModal.password = window.btoa(this.loginKala.controls.password.value);
-    this.credentialModal.remember = this.loginKala.controls.remember.value;
-    this.auth.login(this.userCredential).then((res) => {
-      this.checkRememberMe();
-      const resJson = res.json();
-      this.localStorageService.setItem('token', resJson.access_token, resJson.expires_in);
-      this.auth.getUserInfo(resJson.access_token).subscribe(res => {
-        this.loader = false;
-        if (res.userCreateStatus == false) {
-          localStorage.removeItem("token");
-          this.userInactive = true;
-        }
-        else {
-          if (res.roleName[0] != "consumer") this.unAuthorized = true;
-          else {
-            window.localStorage['userInfo'] = JSON.stringify(res);
-            this.core.hideUserInfo(false);
-            this.core.setUser(res);
-            if (window.localStorage['tbnAfterLogin'] != undefined) {
-              let url = window.localStorage['tbnAfterLogin'];
-              localStorage.removeItem("tbnAfterLogin");
-              this.router.navigateByUrl(url);
-            }
-            else this.router.navigateByUrl('/home');
+  }
+
+  onSubmit() {
+    this.emailValidation = false;
+    this.passwordValidation = false;
+    this.loginError = false;
+    this.userInactive = false;
+    this.unAuthorized = false;
+    this.verificationMail = false;
+    this.loader = false;
+    if (!this.loginKala.controls.email.value) this.emailValidation = true;
+    else if (this.loginKala.controls.email.value && this.loginKala.controls.email.errors) this.emailValidation = true;
+    else if (!this.loginKala.controls.password.value) this.passwordValidation = true;
+    else {
+      this.loader = true;
+      this.userCredential = new User(this.loginKala.controls.email.value, this.loginKala.controls.email.value, this.loginKala.controls.password.value)
+      this.credentialModal.email = this.loginKala.controls.email.value;
+      this.credentialModal.password = window.btoa(this.loginKala.controls.password.value);
+      this.credentialModal.remember = this.loginKala.controls.remember.value;
+      this.auth.login(this.userCredential).then((res) => {
+        this.checkRememberMe();
+        const resJson = res.json();
+        this.localStorageService.setItem('token', resJson.access_token, resJson.expires_in);
+        this.auth.getUserInfo(resJson.access_token).subscribe(res => {
+          this.loader = false;
+          if (res.userCreateStatus == false) {
+            localStorage.removeItem("token");
+            this.userInactive = true;
           }
-        }
-      }, err => {
+          else {
+            if (res.roleName[0] != "consumer") this.unAuthorized = true;
+            else {
+              window.localStorage['userInfo'] = JSON.stringify(res);
+              this.core.hideUserInfo(false);
+              this.core.setUser(res);
+              if (window.localStorage['tbnAfterLogin'] != undefined) {
+                let url = window.localStorage['tbnAfterLogin'];
+                localStorage.removeItem("tbnAfterLogin");
+                this.router.navigateByUrl(url);
+              }
+              else this.router.navigateByUrl('/home');
+            }
+          }
+        }, err => {
+          console.log(err);
+        })
+      }).catch((err) => {
+        this.loader = false;
+        this.loginError = true;
         console.log(err);
-      })
-    }).catch((err) => {
-      this.loader = false;
-      this.loginError = true;
-      console.log(err);
-    });
+      });
+    }
   }
 
   verifyAccount() {
