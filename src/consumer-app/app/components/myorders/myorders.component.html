@@ -140,8 +140,8 @@
     <!--Orders Available-->
 
     <!--No Orders Available-->
-    <ng-template *ngIf="!loader" #noOrders>
-      <div class="myCart-list text-center mt-2 colorred">
+    <ng-template #noOrders>
+      <div *ngIf="!loader" class="myCart-list text-center mt-2 colorred">
         <u routerLink="/home">You have not placed any orders yet. Click here to continue shopping.</u>
       </div>
     </ng-template>

@@ -93,8 +93,8 @@
     <!--Reviews Block-->
   </div>
 
-  <ng-template *ngIf="!loader" #noOffer>
-    <div class="myCart-list text-center mt-2 colorred">
+  <ng-template #noOffer>
+    <div *ngIf="!loader" class="myCart-list text-center mt-2 colorred">
       <u routerLink="/home">You don’t currently have any active news or alerts to display. Click here to continue shopping.</u>
     </div>
   </ng-template>
