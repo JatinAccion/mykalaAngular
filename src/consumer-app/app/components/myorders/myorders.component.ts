@@ -5,7 +5,7 @@ import { MyOrders, OrderItems } from '../../../../models/myOrder';
 import { Router } from '@angular/router'
 import { ReviewModel } from '../../../../models/review';
 import { CancelOrder } from '../../../../models/cancelOrder';
-import { ConsumerSupportModal, ConsumerSupportConversations } from '../../../../models/support';
+import { ConsumerSupportModal } from '../../../../models/support';
 
 @Component({
   selector: 'app-myorders',
@@ -24,19 +24,23 @@ export class MyordersComponent implements OnInit {
   remainingTime: any;
   consumerSupport: any;
   supportData = {
-    "options": [{
-      "name": "Order Issue",
-      "options": ["Product Not Received", "Product Damaged", "Payment Issue", "Wrong Product Received", "Didn't Receive Order Confirmation", "Didn't Receive Shipping Confirmation", "Other"]
-    }, {
-      "name": "Return",
-      "options": ["Product Defect", "Wrong Size", "Wrong Color", "Wrong Style", "Don't Like the Product", "Personal Reasons", "Other"]
-    }, {
-      "name": "Exchange",
-      "options": ["Product Defect", "Wrong Size", "Wrong Color", "Wrong Style", "Don't Like the Product", "Personal Reasons", "Other"]
-    }, {
-      "name": "Other",
-      "options": ["Other"]
-    }]
+    "options": [
+      {
+        "name": "Memeber Question",
+        "options": ["Product", "Order", "Account", "Shipping", "Using Kala", "Other"]
+      }, {
+        "name": "Order Issue",
+        "options": ["Product Not Received", "Product Damaged", "Payment Issue", "Wrong Product Received", "Didn't Receive Order Confirmation", "Didn't Receive Shipping Confirmation", "Other"]
+      }, {
+        "name": "Return",
+        "options": ["Product Defect", "Wrong Size", "Wrong Color", "Wrong Style", "Don't Like the Product", "Personal Reasons", "Other"]
+      }, {
+        "name": "Exchange",
+        "options": ["Product Defect", "Wrong Size", "Wrong Color", "Wrong Style", "Don't Like the Product", "Personal Reasons", "Other"]
+      }, {
+        "name": "Other",
+        "options": ["Other"]
+      }]
   };
   questionCounter: number = 0;
   supportMessages = [];
@@ -140,33 +144,39 @@ export class MyordersComponent implements OnInit {
   }
 
   showSupportPanel(modal, order) {
+    this.supportMessages = [];
+    this.supportOptions.data = [];
+    for (var i = 0; i < this.myorderModal.length; i++) {
+      for (var j = 0; j < this.myorderModal[i].orderItems.length; j++) {
+        this.myorderModal[i].orderItems[j].showCustomerSupport = false;
+      }
+    }
     order.showCustomerSupport = !order.showCustomerSupport;
     if (order.showCustomerSupport) {
       this.consumerSupport = new ConsumerSupportModal();
       this.consumerSupport.customerEmail = this.userData.emailId;
-      this.consumerSupport.customerId = modal.customerId;
+      this.consumerSupport.customerId = this.userData.userId;
       this.consumerSupport.customerName = modal.customerName;
       this.consumerSupport.orderId = modal.orderId;
       this.consumerSupport.orderDate = new Date(modal.purchasedDate);
       this.consumerSupport.productName = order.productName;
       this.consumerSupport.productCost = order.totalProductPrice;
-      this.consumerSupport.message = new Array<ConsumerSupportConversations>();
+      this.consumerSupport.inquiryDate = new Date();
       this.supportMessages.push({
         mainImage: '/consumer-app/assets/images/logo.png',
         from: 'Kala',
         message: 'Hi ' + this.userData.firstName + ', what can i help you with today ?'
       });
-      this.consumerSupport.message.push(new ConsumerSupportConversations("Kala", `Hi ${this.userData.firstName}, what can i help you with today ?`, "User", ""))
       for (var i = 0; i < this.supportData.options.length; i++) {
         this.supportOptions.level = 1;
         this.supportOptions.data.push(this.supportData.options[i].name);
       }
       this.showBack = false;
     }
-    else this.saveAndClose(order);
+    else this.saveAndClose(order, "0");
   }
 
-  loadOptions(option, name) {
+  loadOptions(order, option, name) {
     this.selection.child = name;
     if (name != 'Other') {
       this.showBack = true;
@@ -184,7 +194,6 @@ export class MyordersComponent implements OnInit {
       else if (this.supportOptions.level > 2 && name == 'Yes') {
         this.OtherOption = true;
         this.showSupportOptions = false;
-        this.consumerSupport.message.push(new ConsumerSupportConversations("Kala", "", "User", name))
       }
       else if (this.supportOptions.level > 2 && name == 'No') {
         setTimeout(() => {
@@ -193,10 +202,11 @@ export class MyordersComponent implements OnInit {
             from: 'Kala',
             message: 'Thanks for the info. We will contact you shortly via email with more details.'
           });
-          this.consumerSupport.message.push(new ConsumerSupportConversations("Kala", "Thanks for the info. We will contact you shortly via email with more details.", "User", name))
+          this.saveAndClose(order, "1");
           this.saveAndCloseSection = true;
         }, 1500)
         this.supportOptions.data = [];
+        this.consumerSupport.description = "";
         this.showBack = false;
       }
       else {
@@ -215,34 +225,37 @@ export class MyordersComponent implements OnInit {
 
       //Auto Generated Data from Kala System
       if (this.questionCounter == 1) {
+        this.consumerSupport.inquiryType = name;
         setTimeout(() => {
           this.supportMessages.push({
             mainImage: '/consumer-app/assets/images/logo.png',
             from: 'Kala',
             message: 'Can you give me a little more info so i can better help you ?'
           });
-          this.consumerSupport.message.push(new ConsumerSupportConversations("Kala", "Can you give me a little more info so i can better help you ?", "User", name))
         }, 1500)
       }
       else if (this.questionCounter == 2) {
+        this.consumerSupport.inquiryCategory = name;
         setTimeout(() => {
           this.supportMessages.push({
             mainImage: '/consumer-app/assets/images/logo.png',
             from: 'Kala',
             message: 'I\'ll look into this for you right away, Is there any other information that you want me to know ?'
           });
-          this.consumerSupport.message.push(new ConsumerSupportConversations("Kala", "I\'ll look into this for you right away, Is there any other information that you want me to know ?", "User", name))
         }, 1500)
       }
       //Auto Generated Data from Kala System
     }
     else {
+      this.consumerSupport.inquiryType = name;
+      this.consumerSupport.inquiryCategory = "";
       this.OtherOption = true;
       this.showSupportOptions = false;
     }
   }
 
-  submitComment(commentBox) {
+  submitComment(order, commentBox) {
+    this.consumerSupport.description = commentBox;
     this.supportMessages.push({
       mainImage: this.userData.consumerImagePath,
       from: 'User',
@@ -256,8 +269,8 @@ export class MyordersComponent implements OnInit {
         from: 'Kala',
         message: 'Thanks for the info. We will contact you shortly via email with more details.'
       });
-      this.consumerSupport.message.push(new ConsumerSupportConversations("Kala", "Thanks for the info. We will contact you shortly via email with more details.", "User", commentBox))
       this.saveAndCloseSection = true;
+      this.saveAndClose(order, "1");
     }, 1500);
     this.supportOptions.data = [];
     this.showBack = false;
@@ -269,23 +282,30 @@ export class MyordersComponent implements OnInit {
     this.showSupportOptions = true;
   }
 
-  saveAndClose(order) {
-    console.log(this.consumerSupport);
-    this.myOrder.support(this.consumerSupport).subscribe((res) => {
-      alert("Thank you for contacting Kala");
-      this.supportOptions = { level: 0, name: '', data: [] };
-      this.showBack = false;
-      this.questionCounter = 0;
-      this.supportMessages = [];
-      this.OtherOption = false;
-      this.commentBox = '';
-      this.saveAndCloseSection = false;
-      this.showBack = false;
-      this.showSupportOptions = true;
-      order.showCustomerSupport = false;
-    }, (err) => {
-      console.log('Something went wrong')
-    })
+  saveAndClose(order, from) {
+    if (from != "0") {
+      console.log(this.consumerSupport);
+      this.myOrder.support(this.consumerSupport).subscribe((res) => {
+        alert("Thank you for contacting Kala");
+        this.resetAll(order)
+      }, (err) => {
+        console.log('Something went wrong')
+      })
+    }
+    else this.resetAll(order)
+  }
+
+  resetAll(order) {
+    this.supportOptions = { level: 0, name: '', data: [] };
+    this.showBack = false;
+    this.questionCounter = 0;
+    this.supportMessages = [];
+    this.OtherOption = false;
+    this.commentBox = '';
+    this.saveAndCloseSection = false;
+    this.showBack = false;
+    this.showSupportOptions = true;
+    order.showCustomerSupport = false;
   }
 
   goBack(order) {

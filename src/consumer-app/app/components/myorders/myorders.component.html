@@ -67,18 +67,14 @@
             </div>
 
             <div class="supportOptions" *ngIf="showSupportOptions">
-              <span *ngIf="showBack" (click)="goBack(order)">back</span>
-              <span *ngFor="let option of supportOptions.data" (click)="loadOptions(supportOptions, option)">{{option}}</span>
+              <span *ngIf="showBack" (click)="goBack(order)" style="background:#070707">back</span>
+              <span *ngFor="let option of supportOptions.data" (click)="loadOptions(order, supportOptions, option)">{{option}}</span>
             </div>
 
             <div *ngIf="OtherOption" class="col-sm-12 text-center">
               <textarea class="form-control" [(ngModel)]="commentBox" rows="4" placeholder="please write your description here..."></textarea>
-              <button class="btn btn-outer btn_red_right mt-3" [disabled]="!commentBox" (click)="submitComment(commentBox)">Submit</button>
-              <button class="btn btn-outer btn_red_right mt-3" (click)="cancelComment(commentBox)">Cancel</button>
-            </div>
-
-            <div class="col-sm-12 text-center" *ngIf="saveAndCloseSection">
-              <button (click)="saveAndClose(order)" class="btn btn-outer btn_red_right">Close</button>
+              <button class="btn btn-outer btn_red_right mt-3" [disabled]="!commentBox" (click)="submitComment(order, commentBox)">Submit</button>
+              <button class="btn btn-outer btn_red_right mt-3" (click)="cancelComment(order, commentBox)">Cancel</button>
             </div>
           </div>
           <!--Support Section-->
