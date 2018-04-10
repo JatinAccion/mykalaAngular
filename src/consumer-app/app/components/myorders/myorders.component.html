@@ -6,7 +6,7 @@
   <div class="myCart">
     <!--Orders Available-->
     <div *ngIf="myorderModal.length > 0;else noOrders">
-      <div *ngFor="let modal of myorderModal">
+      <div *ngFor="let modal of myorderModal | reverse">
         <div class="myCart-list" *ngFor="let order of modal.orderItems">
           <h4 class="subtitle clearfix">
             Estimated delivery on: {{getDeliveryDate(order.deliveryMethod, modal.purchasedDate)}}

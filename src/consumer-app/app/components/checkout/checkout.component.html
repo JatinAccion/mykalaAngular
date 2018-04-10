@@ -177,36 +177,34 @@
               <div class="col-sm-2 text-left">{{getPerItemTotal(orders.price, orders.quantity) | currency}}</div>
             </div>
             <!--If Shipping Methods are Different-->
-            <div class="row py-3" *ngIf="item.differentShippingMethod && this.selectedAddressDetails != undefined && shippingMethod != undefined">
+            <div class="row py-3 ml-0 mr-0" *ngIf="item.differentShippingMethod && this.selectedAddressDetails != undefined && shippingMethod != undefined">
               <div class="col-3 pl-4">Shipping Method</div>
-              <div class="col-5">
+              <div class="col-6">
                 <span class="plain-select w-100">
                   <select class="taxAmounts" (change)="selectShippingMethod($event, $event.target.value, orders)">
                     <option value selected disabled>Please select a method</option>
-                    <option value="${{shippingMethod.deliveryFee}} - {{shippingMethod.deliveryMethodName}}" *ngFor="let shippingMethod of orders.deliveryTiers">
-                      ${{shippingMethod.deliveryFee}} - {{shippingMethod.deliveryMethodName}}
+                    <option value="{{shippingMethod.deliveryFee + orders.locationFee | currency}} - {{shippingMethod.deliveryMethodName}}" *ngFor="let shippingMethod of orders.deliveryTiers">
+                      {{shippingMethod.deliveryFee + orders.locationFee | currency}} - {{shippingMethod.deliveryMethodName}}
                     </option>
                   </select>
                 </span>
               </div>
-              <div class="col-4"></div>
             </div>
             <!--If Shipping Methods are Different-->
           </div>
           <!--If Shipping Methods are same-->
-          <div class="row row pt-3 mt-3 mb-3" *ngIf="!item.differentShippingMethod && this.selectedAddressDetails != undefined && shippingMethod != undefined">
+          <div class="row row pt-3 mt-3 mb-3 ml-0 mr-0" *ngIf="!item.differentShippingMethod && this.selectedAddressDetails != undefined && shippingMethod != undefined">
             <div class="col-3 pl-4">Shipping Method</div>
-            <div class="col-5">
+            <div class="col-6">
               <span class="plain-select w-100">
                 <select class="taxAmounts" (change)="selectShippingMethod($event, $event.target.value, item)">
                   <option value selected disabled>Please select a method</option>
-                  <option value="${{shippingMethod.deliveryFee}} - {{shippingMethod.deliveryMethodName}}" *ngFor="let shippingMethod of item.deliveryTiers">
-                    ${{shippingMethod.deliveryFee}} - {{shippingMethod.deliveryMethodName}}
+                  <option value="{{shippingMethod.deliveryFee + item.locationFee | currency}} - {{shippingMethod.deliveryMethodName}}" *ngFor="let shippingMethod of item.deliveryTiers">
+                    {{shippingMethod.deliveryFee + item.locationFee | currency}} - {{shippingMethod.deliveryMethodName}}
                   </option>
                 </select>
               </span>
             </div>
-            <div class="col-4"></div>
           </div>
           <!--If Shipping Methods are same-->
         </div>

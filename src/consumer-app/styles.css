@@ -2663,7 +2663,7 @@ label{display:block}
     display: inline-block;
     position: absolute;
     bottom: 0;
-    right: -110px;
+    left: 185px;
 }
 .checkOutSticky{
     position: -webkit-sticky;
@@ -2990,4 +2990,7 @@ label{display:block}
 }
 .starIcon {
     font-size:30px;
+}
+.starIconView{
+    font-size:17px;
 }

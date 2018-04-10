@@ -419,6 +419,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selectedAddressDetails = address;
     for (var i = 0; i < this.itemsInCart.length; i++) {
       this.checkout.getShippingMethods(address.state, this.itemsInCart[i].shipProfileId).subscribe((res) => {
+        let locationFee = res.deliveryLocation.locations[0].locationFee;
         this.shippingMethod = res.deliveryTiers[0];
         this.loader_shippingMethod = false;
         this.showShippingMethod = true;
@@ -429,14 +430,18 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
             if (order.shipProfileId == res.shippingProfileId) {
               if (this.filteredCartItems[i].differentShippingMethod) {
                 this.filteredCartItems[i].orderItems[j].deliveryTiers = res.deliveryTiers[0].deliveryMethods;
+                this.filteredCartItems[i].orderItems[j].locationFee = locationFee;
               }
               else {
                 this.filteredCartItems[i].deliveryTiers = res.deliveryTiers[0].deliveryMethods;
+                this.filteredCartItems[i].locationFee = locationFee;
               }
             }
           }
         }
         this.getTax(address, res.shippingOriginAddress)
+      }, (err) => {
+        console.log(err)
       });
     }
   }

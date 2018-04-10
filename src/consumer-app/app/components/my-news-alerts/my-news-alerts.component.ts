@@ -39,10 +39,26 @@ export class MyNewsAlertsComponent implements OnInit {
     this.myalerts.loadOffers(this.userData.emailId).subscribe((res) => {
       this.loader = false;
       this.offers = res;
+      this.offers.sort(function (a, b) {
+        var dateA = a.endDate, dateB = b.endDate
+        if (dateA < dateB) //sort string descending
+          return 1
+        if (dateA > dateB)
+          return -1
+        return 0 //default return value (no sorting)
+      });
       this.myalerts.loadOrders(this.userData.userId).subscribe((res) => {
         this.orders = res;
         this.myalerts.loadReviews(this.userData.emailId).subscribe((res) => {
           this.reviews = res;
+          this.reviews.sort(function (a, b) {
+            var dateA = a.reviewDate, dateB = b.reviewDate
+            if (dateA < dateB) //sort string descending
+              return 1
+            if (dateA > dateB)
+              return -1
+            return 0 //default return value (no sorting)
+          });
         }, (err) => {
           console.log("Reviews::::", err)
         })
