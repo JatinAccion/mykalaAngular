@@ -26,7 +26,7 @@ export class MyordersComponent implements OnInit {
   supportData = {
     "options": [
       {
-        "name": "Memeber Question",
+        "name": "General Question",
         "options": ["Product", "Order", "Account", "Shipping", "Using Kala", "Other"]
       }, {
         "name": "Order Issue",
@@ -146,13 +146,14 @@ export class MyordersComponent implements OnInit {
   showSupportPanel(modal, order) {
     this.supportMessages = [];
     this.supportOptions.data = [];
-    for (var i = 0; i < this.myorderModal.length; i++) {
-      for (var j = 0; j < this.myorderModal[i].orderItems.length; j++) {
-        this.myorderModal[i].orderItems[j].showCustomerSupport = false;
-      }
-    }
     order.showCustomerSupport = !order.showCustomerSupport;
     if (order.showCustomerSupport) {
+      for (var i = 0; i < this.myorderModal.length; i++) {
+        for (var j = 0; j < this.myorderModal[i].orderItems.length; j++) {
+          this.myorderModal[i].orderItems[j].showCustomerSupport = false;
+        }
+      }
+      order.showCustomerSupport = true;
       this.consumerSupport = new ConsumerSupportModal();
       this.consumerSupport.customerEmail = this.userData.emailId;
       this.consumerSupport.customerId = this.userData.userId;
@@ -161,7 +162,6 @@ export class MyordersComponent implements OnInit {
       this.consumerSupport.orderDate = new Date(modal.purchasedDate);
       this.consumerSupport.productName = order.productName;
       this.consumerSupport.productCost = order.totalProductPrice;
-      this.consumerSupport.inquiryDate = new Date();
       this.supportMessages.push({
         mainImage: '/consumer-app/assets/images/logo.png',
         from: 'Kala',
@@ -284,6 +284,7 @@ export class MyordersComponent implements OnInit {
 
   saveAndClose(order, from) {
     if (from != "0") {
+      this.consumerSupport.inquiryDate = new Date();
       console.log(this.consumerSupport);
       this.myOrder.support(this.consumerSupport).subscribe((res) => {
         alert("Thank you for contacting Kala");

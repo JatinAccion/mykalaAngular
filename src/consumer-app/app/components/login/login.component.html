@@ -9,25 +9,38 @@
         <h4 class="subtitle">log in</h4>
 
         <div class="form-group">
-          <input pattern formControlName="email" type="email" class="form-control" aria-describedby="emailHelp" placeholder="Email">
+          <input (keyup)="hideValidation()" pattern formControlName="email" type="email" class="form-control" aria-describedby="emailHelp" placeholder="Email">
 
           <!--Validation-->
-          <div *ngIf="loginKala.controls.email.dirty || loginKala.controls.email.touched">
+          <div *ngIf="emailValidation">
             <div *ngIf="!loginKala.controls.email.value" class="alert alert-danger errorMessages">{{loginInputValMsg.emailRequired}}</div>
             <div *ngIf="loginKala.controls.email.value && loginKala.controls.email.errors" class="alert alert-danger errorMessages">{{loginInputValMsg.validEmail}}</div>
           </div>
           <!--Validation-->
 
+          <!--Validation
+          <div *ngIf="loginKala.controls.email.dirty || loginKala.controls.email.touched">
+            <div *ngIf="!loginKala.controls.email.value" class="alert alert-danger errorMessages">{{loginInputValMsg.emailRequired}}</div>
+            <div *ngIf="loginKala.controls.email.value && loginKala.controls.email.errors" class="alert alert-danger errorMessages">{{loginInputValMsg.validEmail}}</div>
+          </div>
+          Validation-->
+
         </div>
 
         <div class="form-group">
-          <input formControlName="password" type="password" class="form-control" placeholder="Password">
+          <input (keyup)="hideValidation()" formControlName="password" type="password" class="form-control" placeholder="Password">
 
           <!--Validation-->
-          <div *ngIf="loginKala.controls.password.dirty || loginKala.controls.password.touched">
+          <div *ngIf="passwordValidation">
             <div *ngIf="!loginKala.controls.password.value" class="alert alert-danger errorMessages">{{loginInputValMsg.passwordRequired}}</div>
           </div>
           <!--Validation-->
+
+          <!--Validation
+          <div *ngIf="loginKala.controls.password.dirty || loginKala.controls.password.touched">
+            <div *ngIf="!loginKala.controls.password.value" class="alert alert-danger errorMessages">{{loginInputValMsg.passwordRequired}}</div>
+          </div>
+          Validation-->
 
         </div>
 
@@ -65,7 +78,7 @@
       </div>
       <hr />
       <div class="text-center">
-        <button (click)="onSubmit()" type="submit" [disabled]="!loginKala.valid" class="btn btn_red_right">login</button>
+        <button (click)="onSubmit()" type="submit" class="btn btn_red_right">login</button>
       </div>
     </form>
     <div class="clearfix">&nbsp;</div>

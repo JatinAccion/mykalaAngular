@@ -39,12 +39,12 @@
             <div class="col-sm-3">
               <p>&nbsp;</p>
               <div class="row">
-                <button class="btn btn-outer btn_redouter_right" style="cursor: pointer" (click)="showSupportPanel(modal, order)">contact kala</button>
+                <button class="btn btn-outer btn_redouter_right" [disabled]="order.contactSupport" (click)="showSupportPanel(modal, order)">contact kala</button>
                 <!--[disabled]="order.contactSupport"-->
               </div>
               <p>&nbsp;</p>
               <div class="row">
-                <button class="btn btn-outer btn_redouter_right" style="cursor: pointer" (click)="leaveReview(modal, order)">leave review</button>
+                <button class="btn btn-outer btn_redouter_right" [disabled]="order.leaveReview" (click)="leaveReview(modal, order)">leave review</button>
                 <!--[disabled]="order.leaveReview"-->
               </div>
             </div>
@@ -119,12 +119,12 @@
             <div class="col-sm-3">
               <p>&nbsp;</p>
               <div class="row">
-                <button class="btn btn-outer btn_redouter_right" style="cursor: pointer" (click)="cancelOrder(modal, order)">cancel order</button>
+                <button class="btn btn-outer btn_redouter_right" [disabled]="order.cancelOrder" (click)="cancelOrder(modal, order)">cancel order</button>
                 <!--[disabled]="order.cancelOrder"-->
               </div>
               <p>&nbsp;</p>
               <div class="row">
-                <button class="btn btn-outer btn_red_right" style="cursor: pointer" (click)="trackOrder(modal, order)">where is it?</button>
+                <button class="btn btn-outer btn_red_right" [disabled]="order.trackOrder" (click)="trackOrder(modal, order)">where is it?</button>
                 <!--[disabled]="order.trackOrder"-->
               </div>
             </div>

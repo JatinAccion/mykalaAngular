@@ -37,6 +37,11 @@ export class JoinKalaComponent implements OnInit, CuiComponent {
   @Output() clicked = new EventEmitter<Conversation>();
   step = 1;
   user: User = new User('', '', '');
+  firstNameValidation: boolean = false;
+  lastNameValidation: boolean = false;
+  emailValidation: boolean = false;
+  passwordValidation: boolean = false;
+
   constructor(private routerOutlet: RouterOutlet, private joinKalaService: JoinKalaService, private formBuilder: FormBuilder, private router: Router, private auth: AuthService, public core: CoreService) { }
   ngOnInit() {
     /**Clearing the Logged In Session */
@@ -104,49 +109,72 @@ export class JoinKalaComponent implements OnInit, CuiComponent {
     this.clicked.emit(item);
   }
 
+  hideValidation() {
+    this.firstNameValidation = false;
+    this.lastNameValidation = false;
+    this.emailValidation = false;
+    this.passwordValidation = false;
+    this.loader = false;
+    this.signUpResponse.status = false;
+  }
+
   onSubmit() {
     /*Request JSON*/
-    this.loader = true;
+    this.firstNameValidation = false;
+    this.lastNameValidation = false;
+    this.emailValidation = false;
+    this.passwordValidation = false;
+    this.loader = false;
     this.signUpResponse.status = false;
-    this.userModel.firstName = this.joinKala.value.firstname;
-    this.userModel.lastName = this.joinKala.value.lastname;
-    this.userModel.password = this.joinKala.value.password;
-    this.userModel.emailId = this.joinKala.value.email.toLowerCase();
-    this.userModel.userCreateStatus = false;
-    this.userModel.phone = "";
-    this.userModel.roleName = [];
-    this.userModel.roleName.push("consumer");
-
-    this.joinKalaService.joinKalaStepOne(this.userModel).subscribe(res => {
-      console.log(res);
-      this.loader = false;
-      this.userInfo = res;
-      if (this.userInfo.user_status === "success") {
-        window.localStorage['userInfo'] = JSON.stringify(this.userInfo);
+    if (!this.joinKala.controls.firstname.value) this.firstNameValidation = true;
+    else if (this.joinKala.controls.firstname.value && this.joinKala.controls.firstname.errors) this.firstNameValidation = true;
+    else if (!this.joinKala.controls.lastname.value) this.lastNameValidation = true;
+    else if (this.joinKala.controls.lastname.value && this.joinKala.controls.lastname.errors) this.lastNameValidation = true;
+    else if (!this.joinKala.controls.email.value) this.emailValidation = true;
+    else if (this.joinKala.controls.email.value && this.joinKala.controls.email.errors) this.emailValidation = true;
+    else if (!this.joinKala.controls.password.value) this.passwordValidation = true;
+    else if (this.joinKala.controls.password.value && this.joinKala.controls.password.errors) this.passwordValidation = true;
+    else {
+      this.loader = true;
+      this.userModel.firstName = this.joinKala.value.firstname;
+      this.userModel.lastName = this.joinKala.value.lastname;
+      this.userModel.password = this.joinKala.value.password;
+      this.userModel.emailId = this.joinKala.value.email.toLowerCase();
+      this.userModel.userCreateStatus = false;
+      this.userModel.phone = "";
+      this.userModel.roleName = [];
+      this.userModel.roleName.push("consumer");
+      this.joinKalaService.joinKalaStepOne(this.userModel).subscribe(res => {
+        console.log(res);
+        this.loader = false;
+        this.userInfo = res;
+        if (this.userInfo.user_status === "success") {
+          window.localStorage['userInfo'] = JSON.stringify(this.userInfo);
+          this.signUpResponse.status = true;
+          this.signUpResponse.message = this.joinUserMsg.success;
+          setTimeout(() => {
+            if (this.routerOutlet.isActivated) this.routerOutlet.deactivate();
+            this.router.navigateByUrl('/profile-info');
+          }, 3000);
+          this.joinKala.reset();
+        }
+        else if (this.userInfo.user_status === "alreadyExists") {
+          if (this.userInfo.userCreateStatus == false) {
+            this.userInfo.user_status = "inactive";
+            this.signUpResponse.status = true;
+            this.signUpResponse.message = this.joinUserMsg.inactiveUser;
+          }
+          else {
+            this.signUpResponse.status = true;
+            this.signUpResponse.message = this.joinUserMsg.emailExists;
+          }
+        }
+      }, err => {
+        this.loader = false;
         this.signUpResponse.status = true;
-        this.signUpResponse.message = this.joinUserMsg.success;
-        setTimeout(() => {
-          if (this.routerOutlet.isActivated) this.routerOutlet.deactivate();
-          this.router.navigateByUrl('/profile-info');
-        }, 3000);
-        this.joinKala.reset();
-      }
-      else if (this.userInfo.user_status === "alreadyExists") {
-        if (this.userInfo.userCreateStatus == false) {
-          this.userInfo.user_status = "inactive";
-          this.signUpResponse.status = true;
-          this.signUpResponse.message = this.joinUserMsg.inactiveUser;
-        }
-        else {
-          this.signUpResponse.status = true;
-          this.signUpResponse.message = this.joinUserMsg.emailExists;
-        }
-      }
-    }, err => {
-      this.loader = false;
-      this.signUpResponse.status = true;
-      this.signUpResponse.message = this.joinUserMsg.fail;
-    });
+        this.signUpResponse.message = this.joinUserMsg.fail;
+      });
+    }
   }
 
   verifyAccount() {

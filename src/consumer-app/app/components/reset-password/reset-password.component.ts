@@ -24,6 +24,8 @@ export class ResetPasswordComponent implements OnInit {
   rpModal = new ResetPasswordModal();
   userInfo: any;
   responseHandling = { status: false, response: "" };
+  newPasswordValidation: boolean = false;
+  confirmPasswordValidation: boolean = false;
 
   constructor(
     private routerOutlet: RouterOutlet,
@@ -43,9 +45,23 @@ export class ResetPasswordComponent implements OnInit {
     });
   }
 
+  hideValidations() {
+    this.newPasswordValidation = false;
+    this.confirmPasswordValidation = false;
+    this.passwordMissMatch = false;
+    this.loader = false;
+  }
+
   onSubmit() {
-    this.loader = true;
-    if (this.resetPassword.controls.newPassword.value != this.resetPassword.controls.confirmPassword.value) {
+    this.newPasswordValidation = false;
+    this.confirmPasswordValidation = false;
+    this.loader = false;
+    this.passwordMissMatch = false;
+    if (!this.resetPassword.controls.newPassword.value) this.newPasswordValidation = true;
+    else if (this.resetPassword.controls.newPassword.value && this.resetPassword.controls.newPassword.errors) this.newPasswordValidation = true;
+    else if (!this.resetPassword.controls.confirmPassword.value) this.confirmPasswordValidation = true;
+    else if (this.resetPassword.controls.confirmPassword.value && this.resetPassword.controls.confirmPassword.errors) this.confirmPasswordValidation = true;
+    else if (this.resetPassword.controls.newPassword.value != this.resetPassword.controls.confirmPassword.value) {
       this.passwordMissMatch = true;
       this.loader = false;
     }
