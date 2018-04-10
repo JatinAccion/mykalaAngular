@@ -34,9 +34,9 @@
                     </th>
                     <th sortable-column="inquiryStatus" width="10%">Status</th>
                     <th sortable-column="orderId" width="30%">Inquiry Details</th>
-                    <th sortable-column="inquiryType" width="30%">Inquiry Type</th>
+                    <th sortable-column="inquiryType" width="28%">Inquiry Type</th>
                     <th sortable-column="priority" width="10%">Priority</th>
-                    <th sortable-column="inquiryDate" width="18%">Created on</th>
+                    <th sortable-column="inquiryDate" width="20%">Created on</th>
                     <th width="2%"></th>
                 </tr>
             </thead>
@@ -45,7 +45,10 @@
                     <td>
                         <input type="checkbox" />
                     </td>
-                    <td>{{inquiry.inquiryStatus}} - {{inquiry.resolutionType}}</td>
+                    <td>
+                        <div class="col-sm-6 px-0"> {{inquiry.inquiryStatus}}</div>
+                        <div class="col-sm-6 px-0"> {{inquiry.resolutionType}}</div>
+                    </td>
                     <td>
                         <div>
                             <a class="ancDefault" (click)="getOrderDetails(inquiry, inquiry.orderId)">{{inquiry.orderId}}</a>
@@ -55,16 +58,16 @@
                     </td>
                     <td>
                         <div class="row">
-                            <div class="col-sm-5">Type:</div>
-                            <div class="col-sm-7">{{inquiry.inquiryType}} - {{inquiry.inquiryTypeOther}}</div>
+                            <div class="col-sm-4">Type:</div>
+                            <div class="col-sm-8">{{inquiry.inquiryType}}</div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-5">Category:</div>
-                            <div class="col-sm-7">{{inquiry.inquiryCategory}} - {{inquiry.inquiryCategoryOther}}</div>
+                            <div class="col-sm-4">Category:</div>
+                            <div class="col-sm-8">{{inquiry.inquiryCategory}}</div>
                         </div>
                     </td>
                     <td>{{inquiry.priority}}</td>
-                    <td>{{inquiry.inquiryDate| date: 'shortDate'}}</td>
+                    <td>{{inquiry.inquiryDate| date: 'MMM dd, yyyy, hh:mm a'}}</td>
                     <td>
                         <a class="colorBlue" (click)="getOrderDetails(inquiry, inquiry.orderId)" [attr.aria-expanded]="!inquiry.isCollapsed">
                             <i class="fa fa-caret-down" aria-hidden="true"></i>
@@ -90,11 +93,11 @@
                                         </tr>
                                         <tr>
                                             <td>Created on:</td>
-                                            <td>{{inquiry.createdDate| date: 'fullDate'}}</td>
+                                            <td>{{inquiry.createdDate| date: 'MMM dd, yyyy, hh:mm a'}}</td>
                                         </tr>
                                         <tr>
                                             <td>Last updated:</td>
-                                            <td>{{inquiry.modifiedDate| date: 'fullDate'}}</td>
+                                            <td>{{inquiry.modifiedDate| date: 'MMM dd, yyyy, hh:mm a'}}</td>
                                         </tr>
                                         <tr>
                                             <td>Resolved on:</td>
@@ -180,7 +183,7 @@
                             </div>
                         </div>
                         <hr />
-                        <app-tile-member *ngIf="inquiry && inquiry.customerId" [id]="inquiry.customerId" [orderId]="inquiry.orderId" ></app-tile-member>
+                        <app-tile-member *ngIf="inquiry && inquiry.customerId" [id]="inquiry.customerId" [orderId]="inquiry.orderId"></app-tile-member>
                         <hr />
                         <app-tile-retailer *ngIf="inquiry && inquiry.retailerId" [id]="inquiry.retailerId"></app-tile-retailer>
                     </td>

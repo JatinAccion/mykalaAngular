@@ -252,12 +252,12 @@
             <i class="fa fa-repeat fa-spin" aria-hidden="true" *ngIf="paymentSaveloader"></i>
         </button>
     </div>
-    <!-- <div class="col-sm-6 text-right" [ngClass]="{'show': paymentInfoStep==2, 'hide': paymentInfoStep!==2  }" *ngIf="activateStripe">
+    <div class="col-sm-6 text-right" [ngClass]="{'show': paymentInfoStep==2, 'hide': paymentInfoStep!==2  }" *ngIf="activateStripe && stripeInegrated">
         <button class="btn btn-default ancProfile1" [disabled]="paymentSaveloader" (click)="paymentInfoNextTab();">Next
             <i class="fa fa-repeat fa-spin" aria-hidden="true" *ngIf="paymentSaveloader"></i>
         </button>
-    </div> -->
-    <div class="col-sm-6" *ngIf="paymentInfoStep!==1 && activateStripe && !stripeInegrated">
+    </div>
+    <div class="col-sm-6 text-right" *ngIf="paymentInfoStep!==1 && activateStripe && !stripeInegrated">
         <button (click)="stripe()" class="btn btn-default ancProfile1" [disabled]="paymentSaveloader">Register Your Account with Stripe
             <i class="fa fa-repeat fa-spin" aria-hidden="true" *ngIf="paymentSaveloader"></i>
         </button>

@@ -18,4 +18,21 @@ export default class DateUtils {
         console.log(month);
         return this.monthLabels.filter(p => p.value === month)[0].name;
     }
+    toDate(obj) {
+        if (!obj) {
+            return '';
+        }
+        if (obj.year && obj.month && obj.day) {
+            return `${obj.year}-${obj.month}-${obj.day}`;
+        } else if (new Date(obj)) {
+            const date = new Date(obj);
+            if (date.getDate() ? true : false) {
+                return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+            } else { return ''; }
+        }
+    }
+    fromDate(obj: any): any {
+        const date = obj ? new Date(obj) : new Date();
+        return { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
+    }
 }

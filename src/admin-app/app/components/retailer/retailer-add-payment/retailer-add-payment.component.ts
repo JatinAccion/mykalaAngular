@@ -13,6 +13,7 @@ import { inputValidations, userMessages } from './messages';
 import { CoreService } from '../../../services/core.service';
 import { RetailerProfileInfo } from '../../../../../models/retailer-profile-info';
 import { StripePayment, TosAcceptance } from '../../../../../models/stripe-payment';
+import DateUtils from '../../../../../common/utils';
 
 
 
@@ -82,16 +83,16 @@ export class RetailerAddPaymentComponent implements OnInit {
       bankAccountNumber: [this.paymentData.bankAccountNumber, [Validators.pattern(environment.regex.numberRegex), Validators.required]],
       bankABARoutingNumber: [this.paymentData.bankABARoutingNumber, [Validators.pattern(environment.regex.numberRegex), Validators.required]],
       bankSwiftCode: [this.paymentData.bankSwiftCode, [Validators.pattern(environment.regex.textRegex), Validators.required]],
-      firstName: [this.paymentData.retailerBankAddress.firstName, [Validators.pattern(environment.regex.textRegex), Validators.required]],
-      lastName: [this.paymentData.retailerBankAddress.lastName, [Validators.pattern(environment.regex.textRegex), Validators.required]],
-      ssnlast4: [this.paymentData.retailerBankAddress.ssnlast4, [Validators.maxLength(4), Validators.minLength(4),
+      firstName: [this.paymentData.legalContact.firstName, [Validators.pattern(environment.regex.textRegex), Validators.required]],
+      lastName: [this.paymentData.legalContact.lastName, [Validators.pattern(environment.regex.textRegex), Validators.required]],
+      ssnlast4: [this.paymentData.last4SSN, [Validators.maxLength(4), Validators.minLength(4),
       Validators.pattern(environment.regex.zipcodeRegex), Validators.required]],
-      dob: [this.paymentData.retailerBankAddress.dob, [Validators.pattern(environment.regex.textRegex), Validators.required]],
-      addressLine1LegalContact: [this.paymentData.retailerBankAddress.addressLine1, [Validators.pattern(environment.regex.textRegex), Validators.required]],
-      addressLine2LegalContact: [this.paymentData.retailerBankAddress.addressLine2, [Validators.pattern(environment.regex.textRegex)]],
-      cityLegalContact: [this.paymentData.retailerBankAddress.city, [Validators.pattern(environment.regex.textRegex), Validators.required]],
-      stateLegalContact: [this.paymentData.retailerBankAddress.state, [Validators.pattern(environment.regex.textRegex), Validators.required]],
-      zipcodeLegalContact: [this.paymentData.retailerBankAddress.zipcode, [Validators.maxLength(5), Validators.minLength(5),
+      dob: [this.paymentData.dob, [Validators.pattern(environment.regex.textRegex), Validators.required]],
+      addressLine1LegalContact: [this.paymentData.legalContact.addressLine1, [Validators.pattern(environment.regex.textRegex), Validators.required]],
+      addressLine2LegalContact: [this.paymentData.legalContact.addressLine2, [Validators.pattern(environment.regex.textRegex)]],
+      cityLegalContact: [this.paymentData.legalContact.city, [Validators.pattern(environment.regex.textRegex), Validators.required]],
+      stateLegalContact: [this.paymentData.legalContact.state, [Validators.pattern(environment.regex.textRegex), Validators.required]],
+      zipcodeLegalContact: [this.paymentData.legalContact.zipcode, [Validators.maxLength(5), Validators.minLength(5),
       Validators.pattern(environment.regex.zipcodeRegex), Validators.required]],
       addressLine1: [this.paymentData.retailerBankAddress.addressLine1, [Validators.pattern(environment.regex.textRegex), Validators.required]],
       addressLine2: [this.paymentData.retailerBankAddress.addressLine2, [Validators.pattern(environment.regex.textRegex)]],
@@ -120,7 +121,7 @@ export class RetailerAddPaymentComponent implements OnInit {
     this.getPaymentVehicles(this.paymentFG1.value.paymentMethod);
 
 
-    const isRequired = this.paymentFG1.value.paymentMethod !== '1';
+    const isRequired = this.paymentFG1.value.paymentMethod !== this.retialerService.paymentMethods[0].name;
     this.activateStripe = isRequired;
     this.paymentFG1.controls.bankname.setValidators([Validators.pattern(environment.regex.textRegex), this.validatorExt.getRV(isRequired)]);
     this.paymentFG1.controls.addressLine1.setValidators([Validators.pattern(environment.regex.textRegex), this.validatorExt.getRV(isRequired)]);
@@ -249,12 +250,15 @@ export class RetailerAddPaymentComponent implements OnInit {
     this.paymentInfoObj.legalContact.lastName = this.paymentFG2.value.lastName;
     this.paymentInfoObj.legalContact.name = this.paymentFG2.value.firstName + ' ' + this.paymentFG2.value.lastName;
     this.paymentInfoObj.legalContact.ssnlast4 = this.paymentFG2.value.ssnlast4;
-    this.paymentInfoObj.legalContact.dob = this.paymentFG2.value.dob;
+    // this.paymentInfoObj.legalContact.dob = this.paymentFG2.value.dob;
     this.paymentInfoObj.legalContact.addressLine1 = this.paymentFG2.value.addressLine1LegalContact;
     this.paymentInfoObj.legalContact.addressLine2 = this.paymentFG2.value.addressLine2LegalContact;
     this.paymentInfoObj.legalContact.city = this.paymentFG2.value.cityLegalContact;
     this.paymentInfoObj.legalContact.state = this.paymentFG2.value.stateLegalContact;
     this.paymentInfoObj.legalContact.zipcode = this.paymentFG2.value.zipcodeLegalContact;
+
+    this.paymentInfoObj.last4SSN = this.paymentFG2.value.ssnlast4;
+    this.paymentInfoObj.dob = this.paymentFG2.value.dob;
 
 
     this.paymentInfoObj.retailerBankAddress = this.paymentInfoObj.retailerBankAddress || new RetailerBankAddress();
@@ -267,15 +271,31 @@ export class RetailerAddPaymentComponent implements OnInit {
 
     return this.paymentInfoObj;
   }
+  disableBankInfo() {
+    this.paymentFG2.controls.bankAccountName.reset({ value: this.paymentInfoObj.bankAccountName, disabled: this.stripeInegrated });
+    this.paymentFG2.controls.bankAccountNumber.reset({ value: this.paymentInfoObj.bankAccountNumber, disabled: this.stripeInegrated });
+    this.paymentFG2.controls.bankABARoutingNumber.reset({ value: this.paymentInfoObj.bankABARoutingNumber, disabled: this.stripeInegrated });
+    this.paymentFG2.controls.bankSwiftCode.reset({ value: this.paymentInfoObj.bankSwiftCode, disabled: this.stripeInegrated });
+  }
   getPaymentInfo(retailerId) {
     this.retialerService
       .paymentInfoGet(this.retailerId)
       .subscribe((res: RetailerPaymentInfo) => {
+        if (res.legalContact && res.legalContact.name) {
+          if (res.legalContact.name.split(' ').length > 0) {
+            res.legalContact.firstName = res.legalContact.name.split(' ')[0];
+            res.legalContact.lastName = res.legalContact.name.split(' ')[1];
+          }
+          // res.legalContact.dob = res.dob;
+          // res.legalContact.ssnlast4 = res.last4SSN;
+        }
         this.paymentData = res;
         this.setFormValidators();
         this.paymentInfoObj = new RetailerPaymentInfo(res);
         this.stripeInegrated = this.paymentInfoObj.stripeConnectAccountId && this.paymentInfoObj.stripeConnectAccountId !== '' || false;
-        this.activateStripe = this.stripeInegrated || this.paymentInfoObj.paymentMethod && this.paymentInfoObj.paymentMethod !== '1' || false;
+        this.activateStripe = this.stripeInegrated || this.paymentInfoObj.paymentMethod && this.paymentInfoObj.paymentMethod !== this.retialerService.paymentMethods[0].name || false;
+        this.disableBankInfo();
+
       });
   }
   getProfileInfo(retailerId: string) {
@@ -316,18 +336,20 @@ export class RetailerAddPaymentComponent implements OnInit {
               retailerProfile: this.profileData,
               retailerPayment: this.paymentInfoObj,
               tosAcceptance: new TosAcceptance({ client_ip: response.token.client_ip, created: response.token.created }),
-              dob: this.paymentInfoObj.legalContact.dob, ssnlast4: this.paymentInfoObj.legalContact.ssnlast4
+              dob: this.paymentInfoObj.dob, ssnlast4: this.paymentInfoObj.last4SSN
             });
             this.retialerService.addSellerAccount(stripePaymnentObj).subscribe(p => {
               this.core.message.success(userMessages.stripe_integration_completed);
               this.paymentInfoObj.stripeConnectAccountId = p;
-              this.paymentInfoObj.stripeBankAccountNumber = this.paymentInfoObj.bankAccountNumber.substr(this.paymentInfoObj.bankAccountNumber.length - 4);
+              this.paymentInfoObj.bankAccountNumber = this.paymentInfoObj.bankAccountNumber.substr(this.paymentInfoObj.bankAccountNumber.length - 4);
+              this.paymentInfoObj.dob = new DateUtils().toDate(this.paymentInfoObj.dob);
               this.stripeInegrated = true;
               this.retialerService
                 .paymentInfoSave(this.paymentInfoObj)
                 .subscribe(res => {
                   this.SaveData.emit('tab-Payment');
                   this.paymentSaveloader = false;
+                  this.disableBankInfo();
                   this.core.message.success(userMessages.success);
                   return true;
                 }, err => { this.paymentSaveloader = false; this.core.message.error(userMessages.error); }, () => this.paymentSaveloader = false);

@@ -24,26 +24,26 @@
                 </div>
                 <div class="row pl-3 pr-2 pb-2">
                     <div class="col-sm-2">
-                        <a (click)="goto('total',-1)">
+                        <a (click)="goto('one',-1)">
                             <i class="fa fa-caret-left caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
                     <div class="col-sm-8 text-center colorlightGray">
-                        {{this.reportModel !== 'Monthly'?'':(widget.total.month + 1 + ',') }} {{widget.total.year}}
+                        {{this.reportModel !== 'Monthly'?'':(widget.one.month + 1 + ',') }} {{widget.one.year}}
                     </div>
                     <div class="col-sm-2">
-                        <a (click)="goto('total',1)">
+                        <a (click)="goto('one',1)">
                             <i class="fa fa-caret-right caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
                 </div>
                 <div class="row p-2">
                     <div class="col-sm-12 text-center colorDarkBlue">
-                        <h4>{{widget.total.value}}</h4>
+                        <h4>{{widget.one.value}}</h4>
                     </div>
                 </div>
                 <div class="text-center p-2">
-                    <a class="btn btn-default" (click)="getDetails('total')">Detail</a>
+                    <a class="btn btn-default" (click)="getDetails('one')">Detail</a>
                 </div>
             </div>
         </div>
@@ -52,7 +52,7 @@
                 <div class="text-center p-2">
                     Complaints
                     <span class="float-right">
-                        <a (click)="goto('automatic',0)">
+                        <a (click)="goto('two',0)">
                             <i class="fa fa-refresh" aria-hidden="true"></i>
                         </a>
                     </span>
@@ -60,26 +60,26 @@
                 </div>
                 <div class="row pl-3 pr-2 pb-2">
                     <div class="col-sm-2">
-                        <a (click)="goto('automatic',-1)">
+                        <a (click)="goto('two',-1)">
                             <i class="fa fa-caret-left caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
                     <div class="col-sm-8 text-center colorlightGray">
-                        {{this.reportModel !== 'Monthly'?'':(widget.automatic.month + 1 + ',') }} {{widget.automatic.year}}
+                        {{this.reportModel !== 'Monthly'?'':(widget.two.month + 1 + ',') }} {{widget.two.year}}
                     </div>
                     <div class="col-sm-2">
-                        <a (click)="goto('automatic',1)">
+                        <a (click)="goto('two',1)">
                             <i class="fa fa-caret-right caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
                 </div>
                 <div class="row p-2">
                     <div class="col-sm-12 text-center colorDarkBlue">
-                        <h4>{{widget.automatic.value}}</h4>
+                        <h4>{{widget.two.value}}</h4>
                     </div>
                 </div>
                 <div class="text-center p-2">
-                    <a class="btn btn-default" (click)="getDetails('automatic')">Detail</a>
+                    <a class="btn btn-default" (click)="getDetails('two')">Detail</a>
                 </div>
             </div>
         </div>
@@ -88,7 +88,7 @@
                 <div class="text-center p-2">
                     Returns
                     <span class="float-right">
-                        <a (click)="goto('manual',0)">
+                        <a (click)="goto('three',0)">
                             <i class="fa fa-refresh" aria-hidden="true"></i>
                         </a>
                     </span>
@@ -96,26 +96,26 @@
                 </div>
                 <div class="row pl-3 pr-2 pb-2">
                     <div class="col-sm-2">
-                        <a (click)="goto('manual',-1)">
+                        <a (click)="goto('three',-1)">
                             <i class="fa fa-caret-left caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
                     <div class="col-sm-8 text-center colorlightGray">
-                        {{this.reportModel !== 'Monthly'?'':(widget.manual.month + 1 + ',') }} {{widget.manual.year}}
+                        {{this.reportModel !== 'Monthly'?'':(widget.three.month + 1 + ',') }} {{widget.three.year}}
                     </div>
                     <div class="col-sm-2">
-                        <a (click)="goto('manual',1)">
+                        <a (click)="goto('three',1)">
                             <i class="fa fa-caret-right caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
                 </div>
                 <div class="row p-2">
                     <div class="col-sm-12 text-center colorDarkBlue">
-                        <h4>{{widget.manual.value}}</h4>
+                        <h4>{{widget.three.value}}</h4>
                     </div>
                 </div>
                 <div class="text-center p-2">
-                    <a class="btn btn-default" (click)="getDetails('manual')">Detail</a>
+                    <a class="btn btn-default" (click)="getDetails('three')">Detail</a>
                 </div>
             </div>
         </div>
@@ -124,7 +124,7 @@
                 <div class="text-center p-2">
                     Open Inquiries
                     <span class="float-right">
-                        <a (click)="goto('pending',0)">
+                        <a (click)="goto('four',0)">
                             <i class="fa fa-refresh" aria-hidden="true"></i>
                         </a>
                     </span>
@@ -132,34 +132,33 @@
                 </div>
                 <div class="row pl-3 pr-2 pb-2">
                     <div class="col-sm-2">
-                        <a (click)="goto('pending',-1)">
+                        <a (click)="goto('four',-1)">
                             <i class="fa fa-caret-left caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
                     <div class="col-sm-8 text-center colorlightGray">
-                        {{this.reportModel !== 'Monthly'?'':(widget.pending.month + 1 + ',')}} {{widget.pending.year}}
+                        {{this.reportModel !== 'Monthly'?'':(widget.four.month + 1 + ',')}} {{widget.four.year}}
                     </div>
                     <div class="col-sm-2">
-                        <a (click)="goto('pending',1)">
+                        <a (click)="goto('four',1)">
                             <i class="fa fa-caret-right caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
                 </div>
                 <div class="row p-2">
                     <div class="col-sm-12 text-center colorDarkBlue">
-                        <h4>{{widget.pending.value}}</h4>
+                        <h4>{{widget.four.value}}</h4>
                     </div>
                 </div>
                 <div class="text-center p-2">
-                    <a class="btn btn-default" (click)="getDetails('pending')">Detail</a>
+                    <a class="btn btn-default" (click)="getDetails('four')">Detail</a>
                 </div>
             </div>
         </div>
     </div>
     <div class="row mt-5">
         <div class="col-sm-6 backgroundWhite">
-            <chart [type]="type" [data]="data" [options]="options" style="width: 80%;height:400px;"></chart>
-            <!-- <span class="paymentBars"><i class="fa fa-bars" aria-hidden="true"></i></span> -->
+            <chart [type]="type_byType" [data]="data_byType" [options]="options_byType" style="width: 80%;height:400px;"></chart>
         </div>
         <div class="col-sm-6">
             <div class="backgroundWhite">
@@ -172,38 +171,38 @@
                         </select>
                     </span>
                 </div>
-                <div class="row p-2 m-2">                  
+                <div class="row p-2 m-2">
                     <table class="p-0 w-100" width="100">
-                    <thead>
-                        <tr>
-                            <th width="40%">Seller</th>
-                            <th width="30%">Complaints</th>
-                            <th width="30%">Open</th>
-                        </tr>
-                    </thead>
-                    <tbody *ngFor="let order of orders.content | paginate: { id: 'server', itemsPerPage: orders.size, currentPage: orders.number + 1 , totalItems: orders.totalElements }; let idx = index">
-                        <tr>
-                            <td>{{order.orderItems[0].retailerName}}</td>
-                            <td>{{order.purchasedPrice | currency }}</td>
-                            <td>{{(order.payment.paymentAmount /100) || '0'| currency }}</td>                            
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="col-sm-12 p-0 pt-3 pagination_align">
-                    <pagination-controls id='server' class="my-pagination" (pageChange)="getPage($event)" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page"></pagination-controls>
-                </div>
+                        <thead>
+                            <tr>
+                                <th width="40%">Seller</th>
+                                <th width="30%">Complaints</th>
+                                <th width="30%">Open</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let order of orders.content | paginate: { id: 'server', itemsPerPage: orders.size, currentPage: orders.number + 1 , totalItems: orders.totalElements }; let idx = index">
+                            <tr>
+                                <td>{{order.orderItems[0].retailerName}}</td>
+                                <td>{{order.purchasedPrice | currency }}</td>
+                                <td>{{(order.payment.paymentAmount /100) || '0'| currency }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="col-sm-12 p-0 pt-3 pagination_align">
+                        <pagination-controls id='server' class="my-pagination" (pageChange)="getPage($event)" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page"></pagination-controls>
+                    </div>
                 </div>
             </div>
             <div class="row p-2 mt-3">
-                
+
             </div>
             <div class="row p-2">
-                
+
             </div>
         </div>
     </div>
 
     <div class="row p-2 mt-3">
-            <chart [type]="type" [data]="data" [options]="options" style="width: 80%;height:400px;"></chart>
+        <chart [type]="type" [data]="data" [options]="options" style="width: 80%;height:400px;"></chart>
     </div>
 </div>

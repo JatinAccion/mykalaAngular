@@ -72,9 +72,29 @@ export class Inquirys extends Pagination {
   public content: Inquiry[];
 }
 
+
+export class InquiryCount {
+  public retailerReturnCount: number;
+  public retailerIssueCount: number;
+  public consumerReturnCount: number;
+  public retailerQuestionCount: number;
+  public consumerIssueCount: number;
+  public consumerQuestionCount: number;
+  constructor(obj?: any) {
+    if (obj) {
+      this.retailerReturnCount = obj.retailerReturnCount;
+      this.retailerIssueCount = obj.retailerIssueCount;
+      this.consumerReturnCount = obj.consumerReturnCount;
+      this.retailerQuestionCount = obj.retailerQuestionCount;
+      this.consumerIssueCount = obj.consumerIssueCount;
+      this.consumerQuestionCount = obj.consumerQuestionCount;
+    }
+  }
+}
+
 export const InquiryTypes = [
-  { name: 'MemberQuestion', value: 'Member Question', categories: ['Product', 'Order', 'Account', 'Shipping', 'Using Kala', 'Other'] },
-  { name: 'OrderIssue', value: 'Order Issue', categories: ['Product Not Received', 'Product Damaged', 'Payment Issue', 'Wrong Product Received', 'Didn\'t Receive Order Confirmation', 'Didn\t Receive Shipping Confirmation', 'Other'] },
+  { name: 'Member Question', value: 'Member Question', categories: ['Product', 'Order', 'Account', 'Shipping', 'Using Kala', 'Other'] },
+  { name: 'Order Issue', value: 'Order Issue', categories: ['Product Not Received', 'Product Damaged', 'Payment Issue', 'Wrong Product Received', 'Didn\'t Receive Order Confirmation', 'Didn\t Receive Shipping Confirmation', 'Other'] },
   { name: 'Return', value: 'Return', categories: ['Product Defect', 'Wrong Size', 'Wrong Color', 'Wrong Style', 'Don\'t Like the Product', 'Personal Reasons', 'Other'] },
   { name: 'Exchange', value: 'Exchange', categories: ['Product Defect', 'Wrong Size', 'Wrong Color', 'Wrong Style', 'Don\'t Like the Product', 'Personal Reasons', 'Other'] },
   { name: 'Other', value: 'Other', categories: [] },

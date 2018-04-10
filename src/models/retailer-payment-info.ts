@@ -22,10 +22,13 @@ export class RetailerPaymentInfo {
     public stripeToken: string;
     public stripeConnectAccountId: string;
     public stripeBankAccountNumber: string;
+    public last4SSN: string;
+    public dob: any;
 
     constructor(obj?: any) {
         this.retailerBankAddress = new RetailerBankAddress();
         this.bankAddress = new BankAddress();
+        this.legalContact = new LegalContact();
         this.addresses = new Array<PostalAddress>();
         if (obj) {
             this.retailerBankPaymentId = obj.retailerBankPaymentId;
@@ -56,6 +59,8 @@ export class RetailerPaymentInfo {
             this.stripeToken = obj.stripeToken;
             this.stripeConnectAccountId = obj.stripeConnectAccountId;
             this.stripeBankAccountNumber = obj.stripeBankAccountNumber;
+            this.last4SSN = obj.last4SSN;
+            this.dob = obj.dob;
         }
     }
 }

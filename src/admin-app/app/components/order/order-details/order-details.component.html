@@ -13,7 +13,11 @@
             </tr>
             <tr>
                 <td width="40%">Product Code:</td>
-                <td width="60%">{{orderItem.productId}}</td>
+                <td width="60%">
+                    <a class="colorBlue" target="_blank" [routerLink]="['../product-edit', orderItem.productId]">
+                        {{orderItem.productId}}
+                    </a>
+                </td>
             </tr>
             <tr>
                 <td>Price:</td>
@@ -123,82 +127,85 @@
     </div>
 </div>
 <hr />
-<app-tile-member *ngIf="order && order.userId" [id]="order.userId" [orderId]="order.orderId" ></app-tile-member>
+<app-tile-member *ngIf="order && order.userId" [id]="order.userId" [orderId]="order.orderId"></app-tile-member>
 <hr />
 <app-tile-retailer *ngIf="order && order.orderItems && order.orderItems.length > 0 && order.orderItems[0].retailerId" [id]="order.orderItems[0].retailerId"></app-tile-retailer>
 <hr />
-<div class="row orderdetail_row m-2">
-    <div class="col-sm-2 align-middle">
-        <h4 class="colorGray">Issues</h4>
-    </div>
-    <div class="col-sm-4">
-        <table width="100%" class="no_tdBorder" border="0">
-            <tr>
-                <td>Priority:</td>
-                <td>
-                    <strong>High</strong>
-                </td>
-            </tr>
-            <tr>
-                <td>Category:</td>
-                <td>
-                    <strong>Problem with order</strong>
-                </td>
-            </tr>
-            <tr>
-                <td>Issue type:</td>
-                <td>
-                    <strong>Item arrived damaged</strong>
-                </td>
-            </tr>
-            <tr>
-                <td>Issue date:</td>
-                <td>
-                    <strong>06/15/2017</strong>
-                </td>
-            </tr>
-            <tr>
-                <td>Issue status:</td>
-                <td>
-                    <strong>Closed - satisfied</strong>
-                </td>
-            </tr>
-            <tr>
-                <td>Resolved on:</td>
-                <td>
-                    <strong>06/15/2017</strong>
-                </td>
-            </tr>
-            <tr>
-                <td>Issue description:</td>
-                <td>
-                    <strong>Lamp surfaced arrived with deep scratches in finish</strong>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div class="col-sm-4">
-        <table width="100%" class="no_tdBorder" border="0">
-            <tr>
-                <td>Assigned to :</td>
-                <td>Ryan Wegner</td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <div>Notes:</div>
-                    <p class="border_outline p-2">
-                        Contacted buyer on 06/23 to confirm issue, contacted seller on 06/23, seller agreed to exchange item, Shipping label sent to Sonya on 06/24, Item exchangein complete and member is satisfied with result on 06/28.
-                    </p>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div class="col-sm-2">
-        <p>
-            <a class="btn_red_right  w-100" href="inquiries_create.html">+ create inquiry</a>
-        </p>
-        <p *ngIf="seller">
-            <a class="btn_redouter_right w-100" [routerLink]="['../retailer-edit', seller.retailerId]">edit account</a>
-        </p>
+<div *ngIf="inquirys">
+    <div class="row orderdetail_row m-2" *ngFor="let inquiry of inquirys.content">
+        <div class="col-sm-2 align-middle">
+            <h4 class="colorGray">Issues</h4>
+        </div>
+        <div class="col-sm-4">
+            <table width="100%" class="no_tdBorder" border="0">
+                <tr>
+                    <td>Priority:</td>
+                    <td>
+                        <strong>{{inquiry.priority}}</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Category:</td>
+                    <td>
+                        <strong>{{inquiry.inquiryCategory}}</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Issue type:</td>
+                    <td>
+                        <strong>{{inquiry.inquiryType}}</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Issue date:</td>
+                    <td>
+                        <strong>{{inquiry.inquiryDate| date: 'fullDate'}}</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Issue status:</td>
+                    <td>
+                        <strong>{{inquiry.inquiryStatus}}, {{inquiry.resolutionType}}</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Resolved on:</td>
+                    <td>
+                        <strong>{{inquiry.resolutionDate| date: 'fullDate'}}</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Issue description:</td>
+                    <td>
+                        <strong>{{inquiry.description}}</strong>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-sm-4">
+            <table width="100%" class="no_tdBorder" border="0">
+                <tr>
+                    <td>Assigned to :</td>
+                    <td>{{getUser(inquiry.assignedTo).username}}</td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div>Notes:</div>
+                        <p class="border_outline p-2">
+                            {{inquiry.notes[0]}}
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-sm-2">
+            <p>
+                <a class="btn_red_right  w-100" target="_blank" [routerLink]="['../inquiry-edit', inquiry.supportId]">edit inquiry</a>
+            </p>
+            <!-- <p *ngIf="seller">
+                <a class="btn_redouter_right w-100" [routerLink]="['../retailer-edit', seller.retailerId]">edit account</a>
+            </p> -->
+        </div>
     </div>
 </div>
+<h3 *ngIf="inquirys.totalElements == 0">No Issues available</h3>

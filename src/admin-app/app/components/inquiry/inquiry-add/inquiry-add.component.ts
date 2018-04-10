@@ -15,6 +15,7 @@ import { CoreService } from '../../../services/core.service';
 import { userMessages } from './messages';
 import { OrderService } from '../../order/order.service';
 import { ReportOrder, ReportOrderItem } from '../../../../../models/report-order';
+import DateUtils from '../../../../../common/utils';
 // #endregion imports
 
 
@@ -49,8 +50,12 @@ export class InquiryAddComponent implements OnInit {
   inquiryResolvedOutcomes = InquiryResolvedOutcomes;
   inquiryResolutions = InquiryResolutions;
   inquiryPrioritys = InquiryPrioritys;
-  minDate: any;
-  maxDate: any;
+  dateUtils = new DateUtils();
+
+  minDateInquiry = { year: new Date().getFullYear() - 1, month: 1, day: 1 };
+  maxDateInquiry = this.dateUtils.fromDate(Date.now());
+  minDateResolution = this.dateUtils.fromDate(Date.now());
+  maxDateResolution = this.dateUtils.fromDate(Date.now());
   // #endregion declaration
   // tslint:disable-next-line:whitespace
   constructor(
@@ -108,6 +113,10 @@ export class InquiryAddComponent implements OnInit {
       this.inquiryStatusChange();
       this.checkOrder();
     });
+  }
+  inquiryDateChange() {
+    const form = this.fG1.value;
+    this.minDateResolution = form.inquiryDate;
   }
   saveInquiry() {
     this.saveLoader = true;
@@ -219,8 +228,8 @@ export class InquiryAddComponent implements OnInit {
     const formControls = this.fG1.controls;
     // this.inquiry.supportId = form.supportId;
     this.inquiry = this.inquiry || new Inquiry();
-    this.inquiry.customerId = form.customerId;
-    this.inquiry.customerName = form.customerName;
+    // this.inquiry.customerId = form.customerId;
+    // this.inquiry.customerName = form.customerName;
     this.inquiry.orderId = form.orderId;
     this.inquiry.orderDate = form.orderDate;
     // this.inquiry.productName = form.productName;

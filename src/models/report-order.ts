@@ -1,22 +1,23 @@
 import { Pagination } from './pagination';
 import { PostalAddress } from './retailer-business-adress';
 import { Product } from './Product';
+import { environment } from '../admin-app/environments/environment';
 
 export class ReportOrder {
   payment: ReportPayment;
-  orderId: string; // "5a9664050b0a9030a6146be6"
-  cutomerId: string; // "cus_COxMwBS8zaHmca"
-  userId: string; // "5a8ad09c1035190ea96a9ffe"
-  customerName: string; // "Jatin Sharma"
-  purchasedPrice: number; // 2500
-  totalTaxCost: number; // 27.5
-  totalShipCost: number; // 70
-  purchasedDate: string; // 1519805443610
-  source: string; // "card"
-  paymentSource: string; // "Visa"
-  paymentFunding: string; // "credit"
-  last4Digits: string; // "4242"
-  orderStatus: string; // null
+  orderId: string;
+  cutomerId: string;
+  userId: string;
+  customerName: string;
+  purchasedPrice: number;
+  totalTaxCost: number;
+  totalShipCost: number;
+  purchasedDate: string;
+  source: string;
+  paymentSource: string;
+  paymentFunding: string;
+  last4Digits: string;
+  orderStatus: string;
   consumerEmail: string;
   address: PostalAddress;
   orderItems: ReportOrderItem[];
@@ -56,19 +57,19 @@ export class ReportOrders extends Pagination {
   public content: ReportOrder[];
 }
 export class ReportOrderItem {
-  productId: string; // "5a953089656fd27f67b67eb6"
-  retailerId: string; // "5a93e32d8998e6452cb9ed44"
-  retailerName: string; // "Best Buy"
-  productName: string; // "Micromax 81 cm 32 inches I-Tech 32T8260HD 32T8280HD HD Ready LED TV Black"
-  productDescription: string; // "Micromax 81 cm (32 inches) I-Tech 32T8260HD 32T8280HD HD Ready LED TV (Black)"
-  productImage: string; // "https://s3.us-east-2.amazonaws.com/mykala-dev-images/products/images/bf60f397-33a8-4e4e-902a-f3c484a91344.jpeg"
-  productQuantity: number; // 1
-  productPrice: number; // 2500
-  productTaxCost: number; // 20
-  shippingCost: number; // 25
-  totalProductPrice: number; // 2500
-  deliveryMethod: string; // "Express: 3 to 5 business days"
-  deliveryStatus: string; // null
+  productId: string;
+  retailerId: string;
+  retailerName: string;
+  productName: string;
+  productDescription: string;
+  productImage: string;
+  productQuantity: number;
+  productPrice: number;
+  productTaxCost: number;
+  shippingCost: number;
+  totalProductPrice: number;
+  deliveryMethod: string;
+  deliveryStatus: string;
   product: Product;
   constructor(obj?: any) {
     if (obj) {
@@ -89,11 +90,11 @@ export class ReportOrderItem {
   }
 }
 export class ReportPayment {
-  transactionNumber: string; // null
-  paymentNumber: string; // "ch_1C0Q1QFYNDZqR6PoS8hISST3"
-  paymentAmount: number; // 250000
-  paymentDate: string; // 1519805444
-  paymentStatus: string; // null
+  transactionNumber: string;
+  paymentNumber: string;
+  paymentAmount: number;
+  paymentDate: string;
+  paymentStatus: string;
   constructor(obj?: any) {
     if (obj) {
       this.transactionNumber = obj.transactionNumber;
@@ -124,7 +125,7 @@ export class ReportConsumer {
   constructor(obj?: any) {
     if (obj) {
       this.address = obj.address.map(p => new PostalAddress(p));
-      this.consumerImagePath = obj.consumerImagePath;
+      this.consumerImagePath = obj.consumerImagePath.toLowerCase().startsWith('https://') || obj.consumerImagePath.toLowerCase().startsWith('data:image') ? obj.consumerImagePath : (environment.s3 + obj.consumerImagePath);
       this.consumerInterests = obj.consumerInterests;
       this.createdAt = obj.createdAt;
       this.customerAccountStatus = obj.customerAccountStatus;
@@ -154,11 +155,11 @@ export class ConsumerOffersOrdersCount {
   }
 }
 export class SellerPayment {
-  public orderId: string; // "5ab22cb2a27cbc47f0e1d67a"
-  public paymentDate: string; // null
-  public paymentStatus: string; // null
-  public paymentType: string; //  null
-  public retailerId: string; // "5a9558e28998e6452cb9ed5b"
+  public orderId: string;
+  public paymentDate: string;
+  public paymentStatus: string;
+  public paymentType: string;
+  public retailerId: string;
   constructor(obj?: any) {
     if (obj) {
       this.orderId = obj.orderId;

@@ -54,7 +54,7 @@
                 </p>
 
                 <p *ngIf="showProduct">
-                    <select class="ddl_default form-control w-50" formControlName="product" (change)="setInquiryOrderDetails(this.fG1.value.product)" >
+                    <select class="ddl_default form-control w-50" formControlName="product" (change)="setInquiryOrderDetails(this.fG1.value.product)">
                         <option value=''>Product</option>
                         <option *ngFor="let option of order.orderItems" [ngValue]="option">
                             {{option.productName}}
@@ -101,7 +101,7 @@
             </div>
             <div class="col-sm-4 ">
                 <div class="input-group">
-                    <input formControlName="inquiryDate" (focus)="d.open()" [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker #d="ngbDatepicker" class="form-control" placeholder="Date of Inquiry (mm-dd-yyyy)">
+                    <input formControlName="inquiryDate" (focus)="d.open()" [minDate]="minDateInquiry" [maxDate]="maxDateInquiry" ngbDatepicker #d="ngbDatepicker" class="form-control" placeholder="Date of Inquiry (mm-dd-yyyy)">
                     <div class="input-group-append">
                         <button class="btn btn-default ancProfile1" (click)="d.toggle()">
                             <i class="fa fa-calendar" aria-hidden="true"></i>
@@ -135,6 +135,7 @@
         <hr />
         <div class="row">
             <p class="col-sm-8" *ngIf="showResoltionOutcome">
+                Resoltuion
                 <select class="ddl_default form-control w-50" formControlName="resolutionOutcome">
                     <option value=''>Resolution Outcome</option>
                     <option *ngFor="let option of inquiryResolvedOutcomes" value="{{option}}">
@@ -147,7 +148,7 @@
             </p>
         </div>
         <div class="row">
-            <p class="col-sm-8" *ngIf="showResoltion">
+            <div class="col-sm-8" *ngIf="showResoltion">
                 <select class="ddl_default form-control w-50" formControlName="resolutionType">
                     <option value=''>Resolution</option>
                     <option *ngFor="let option of inquiryResolutions" value="{{option}}">
@@ -157,9 +158,9 @@
                 <!--Validation-->
                 <app-field-error-display [field]="fG1.controls.resolutionType" [errorMsg]="errorMsgs"> </app-field-error-display>
                 <!--Validation-->
-            </p>
+            </div>
         </div>
-        <div class="row">
+        <div class="row py-3">
             <div class="col-sm-8 clearfix" *ngIf="showResoltionDescription">
                 <input class="form-control" type="text" placeholder="Summary Description" formControlName="resolutionDescription" />
                 <!--Validation-->
@@ -168,7 +169,7 @@
             </div>
             <div class="col-sm-4" *ngIf="showResoltionDate">
                 <div class="input-group">
-                    <input formControlName="resolutionDate" (focus)="d.open()" [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker #d="ngbDatepicker" class="form-control" placeholder="Date of Resolution (mm-dd-yyyy)">
+                    <input formControlName="resolutionDate" (focus)="d.open()" [minDate]="fG1.value.inquiryDate" [maxDate]="maxDateResolution" ngbDatepicker #d="ngbDatepicker" class="form-control" placeholder="Date of Resolution (mm-dd-yyyy)">
                     <div class="input-group-append">
                         <button class="btn btn-default ancProfile1" (click)="d.toggle()">
                             <i class="fa fa-calendar" aria-hidden="true"></i>

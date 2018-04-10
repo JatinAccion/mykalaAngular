@@ -20,7 +20,7 @@ export class InquiryListComponent implements OnInit {
   searchType = 'Seller';
   search: any;
   loading: boolean;
-  inquirys: Inquirys;
+  inquirys= new Inquirys();
   isCollapsed = true;
   order: ReportOrder;
   page = 1;

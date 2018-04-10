@@ -75,8 +75,8 @@ export class RetailerAddProfileComponent implements OnInit {
       city: [this.profileData.businessAddress.city, [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
       state: [this.profileData.businessAddress.state, [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
       zipcode: [this.profileData.businessAddress.zipcode, [Validators.maxLength(5), Validators.minLength(5), Validators.pattern(environment.regex.zipcodeRegex), Validators.required]],
-      email: [this.profileData.businessAddress.email, [Validators.maxLength(255), Validators.pattern(environment.regex.emailRegex)]],
-      phone_number: [this.profileData.businessAddress.phoneNo, [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(environment.regex.phoneNumberRegex)]],
+      email: [this.profileData.businessAddress.email, [Validators.maxLength(255), Validators.pattern(environment.regex.emailRegex), Validators.required]],
+      phone_number: [this.profileData.businessAddress.phoneNo, [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(environment.regex.phoneNumberRegex), Validators.required]],
       sellerTypeId: [this.profileData.sellerTypeId, [Validators.required]]
     });
     this.profileFG3 = this.formBuilder.group({
@@ -89,11 +89,11 @@ export class RetailerAddProfileComponent implements OnInit {
       contact_type_name: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
       contact_name: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
       contact_position: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
-      contact_address1: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex),]],
+      contact_address1: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
       contact_address2: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
-      contact_city: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex),]],
-      contact_state: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex),]],
-      contact_zipcode: ['', [Validators.maxLength(5), Validators.minLength(5), Validators.pattern(environment.regex.zipcodeRegex),]],
+      contact_city: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
+      contact_state: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
+      contact_zipcode: ['', [Validators.maxLength(5), Validators.minLength(5), Validators.pattern(environment.regex.zipcodeRegex)]],
       contact_email: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.emailRegex), Validators.required]],
       contact_phone_number: ['', [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(environment.regex.phoneNumberRegex), Validators.required]],
       contactType: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],

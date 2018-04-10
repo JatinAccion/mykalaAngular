@@ -105,7 +105,8 @@ export const apiNames = {
         getInquiryDetails: 'support/{supportId}/inquiryDetails',
         save: 'support/saveInquiryRequest',
         update: 'support/updateInquiryRequest ',
-        delete: 'support/{supportId}/deleteInquiry'
+        delete: 'support/{supportId}/deleteInquiry',
+        getIssueCount: 'support/issueCount/{retailerId}/{consumerId}'
     }
 };
 export const commonMessages = {

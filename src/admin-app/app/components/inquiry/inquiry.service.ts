@@ -10,7 +10,7 @@ import 'rxjs/add/operator/catch';
 import { LocalStorageService } from '../../services/LocalStorage.service';
 import { environment } from './../../../environments/environment';
 import { nameValue } from '../../../../models/nameValue';
-import { Inquiry, Inquirys } from '../../../../models/inquiry';
+import { Inquiry, Inquirys, InquiryCount } from '../../../../models/inquiry';
 
 @Injectable()
 export class InquiryService {
@@ -29,14 +29,7 @@ export class InquiryService {
     private http: Http,
     private localStorageService: LocalStorageService,
     private httpc: HttpClient
-  ) {
-    this.seedStaticData();
-  }
-  seedStaticData() {
-    // this.shippingProfiles.push(new nameValue('1', 'Furniture delivery'));
-    // this.shippingProfiles.push(new nameValue('2', 'Small item delivery'));
-    // this.shippingProfiles.push(new nameValue('3', '1-5 business days shipping'));
-  }
+  ) {  }
   get(query: any): Observable<Inquirys> {
     this.headers = this.getHttpHeraders();
     const url = `${this.BASE_URL}/${environment.apis.inquiry.get}`;
@@ -53,6 +46,20 @@ export class InquiryService {
       .get(url, { headers: this.headers })
       .map(p => p.json())
       .map(p => new Inquiry(p))
+      .catch(this.handleError);
+  }
+  getInquiryCounts(retailerId, consumerId): Observable<InquiryCount> {
+    this.headers = this.getHttpHeraders();
+    const url = `${this.BASE_URL}/${environment.apis.inquiry.getIssueCount}`.replace('{retailerId}', retailerId).replace('{consumerId}', consumerId);
+    return this.http
+      .get(url, { headers: this.headers })
+      .map(p => {
+        if (p.text() === '') {
+          return new InquiryCount();
+        } else {
+          return new InquiryCount(p.json());
+        }
+      })
       .catch(this.handleError);
   }
   deleteInquiry(inquiryId): Observable<any> {
@@ -81,8 +88,6 @@ export class InquiryService {
   }
 
   private handleError(error: Response) {
-    // in a real world app, we may send the server to some remote logging infrastructure
-    // instead of just logging it to the console
     console.error(error);
     return Observable.throw(error.json().error || 'Server error');
   }

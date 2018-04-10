@@ -2,7 +2,6 @@ import { PostalAddress } from './retailer-business-adress';
 import { RetailerProfileInfo } from './retailer-profile-info';
 import { AddressType } from './address-type';
 import { RetailerPaymentInfo } from './retailer-payment-info';
-import { IfObservable } from 'rxjs/observable/IfObservable';
 import { formatPhoneNumber } from '../common/formatters';
 
 export class StripePayment {
@@ -33,7 +32,7 @@ export class StripePayment {
                 this.tin = obj.retailerProfile.tin;
                 if (obj.retailerProfile.addresses && obj.retailerProfile.addresses.length > 0) {
                     const businessAddress = new PostalAddress(obj.retailerProfile.addresses.filter(p => (p.addressType === AddressType.business))[0]);
-                    businessAddress.phoneNo = formatPhoneNumber(businessAddress.phoneNo);
+                    businessAddress.phoneNo = businessAddress.phoneNo ? formatPhoneNumber(businessAddress.phoneNo) : '';
                     businessAddress.name = this.businessName;
                     this.addressOrContact = [businessAddress];
                 }

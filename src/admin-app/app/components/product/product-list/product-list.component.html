@@ -84,7 +84,7 @@
                 </td>
                 <td>{{product.brandName}}</td>
                 <td>
-                    <img src="{{product.mainImage.location}}" *ngIf="product.mainImage" width="40">
+                    <img src="{{product.mainImage.imageUrl}}" *ngIf="product.mainImage" width="40">
                     <i class="fa fa-picture-o defaultUser colorGray py-2" *ngIf="!product.mainImage" width="40"></i>
                 </td>
                 <td>{{product.kalaUniqueId}}</td>
@@ -186,7 +186,7 @@
                                     <td>{{product.shipProfileName}}</td>
                                     <td class="colorlightGray">Other images:</td>
                                     <td>
-                                        <img src="{{img.location}}" class="p-2" *ngFor="let img of product.otherImages" width="100">
+                                        <img src="{{img.imageUrl}}" class="p-2" *ngFor="let img of product.otherImages" width="100">
                                     </td>
                                 </tr>
                             </tbody>

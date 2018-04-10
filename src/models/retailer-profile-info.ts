@@ -1,6 +1,7 @@
 import { RetailerBusinessAddress, PostalAddress } from './retailer-business-adress';
 import { RetailerContact } from './retailer-contact';
 import { environment } from '../admin-app/environments/environment';
+import { AddressType } from './address-type';
 
 export class RetailerProfileInfo {
     public retailerId: string;
@@ -19,10 +20,12 @@ export class RetailerProfileInfo {
     public businessAddress: RetailerBusinessAddress;
     public contactPerson: RetailerContact[];
     public addresses: PostalAddress[];
+    public primaryContact: RetailerContact;
     constructor(obj?: any) {
         this.addresses = new Array<PostalAddress>();
         this.businessAddress = new RetailerBusinessAddress();
         this.contactPerson = new Array<RetailerContact>();
+        this.primaryContact = new RetailerContact();
         if (obj) {
             this.retailerId = obj.retailerId;
             this.businessName = obj.businessName;
@@ -42,14 +45,16 @@ export class RetailerProfileInfo {
             this.status = obj.status;
             if (obj.addresses && obj.addresses.length > 0) {
                 this.addresses = obj.addresses.map(p => new PostalAddress(p));
-                if (this.addresses.filter(p => p.addressType === new RetailerBusinessAddress().addressType).length > 0) {
-                    this.businessAddress = new RetailerBusinessAddress(this.addresses.filter(p => p.addressType === new RetailerBusinessAddress().addressType)[0]);
+                if (this.addresses.filter(p => p.addressType === AddressType.business).length > 0) {
+                    this.businessAddress = new RetailerBusinessAddress(this.addresses.filter(p => p.addressType === AddressType.business)[0]);
                 }
-                if (this.addresses.filter(p => p.addressType !== new RetailerBusinessAddress().addressType).length > 0) {
-                    this.contactPerson = this.addresses.filter(p => p.addressType !== new RetailerBusinessAddress().addressType).map(p => new RetailerContact(p));
+                if (this.addresses.filter(p => p.addressType === AddressType.primary).length > 0) {
+                    this.primaryContact = new RetailerContact(this.addresses.filter(p => p.addressType === AddressType.primary)[0]);
+                }
+                if (this.addresses.filter(p => p.addressType !== AddressType.business).length > 0) {
+                    this.contactPerson = this.addresses.filter(p => p.addressType !== AddressType.business).map(p => new RetailerContact(p));
                 }
             }
-
         }
     }
 }

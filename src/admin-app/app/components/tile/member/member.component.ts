@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { ReportConsumer, ConsumerOffersOrdersCount } from '../../../../../models/report-order';
 import { OrderService } from '../../order/order.service';
+import { InquiryService } from '../../inquiry/inquiry.service';
+import { InquiryCount } from '../../../../../models/inquiry';
 
 
 @Component({
@@ -12,11 +14,13 @@ import { OrderService } from '../../order/order.service';
 export class MemberTileComponent implements OnInit {
   @Input() id: string;
   @Input() orderId: string;
-  consumer: ReportConsumer;
+  consumer = new ReportConsumer();
   consumerOffers: ConsumerOffersOrdersCount;
-  constructor(private orderService: OrderService) { }
+  inquiryCount = new InquiryCount();
+  constructor(private orderService: OrderService, private inquiryService: InquiryService) { }
   ngOnInit(): void {
     this.getConsumer(this.id);
+    this.getInquiryCounts(this.id);
     this.getConsumerOffersOrders(this.orderId);
   }
 
@@ -27,6 +31,13 @@ export class MemberTileComponent implements OnInit {
         this.consumer.offersCount = res.offerTotal;
         this.consumer.ordersCount = res.orderTotal;
         this.consumerOffers = res;
+      });
+  }
+  getInquiryCounts(id: string) {
+    this.inquiryService
+      .getInquiryCounts(id, id)
+      .subscribe((res: InquiryCount) => {
+        this.inquiryCount = res || new InquiryCount();
       });
   }
 

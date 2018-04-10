@@ -115,14 +115,16 @@ export class OrderService {
     const url = `${environment.ordersApi}/${environment.apis.orders.sellerPaymentStatus}`.replace('{orderId}', orderId).replace('{retailerId}', retailerId);
     return this.http
       .get(url, { headers: this.headers })
-      .map(p => p.json())
+      .map(p => {
+        if (p.text() === '') {
+          return '';
+        } else { return p.json(); }
+      })
       .catch(this.handleError);
   }
 
 
   private handleError(error: any) {
-    // in a real world app, we may send the server to some remote logging infrastructure
-    // instead of just logging it to the console
     console.error(error);
     return Observable.throw(error.json().error || 'Server error');
   }

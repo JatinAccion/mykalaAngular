@@ -22,7 +22,7 @@
                 <td>{{consumer.emailId}}</td>
             </tr>
             <tr>
-                <td class="w-50">{{consumer.address?consumer.address.toString():''}}</td>
+                <td class="w-50">{{consumer.address && consumer.address.length>0?consumer.address[0].toString():''}}</td>
             </tr>
         </table>
     </div>
@@ -43,15 +43,15 @@
             </tr>
             <tr>
                 <td class="pl-3">complaints:</td>
-                <td>1</td>
+                <td>{{inquiryCount.consumerIssueCount}}</td>
             </tr>
             <tr>
                 <td class="pl-3">Returns:</td>
-                <td>0</td>
+                <td>{{inquiryCount.consumerReturnCount}}</td>
             </tr>
             <tr>
                 <td class="pl-3">Questions:</td>
-                <td>5</td>
+                <td>{{inquiryCount.consumerQuestionCount}}</td>
             </tr>
         </table>
     </div>

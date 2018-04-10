@@ -52,7 +52,11 @@
                         <td>{{order.purchasedDate | date:'shortDate'}}</td>
                         <td>{{order.orderItems[0].retailerName}}</td>
                         <td>{{order.customerName}}</td>
-                        <td>{{order.orderItems[0].productId}}</td>
+                        <td>
+                            <a class="colorBlue" target="_blank" [routerLink]="['../product-edit', order.orderItems[0].productId]">
+                                {{order.orderItems[0].productId}}
+                            </a>
+                        </td>
                         <td class="text-right">{{order.purchasedPrice | currency }}</td>
                         <td>Y</td>
                         <td>

@@ -8,6 +8,10 @@ import { RetailerProfileInfo } from '../../../../../models/retailer-profile-info
 import { Product } from '../../../../../models/Product';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { CoreService } from '../../../services/core.service';
+import { InquiryService } from '../../inquiry/inquiry.service';
+import { Inquirys } from '../../../../../models/inquiry';
+import { UserService } from '../../user/user.service';
+import { UserProfile } from '../../../../../models/user';
 // #endregion imports
 
 
@@ -18,6 +22,8 @@ import { CoreService } from '../../../services/core.service';
   encapsulation: ViewEncapsulation.None
 })
 export class OrderDetailsComponent implements OnInit {
+  users: any[];
+  inquirys = new Inquirys();
   consumer: ReportConsumer;
   products: Product[];
   seller: RetailerProfileInfo;
@@ -25,7 +31,7 @@ export class OrderDetailsComponent implements OnInit {
   loading: boolean;
   isCollapsed = true;
   @Input() order: ReportOrder;
-  constructor(private orderService: OrderService, public retialerService: RetialerService, private core: CoreService) {
+  constructor(private orderService: OrderService, public retialerService: RetialerService, private core: CoreService, private inquiryService: InquiryService, private userService: UserService) {
 
   }
 
@@ -38,6 +44,8 @@ export class OrderDetailsComponent implements OnInit {
     this.getProductInfo(this.order.orderItems.map(p => p.productId));
     this.getConsumer(this.order.userId);
     this.getSellerPaymentStatus(this.order.orderId, this.order.orderItems[0].retailerId);
+    this.getInquiryList(this.order.orderId);
+    this.getUsers();
   }
   getProfileInfo(retailerId: string) {
     this.retialerService
@@ -60,6 +68,15 @@ export class OrderDetailsComponent implements OnInit {
         });
 
       });
+  }
+  getInquiryList(orderId) {
+    this.loading = true;
+    const searchParams = { page: 0, size: 10, sortOrder: 'desc', elementType: 'createdDate', orderId: orderId };
+
+    this.inquiryService.get(searchParams).subscribe(res => {
+      this.inquirys = res;
+      this.loading = false;
+    });
   }
   getConsumer(consumerId: string) {
     this.orderService
@@ -84,7 +101,16 @@ export class OrderDetailsComponent implements OnInit {
         this.core.message.success('Payment Updated');
       });
   }
-
+  getUsers(): any {
+    this.userService.get(null).subscribe((res) => {
+      this.users = res;
+    });
+  }
+  getUser(id): UserProfile {
+    if (this.users && this.users.filter(p => p.userId === id).length > 0) {
+      return this.users.filter(p => p.userId === id)[0] as UserProfile;
+    } else { return new UserProfile(); }
+  }
   toDate(obj) {
     if (obj.year && obj.month && obj.day) {
       return `${obj.year}-${obj.month}-${obj.day}`;

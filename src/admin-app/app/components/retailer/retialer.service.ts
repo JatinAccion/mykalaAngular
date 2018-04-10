@@ -87,12 +87,12 @@ export class RetialerService {
     this.notificationData.subscribe(p => this.notificationDataObj = p);
   }
   seedStaticData() {
-    this.paymentMethods.push(new nameValue('1', 'Manual'));
-    this.paymentMethods.push(new nameValue('2', 'Automated'));
+    this.paymentMethods.push(new nameValue('Manual', 'Manual'));
+    this.paymentMethods.push(new nameValue('Automated', 'Automated'));
 
-    this.paymentVehicles.push(new nameValue('1', 'Stripe', '2'));
-    this.paymentVehicles.push(new nameValue('2', 'Invoice', '1'));
-    this.paymentVehicles.push(new nameValue('3', 'Credit Card', '1'));
+    this.paymentVehicles.push(new nameValue('Stripe', 'Stripe', 'Automated'));
+    this.paymentVehicles.push(new nameValue('Invoice', 'Invoice', 'Manual'));
+    this.paymentVehicles.push(new nameValue('Credit Card', 'Credit Card', 'Manual'));
   }
   get(query: any): Observable<Retailers> {
     this.headers = this.getHttpHeraders();
@@ -209,7 +209,6 @@ export class RetialerService {
   }
   addSellerAccount(stripePayment: StripePayment): Observable<any> {
     this.headers = this.getHttpHeraders();
-    // const url = `${'http://192.168.169.230:8090/payment/v1'}/${environment.apis.retailerPaymentInfo.addSellerAccount}`;
     const url = `${environment.paymentApi}/${environment.apis.retailerPaymentInfo.addSellerAccount}`;
 
     return this.http

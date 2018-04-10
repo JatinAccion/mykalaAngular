@@ -13,12 +13,12 @@ export class InquiriesReportComponent implements OnInit {
   orders: ReportOrders;
   isCollapsed = true;
   reportModel = 'Monthly';
-  details = { widgetType: 'total', year: 2018, month: 2 };
+  details = { widgetType: 'one', year: 2018, month: 2 };
   widget = {
-    'total': { widgetType: 'Total', year: 2018, month: 2, value: 0 },
-    'automatic': { widgetType: 'Automatic', year: 2018, month: 2, value: 0 },
-    'manual': { widgetType: 'Manual', year: 2018, month: 2, value: 0 },
-    'pending': { widgetType: 'Pending', year: 2018, month: 2, value: 0 }
+    'one': { widgetType: 'Total Inquiries', year: 2018, month: 2, value: 0 },
+    'two': { widgetType: 'Complaints', year: 2018, month: 2, value: 0 },
+    'three': { widgetType: 'Returns', year: 2018, month: 2, value: 0 },
+    'four': { widgetType: 'Open Inquiries', year: 2018, month: 2, value: 0 }
   };
   summary = { totalCostOfGoods: 0, totalTaxesCost: 0, totalShipCost: 0, saleRevenue: 0, netRevenue: 0 };
   backgroundColors = ['#df7970', '#4c9ca0', '#ae7d99', '#c9d45c', '#5592ad', '#6d78ad', '#51cda0', '#f8f378', '#ae6653', '#60df63', '#60c9df'];
@@ -27,7 +27,7 @@ export class InquiriesReportComponent implements OnInit {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
     datasets: [
       {
-        label: 'Consumer Payment Types',
+        label: 'Consumer Inquiries, by Type',
         data: [65, 59, 80, 81, 56, 55, 40],
         backgroundColor: this.backgroundColors,
       }
@@ -38,11 +38,59 @@ export class InquiriesReportComponent implements OnInit {
     maintainAspectRatio: false,
     title: {
       display: true,
-      text: 'Consumer Payment Types'
+      text: 'Consumer Inquiries, by Type'
     },
     legend: {
       display: true,
-      position: 'left'
+      position: 'right'
+    },
+    plugins: {
+      datalabels: {
+        color: 'white',
+        display: function (context) {
+          return context.dataset.data[context.dataIndex] > 15;
+        },
+        font: {
+          weight: 'bold'
+        },
+        formatter: Math.round
+      }
+    },
+    tooltips: {
+      callbacks: {
+        label: function (tooltipItem, data) {
+          const allData = data.datasets[tooltipItem.datasetIndex].data;
+          const tooltipLabel = data.labels[tooltipItem.index];
+          const tooltipData = allData[tooltipItem.index];
+          const total = data.datasets[0]._meta[0].data.filter(p => !p.hidden).map(p => p._index).map(p => allData[p]).reduce((a, b) => a + b);
+
+          const tooltipPercentage = Math.round((tooltipData / total) * 100);
+          return tooltipLabel + ': ' + tooltipData + ' (' + tooltipPercentage + '%)';
+        }
+      }
+    }
+  };
+  type_byType = 'pie';
+  data_byType = {
+    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    datasets: [
+      {
+        label: 'Consumer Inquiries, by Type',
+        data: [65, 59, 80, 81, 56, 55, 40],
+        backgroundColor: this.backgroundColors,
+      }
+    ]
+  };
+  options_byType = {
+    responsive: true,
+    maintainAspectRatio: false,
+    title: {
+      display: true,
+      text: 'Consumer Inquiries, by Type'
+    },
+    legend: {
+      display: true,
+      position: 'right'
     },
     plugins: {
       datalabels: {
@@ -79,20 +127,20 @@ export class InquiriesReportComponent implements OnInit {
 
   }
   getData() {
-    this.goto('total', 0);
-    this.goto('automatic', 0);
-    this.goto('manual', 0);
-    // this.goto('pending', 0);
-    // this.getDetails('total');
+    this.goto('one', 0);
+    this.goto('two', 0);
+    this.goto('three', 0);
+    this.goto('four', 0);
+    this.getDetails('one');
   }
   goto(type, incr) {
     let date = new Date();
-    let widget = this.widget.total;
+    let widget = this.widget.one;
     switch (type) {
-      case 'total': widget = this.widget.total; break;
-      case 'automatic': widget = this.widget.automatic; break;
-      case 'manual': widget = this.widget.manual; break;
-      case 'pending': widget = this.widget.pending; break;
+      case 'one': widget = this.widget.one; break;
+      case 'two': widget = this.widget.two; break;
+      case 'three': widget = this.widget.three; break;
+      case 'four': widget = this.widget.four; break;
     }
     date = new Date(widget.year, widget.month, 1);
     if (this.reportModel !== 'Monthly') {
@@ -106,12 +154,12 @@ export class InquiriesReportComponent implements OnInit {
     this.getDetails(type);
   }
   getDetails(type) {
-    let widget = this.widget.total;
+    let widget = this.widget.one;
     switch (type) {
-      case 'one': widget = this.widget.total; break;
-      case 'two': widget = this.widget.automatic; break;
-      case 'three': widget = this.widget.manual; break;
-      case 'four': widget = this.widget.pending; break;
+      case 'one': widget = this.widget.one; break;
+      case 'two': widget = this.widget.two; break;
+      case 'three': widget = this.widget.three; break;
+      case 'four': widget = this.widget.four; break;
     }
     this.reportsService.getPaymentReports(widget.widgetType, widget.year.toString(), this.reportModel !== 'Monthly' ? '' : (widget.month + 1).toString()).subscribe((res) => { this.setupSummary(res[0]); });
     this.reportsService.getconsumerPaymentReports(widget.widgetType, widget.year.toString(), this.reportModel !== 'Monthly' ? '' : (widget.month + 1).toString()).subscribe((res) => { this.setupChartData(res); });

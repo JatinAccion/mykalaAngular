@@ -209,13 +209,16 @@ export class ProductService {
     }
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
   }
-  saveproductFiles(retailerId: string, files: Array<any>): Observable<any> {
+  saveproductFiles(retailerId: string, files: Array<any>, update: boolean, quantity: boolean, all: boolean): Observable<any> {
     const formdata: FormData = new FormData();
     for (let i = 0; i < files.length; i++) {
       const element = files[i];
       formdata.append('files', element.file, this.guid() + element.file.name);
     }
     // formdata.append('retailerId', retailerId);
+    formdata.append('update', update ? 'true' : 'false');
+    formdata.append('quantity', quantity ? 'true' : 'false');
+    formdata.append('all', all ? 'true' : 'false');
 
     const url = `${this.BASE_URL}/${environment.apis.product.upload}`;
     const req = new HttpRequest('POST', url, formdata, {
