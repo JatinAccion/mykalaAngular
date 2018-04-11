@@ -67,60 +67,70 @@ export class Step4Component implements OnInit {
   };
 
   next() {
-    var current = new Date();
-    var currentDay = current.getDate()
-    var currentMonth = current.getMonth() + 1
-    var currentYear = current.getFullYear()
-    var forThreeDays = new Date(new Date().getTime() + 72 * 60 * 60 * 1000);
-    var futureDay = forThreeDays.getDate()
-    var futureMonth = forThreeDays.getMonth() + 1
-    var futureYear = forThreeDays.getFullYear()
-    this.loader = true;
-    this.Step4Modal.placeName = this.Step4Summary.place.name;
-    this.Step4Modal.categoryName = this.Step4Summary.category.name;
-    this.Step4Modal.subCategoryName = this.Step4Summary.subCategory.name;
-    this.Step4Modal.deliveryMethod = this.Step4Summary.delivery;
-    this.Step4Modal.deliveryLocation = this.Step4Summary.location;
-    this.Step4Modal.price.minPrice = this.Step4Summary.priceRange.minPrice;
-    this.Step4Modal.price.maxPrice = this.Step4Summary.priceRange.maxPrice;
-    this.Step4Modal.startDate = current;
-    this.Step4Modal.endDate = forThreeDays;
-    this.Step4Modal.attributes = this.Step4Summary.attributes;
-    this.Step4Modal.productType = this.Step4Summary.productType;
-    // this.Step4Modal.typeName = new Array<any>();
-    // for (var i = 0; i < this.Step4Summary.type.length; i++) this.Step4Modal.typeName.push(this.Step4Summary.type[i].name);
-    if (this.userData == undefined) {
-      this.Step4Modal.emailId = '';
-      this.Step4Modal.userId = '';
+    if (window.localStorage['token'] == undefined) {
+      let action = confirm("You must be logged in to checkout your cart items!\n\nDo you want to login now ?");
+      if (action == true) {
+        window.localStorage['tbnAfterLogin'] = window.location.hash.split("#")[1];
+        this.route.navigateByUrl('/login')
+      }
+      else return false;
     }
     else {
-      this.Step4Modal.emailId = this.userData.emailId;
-      this.Step4Modal.userId = this.userData.userId;
-    }
-    if (window.localStorage['offerIdForEdit'] != undefined) {
-      this.Step4Modal.startDate = null;
-      this.Step4Modal.endDate = null;
-      this.Step4Modal.offerId = window.localStorage['offerIdForEdit']
-      this.Step4Modal.consumerExist = true;
-    }
-    console.log(this.Step4Modal)
-    this.getOffer.confirmOffer(this.Step4Modal).subscribe(res => {
-      if (res.getOffersResponse == null) {
-        alert("No Offer Available")
-        this.route.navigateByUrl('/browse-product')
+      var current = new Date();
+      var currentDay = current.getDate()
+      var currentMonth = current.getMonth() + 1
+      var currentYear = current.getFullYear()
+      var forThreeDays = new Date(new Date().getTime() + 72 * 60 * 60 * 1000);
+      var futureDay = forThreeDays.getDate()
+      var futureMonth = forThreeDays.getMonth() + 1
+      var futureYear = forThreeDays.getFullYear()
+      this.loader = true;
+      this.Step4Modal.placeName = this.Step4Summary.place.name;
+      this.Step4Modal.categoryName = this.Step4Summary.category.name;
+      this.Step4Modal.subCategoryName = this.Step4Summary.subCategory.name;
+      this.Step4Modal.deliveryMethod = this.Step4Summary.delivery;
+      this.Step4Modal.deliveryLocation = this.Step4Summary.location;
+      this.Step4Modal.price.minPrice = this.Step4Summary.priceRange.minPrice;
+      this.Step4Modal.price.maxPrice = this.Step4Summary.priceRange.maxPrice;
+      this.Step4Modal.startDate = current;
+      this.Step4Modal.endDate = forThreeDays;
+      this.Step4Modal.attributes = this.Step4Summary.attributes;
+      this.Step4Modal.productType = this.Step4Summary.productType;
+      // this.Step4Modal.typeName = new Array<any>();
+      // for (var i = 0; i < this.Step4Summary.type.length; i++) this.Step4Modal.typeName.push(this.Step4Summary.type[i].name);
+      if (this.userData == undefined) {
+        this.Step4Modal.emailId = '';
+        this.Step4Modal.userId = '';
       }
       else {
-        this.loader = false;
-        localStorage.removeItem("GetOfferStep_1");
-        localStorage.removeItem("GetOfferStep_2");
-        localStorage.removeItem("GetOfferStep_3");
-        window.localStorage['getOffers'] = JSON.stringify(res);
-        localStorage.removeItem("offerIdForEdit");
-        this.route.navigateByUrl("/myoffer")
+        this.Step4Modal.emailId = this.userData.emailId;
+        this.Step4Modal.userId = this.userData.userId;
       }
-    }, (err) => {
-      this.loader = false;
-    });
+      if (window.localStorage['offerIdForEdit'] != undefined) {
+        this.Step4Modal.startDate = null;
+        this.Step4Modal.endDate = null;
+        this.Step4Modal.offerId = window.localStorage['offerIdForEdit']
+        this.Step4Modal.consumerExist = true;
+      }
+      console.log(this.Step4Modal)
+      this.getOffer.confirmOffer(this.Step4Modal).subscribe(res => {
+        if (res.getOffersResponse == null) {
+          alert("No Offer Available")
+          this.route.navigateByUrl('/browse-product')
+        }
+        else {
+          this.loader = false;
+          localStorage.removeItem("GetOfferStep_1");
+          localStorage.removeItem("GetOfferStep_2");
+          localStorage.removeItem("GetOfferStep_3");
+          window.localStorage['getOffers'] = JSON.stringify(res);
+          localStorage.removeItem("offerIdForEdit");
+          this.route.navigateByUrl("/myoffer")
+        }
+      }, (err) => {
+        this.loader = false;
+      });
+    }
   };
 
 }
