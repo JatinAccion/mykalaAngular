@@ -170,5 +170,35 @@ export class SellerPayment {
     }
   }
 }
+export class ReportRetailerInquiry {
+  businessName: string;
+  retailerId: string;
+  count: number;
+  open: number;
+
+  constructor(obj?: any) {
+    if (obj) {
+      this.businessName = obj.businessName;
+      this.retailerId = obj.retailerId;
+      if (obj.report) {
+        this.count = obj.report.count;
+        this.open = obj.report.open;
+      } else {
+        this.count = 0;
+        this.open = 0;
+      }
+    }
+  }
+}
+
+export class ReportRetailerInquirys extends Pagination {
+  constructor(obj?: any) {
+    if (obj) {
+      super(obj);
+      this.content = obj.content.map(p => new ReportRetailerInquiry(p));
+    }
+  }
+  public content: ReportRetailerInquiry[];
+}
 
 

@@ -10,7 +10,7 @@ import 'rxjs/add/operator/catch';
 import { LocalStorageService } from '../../services/LocalStorage.service';
 import { environment } from './../../../environments/environment';
 import { nameValue } from '../../../../models/nameValue';
-import { ReportOrders } from '../../../../models/report-order';
+import { ReportOrders, ReportRetailerInquirys } from '../../../../models/report-order';
 import { ReportReviewSummary } from '../../../../models/report-review';
 import { Retailers, RetailerReviews, ReviewRatings } from '../../../../models/retailer';
 
@@ -155,7 +155,31 @@ export class ReportsService {
       .map(p => p.json())
       .catch(this.handleError);
   }
-
+  getInquiryReport(type: string, year: string, month?: string) {
+    this.headers = this.getHttpHeraders();
+    const url = `${environment.InquiryApi}/${environment.apis.inquiry.inquiriesReport}`.replace('{type}', type).replace('{year}', year).replace('{month}', month || '');
+    return this.http
+      .get(url, { headers: this.headers })
+      .map(p => p.json())
+      .catch(this.handleError);
+  }
+  getInquiryChartReport(type: string, year: string, month?: string) {
+    this.headers = this.getHttpHeraders();
+    const url = `${environment.InquiryApi}/${environment.apis.inquiry.inquiriesCategoryReport}`.replace('{type}', type).replace('{year}', year).replace('{month}', month || '');
+    return this.http
+      .get(url, { headers: this.headers })
+      .map(p => p.json())
+      .catch(this.handleError);
+  }
+  getRetailerInquiries(inquiryType: string, inquiryCategory: string, query?: any): Observable<ReportRetailerInquirys> {
+    this.headers = this.getHttpHeraders();
+    const url = `${environment.InquiryApi}/${environment.apis.inquiry.retailerInquiries}`.replace('{type}', inquiryType).replace('{category}', inquiryCategory);
+    return this.http
+      .get(url, { search: query, headers: this.headers })
+      .map(p => p.json())
+      .map(p => new ReportRetailerInquirys(p))
+      .catch(this.handleError);
+  }
   private handleError(error: any) {
     // in a real world app, we may send the server to some remote logging infrastructure
     // instead of just logging it to the console

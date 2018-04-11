@@ -24,15 +24,15 @@
                 </div>
                 <div class="row pl-3 pr-2 pb-2">
                     <div class="col-sm-2">
-                        <a (click)="goto('one',-1)">
+                        <a (click)="goto('one',-1)" *ngIf="!widget.one.first">
                             <i class="fa fa-caret-left caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
                     <div class="col-sm-8 text-center colorlightGray">
-                        {{this.reportModel !== 'Monthly'?'':(widget.one.month + 1 + ',') }} {{widget.one.year}}
+                        {{reportModel !== 'Monthly'?'':( widget.one.monthName + ',') }} {{widget.one.year}}
                     </div>
                     <div class="col-sm-2">
-                        <a (click)="goto('one',1)">
+                        <a (click)="goto('one',1)" *ngIf="!widget.one.last">
                             <i class="fa fa-caret-right caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -60,15 +60,15 @@
                 </div>
                 <div class="row pl-3 pr-2 pb-2">
                     <div class="col-sm-2">
-                        <a (click)="goto('two',-1)">
+                        <a (click)="goto('two',-1)" *ngIf="!widget.two.first">
                             <i class="fa fa-caret-left caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
                     <div class="col-sm-8 text-center colorlightGray">
-                        {{this.reportModel !== 'Monthly'?'':(widget.two.month + 1 + ',') }} {{widget.two.year}}
+                        {{reportModel !== 'Monthly'?'':(widget.two.monthName + ',') }} {{widget.two.year}}
                     </div>
                     <div class="col-sm-2">
-                        <a (click)="goto('two',1)">
+                        <a (click)="goto('two',1)" *ngIf="!widget.two.last">
                             <i class="fa fa-caret-right caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -96,15 +96,15 @@
                 </div>
                 <div class="row pl-3 pr-2 pb-2">
                     <div class="col-sm-2">
-                        <a (click)="goto('three',-1)">
+                        <a (click)="goto('three',-1)" *ngIf="!widget.three.first">
                             <i class="fa fa-caret-left caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
                     <div class="col-sm-8 text-center colorlightGray">
-                        {{this.reportModel !== 'Monthly'?'':(widget.three.month + 1 + ',') }} {{widget.three.year}}
+                        {{reportModel !== 'Monthly'?'':(widget.three.monthName + ',') }} {{widget.three.year}}
                     </div>
                     <div class="col-sm-2">
-                        <a (click)="goto('three',1)">
+                        <a (click)="goto('three',1)" *ngIf="!widget.three.last">
                             <i class="fa fa-caret-right caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -132,15 +132,15 @@
                 </div>
                 <div class="row pl-3 pr-2 pb-2">
                     <div class="col-sm-2">
-                        <a (click)="goto('four',-1)">
+                        <a (click)="goto('four',-1)" *ngIf="!widget.four.first">
                             <i class="fa fa-caret-left caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
                     <div class="col-sm-8 text-center colorlightGray">
-                        {{this.reportModel !== 'Monthly'?'':(widget.four.month + 1 + ',')}} {{widget.four.year}}
+                        {{reportModel !== 'Monthly'?'':(widget.four.monthName + ',')}} {{widget.four.year}}
                     </div>
                     <div class="col-sm-2">
-                        <a (click)="goto('four',1)">
+                        <a (click)="goto('four',1)" *ngIf="!widget.four.last">
                             <i class="fa fa-caret-right caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -158,20 +158,29 @@
     </div>
     <div class="row mt-5">
         <div class="col-sm-6 backgroundWhite">
-            <chart [type]="type_byType" [data]="data_byType" [options]="options_byType" style="width: 80%;height:400px;"></chart>
+            <chart [type]="type_byType" [data]="data_byType" [options]="options_byType" style="width: 100%;height:400px;"></chart>
         </div>
         <div class="col-sm-6">
-            <div class="backgroundWhite">
-                <div class="text-center p-2">
-                    Top Inquiries, by Seller
-                    <span class="float-right">
-                        <select class="ddl_default">
-                            <option>Complaints</option>
-                            <option>Total1</option>
-                        </select>
-                    </span>
+            <div class="backgroundWhite ">
+                <div class="row">
+                    <div class="text-center p-2 col-sm-6">
+                        Top Inquiries, by Seller
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <div class="col-sm-12">
+                            <input type="text" placeholder="search by seller" class="form-control txt_Search" [(ngModel)]="retailerName" (keyup.enter)="getPage(1)" />
+                        </div>
+                        <div class="col-sm-12">
+                            <select class="ddl_default form-control" [(ngModel)]="inquiryComplaintCategory" (change)="getPage(1)">
+                                <option value=''>Complaints</option>
+                                <option *ngFor="let option of inquiryComplaintCategorys" value="{{option}}">
+                                    {{option}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
-                <div class="row p-2 m-2">
+                <div class="row p-2 m-2" *ngIf="retailerInquiries" >
                     <table class="p-0 w-100" width="100">
                         <thead>
                             <tr>
@@ -180,11 +189,11 @@
                                 <th width="30%">Open</th>
                             </tr>
                         </thead>
-                        <tbody *ngFor="let order of orders.content | paginate: { id: 'server', itemsPerPage: orders.size, currentPage: orders.number + 1 , totalItems: orders.totalElements }; let idx = index">
+                        <tbody *ngFor="let retailerInquiry of retailerInquiries.content | paginate: { id: 'server', itemsPerPage: retailerInquiries.size, currentPage: retailerInquiries.number + 1 , totalItems: retailerInquiries.totalElements }; let idx = index">
                             <tr>
-                                <td>{{order.orderItems[0].retailerName}}</td>
-                                <td>{{order.purchasedPrice | currency }}</td>
-                                <td>{{(order.payment.paymentAmount /100) || '0'| currency }}</td>
+                                <td>{{retailerInquiry.businessName}}</td>
+                                <td>{{retailerInquiry.count}}</td>
+                                <td>{{retailerInquiry.open }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -201,8 +210,25 @@
             </div>
         </div>
     </div>
-
     <div class="row p-2 mt-3">
-        <chart [type]="type" [data]="data" [options]="options" style="width: 80%;height:400px;"></chart>
+        <div class="col-sm-2">
+            <select class="ddl_default form-control" [(ngModel)]="inquiryType" (change)="inquiryTypeChange()">
+                <option value=''>Inquiry Type</option>
+                <option *ngFor="let option of inquiryTypes" value="{{option.name}}">
+                    {{option.value}}
+                </option>
+            </select>
+        </div>
+        <div class="col-sm-3">
+            <select class="ddl_default form-control" [(ngModel)]="inquiryCategory" (change)="inquiryCategoryChange()">
+                <option value=''>Inquiry Category</option>
+                <option *ngFor="let option of inquiryCategorys" value="{{option}}">
+                    {{option}}
+                </option>
+            </select>
+        </div>
+    </div>
+    <div class="row p-2 mt-3 backgroundWhite">
+        <chart [type]="type_byCategory" [data]="data_byCategory" [options]="options_byCategory" style="width: 100%;height:400px;"></chart>
     </div>
 </div>

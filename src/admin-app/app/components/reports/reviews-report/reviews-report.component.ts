@@ -38,7 +38,6 @@ export class ReviewsReportComponent implements OnInit {
     'three': { widgetType: 'Completed', year: this.currentYear, month: this.currentMonth, monthName: this.dateUtils.getMonthName(this.currentMonth), value: 0, values: [], first: false, last: true, index: 0 },
     'four': { widgetType: 'NotCompleted', year: this.currentYear, month: this.currentMonth, monthName: this.dateUtils.getMonthName(this.currentMonth), value: 0, values: [], first: false, last: true, index: 0 }
   };
-  summary = { threeCostOfGoods: 0, threeTaxesCost: 0, threeShipCost: 0, saleRevenue: 0, netRevenue: 0 };
   colors = ['#94A5B7', '#D6ECF6', '#436798', '#2A4B70'];
   reportYears = 5;
   stacks = ['stack 0'];

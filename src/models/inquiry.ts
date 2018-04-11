@@ -94,7 +94,7 @@ export class InquiryCount {
 
 export const InquiryTypes = [
   { name: 'Member Question', value: 'Member Question', categories: ['Product', 'Order', 'Account', 'Shipping', 'Using Kala', 'Other'] },
-  { name: 'Order Issue', value: 'Order Issue', categories: ['Product Not Received', 'Product Damaged', 'Payment Issue', 'Wrong Product Received', 'Didn\'t Receive Order Confirmation', 'Didn\t Receive Shipping Confirmation', 'Other'] },
+  { name: 'Order Issue', value: 'Order Issue', categories: ['Product Not Received', 'Product Damaged', 'Payment Issue', 'Wrong Product Received', 'Didn\'t Receive Order Confirmation', 'Didn\'t Receive Shipping Confirmation', 'Other'] },
   { name: 'Return', value: 'Return', categories: ['Product Defect', 'Wrong Size', 'Wrong Color', 'Wrong Style', 'Don\'t Like the Product', 'Personal Reasons', 'Other'] },
   { name: 'Exchange', value: 'Exchange', categories: ['Product Defect', 'Wrong Size', 'Wrong Color', 'Wrong Style', 'Don\'t Like the Product', 'Personal Reasons', 'Other'] },
   { name: 'Other', value: 'Other', categories: [] },
