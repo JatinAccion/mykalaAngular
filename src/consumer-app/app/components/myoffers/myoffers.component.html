@@ -83,11 +83,11 @@
             <div class="col-sm-5 multi_scroll" style="height: 400px">
               <div class="row p-2 mb-4" *ngFor="let product of getOffersData.getOffersResponse">
                 <div class="col-sm-4 p-0 productImage">
-                  <img src="/consumer-app/assets/images/product1.png" class="img-fluid" />
+                  <img (click)="core.getProductDetails(product.product.kalaUniqueId)" src="/consumer-app/assets/images/product1.png" class="img-fluid cursor" />
                 </div>
                 <div class="col-sm-8">
                   <p>
-                    <strong>{{product.product.productName}}</strong>
+                    <strong (click)="core.getProductDetails(product.product.kalaUniqueId)" class="cursor">{{product.product.productName}}</strong>
                   </p>
                   <div>
                     <u>{{product.retailerName}}</u>

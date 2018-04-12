@@ -60,6 +60,9 @@
 
         <input id="fivetoeightbusinessdays" type="radio" formControlName="delivery" name="delivery" value="Standard: 5 to 8 business days" />
         <label class="categ_outline_gray mr-2 mb-3" for="fivetoeightbusinessdays">Standard: 5 to 8 business days</label>
+
+        <input id="noPreference" type="radio" formControlName="delivery" name="delivery" value="No Preference" />
+        <label class="categ_outline_gray mr-2 mb-3" for="noPreference">No Preference</label>
       </div>
       <div class="col-sm-2"></div>
     </div>
@@ -74,6 +77,7 @@
         <div>
           <!--Predefined Zipcodes-->
           <span *ngIf="showExistingLocation">
+            <img class="mr-3" width="15" src="/consumer-app/assets/images/loader.gif" *ngIf="loaderZipcodes" />
             <span class="deliveryLocations categ_outline_gray text-center mr-2" style="cursor:pointer" (click)="selectAddress(location, $event)" *ngFor="let location of existingLocation">{{location.zipcode}}</span>
           </span>
           <!--Predefined Zipcodes-->
@@ -86,6 +90,9 @@
           <div style="cursor: pointer" (click)="addNewLocation($event)" class="categ_outline_red mr-2 noBackground colorred">+</div>
           <!--Custom Zipcodes Entry-->
 
+          <!--No Zipcode Validation-->
+          <p *ngIf="zipcodeRequired" class="clearfix colorred" style="margin-top: 0.75rem; margin-bottom: 0; font-size: 15px;">Please select or enter a Zip Code</p>
+
           <p class="clearfix colorlightGray" style="margin-top: 0.75rem; margin-bottom: 0; font-size: 15px;">
             {{fetchGeoCode}}
           </p>
@@ -93,7 +100,7 @@
           <!--Validation-->
           <div *ngIf="getOffer_orderInfo.controls.zipCode.dirty || getOffer_orderInfo.controls.zipCode.touched">
             <div *ngIf="getOffer_orderInfo.controls.zipCode.value && getOffer_orderInfo.controls.zipCode.errors && (!getOffer_orderInfo.controls.zipCode.minlength || !getOffer_orderInfo.controls.zipCode.maxlength)" class="alert alert-danger errorMessages">
-              Please enter the valid zip code
+              Please enter a valid Zip Code
             </div>
           </div>
           <!--Validation-->

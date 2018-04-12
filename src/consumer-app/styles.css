@@ -1687,10 +1687,12 @@ input[formControlName="delivery"] ~ label{
 }
 #twobusinessdayshipping:checked ~ label[for="twobusinessdayshipping"],
 #onebusinessdayshipping:checked ~ label[for="onebusinessdayshipping"],
+#threetofivebusinessdays:checked ~ label[for="threetofivebusinessdays"],
 #fivetoeightbusinessdays:checked ~ label[for="fivetoeightbusinessdays"],
-#threetofivebusinessdays:checked ~ label[for="threetofivebusinessdays"]{
+#noPreference:checked ~ label[for="noPreference"]{
     background: #fff;
-    border:solid 1px #e06263
+    border:solid 1px #e06263;
+    color: #e06263;
 }
 .currencySymbol{
     position: absolute;
