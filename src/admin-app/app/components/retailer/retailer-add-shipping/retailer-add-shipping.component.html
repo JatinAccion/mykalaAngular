@@ -329,30 +329,30 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(shippingFG3.controls.countryName)">Allowable shipping destinations</label>
-                                            <div>
-                                                <select class="ddl_default w-100 form-control" formControlName='countryName'>
-                                                    <option value='USA'>United States</option>
-                                                </select>
-                                                <!--Validation-->
-                                                <app-field-error-display [field]="shippingFG3.controls.countryName" [errorMsg]="errorMsgs"> </app-field-error-display>
-                                                <!--Validation-->
-                                            </div>
-                                            <div class="col-sm-12  p-2">
-                                                <div formArrayName="locations" class="well well-lg col-md-12 p-2" *ngFor="let item of shippingFG3.get('locations').controls; let i = index;">
-                                                    <div [formGroupName]="i">
-                                                        <input type="checkbox" formControlName="locationType" />
-                                                        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(item.controls.locationFee)">{{item.value.locationName}}</label>
-                                                        <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
-                                                        <div class="col-sm-12">
-                                                            <div class="input-group">
-                                                                <span class="input-group-addon" id="basic-addon1">$</span>
-                                                                <input type="number" class="form-control" step="0.01" value="0.00" placeholder="0.00" aria-describedby="basic-addon1" formControlName="locationFee">
-                                                            </div>
-                                                            <app-field-error-display [field]="item.controls.locationFee" [errorMsg]="errorMsgs"> </app-field-error-display>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(shippingFG3.controls.countryName)">Allowable shipping destinations</label>
+                                        <div>
+                                            <select class="ddl_default w-100 form-control" formControlName='countryName'>
+                                                <option value='USA'>United States</option>
+                                            </select>
+                                            <!--Validation-->
+                                            <app-field-error-display [field]="shippingFG3.controls.countryName" [errorMsg]="errorMsgs"> </app-field-error-display>
+                                            <!--Validation-->
+                                        </div>
+                                        <div class="col-sm-12  p-2">
+                                            <div formArrayName="locations" class="well well-lg col-md-12 p-2" *ngFor="let item of shippingFG3.get('locations').controls; let i = index;">
+                                                <div [formGroupName]="i">
+                                                    <input type="checkbox" formControlName="locationType" />
+                                                    <label class="control-label" [ngClass]="validatorExt.displayFieldCss(item.controls.locationFee)">{{item.value.locationName}}</label>
+                                                    <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
+                                                    <div class="col-sm-12">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon" id="basic-addon1">$</span>
+                                                            <input type="number" class="form-control" step="0.01" value="0.00" placeholder="0.00" aria-describedby="basic-addon1" formControlName="locationFee">
                                                         </div>
+                                                        <app-field-error-display [field]="item.controls.locationFee" [errorMsg]="errorMsgs"> </app-field-error-display>
                                                     </div>
                                                 </div>
                                             </div>

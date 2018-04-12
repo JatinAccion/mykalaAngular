@@ -176,9 +176,30 @@ export class ReportsService {
     const url = `${environment.InquiryApi}/${environment.apis.inquiry.retailerInquiries}`.replace('{type}', inquiryType).replace('{category}', inquiryCategory);
     return this.http
       .get(url, { search: query, headers: this.headers })
-      .map(p => p.json())
-      .map(p => new ReportRetailerInquirys(p))
+      .map(p => this.handleResponse(p, ReportRetailerInquirys))
       .catch(this.handleError);
+  }
+  getInquiriesSummary(inquiryType: string, inquiryCategory: string, year: string, month?: string): Observable<ReportReviewSummary> {
+    this.headers = this.getHttpHeraders();
+    let url = `${environment.InquiryApi}/${environment.apis.inquiry.inquiriesSummaryReport}`.replace('{type}', inquiryType).replace('{category}', inquiryCategory).replace('{year}', year).replace('{month}', month || '');
+    if (inquiryCategory === '') {
+      url = url.replace('&inquiriesCategory=', '');
+    }
+    if (month === '') {
+      url = url.replace('&month=', '');
+    }
+
+    return this.http
+      .get(url, { headers: this.headers })
+      .map(p => this.handleResponse(p, ReportReviewSummary))
+      .catch(this.handleError);
+  }
+  private handleResponse<T>(response: any, type: (new (any) => T)): T {
+    if (response.text() === '') {
+      return new type(null);
+    } else {
+      return new type(response.json());
+    }
   }
   private handleError(error: any) {
     // in a real world app, we may send the server to some remote logging infrastructure
