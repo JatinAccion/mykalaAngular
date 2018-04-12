@@ -6,7 +6,7 @@
   <div *ngIf="offers != undefined || reviews != undefined; else noOffer">
     <!--Get Offer Block-->
     <ng-container *ngFor="let offer of offers">
-      <div [ngClass]="{'myCart-list':offer.unRead, 'myCart-list-nobg':!offer.unRead}" *ngIf="offer.getOffersResponse.length > 0" (click)="goToPage(offer, 'offer')">
+      <div class="cursor" [ngClass]="{'myCart-list':offer.unRead, 'myCart-list-nobg':!offer.unRead}" *ngIf="offer.getOffersResponse.length > 0" (click)="goToPage(offer, 'offer')">
         <div class="mb-3">
           <!--Expire Soon False-->
           <span *ngIf="!offer.expireSoon; else showDefault">
@@ -71,7 +71,7 @@
     <!--Order Shipment Block-->
 
     <!--Reviews Block-->
-    <div [ngClass]="{'myCart-list':review.unRead, 'myCart-list-nobg':!review.unRead}" *ngFor="let review of reviews" (click)="goToPage(review, 'review')">
+    <div class="cursor" [ngClass]="{'myCart-list':review.unRead, 'myCart-list-nobg':!review.unRead}" *ngFor="let review of reviews" (click)="goToPage(review, 'review'); core.getProductDetails(review.productId)">
       <small class="pull-right colorlightGray">{{getFullDate(review.reviewDate)}}</small>
       <div class="mb-2">You reviewed
         <strong>{{review.productName}}</strong>

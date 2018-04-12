@@ -82,7 +82,7 @@ export class MyNewsAlertsComponent implements OnInit {
     //Reviews
     else {
       this.myalerts.updateReview(data.consumerReviewId).subscribe((res) => {
-        this.route.navigateByUrl('/view-product');
+        console.log(res)
       }, (err) => {
         console.log(err)
       })

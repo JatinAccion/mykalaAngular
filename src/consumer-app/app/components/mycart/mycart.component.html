@@ -8,11 +8,11 @@
       <h4 class="subtitle" id="{{item.retailerId}}">{{item.retailerName}}</h4>
       <div class="row">
         <div class="col-sm-2 col-3 pr-0">
-          <img [src]="item.productImage" class="img-fluid" />
+          <img [src]="item.productImage" (click)="core.getProductDetails(item.productId)" class="img-fluid cursor" />
         </div>
         <div class="col-sm-7 col-9 pl-4">
           <div id="{{item.productId}}">
-            <strong>{{item.productName}}</strong>
+            <strong (click)="core.getProductDetails(item.productId)" class="cursor">{{item.productName}}</strong>
           </div>
           <div class="row pt-2 pb-2">
             <div class="col-sm-3 col-3 colorlightGray">Quantity:</div>
@@ -96,11 +96,11 @@
       <h4 class="subtitle" id="{{item.retailerId}}">{{item.retailerName}}</h4>
       <div class="row">
         <div class="col-sm-2 pr-0">
-          <img [src]="item.productImage" class="img-fluid" />
+          <img [src]="item.productImage" (click)="core.getProductDetails(item.productId)" class="img-fluid cursor" />
         </div>
         <div class="col-sm-7 pl-4">
           <div id="{{item.productId}}">
-            <strong>{{item.productName}}</strong>
+            <strong (click)="core.getProductDetails(item.productId)" class="cursor">{{item.productName}}</strong>
           </div>
           <div class="row pt-2 pb-2">
             <div class="col-sm-3 colorlightGray">Quantity:</div>

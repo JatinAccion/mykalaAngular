@@ -68,7 +68,7 @@ export class Step4Component implements OnInit {
 
   next() {
     if (window.localStorage['token'] == undefined) {
-      let action = confirm("You must be logged in to checkout your cart items!\n\nDo you want to login now ?");
+      let action = confirm("You must be logged in to check the avilable offers!\n\nDo you want to login now ?");
       if (action == true) {
         window.localStorage['tbnAfterLogin'] = window.location.hash.split("#")[1];
         this.route.navigateByUrl('/login')

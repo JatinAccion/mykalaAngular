@@ -38,7 +38,8 @@ export const apiNames = {
         getPlaces: 'places',
         getCategories: 'categories',
         getSubCategories: 'subCategories',
-        getTypes: 'types'
+        getTypes: 'types',
+        getProduct: 'productDetails'
     },
     getOffers: {
         confirmOffer: 'getOffersRequest',

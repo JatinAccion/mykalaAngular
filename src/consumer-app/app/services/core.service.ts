@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { User } from '../../../models/user';
+import { environment } from '../../environments/environment';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class CoreService {
+  private BASE_URL: string = environment.productList;
   hideUser: boolean = true;
   navVisible: boolean = true;
   logoutVisible: boolean = false;
@@ -15,7 +18,7 @@ export class CoreService {
   showPageMsg: boolean = false;
   noOfItemsInCart: boolean = false;
   userImg: string;
-  constructor(private http: Http) { }
+  constructor(private http: Http, private route: Router) { }
 
   hide() { this.navVisible = false; }
 
@@ -85,6 +88,27 @@ export class CoreService {
       return true;
     }
     else return false;
+  }
+
+  getDetails(productId) {
+    const url: string = `${environment.productList}/${environment.apis.products.getProduct}/${productId}`;
+    return this.http.get(url).map((res) => res.json());
+  }
+
+  getProductDetails(productId) {
+    this.getDetails(productId).subscribe((res) => {
+      let updateStorage = JSON.parse(window.localStorage['levelSelections']);
+      let tile = { deliveryMethod: "", product: res, retailerName: "", retailerReturns: "" }
+      updateStorage.subType.id = tile.product.kalaUniqueId;
+      updateStorage.subType.name = tile.product.productName;
+      updateStorage.subType.text = tile.product.productName;
+      updateStorage.subType.level = "5";
+      window.localStorage['levelSelections'] = JSON.stringify(updateStorage);
+      window.localStorage['selectedProduct'] = JSON.stringify(tile);
+      this.route.navigateByUrl("/view-product");
+    }, (err) => {
+      console.log(err)
+    })
   }
 
 }

@@ -32,6 +32,8 @@ export class Step3Component implements OnInit {
   viewSavedData;
   minPrice;
   maxPrice;
+  loaderZipcodes: boolean = false;
+  zipcodeRequired: boolean = false;
 
   constructor(
     private route: Router,
@@ -84,6 +86,7 @@ export class Step3Component implements OnInit {
       this.showExistingLocation = false;
     }
     else {
+      this.loaderZipcodes = true;
       let userData = JSON.parse(window.localStorage['userInfo'])
       this.existingLocation = [];
       this.goService.getExistingLocations(userData.userId).subscribe(res => {
@@ -95,8 +98,29 @@ export class Step3Component implements OnInit {
             "state": res[i].state
           });
         }
+        this.loaderZipcodes = false;
         this.showExistingLocation = true;
-        console.log(this.existingLocation);
+        if (this.viewSavedData != undefined) {
+          setTimeout(() => {
+            this.getCSC = [];
+            let deliveryLocation = document.getElementsByClassName("deliveryLocations")
+            for (var i = 0; i < this.viewSavedData[0].location.length; i++) {
+              let location = this.viewSavedData[0].location[i];
+              for (var j = 0; j < deliveryLocation.length; j++) {
+                if (location.zipcode == deliveryLocation[j].innerHTML) {
+                  deliveryLocation[j].classList.add("categ_outline_red");
+                  deliveryLocation[j].classList.remove("categ_outline_gray");
+                  this.getCSC.push({
+                    "zipcode": location.zipcode,
+                    "country": location.country,
+                    "state": location.state
+                  });
+                  break;
+                }
+              }
+            }
+          }, 1000)
+        }
       });
     }
 
@@ -125,6 +149,7 @@ export class Step3Component implements OnInit {
   };
 
   selectAddress(address, e) {
+    this.zipcodeRequired = false;
     this.getCSC = [];
     let elements = document.getElementsByClassName("deliveryLocations");
     for (var i = 0; i < elements.length; i++) {
@@ -151,6 +176,7 @@ export class Step3Component implements OnInit {
   };
 
   _keuyp(e) {
+    this.zipcodeRequired = false;
     this.getCSC = [];
     this.fetchGeoCode = '';
     let input = e.currentTarget;
@@ -167,7 +193,6 @@ export class Step3Component implements OnInit {
           this.loaderLocation = false;
           input.removeAttribute('readonly');
           this.fetchGeoCode = data.results[0].formatted_address;
-          console.log(this.fetchGeoCode);
           this.getCSC.push({
             "zipcode": this.getOffer_orderInfo.controls.zipCode.value.trim(),
             "country": this.fetchGeoCode.split(',')[2].trim(),
@@ -187,16 +212,21 @@ export class Step3Component implements OnInit {
   };
 
   next() {
-    if (this.getCSC.length == 0) this.getCSC = this.existingLocation;
-    this.Step3SelectedValues.location = this.getCSC;
-    this.Step3SelectedValues.price.minPrice = this.getOffer_orderInfo.controls.minPrice.value;
-    this.Step3SelectedValues.price.maxPrice = this.getOffer_orderInfo.controls.maxPrice.value;
-    this.Step3SelectedValues.delivery = this.getOffer_orderInfo.controls.delivery.value;
-    this.Step3SelectedValues.instruction = this.getOffer_orderInfo.controls.instruction.value;
-    this.Step3Modal.getoffer_3 = new Array<OfferInfo3>();
-    this.Step3Modal.getoffer_3.push(new OfferInfo3(this.Step3SelectedValues.price, this.Step3SelectedValues.delivery, this.Step3SelectedValues.instruction, this.Step3SelectedValues.location))
-    window.localStorage['GetOfferStep_3'] = JSON.stringify(this.Step3Modal.getoffer_3);
-    this.route.navigate(['/getoffer', 'step4']);
+    if (this.getCSC.length == 0) {
+      this.zipcodeRequired = true;
+      return false;
+    }
+    else {
+      this.Step3SelectedValues.location = this.getCSC;
+      this.Step3SelectedValues.price.minPrice = this.getOffer_orderInfo.controls.minPrice.value;
+      this.Step3SelectedValues.price.maxPrice = this.getOffer_orderInfo.controls.maxPrice.value;
+      this.Step3SelectedValues.delivery = this.getOffer_orderInfo.controls.delivery.value;
+      this.Step3SelectedValues.instruction = this.getOffer_orderInfo.controls.instruction.value;
+      this.Step3Modal.getoffer_3 = new Array<OfferInfo3>();
+      this.Step3Modal.getoffer_3.push(new OfferInfo3(this.Step3SelectedValues.price, this.Step3SelectedValues.delivery, this.Step3SelectedValues.instruction, this.Step3SelectedValues.location))
+      window.localStorage['GetOfferStep_3'] = JSON.stringify(this.Step3Modal.getoffer_3);
+      this.route.navigate(['/getoffer', 'step4']);
+    }
   };
 
 }

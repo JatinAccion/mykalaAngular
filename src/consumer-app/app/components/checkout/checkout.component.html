@@ -162,7 +162,7 @@
             <div class="row p-2">
               <div class="col-sm-3">
                 <div class="prodImageContainer">
-                  <img [src]="orders.productImage" class="img-fluid" />
+                  <img [src]="orders.productImage" (click)="core.getProductDetails(orders.productId)" class="img-fluid cursor" />
                   <div class="checkoutPrice">
                     <span>Price</span>
                     <br />
@@ -171,7 +171,7 @@
                 </div>
               </div>
               <div class="col-sm-5">
-                <strong>{{orders.productName}}</strong>
+                <strong (click)="core.getProductDetails(orders.productId)" class="cursor">{{orders.productName}}</strong>
               </div>
               <div class="col-sm-2 text-right pr-5">{{orders.quantity}}</div>
               <div class="col-sm-2 text-left">{{getPerItemTotal(orders.price, orders.quantity) | currency}}</div>
