@@ -98,8 +98,8 @@
           </p>
 
           <!--Validation-->
-          <div *ngIf="getOffer_orderInfo.controls.zipCode.dirty || getOffer_orderInfo.controls.zipCode.touched">
-            <div *ngIf="getOffer_orderInfo.controls.zipCode.value && getOffer_orderInfo.controls.zipCode.errors && (!getOffer_orderInfo.controls.zipCode.minlength || !getOffer_orderInfo.controls.zipCode.maxlength)" class="alert alert-danger errorMessages">
+          <div *ngIf="enterZipcode">
+            <div *ngIf="getOffer_orderInfo.controls.zipCode.value && getOffer_orderInfo.controls.zipCode.errors && (!getOffer_orderInfo.controls.zipCode.minlength || !getOffer_orderInfo.controls.zipCode.maxlength)" style="font-size: 15px" class="colorred">
               Please enter a valid Zip Code
             </div>
           </div>

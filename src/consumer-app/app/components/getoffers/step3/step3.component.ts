@@ -34,6 +34,7 @@ export class Step3Component implements OnInit {
   maxPrice;
   loaderZipcodes: boolean = false;
   zipcodeRequired: boolean = false;
+  enterZipcode: boolean = false;
 
   constructor(
     private route: Router,
@@ -119,7 +120,7 @@ export class Step3Component implements OnInit {
                 }
               }
             }
-          }, 1000)
+          }, 500)
         }
       });
     }
@@ -149,6 +150,7 @@ export class Step3Component implements OnInit {
   };
 
   selectAddress(address, e) {
+    this.enterZipcode = false;
     this.zipcodeRequired = false;
     this.getCSC = [];
     let elements = document.getElementsByClassName("deliveryLocations");
@@ -172,15 +174,31 @@ export class Step3Component implements OnInit {
   addNewLocation(e) {
     this.inputNewLocation = !this.inputNewLocation;
     if (this.inputNewLocation) e.currentTarget.innerHTML = "x";
-    else e.currentTarget.innerHTML = "+";
+    else {
+      e.currentTarget.innerHTML = "+";
+      this.enterZipcode = false;
+    }
   };
+
+  removeSelectedAddress() {
+    let deliveryLocation = document.getElementsByClassName("deliveryLocations")
+    for (var i = 0; i < deliveryLocation.length; i++) {
+      if (deliveryLocation[i].classList.contains("categ_outline_red")) {
+        deliveryLocation[i].classList.remove("categ_outline_red");
+        deliveryLocation[i].classList.add("categ_outline_gray");
+        break;
+      }
+    }
+  }
 
   _keuyp(e) {
     this.zipcodeRequired = false;
     this.getCSC = [];
     this.fetchGeoCode = '';
     let input = e.currentTarget;
+    this.removeSelectedAddress();
     if (this.getOffer_orderInfo.controls.zipCode.value.length == 5) {
+      this.enterZipcode = false;
       this.loaderLocation = true;
       input.setAttribute('readonly', true);
       this.goService.getLocation(this.getOffer_orderInfo.controls.zipCode.value)
@@ -200,6 +218,7 @@ export class Step3Component implements OnInit {
           });
         });
     }
+    else this.enterZipcode = true;
   };
 
   skip() {
