@@ -110,6 +110,7 @@ export const apiNames = {
         inquiriesReport: 'reports/inquiries/{type}/{year}/{month}',
         inquiriesCategoryReport: 'reports/inquiriesCategory/{type}/{year}/{month}',
         retailerInquiries: 'reports/retailerInquiries/{type}/{category}',
+        inquiriesSummaryReport: 'reports/inquiriesTypeAndCategory?inquiriesType={type}&year={year}&month={month}&inquiriesCategory={category}'
 
     }
 };

@@ -3,10 +3,16 @@ export class ReportReviewSummary {
     public avgReviewCount: ReviewItem[];
     public reviewOrderAggregation: ReviewItem[];
     constructor(obj?: any) {
+        this.avgReviewCount = new Array<ReviewItem>();
+        this.reviewOrderAggregation = new Array<ReviewItem>();
         if (obj) {
             this.avg = obj.avg;
-            this.avgReviewCount = obj.avgReviewCount.map(p => new ReviewItem(p));
-            this.reviewOrderAggregation = obj.reviewOrderAggregation.map(p => new ReviewItem(p));
+            if (obj.avgReviewCount) {
+                this.avgReviewCount = obj.avgReviewCount.map(p => new ReviewItem(p));
+            }
+            if (obj.reviewOrderAggregation) {
+                this.reviewOrderAggregation = obj.reviewOrderAggregation.map(p => new ReviewItem(p));
+            }
         }
     }
 }
@@ -16,6 +22,7 @@ export class ReviewItem {
     public total: number;
     public completed: number;
     public avg: number;
+    public count: number;
     constructor(obj?: any) {
         if (obj) {
             this.year = obj.year;
@@ -23,6 +30,7 @@ export class ReviewItem {
             this.total = obj.total;
             this.completed = obj.completed;
             this.avg = obj.avg;
+            this.count = obj.count;
         }
     }
 }

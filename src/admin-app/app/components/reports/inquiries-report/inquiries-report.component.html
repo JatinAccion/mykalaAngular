@@ -15,14 +15,14 @@
             <div class="backgroundWhite">
                 <div class="text-center p-2">
                     Total Inquiries
-                    <span class="float-right">
+                    <span class="floaght">
                         <a>
                             <i class="fa fa-refresh" aria-hidden="true"></i>
                         </a>
                     </span>
                     <hr class="m-2" />
                 </div>
-                <div class="row pl-3 pr-2 pb-2">
+                <div class="row pl-3 pb-2">
                     <div class="col-sm-2">
                         <a (click)="goto('one',-1)" *ngIf="!widget.one.first">
                             <i class="fa fa-caret-left caretFont" aria-hidden="true"></i>
@@ -157,43 +157,43 @@
         </div>
     </div>
     <div class="row mt-5">
-        <div class="col-sm-6 backgroundWhite">
+        <div class="col-sm-7 backgroundWhite">
             <chart [type]="type_byType" [data]="data_byType" [options]="options_byType" style="width: 100%;height:400px;"></chart>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-5">
             <div class="backgroundWhite ">
                 <div class="row">
-                    <div class="text-center p-2 col-sm-6">
-                        Top Inquiries, by Seller
-                    </div>
-                    <div class="col-sm-6 text-right">
-                        <div class="col-sm-12">
-                            <input type="text" placeholder="search by seller" class="form-control txt_Search" [(ngModel)]="retailerName" (keyup.enter)="getPage(1)" />
-                        </div>
-                        <div class="col-sm-12">
-                            <select class="ddl_default form-control" [(ngModel)]="inquiryComplaintCategory" (change)="getPage(1)">
-                                <option value=''>Complaints</option>
-                                <option *ngFor="let option of inquiryComplaintCategorys" value="{{option}}">
-                                    {{option}}
-                                </option>
-                            </select>
-                        </div>
+                    <div class="text-left col-sm-12 pt-2 pl-4">
+                        <strong>Top Inquiries, by Seller</strong>
                     </div>
                 </div>
-                <div class="row p-2 m-2" *ngIf="retailerInquiries" >
+                <div class="row px-4 text-right">
+                    <div class="col-sm-6">
+                        <input type="text" placeholder="search by seller" class="form-control txt_Search" [(ngModel)]="retailerName" (keyup.enter)="getPage(1)" />
+                    </div>
+                    <div class="col-sm-6">
+                        <select class="ddl_default form-control" [(ngModel)]="inquiryComplaintCategory" (change)="getPage(1)">
+                            <option value=''>Complaints</option>
+                            <option *ngFor="let option of inquiryComplaintCategorys" value="{{option}}">
+                                {{option}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row p-2 m-2" *ngIf="retailerInquiries">
                     <table class="p-0 w-100" width="100">
                         <thead>
                             <tr>
                                 <th width="40%">Seller</th>
-                                <th width="30%">Complaints</th>
-                                <th width="30%">Open</th>
+                                <th width="30%" class="text-right">Complaints</th>
+                                <th width="30%" class="text-right">Open</th>
                             </tr>
                         </thead>
                         <tbody *ngFor="let retailerInquiry of retailerInquiries.content | paginate: { id: 'server', itemsPerPage: retailerInquiries.size, currentPage: retailerInquiries.number + 1 , totalItems: retailerInquiries.totalElements }; let idx = index">
                             <tr>
                                 <td>{{retailerInquiry.businessName}}</td>
-                                <td>{{retailerInquiry.count}}</td>
-                                <td>{{retailerInquiry.open }}</td>
+                                <td class="text-right pr-2">{{retailerInquiry.count}}</td>
+                                <td class="text-right pr-2">{{retailerInquiry.open }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -202,33 +202,41 @@
                     </div>
                 </div>
             </div>
-            <div class="row p-2 mt-3">
-
-            </div>
-            <div class="row p-2">
-
-            </div>
         </div>
     </div>
-    <div class="row p-2 mt-3">
-        <div class="col-sm-2">
-            <select class="ddl_default form-control" [(ngModel)]="inquiryType" (change)="inquiryTypeChange()">
+    <div class="row py-2  mt-3">
+        <div class="col-sm-2 px-0">
+            <select class="ddl_default form-control" [(ngModel)]="summaryInquiryType" (change)="inquiryTypeChange()">
                 <option value=''>Inquiry Type</option>
                 <option *ngFor="let option of inquiryTypes" value="{{option.name}}">
                     {{option.value}}
                 </option>
             </select>
         </div>
-        <div class="col-sm-3">
-            <select class="ddl_default form-control" [(ngModel)]="inquiryCategory" (change)="inquiryCategoryChange()">
+        <div class="col-sm-3 ">
+            <select class="ddl_default form-control" [(ngModel)]="summaryInquiryCategory" (change)="inquiryCategoryChange()">
                 <option value=''>Inquiry Category</option>
                 <option *ngFor="let option of inquiryCategorys" value="{{option}}">
                     {{option}}
                 </option>
             </select>
         </div>
+        <div class="col-sm-3 text-right">
+        </div>
+        <div class="col-sm-2 text-right">
+            <select *ngIf="reportModel=='Monthly'" class="ddl_default form-control" [(ngModel)]="summaryMonth" (change)="getInquiriesSummary(1)">
+                <option *ngFor="let option of monthLabels" [ngValue]="option.value">
+                    {{option.name}}
+                </option>
+            </select>
+        </div>
+        <div class="col-sm-2 px-2 text-right">
+            <input class="form-control " type="number" [(ngModel)]="summaryYear" (input)="getInquiriesSummary(1)">
+        </div>
     </div>
-    <div class="row p-2 mt-3 backgroundWhite">
-        <chart [type]="type_byCategory" [data]="data_byCategory" [options]="options_byCategory" style="width: 100%;height:400px;"></chart>
+    <div class="row mt-3 pr-2">
+        <div class="col-sm-12 backgroundWhite">
+            <chart [type]="type_byCategory" [data]="data_byCategory" [options]="options_byCategory" style="width: 95%;height:400px;"></chart>
+        </div>
     </div>
 </div>

@@ -4,6 +4,7 @@ import { ReportsService } from '../reports.service';
 import { InquiryTypes } from '../../../../../models/inquiry';
 import DateUtils from '../../../../../common/utils';
 import { forkJoin } from 'rxjs/observable/forkJoin';
+import { ReportReviewSummary } from '../../../../../models/report-review';
 
 @Component({
   selector: 'app-inquiries-report',
@@ -12,9 +13,10 @@ import { forkJoin } from 'rxjs/observable/forkJoin';
   encapsulation: ViewEncapsulation.None
 })
 export class InquiriesReportComponent implements OnInit {
-  retailerInquiries: ReportRetailerInquirys;
   loading: boolean;
-  orders: ReportOrders;
+  retailerInquiriesSummary: ReportReviewSummary;
+  retailerInquiries: ReportRetailerInquirys;
+
   isCollapsed = true;
   inquiryCategorys: string[];
   inquiryTypes = InquiryTypes;
@@ -33,6 +35,10 @@ export class InquiriesReportComponent implements OnInit {
   rating_data: number[];
   currentYear = new Date().getFullYear();
   currentMonth = new Date().getMonth() + 1;
+  summaryYear = new Date().getFullYear();
+  summaryMonth = new Date().getMonth() + 1;
+  summaryInquiryCategory = '';
+  summaryInquiryType = '';
   retailerName = '';
   ratings = [1, 2, 3, 4, 5];
   details = { widgetType: 'one', year: this.currentYear, month: this.currentMonth };
@@ -99,7 +105,7 @@ export class InquiriesReportComponent implements OnInit {
           const allData = data.datasets[tooltipItem.datasetIndex].data;
           const tooltipLabel = data.labels[tooltipItem.index];
           const tooltipData = allData[tooltipItem.index];
-          const total = data.datasets[0]._meta[0].data.filter(p => !p.hidden).map(p => p._index).map(p => allData[p]).reduce((a, b) => a + b);
+          const total = Object.values(data.datasets[0]._meta)[0].data.filter(p => !p.hidden).map(p => p._index).map(p => allData[p]).reduce((a, b) => a + b);
 
           const tooltipPercentage = Math.round((tooltipData / total) * 100);
           return tooltipLabel + ': ' + tooltipData + ' (' + tooltipPercentage + '%)';
@@ -109,7 +115,7 @@ export class InquiriesReportComponent implements OnInit {
   };
   type_byCategory = 'line';
   data_byCategory = {
-    labels: this.yearLabels,
+    labels: this.reportModel === 'Monthly' ? this.monthLabels.map(p => new Date(this.currentYear, p.value, 1)) : this.yearLabels.map(p => new Date(p, 0, 1)),
     datasets: [
       {
         type: 'line',
@@ -118,14 +124,14 @@ export class InquiriesReportComponent implements OnInit {
         borderColor: this.colors[3],
         borderDash: [5, 5],
         borderWidth: 2,
-        data: this.yearLabels.map(p => this.rating_avg)
+        data: this.monthLabels.map(p => this.rating_avg)
       },
       {
         type: 'line',
         label: this.labels[1],
         backgroundColor: this.colors[3],
         fill: false,
-        data: [0, 0, 5, 1, 3]
+        data: [0, 0, 5, 1, 3, 0, 5, 1, 3, 0, 5]
       }
     ]
   };
@@ -140,21 +146,16 @@ export class InquiriesReportComponent implements OnInit {
       display: true,
       position: 'right',
     },
-    yAxes: [{
-      stacked: true,
-      gridLines: {
+    scales: {
+      xAxes: [{
         display: true,
-        color: 'rgba(255,99,132,0.2)'
-      },
-      ticks: {
-        min: 0,
-        callback: function (value, index, values) {
-          if (Math.floor(value) === value) {
-            return value;
-          }
+        type: 'time',
+        time: {
+          unit: this.reportModel === 'Monthly' ? 'month' : 'year',
+          format: this.reportModel === 'Monthly' ? 'MMM YYYY' : 'YYYY',
         }
-      }
-    }],
+      }],
+    },
     plugins: {
       datalabels: {
         color: 'black',
@@ -183,7 +184,7 @@ export class InquiriesReportComponent implements OnInit {
           const allData = data.datasets[tooltipItem.datasetIndex].data;
           const tooltipLabel = data.labels[tooltipItem.index];
           const tooltipData = allData[tooltipItem.index];
-          const total = data.datasets[0]._meta[0].data.filter(p => !p.hidden).map(p => p._index).map(p => allData[p]).reduce((a, b) => a + b);
+          const total = Object.values(data.datasets[0]._meta)[0].data.filter(p => !p.hidden).map(p => p._index).map(p => allData[p]).reduce((a, b) => a + b);
 
           const tooltipPercentage = Math.round((tooltipData / total) * 100);
           return tooltipLabel + ': ' + tooltipData + ' (' + tooltipPercentage + '%)';
@@ -192,13 +193,15 @@ export class InquiriesReportComponent implements OnInit {
     }
   };
   constructor(private reportsService: ReportsService) {
-    this.orders = new ReportOrders();
+    this.retailerInquiriesSummary = new ReportReviewSummary();
+    this.retailerInquiries = new ReportRetailerInquirys();
   }
 
   ngOnInit() {
     this.getData();
     this.getDetails('one');
     this.getPage(1);
+    this.getInquiriesSummary(1);
   }
   getData() {
     let year = this.currentYear;
@@ -332,9 +335,106 @@ export class InquiriesReportComponent implements OnInit {
     });
   }
   inquiryTypeChange() {
-    this.inquiryCategorys = this.inquiryTypes.filter(p => p.name === this.inquiryType)[0].categories;
+    this.inquiryCategorys = this.inquiryTypes.filter(p => p.name === this.summaryInquiryType)[0].categories;
+    this.getInquiriesSummary(1);
   }
   inquiryCategoryChange() {
-    this.inquiryCategorys = this.inquiryTypes.filter(p => p.name === this.inquiryType)[0].categories;
+    this.getInquiriesSummary(1);
   }
+  getInquiriesSummary(page: number) {
+    if (!this.summaryInquiryType) { return; }
+    this.loading = true;
+    this.reportsService.getInquiriesSummary(this.summaryInquiryType, this.summaryInquiryCategory, this.summaryYear.toString(), this.reportModel === 'Monthly' ? this.summaryMonth.toString() : '').subscribe(res => {
+      this.retailerInquiriesSummary = res;
+      let month = this.summaryMonth + 1;
+      let year = this.summaryYear;
+      const monthLabels = [];
+      const yearLabels = Array.apply(null, { length: this.reportYears }).fill(this.summaryYear).map((p, i) => p - i).reverse();
+      let data = [];
+      if (this.reportModel === 'Monthly') {
+        for (let i = 0; i < 12; i++) {
+          monthLabels.push({ month: month, year: year });
+          const filter = res.avgReviewCount.filter(p => p.month === month);
+          data.push(filter.length > 0 ? filter[0].count : 0);
+          if (month === 12) { month = 1; year++; } else { month++; }
+        }
+      } else {
+        data = yearLabels.map(p => res.avgReviewCount.filter(q => q.year === p).length > 0 ? res.avgReviewCount.filter(q => q.year === p)[0].count : 0);
+      }
+      this.loading = false;
+      this.data_byCategory = {
+        labels: this.reportModel === 'Monthly' ? monthLabels.map(p => new Date(p.year, p.month, 1)) : yearLabels.map(p => new Date(p, 0, 1)),
+        datasets: [
+          {
+            type: 'line',
+            label: this.labels[0],
+            fill: false,
+            borderColor: this.colors[3],
+            borderDash: [5, 5],
+            borderWidth: 2,
+            data: this.reportModel === 'Monthly' ? this.monthLabels.map(p => res.avg) : this.yearLabels.map(p => res.avg)
+          },
+          {
+            type: 'line',
+            label: this.labels[1],
+            backgroundColor: this.colors[3],
+            fill: false,
+            data: data // [0, 0, 5, 1, 3]
+          }
+        ]
+      };
+      this.options_byCategory = {
+        responsive: true,
+        maintainAspectRatio: false,
+        title: {
+          display: true,
+          text: 'Consumer Inquiries, by Type'
+        },
+        legend: {
+          display: true,
+          position: 'right',
+        },
+        scales: {
+          xAxes: [{
+            display: true,
+            type: 'time',
+            time: {
+              unit: this.reportModel === 'Monthly' ? 'month' : 'year',
+              format: this.reportModel === 'Monthly' ? 'MMM YYYY' : 'YYYY',
+            }
+          }],
+        },
+        plugins: {
+          datalabels: {
+            color: 'black',
+            backgroundColor: 'rgba(255, 255, 255, 0.7)',
+            borderColor: 'rgba(128, 128, 128, 0.7)',
+            borderRadius: 4,
+            borderWidth: 1,
+            display: function (context) {
+              return true;
+            },
+            font: {
+              weight: 'bold'
+            },
+            formatter: Math.round
+          }
+        },
+        tooltips: {
+          callbacks: {
+            label: function (tooltipItem, data) {
+              const allData = data.datasets[tooltipItem.datasetIndex].data;
+              const tooltipLabel = data.labels[tooltipItem.index];
+              const tooltipData = allData[tooltipItem.index];
+              const total = Object.values(data.datasets[0]._meta)[0].data.filter(p => !p.hidden).map(p => p._index).map(p => allData[p]).reduce((a, b) => a + b);
+
+              const tooltipPercentage = Math.round((tooltipData / total) * 100);
+              return tooltipLabel + ': ' + tooltipData + ' (' + tooltipPercentage + '%)';
+            }
+          }
+        }
+      };
+    });
+  }
+
 }

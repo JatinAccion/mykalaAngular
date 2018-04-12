@@ -68,7 +68,7 @@ export class SalesReportComponent implements OnInit {
           const allData = data.datasets[tooltipItem.datasetIndex].data;
           const tooltipLabel = data.labels[tooltipItem.index];
           const tooltipData = allData[tooltipItem.index];
-          const total = data.datasets[0]._meta[0].data.filter(p => !p.hidden).map(p => p._index).map(p => allData[p]).reduce((a, b) => a + b);
+          const total = Object.values(data.datasets[0]._meta)[0].data.filter(p => !p.hidden).map(p => p._index).map(p => allData[p]).reduce((a, b) => a + b);
 
           const tooltipPercentage = Math.round((tooltipData / total) * 100);
           return tooltipLabel + ': ' + tooltipData + ' (' + tooltipPercentage + '%)';
