@@ -87,57 +87,49 @@ export class MyordersComponent implements OnInit {
 
   refineMyorderModal() {
     for (var i = 0; i < this.myorderModal.length; i++) {
-      if (this.myorderModal[i].customerOrderStatus == 'ORDERPENDING') {
-        this.myorderModal[i].customerOrderStatus = 'ORDER PENDING';
-        this.myorderModal[i].leaveReview = true;
-        this.myorderModal[i].cancelOrder = false;
-        this.myorderModal[i].trackOrder = true;
-        this.myorderModal[i].contactSupport = true;
-        for (var j = 0; j < this.myorderModal[i].orderItems.length; j++) {
-          let order = this.myorderModal[i].orderItems[j];
+      for (var j = 0; j < this.myorderModal[i].orderItems.length; j++) {
+        let order = this.myorderModal[i].orderItems[j];
+        if (order.productItemStatus == 'ORDERPROCESSED') {
+          this.myorderModal[i].orderItems[j].productItemStatus = 'ORDER PROCESSED';
+          this.myorderModal[i].orderItems[j].leaveReview = true;
+          this.myorderModal[i].orderItems[j].cancelOrder = true;
+          this.myorderModal[i].orderItems[j].contactSupport = false;
+          this.myorderModal[i].orderItems[j].trackOrder = true;
+          this.myorderModal[i].orderItems[j].showCustomerSupport = false;
+        }
+        else if (order.productItemStatus == 'ORDERSHIPPED') {
+          this.myorderModal[i].orderItems[j].productItemStatus = 'ORDER SHIPPED';
+          this.myorderModal[i].orderItems[j].leaveReview = true;
+          this.myorderModal[i].orderItems[j].cancelOrder = true;
+          this.myorderModal[i].orderItems[j].contactSupport = false;
+          this.myorderModal[i].orderItems[j].trackOrder = false;
+          this.myorderModal[i].orderItems[j].showCustomerSupport = false;
+        }
+        else if (order.productItemStatus == 'ORDERCANCELED') {
+          this.myorderModal[i].orderItems[j].productItemStatus = 'ORDER CANCELED';
+          this.myorderModal[i].orderItems[j].leaveReview = true;
+          this.myorderModal[i].orderItems[j].cancelOrder = true;
+          this.myorderModal[i].orderItems[j].contactSupport = true;
+          this.myorderModal[i].orderItems[j].trackOrder = true;
+          this.myorderModal[i].orderItems[j].showCustomerSupport = false;
+        }
+        else if (order.productItemStatus == 'ORDERDELIVERED') {
+          this.myorderModal[i].orderItems[j].productItemStatus = 'ORDER DELIVERED';
+          this.myorderModal[i].orderItems[j].leaveReview = false;
+          this.myorderModal[i].orderItems[j].cancelOrder = true;
+          this.myorderModal[i].orderItems[j].contactSupport = false;
+          this.myorderModal[i].orderItems[j].trackOrder = true;
+          this.myorderModal[i].orderItems[j].showCustomerSupport = false;
+        }
+        else {
+          //Order Pending
+          this.myorderModal[i].orderItems[j].productItemStatus = 'ORDER PENDING';
           this.myorderModal[i].orderItems[j].leaveReview = true;
           this.myorderModal[i].orderItems[j].cancelOrder = false;
           this.myorderModal[i].orderItems[j].contactSupport = true;
           this.myorderModal[i].orderItems[j].trackOrder = true;
           this.myorderModal[i].orderItems[j].showCustomerSupport = false;
           this.disableCancel(this.myorderModal[i], this.myorderModal[i].orderItems[j])
-        }
-      }
-      else {
-        for (var j = 0; j < this.myorderModal[i].orderItems.length; j++) {
-          let order = this.myorderModal[i].orderItems[j];
-          if (order.productItemStatus == 'ORDERPROCESSED') {
-            this.myorderModal[i].orderItems[j].productItemStatus = 'ORDER PROCESSED';
-            this.myorderModal[i].orderItems[j].leaveReview = true;
-            this.myorderModal[i].orderItems[j].cancelOrder = true;
-            this.myorderModal[i].orderItems[j].contactSupport = false;
-            this.myorderModal[i].orderItems[j].trackOrder = true;
-            this.myorderModal[i].orderItems[j].showCustomerSupport = false;
-          }
-          else if (order.productItemStatus == 'ORDERSHIPPED') {
-            this.myorderModal[i].orderItems[j].productItemStatus = 'ORDER SHIPPED';
-            this.myorderModal[i].orderItems[j].leaveReview = true;
-            this.myorderModal[i].orderItems[j].cancelOrder = true;
-            this.myorderModal[i].orderItems[j].contactSupport = false;
-            this.myorderModal[i].orderItems[j].trackOrder = false;
-            this.myorderModal[i].orderItems[j].showCustomerSupport = false;
-          }
-          else if (order.productItemStatus == 'ORDERCANCELED') {
-            this.myorderModal[i].orderItems[j].productItemStatus = 'ORDER CANCELED';
-            this.myorderModal[i].orderItems[j].leaveReview = true;
-            this.myorderModal[i].orderItems[j].cancelOrder = true;
-            this.myorderModal[i].orderItems[j].contactSupport = true;
-            this.myorderModal[i].orderItems[j].trackOrder = true;
-            this.myorderModal[i].orderItems[j].showCustomerSupport = false;
-          }
-          else if (order.productItemStatus == 'ORDERDELIVERED') {
-            this.myorderModal[i].orderItems[j].productItemStatus = 'ORDER DELIVERED';
-            this.myorderModal[i].orderItems[j].leaveReview = false;
-            this.myorderModal[i].orderItems[j].cancelOrder = true;
-            this.myorderModal[i].orderItems[j].contactSupport = false;
-            this.myorderModal[i].orderItems[j].trackOrder = true;
-            this.myorderModal[i].orderItems[j].showCustomerSupport = false;
-          }
         }
       }
     }

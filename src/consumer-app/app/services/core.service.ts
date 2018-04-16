@@ -19,6 +19,7 @@ export class CoreService {
   showPageMsg: boolean = false;
   noOfItemsInCart: boolean = false;
   userImg: string;
+  loaderSearch: boolean = false;
   constructor(
     private http: Http,
     private route: Router,
@@ -115,8 +116,24 @@ export class CoreService {
     })
   }
 
-  openModal(content) {
-    this.modalService.open(content);
+  openModal(content, size?: any) {
+    this.modalService.open(content, { size: size });
+  }
+
+  searchProduct(text) {
+    //const url: string = `${environment.productList}/${environment.apis.products.getProduct}/${text}`;
+    const BASE_URL: string = 'https://192.168.168.178:9089/api/products';
+    const url: string = `${BASE_URL}/${environment.apis.products.search}=${text}`;
+    return this.http.get(url).map((res) => res.json());
+  }
+
+  search(text) {
+    this.loaderSearch = true;
+    this.searchProduct(text).subscribe((res) => {
+      this.loaderSearch = false;
+    }, (err) => {
+      this.loaderSearch = false;
+    })
   }
 
 }

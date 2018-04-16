@@ -27,7 +27,7 @@
     <div class="col-sm-6 text-left">{{Step4Summary.subCategory.name}}</div>
   </div>
 
-  <!-- <div class="row" *ngIf="Step1Data != undefined">
+  <div class="row" *ngIf="Step1Data != undefined">
     <div class="col-sm-3"></div>
     <div class="col-sm-3 colorlightGray">
       <p>Type:</p>
@@ -35,18 +35,18 @@
     <div class="col-sm-6 text-left">
       <span *ngFor="let type of Step4Summary.type; let isLast=last">{{type.name}}{{isLast ? '' : ', '}}</span>
     </div>
-  </div> -->
+  </div>
   <!--Step 1 View-->
 
   <!--Step 2 View-->
   <div class="row" *ngIf="Step2Data != undefined && Step2Data != ''">
     <div class="col-sm-12">
       <div class="row" *ngFor="let data of step2DataArr">
-        <div class="col-sm-3"></div>
-        <div class="col-sm-3 colorlightGray">
+        <div *ngIf="data.key != 'Type'" class="col-sm-3"></div>
+        <div *ngIf="data.key != 'Type'" class="col-sm-3 colorlightGray">
           <p>{{data.key}}:</p>
         </div>
-        <div class="col-sm-6 text-left">
+        <div *ngIf="data.key != 'Type'" class="col-sm-6 text-left">
           <span *ngFor="let values of data.values; let isLast=last">{{values}}{{isLast ? '' : ', '}}</span>
         </div>
       </div>

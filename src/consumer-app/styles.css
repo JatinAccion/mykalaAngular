@@ -1853,6 +1853,8 @@ input::-webkit-inner-spin-button {
      right: -4px;
      border-radius: 20px;
      padding: 11px 20px;
+     width:100px;
+     height: 39px;
  }
  .hdr_footer{ 
     position: absolute;
