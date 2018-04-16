@@ -3,6 +3,7 @@ import { Http } from '@angular/http';
 import { User } from '../../../models/user';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Injectable()
 export class CoreService {
@@ -18,7 +19,10 @@ export class CoreService {
   showPageMsg: boolean = false;
   noOfItemsInCart: boolean = false;
   userImg: string;
-  constructor(private http: Http, private route: Router) { }
+  constructor(
+    private http: Http,
+    private route: Router,
+    private modalService: NgbModal) { }
 
   hide() { this.navVisible = false; }
 
@@ -109,6 +113,10 @@ export class CoreService {
     }, (err) => {
       console.log(err)
     })
+  }
+
+  openModal(content) {
+    this.modalService.open(content);
   }
 
 }

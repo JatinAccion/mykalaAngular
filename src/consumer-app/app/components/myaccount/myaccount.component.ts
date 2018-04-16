@@ -147,15 +147,12 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   closeAccount() {
-    let proceed = confirm("We're sorry to see you leave. Are you sure that you want to close your account?");
-    if (proceed) {
-      let model = { emailId: this.getUserInfo.emailId };
-      this.myAccount.closeAccount(model).subscribe((res) => {
-        this.route.navigateByUrl('/logout');
-      }, (err) => {
-        console.log(err)
-      })
-    }
+    let model = { emailId: this.getUserInfo.emailId };
+    this.myAccount.closeAccount(model).subscribe((res) => {
+      this.route.navigateByUrl('/logout');
+    }, (err) => {
+      console.log(err)
+    })
   }
 
   onChange({ error }) {
