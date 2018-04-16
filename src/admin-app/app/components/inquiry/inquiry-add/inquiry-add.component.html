@@ -134,8 +134,8 @@
         </div>
         <hr />
         <div class="row">
-            <p class="col-sm-8" *ngIf="showResoltionOutcome">
-                Resoltuion
+            <p class="col-sm-8" *ngIf="showResolutionOutcome">
+                Resolution
                 <select class="ddl_default form-control w-50" formControlName="resolutionOutcome">
                     <option value=''>Resolution Outcome</option>
                     <option *ngFor="let option of inquiryResolvedOutcomes" value="{{option}}">
@@ -148,7 +148,7 @@
             </p>
         </div>
         <div class="row">
-            <div class="col-sm-8" *ngIf="showResoltion">
+            <div class="col-sm-8" *ngIf="showResolution">
                 <select class="ddl_default form-control w-50" formControlName="resolutionType">
                     <option value=''>Resolution</option>
                     <option *ngFor="let option of inquiryResolutions" value="{{option}}">
@@ -161,13 +161,13 @@
             </div>
         </div>
         <div class="row py-3">
-            <div class="col-sm-8 clearfix" *ngIf="showResoltionDescription">
+            <div class="col-sm-8 clearfix" *ngIf="showResolutionDescription">
                 <input class="form-control" type="text" placeholder="Summary Description" formControlName="resolutionDescription" />
                 <!--Validation-->
                 <app-field-error-display [field]="fG1.controls.resolutionDescription" [errorMsg]="errorMsgs"> </app-field-error-display>
                 <!--Validation-->
             </div>
-            <div class="col-sm-4" *ngIf="showResoltionDate">
+            <div class="col-sm-4" *ngIf="showResolutionDate">
                 <div class="input-group">
                     <input formControlName="resolutionDate" (focus)="d.open()" [minDate]="fG1.value.inquiryDate" [maxDate]="maxDateResolution" ngbDatepicker #d="ngbDatepicker" class="form-control" placeholder="Date of Resolution (mm-dd-yyyy)">
                     <div class="input-group-append">
@@ -183,7 +183,7 @@
         </div>
         <div class="row">
             <div class="col-sm-8 clearfix" *ngIf="showResolutionNotes">
-                <div>Resoltuion Notes</div>
+                <div>Resolution Notes</div>
                 <div class="pt-1">
                     <textarea class="h-50 w-100 txt" formControlName="resolutionNotes"></textarea>
                 </div>

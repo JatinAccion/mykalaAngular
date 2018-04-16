@@ -9,7 +9,7 @@ export class Product {
     public productSkuCode: string;
     public productUpcCode: string;
     public productName: string;
-    public brandName: string;
+    // public brandName: string;
     public productDescription: string;
     public productPlaceName: string;
     public productCategoryName: string;
@@ -20,7 +20,7 @@ export class Product {
     public lowestPrice: number;
     public quantity: number;
     public shipProfileId: string;
-    public shipProfileName: string;
+    public shippingProfile: string;
     public productStatus: boolean | null = true;
     public productActivatedDate: Date | null;
     public createdDate: Date | null;
@@ -39,6 +39,7 @@ export class Product {
     constructor(obj?: any) {
         this.otherImages = new Array<ProductImage>();
         this.productImages = new Array<ProductImage>();
+        this.attributes = new Map<string, object>();
         if (obj) {
             this.retailerId = obj.retailerId;
             this.retailerName = obj.retailerName;
@@ -51,24 +52,21 @@ export class Product {
             this.productPlaceName = obj.productPlaceName;
             this.productCategoryName = obj.productCategoryName;
             this.productSubCategoryName = obj.productSubCategoryName;
-            this.productTypeName = obj.productTypeName;
+            // this.productTypeName = obj.productTypeName;
             this.retailPrice = obj.retailPrice;
             this.kalaPrice = obj.kalaPrice;
             this.lowestPrice = obj.lowestPrice;
             this.quantity = obj.quantity;
             this.shipProfileId = obj.shipProfileId;
-            this.shipProfileName = obj.shipProfileName;
+            this.shippingProfile = obj.shippingProfile;
             this.productStatus = obj.productStatus;
             this.productActivatedDate = obj.productActivatedDate;
             this.createdDate = obj.createdDate;
             this.taxCode = obj.taxCode;
-            this.attributes = obj.attributes;
             if (obj.attributes) {
+                this.attributes = obj.attributes;
                 this.brandName = obj.attributes.Brand;
-                this.kalaPrice = obj.attributes['Kala Price'];
-                this.lowestPrice = obj.attributes['Lowest Price'];
-                this.retailPrice = obj.attributes['Retail Price'];
-                this.productTypeName = obj.attributes.ProductType;
+                this.productTypeName = obj.attributes.Type;
             }
 
             this.productImages = obj.productImages ? obj.productImages.filter(p => p.location !== null).map(p => new ProductImage(p)) : new Array<ProductImage>();
@@ -85,6 +83,15 @@ export class Product {
         } else {
             this.productStatus = true;
         }
+    }
+
+    set brandName(val: string) {
+        if (this.attributes) {
+            this.attributes['Brand'] = val;
+        }
+    }
+    get brandName(): string {
+        return this.attributes['Brand'];
     }
 }
 export class ProductImage {

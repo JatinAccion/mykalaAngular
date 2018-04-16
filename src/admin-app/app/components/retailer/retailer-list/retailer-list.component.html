@@ -18,9 +18,9 @@
     <div class="row">
         <div class="col-sm-2 pl-4 pt-3 ">
             <div class="bordershadow">
-                    <img *ngIf="retailer.businessLogoPath" src="{{retailer.businessLogoPath}}" class="img-fluid showDummy" alt="" />
-                    <i *ngIf="!retailer.businessLogoPath" class="fa fa-picture-o defaultUser py-2" aria-hidden="true"></i>
-            </div> 
+                <img *ngIf="retailer.businessLogoPath" src="{{retailer.businessLogoPath}}" class="img-fluid showDummy" alt="" />
+                <i *ngIf="!retailer.businessLogoPath" class="fa fa-picture-o defaultUser py-2" aria-hidden="true"></i>
+            </div>
         </div>
         <div class="col-sm-8">
             <p>
@@ -41,23 +41,23 @@
     <hr />
     <div class="row">
         <div class="col-sm-2 text-center">
-            <h5>{{0}}</h5>
+            <h5>{{retailer.retailerOtherInfo? retailer.retailerOtherInfo.totalProducts:'0'}}</h5>
             <div class="colorlightGray">products</div>
         </div>
         <div class="col-sm-3 text-center">
-            <h5>{{0}}</h5>
+            <h5>{{retailer.retailerOtherInfo? retailer.retailerOtherInfo.totalTransactions:'0'}}</h5>
             <div class="colorlightGray">transactions</div>
         </div>
         <div class="col-sm-3 text-center">
-            <h5>{{0}}</h5>
+            <h5>{{retailer.retailerOtherInfo? retailer.retailerOtherInfo.totalReturns:'0'}}</h5>
             <div class="colorlightGray">returns</div>
         </div>
         <div class="col-sm-2 text-center">
-            <h5>{{0}}</h5>
+            <h5>{{retailer.retailerOtherInfo? retailer.retailerOtherInfo.totalOffers:'0'}}</h5>
             <div class="colorlightGray">offers made</div>
         </div>
         <div class="col-sm-2 text-center">
-            <h5>{{0}}</h5>
+            <h5>{{retailer.retailerOtherInfo? retailer.retailerOtherInfo.totalComplaints:'0'}}</h5>
             <div class="colorlightGray">complaints</div>
         </div>
     </div>

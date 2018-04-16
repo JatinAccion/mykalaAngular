@@ -37,8 +37,8 @@ export class InquiriesReportComponent implements OnInit {
   currentMonth = new Date().getMonth() + 1;
   summaryYear = new Date().getFullYear();
   summaryMonth = new Date().getMonth() + 1;
+  summaryInquiryType = InquiryTypes[0].name;
   summaryInquiryCategory = '';
-  summaryInquiryType = '';
   retailerName = '';
   ratings = [1, 2, 3, 4, 5];
   details = { widgetType: 'one', year: this.currentYear, month: this.currentMonth };

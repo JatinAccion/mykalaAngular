@@ -31,11 +31,11 @@ export class InquiryAddComponent implements OnInit {
 
   saveloader: boolean;
   users: any[];
-  showResoltionDate: any;
-  showResoltionDescription: boolean;
+  showResolutionDate: any;
+  showResolutionDescription: boolean;
   showResolutionNotes: boolean;
-  showResoltionOutcome: boolean;
-  showResoltion: boolean;
+  showResolutionOutcome: boolean;
+  showResolution: boolean;
   showinquiryCategoryOther: boolean;
   showInquiryTypeOther: boolean;
   inquiryCategorys: string[];
@@ -107,6 +107,7 @@ export class InquiryAddComponent implements OnInit {
   getInquiryData(id) {
     this.inquiryService.getInquiryDetails(id).subscribe((res) => {
       this.inquiry = res;
+      this.minDateInquiry = this.dateUtils.fromDate(res.inquiryDate);
       this.setFormValidators();
       this.inquiryTypeChange();
       this.inquiryCategoryChange();
@@ -200,12 +201,12 @@ export class InquiryAddComponent implements OnInit {
   inquiryStatusChange() {
     const form = this.fG1.value;
     const formControls = this.fG1.controls;
-    this.showResoltion = form.inquiryStatus === InquiryResolvedStatus;
+    this.showResolution = form.inquiryStatus === InquiryResolvedStatus;
     this.showResolutionNotes = form.inquiryStatus === InquiryResolvedStatus;
-    this.showResoltionOutcome = form.inquiryStatus === InquiryResolvedStatus;
-    this.showResoltionDescription = form.inquiryStatus === InquiryResolvedStatus;
-    this.showResoltionDate = form.inquiryStatus === InquiryResolvedStatus;
-    if (!this.showResoltion) {
+    this.showResolutionOutcome = form.inquiryStatus === InquiryResolvedStatus;
+    this.showResolutionDescription = form.inquiryStatus === InquiryResolvedStatus;
+    this.showResolutionDate = form.inquiryStatus === InquiryResolvedStatus;
+    if (!this.showResolution) {
       formControls.resolutionOutcome.patchValue('');
       formControls.resolutionType.patchValue('');
       formControls.resolutionNotes.patchValue('');
@@ -213,8 +214,8 @@ export class InquiryAddComponent implements OnInit {
       formControls.resolutionDate.patchValue('');
       formControls.resolutionOutcome.clearValidators();
       formControls.resolutionType.clearValidators();
-      formControls.resolutionNotes.setValidators([this.validatorExt.getRV(this.showResoltion)]);
-      formControls.resolutionDescription.setValidators([this.validatorExt.getRV(this.showResoltion)]);
+      formControls.resolutionNotes.setValidators([this.validatorExt.getRV(this.showResolution)]);
+      formControls.resolutionDescription.setValidators([this.validatorExt.getRV(this.showResolution)]);
       formControls.resolutionDate.clearValidators();
       formControls.resolutionOutcome.updateValueAndValidity();
       formControls.resolutionType.updateValueAndValidity();

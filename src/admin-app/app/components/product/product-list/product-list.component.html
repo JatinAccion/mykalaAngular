@@ -75,7 +75,7 @@
                 <td>
                     <input type="checkbox">
                 </td>
-                <td>{{product.productStatus?'Active': 'InActive'}}</td>
+                <td>{{product.productStatus?'Active': 'Inactive'}}</td>
                 <td>{{getSellerName(product.retailerName)}}</td>
                 <td>
                     <a class="colorBlue" (click)="product.isCollapsed = !product.isCollapsed" [attr.aria-expanded]="!product.isCollapsed" aria-controls="collapseExample">
@@ -98,7 +98,7 @@
                         <div ngbDropdownMenu aria-labelledby="dropdown01">
                             <button class="dropdown-item" (click)="deactivate(product)">Activate/Deactivate</button>
                             <button class="dropdown-item" *ngIf="!bulkUploadView" (click)="delete(product)">Delete</button>
-                            <button class="dropdown-item" *ngIf="!bulkUploadView" [routerLink]="['../product-edit', product.kalaUniqueId]">Edit Product</button>
+                            <button class="dropdown-item"  [routerLink]="['/product-edit', product.kalaUniqueId]">Edit Product</button>
                         </div>
                     </div>
                 </td>
@@ -115,8 +115,8 @@
                                     <th *ngIf="!bulkUploadView">
                                         <a class="btn btn-default" (click)="delete(product)">Delete</a>
                                     </th>
-                                    <th colspan="2" class="text-right" *ngIf="!bulkUploadView">
-                                        <a class="btn btn-default" [routerLink]="['../product-edit', product.kalaUniqueId]">Edit Product</a>
+                                    <th colspan="2" class="text-right" >
+                                        <a class="btn btn-default" [routerLink]="['/product-edit', product.kalaUniqueId]">Edit Product</a>
                                     </th>
                                 </tr>
                             </thead>

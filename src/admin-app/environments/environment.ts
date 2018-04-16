@@ -6,7 +6,7 @@ export const environment = {
   Api: 'http://dev-user-service.us-east-2.elasticbeanstalk.com',
   AdminApi: 'http://dev-retailer-service-mongo.us-east-1.elasticbeanstalk.com/retailer/v1',
   TaxApi: 'http://dev-retailer-service-mongo.us-east-1.elasticbeanstalk.com/tax/v1',
-  // productApi: 'http://192.168.168.162:9089/api',
+  // productApi: 'http://192.168.169.185:9089/api',
   productApi: 'http://dev-product-service.us-east-2.elasticbeanstalk.com/api',
   userApi: 'http://dev-user-signup.us-east-2.elasticbeanstalk.com/user/v1',
   ordersReportApi: 'http://dev-orderservice.us-east-1.elasticbeanstalk.com/order/v1/reports',

@@ -21,6 +21,7 @@ export class RetailerProfileInfo {
     public contactPerson: RetailerContact[];
     public addresses: PostalAddress[];
     public primaryContact: RetailerContact;
+    public retailerOtherInfo: RetailerOtherInfo;
     constructor(obj?: any) {
         this.addresses = new Array<PostalAddress>();
         this.businessAddress = new RetailerBusinessAddress();
@@ -55,6 +56,24 @@ export class RetailerProfileInfo {
                     this.contactPerson = this.addresses.filter(p => p.addressType !== AddressType.business).map(p => new RetailerContact(p));
                 }
             }
+            this.retailerOtherInfo = new RetailerOtherInfo(obj.retailerOtherInfo);
+        }
+    }
+
+}
+export class RetailerOtherInfo {
+    private totalProducts: number;
+    private totalTransactions: number;
+    private totalReturns: number;
+    private totalOffers: number;
+    private totalComplaints: number;
+    constructor(obj?: any) {
+        if (obj) {
+            this.totalProducts = obj.totalProducts;
+            this.totalTransactions = obj.totalTransactions;
+            this.totalReturns = obj.totalReturns;
+            this.totalOffers = obj.totalOffers;
+            this.totalComplaints = obj.totalComplaints;
         }
     }
 }

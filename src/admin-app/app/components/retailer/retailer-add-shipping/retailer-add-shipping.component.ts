@@ -50,6 +50,7 @@ export class RetailerAddShippingComponent implements OnInit {
   tiers = new Array<ShippingDeliveryTier>();
   modified = true;
   deliveryMethodCustomName = '';
+  freeshipping = 'freeshipping';
   // #endregion Shipping
 
   // #endregion declaration
@@ -95,6 +96,10 @@ export class RetailerAddShippingComponent implements OnInit {
     }
   }
   removeShipping(event) {
+    if (this.currentTabIndex === this.shippings.shippings.length - 1) {
+      this.currentTabIndex = 0;
+      this.setShipping();
+    }
     if (!this.shippings.shippings[this.shippings.shippings.length - 1].shippingProfileId) {
       this.shippings.shippings.pop();
     }
@@ -122,7 +127,7 @@ export class RetailerAddShippingComponent implements OnInit {
   deliveryOptionsChange() {
     switch (this.shippingFG1.controls.deliveryOptions.value) {
       case userMessages.deliveryOptions.freeshipping:
-        this.shippingFG1.controls.tiers = this.formBuilder.array([]);
+        this.shippingFG1.controls.tiers = this.formBuilder.array([this.createTier(this.freeshipping, 0, -1)]);
         break;
       case userMessages.deliveryOptions.ship_by_size:
         this.shippingFG1.controls.tiers = this.createSizeBasedTiers();
@@ -157,13 +162,17 @@ export class RetailerAddShippingComponent implements OnInit {
       this.createTier('Irregular', 5),
     ]);
   }
-  createTier(tierName?: string, sequence?: number, minValue?: number, maxValue?: number) {
+  createTier(tierName?: string, sequence?: number, minValue: number = 0.00, maxValue: number = 0.00) {
     if (!tierName) { tierName = 'Tier' + 1; }
+    let isRequired = true;
+    if (minValue && minValue < 0) {
+      isRequired = false;
+    }
     return this.formBuilder.group({
       name: [tierName, [Validators.required]],
       sequence: sequence ? sequence : 0,
-      min: [minValue ? minValue : 0.00, [Validators.min(0.00), Validators.max(10000.00), Validators.required]],
-      max: [maxValue ? maxValue : 0.00, [Validators.min(0.00), Validators.max(10000.00), Validators.required]],
+      min: [minValue > 0 ? minValue : 0.00, [Validators.min(minValue), Validators.max(10000.00), this.validatorExt.getRV(isRequired)]],
+      max: [maxValue, [Validators.min(minValue), Validators.max(10000.00), this.validatorExt.getRV(isRequired)]],
     });
   }
   createShippingMethods(shippingMethodId, shippingName) {
@@ -291,7 +300,13 @@ export class RetailerAddShippingComponent implements OnInit {
     this.readShipping();
     if (this.shippingObj.step === 1) {
       this.validatorExt.validateAllFormFields(this.shippingFG1);
-      if (this.shippingFG1.valid) { this.shippingObj.step++; this.setValidatorsFG2(); }
+      if (this.shippingFG1.valid) {
+        if (this.validateTierRanges()) {
+          this.shippingObj.step++; this.setValidatorsFG2();
+        } else {
+          this.core.message.info(userMessages.tierRangesMismatch);
+        }
+      }
     } else if (this.shippingObj.step === 2) {
       this.validatorExt.validateAllFormFields(this.shippingFG2);
       if (this.validateShippingFG2()) { this.shippingObj.step++; } else { this.core.message.info(userMessages.noShippingmethodselected); }
@@ -308,6 +323,23 @@ export class RetailerAddShippingComponent implements OnInit {
   }
   validateUniqueShippingName() {
     return this.shippings.shippings.filter(p => p.shippingProfileName === this.shippingObj.shippingProfileName && p.sequence !== this.shippingObj.sequence).length > 0;
+  }
+  validateTierRanges() {
+    // check with in each tier
+    // check cross tier
+    if (this.shippingObj.deliveryTiers.length === 1) {
+      const tier = this.shippingObj.deliveryTiers[0];
+      return tier.minValue <= tier.maxValue;
+    } else if (this.shippingObj.deliveryTiers.length > 1) {
+      for (let i = 1; i < this.shippingObj.deliveryTiers.length; i++) {
+        const tier = this.shippingObj.deliveryTiers[i - 1];
+        const tier1 = this.shippingObj.deliveryTiers[i];
+        if (tier.minValue > tier.maxValue || tier.maxValue > tier1.minValue) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
   saveShipping() {
     this.readShipping();

@@ -75,17 +75,17 @@ export class ProductTypeLevels {
 }
 
 export class ProductMeta {
-    public order: string;// "4",
-    public page: string;// "2",
-    public multiSelect: string;// "Y",
-    public isNumeric: string;// "",
-    public range: string;// "",
-    public min: string;// "",
-    public max: string;// "",
-    public additionalValues: string;// "No Preference",
-    public process: string;// "Y",
-    public importance: string;// "85"
-    public options: Array<string>
+    public order: string;
+    public page: string;
+    public multiSelect: string;
+    public isNumeric: string;
+    public range: string;
+    public min: string;
+    public max: string;
+    public additionalValues: string;
+    public process: string;
+    public importance: string;
+    public options: Array<string>;
 }
 export class ProductMetas {
     public productMetas: Array<ProductMeta>;

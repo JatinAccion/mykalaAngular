@@ -58,7 +58,7 @@
                                                         <div>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon" id="basic-addon1">&nbsp;</span>
-                                                                <input class="form-control" step="0.01" value="0.00" placeholder="0.00" aria-describedby="basic-addon1" formControlName="min" type="number">
+                                                                <input class="form-control" step="1" placeholder="0" aria-describedby="basic-addon1" formControlName="min" type="number">
                                                             </div>
                                                         </div>
                                                         <div class="row p-2">
@@ -73,7 +73,7 @@
                                                         <div>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon" id="basic-addon1">&nbsp;</span>
-                                                                <input class="form-control" step="0.01" value="0.00" placeholder="0.00" aria-describedby="basic-addon1" formControlName="max" type="number">
+                                                                <input class="form-control" step="1" placeholder="0" aria-describedby="basic-addon1" formControlName="max" type="number">
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -232,7 +232,7 @@
                                 </span>
                             </div>
                             <div [formGroup]="shippingFG2" [ngClass]="{'show': shipping.step==2, 'hide': shipping.step!==2  }">
-                                <div class="row m-0 shippingdelivery" [ngClass]="{'show': shippingFG1.value.deliveryOptions !== 'freeshipping', 'hide': shippingFG1.value.deliveryOptions === 'freeshipping' }">
+                                <div class="row m-0 shippingdelivery">
                                     <label class="control-label" [ngClass]="validatorExt.displayFieldCss(shippingFG1.controls.shippingProfileName)">Available shipping methods</label>
                                     <div formArrayName="shippingMethods" class="well well-lg col-md-12">
                                         <ngb-accordion #acc="ngbAccordion" [closeOthers]="true">
@@ -258,7 +258,7 @@
                                                 </ng-template>
                                                 <ng-template ngbPanelContent>
                                                     <!-- {{i}} -->
-                                                    <div formArrayName="charges" class="row">
+                                                    <div formArrayName="charges" class="row" [ngClass]="{'show': shippingFG1.value.deliveryOptions !== freeshipping, 'hide': shippingFG1.value.deliveryOptions === freeshipping }">
                                                         <div *ngFor="let chargeoption of option.get('charges').controls; let chargeId=index;" [formGroupName]="chargeId" class="col-md-6 p-2">
                                                             <div class="col-sm-12">
                                                                 <label>
@@ -284,9 +284,9 @@
                                         </ngb-accordion>
                                     </div>
                                 </div>
-                                <div class="row m-0 shippingdelivery" [ngClass]="{'show': shippingFG1.value.deliveryOptions === 'freeshipping', 'hide': shippingFG1.value.deliveryOptions !== 'freeshipping'}">
+                                <!-- <div class="row m-0 shippingdelivery" [ngClass]="{'show': shippingFG1.value.deliveryOptions === 'freeshipping', 'hide': shippingFG1.value.deliveryOptions !== 'freeshipping'}">
                                     No options available
-                                </div>
+                                </div> -->
                             </div>
                             <div [formGroup]="shippingFG3" [ngClass]="{'show': shipping.step==3, 'hide': shipping.step!==3  }">
                                 <div class="row m-0 shippingdelivery">

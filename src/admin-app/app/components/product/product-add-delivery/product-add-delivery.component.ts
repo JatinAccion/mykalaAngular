@@ -84,7 +84,7 @@ export class ProductAddDeliveryComponent implements OnInit {
 
   readForm() {
     if (this.product && this.product.shipProfileId && this.shippingProfiles.filter(p => p.name === this.product.shipProfileId).length > 0) {
-      this.product.shipProfileName = this.shippingProfiles.filter(p => p.name === this.product.shipProfileId)[0].value;
+      this.product.shippingProfile = this.shippingProfiles.filter(p => p.name === this.product.shipProfileId)[0].value;
     }
     return this.product;
   }

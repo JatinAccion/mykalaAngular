@@ -60,8 +60,8 @@ export const apiNames = {
         delete: 'delete',
     },
     product: {
-        get: 'products/filterBy',
-        save: 'products/save',
+        get: 'products/filterByTest',
+        save: 'products/saveTest',
         delete: 'products/{productId}',
         changeStatus: 'products/changeStatus',
         saveImage: 'products/images',

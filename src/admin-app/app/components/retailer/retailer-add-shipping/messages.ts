@@ -23,7 +23,8 @@ export const userMessages = {
         'Custom': 'Custom'
     },
     'noShippingmethodselected': 'Atleast one shipping method need to be selected',
-    'duplicateShippingName': 'Please enter a valid and unique shipping profile'
+    'duplicateShippingName': 'Please enter a valid and unique shipping profile',
+    'tierRangesMismatch': 'Please enter a valid min value and max values, min value should be lesser than or equal to max value, max value should be lesser than or equal to next tier min value',
 };
 export const inputValidations = {
     'shippingProfileName': { required: 'Please enter a profile name ', error: 'Please enter valid profile name' },
