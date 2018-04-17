@@ -38,6 +38,8 @@ export class OrderItems {
         public productTaxCost: number,
         public shippingCost: number,
         public totalProductPrice: number,
-        public deliveryMethod: string
+        public deliveryMethod: string,
+        public productUPCCode: number,
+        public productSKUCode: string
     ) { }
 }

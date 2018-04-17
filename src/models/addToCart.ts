@@ -11,4 +11,8 @@ export class AddToCart {
     public shipProfileId: string;
     public productDescription: string;
     public taxCode: string;
+    public productSKUCode: string;
+    public productUPCCode: number;
+    public label: string;
+    public userId: string;
 }

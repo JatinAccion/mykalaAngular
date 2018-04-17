@@ -75,7 +75,7 @@ export class MyordersComponent implements OnInit {
         this.myorderModal.push(new MyOrders(order.customerOrderStatus, order.customerId, order.userId, order.source, order.paymentSource, order.paymentFunding, order.last4Digits, order.customerName, order.address, order.purchasedDate, new Array<OrderItems>(), order.purchasedPrice, order.totalTaxCost, order.totalShipCost, order.orderId, order.payment))
         for (var j = 0; j < order.orderItems.length; j++) {
           let orderItem = order.orderItems[j]
-          this.myorderModal[i].orderItems.push(new OrderItems(orderItem.productId, orderItem.productName, orderItem.retailerName, orderItem.retailerId, orderItem.productDescription, orderItem.productImage, orderItem.productQuantity, orderItem.productPrice, orderItem.productTaxCost, orderItem.shippingCost, orderItem.totalProductPrice, orderItem.deliveryMethod, orderItem.productItemStatus));
+          this.myorderModal[i].orderItems.push(new OrderItems(orderItem.productId, orderItem.productName, orderItem.retailerName, orderItem.retailerId, orderItem.productDescription, orderItem.productImage, orderItem.productQuantity, orderItem.productPrice, orderItem.productTaxCost, orderItem.shippingCost, orderItem.totalProductPrice, orderItem.deliveryMethod, orderItem.productItemStatus, orderItem.productUPCCode, orderItem.productSKUCode, orderItem.shipTrackingId, orderItem.carrier));
         }
       }
       this.refineMyorderModal()

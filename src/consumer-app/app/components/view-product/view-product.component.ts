@@ -22,6 +22,7 @@ export class ViewProductComponent implements OnInit {
   productReviews = [];
   alreadyAddedInCart: boolean = false;
   s3 = environment.s3;
+  userData: any;
   constructor(
     public core: CoreService,
     private route: Router,
@@ -33,6 +34,7 @@ export class ViewProductComponent implements OnInit {
     this.core.hide();
     this.core.searchMsgToggle();
     localStorage.removeItem("addedInCart");
+    if (window.localStorage['userInfo'] != undefined) this.userData = JSON.parse(window.localStorage['userInfo'])
     if (window.localStorage['selectedProduct'] != undefined) {
       this.selectedProduct = JSON.parse(window.localStorage['selectedProduct']);
       this.getStockNumber();
@@ -85,6 +87,9 @@ export class ViewProductComponent implements OnInit {
   }
 
   addToCart(to) {
+    if (this.userData != undefined) this.addToCartModal.userId = this.userData.userId;
+    else this.addToCartModal.userId = "";
+    this.addToCartModal.label = "cart";
     this.addToCartModal.retailerId = this.selectedProduct.product.retailerId;
     this.addToCartModal.retailerName = this.selectedProduct.retailerName;
     this.addToCartModal.productId = this.selectedProduct.product.kalaUniqueId;
@@ -96,6 +101,8 @@ export class ViewProductComponent implements OnInit {
     this.addToCartModal.shipProfileId = this.selectedProduct.product.shipProfileId;
     this.addToCartModal.productDescription = this.selectedProduct.product.productDescription;
     this.addToCartModal.taxCode = this.selectedProduct.product.taxCode;
+    this.addToCartModal.productSKUCode = this.selectedProduct.product.productSkuCode;
+    this.addToCartModal.productUPCCode = this.selectedProduct.product.productUpcCode;
     for (var i = 0; i < this.selectedProduct.product.productImages.length; i++) {
       let image = this.selectedProduct.product.productImages[i]
       if (image.mainImage == true) this.addToCartModal.productImage = `${this.s3 + image.location}`

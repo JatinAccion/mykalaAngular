@@ -67,7 +67,7 @@
       <div class="col-sm-12 pt-1 pb-1 text-center">
         <div class="row">
           <div class="col-sm-2 col-6 colorred p-0 text-left">Total Amount:</div>
-          <div class="col-sm-4 col-6 pb-3 colorred text-left">
+          <div class="col-sm-4 col-6 colorred text-left">
             <strong #TotalAmountPayable>{{totalPayableAmount() | currency}}</strong>
           </div>
           <div class="col-sm-6 col-12 p-0 colorred text-right">
@@ -78,8 +78,8 @@
       </div>
     </div>
 
-    <div class="myCart-list" *ngIf="cartEmpty">
-      <div class="col-sm-12 p-3 text-center colorred">
+    <div class="myCart-list m-0" *ngIf="cartEmpty">
+      <div class="col-sm-12 pl-3 pr-3 pt-0 pb-0 text-center colorred">
         <u routerLink="/home">Your cart is empty. Click here to continue shopping.</u>
       </div>
     </div>

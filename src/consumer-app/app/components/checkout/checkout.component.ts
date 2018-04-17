@@ -121,20 +121,6 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    // const style = {
-    //   base: {
-    //     lineHeight: '24px',
-    //     fontFamily: 'monospace',
-    //     fontSmoothing: 'antialiased',
-    //     fontSize: '19px',
-    //     '::placeholder': {
-    //       //color: 'purple'
-    //     }
-    //   }
-    // };
-    // this.card = elements.create('card', { style });
-    // this.card.mount(this.cardInfo.nativeElement);
-    // this.card.addEventListener('change', this.cardHandler);
     const elementStyles = {
       base: {
         color: '#000',
@@ -201,8 +187,6 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // this.card.removeEventListener('change', this.cardHandler);
-    // this.card.destroy();
     this.cardNumber.destroy();
     this.cardExpiry.destroy();
     this.cardCvc.destroy();
@@ -618,12 +602,6 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   calculateTotalPayable() {
-    // let amounts = [];
-    // let toBeCalculated = document.getElementsByClassName("amount");
-    // for (var i = 0; i < toBeCalculated.length; i++) {
-    //   amounts.push(parseFloat(toBeCalculated[i].innerHTML))
-    // }
-    // return eval(amounts.join("+"));
     return eval(`${this.totalProductTax + this.totalAmountFromCart + this.finalShippingAmount}`)
   }
 
@@ -665,7 +643,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.ProductCheckoutModal.purchasedPrice = eval(`${this.totalProductTax + this.totalAmountFromCart + this.finalShippingAmount}`);
       for (var i = 0; i < this.itemsInCart.length; i++) {
         let item = this.itemsInCart[i]
-        this.ProductCheckoutModal.orderItems.push(new OrderItems(item.productId, item.productName, item.retailerName, item.retailerId, item.productDescription, item.productImage, item.quantity, item.price, item.productTaxCost, item.shippingCost, eval(`${item.price * item.quantity}`), item.deliveryMethod))
+        this.ProductCheckoutModal.orderItems.push(new OrderItems(item.productId, item.productName, item.retailerName, item.retailerId, item.productDescription, item.productImage, item.quantity, item.price, item.productTaxCost, item.shippingCost, eval(`${item.price * item.quantity}`), item.deliveryMethod, item.productUPCCode, item.productSKUCode))
       };
       console.log(this.ProductCheckoutModal);
       for (var i = 0; i < this.itemsInCart.length; i++) {
@@ -715,7 +693,6 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
   showRetailerReturns(order) {
     this.retailerReturnPolicy = order.retailerReturns;
-    //this.open(this.retialerReturnModal);
   }
 
   open(content) {

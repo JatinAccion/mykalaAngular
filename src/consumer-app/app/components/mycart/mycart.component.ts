@@ -161,7 +161,10 @@ export class MycartComponent implements OnInit {
     this.addToCartModal.inStock = item.inStock;
     this.addToCartModal.productImage = item.productImage;
     this.addToCartModal.taxCode = item.taxCode
+    this.addToCartModal.productSKUCode = item.productSKUCode;
+    this.addToCartModal.productUPCCode = item.productUPCCode;
     if (to === 'toCart') {
+      this.addToCartModal.label = "cart";
       let moveToCart: boolean = false;
       let cartItems;
       if (window.localStorage['existingItemsInCart'] != undefined) {
@@ -202,6 +205,7 @@ export class MycartComponent implements OnInit {
       }
     }
     else {
+      this.addToCartModal.label = "wishlist";
       let moveToWishList: boolean = false;
       let wishListItems;
       if (window.localStorage['existingItemsInWishList'] != undefined) {
@@ -280,7 +284,14 @@ export class MycartComponent implements OnInit {
       else return false;
     }
     else {
-      //window.localStorage['TotalAmount'] = this.TotalAmountPayable.nativeElement.innerText;
+      let data = JSON.parse(window.localStorage['existingItemsInCart']);
+      let userData = JSON.parse(window.localStorage['userInfo']);
+      for (var i = 0; i < data.length; i++) {
+        if (data[i].userId == undefined || data[i].userId == "" || data[i].userId == null) {
+          data[i].userId = userData.userId;
+        }
+      }
+      window.localStorage['existingItemsInCart'] = JSON.stringify(data);
       window.localStorage['TotalAmount'] = this.TotalAmountCartPayable;
       this.route.navigateByUrl("/checkout");
     }
