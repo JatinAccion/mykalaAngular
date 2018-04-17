@@ -37,7 +37,7 @@
                 <p *ngIf="invalidEmailAddress" class="clearfix colorlightGray pt-0 mb-0" style="font-size: 13px; color: #e06263">Please enter your valid email address</p>
               </div>
               <img src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_myAc" *ngIf="loader_emailImage" />
-              <button class="col-sm-3 text-right p-2 colorred txtasbutton cursor" (click)="appendInput($event, 'email')">change</button>
+              <button [disabled]="emptyEmailAddress || invalidEmailAddress" class="col-sm-3 text-right p-2 colorred txtasbutton cursor" (click)="appendInput($event, 'email')">change</button>
             </div>
             <!--Email Address-->
 
@@ -57,7 +57,7 @@
                 <p *ngIf="newConfirmPassword" class="clearfix colorlightGray mb-0" style="font-size: 13px; color: #e06263">New password and confirm password doesn't match</p>
               </div>
               <img src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_myAc" *ngIf="loader_password" />
-              <button class="col-sm-3 text-right p-2 colorred txtasbutton cursor" (click)="appendInput($event, 'password')">change</button>
+              <button [disabled]="emptyOldPassword || emptyNewPassword || emptyConfirmPassword || invalidPassword || oldNewPassword || newConfirmPassword" class="col-sm-3 text-right p-2 colorred txtasbutton cursor" (click)="appendInput($event, 'password')">change</button>
             </div>
             <!--Password-->
           </div>
@@ -87,7 +87,7 @@
                 <p *ngIf="input_getLocation" class="clearfix colorlightGray pt-0 mb-0">{{fetchGeoCode}}</p>
               </div>
               <img src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_myAc" *ngIf="loader_profileAddress" />
-              <button class="col-sm-3 text-right p-2 colorred txtasbutton cursor" (click)="appendInput($event, 'location')">change</button>
+              <button [disabled]="input_Location && !input_getLocation" class="col-sm-3 text-right p-2 colorred txtasbutton cursor" (click)="appendInput($event, 'location')">change</button>
             </div>
             <!--Location-->
 
@@ -138,7 +138,7 @@
                   </select>
                   <input onkeypress='return event.charCode >= 48 && event.charCode <= 57' [(ngModel)]="append_addShippingZipcode" type="number" class="txtnml width100 appendedInput" placeholder="Zipcode">
                 </div>
-                <button *ngIf="addShippingAddress" (click)="saveNewAddress($event)" class="col-sm-2 p-2 mb-2 text-right txtasbutton colorred" style="padding-top: 0 !important; cursor: pointer; padding-left: 0px !important">done</button>
+                <button [disabled]="addShippingAddress && (!append_addAddressLine1 || !append_addAddressLine2 || !append_addShippingCity || !append_addShippingState || !append_addShippingZipcode)" *ngIf="addShippingAddress" (click)="saveNewAddress($event)" class="col-sm-2 p-2 mb-2 text-right txtasbutton colorred" style="padding-top: 0 !important; cursor: pointer; padding-left: 0px !important">done</button>
                 <!--Add Address Form-->
 
                 <!--Edit Address-->
@@ -164,7 +164,7 @@
                         <input style="position: relative; top: -37px;" *ngIf="shippingAddress.input_shippingAddress" type="number" onkeypress='return event.charCode >= 48 && event.charCode <= 57' [(ngModel)]="shippingAddress.append_editShippingZipcode" class="txtnml width100 appendedInput" placeholder="Zipcode">
                       </div>
 
-                      <button class="col-sm-3 text-right p-2 colorred txtasbutton cursor" style="padding-top: 0 !important; cursor: pointer" (click)="appendInput($event, 'shippingAddress', shippingAddress)">change</button>
+                      <button [disabled]="shippingAddress.input_shippingAddress && (!shippingAddress.append_editAddressLine1 || !shippingAddress.append_editAddressLine2 || !shippingAddress.append_editShippingCity || !shippingAddress.append_editShippingState || !shippingAddress.append_editShippingZipcode)" class="col-sm-3 text-right p-2 colorred txtasbutton cursor" style="padding-top: 0 !important; cursor: pointer" (click)="appendInput($event, 'shippingAddress', shippingAddress)">change</button>
                     </div>
                   </div>
                 </div>

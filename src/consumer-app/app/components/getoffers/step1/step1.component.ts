@@ -138,10 +138,6 @@ export class Step1Component implements OnInit {
   getofferSubCategory(obj) {
     this.loader_Type = true;
     this.noTypesAvailable = false;
-    let placeCategory = JSON.parse(window.localStorage['levelSelections'])
-    this.gSCM.productType = obj.name;
-    this.gSCM.categoryName = placeCategory.category.name;
-    this.gSCM.placeName = placeCategory.place.name;
     this.getoffers.getofferSubCategory(this.gSCM).subscribe(res => {
       this.loader_Type = false;
       console.log(res);
@@ -195,6 +191,7 @@ export class Step1Component implements OnInit {
 
   loadData(obj, elemName, e?: any) {
     if (elemName == 'place') {
+      this.gSCM.placeName = obj.name;
       e.currentTarget.className = "categ_outline_red m-2";
       this.getPlaceId = obj.id;
       this.getCategory();
@@ -203,6 +200,7 @@ export class Step1Component implements OnInit {
       this.Step1SelectedValues.place = obj;
     }
     else if (elemName == 'category') {
+      this.gSCM.categoryName = obj.name;
       e.currentTarget.className = "categ_outline_red m-2";
       this.getCategoryId = obj.id;
       this.getSubCategory();
@@ -211,6 +209,7 @@ export class Step1Component implements OnInit {
       this.Step1SelectedValues.category = obj;
     }
     else if (elemName == 'subcategory') {
+      this.gSCM.productType = obj.name;
       e.currentTarget.className = "categ_outline_red m-2";
       this.checkIfStored = false;
       this.getSubcategoryId = obj.id;
@@ -251,8 +250,8 @@ export class Step1Component implements OnInit {
 
   getUpdateTypes() {
     let userSelection = JSON.parse(window.localStorage['levelSelections']);
-    this.gSCMRequestModal.placeName = userSelection.place.name;
-    this.gSCMRequestModal.categoryName = userSelection.category.name;
+    this.gSCMRequestModal.placeName = this.gSCM.placeName;
+    this.gSCMRequestModal.categoryName = this.gSCM.categoryName;
     if (this.Step1SelectedValues.type.length > 0) {
       this.gSCMRequestModal.productType = this.Step1SelectedValues.subcategory['name'];
       if (this.getObjectFromOrder.key == "") this.getObjectFromOrder.key = Object.keys(this.gSCMRequestModal.attributes)[0]
