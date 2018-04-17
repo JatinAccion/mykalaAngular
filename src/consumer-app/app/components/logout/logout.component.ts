@@ -20,6 +20,7 @@ export class LogoutComponent implements OnInit {
     localStorage.removeItem("userInfo");
     localStorage.removeItem("browseProductSearch");
     localStorage.removeItem("existingItemsInCart");
+    localStorage.removeItem("existingItemsInWishList");
     localStorage.removeItem("levelSelections");
     localStorage.removeItem("selectedProduct");
     localStorage.removeItem("TotalAmount");
