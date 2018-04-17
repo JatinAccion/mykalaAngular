@@ -37,7 +37,7 @@ export class UserService {
     // this.shippingProfiles.push(new nameValue('2', 'Small item delivery'));
     // this.shippingProfiles.push(new nameValue('3', '1-5 business days shipping'));
   }
-  get(query: any): Observable<any[]> {
+  get(query: any): Observable<UserProfile[]> {
     this.headers = this.getHttpHeraders();
     const url = `${this.BASE_URL}/${environment.apis.users.getAdmin}`;
     return this.http
@@ -50,7 +50,7 @@ export class UserService {
     return this.http
       .get(`${url}`, { headers: this.headers })
       .map(res => {
-        if (res.text() == '') {
+        if (res.text() === '') {
           return 'User Not found';
         } else {
           return new UserProfile(res.json());

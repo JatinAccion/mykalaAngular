@@ -43,6 +43,8 @@ export class RetailerAddPaymentComponent implements OnInit {
   activateStripe = true;
   stripeInegrated = true;
   isAdminUser = this.core.user.isAdmin;
+  isKalaAdmin = this.core.user.isKalaAdmin;
+
   maxDate = { year: new Date().getFullYear() - 13, month: 1, day: 1 };
   minDate = { year: 1950, month: 1, day: 1 };
   // #endregion declaration
@@ -68,8 +70,8 @@ export class RetailerAddPaymentComponent implements OnInit {
     this.paymentFG1 = this.formBuilder.group({
       paymentMethod: [this.paymentData.paymentMethod, [Validators.required]],
       paymentVehicle: [this.paymentData.paymentVehicle, [Validators.required]],
-      commissionRate: [this.paymentData.commissionRate, [Validators.pattern(environment.regex.numberRegex)]],
-      fixRate: [this.paymentData.fixRate, [Validators.pattern(environment.regex.numberRegex)]],
+      commissionRate: [this.paymentData.commissionRate, [Validators.pattern(environment.regex.numberRegex), this.validatorExt.getRV(this.isKalaAdmin)]],
+      fixRate: [this.paymentData.fixRate, [Validators.pattern(environment.regex.numberRegex), this.validatorExt.getRV(this.isKalaAdmin)]],
       bankname: [this.paymentData.bankName, [Validators.pattern(environment.regex.textRegex), Validators.required]],
       addressLine1: [this.paymentData.bankAddress.addressLine1, [Validators.pattern(environment.regex.textRegex), Validators.required]],
       addressLine2: [this.paymentData.bankAddress.addressLine2, [Validators.pattern(environment.regex.textRegex)]],

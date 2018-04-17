@@ -49,6 +49,12 @@ export class ProductAddBasicComponent implements OnInit {
       productUpcCode: ['', [Validators.pattern(environment.regex.numberRegex), Validators.maxLength(255), Validators.required]],
       productDescription: ['', [Validators.pattern(environment.regex.textRegex), Validators.maxLength(1000), Validators.required]],
       quantity: ['', [Validators.pattern(environment.regex.numberValueRegex), Validators.min(0), Validators.required]],
+      weight: ['', [Validators.pattern(environment.regex.numberValueRegex), Validators.min(0), Validators.required]],
+      weightunit: ['', [Validators.pattern(environment.regex.textRegex), Validators.min(0), Validators.required]],
+      dimensionunit: ['', [Validators.pattern(environment.regex.textRegex), Validators.min(0), Validators.required]],
+      length: ['', [Validators.pattern(environment.regex.numberValueRegex), Validators.min(0), Validators.required]],
+      height: ['', [Validators.pattern(environment.regex.numberValueRegex), Validators.min(0), Validators.required]],
+      width: ['', [Validators.pattern(environment.regex.numberValueRegex), Validators.min(0), Validators.required]],
     });
   }
 

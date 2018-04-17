@@ -17,7 +17,7 @@ export class StripePayment {
     public tosAcceptance: TosAcceptance;
     public token: string;
     public commissionRate: string;
-    public fixedRate: string;
+    public fixRate: string;
     public last4SSN: string;
 
     /** retailerProfile instanceof RetailerProfileInfo, retailerPayment instanceof RetailerPaymentInfo, tosAcceptance instanceof TosAcceptance, dob instanceof Date */
@@ -39,7 +39,7 @@ export class StripePayment {
             }
             if (obj.retailerPayment instanceof RetailerPaymentInfo) {
                 this.commissionRate = obj.retailerPayment.commissionRate;
-                this.fixedRate = obj.retailerPayment.fixRate;
+                this.fixRate = obj.retailerPayment.fixRate;
                 this.token = obj.retailerPayment.stripeToken;
                 if (obj.retailerPayment.legalContact) {
                     const legalContact = new PostalAddress(obj.retailerPayment.legalContact);

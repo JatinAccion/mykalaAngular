@@ -62,18 +62,18 @@ export class RetailerProfileInfo {
 
 }
 export class RetailerOtherInfo {
-    private totalProducts: number;
-    private totalTransactions: number;
-    private totalReturns: number;
-    private totalOffers: number;
-    private totalComplaints: number;
+    private totalProducts = 0;
+    private totalTransactions = 0;
+    private totalReturns = 0;
+    private totalOffers = 0;
+    private totalComplaints = 0;
     constructor(obj?: any) {
         if (obj) {
-            this.totalProducts = obj.totalProducts;
-            this.totalTransactions = obj.totalTransactions;
-            this.totalReturns = obj.totalReturns;
-            this.totalOffers = obj.totalOffers;
-            this.totalComplaints = obj.totalComplaints;
+            this.totalProducts = obj.totalProducts || 0;
+            this.totalTransactions = obj.totalTransactions || 0;
+            this.totalReturns = obj.totalReturns || 0;
+            this.totalOffers = obj.totalOffers || 0;
+            this.totalComplaints = obj.totalComplaints || 0;
         }
     }
 }

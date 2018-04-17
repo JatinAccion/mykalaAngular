@@ -4,6 +4,7 @@ import { UserService } from '../user.service';
 import { Alert } from '../../../../../models/IAlert';
 import { userMessages } from './messages';
 import { CoreService } from '../../../services/core.service';
+import { formatPhoneNumber } from '../../../../../common/formatters';
 
 @Component({
   selector: 'app-user-list',
@@ -42,4 +43,5 @@ export class UserListComponent implements OnInit {
       }
     });
   }
+  formatPhoneNumber(phone) { return formatPhoneNumber(phone); }
 }

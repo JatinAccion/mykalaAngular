@@ -36,6 +36,13 @@ export class Product {
     public attributes: Map<string, object>;
     public taxCode: string;
     public reviewCount: number;
+    public weight: number;
+    public weightunit: string;
+    public dimensionunit: string;
+    public length: number;
+    public height: number;
+    public width: number;
+
     constructor(obj?: any) {
         this.otherImages = new Array<ProductImage>();
         this.productImages = new Array<ProductImage>();
@@ -63,6 +70,12 @@ export class Product {
             this.productActivatedDate = obj.productActivatedDate;
             this.createdDate = obj.createdDate;
             this.taxCode = obj.taxCode;
+            this.weight = obj.weight;
+            this.weightunit = obj.weightunit;
+            this.dimensionunit = obj.dimensionunit;
+            this.length = obj.length;
+            this.height = obj.height;
+            this.width = obj.width;
             if (obj.attributes) {
                 this.attributes = obj.attributes;
                 this.brandName = obj.attributes.Brand;

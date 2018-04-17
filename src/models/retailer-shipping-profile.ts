@@ -39,7 +39,9 @@ export class RetialerShippingProfile {
             this.sequence = obj.sequence;
             this.shippingProfileName = obj.shippingProfileName;
             this.deliveryOption = obj.deliveryOption;
-            this.deliveryTiers = obj.deliveryTiers;
+            if (obj.deliveryTiers) {
+                this.deliveryTiers = obj.deliveryTiers.map(p => new ShippingDeliveryTier(p)).sort((a, b) => a.sequence - b.sequence );
+            }
             this.shippingOriginAddress = obj.shippingOriginAddress;
             this.deliveryLocation = obj.deliveryLocation;
         }
@@ -47,12 +49,20 @@ export class RetialerShippingProfile {
 }
 
 export class ShippingDeliveryTier {
-    constructor() { }
     public tierName: string;
     public minValue: number;
     public maxValue: number;
     public sequence: number;
     public deliveryMethods: RetailerDeliveryMethodFee[];
+    constructor(obj?: any) {
+        if (obj) {
+            this.tierName = obj.tierName;
+            this.minValue = obj.minValue;
+            this.maxValue = obj.maxValue;
+            this.sequence = obj.sequence;
+            this.deliveryMethods = obj.deliveryMethods;
+        }
+    }
 
 }
 export class ShippingOriginAddress extends PostalAddress { }

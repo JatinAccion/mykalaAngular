@@ -7,7 +7,7 @@
         <ol class="ol-3 taxlist">
             <li *ngFor="let state of statesSelected " class="m-0">
                 <label>
-                    <input type="checkbox" [(ngModel)]="state.value"> {{state.key}}
+                    <input type="checkbox" [(ngModel)]="state.value"> {{getStateName(state.key)}}
                 </label>
             </li>
         </ol>

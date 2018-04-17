@@ -16,20 +16,20 @@ export class Retailers extends Pagination {
 }
 
 export class RetailerReports {
-    public products: number;
-    public transactions: number;
-    public returns: number;
-    public offersMade: number;
-    public complaints: number;
-    public reviews: number;
+    public products = 0;
+    public transactions = 0;
+    public returns = 0;
+    public offersMade = 0;
+    public complaints = 0;
+    public reviews = 0;
     constructor(obj?: any) {
         if (obj) {
-            this.products = obj.products;
-            this.transactions = obj.transactions;
-            this.returns = obj.returns;
-            this.offersMade = obj.offersMade;
-            this.complaints = obj.complaints;
-            this.reviews = obj.reviews;
+            this.products = obj.products || 0;
+            this.transactions = obj.transactions || 0;
+            this.returns = obj.returns || 0;
+            this.offersMade = obj.offersMade || 0;
+            this.complaints = obj.complaints || 0;
+            this.reviews = obj.reviews || 0;
         }
     }
 }
@@ -74,15 +74,14 @@ export class SellerType {
 export class RetailerTax {
     public retailerId: string;
     public taxNexusId: string;
-    public states: Array<string>;
+    public stateAbbreviation: Array<string>;
 
     constructor(obj?: any) {
-        this.states = [];
-        // ['Alaska', 'Alabama', 'Arkansas', 'Arizona', 'California', 'Colorado', 'Connecticut', 'WashingtonDC', 'Delaware', 'Florida', 'Georgia', 'Guam', 'Hawaii', 'Iowa', 'Idaho', 'Illinois', 'Indiana', 'Kansas', 'Kentucky', 'Louisiana', 'Massachusetts', 'Maryland', 'Maine', 'Michigan', 'Minnesota', 'Missouri', 'Mississippi', 'Montana', 'NorthCarolina', 'NorthDakota', 'Nebraska', 'NewHampshire', 'NewJersey', 'NewMexico', 'Nevada', 'NewYork', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'PuertoRico', 'RhodeIsland', 'SouthCarolina', 'SouthDakota', 'Tennessee', 'Texas', 'Utah', 'Virginia', 'VirginIslands', 'Vermont', 'Washington', 'Wisconsin', 'WestVirginia', 'Wyoming'];
+        this.stateAbbreviation = [];
         if (obj) {
             this.retailerId = obj.retailerId;
             this.taxNexusId = obj.taxNexusId;
-            this.states = obj.states;
+            this.stateAbbreviation = obj.stateAbbreviation || [];
         }
     }
 }

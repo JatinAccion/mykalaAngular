@@ -11,7 +11,7 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
 
 
-import { Retailers, RetailerReports, RetailerNotification, RetailerReturnPolicy, SellerType, RetailerTax } from '../../../../models/retailer';
+import { Retailers, RetailerNotification, RetailerReturnPolicy, SellerType, RetailerTax } from '../../../../models/retailer';
 import { RetailerProfileInfo } from '../../../../models/retailer-profile-info';
 import { RetailerPaymentInfo } from '../../../../models/retailer-payment-info';
 import { RetialerShippingProfile, RetialerShippingProfiles } from '../../../../models/retailer-shipping-profile';

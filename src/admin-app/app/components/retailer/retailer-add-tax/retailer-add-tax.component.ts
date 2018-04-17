@@ -85,7 +85,7 @@ export class RetailerAddTaxComponent implements OnInit {
   readForm() {
     this.Obj = this.Obj || new RetailerTax();
     this.Obj.retailerId = this.retailerId;
-    this.Obj.states = this.statesSelected.filter(p => p.value).map(p => p.key);
+    this.Obj.stateAbbreviation = this.statesSelected.filter(p => p.value).map(p => p.key);
     return this.Obj;
   }
 
@@ -101,15 +101,18 @@ export class RetailerAddTaxComponent implements OnInit {
   }
   processStates(): any {
     this.statesSelected = new Array<KeyValue<string, boolean>>();
-    if (this.states && this.states.values.length > 0) {
-      if (this.Obj.taxNexusId && this.Obj.states.length > 0) {
-        this.statesSelected = this.states.values.map(p => new KeyValue(p, this.Obj.states.indexOf(p) > -1));
+    if (this.states && this.states.stateAbbreviation.length > 0) {
+      if (this.Obj.taxNexusId && this.Obj.stateAbbreviation.length > 0) {
+        this.statesSelected = this.states.stateAbbreviation.map(p => new KeyValue(p, this.Obj.stateAbbreviation.indexOf(p) > -1));
       } else {
-        this.statesSelected = this.states.values.map(p => new KeyValue(p, false));
+        this.statesSelected = this.states.stateAbbreviation.map(p => new KeyValue(p, false));
       }
     }
   }
-  getSelectedCount() { 
+  getSelectedCount() {
     return this.statesSelected.filter(p => p.value).length;
+  }
+  getStateName(stateCode) {
+    return this.states.values[this.states.stateAbbreviation.indexOf(stateCode)];
   }
 }

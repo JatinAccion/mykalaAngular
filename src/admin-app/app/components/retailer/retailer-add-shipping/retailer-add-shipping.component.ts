@@ -154,12 +154,12 @@ export class RetailerAddShippingComponent implements OnInit {
   }
   createSizeBasedTiers() {
     return this.formBuilder.array([
-      this.createTier('Letter', 0),
+      // this.createTier('Letter', 0),
       this.createTier('Small', 1),
       this.createTier('Medium', 2),
       this.createTier('Large', 3),
       this.createTier('Oversized', 4),
-      this.createTier('Irregular', 5),
+      // this.createTier('Irregular', 5),
     ]);
   }
   createTier(tierName?: string, sequence?: number, minValue: number = 0.00, maxValue: number = 0.00) {

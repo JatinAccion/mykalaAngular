@@ -69,7 +69,7 @@ export class RetailerAddProfileComponent implements OnInit {
       fileName: [''],
       businessName: [this.profileData.businessName, [Validators.pattern(environment.regex.nameRegex), Validators.maxLength(255), Validators.required]],
       tin: [this.profileData.tin, [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
-      businessSummary: [this.profileData.businessSummary, [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
+      businessSummary: [this.profileData.businessSummary, [Validators.maxLength(300), Validators.pattern(environment.regex.textRegex), Validators.required]],
       bussines_address: [this.profileData.businessAddress.addressLine1, [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
       bussines_address2: [this.profileData.businessAddress.addressLine2, [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
       city: [this.profileData.businessAddress.city, [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],

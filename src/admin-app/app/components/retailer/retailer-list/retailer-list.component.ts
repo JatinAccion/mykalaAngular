@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Retailers, RetailerReports } from '../../../../../models/retailer';
+import { Retailers } from '../../../../../models/retailer';
 import { RetialerService } from '../retialer.service';
 import { CoreService } from '../../../services/core.service';
 import { Alert } from '../../../../../models/IAlert';

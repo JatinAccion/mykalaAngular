@@ -31,6 +31,7 @@ export class UserProfile {
 
   constructor(obj?: any) {
     this.roleName = ['admin'];
+    this.role = 'Admin';
     if (obj) {
       this.userId = obj.userId;
       this.password = obj.password;
@@ -39,7 +40,7 @@ export class UserProfile {
       this.emailId = obj.emailId;
       this.phone = obj.phone;
       this.roleName = obj.roleName;
-      this.role = obj.role;
+      this.role = obj.role || this.role;
       this.userCreateStatus = obj.userCreateStatus;
       this.user_status = obj.user_status;
       this.show = false;
@@ -51,5 +52,8 @@ export class UserProfile {
 
   get isAdmin(): boolean {
     return this.roleName && this.roleName.length > 0 && this.roleName.indexOf('admin') > -1;
+  }
+  get isKalaAdmin(): boolean {
+    return this.emailId.toLowerCase() !== 'developer@mykala.com';
   }
 }

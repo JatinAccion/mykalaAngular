@@ -15,9 +15,9 @@
     <div class="col-sm-12 p-0 pt-3 p pagination_align">
         <pagination-controls id='client' class="my-pagination" (pageChange)="p = $event"></pagination-controls>
     </div>
-    <div class="row m-0 p-2 usermanagement">
-        <ol>
-            <li  *ngFor="let user of users | userFilter: username  | paginate: { id: 'client', itemsPerPage: 10, currentPage: p , totalItems: (users| userFilter: username ).length }">
+    <div class="m-0 p-2 usermanagement">
+        <ol class="row">
+            <li class="col-sm-6" *ngFor="let user of users | userFilter: username  | paginate: { id: 'client', itemsPerPage: 10, currentPage: p , totalItems: (users| userFilter: username ).length }">
                 <div id="accordion" role="tablist" aria-multiselectable="true">
                     <div class="card">
                         <div class="card-header row pb-0 pt-1" role="tab" id="headingOne">
@@ -37,9 +37,9 @@
                             <div class="col-sm-1 pt-2" [ngClass]="{'show':!user.show, 'hide':user.show}">
                                 <i class="fa fa-sort-up"></i>
                             </div>
-                        </div>
-                        <div class="col-sm-12 px-3 pb-2 text-capitalize">
-                            {{user.role}}
+                            <div class="col-sm-12 px-2 pb-2 text-capitalize">
+                                {{user.role}}
+                            </div>
                         </div>
                         <div id="collapseOne" class="collapse " [ngClass]="{'show':user.show, 'hide':!user.show}" role="tabpanel" aria-labelledby="headingOne">
                             <hr />
@@ -59,7 +59,7 @@
                                 </div>
                                 <div class="row m-0">
                                     <div class="col-sm-4">Phone number</div>
-                                    <div class="col-sm-8">{{user.phone}}</div>
+                                    <div class="col-sm-8">{{formatPhoneNumber(user.phone)}}</div>
                                 </div>
                                 <div class="row m-0">
                                     <div class="col-sm-4">Role</div>
