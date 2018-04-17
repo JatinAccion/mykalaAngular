@@ -94,7 +94,14 @@ export class Step4Component implements OnInit {
       this.Step4Modal.price.maxPrice = this.Step4Summary.priceRange.maxPrice;
       this.Step4Modal.startDate = current;
       this.Step4Modal.endDate = forThreeDays;
-      this.Step4Modal.attributes = this.Step4Summary.attributes;
+      if (this.Step4Summary.attributes == undefined) {
+        let attr = { Type: [] };
+        for (var i = 0; i < this.Step4Summary.type.length; i++) {
+          attr.Type.push(this.Step4Summary.type[i].name)
+        }
+        this.Step4Modal.attributes = attr;
+      }
+      else this.Step4Modal.attributes = this.Step4Summary.attributes;
       this.Step4Modal.productType = this.Step4Summary.productType;
       // this.Step4Modal.typeName = new Array<any>();
       // for (var i = 0; i < this.Step4Summary.type.length; i++) this.Step4Modal.typeName.push(this.Step4Summary.type[i].name);
