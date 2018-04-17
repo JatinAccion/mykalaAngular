@@ -121,9 +121,7 @@ export class CoreService {
   }
 
   searchProduct(text) {
-    //const url: string = `${environment.productList}/${environment.apis.products.getProduct}/${text}`;
-    const BASE_URL: string = 'https://192.168.168.178:9089/api/products';
-    const url: string = `${BASE_URL}/${environment.apis.products.search}=${text}`;
+    const url: string = `${environment.productList}/${environment.apis.products.search}=${text}`;
     return this.http.get(url).map((res) => res.json());
   }
 
