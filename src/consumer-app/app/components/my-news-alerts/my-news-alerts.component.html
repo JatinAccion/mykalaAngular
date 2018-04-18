@@ -47,27 +47,38 @@
     <!--Get Offer Block-->
 
     <!--Order Shipment Block-->
-    <!-- <div class="myCart-list" *ngFor="let review of reviews">
-      <small class="pull-right colorlightGray">{{getFullDate(review.reviewDate)}}</small>
-      <div class="mb-2">You reviewed
-        <strong>{{review.productName}}</strong>
-      </div>
-      <div class="row p-0">
-        <div class="col-sm-2">
-          <img style="width:100%" [src]="review.productImage" />
-        </div>
-        <div class="col-sm-10 mt-4">
-          <div class="mb-2">
-            Ratings:
-            <span *ngFor="let rating of loopNumber(review.rating, 'ratings')">
-              <i class="fa fa-star starIcon" aria-hidden="true"></i>
-            </span>
+    <div class="myCart-list" *ngFor="let modal of orders">
+      <div *ngFor="let order of modal.orderItems">
+        <div>Your items have shipped! Estimated delivery on: {{order.deliveryDate}}</div>
+        <small class="pull-right colorlightGray">{{getFullDate(modal.purchasedDate)}}</small>
+        <div class="row p-3">
+          <div class="col-sm-1">
+            <img [src]="order.productImage" class="img-fluid" />
           </div>
-          <div>Comments:
-            <br />{{review.reviewDescription}}</div>
+          <div class="col-sm-11">
+            <div class="row">
+              <div class="col-sm-12">{{order.productName}}</div>
+            </div>
+            <div class="row">
+              <div class="col-sm-3 colorlightGray">
+                Quantity:
+              </div>
+              <div class="col-sm-9">
+                {{order.productQuantity}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-3 colorlightGray">
+                Total:
+              </div>
+              <div class="col-sm-9">
+                {{order.totalProductPrice | currency}}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div> -->
+    </div>
     <!--Order Shipment Block-->
 
     <!--Reviews Block-->

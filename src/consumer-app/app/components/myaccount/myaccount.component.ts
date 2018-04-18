@@ -703,9 +703,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     this.invalidPassword = false;
     this.oldNewPassword = false;
     this.newConfirmPassword = false;
-    if (!this.append_Password) this.emptyOldPassword = true;
-    else if (this.passwordRegex.test(this.append_Password) == false) this.invalidPassword = true;
-    else if (!this.append_NewPassword) this.emptyNewPassword = true;
+    if (!this.append_NewPassword) this.emptyNewPassword = true;
     else if (this.passwordRegex.test(this.append_NewPassword) == false) this.invalidPassword = true;
     else if (!this.append_ConfirmPassword) this.emptyConfirmPassword = true;
     else if (this.passwordRegex.test(this.append_ConfirmPassword) == false) this.invalidPassword = true;

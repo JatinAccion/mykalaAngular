@@ -36,6 +36,7 @@ export class MycartComponent implements OnInit {
       if (window.localStorage['addedInCart'] != undefined) {
         this.itemsInCart.push(JSON.parse(window.localStorage['addedInCart']));
         window.localStorage['existingItemsInCart'] = JSON.stringify(this.itemsInCart);
+        this.noItemsInCart = false;
       }
       else {
         this.cartEmpty = true;

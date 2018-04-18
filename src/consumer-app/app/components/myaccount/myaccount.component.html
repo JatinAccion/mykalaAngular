@@ -32,7 +32,7 @@
               <div class="col-sm-2 colorlightGray p-2">email</div>
               <div class="col-sm-7 text-right p-2">
                 <span #emailElement *ngIf="!input_Email">{{myAccountModel.userData.emailId}}</span>
-                <input *ngIf="input_Email" (keyup)="emailValidator()" [(ngModel)]="append_Email" type="email" class="txtnml width100 appendedInput" placeholder="Email">
+                <input *ngIf="input_Email" (keyup)="emailValidator()" [(ngModel)]="append_Email" type="email" class="txtnml width100 appendedInput" placeholder="Email" autofocus>
                 <p *ngIf="emptyEmailAddress" class="clearfix colorlightGray pt-0 mb-0" style="font-size: 13px; color: #e06263">Please enter your email address</p>
                 <p *ngIf="invalidEmailAddress" class="clearfix colorlightGray pt-0 mb-0" style="font-size: 13px; color: #e06263">Please enter your valid email address</p>
               </div>
@@ -46,10 +46,10 @@
               <div class="col-sm-2 colorlightGray p-2">password</div>
               <div class="col-sm-7 text-right p-2">
                 <span #passwordElement *ngIf="!input_Password">{{myAccountModel.userData.password}}</span>
-                <input *ngIf="input_Password" (keyup)="passwordValidator()" [(ngModel)]="append_Password" type="password" class="txtnml width100 appendedInput" placeholder="Old Password">
-                <input *ngIf="input_Password" (keyup)="passwordValidator()" [(ngModel)]="append_NewPassword" type="password" class="txtnml width100 appendedInput" placeholder="New Password">
+                <input *ngIf="input_Password" (keyup)="passwordValidator()" [(ngModel)]="append_Password" type="password" class="txtnml width100 appendedInput" placeholder="Old Password" readonly>
+                <input *ngIf="input_Password" (keyup)="passwordValidator()" [(ngModel)]="append_NewPassword" type="password" class="txtnml width100 appendedInput" placeholder="New Password" autofocus>
                 <input *ngIf="input_Password" (keyup)="passwordValidator()" [(ngModel)]="append_ConfirmPassword" type="password" class="txtnml width100 appendedInput" placeholder="Confirm Password">
-                <p *ngIf="emptyOldPassword" class="clearfix colorlightGray mb-0" style="font-size: 13px; color: #e06263">Please enter old password</p>
+                <!-- <p *ngIf="emptyOldPassword" class="clearfix colorlightGray mb-0" style="font-size: 13px; color: #e06263">Please enter old password</p> -->
                 <p *ngIf="emptyNewPassword" class="clearfix colorlightGray mb-0" style="font-size: 13px; color: #e06263">Please enter new password</p>
                 <p *ngIf="emptyConfirmPassword" class="clearfix colorlightGray mb-0" style="font-size: 13px; color: #e06263">Please confirm new password</p>
                 <p *ngIf="invalidPassword" class="clearfix colorlightGray mb-0" style="font-size: 13px; color: #e06263">Password length must be at least 8 characters: 1 Uppercase Character, 1 Lowercase Character, 1 Number and 1 Special Character</p>
@@ -57,7 +57,7 @@
                 <p *ngIf="newConfirmPassword" class="clearfix colorlightGray mb-0" style="font-size: 13px; color: #e06263">New password and confirm password doesn't match</p>
               </div>
               <img src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_myAc" *ngIf="loader_password" />
-              <button [disabled]="emptyOldPassword || emptyNewPassword || emptyConfirmPassword || invalidPassword || oldNewPassword || newConfirmPassword" class="col-sm-3 text-right p-2 colorred txtasbutton cursor" (click)="appendInput($event, 'password')">change</button>
+              <button [disabled]="emptyNewPassword || emptyConfirmPassword || invalidPassword || oldNewPassword || newConfirmPassword || input_Password && !append_NewPassword || input_Password && !append_ConfirmPassword" class="col-sm-3 text-right p-2 colorred txtasbutton cursor" (click)="appendInput($event, 'password')">change</button>
             </div>
             <!--Password-->
           </div>
@@ -82,7 +82,7 @@
                     </span>
                   </span>
                 </span>
-                <input *ngIf="input_Location" (keyup)="_keuyp($event)" onkeypress='return event.charCode >= 48 && event.charCode <= 57' [(ngModel)]="append_Location" type="number" class="txtnml width100 appendedInput" placeholder="zipcode">
+                <input *ngIf="input_Location" (keyup)="_keuyp($event)" onkeypress='return event.charCode >= 48 && event.charCode <= 57' [(ngModel)]="append_Location" type="number" class="txtnml width100 appendedInput" placeholder="zipcode" autofocus>
                 <img src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_3" *ngIf="loader" />
                 <p *ngIf="input_getLocation" class="clearfix colorlightGray pt-0 mb-0">{{fetchGeoCode}}</p>
               </div>
@@ -96,7 +96,7 @@
               <div class="col-sm-4 p-2 colorlightGray">date of birth</div>
               <div class="col-sm-5 p-2 text-right">
                 <span #dobElement *ngIf="!input_dob">{{myAccountModel.profileInfo.birthMonth}}/{{myAccountModel.profileInfo.birthDate}}/{{myAccountModel.profileInfo.birthYear}}</span>
-                <input *ngIf="input_dob" [(ngModel)]="append_dob" (focus)="d.open()" [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker #d="ngbDatepicker" class="txtnml width100 appendedInput" placeholder="mm-dd-yyyy">
+                <input *ngIf="input_dob" [(ngModel)]="append_dob" (focus)="d.open()" [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker #d="ngbDatepicker" class="txtnml width100 appendedInput" placeholder="mm-dd-yyyy" autofocus>
               </div>
               <img src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_myAc" *ngIf="loader_DOB" />
               <button class="col-sm-3 text-right p-2 colorred txtasbutton cursor" (click)="appendInput($event, 'dob'); selectSelected($event)">change</button>
@@ -129,7 +129,7 @@
               <div class="col-sm-8 p-0">
                 <!--Add Address Form-->
                 <div *ngIf="addShippingAddress" class="col-sm-10 p-0">
-                  <input [(ngModel)]="append_addAddressLine1" type="text" class="txtnml width100 appendedInput" placeholder="Address Line 1">
+                  <input [(ngModel)]="append_addAddressLine1" type="text" class="txtnml width100 appendedInput" placeholder="Address Line 1" autofocus>
                   <input [(ngModel)]="append_addAddressLine2" type="text" class="txtnml width100 appendedInput" placeholder="Address Line 2">
                   <input [(ngModel)]="append_addShippingCity" type="text" class="txtnml width100 appendedInput" placeholder="City">
                   <select [(ngModel)]="append_addShippingState" class="txtnml width100 appendedInput">
@@ -154,7 +154,7 @@
                         <span *ngIf="!shippingAddress.input_shippingAddress">{{shippingAddress.state}},</span>
                         <span *ngIf="!shippingAddress.input_shippingAddress">{{shippingAddress.zipcode}}</span>
 
-                        <input style="position: relative; top: -37px;" *ngIf="shippingAddress.input_shippingAddress" type="text" [(ngModel)]="shippingAddress.append_editAddressLine1" class="txtnml width100 appendedInput" placeholder="Address Line 1">
+                        <input style="position: relative; top: -37px;" *ngIf="shippingAddress.input_shippingAddress" type="text" [(ngModel)]="shippingAddress.append_editAddressLine1" class="txtnml width100 appendedInput" placeholder="Address Line 1" autofocus>
                         <input style="position: relative; top: -37px;" *ngIf="shippingAddress.input_shippingAddress" type="text" [(ngModel)]="shippingAddress.append_editAddressLine2" class="txtnml width100 appendedInput" placeholder="Address Line 2">
                         <input style="position: relative; top: -37px;" *ngIf="shippingAddress.input_shippingAddress" type="text" [(ngModel)]="shippingAddress.append_editShippingCity" class="txtnml width100 appendedInput" placeholder="City">
                         <select style="position: relative; top: -37px;" *ngIf="shippingAddress.input_shippingAddress" [(ngModel)]="shippingAddress.append_editShippingState" class="txtnml width100 appendedInput">
