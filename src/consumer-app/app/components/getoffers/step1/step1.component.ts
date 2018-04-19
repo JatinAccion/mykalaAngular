@@ -85,11 +85,14 @@ export class Step1Component implements OnInit {
       this.loadedSubCategory = true;
       this.userResponse.place.push(this.levelSelection.place);
       this.Step1SelectedValues.place = this.levelSelection.place;
+      this.gSCM.placeName = this.levelSelection.place.name;
       this.userResponse.type.push(this.levelSelection.type);
       this.userResponse.category.push(this.levelSelection.category);
       this.Step1SelectedValues.category = this.levelSelection.category;
+      this.gSCM.categoryName = this.levelSelection.category.name;
       this.userResponse.subcategory.push(this.levelSelection.subcategory);
       this.Step1SelectedValues.subcategory = this.levelSelection.subcategory;
+      this.gSCM.productType = this.levelSelection.subcategory.name;
       this.Step1SelectedValues.type.push(this.levelSelection.type);
       this.getPlaceId = this.levelSelection.place.id;
       this.getCategoryId = this.levelSelection.category.id;
@@ -138,10 +141,6 @@ export class Step1Component implements OnInit {
   getofferSubCategory(obj) {
     this.loader_Type = true;
     this.noTypesAvailable = false;
-    let placeCategory = JSON.parse(window.localStorage['levelSelections'])
-    this.gSCM.productType = obj.name;
-    this.gSCM.categoryName = placeCategory.category.name;
-    this.gSCM.placeName = placeCategory.place.name;
     this.getoffers.getofferSubCategory(this.gSCM).subscribe(res => {
       this.loader_Type = false;
       console.log(res);
@@ -195,6 +194,8 @@ export class Step1Component implements OnInit {
 
   loadData(obj, elemName, e?: any) {
     if (elemName == 'place') {
+      this.gSCM.placeName = obj.name;
+      this.gSCM.categoryName = "";
       e.currentTarget.className = "categ_outline_red m-2";
       this.getPlaceId = obj.id;
       this.getCategory();
@@ -203,6 +204,8 @@ export class Step1Component implements OnInit {
       this.Step1SelectedValues.place = obj;
     }
     else if (elemName == 'category') {
+      this.gSCM.categoryName = obj.name;
+      this.gSCM.productType = "";
       e.currentTarget.className = "categ_outline_red m-2";
       this.getCategoryId = obj.id;
       this.getSubCategory();
@@ -211,6 +214,7 @@ export class Step1Component implements OnInit {
       this.Step1SelectedValues.category = obj;
     }
     else if (elemName == 'subcategory') {
+      this.gSCM.productType = obj.name;
       e.currentTarget.className = "categ_outline_red m-2";
       this.checkIfStored = false;
       this.getSubcategoryId = obj.id;
@@ -251,8 +255,8 @@ export class Step1Component implements OnInit {
 
   getUpdateTypes() {
     let userSelection = JSON.parse(window.localStorage['levelSelections']);
-    this.gSCMRequestModal.placeName = userSelection.place.name;
-    this.gSCMRequestModal.categoryName = userSelection.category.name;
+    this.gSCMRequestModal.placeName = this.gSCM.placeName;
+    this.gSCMRequestModal.categoryName = this.gSCM.categoryName;
     if (this.Step1SelectedValues.type.length > 0) {
       this.gSCMRequestModal.productType = this.Step1SelectedValues.subcategory['name'];
       if (this.getObjectFromOrder.key == "") this.getObjectFromOrder.key = Object.keys(this.gSCMRequestModal.attributes)[0]
@@ -306,7 +310,9 @@ export class Step1Component implements OnInit {
   };
 
   next() {
-    if (this.Step1SelectedValues.subcategory.length != undefined) alert("Please select a sub category");
+    if (!this.gSCM.placeName) alert("Please select a place");
+    else if (!this.gSCM.categoryName) alert("Please select a category");
+    else if (!this.gSCM.productType) alert("Please select a subcategory");
     else if (this.Step1SelectedValues.type[0] == undefined || this.Step1SelectedValues.type[0] == "") alert("Please select a type");
     else {
       this.checkIfStored = true;

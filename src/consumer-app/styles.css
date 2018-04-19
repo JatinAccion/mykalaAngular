@@ -2077,7 +2077,7 @@ input::-webkit-inner-spin-button {
    top: 0;
    bottom: 0;
    border-radius: 2px;
-   cursor: pointer;
+   cursor: auto;
    left: -16px;
    right: 0;
    height: 100%;
