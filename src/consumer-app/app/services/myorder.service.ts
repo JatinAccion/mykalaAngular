@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { environment } from '../../environments/environment';
+import { MyOrders } from '../../../models/myOrder';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class MyOrdersService {
@@ -28,5 +30,17 @@ export class MyOrdersService {
         const url: string = `${this.BASE_URL}/${environment.apis.consumerCheckout.support}`;
         return this.http.post(url, model).map(res => res.json());
     }
+    getById(orderId: any): Observable<MyOrders> {
+        const url = `${this.BASE_URL}/${orderId}`;
+        return this.http
+            .get(url)
+            .map(res => {
+                if (res.text() === '') {
+                    return new MyOrders();
+                } else {
+                    return new MyOrders(res.json());
+                }
+            });
+      }
 
 }

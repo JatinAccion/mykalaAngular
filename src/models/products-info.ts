@@ -20,4 +20,30 @@ export class ProductsInfo {
     productImages: Array<any>;
     mainImageSrc: string;
     taxCode: string;
+    constructor(obj?: any) {
+        this.productImages = new Array<any>();
+        if (obj) {
+            this.brandName = obj.brandName;
+            this.createdDate = obj.createdDate;
+            this.kalaPrice = obj.kalaPrice;
+            this.kalaUniqueId = obj.kalaUniqueId;
+            this.productActivatedDate = obj.productActivatedDate;
+            this.productCategoryName = obj.productCategoryName;
+            this.productDescription = obj.productDescription;
+            this.productName = obj.productName;
+            this.productPlaceName = obj.productPlaceName;
+            this.productSkuCode = obj.productSkuCode;
+            this.productStatus = obj.productStatus;
+            this.productSubCategoryName = obj.productSubCategoryName;
+            this.productTypeName = obj.productTypeName;
+            this.productUpcCode = obj.productUpcCode;
+            this.quantity = obj.quantity;
+            this.retailPrice = obj.retailPrice;
+            this.retailerId = obj.retailerId;
+            this.shipProfileId = obj.shipProfileId;
+            this.productImages = obj.productImages;
+            this.taxCode = obj.taxCode;
+            this.mainImageSrc = '';
+        }
+    }
 }

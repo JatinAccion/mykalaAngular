@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { User } from '../../../models/user';
+import { User, UserProfile } from '../../../models/user';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import animateScrollTo from 'animated-scroll-to';
 
 @Injectable()
 export class CoreService {
@@ -58,6 +59,9 @@ export class CoreService {
     this.user = null;
     this.hide();
   }
+  clearStorageUserInfo() {
+    localStorage.removeItem('userInfo');
+  }
 
   hideUserInfo(showuser: boolean) {
     if (showuser === true) this.hideUser = true;
@@ -74,6 +78,27 @@ export class CoreService {
       this.hideUserInfo(true);
     }
   }
+  validateUser(userId) {
+    this.clearUser();
+    this.hideUserInfo(true);
+    if (localStorage.getItem('userInfo')) {
+      const usr = new UserProfile(JSON.parse(localStorage.getItem('userInfo')));
+      if (usr && usr.isConsumer && usr.userId === userId) {
+        this.setUser(usr);
+        return true;
+      }
+    }
+    return false;
+  }
+  redirectTo(pageName: string) {
+    if (!localStorage.getItem('userInfo')) {
+      window.localStorage['tbnAfterLogin'] = pageName;
+      this.route.navigateByUrl('/login');
+    } else {
+      this.route.navigateByUrl('/' + pageName);
+    }
+
+  }
 
   headerScroll() {
     setTimeout(function () {
@@ -86,7 +111,14 @@ export class CoreService {
       logoContainer.nextElementSibling.classList.add("d-none");
     }, 100);
   }
-
+  scrollToClass(className: string) {
+    if (className) {
+      let scroll = document.querySelector(`.${className}`) as HTMLElement
+      if (scroll) {
+        animateScrollTo(scroll);
+      }
+    }
+  }
   showNoOfItemsInCart() {
     if (window.localStorage['existingItemsInCart'] != undefined) {
       this.noOfItemsInCart = JSON.parse(window.localStorage['existingItemsInCart']).length;
@@ -102,18 +134,20 @@ export class CoreService {
 
   getProductDetails(productId) {
     this.getDetails(productId).subscribe((res) => {
-      let updateStorage = JSON.parse(window.localStorage['levelSelections']);
-      let tile = { deliveryMethod: "", product: res, retailerName: "", retailerReturns: "" }
-      updateStorage.subType.id = tile.product.kalaUniqueId;
-      updateStorage.subType.name = tile.product.productName;
-      updateStorage.subType.text = tile.product.productName;
-      updateStorage.subType.level = "5";
-      window.localStorage['levelSelections'] = JSON.stringify(updateStorage);
+      const tile = { deliveryMethod: '', product: res, retailerName: '', retailerReturns: '' }
       window.localStorage['selectedProduct'] = JSON.stringify(tile);
-      this.route.navigateByUrl("/view-product");
+      if (window.localStorage['levelSelections']) {
+        const updateStorage = JSON.parse(window.localStorage['levelSelections']);
+        updateStorage.subType.id = tile.product.kalaUniqueId;
+        updateStorage.subType.name = tile.product.productName;
+        updateStorage.subType.text = tile.product.productName;
+        updateStorage.subType.level = '5';
+        window.localStorage['levelSelections'] = JSON.stringify(updateStorage);
+      }
+      this.route.navigateByUrl('/view-product');
     }, (err) => {
-      console.log(err)
-    })
+      console.log(err);
+    });
   }
 
   openModal(content, size?: any) {

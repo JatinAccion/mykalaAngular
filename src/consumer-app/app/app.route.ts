@@ -30,6 +30,7 @@ import { MyoffersComponent } from './components/myoffers/myoffers.component';
 import { LeaveReviewComponent } from './components/leave-review/leave-review.component';
 import { TrackOrderComponent } from './components/track-order/track-order.component';
 import { MyNewsAlertsComponent } from './components/my-news-alerts/my-news-alerts.component';
+import { MailEntryRoutingModule } from './components/mail-entry/mail-entry-routing.module';
 
 const appRoutes: Routes = [
     {
@@ -164,7 +165,7 @@ const appRoutes: Routes = [
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(appRoutes, { useHash: true })],
+    imports: [ MailEntryRoutingModule, RouterModule.forRoot(appRoutes, { useHash: true })],
     exports: [RouterModule]
 })
 export class AppRoutingModule { }

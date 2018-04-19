@@ -72,6 +72,7 @@ import { ViewProductService } from './services/viewProduct.service';
 import { TrackOrderComponent } from './components/track-order/track-order.component';
 import { MyNewsAlertsComponent } from './components/my-news-alerts/my-news-alerts.component';
 import { MyAlertsService } from './services/MyNewsAlertsService';
+import { MailEntryModule } from './components/mail-entry/mail-entry.module';
 
 @NgModule({
   declarations: [
@@ -121,6 +122,7 @@ import { MyAlertsService } from './services/MyNewsAlertsService';
     DxRangeSliderModule,
     DxNumberBoxModule,
     Angular2FontawesomeModule,
+    MailEntryModule,
     NgbModule.forRoot(),
     SidebarModule.forRoot()
   ],

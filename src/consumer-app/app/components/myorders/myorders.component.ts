@@ -69,70 +69,12 @@ export class MyordersComponent implements OnInit {
     this.loader = true;
     this.myOrder.getOrders(this.userData.userId).subscribe((res) => {
       this.loader = false;
-      this.myorderModal = new Array<MyOrders>();
-      for (var i = 0; i < res.length; i++) {
-        let order = res[i]
-        this.myorderModal.push(new MyOrders(order.customerOrderStatus, order.customerId, order.userId, order.source, order.paymentSource, order.paymentFunding, order.last4Digits, order.customerName, order.address, order.purchasedDate, new Array<OrderItems>(), order.purchasedPrice, order.totalTaxCost, order.totalShipCost, order.orderId, order.payment))
-        for (var j = 0; j < order.orderItems.length; j++) {
-          let orderItem = order.orderItems[j]
-          this.myorderModal[i].orderItems.push(new OrderItems(orderItem.productId, orderItem.productName, orderItem.retailerName, orderItem.retailerId, orderItem.productDescription, orderItem.productImage, orderItem.productQuantity, orderItem.productPrice, orderItem.productTaxCost, orderItem.shippingCost, orderItem.totalProductPrice, orderItem.deliveryMethod, orderItem.productItemStatus, orderItem.productUPCCode, orderItem.productSKUCode, orderItem.shipTrackingId, orderItem.carrier));
-        }
-      }
-      this.refineMyorderModal()
+      this.myorderModal = res.map(p => new MyOrders(p));
+      this.myorderModal.map(p => p.orderItems.filter(q => q.productItemStatus === 'ORDER PENDING').map(r => this.disableCancel(p, r)));
     }, (err) => {
-      this.loader = false;
-      console.log(err);
-    })
-  }
-
-  refineMyorderModal() {
-    for (var i = 0; i < this.myorderModal.length; i++) {
-      for (var j = 0; j < this.myorderModal[i].orderItems.length; j++) {
-        let order = this.myorderModal[i].orderItems[j];
-        if (order.productItemStatus == 'ORDERPROCESSED') {
-          this.myorderModal[i].orderItems[j].productItemStatus = 'ORDER PROCESSED';
-          this.myorderModal[i].orderItems[j].leaveReview = true;
-          this.myorderModal[i].orderItems[j].cancelOrder = true;
-          this.myorderModal[i].orderItems[j].contactSupport = false;
-          this.myorderModal[i].orderItems[j].trackOrder = true;
-          this.myorderModal[i].orderItems[j].showCustomerSupport = false;
-        }
-        else if (order.productItemStatus == 'ORDERSHIPPED') {
-          this.myorderModal[i].orderItems[j].productItemStatus = 'ORDER SHIPPED';
-          this.myorderModal[i].orderItems[j].leaveReview = true;
-          this.myorderModal[i].orderItems[j].cancelOrder = true;
-          this.myorderModal[i].orderItems[j].contactSupport = false;
-          this.myorderModal[i].orderItems[j].trackOrder = false;
-          this.myorderModal[i].orderItems[j].showCustomerSupport = false;
-        }
-        else if (order.productItemStatus == 'ORDERCANCELED') {
-          this.myorderModal[i].orderItems[j].productItemStatus = 'ORDER CANCELED';
-          this.myorderModal[i].orderItems[j].leaveReview = true;
-          this.myorderModal[i].orderItems[j].cancelOrder = true;
-          this.myorderModal[i].orderItems[j].contactSupport = true;
-          this.myorderModal[i].orderItems[j].trackOrder = true;
-          this.myorderModal[i].orderItems[j].showCustomerSupport = false;
-        }
-        else if (order.productItemStatus == 'ORDERDELIVERED') {
-          this.myorderModal[i].orderItems[j].productItemStatus = 'ORDER DELIVERED';
-          this.myorderModal[i].orderItems[j].leaveReview = false;
-          this.myorderModal[i].orderItems[j].cancelOrder = true;
-          this.myorderModal[i].orderItems[j].contactSupport = false;
-          this.myorderModal[i].orderItems[j].trackOrder = true;
-          this.myorderModal[i].orderItems[j].showCustomerSupport = false;
-        }
-        else {
-          //Order Pending
-          this.myorderModal[i].orderItems[j].productItemStatus = 'ORDER PENDING';
-          this.myorderModal[i].orderItems[j].leaveReview = true;
-          this.myorderModal[i].orderItems[j].cancelOrder = false;
-          this.myorderModal[i].orderItems[j].contactSupport = true;
-          this.myorderModal[i].orderItems[j].trackOrder = true;
-          this.myorderModal[i].orderItems[j].showCustomerSupport = false;
-          this.disableCancel(this.myorderModal[i], this.myorderModal[i].orderItems[j])
-        }
-      }
-    }
+        this.loader = false;
+        console.log(err);
+      })
   }
 
   showSupportPanel(modal, order) {

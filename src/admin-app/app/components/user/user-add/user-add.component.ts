@@ -83,6 +83,7 @@ export class UserAddComponent implements OnInit {
     this.user.role = model.role.value;
     this.user.password = model.password.value;
     this.user.roleName = ['admin'];
+    this.user.userCreateStatus = true;
   }
   saveUser() {
     if (!this.fG1.valid) {
