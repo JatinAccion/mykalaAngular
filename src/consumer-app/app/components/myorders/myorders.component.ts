@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { CoreService } from '../../services/core.service';
 import { MyOrdersService } from '../../services/myorder.service';
 import { MyOrders, OrderItems } from '../../../../models/myOrder';
@@ -49,6 +49,10 @@ export class MyordersComponent implements OnInit {
   saveAndCloseSection: boolean = false;
   showSupportOptions: boolean = true;
   selection = { parent: '', child: '' }
+  @ViewChild("contactKalaModal") contactKalaModal: ElementRef;
+  @ViewChild("cancelOrdersModal") cancelOrdersModal: ElementRef;
+  selectedModalDetails: any;
+  selectedOrderDetails: any;
 
   constructor(
     public core: CoreService,
@@ -72,9 +76,9 @@ export class MyordersComponent implements OnInit {
       this.myorderModal = res.map(p => new MyOrders(p));
       this.myorderModal.map(p => p.orderItems.filter(q => q.productItemStatus === 'ORDER PENDING').map(r => this.disableCancel(p, r)));
     }, (err) => {
-        this.loader = false;
-        console.log(err);
-      })
+      this.loader = false;
+      console.log(err);
+    })
   }
 
   showSupportPanel(modal, order) {
@@ -219,10 +223,12 @@ export class MyordersComponent implements OnInit {
   saveAndClose(order, from) {
     if (from != "0") {
       this.consumerSupport.inquiryDate = new Date();
-      console.log(this.consumerSupport);
       this.myOrder.support(this.consumerSupport).subscribe((res) => {
-        alert("Thank you for contacting Kala");
-        this.resetAll(order)
+        this.core.openModal(this.contactKalaModal)
+        setTimeout(() => {
+          this.core.modalReference.close();
+        }, 2000)
+        this.resetAll(order);
       }, (err) => {
         console.log('Something went wrong')
       })
@@ -319,25 +325,30 @@ export class MyordersComponent implements OnInit {
     this.route.navigateByUrl("/leave-review");
   }
 
+  confirmCancelOrder() {
+    let modal = this.selectedModalDetails;
+    let order = this.selectedOrderDetails;
+    this.cancelOrderModel.amount = eval(`${order.totalProductPrice + order.shippingCost + order.productTaxCost}`);
+    this.cancelOrderModel.customerId = modal.customerId;
+    this.cancelOrderModel.orderId = modal.orderId;
+    this.cancelOrderModel.orderItemId = order.productId;
+    this.cancelOrderModel.chargeId = modal.payment.paymentNumber;
+    this.myOrder.cancelOrder(this.cancelOrderModel).subscribe((res) => {
+      if (res == 'ORDERCANCELED') res = 'ORDER CANCELED';
+      order.productItemStatus = res;
+      order.cancelOrder = true;
+      order.trackOrder = true;
+      order.leaveReview = true;
+      order.contactSupport = true;
+    }, (err) => {
+      console.log(err)
+    })
+  }
+
   cancelOrder(modal, order) {
-    let proceed = confirm("Are you sure you want to cancel the order?");
-    if (proceed == true) {
-      this.cancelOrderModel.amount = eval(`${order.totalProductPrice + order.shippingCost + order.productTaxCost}`);
-      this.cancelOrderModel.customerId = modal.customerId;
-      this.cancelOrderModel.orderId = modal.orderId;
-      this.cancelOrderModel.orderItemId = order.productId;
-      this.cancelOrderModel.chargeId = modal.payment.paymentNumber;
-      this.myOrder.cancelOrder(this.cancelOrderModel).subscribe((res) => {
-        if (res == 'ORDERCANCELED') res = 'ORDER CANCELED';
-        order.productItemStatus = res;
-        order.cancelOrder = true;
-        order.trackOrder = true;
-        order.leaveReview = true;
-        order.contactSupport = true;
-      }, (err) => {
-        console.log(err)
-      })
-    }
+    this.selectedModalDetails = modal;
+    this.selectedOrderDetails = order;
+    this.core.openModal(this.cancelOrdersModal);
   }
 
   disableCancel(modal, order) {

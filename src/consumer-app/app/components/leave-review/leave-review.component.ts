@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { CoreService } from '../../services/core.service';
 import { Router, RouterOutlet } from '@angular/router';
 import { ReviewModel } from '../../../../models/review';
@@ -17,6 +17,8 @@ export class LeaveReviewComponent implements OnInit {
   productForReview: any;
   reviewContent: string;
   loader: boolean = false;
+  @ViewChild('leaveReviewSubmittedModal') leaveReviewSubmittedModal: ElementRef;
+  reviewValidationMsg: string;
 
   constructor(
     public core: CoreService,
@@ -83,17 +85,28 @@ export class LeaveReviewComponent implements OnInit {
   }
 
   postReview() {
+    this.reviewValidationMsg = "";
     let regex = /\S+\s+\S+\s+\S+\s+\S+\s+\S+/
     this.requestReviewModel.reviewDescription = this.reviewContent;
-    if (regex.test(this.requestReviewModel.reviewDescription) != true || this.requestReviewModel.reviewDescription == undefined) alert("Please provide a minimum of 5 words");
-    else if (!this.requestReviewModel.rating || this.requestReviewModel.rating == undefined) alert("Please select a rating");
+    if (regex.test(this.requestReviewModel.reviewDescription) != true || this.requestReviewModel.reviewDescription == undefined) {
+      this.reviewValidationMsg = "Please provide a minimum of 5 words";
+      this.core.openModal(this.leaveReviewSubmittedModal);
+    }
+    else if (!this.requestReviewModel.rating || this.requestReviewModel.rating == undefined) {
+      this.reviewValidationMsg = "Please select a rating";
+      this.core.openModal(this.leaveReviewSubmittedModal)
+    }
     else {
       this.loader = true;
       this.review.postReview(this.requestReviewModel).subscribe((res) => {
         this.loader = false;
-        alert("Your reviews has been saved successfully");
+        this.reviewValidationMsg = "Reviews submitted successfully";
+        this.core.openModal(this.leaveReviewSubmittedModal);
         localStorage.removeItem("forReview");
-        this.route.navigateByUrl("/myorder")
+        setTimeout(() => {
+          this.core.modalReference.close();
+          this.route.navigateByUrl("/myorder");
+        }, 2000);
       })
     }
   }

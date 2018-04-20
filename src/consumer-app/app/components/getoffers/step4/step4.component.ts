@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CoreService } from '../../../services/core.service';
 import { GetOfferModal } from '../../../../../models/getOffer.modal';
@@ -22,6 +22,8 @@ export class Step4Component implements OnInit {
   Step4Modal = new OfferInfo4(); // Contains Step 4 Request Modal
   userData: any;
   step2DataArr = [];
+  @ViewChild('confirmOfferModal') confirmOfferModal: ElementRef;
+  confirmValidationMsg = { label: '', message: '' }
 
   constructor(
     private route: Router,
@@ -59,21 +61,22 @@ export class Step4Component implements OnInit {
       this.Step4Summary = { ...this.Step1Data[0], ...this.Step2Data, ...this.Step3Data[0] };
     }
     if (window.localStorage['userInfo'] != undefined) this.userData = JSON.parse(window.localStorage['userInfo']);
-    console.log(this.Step4Summary)
   }
 
   prev() {
     this.route.navigate(['/getoffer', 'step3']);
   };
 
+  confirmUser() {
+    window.localStorage['tbnAfterLogin'] = window.location.hash.split("#")[1];
+    this.route.navigateByUrl('/login')
+  }
+
   next() {
     if (window.localStorage['token'] == undefined) {
-      let action = confirm("You must be logged in to check the avilable offers!\n\nDo you want to login now ?");
-      if (action == true) {
-        window.localStorage['tbnAfterLogin'] = window.location.hash.split("#")[1];
-        this.route.navigateByUrl('/login')
-      }
-      else return false;
+      this.confirmValidationMsg.label = "login";
+      this.confirmValidationMsg.message = "You must be logged in to check the avilable offers! \n\n Do you want to login now ?"
+      this.core.openModal(this.confirmOfferModal);
     }
     else {
       var current = new Date();
@@ -90,8 +93,10 @@ export class Step4Component implements OnInit {
       this.Step4Modal.subCategoryName = this.Step4Summary.subCategory.name;
       this.Step4Modal.deliveryMethod = this.Step4Summary.delivery;
       this.Step4Modal.deliveryLocation = this.Step4Summary.location;
-      this.Step4Modal.price.minPrice = this.Step4Summary.priceRange.minPrice;
-      this.Step4Modal.price.maxPrice = this.Step4Summary.priceRange.maxPrice;
+      if (this.Step4Summary.priceRange != undefined) {
+        this.Step4Modal.price.minPrice = this.Step4Summary.priceRange.minPrice;
+        this.Step4Modal.price.maxPrice = this.Step4Summary.priceRange.maxPrice;
+      }
       this.Step4Modal.startDate = current;
       this.Step4Modal.endDate = forThreeDays;
       if (this.Step4Summary.attributes == undefined) {
@@ -119,11 +124,11 @@ export class Step4Component implements OnInit {
         this.Step4Modal.offerId = window.localStorage['offerIdForEdit']
         this.Step4Modal.consumerExist = true;
       }
-      console.log(this.Step4Modal)
       this.getOffer.confirmOffer(this.Step4Modal).subscribe(res => {
         if (res.getOffersResponse == null) {
-          alert("No Offer Available")
-          this.route.navigateByUrl('/browse-product')
+          this.confirmValidationMsg.label = "noOffer";
+          this.confirmValidationMsg.message = "Sorry, but we don't have offer matches for you";
+          this.core.openModal(this.confirmOfferModal);
         }
         else {
           this.loader = false;

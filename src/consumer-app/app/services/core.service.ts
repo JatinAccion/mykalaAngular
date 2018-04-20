@@ -21,10 +21,13 @@ export class CoreService {
   noOfItemsInCart: boolean = false;
   userImg: string;
   loaderSearch: boolean = false;
+  public modalReference: any;
+
   constructor(
     private http: Http,
     private route: Router,
-    private modalService: NgbModal) { }
+    private modalService: NgbModal
+  ) { }
 
   hide() { this.navVisible = false; }
 
@@ -59,6 +62,7 @@ export class CoreService {
     this.user = null;
     this.hide();
   }
+
   clearStorageUserInfo() {
     localStorage.removeItem('userInfo');
   }
@@ -78,6 +82,7 @@ export class CoreService {
       this.hideUserInfo(true);
     }
   }
+
   validateUser(userId) {
     this.clearUser();
     this.hideUserInfo(true);
@@ -90,6 +95,7 @@ export class CoreService {
     }
     return false;
   }
+
   redirectTo(pageName: string) {
     if (!localStorage.getItem('userInfo')) {
       window.localStorage['tbnAfterLogin'] = pageName;
@@ -111,6 +117,7 @@ export class CoreService {
       logoContainer.nextElementSibling.classList.add("d-none");
     }, 100);
   }
+
   scrollToClass(className: string) {
     if (className) {
       let scroll = document.querySelector(`.${className}`) as HTMLElement
@@ -119,6 +126,7 @@ export class CoreService {
       }
     }
   }
+
   showNoOfItemsInCart() {
     if (window.localStorage['existingItemsInCart'] != undefined) {
       this.noOfItemsInCart = JSON.parse(window.localStorage['existingItemsInCart']).length;
@@ -151,7 +159,22 @@ export class CoreService {
   }
 
   openModal(content, size?: any) {
-    this.modalService.open(content, { size: size });
+    this.modalReference = this.modalService.open(content)
+    this.modalReference.result.then(
+      (result) => { },
+      (reason) => {
+        this.getDismissReason(reason);
+      });
+  }
+
+  getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
   }
 
   searchProduct(text) {
