@@ -38,10 +38,12 @@
           </select>
         </div>
         <div class="form-group">
-          <input onkeypress='return event.charCode >= 48 && event.charCode <= 57' type="number" formControlName="addZipcode" class="form-control" placeholder="Zipcode" />
+          <input (keypress)="core.allowOnlyNumbers($event)" type="number" formControlName="addZipcode" class="form-control" placeholder="Zipcode" />
         </div>
         <div class="form-group">
-          <button type="button" (click)="addEditSave(addShippingAddressForm, 'add')" class="btn btn_red_right">add</button>
+          <button [disabled]="addShippingAddressFormWrapper && (!addShippingAddressForm.controls.addAddressLineOne.value || !addShippingAddressForm.controls.addAddressLineTwo.value || !addShippingAddressForm.controls.addCity.value || !addShippingAddressForm.controls.addState.value || !addShippingAddressForm.controls.addZipcode.value)" type="button" (click)="addEditSave(addShippingAddressForm, 'add')" class="btn btn_red_right">
+            add
+          </button>
           <button type="button" (click)="cancelAddress(addShippingAddressForm, 'add')" class="btn btn-outer btn_redouter_right">cancel</button>
         </div>
       </form>
@@ -65,10 +67,10 @@
           </select>
         </div>
         <div class="form-group">
-          <input onkeypress='return event.charCode >= 48 && event.charCode <= 57' type="number" formControlName="editZipcode" class="form-control" placeholder="Zipcode" />
+          <input (keypress)="core.allowOnlyNumbers($event)" type="number" formControlName="editZipcode" class="form-control" placeholder="Zipcode" />
         </div>
         <div class="form-group">
-          <button type="button" (click)="addEditSave(editShippingAddressForm, 'edit')" class="btn btn_red_right">save</button>
+          <button type="button" [disabled]="editShippingAddressFormWrapper && (!editShippingAddressForm.controls.editAddressLineOne.value || !editShippingAddressForm.controls.editAddressLineTwo.value || !editShippingAddressForm.controls.editCity.value || !editShippingAddressForm.controls.editState.value || !editShippingAddressForm.controls.editZipcode.value)" (click)="addEditSave(editShippingAddressForm, 'edit')" class="btn btn_red_right">save</button>
           <button type="button" (click)="cancelAddress(editShippingAddressForm, 'edit')" class="btn btn-outer btn_redouter_right">cancel</button>
         </div>
       </form>

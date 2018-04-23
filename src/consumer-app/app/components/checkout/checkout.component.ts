@@ -320,16 +320,19 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   addAddress() {
-    this.getAllStates();
-    this.editShippingAddressFormWrapper = false;
-    this.addShippingAddressFormWrapper = true;
-    this.addShippingAddressForm = this.formBuilder.group({
-      addAddressLineOne: [''],
-      addAddressLineTwo: [''],
-      addCity: [''],
-      addState: [''],
-      addZipcode: ['']
-    });
+    this.addShippingAddressFormWrapper = !this.addShippingAddressFormWrapper;
+    if (this.addShippingAddressFormWrapper) {
+      this.getAllStates();
+      this.editShippingAddressFormWrapper = false;
+      this.addShippingAddressFormWrapper = true;
+      this.addShippingAddressForm = this.formBuilder.group({
+        addAddressLineOne: [''],
+        addAddressLineTwo: [''],
+        addCity: [''],
+        addState: [''],
+        addZipcode: ['']
+      });
+    }
   }
 
   editAddress(address) {
@@ -406,9 +409,9 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     element.classList.add("categ_outline_red");
     this.selectedAddressDetails = address;
     for (var i = 0; i < this.itemsInCart.length; i++) {
-      this.checkout.getShippingMethods(address.state, this.itemsInCart[i].shipProfileId).subscribe((res) => {
-        let locationFee = res.deliveryLocation.locations[0].locationFee;
-        this.shippingMethod = res.deliveryTiers[0];
+      this.checkout.getShippingMethods(address.state, this.itemsInCart[i].shipProfileId, this.itemsInCart[i].quantity, this.itemsInCart[i].weight, this.itemsInCart[i].price, this.itemsInCart[i].length, this.itemsInCart[i].height, this.itemsInCart[i].width).subscribe((res) => {
+        let locationFee = res.locationFee;
+        this.shippingMethod = res.deliveryMethods;
         this.loader_shippingMethod = false;
         this.showShippingMethod = true;
         this.loader_productTax = true;
@@ -417,11 +420,11 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
             let order = this.filteredCartItems[i].orderItems[j];
             if (order.shipProfileId == res.shippingProfileId) {
               if (this.filteredCartItems[i].differentShippingMethod) {
-                this.filteredCartItems[i].orderItems[j].deliveryTiers = res.deliveryTiers[0].deliveryMethods;
+                this.filteredCartItems[i].orderItems[j].deliveryTiers = res.deliveryMethods;
                 this.filteredCartItems[i].orderItems[j].locationFee = locationFee;
               }
               else {
-                this.filteredCartItems[i].deliveryTiers = res.deliveryTiers[0].deliveryMethods;
+                this.filteredCartItems[i].deliveryTiers = res.deliveryMethods;
                 this.filteredCartItems[i].locationFee = locationFee;
               }
             }

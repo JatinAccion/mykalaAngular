@@ -671,6 +671,11 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
 
   addNewAddress(e) {
     this.addShippingAddress = !this.addShippingAddress;
+    this.append_addAddressLine1 = "";
+    this.append_addAddressLine2 = "";
+    this.append_addShippingCity = "";
+    this.append_addShippingState = "";
+    this.append_addShippingZipcode = "";
     if (this.addShippingAddress) {
       this.getAllStates();
       let getText = document.getElementsByClassName("cursor");
