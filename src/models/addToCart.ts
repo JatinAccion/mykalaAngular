@@ -15,4 +15,8 @@ export class AddToCart {
     public productUPCCode: number;
     public label: string;
     public userId: string;
+    public height: number;
+    public length: number;
+    public weight: number;
+    public width: number;
 }

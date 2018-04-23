@@ -405,8 +405,6 @@ export class Step2Component implements OnInit {
     }
     if (addSelected) {
       this.lastValueForAPI = offer.key;
-      console.log("Request::::", this.GetOfferStep_2)
-      console.log("History", this.GetOfferStep_2PS)
       this.getoffers.getofferSubCategory(this.GetOfferStep_2).subscribe(res => {
         this.fromAPI = true;
         if (!window.localStorage['multiSelectAPI']) this.GetOfferStep_2.attributes = {};
@@ -438,8 +436,6 @@ export class Step2Component implements OnInit {
     for (var i = 0; i < s2SValuesFinal.length; i++) {
       this.GetOfferStep_2PS.attributes[s2SValuesFinal[i].key] = s2SValuesFinal[i].values
     }
-    console.log(s2SValuesFinal);
-    console.log(this.GetOfferStep_2PS)
   }
 
   noPreferencesOther(offer, values, from?: any) {

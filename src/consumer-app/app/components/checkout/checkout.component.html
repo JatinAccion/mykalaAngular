@@ -38,11 +38,13 @@
           </select>
         </div>
         <div class="form-group">
-          <input onkeypress='return event.charCode >= 48 && event.charCode <= 57' type="number" formControlName="addZipcode" class="form-control" placeholder="Zipcode" />
+          <input (keypress)="core.allowOnlyNumbers($event)" type="number" formControlName="addZipcode" class="form-control" placeholder="Zipcode" />
         </div>
         <div class="form-group">
-          <button type="button" (click)="addEditSave(addShippingAddressForm, 'add')" class="btn btn_red_right">add</button>
-          <button type="button" (click)="cancelAddress(addShippingAddressForm, 'add')" class="btn btn_red_right">cancel</button>
+          <button [disabled]="addShippingAddressFormWrapper && (!addShippingAddressForm.controls.addAddressLineOne.value || !addShippingAddressForm.controls.addAddressLineTwo.value || !addShippingAddressForm.controls.addCity.value || !addShippingAddressForm.controls.addState.value || !addShippingAddressForm.controls.addZipcode.value)" type="button" (click)="addEditSave(addShippingAddressForm, 'add')" class="btn btn_red_right">
+            add
+          </button>
+          <button type="button" (click)="cancelAddress(addShippingAddressForm, 'add')" class="btn btn-outer btn_redouter_right">cancel</button>
         </div>
       </form>
       <!--Add Shipping Address-->
@@ -65,11 +67,11 @@
           </select>
         </div>
         <div class="form-group">
-          <input onkeypress='return event.charCode >= 48 && event.charCode <= 57' type="number" formControlName="editZipcode" class="form-control" placeholder="Zipcode" />
+          <input (keypress)="core.allowOnlyNumbers($event)" type="number" formControlName="editZipcode" class="form-control" placeholder="Zipcode" />
         </div>
         <div class="form-group">
-          <button type="button" (click)="addEditSave(editShippingAddressForm, 'edit')" class="btn btn_red_right">save</button>
-          <button type="button" (click)="cancelAddress(editShippingAddressForm, 'edit')" class="btn btn_red_right">cancel</button>
+          <button type="button" [disabled]="editShippingAddressFormWrapper && (!editShippingAddressForm.controls.editAddressLineOne.value || !editShippingAddressForm.controls.editAddressLineTwo.value || !editShippingAddressForm.controls.editCity.value || !editShippingAddressForm.controls.editState.value || !editShippingAddressForm.controls.editZipcode.value)" (click)="addEditSave(editShippingAddressForm, 'edit')" class="btn btn_red_right">save</button>
+          <button type="button" (click)="cancelAddress(editShippingAddressForm, 'edit')" class="btn btn-outer btn_redouter_right">cancel</button>
         </div>
       </form>
       <!--Edit Shipping Address-->
@@ -91,7 +93,7 @@
         <div class="col-sm-8">
           <div class="categ_outline_gray customerCards mr-2 mb-2" style="cursor:pointer" *ngFor="let card of getCardsDetails" (click)="selectPayCard($event, card)">
             {{card.cardType}} {{card.last4Digit}}
-            <span (click)="deleteCard(card)" class="ml-2">
+            <span (click)="confirmDeleteCard(card)" class="ml-2">
               <i title="delete card" class="fa fa-times" aria-hidden="true"></i>
             </span>
           </div>
@@ -258,29 +260,37 @@
   <div class="clearfix">&nbsp;</div>
 </div>
 
-<!--Retailer Returns Policy-->
-<ng-template #confirmProcess let-c="close" class="modalBox" let-d="dismiss">
+<!--Contact Kala-->
+<ng-template #checkoutModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title">Processing Order</h4>
+    <h4 class="modal-title">Checkout</h4>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="modal-body text-center">
-    <p>
-      {{confirmProcessMessage}}
-      <img src="/consumer-app/assets/images/loader.gif" class="ml-3" *ngIf="loader_chargeAmount" />
-    </p>
-    <div *ngIf="showUnAvailableItems != undefined">
-      <ol>
-        <li *ngFor="let itemName of showUnAvailableItems">
-          <strong>{{itemName}}</strong>
-        </li>
-      </ol>
-    </div>
+  <div class="modal-body">
+    <p>{{this.confirmValidationMsg.message}}</p>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn_red_right" id="closeModal" style="margin: 0 auto" (click)="c('Close click')">Close</button>
+    <button type="button" class="btn btn-outer btn_red_right" (click)="c('Close click')">Close</button>
   </div>
 </ng-template>
-<!--Retailer Returns Policy-->
+<!--Contact Kala-->
+
+<!--Delete Card-->
+<ng-template #deleteCardModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Delete Card</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure you want to delete the card?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outer btn_red_right" (click)="c('Close click'); deleteCard()">Yes</button>
+    <button type="button" class="btn btn-outer btn_redouter_right" (click)="c('Close click')">No</button>
+  </div>
+</ng-template>
+<!--Delete Card-->

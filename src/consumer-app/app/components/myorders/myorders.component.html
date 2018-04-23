@@ -140,3 +140,38 @@
 
   </div>
 </div>
+
+<!--Cancel Order-->
+<ng-template #cancelOrdersModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Cancel Order</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure you want to cancel the order?</p>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-outer btn_red_right" (click)="c('Close click'); confirmCancelOrder()">Yes</button>
+      <button type="button" class="btn btn-outer btn_redouter_right" (click)="c('Close click')">No</button>
+  </div>
+</ng-template>
+<!--Cancel Order-->
+
+<!--Contact Kala-->
+<ng-template #contactKalaModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Contact Kala</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Thank you for contacting Kala</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outer btn_redouter_right" (click)="c('Close click')">Close</button>
+  </div>
+</ng-template>
+<!--Contact Kala-->

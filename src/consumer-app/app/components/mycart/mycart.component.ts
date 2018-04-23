@@ -18,6 +18,9 @@ export class MycartComponent implements OnInit {
   savedForLater = [];
   addToCartModal = new AddToCart();
   fromMoveFunction: boolean = false;
+  @ViewChild('myCartModal') myCartModal: ElementRef;
+  confirmValidationMsg = { label: '', message: '' }
+
   constructor(
     public core: CoreService,
     private route: Router
@@ -59,7 +62,9 @@ export class MycartComponent implements OnInit {
             this.itemsInCart[i].quantity = eval(`${this.itemsInCart[i].quantity + newItem.quantity}`)
             isThere = true;
             window.localStorage['existingItemsInCart'] = JSON.stringify(this.itemsInCart);
-            alert("Item updated in your cart");
+            this.confirmValidationMsg.message = "Item updated in your cart";
+            this.core.openModal(this.myCartModal);
+            //alert("Item updated in your cart");
             localStorage.removeItem("addedInCart");
             return false
           }
@@ -97,7 +102,9 @@ export class MycartComponent implements OnInit {
             this.savedForLater[i].quantity = eval(`${this.savedForLater[i].quantity + newItem.quantity}`)
             isThere = true;
             window.localStorage['existingItemsInWishList'] = JSON.stringify(this.savedForLater);
-            alert("Item updated in your wishlist");
+            this.confirmValidationMsg.message = "Item updated in your wishlist";
+            this.core.openModal(this.myCartModal);
+            //alert("Item updated in your wishlist");
             localStorage.removeItem("savedForLater");
             return false
           }
@@ -173,7 +180,9 @@ export class MycartComponent implements OnInit {
         for (var i = 0; i < cartItems.length; i++) {
           if (this.addToCartModal.productId == cartItems[i].productId) {
             if (eval(`${this.addToCartModal.quantity + cartItems[i].quantity}`) > cartItems[i].inStock) {
-              alert("cannot move to cart");
+              this.confirmValidationMsg.message = "Cannot move to cart";
+              this.core.openModal(this.myCartModal);
+              //alert("cannot move to cart");
               moveToCart = false;
               return false;
             }
@@ -184,7 +193,9 @@ export class MycartComponent implements OnInit {
         }
       }
       else if (this.addToCartModal.quantity > this.addToCartModal.inStock) {
-        alert("cannot move to cart due to unavailability of stock");
+        this.confirmValidationMsg.message = "Cannot move to cart due to unavailability of stock";
+        this.core.openModal(this.myCartModal);
+        //alert("cannot move to cart due to unavailability of stock");
         moveToCart = false;
         return false;
       }
@@ -214,7 +225,9 @@ export class MycartComponent implements OnInit {
         for (var i = 0; i < wishListItems.length; i++) {
           if (this.addToCartModal.productId == wishListItems[i].productId) {
             if (eval(`${this.addToCartModal.quantity + wishListItems[i].quantity}`) > wishListItems[i].inStock) {
-              alert("cannot move to wishlist");
+              this.confirmValidationMsg.message = "Cannot move to wishlist";
+              this.core.openModal(this.myCartModal);
+              //alert("cannot move to wishlist");
               moveToWishList = false;
               return false;
             }
@@ -225,7 +238,9 @@ export class MycartComponent implements OnInit {
         }
       }
       else if (this.addToCartModal.quantity > this.addToCartModal.inStock) {
-        alert("cannot move to wishlist due to unavailability of stock");
+        this.confirmValidationMsg.message = "Cannot move to wishlist due to unavailability of stock";
+        this.core.openModal(this.myCartModal);
+        //alert("cannot move to wishlist due to unavailability of stock");
         moveToWishList = false;
         return false;
       }
@@ -275,14 +290,16 @@ export class MycartComponent implements OnInit {
     }
   }
 
+  confirmUser() {
+    window.localStorage['tbnAfterLogin'] = window.location.hash.split("#")[1];
+    this.route.navigateByUrl('/login');
+  }
+
   checkOut() {
     if (window.localStorage['token'] == undefined) {
-      let action = confirm("You must be logged in to checkout your cart items!\n\nDo you want to login now ?");
-      if (action == true) {
-        window.localStorage['tbnAfterLogin'] = window.location.hash.split("#")[1];
-        this.route.navigateByUrl('/login')
-      }
-      else return false;
+      this.confirmValidationMsg.label = 'login';
+      this.confirmValidationMsg.message = "You must be logged in to checkout your cart items! Do you want to login now ?"
+      this.core.openModal(this.myCartModal);
     }
     else {
       let data = JSON.parse(window.localStorage['existingItemsInCart']);

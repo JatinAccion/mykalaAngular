@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { HomeService } from '../../../services/home.service';
 import { CoreService } from '../../../services/core.service';
 import { Router } from '@angular/router';
@@ -39,6 +39,8 @@ export class Step1Component implements OnInit {
   noTypesAvailable: boolean = false;
   getObjectFromOrder = { key: "", data: "", selection: {} };
   showAvailableTypes: boolean = false;
+  @ViewChild('selectValidationModal') selectValidationModal: ElementRef;
+  validationMsg: string;
 
   constructor(
     private homeService: HomeService,
@@ -143,7 +145,6 @@ export class Step1Component implements OnInit {
     this.noTypesAvailable = false;
     this.getoffers.getofferSubCategory(this.gSCM).subscribe(res => {
       this.loader_Type = false;
-      console.log(res);
       this.getObjectFromOrderNo(res);
     });
   }
@@ -310,10 +311,22 @@ export class Step1Component implements OnInit {
   };
 
   next() {
-    if (!this.gSCM.placeName) alert("Please select a place");
-    else if (!this.gSCM.categoryName) alert("Please select a category");
-    else if (!this.gSCM.productType) alert("Please select a subcategory");
-    else if (this.Step1SelectedValues.type[0] == undefined || this.Step1SelectedValues.type[0] == "") alert("Please select a type");
+    if (!this.gSCM.placeName) {
+      this.validationMsg = "Please select a place";
+      this.core.openModal(this.selectValidationModal);
+    }
+    else if (!this.gSCM.categoryName) {
+      this.validationMsg = "Please select a category";
+      this.core.openModal(this.selectValidationModal);
+    }
+    else if (!this.gSCM.productType) {
+      this.validationMsg = "Please select a subcategory";
+      this.core.openModal(this.selectValidationModal);
+    }
+    else if (this.Step1SelectedValues.type[0] == undefined || this.Step1SelectedValues.type[0] == "") {
+      this.validationMsg = "Please select a type"
+      this.core.openModal(this.selectValidationModal);
+    }
     else {
       this.checkIfStored = true;
       this.Step1Modal.getoffer_1 = new Array<OfferInfo1>();

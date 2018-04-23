@@ -20,6 +20,10 @@ export class ProductsInfo {
     productImages: Array<any>;
     mainImageSrc: string;
     taxCode: string;
+    length: number;
+    height: number;
+    width: number;
+    weight: number;
     constructor(obj?: any) {
         this.productImages = new Array<any>();
         if (obj) {
@@ -43,6 +47,10 @@ export class ProductsInfo {
             this.shipProfileId = obj.shipProfileId;
             this.productImages = obj.productImages;
             this.taxCode = obj.taxCode;
+            this.length = obj.length;
+            this.height = obj.height;
+            this.weight = obj.weight;
+            this.width = obj.width;
             this.mainImageSrc = '';
         }
     }

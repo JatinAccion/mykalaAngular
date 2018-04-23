@@ -136,7 +136,7 @@
                     <option value selected disabled>Select a state</option>
                     <option *ngFor="let state of getStates" value="{{state}}">{{state}}</option>
                   </select>
-                  <input onkeypress='return event.charCode >= 48 && event.charCode <= 57' [(ngModel)]="append_addShippingZipcode" type="number" class="txtnml width100 appendedInput" placeholder="Zipcode">
+                  <input (keypress)="core.allowOnlyNumbers($event)" [(ngModel)]="append_addShippingZipcode" type="number" class="txtnml width100 appendedInput" placeholder="Zipcode">
                 </div>
                 <button [disabled]="addShippingAddress && (!append_addAddressLine1 || !append_addAddressLine2 || !append_addShippingCity || !append_addShippingState || !append_addShippingZipcode)" *ngIf="addShippingAddress" (click)="saveNewAddress($event)" class="col-sm-2 p-2 mb-2 text-right txtasbutton colorred" style="padding-top: 0 !important; cursor: pointer; padding-left: 0px !important">done</button>
                 <!--Add Address Form-->
@@ -161,7 +161,7 @@
                           <option value selected disabled>Select a state</option>
                           <option *ngFor="let state of getStates" value="{{state}}" selected="shippingAddress.append_editShippingState == state">{{state}}</option>
                         </select>
-                        <input style="position: relative; top: -37px;" *ngIf="shippingAddress.input_shippingAddress" type="number" onkeypress='return event.charCode >= 48 && event.charCode <= 57' [(ngModel)]="shippingAddress.append_editShippingZipcode" class="txtnml width100 appendedInput" placeholder="Zipcode">
+                        <input style="position: relative; top: -37px;" *ngIf="shippingAddress.input_shippingAddress" type="number" (keypress)="core.allowOnlyNumbers($event)" [(ngModel)]="shippingAddress.append_editShippingZipcode" class="txtnml width100 appendedInput" placeholder="Zipcode">
                       </div>
 
                       <button [disabled]="shippingAddress.input_shippingAddress && (!shippingAddress.append_editAddressLine1 || !shippingAddress.append_editAddressLine2 || !shippingAddress.append_editShippingCity || !shippingAddress.append_editShippingState || !shippingAddress.append_editShippingZipcode)" class="col-sm-3 text-right p-2 colorred txtasbutton cursor" style="padding-top: 0 !important; cursor: pointer" (click)="appendInput($event, 'shippingAddress', shippingAddress)">change</button>
@@ -212,7 +212,7 @@
               <div class="col-sm-12 pt-0 pl-3 pr-3">
                 <div class="categ_outline_gray mr-2 mb-2" style="cursor:pointer" *ngFor="let card of getCardsDetails">
                   {{card.cardType}} {{card.last4Digit}}
-                  <span (click)="deleteCard(card)" class="ml-2">
+                  <span (click)="confirmDeleteCard(card)" class="ml-2">
                     <i title="delete card" class="fa fa-times" aria-hidden="true"></i>
                   </span>
                 </div>
@@ -253,7 +253,7 @@
               </div>
             </div>
             <div class="row pl-2">
-              <div class="col-sm-6 p-2 text-left colorred" (click)="core.openModal(content)" style="cursor: pointer">close your account</div>
+              <div class="col-sm-6 p-2 text-left colorred" (click)="confirmCloseAccount()" style="cursor: pointer">close your account</div>
               <div class="col-sm-6 p-2 text-right"></div>
             </div>
           </div>
@@ -264,7 +264,7 @@
 </div>
 
 <!--Close Account-->
-<ng-template #content let-c="close" let-d="dismiss">
+<ng-template #closeAccountModal let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title">Close Account</h4>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
@@ -276,6 +276,24 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-outer btn_red_right" (click)="c('Close click'); closeAccount()">Yes</button>
+    <button type="button" class="btn btn-outer btn_redouter_right" (click)="c('Close click')">No</button>
+  </div>
+</ng-template>
+<!--Close Account-->
+
+<!--Delete Card-->
+<ng-template #deleteCardModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Delete Card</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure you want to delete the card?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outer btn_red_right" (click)="c('Close click'); deleteCard()">Yes</button>
     <button type="button" class="btn btn-outer btn_redouter_right" (click)="c('Close click')">No</button>
   </div>
 </ng-template>

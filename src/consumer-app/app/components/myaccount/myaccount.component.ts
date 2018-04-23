@@ -113,6 +113,9 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   InterestSaveModel = new MyAccountInterestModel();
   getUserInfo: any;
   customerId: string;
+  @ViewChild('closeAccountModal') closeAccountModal: ElementRef;
+  @ViewChild('deleteCardModal') deleteCardModal: ElementRef;
+  saveCardDetails: any;
 
   constructor(
     public core: CoreService,
@@ -144,6 +147,10 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
         window.localStorage['userInfo'] = JSON.stringify(res);
       });
     }
+  }
+
+  confirmCloseAccount() {
+    this.core.openModal(this.closeAccountModal)
   }
 
   closeAccount() {
@@ -311,14 +318,17 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  deleteCard(card) {
-    let proceed = confirm("Are you sure you want to delete the card?");
-    if (proceed == true) {
-      this.loader_Card = true;
-      this.myAccount.deleteCard(card.customerId, card.cardId).subscribe((res) => {
-        this.getCard();
-      })
-    }
+  confirmDeleteCard(card) {
+    this.saveCardDetails = card;
+    this.core.openModal(this.deleteCardModal);
+  }
+
+  deleteCard() {
+    this.loader_Card = true;
+    let card = this.saveCardDetails;
+    this.myAccount.deleteCard(card.customerId, card.cardId).subscribe((res) => {
+      this.getCard();
+    })
   }
 
   addNewCard() {
@@ -661,6 +671,11 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
 
   addNewAddress(e) {
     this.addShippingAddress = !this.addShippingAddress;
+    this.append_addAddressLine1 = "";
+    this.append_addAddressLine2 = "";
+    this.append_addShippingCity = "";
+    this.append_addShippingState = "";
+    this.append_addShippingZipcode = "";
     if (this.addShippingAddress) {
       this.getAllStates();
       let getText = document.getElementsByClassName("cursor");
