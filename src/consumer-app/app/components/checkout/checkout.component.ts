@@ -447,12 +447,13 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.avalaraTaxModel.shipToAddress.zipcode = address.zipcode;
     this.avalaraTaxModel.date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
     this.avalaraTaxModel.customerCode = this.userData.userId;
+    let number = 0;
     for (var i = 0; i < this.filteredCartItems.length; i++) {
       let item = this.filteredCartItems[i];
       this.avalaraTaxModel.itemTax[item.retailerId] = new Array<ItemsTaxList>();
       for (var j = 0; j < this.filteredCartItems[i].orderItems.length; j++) {
         let order = this.filteredCartItems[i].orderItems[j]
-        this.avalaraTaxModel.itemTax[item.retailerId].push(new ItemsTaxList(j, order.quantity, order.price, order.productId, order.taxCode, "", "", ""))
+        this.avalaraTaxModel.itemTax[item.retailerId].push(new ItemsTaxList(number++, order.quantity, order.price, order.productId, order.taxCode, "", "", ""))
       }
     }
     for (var keys in this.avalaraTaxModel.itemTax) {
