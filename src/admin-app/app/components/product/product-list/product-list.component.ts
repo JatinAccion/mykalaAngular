@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Products, Product } from '../../../../../models/Product';
+import { Products, Product } from '../../../../../models/product';
 import { ProductService } from '../product.service';
 import { ProductPlace, ProductCategory, ProductSubCategory } from '../../../../../models/product-info';
 import { RetialerService } from '../../retailer/retialer.service';
@@ -141,7 +141,7 @@ export class ProductListComponent implements OnInit {
     this.selectedProductTypes = [];
     if (this.selectedSubCategories.length > 0) {
       this.productService.getProductTypes(this.selectedSubCategories.map(p => p.id)).subscribe(res => {
-        this.productTypes = res.map(p => new IdNameParent(p.TypeId, p.TypeName, p.parentId, p.parentName));
+        this.productTypes = res.map(p => new IdNameParent(p.productTypeId, p.productTypeName, p.parentId, p.parentName));
       });
       // this.fG1.controls.productType.setValidators([Validators.required]);
       // this.fG1.controls.productType.updateValueAndValidity();

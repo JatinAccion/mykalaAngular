@@ -11,7 +11,7 @@ import { LocalStorageService } from '../../services/LocalStorage.service';
 import { environment } from './../../../environments/environment';
 import { nameValue } from '../../../../models/nameValue';
 import { ReportOrders, ReportConsumer, ReportOrder, ConsumerOffersOrdersCount } from '../../../../models/report-order';
-import { Product } from '../../../../models/Product';
+import { Product } from '../../../../models/product';
 
 @Injectable()
 export class OrderService {
@@ -40,8 +40,7 @@ export class OrderService {
     const url = `${this.BASE_URL}/${environment.apis.orders.get}`;
     return this.http
       .get(url, { search: query, headers: this.headers })
-      .map(p => p.json())
-      .map(p => new ReportOrders(p))
+      .map(p => this.handleResponse(p, ReportOrders))
       .catch(this.handleError);
   }
 
@@ -50,13 +49,8 @@ export class OrderService {
     const url = `${environment.ordersApi}/${orderId}`;
     return this.http
       .get(url, { headers: this.headers })
-      .map(res => {
-        if (res.text() === '') {
-          return new ReportOrder();
-        } else {
-          return new ReportOrder(res.json());
-        }
-      }).catch(this.handleError);
+      .map(p => this.handleResponse(p, ReportOrder))
+      .catch(this.handleError);
   }
 
   getProducts(productIds: string[]): Observable<Product[]> {
@@ -64,8 +58,7 @@ export class OrderService {
     const url = `${environment.productApi}/${environment.apis.product.getProducts}/${productIds}`;
     return this.http
       .get(url, { headers: this.headers })
-      .map(p => p.json())
-      .map(p => p.map(q => new Product(q)))
+      .map(p => this.handleArrayResponse(p, ReportOrders))
       .catch(this.handleError);
   }
   getProductReviews(productIds: string[]): Observable<any> {
@@ -81,8 +74,7 @@ export class OrderService {
     const url = `${environment.consumerApi}/${environment.apis.consumer.get}/${consumerId}`;
     return this.http
       .get(url, { headers: this.headers })
-      .map(p => p.json())
-      .map(p => new ReportConsumer(p))
+      .map(p => this.handleResponse(p, ReportConsumer))
       .catch(this.handleError);
   }
   getConsumerOffersOrdersCount(orderId: string): Observable<ConsumerOffersOrdersCount> {
@@ -90,8 +82,7 @@ export class OrderService {
     const url = `${environment.ordersApi}/${environment.apis.consumer.orderOfferNumber}/${orderId}`;
     return this.http
       .get(url, { headers: this.headers })
-      .map(p => p.json())
-      .map(p => new ConsumerOffersOrdersCount(p))
+      .map(p => this.handleResponse(p, ConsumerOffersOrdersCount))
       .catch(this.handleError);
   }
   getSellerReviews(retailerId: string): Observable<any> {
@@ -123,7 +114,20 @@ export class OrderService {
       .catch(this.handleError);
   }
 
-
+  private handleResponse<T>(response: any, type: (new (any) => T)): T {
+    if (response.text() === '') {
+      return new type(null);
+    } else {
+      return new type(response.json());
+    }
+  }
+  private handleArrayResponse<T>(response: any, type: (new (any) => T)): T[] {
+    if (response.text() === '') {
+      return [];
+    } else {
+      return response.json().map(p => new type(p));
+    }
+  }
   private handleError(error: any) {
     console.error(error);
     return Observable.throw(error.json().error || 'Server error');

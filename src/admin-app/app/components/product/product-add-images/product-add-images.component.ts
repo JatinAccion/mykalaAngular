@@ -7,7 +7,7 @@ import { IAlert } from '../../../../../models/IAlert';
 import { environment } from '../../../../environments/environment';
 import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 import { ProductService } from '../product.service';
-import { Product, ProductImage } from '../../../../../models/Product';
+import { Product, ProductImage } from '../../../../../models/product';
 import { inputValidations, userMessages } from './messages';
 import { CoreService } from '../../../services/core.service';
 

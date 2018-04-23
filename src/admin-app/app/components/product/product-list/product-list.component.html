@@ -146,14 +146,15 @@
                                     <td>{{product.retailPrice| currency}}</td>
                                 </tr>
                                 <tr>
-                                    <td class="colorlightGray">Make a bid:</td>
-                                    <td>Y</td>
-                                    <td class="colorlightGray">Lowest “Make a bid” price:</td>
+                                    <!-- <td class="colorlightGray">Make a bid:</td>
+                                    <td>Y</td> --> 
+                                    <td class="colorlightGray">Added date:</td>
+                                    <td>{{product.createdDate| date:'fullDate'}}</td>
+                                    <td class="colorlightGray">Lowest price:</td>
                                     <td>{{product.lowestPrice|currency}}</td>
                                 </tr>
                                 <tr>
-                                    <td class="colorlightGray">Added date:</td>
-                                    <td>{{product.createdDate| date:'fullDate'}}</td>
+                                   
                                     <td class="colorlightGray">Product description:</td>
                                     <td>{{product.productDescription}}</td>
                                 </tr>
@@ -183,7 +184,7 @@
                                 </tr>
                                 <tr>
                                     <td class="colorlightGray">Shipping profile:</td>
-                                    <td>{{product.shipProfileName}}</td>
+                                    <td>{{product.shippingProfile}}</td>
                                     <td class="colorlightGray">Other images:</td>
                                     <td>
                                         <img src="{{img.imageUrl}}" class="p-2" *ngFor="let img of product.otherImages" width="100">

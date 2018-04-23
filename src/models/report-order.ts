@@ -1,6 +1,6 @@
 import { Pagination } from './pagination';
 import { PostalAddress } from './retailer-business-adress';
-import { Product } from './Product';
+import { Product } from './product';
 import { environment } from '../admin-app/environments/environment';
 
 export class ReportOrder {

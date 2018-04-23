@@ -5,7 +5,7 @@ import { ReportOrders, ReportOrder, ReportConsumer, SellerPayment } from '../../
 import { OrderService } from '../order.service';
 import { RetialerService } from '../../retailer/retialer.service';
 import { RetailerProfileInfo } from '../../../../../models/retailer-profile-info';
-import { Product } from '../../../../../models/Product';
+import { Product } from '../../../../../models/product';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { CoreService } from '../../../services/core.service';
 import { InquiryService } from '../../inquiry/inquiry.service';

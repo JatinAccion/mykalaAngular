@@ -8,7 +8,7 @@ import { NgbTabset } from '@ng-bootstrap/ng-bootstrap/tabset/tabset';
 import { environment } from '../../../../environments/environment';
 import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 import { IAlert } from '../../../../../models/IAlert';
-import { Product } from '../../../../../models/Product';
+import { Product } from '../../../../../models/product';
 import { Promise } from 'q';
 import { RetialerService } from '../../retailer/retialer.service';
 import { inputValidations, userMessages } from './messages';

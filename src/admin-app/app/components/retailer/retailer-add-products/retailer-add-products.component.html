@@ -2,7 +2,7 @@
     <table class="table w-100">
         <tbody>
             <tr>
-                <td class="border-0">
+                <td class="border-0 w-100" >
                     <angular2-multiselect [data]="places" [(ngModel)]="selectedPlaces" 
                         [settings]="placesSettings" 
                         (onSelect)="onPlaceSelect($event)"
@@ -16,7 +16,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="border-0">
+                <td class="border-0 w-100" >
                     <angular2-multiselect [data]="categories" [(ngModel)]="selectedCategories" 
                         [settings]="categorySettings" 
                         (onSelect)="onCategorySelect($event)"
@@ -30,7 +30,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="border-0">
+                <td class="border-0 w-100">
                     <angular2-multiselect [data]="subCategories" [(ngModel)]="selectedSubCategories" 
                         [settings]="subCategorySettings" 
                         (onSelect)="onSubCategorySelect($event)"
@@ -44,7 +44,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="border-0" width="80%">
+                <td class="border-0 w-100">
                     <angular2-multiselect [data]="productTypes" [(ngModel)]="selectedProductTypes" 
                         [settings]="productTypeSettings" 
                         formControlName="productType">
@@ -52,10 +52,7 @@
                     <!--Validation-->
                     <!-- <app-field-error-display [field]="fG1.controls.productType" [errorMsg]="errorMsgs"> </app-field-error-display> -->
                     <!--Validation-->  
-                </td>
-                <td class="border-0" width="20%">
-                    
-                </td>
+                </td>                
             </tr>
             <tr>
                 <td colspan="2" class="border-0">

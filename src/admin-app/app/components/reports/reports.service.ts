@@ -76,8 +76,7 @@ export class ReportsService {
     const url = `${environment.ordersReportApi}/${environment.apis.orders.get}`.replace('{paymentType}', paymentType).replace('{year}', year).replace('{month}', month || '');
     return this.http
       .get(url, { search: query, headers: this.headers })
-      .map(p => p.json())
-      .map(p => new ReportOrders(p))
+      .map(p => this.handleResponse(p, ReportOrders))
       .catch(this.handleError);
   }
   getReviews(query?: any): Observable<RetailerReviews> {
@@ -85,13 +84,7 @@ export class ReportsService {
     const url = `${environment.AdminApi}/${environment.apis.orders.getRetailerReviews}`;
     return this.http
       .get(url, { search: query, headers: this.headers })
-      .map(res => {
-        if (res.text() === '') {
-          return new RetailerReviews();
-        } else {
-          return new RetailerReviews(res.json());
-        }
-      })
+      .map(p => this.handleResponse(p, RetailerReviews))
       .catch(this.handleError);
   }
   getRetailerReviewRatings(retailerId: string): Observable<ReviewRatings> {
@@ -130,13 +123,7 @@ export class ReportsService {
     const url = `${environment.consumerApi}/${environment.apis.orders.avgReviewCount}`.replace('{year}', year).replace('{month}', month || '');
     return this.http
       .get(url, { headers: this.headers })
-      .map(res => {
-        if (res.text() === '') {
-          return new ReportReviewSummary();
-        } else {
-          return new ReportReviewSummary(res.json());
-        }
-      })
+      .map(p => this.handleResponse(p, ReportReviewSummary))
       .catch(this.handleError);
   }
   getAvgResponseTime(year: string, month?: string): Observable<any> {

@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
     // this.homeService.getCustomers().subscribe(customers => {
     //   this.customers = customers;
     // });
-    if (!this.core.user || !this.core.user.username) {
+    if (!this.core.user || !this.core.user.userId) {
       this.router.navigateByUrl('/login');
     }
   }

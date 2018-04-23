@@ -10,7 +10,7 @@ import 'rxjs/add/operator/catch';
 import { LocalStorageService } from '../../services/LocalStorage.service';
 import { environment } from './../../../environments/environment';
 import { nameValue } from '../../../../models/nameValue';
-import { Product, Products } from '../../../../models/Product';
+import { Product, Products } from '../../../../models/product';
 import { ProductPlace, ProductType, ProductSubCategory, ProductCategory } from '../../../../models/product-info';
 import { RetailerProfileInfo } from '../../../../models/retailer-profile-info';
 import { ProductUploads } from '../../../../models/productUpload';

@@ -13,12 +13,12 @@ export class PaymentsReportComponent implements OnInit {
   orders: ReportOrders;
   isCollapsed = true;
   reportModel = 'Monthly';
-  details = { widgetType: 'total', year: 2018, month: 2 };
+  details = { widgetType: 'TOTAL', year: 2018, month: 2 };
   widget = {
-    'total': { widgetType: 'Total', year: 2018, month: 2, value: 0 },
-    'automatic': { widgetType: 'Automatic', year: 2018, month: 2, value: 0 },
-    'manual': { widgetType: 'Manual', year: 2018, month: 2, value: 0 },
-    'pending': { widgetType: 'Pending', year: 2018, month: 2, value: 0 }
+    'total': { widgetType: 'TOTAL', year: 2018, month: 2, value: 0 },
+    'automatic': { widgetType: 'AUTOMATIC', year: 2018, month: 2, value: 0 },
+    'manual': { widgetType: 'MANUAL', year: 2018, month: 2, value: 0 },
+    'pending': { widgetType: 'PAENDING', year: 2018, month: 2, value: 0 }
   };
   summary = { totalCostOfGoods: 0, totalTaxesCost: 0, totalShipCost: 0, saleRevenue: 0, netRevenue: 0 };
   backgroundColors = ['#df7970', '#4c9ca0', '#ae7d99', '#c9d45c', '#5592ad', '#6d78ad', '#51cda0', '#f8f378', '#ae6653', '#60df63', '#60c9df'];

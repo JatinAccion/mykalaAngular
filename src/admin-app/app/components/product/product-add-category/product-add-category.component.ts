@@ -7,7 +7,7 @@ import { environment } from '../../../../environments/environment';
 import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 import { IAlert } from '../../../../../models/IAlert';
 import { ProductService } from '../product.service';
-import { Product } from '../../../../../models/Product';
+import { Product } from '../../../../../models/product';
 import { inputValidations, userMessages } from './messages';
 import { ProductPlace, ProductCategory, ProductSubCategory, ProductType, ProductTypeLevels, ProductTypeLevel } from '../../../../../models/product-info';
 import { CoreService } from '../../../services/core.service';
@@ -34,7 +34,7 @@ export class ProductAddCategoryComponent implements OnInit, OnChanges {
   categories = new Array<ProductCategory>();
   subCategories = new Array<ProductSubCategory>();
   productTypes = new Array<ProductType>();
-  levels = new ProductTypeLevels();
+  // levels = new ProductTypeLevels();
   // productPlace: ProductPlace;
   // productCategory: ProductCategory;
   // productSubCategory: ProductSubCategory;
@@ -65,7 +65,7 @@ export class ProductAddCategoryComponent implements OnInit, OnChanges {
   }
   ngOnInit() {
     if (this.product.productPlaceName) {
-      this.setProductData();
+      // this.setProductData();
     } else {
       this.getPlaces();
     }
@@ -80,6 +80,7 @@ export class ProductAddCategoryComponent implements OnInit, OnChanges {
     this.required.productSubCategoryName = this.product.productSubCategoryName === '';
     this.required.productTypeName = this.product.productTypeName === '';
     this.required.taxCode = this.product.taxCode === '';
+    this.product.productHierarchy = this.product.productTypeLevels.levels.map(p => p.level);
     if (this.required.productPlaceName || this.required.productCategoryName || this.required.productSubCategoryName
       // || this.required.productTypeName
       // || this.required.taxCode
@@ -107,6 +108,7 @@ export class ProductAddCategoryComponent implements OnInit, OnChanges {
                   this.subCategories = subres;
                   if (this.product && this.product.productSubCategoryName && this.subCategories && this.subCategories.filter(p => p.SubCategoryName === this.product.productSubCategoryName).length > 0) {
                     this.product.productSubCategory = this.subCategories.filter(p => p.SubCategoryName === this.product.productSubCategoryName)[0];
+                    this.product.productTypeLevels = new ProductTypeLevels();
                     this.getTypes(this.product.productSubCategory.SubCategoryId);
                   }
                 });
@@ -134,7 +136,7 @@ export class ProductAddCategoryComponent implements OnInit, OnChanges {
     this.product.productPlaceName = this.product.productPlace.PlaceName;
     this.categories = new Array<ProductCategory>();
     this.subCategories = new Array<ProductSubCategory>();
-    this.levels = new ProductTypeLevels();
+    this.product.productTypeLevels = new ProductTypeLevels();
 
     delete this.product.productCategory;
     delete this.product.productSubCategory;
@@ -157,7 +159,7 @@ export class ProductAddCategoryComponent implements OnInit, OnChanges {
   categoryChanged(event) {
     this.product.productCategoryName = this.product.productCategory.CategoryName;
     this.subCategories = new Array<ProductSubCategory>();
-    this.levels = new ProductTypeLevels();
+    this.product.productTypeLevels = new ProductTypeLevels();
     delete this.product.productSubCategory;
     delete this.product.productType;
     this.product.productSubCategoryName = '';
@@ -177,6 +179,7 @@ export class ProductAddCategoryComponent implements OnInit, OnChanges {
     this.product.productTypeName = '';
     this.product.taxCode = '';
     this.product.productSubCategoryName = '';
+    this.product.productTypeLevels = new ProductTypeLevels();
     if (this.product.productSubCategory) {
       this.product.productSubCategoryName = this.product.productSubCategory.SubCategoryName;
       if (this.product.productSubCategory.taxCode) {
@@ -184,7 +187,6 @@ export class ProductAddCategoryComponent implements OnInit, OnChanges {
       }
       this.getTypes(this.product.productSubCategory.SubCategoryId);
     }
-    this.levels = new ProductTypeLevels();
   }
   getTypes(parentId) {
     if (parentId) {
@@ -193,38 +195,49 @@ export class ProductAddCategoryComponent implements OnInit, OnChanges {
         this.productTypes = res;
         this.typesLoading = false;
         if (res.length > 0) {
-          const newLevel = new ProductTypeLevel({ levelOptions: res, levelName: 'level' + this.levels.levels.length });
-          this.levels.levels.push(newLevel);
+          const newLevel = new ProductTypeLevel({ levelOptions: res, levelName: ' ' });
+          if (this.product.productTypeLevels && this.product.productTypeLevels.levels.length === 0) {
+            newLevel.levelName = 'Product Type';
+            if (res.filter(p => p.productTypeName === this.product.productTypeName).length > 0) {
+              newLevel.level = res.filter(p => p.productTypeName === this.product.productTypeName)[0];
+            }
+          }
+          this.product.productTypeLevels.levels.push(newLevel);
         }
+        this.product.productHierarchy = this.product.productTypeLevels.levels.map(p => p.level);
         // if (res.length === 0) {
         //   this.fG1.controls.productTypeName.clearValidators();
         // } else {
         //   this.fG1.controls.productTypeName.setValidators([Validators.required]);
         // }
         // this.fG1.controls.productTypeName.updateValueAndValidity();
-        // this.setType();
+        this.setType();
         // this.setFormValidators();
       });
     }
   }
   setType() {
-    if (this.product && this.product.productTypeName && this.productTypes && this.productTypes.filter(p => p.TypeName === this.product.productTypeName).length > 0) {
-      this.product.productType = this.productTypes.filter(p => p.TypeName === this.product.productTypeName)[0];
+    if (this.product && this.product.productTypeName && this.productTypes && this.productTypes.filter(p => p.productTypeName === this.product.productTypeName).length > 0) {
+      this.product.productType = this.productTypes.filter(p => p.productTypeName === this.product.productTypeName)[0];
+
     }
   }
   spliceLevels(parentId) {
-    if (this.levels.levels.length > 0 && this.levels.levels.filter(p => p.level.TypeId === parentId).length > 0) {
-      const existingLevel = this.levels.levels.filter(p => p.level.TypeId === parentId)[0];
-      const levelIndex = this.levels.levels.indexOf(existingLevel);
-      this.levels.levels.splice(levelIndex + 1);
+    if (this.product.productTypeLevels.levels.length > 0 && this.product.productTypeLevels.levels.filter(p => p.level.productTypeId === parentId).length > 0) {
+      const existingLevel = this.product.productTypeLevels.levels.filter(p => p.level.productTypeId === parentId)[0];
+      const levelIndex = this.product.productTypeLevels.levels.indexOf(existingLevel);
+      this.product.productTypeLevels.levels.splice(levelIndex + 1);
     }
     this.product.taxCode = '';
   }
-  levelChanged(event, level) {
+  levelChanged(event, level: ProductTypeLevel) {
     // this.product.productTypeName = this.product.productType ? this.product.productType.TypeName : '';
-    this.spliceLevels(level.level.TypeId);
+    this.product.productHierarchy = this.product.productTypeLevels.levels.map(p => p.level);
+    if (level && level.level && level.level.productTypeId) {
+      this.spliceLevels(level.level.productTypeId);
+    }
     if (level.level.nextLevelProductTypeStatus) {
-      this.getTypes(level.level.TypeId);
+      this.getTypes(level.level.productTypeId);
     }
     if (level.level.taxCode) {
       this.product.taxCode = level.level.taxCode;

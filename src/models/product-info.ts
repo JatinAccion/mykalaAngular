@@ -40,14 +40,14 @@ export class ProductSubCategory extends ProductCategory {
 export class ProductType {
     public parentId: string;
     public parentName: string;
-    public TypeId: string;
-    public TypeName: string;
+    public productTypeId: string;
+    public productTypeName: string;
     public taxCode: string;
     public nextLevelProductTypeStatus: boolean;
     constructor(obj?: any) {
         if (obj) {
-            this.TypeId = obj.productTypeId;
-            this.TypeName = obj.productTypeName;
+            this.productTypeId = obj.productTypeId;
+            this.productTypeName = obj.productTypeName;
             this.parentId = obj.parentId;
             this.parentName = obj.parentName;
             this.taxCode = obj.taxCode || '';

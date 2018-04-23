@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Products } from '../../../../../models/Product';
+import { Products } from '../../../../../models/product';
 import { ProductService } from '../product.service';
 import { ProductPlace, ProductCategory, ProductSubCategory } from '../../../../../models/product-info';
 import { RetialerService } from '../../retailer/retialer.service';

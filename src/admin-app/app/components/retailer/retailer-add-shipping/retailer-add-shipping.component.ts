@@ -210,7 +210,7 @@ export class RetailerAddShippingComponent implements OnInit {
     }
     return fg;
   }
-  createShippingLocation(locationName, locationType, locationStatus?, locationFee?) {
+  createShippingLocation(locationName, locationType, locationStatus: boolean = false, locationFee = 0) {
     return this.formBuilder.group({
       locationName: locationName,
       locationType: locationType,

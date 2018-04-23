@@ -1,4 +1,4 @@
-import { ProductPlace, ProductCategory, ProductSubCategory, ProductType } from './product-info';
+import { ProductPlace, ProductCategory, ProductSubCategory, ProductType, ProductTypeLevels } from './product-info';
 import { Pagination } from './pagination';
 import { environment } from '../admin-app/environments/environment';
 export class Product {
@@ -15,6 +15,8 @@ export class Product {
     public productCategoryName: string;
     public productSubCategoryName: string;
     public productTypeName: string;
+    public productHierarchy: Array<ProductType>;
+
     public retailPrice: number;
     public kalaPrice: number;
     public lowestPrice: number;
@@ -42,11 +44,13 @@ export class Product {
     public length: number;
     public height: number;
     public width: number;
-
+    public productTypeLevels: ProductTypeLevels;
     constructor(obj?: any) {
         this.otherImages = new Array<ProductImage>();
         this.productImages = new Array<ProductImage>();
         this.attributes = new Map<string, object>();
+        this.productHierarchy = new Array<ProductType>();
+        this.productTypeLevels = new ProductTypeLevels();
         if (obj) {
             this.retailerId = obj.retailerId;
             this.retailerName = obj.retailerName;
@@ -60,6 +64,12 @@ export class Product {
             this.productCategoryName = obj.productCategoryName;
             this.productSubCategoryName = obj.productSubCategoryName;
             // this.productTypeName = obj.productTypeName;
+            if (obj.productHierarchy) {
+                this.productHierarchy = obj.productHierarchy.map(p => new ProductType(p));
+                if (this.productHierarchy && this.productHierarchy.filter(p => p.parentName === this.productSubCategoryName).length > 0) {
+                    this.productTypeName = this.productHierarchy.filter(p => p.parentName === this.productSubCategoryName)[0].productTypeName;
+                }
+            }
             this.retailPrice = obj.retailPrice;
             this.kalaPrice = obj.kalaPrice;
             this.lowestPrice = obj.lowestPrice;
@@ -79,7 +89,7 @@ export class Product {
             if (obj.attributes) {
                 this.attributes = obj.attributes;
                 this.brandName = obj.attributes.Brand;
-                this.productTypeName = obj.attributes.Type;
+                // this.productTypeName = obj.attributes.Type;
             }
 
             this.productImages = obj.productImages ? obj.productImages.filter(p => p.location !== null).map(p => new ProductImage(p)) : new Array<ProductImage>();

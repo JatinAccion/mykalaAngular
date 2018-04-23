@@ -40,12 +40,12 @@
                     </div>
                 </td>
             </tr>
-            <tr *ngFor="let level of levels.levels">
+            <tr *ngFor="let level of product.productTypeLevels.levels">
                 <td class="border-0">
                     <select class="ddl_default form-control" [(ngModel)]="level.level" [disabled]="typesLoading" (change)="levelChanged($event, level)">
                         <option [ngValue]="productTypeDummy">Select {{level.levelName}}</option>
                         <option *ngFor="let option of level.levelOptions" [ngValue]="option">
-                            {{option.TypeName}}
+                            {{option.productTypeName}}
                         </option>
                     </select>
                     <div *ngIf="required.productTypeName" class="alert alert-danger errorMessages">

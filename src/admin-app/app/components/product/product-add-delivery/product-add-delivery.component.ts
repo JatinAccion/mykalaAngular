@@ -7,7 +7,7 @@ import { environment } from '../../../../environments/environment';
 import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 import { ProductService } from '../product.service';
 import { inputValidations, userMessages } from './messages';
-import { Product } from '../../../../../models/Product';
+import { Product } from '../../../../../models/product';
 import { CoreService } from '../../../services/core.service';
 // #endregion imports
 
