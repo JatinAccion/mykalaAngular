@@ -73,6 +73,7 @@ import { TrackOrderComponent } from './components/track-order/track-order.compon
 import { MyNewsAlertsComponent } from './components/my-news-alerts/my-news-alerts.component';
 import { MyAlertsService } from './services/MyNewsAlertsService';
 import { MailEntryModule } from './components/mail-entry/mail-entry.module';
+import { ElasticSearchResult } from './components/elastic-search-result/elastic-search-result.component';
 
 @NgModule({
   declarations: [
@@ -111,7 +112,8 @@ import { MailEntryModule } from './components/mail-entry/mail-entry.module';
     MyoffersComponent,
     LeaveReviewComponent,
     TrackOrderComponent,
-    MyNewsAlertsComponent
+    MyNewsAlertsComponent,
+    ElasticSearchResult
   ],
   imports: [
     BrowserModule,
@@ -126,9 +128,32 @@ import { MailEntryModule } from './components/mail-entry/mail-entry.module';
     NgbModule.forRoot(),
     SidebarModule.forRoot()
   ],
-  providers: [AuthService, EnsureAuthenticated, LoginRedirect, HomeService, CoreService, ConversationalService, JoinKalaService, MyAccountService, MyOrdersService, MyReviewService, ViewProductService, MyOffersService,
-    ProfileInfoService, MyAlertsService, VerificationService, LocalStorageService, ConsumerInterestService, ResetPasswordService, ForgotPasswordService, GetOfferService, CheckoutService,
-    { provide: NgbDateParserFormatter, useClass: NgbDateFRParserFormatter }],
+  providers: [
+    AuthService,
+    EnsureAuthenticated,
+    LoginRedirect,
+    HomeService,
+    CoreService,
+    ConversationalService,
+    JoinKalaService,
+    MyAccountService,
+    MyOrdersService,
+    MyReviewService,
+    ViewProductService,
+    MyOffersService,
+    ProfileInfoService,
+    MyAlertsService,
+    VerificationService,
+    LocalStorageService,
+    ConsumerInterestService,
+    ResetPasswordService,
+    ForgotPasswordService,
+    GetOfferService,
+    CheckoutService,
+    {
+      provide: NgbDateParserFormatter,
+      useClass: NgbDateFRParserFormatter
+    }],
   bootstrap: [AppComponent],
   entryComponents: [cmsgComponent, HomeComponent, cListComponent, JoinKalaComponent, LoginComponent]
 })

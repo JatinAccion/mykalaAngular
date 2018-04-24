@@ -31,6 +31,7 @@ import { LeaveReviewComponent } from './components/leave-review/leave-review.com
 import { TrackOrderComponent } from './components/track-order/track-order.component';
 import { MyNewsAlertsComponent } from './components/my-news-alerts/my-news-alerts.component';
 import { MailEntryRoutingModule } from './components/mail-entry/mail-entry-routing.module';
+import { ElasticSearchResult } from './components/elastic-search-result/elastic-search-result.component';
 
 const appRoutes: Routes = [
     {
@@ -51,6 +52,11 @@ const appRoutes: Routes = [
     {
         path: 'browse-product',
         component: BrowseProductComponent,
+        data: { header: 'header2' }
+    },
+    {
+        path: 'elastic-product',
+        component: ElasticSearchResult,
         data: { header: 'header2' }
     },
     {
@@ -165,7 +171,7 @@ const appRoutes: Routes = [
 ];
 
 @NgModule({
-    imports: [ MailEntryRoutingModule, RouterModule.forRoot(appRoutes, { useHash: true })],
+    imports: [MailEntryRoutingModule, RouterModule.forRoot(appRoutes, { useHash: true })],
     exports: [RouterModule]
 })
 export class AppRoutingModule { }

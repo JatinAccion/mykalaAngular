@@ -38,14 +38,11 @@ export class BrowseProductComponent implements OnInit {
     this.core.headerScroll();
     localStorage.removeItem("selectedProduct");
     this.loader = true;
-    if (window.localStorage['getOffers'] != undefined) {
-      this.getOffersData = JSON.parse(window.localStorage['getOffers']).getOffersResponse;
-      this.loadOffersData();
-    }
-    else this.loadTypes();
+    this.loadTypes();
     this.core.pageLabel();
   }
 
+  /*Sequential Search Result*/
   loadTypes() {
     this.loader = true;
     this.tilesData = [];
@@ -55,31 +52,6 @@ export class BrowseProductComponent implements OnInit {
       for (var i = 0; i < res.content.length; i++) {
         let content = res.content[i];
         this.productListingModal = new BrowseProductsModal(content);
-        // this.productListingModal.product.productImages = new Array<any>();
-        // this.productListingModal.deliveryMethod = content.deliveryMethod;
-        // this.productListingModal.retailerName = content.retailerName;
-        // this.productListingModal.retailerReturns = content.retailerReturns;
-        // this.productListingModal.product.brandName = content.brandName;
-        // this.productListingModal.product.createdDate = content.createdDate;
-        // this.productListingModal.product.kalaPrice = content.kalaPrice;
-        // this.productListingModal.product.kalaUniqueId = content.kalaUniqueId;
-        // this.productListingModal.product.productActivatedDate = content.productActivatedDate;
-        // this.productListingModal.product.productCategoryName = content.productCategoryName;
-        // this.productListingModal.product.productDescription = content.productDescription;
-        // this.productListingModal.product.productName = content.productName;
-        // this.productListingModal.product.productPlaceName = content.productPlaceName;
-        // this.productListingModal.product.productSkuCode = content.productSkuCode;
-        // this.productListingModal.product.productStatus = content.productStatus;
-        // this.productListingModal.product.productSubCategoryName = content.productSubCategoryName;
-        // this.productListingModal.product.productTypeName = content.productTypeName;
-        // this.productListingModal.product.productUpcCode = content.productUpcCode;
-        // this.productListingModal.product.quantity = content.quantity;
-        // this.productListingModal.product.retailPrice = content.retailPrice;
-        // this.productListingModal.product.retailerId = content.retailerId;
-        // this.productListingModal.product.shipProfileId = content.shipProfileId;
-        // this.productListingModal.product.productImages = content.productImages;
-        // this.productListingModal.product.taxCode = content.taxCode;
-        // this.productListingModal.product.mainImageSrc = "";
         if (this.productListingModal.product.productStatus != false) this.tilesData.push(this.productListingModal);
       }
       this.getMainImage();
@@ -93,51 +65,6 @@ export class BrowseProductComponent implements OnInit {
       this.core.searchMsgToggle('get offers');
       window.localStorage['browseProductSearch'] = this.headerMessage;
     });
-  }
-
-  loadOffersData() {
-    this.loader = false;
-    this.tilesData = [];
-    this.selectedTilesData = JSON.parse(window.localStorage['levelSelections']);
-    for (var i = 0; i < this.getOffersData.length; i++) {
-      let content = this.getOffersData[i];
-      this.productListingModal = new BrowseProductsModal(content);
-      // this.productListingModal.product.productImages = new Array<any>();
-      // this.productListingModal.deliveryMethod = content.deliveryMethod;
-      // this.productListingModal.retailerName = content.retailerName;
-      // this.productListingModal.retailerReturns = content.retailerReturns;
-      // this.productListingModal.product.brandName = content.product.brandName;
-      // this.productListingModal.product.createdDate = content.product.createdDate;
-      // this.productListingModal.product.kalaPrice = content.product.kalaPrice;
-      // this.productListingModal.product.kalaUniqueId = content.product.kalaUniqueId;
-      // this.productListingModal.product.productActivatedDate = content.product.productActivatedDate;
-      // this.productListingModal.product.productCategoryName = content.product.productCategoryName;
-      // this.productListingModal.product.productDescription = content.product.productDescription;
-      // this.productListingModal.product.productName = content.product.productName;
-      // this.productListingModal.product.productPlaceName = content.product.productPlaceName;
-      // this.productListingModal.product.productSkuCode = content.product.productSkuCode;
-      // this.productListingModal.product.productStatus = content.product.productStatus;
-      // this.productListingModal.product.productSubCategoryName = content.product.productSubCategoryName;
-      // this.productListingModal.product.productTypeName = content.product.productTypeName;
-      // this.productListingModal.product.productUpcCode = content.product.productUpcCode;
-      // this.productListingModal.product.quantity = content.product.quantity;
-      // this.productListingModal.product.retailPrice = content.product.retailPrice;
-      // this.productListingModal.product.retailerId = content.product.retailerId;
-      // this.productListingModal.product.shipProfileId = content.product.shipProfileId;
-      // this.productListingModal.product.productImages = content.product.productImages;
-      // this.productListingModal.product.taxCode = content.taxCode;
-      // this.productListingModal.product.mainImageSrc = "";
-      if (this.productListingModal.product.productStatus != false) this.tilesData.push(this.productListingModal);
-    }
-    this.getMainImage();
-    if (this.tilesData.length > 0) this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' ' + this.selectedTilesData.category.name + ' for you';
-    else this.headerMessage = 'Sorry, but we don\'t have product matches for you';
-    if (this.selectedTilesData.subcategory.length == undefined) {
-      if (this.tilesData.length > 0) this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' ' + this.selectedTilesData.subcategory.name + ' for you';
-      else this.headerMessage = 'Sorry, but we don\'t have product matches for you';
-    }
-    this.core.show(this.headerMessage);
-    this.core.searchMsgToggle('get offers');
   }
 
   getMainImage() {

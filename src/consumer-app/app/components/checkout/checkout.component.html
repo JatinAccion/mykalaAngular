@@ -12,7 +12,7 @@
       <div class="row mb-3" *ngFor="let address of shippingAddressCheckout">
         <div class="col-sm-10">
           <div class="categ_outline_gray w-100 text-center customerShippingAddress" style="cursor:pointer" (click)="selectShippingAddress($event, address)">
-            {{address.addressLineOne}}, {{address.city}}, {{address.state}}, {{address.zipcode}}
+            {{address.addressLine1}}, {{address.city}}, {{address.state}}, {{address.zipcode}}
           </div>
         </div>
         <div class="col-sm-2 text-right">

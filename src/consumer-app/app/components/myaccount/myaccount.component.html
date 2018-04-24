@@ -4,7 +4,7 @@
 
   <div class="container" id="main">
     <div id="content">
-      <div class="myaccount row">
+      <div class="myaccount row" *ngIf="!pageLoader;else preloader">
         <div class="col-sm-6">
           <div class="myaccount_row">
             <!--Profile Image-->
@@ -146,9 +146,9 @@
                   <div class="w-100" *ngFor="let shippingAddress of myAccountModel.profileInfo.address">
                     <div class="mb-3 row" *ngIf="shippingAddress.addressType == 'shippingAddress'">
                       <div class="col-sm-9 text-right p-2" style="padding-top: 0 !important">
-                        <span *ngIf="!shippingAddress.input_shippingAddress">{{shippingAddress.addressLineOne}}</span>
+                        <span *ngIf="!shippingAddress.input_shippingAddress">{{shippingAddress.addressLine1}}</span>
                         <br />
-                        <span *ngIf="!shippingAddress.input_shippingAddress">{{shippingAddress.addressLineTwo}}</span>
+                        <span *ngIf="!shippingAddress.input_shippingAddress">{{shippingAddress.addressLine2}}</span>
                         <br />
                         <span *ngIf="!shippingAddress.input_shippingAddress">{{shippingAddress.city}},</span>
                         <span *ngIf="!shippingAddress.input_shippingAddress">{{shippingAddress.state}},</span>
@@ -259,6 +259,11 @@
           </div>
         </div>
       </div>
+      <ng-template #preloader>
+        <div class="text-center mb-3">
+          <img src="/consumer-app/assets/images/loader.gif" *ngIf="pageLoader" />
+        </div>
+      </ng-template>
     </div>
   </div>
 </div>

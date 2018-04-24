@@ -184,8 +184,10 @@ export class CoreService {
 
   search(text) {
     this.loaderSearch = true;
+    window.localStorage['esKey'] = text;
     this.searchProduct(text).subscribe((res) => {
       this.loaderSearch = false;
+      this.route.navigateByUrl("/elastic-product");
     }, (err) => {
       this.loaderSearch = false;
     })
