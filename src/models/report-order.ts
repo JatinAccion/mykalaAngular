@@ -56,6 +56,59 @@ export class ReportOrders extends Pagination {
   }
   public content: ReportOrder[];
 }
+export class ReportPaymentData {
+  public connectAccountId: string;
+  public kalaCommissionFee: number;
+  public orderAmount: number;
+  public orderDate: Date;
+  public orderId: string;
+  public orderItemId: string;
+  public orderTransactionId: string;
+  public paymentArrivalDate: Date;
+  public paymentInitiatedDate: Date;
+  public paymentStatus: string;
+  public paymentType: string;
+  public paytoSeller: boolean;
+  public retailerId: string;
+  public retailerName: string;
+  public sellerPaymentAmount: number;
+  public sellerShipmentStatus: string;
+  public transferGroup: string;
+  public transferId: string;
+  constructor(obj?: any) {
+    if (obj) {
+      this.connectAccountId = obj.connectAccountId;
+      this.kalaCommissionFee = obj.kalaCommissionFee;
+      this.orderAmount = obj.orderAmount;
+      this.orderDate = obj.orderDate;
+      this.orderId = obj.orderId;
+      this.orderItemId = obj.orderItemId;
+      this.orderTransactionId = obj.orderTransactionId;
+      this.paymentArrivalDate = obj.paymentArrivalDate;
+      this.paymentInitiatedDate = obj.paymentInitiatedDate;
+      this.paymentStatus = obj.paymentStatus;
+      this.paymentType = obj.paymentType;
+      this.paytoSeller = obj.paytoSeller;
+      this.retailerId = obj.retailerId;
+      this.retailerName = obj.retailerName;
+      this.sellerPaymentAmount = obj.sellerPaymentAmount;
+      this.sellerShipmentStatus = obj.sellerShipmentStatus;
+      this.transferGroup = obj.transferGroup;
+      this.transferId = obj.transferId;
+    }
+  }
+}
+
+export class ReportPaymentDatas extends Pagination {
+  constructor(obj?: any) {
+    if (obj) {
+      super(obj);
+      this.content = obj.content.map(p => new ReportPaymentData(p));
+    }
+  }
+  public content: ReportPaymentData[];
+}
+
 export class ReportOrderItem {
   productId: string;
   retailerId: string;

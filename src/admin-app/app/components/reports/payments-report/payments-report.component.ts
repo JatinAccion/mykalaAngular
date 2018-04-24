@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
-import { ReportOrders } from '../../../../../models/report-order';
+import { ReportOrders, ReportPaymentDatas } from '../../../../../models/report-order';
 import { ReportsService } from '../reports.service';
 
 @Component({
@@ -9,16 +9,20 @@ import { ReportsService } from '../reports.service';
   encapsulation: ViewEncapsulation.None
 })
 export class PaymentsReportComponent implements OnInit {
+  activeWidget: { widgetType: string; year: number; month: number; value: number; };
+  summaryType = 'TOTAL';
   loading: boolean;
-  orders: ReportOrders;
+  orders: ReportPaymentDatas;
   isCollapsed = true;
   reportModel = 'Monthly';
-  details = { widgetType: 'TOTAL', year: 2018, month: 2 };
+  currentYear = new Date().getFullYear();
+  currentMonth = new Date().getMonth();
+  details = { widgetType: 'TOTAL/PAID', year: this.currentYear, month: this.currentMonth };
   widget = {
-    'total': { widgetType: 'TOTAL', year: 2018, month: 2, value: 0 },
-    'automatic': { widgetType: 'AUTOMATIC', year: 2018, month: 2, value: 0 },
-    'manual': { widgetType: 'MANUAL', year: 2018, month: 2, value: 0 },
-    'pending': { widgetType: 'PAENDING', year: 2018, month: 2, value: 0 }
+    'total': { widgetType: 'TOTAL/PAID', year: this.currentYear, month: this.currentMonth, value: 0 },
+    'automatic': { widgetType: 'AUTOMATIC/PAID', year: this.currentYear, month: this.currentMonth, value: 0 },
+    'manual': { widgetType: 'MANUAL/PAID', year: this.currentYear, month: this.currentMonth, value: 0 },
+    'pending': { widgetType: 'TOTAL/PENDING', year: this.currentYear, month: this.currentMonth, value: 0 }
   };
   summary = { totalCostOfGoods: 0, totalTaxesCost: 0, totalShipCost: 0, saleRevenue: 0, netRevenue: 0 };
   backgroundColors = ['#df7970', '#4c9ca0', '#ae7d99', '#c9d45c', '#5592ad', '#6d78ad', '#51cda0', '#f8f378', '#ae6653', '#60df63', '#60c9df'];
@@ -71,12 +75,12 @@ export class PaymentsReportComponent implements OnInit {
     }
   };
   constructor(private reportsService: ReportsService) {
-    this.orders = new ReportOrders();
+    this.orders = new ReportPaymentDatas();
   }
 
   ngOnInit() {
     this.getData();
-
+    this.getPage(1);
   }
   getData() {
     this.goto('total', 0);
@@ -107,28 +111,38 @@ export class PaymentsReportComponent implements OnInit {
   }
   getDetails(type) {
     let widget = this.widget.total;
+    this.activeWidget = this.widget.total;
     switch (type) {
       case 'one': widget = this.widget.total; break;
       case 'two': widget = this.widget.automatic; break;
       case 'three': widget = this.widget.manual; break;
       case 'four': widget = this.widget.pending; break;
     }
-    this.reportsService.getPaymentReports(widget.widgetType, widget.year.toString(), this.reportModel !== 'Monthly' ? '' : (widget.month + 1).toString()).subscribe((res) => { this.setupSummary(res[0]); });
+    this.activeWidget = widget;
+    this.getSummary();
     this.reportsService.getconsumerPaymentReports(widget.widgetType, widget.year.toString(), this.reportModel !== 'Monthly' ? '' : (widget.month + 1).toString()).subscribe((res) => { this.setupChartData(res); });
     this.details.widgetType = widget.widgetType;
     this.details.year = widget.year;
     this.details.month = widget.month;
-    this.getPage(1);
+    // this.getPage(1);
   }
-  setupSummary(res) {
-    if (res) {
-      this.summary.totalCostOfGoods = res.totalCostOfGoods;
-      this.summary.totalShipCost = res.totalShipCost;
-      this.summary.totalTaxesCost = res.totalTaxesCost;
+  getSummary() {
+    this.reportsService.getPaymentReports(this.activeWidget.widgetType, this.summaryType, this.activeWidget.year.toString(), this.reportModel !== 'Monthly' ? '' : (this.activeWidget.month + 1).toString()).subscribe((res) => {
+      if (res && res.length > 0) {
+        this.summary.totalCostOfGoods = res[0].totalCostOfGoods;
+        this.summary.totalShipCost = res[0].totalShipCost;
+        this.summary.totalTaxesCost = res[0].totalTaxesCost;
 
-      this.summary.saleRevenue = this.summary.totalCostOfGoods + this.summary.totalShipCost + this.summary.totalTaxesCost;
-      this.summary.netRevenue = this.summary.totalCostOfGoods + this.summary.totalShipCost + + this.summary.totalTaxesCost;
-    }
+        this.summary.saleRevenue = this.summary.totalCostOfGoods + this.summary.totalShipCost + this.summary.totalTaxesCost;
+        this.summary.netRevenue = this.summary.totalCostOfGoods + this.summary.totalShipCost + + this.summary.totalTaxesCost;
+      } else {
+        this.summary.totalCostOfGoods = 0;
+        this.summary.totalShipCost = 0;
+        this.summary.totalTaxesCost = 0;
+        this.summary.saleRevenue = 0;
+        this.summary.netRevenue = 0;
+      }
+    });
   }
   setupChartData(res) {
     this.data = {
@@ -144,8 +158,8 @@ export class PaymentsReportComponent implements OnInit {
   }
   getPage(page: number) {
     this.loading = true;
-    const searchParams = { page: page - 1, size: 10, sortOrder: 'asc', elementType: 'createdDate' };
-    this.reportsService.getOrders(this.details.widgetType, this.details.year.toString(), (this.details.month + 1).toString(), searchParams).subscribe(res => {
+    const searchParams = { page: page - 1, size: 10, sortOrder: 'asc', elementType: 'createdDate,ASC' };
+    this.reportsService.getPaymentDetails(searchParams).subscribe(res => {
       this.orders = res;
       this.loading = false;
     });

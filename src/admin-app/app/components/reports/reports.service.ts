@@ -10,7 +10,7 @@ import 'rxjs/add/operator/catch';
 import { LocalStorageService } from '../../services/LocalStorage.service';
 import { environment } from './../../../environments/environment';
 import { nameValue } from '../../../../models/nameValue';
-import { ReportOrders, ReportRetailerInquirys } from '../../../../models/report-order';
+import { ReportOrders, ReportRetailerInquirys, ReportPaymentDatas } from '../../../../models/report-order';
 import { ReportReviewSummary } from '../../../../models/report-review';
 import { Retailers, RetailerReviews, ReviewRatings } from '../../../../models/retailer';
 
@@ -55,9 +55,9 @@ export class ReportsService {
       .map(p => p.json())
       .catch(this.handleError);
   }
-  getPaymentReports(paymentType: string, year: string, month?: string) {
+  getPaymentReports(paymentType: string, summary: string, year: string, month?: string) {
     this.headers = this.getHttpHeraders();
-    const url = `${environment.ordersReportApi}/${environment.apis.orders.paymentReports}`.replace('{paymentType}', paymentType).replace('{year}', year).replace('{month}', month || '');
+    const url = `${environment.ordersReportApi}/${environment.apis.orders.paymentReports}`.replace('{paymentType}', paymentType).replace('{summary}',summary).replace('{year}', year).replace('{month}', month || '');
     return this.http
       .get(url, { headers: this.headers })
       .map(p => p.json())
@@ -77,6 +77,14 @@ export class ReportsService {
     return this.http
       .get(url, { search: query, headers: this.headers })
       .map(p => this.handleResponse(p, ReportOrders))
+      .catch(this.handleError);
+  }
+  getPaymentDetails( query?: any): Observable<ReportPaymentDatas> {
+    this.headers = this.getHttpHeraders();
+    const url = `${environment.ordersReportApi}/${environment.apis.orders.getPaymentDetails}`;
+    return this.http
+      .get(url, { search: query, headers: this.headers })
+      .map(p => this.handleResponse(p, ReportPaymentDatas))
       .catch(this.handleError);
   }
   getReviews(query?: any): Observable<RetailerReviews> {

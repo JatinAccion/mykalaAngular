@@ -83,7 +83,7 @@ export const apiNames = {
     orders: {
         get: '',
         paymentCounts: 'paymentCounts/{paymentType}/{year}/{month}',
-        paymentReports: 'paymentReports/{paymentType}/{year}/{month}',
+        paymentReports: 'paymentReports/{paymentType}/summary/{summary}/{year}/{month}',
         consumerPayment: 'consumerPayment/{paymentType}/{year}/{month}',
         getOrders: 'orders/{paymentType}/{year}/{month}',
         consumerYearlyReport: 'customerYearlyReport/{memberType}/{year}/{month}',
@@ -94,7 +94,8 @@ export const apiNames = {
         sellerPayment: 'sellerPayment',
         sellerPaymentStatus: '{orderId}/{retailerId}/sellerPaymentStatus',
         getRetailerReviews: 'reports/review',
-        getRetailerReviewRatings: 'consumer/v1/report/retailerReviewRatings/{retailerId}'
+        getRetailerReviewRatings: 'consumer/v1/report/retailerReviewRatings/{retailerId}',
+        getPaymentDetails: 'paymentDetails',
     },
     consumer: {
         get: 'consumer/v1/userId',

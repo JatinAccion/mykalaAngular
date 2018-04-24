@@ -40,10 +40,10 @@ export class RetialerShippingProfile {
             this.shippingProfileName = obj.shippingProfileName;
             this.deliveryOption = obj.deliveryOption;
             if (obj.deliveryTiers) {
-                this.deliveryTiers = obj.deliveryTiers.map(p => new ShippingDeliveryTier(p)).sort((a, b) => a.sequence - b.sequence );
+                this.deliveryTiers = obj.deliveryTiers.map(p => new ShippingDeliveryTier(p)).sort((a, b) => a.sequence - b.sequence);
             }
-            this.shippingOriginAddress = obj.shippingOriginAddress;
-            this.deliveryLocation = obj.deliveryLocation;
+            this.shippingOriginAddress = new ShippingOriginAddress(obj.shippingOriginAddress);
+            this.deliveryLocation = new DeliveryLocation(obj.deliveryLocation);
         }
     }
 }
@@ -60,24 +60,83 @@ export class ShippingDeliveryTier {
             this.minValue = obj.minValue;
             this.maxValue = obj.maxValue;
             this.sequence = obj.sequence;
-            this.deliveryMethods = obj.deliveryMethods;
+            if (obj.deliveryMethods) {
+                this.deliveryMethods = obj.deliveryMethods.map(p => new RetailerDeliveryMethodFee(p)).sort((a, b) => a.sequence - b.sequence);
+            }
         }
     }
-
 }
-export class ShippingOriginAddress extends PostalAddress { }
+
+export class ShippingOriginAddress extends PostalAddress { constructor(obj?: any) { super(obj); } }
 export class DeliveryLocation {
     public countryName: string;
     public locations: Location[];
+    constructor(obj?: any) {
+        this.countryName = 'USA';
+        if (obj) {
+            this.countryName = obj.countryName;
+            if (obj.locations) {
+                this.locations = obj.locations.map(p => new Location(p)).sort((a, b) => a.locationName < b.locationName);
+            }
+        } else {
+            this.locations = new Array<Location>();
+            this.locations.push(new Location({
+                locationName: location.ContinentalUS, locationType: location.state, locationStatus: true, locationFee: 0
+            }));
+            this.locations.push(new Location({
+                locationName: location.AlaskaandHawaii, locationType: location.state, locationStatus: true, locationFee: 0
+            }));
+            this.locations.push(new Location({
+                locationName: location.USProtectorates, locationType: location.territory, locationStatus: true, locationFee: 0
+            }));
+        }
+    }
 }
 export class Location {
     public locationName: string;
     public locationType: string;
     public locationStatus: boolean;
     public locationFee: number;
+    constructor(obj?: any) {
+        if (obj) {
+            this.locationName = obj.locationName;
+            this.locationType = obj.locationType;
+            this.locationStatus = obj.locationStatus;
+            this.locationFee = obj.locationFee;
+        }
+    }
 }
+export const location = {
+    'ContinentalUS': 'Continental US',
+    'AlaskaandHawaii': 'Alaska and Hawaii',
+    'USProtectorates': 'US Protectorates',
+    'territory': 'territory',
+    'state': 'state',
+};
+export const shippingMethods = {
+    'Nextday1businessdayshipping': 'Next day: 1 business day shipping',
+    'twoday2businessdayshipping': '2 day: 2 business day shipping',
+    'Express3to5businessdays': 'Express: 3 to 5 business days',
+    'Standard5to8businessdays': 'Standard: 5 to 8 business days',
+    'Custom': 'Custom'
+};
 export class RetailerDeliveryMethodFee {
     public deliveryMethodName: string;
     public deliveryFee: number;
     public checkMethodStatus: boolean;
+    public sequnce: number;
+    constructor(obj?: any) {
+        if (obj) {
+            this.deliveryMethodName = obj.deliveryMethodName;
+            this.deliveryFee = obj.deliveryFee;
+            this.checkMethodStatus = obj.checkMethodStatus;
+            switch (this.deliveryMethodName) {
+                case shippingMethods.Nextday1businessdayshipping: this.sequnce = 0; break;
+                case shippingMethods.twoday2businessdayshipping: this.sequnce = 1; break;
+                case shippingMethods.Express3to5businessdays: this.sequnce = 2; break;
+                case shippingMethods.Standard5to8businessdays: this.sequnce = 3; break;
+                default: this.sequnce = 4; break;
+            }
+        }
+    }
 }

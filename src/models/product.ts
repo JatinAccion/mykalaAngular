@@ -1,4 +1,4 @@
-import { ProductPlace, ProductCategory, ProductSubCategory, ProductType, ProductTypeLevels } from './product-info';
+import { ProductPlace, ProductCategory, ProductSubCategory, ProductType, ProductTypeLevels, ProductLevel } from './product-info';
 import { Pagination } from './pagination';
 import { environment } from '../admin-app/environments/environment';
 export class Product {
@@ -12,10 +12,14 @@ export class Product {
     // public brandName: string;
     public productDescription: string;
     public productPlaceName: string;
+    public productPlaceId: string;
     public productCategoryName: string;
+    public productCategoryId: string;
     public productSubCategoryName: string;
+    public productSubCategoryId: string;
     public productTypeName: string;
-    public productHierarchy: Array<ProductType>;
+    public productTypeId: string;
+    public productHierarchy: Array<ProductLevel>;
 
     public retailPrice: number;
     public kalaPrice: number;
@@ -49,7 +53,7 @@ export class Product {
         this.otherImages = new Array<ProductImage>();
         this.productImages = new Array<ProductImage>();
         this.attributes = new Map<string, object>();
-        this.productHierarchy = new Array<ProductType>();
+        this.productHierarchy = new Array<ProductLevel>();
         this.productTypeLevels = new ProductTypeLevels();
         if (obj) {
             this.retailerId = obj.retailerId;
@@ -66,9 +70,9 @@ export class Product {
             // this.productTypeName = obj.productTypeName;
             if (obj.productHierarchy) {
                 this.productHierarchy = obj.productHierarchy.map(p => new ProductType(p));
-                if (this.productHierarchy && this.productHierarchy.filter(p => p.parentName === this.productSubCategoryName).length > 0) {
-                    this.productTypeName = this.productHierarchy.filter(p => p.parentName === this.productSubCategoryName)[0].productTypeName;
-                }
+                // if (this.productHierarchy && this.productHierarchy.filter(p => p.parentName === this.productSubCategoryName).length > 0) {
+                //     this.productTypeName = this.productHierarchy.filter(p => p.parentName === this.productSubCategoryName)[0].productTypeName;
+                // }
             }
             this.retailPrice = obj.retailPrice;
             this.kalaPrice = obj.kalaPrice;

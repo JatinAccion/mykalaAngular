@@ -167,9 +167,9 @@
                 <div class="text-center p-2">
                     Payments Summary, Total vs Avg.
                     <span class="float-right">
-                        <select class="ddl_default">
-                            <option>Total</option>
-                            <option>Total1</option>
+                        <select class="ddl_default" [(ngModel)]="summaryType" (change)="getSummary()">
+                            <option value="TOTAL" >Total</option>
+                            <option value="AVG">Average</option>
                         </select>
                     </span>
                 </div>
@@ -232,13 +232,13 @@
                 <tr>
                     <td> {{(orders.size*orders.number) + idx+1}} </td>
                     <td>{{order.orderId}}</td>
-                    <td>{{order.orderItems[0].retailerName}}</td>
-                    <td>{{order.purchasedDate | date:'shortDate'}}</td>
-                    <td>{{order.payment.paymentStatus || 'unpaid' }}</td>
-                    <td>{{'Manual'}}</td>
-                    <td>{{order.purchasedPrice | currency }}</td>
-                    <td>{{(order.payment.paymentAmount /100) || '0'| currency }}</td>
-                    <td>{{order.payment.paymentDate | date:'shortDate'}}</td>
+                    <td>{{order.retailerName}}</td>
+                    <td>{{order.orderDate | date:'shortDate'}}</td>
+                    <td>{{order.paymentStatus || 'PENDING' }}</td>
+                    <td>{{order.paymentType}}</td>
+                    <td>{{order.orderAmount  | currency }}</td>
+                    <td>{{(order.sellerPaymentAmount) || '0'| currency }}</td>
+                    <td>{{order.paymentInitiatedDate | date:'shortDate'}}</td>
                 </tr>
             </tbody>
         </table>

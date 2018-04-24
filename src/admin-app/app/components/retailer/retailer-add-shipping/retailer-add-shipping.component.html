@@ -346,7 +346,7 @@
                                         <div class="col-sm-12  p-2">
                                             <div formArrayName="locations" class="well well-lg col-md-12 p-2" *ngFor="let item of shippingFG3.get('locations').controls; let i = index;">
                                                 <div [formGroupName]="i">
-                                                    <input type="checkbox" formControlName="locationType" />
+                                                    <input type="checkbox" formControlName="locationStatus" />
                                                     <label class="control-label" [ngClass]="validatorExt.displayFieldCss(item.controls.locationFee)">{{item.value.locationName}}</label>
                                                     <i class="fa fa-question-circle colorGray" aria-hidden="true"></i>
                                                     <div class="col-sm-12">

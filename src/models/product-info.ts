@@ -55,6 +55,19 @@ export class ProductType {
         }
     }
 }
+export class ProductLevel {
+    public levelName: String;
+    public levelId: String;
+    public levelCount: number;
+    constructor(obj?: any) {
+        if (obj) {
+            this.levelName = obj.levelName;
+            this.levelId = obj.levelId;
+            this.levelCount = obj.levelCount;
+        }
+    }
+}
+
 export class ProductTypeLevel {
     public level: ProductType;
     public levelOptions: Array<ProductType>;
