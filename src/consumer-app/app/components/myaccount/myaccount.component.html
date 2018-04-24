@@ -138,7 +138,7 @@
                   </select>
                   <input (keypress)="core.allowOnlyNumbers($event)" [(ngModel)]="append_addShippingZipcode" type="number" class="txtnml width100 appendedInput" placeholder="Zipcode">
                 </div>
-                <button [disabled]="addShippingAddress && (!append_addAddressLine1 || !append_addAddressLine2 || !append_addShippingCity || !append_addShippingState || !append_addShippingZipcode)" *ngIf="addShippingAddress" (click)="saveNewAddress($event)" class="col-sm-2 p-2 mb-2 text-right txtasbutton colorred" style="padding-top: 0 !important; cursor: pointer; padding-left: 0px !important">done</button>
+                <button [disabled]="addShippingAddress && (!append_addAddressLine1 || !append_addShippingCity || !append_addShippingState || !append_addShippingZipcode)" *ngIf="addShippingAddress" (click)="saveNewAddress($event)" class="col-sm-2 p-2 mb-2 text-right txtasbutton colorred" style="padding-top: 0 !important; cursor: pointer; padding-left: 0px !important">done</button>
                 <!--Add Address Form-->
 
                 <!--Edit Address-->
@@ -164,7 +164,7 @@
                         <input style="position: relative; top: -37px;" *ngIf="shippingAddress.input_shippingAddress" type="number" (keypress)="core.allowOnlyNumbers($event)" [(ngModel)]="shippingAddress.append_editShippingZipcode" class="txtnml width100 appendedInput" placeholder="Zipcode">
                       </div>
 
-                      <button [disabled]="shippingAddress.input_shippingAddress && (!shippingAddress.append_editAddressLine1 || !shippingAddress.append_editAddressLine2 || !shippingAddress.append_editShippingCity || !shippingAddress.append_editShippingState || !shippingAddress.append_editShippingZipcode)" class="col-sm-3 text-right p-2 colorred txtasbutton cursor" style="padding-top: 0 !important; cursor: pointer" (click)="appendInput($event, 'shippingAddress', shippingAddress)">change</button>
+                      <button [disabled]="shippingAddress.input_shippingAddress && (!shippingAddress.append_editAddressLine1 || !shippingAddress.append_editShippingCity || !shippingAddress.append_editShippingState || !shippingAddress.append_editShippingZipcode)" class="col-sm-3 text-right p-2 colorred txtasbutton cursor" style="padding-top: 0 !important; cursor: pointer" (click)="appendInput($event, 'shippingAddress', shippingAddress)">change</button>
                     </div>
                   </div>
                 </div>

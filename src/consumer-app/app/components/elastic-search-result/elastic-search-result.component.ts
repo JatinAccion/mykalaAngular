@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { HomeService } from '../../services/home.service';
 import { CoreService } from '../../services/core.service';
 import { Router, RouterOutlet } from '@angular/router';
@@ -17,6 +17,7 @@ export class ElasticSearchResult implements OnInit {
   tilesData = [];
   loader: boolean = false;
   productListingModal = new BrowseProductsModal();
+  headerMessage: string;
 
   constructor(
     private homeService: HomeService,
@@ -33,32 +34,11 @@ export class ElasticSearchResult implements OnInit {
     this.core.headerScroll();
     localStorage.removeItem("selectedProduct");
     this.loader = true;
-    this.loadProducts();
-  }
-
-  loadProducts() {
-    this.loader = true;
-    this.tilesData = [];
-    let text = window.localStorage['esKey'];
-    this.core.searchProduct(text).subscribe(res => {
+    this.core.esKey.subscribe(p => {
+      this.loader = true;
+      this.tilesData = p;
       this.loader = false;
-      for (var i = 0; i < res.products.length; i++) {
-        let content = res.products[i];
-        this.productListingModal = new BrowseProductsModal(content);
-        this.tilesData.push(this.productListingModal);        
-        // if (this.productListingModal.product.productStatus != false) this.tilesData.push(this.productListingModal);
-      }
-      this.getMainImage();
     });
-  }
-
-  getMainImage() {
-    for (var i = 0; i < this.tilesData.length; i++) {
-      for (var j = 0; j < this.tilesData[i].product.productImages.length; j++) {
-        let product = this.tilesData[i].product.productImages[j]
-        if (product.mainImage == true) this.tilesData[i].product.mainImageSrc = `${this.s3 + product.location}`
-      }
-    }
   }
 
   viewDetails(tile) {
