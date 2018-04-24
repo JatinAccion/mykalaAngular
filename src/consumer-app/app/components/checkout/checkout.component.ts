@@ -305,7 +305,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       for (var i = 0; i < res.address.length; i++) {
         let address = res.address[i];
         if (address.addressType === 'shippingAddress') {
-          this.shippingAddressCheckout.push(new CheckoutShippingAddress(address.addID, address.addressLineOne, address.addressLineTwo, address.city, address.state, address.zipcode, address.addressType))
+          this.shippingAddressCheckout.push(new CheckoutShippingAddress(address.addID, address.addressLine1, address.addressLine2, address.city, address.state, address.zipcode, address.addressType))
         }
       }
     })
@@ -340,8 +340,8 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.editShippingAddressFormWrapper = true;
     this.addShippingAddressFormWrapper = false;
     this.editShippingAddressForm = this.formBuilder.group({
-      editAddressLineOne: [address.addressLineOne],
-      editAddressLineTwo: [address.addressLineTwo],
+      editAddressLineOne: [address.addressLine1],
+      editAddressLineTwo: [address.addressLine2],
       editCity: [address.city],
       editState: [address.state],
       editZipcode: [address.zipcode]
@@ -353,8 +353,8 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     if (toDo == 'edit') {
       for (var i = 0; i < this.shippingAddressCheckout.length; i++) {
         if (this.shippingAddressCheckout[i].addID == this.addressFormData.addID) {
-          this.shippingAddressCheckout[i].addressLineOne = this.editShippingAddressForm.controls.editAddressLineOne.value;
-          this.shippingAddressCheckout[i].addressLineTwo = this.editShippingAddressForm.controls.editAddressLineTwo.value;
+          this.shippingAddressCheckout[i].addressLine1 = this.editShippingAddressForm.controls.editAddressLineOne.value;
+          this.shippingAddressCheckout[i].addressLine2 = this.editShippingAddressForm.controls.editAddressLineTwo.value;
           this.shippingAddressCheckout[i].city = this.editShippingAddressForm.controls.editCity.value;
           this.shippingAddressCheckout[i].state = this.editShippingAddressForm.controls.editState.value;
           this.shippingAddressCheckout[i].zipcode = this.editShippingAddressForm.controls.editZipcode.value;
@@ -365,8 +365,8 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.editShippingAddressFormWrapper = false;
       this.checkout.addEditShippingAddress(this.AddressSaveModel).subscribe((res) => {
         window.localStorage['userInfo'] = JSON.stringify(res);
-        this.addressFormData.addressLineOne = this.editShippingAddressForm.controls.editAddressLineOne.value;
-        this.addressFormData.addressLineTwo = this.editShippingAddressForm.controls.editAddressLineTwo.value;
+        this.addressFormData.addressLine1 = this.editShippingAddressForm.controls.editAddressLineOne.value;
+        this.addressFormData.addressLine2 = this.editShippingAddressForm.controls.editAddressLineTwo.value;
         this.addressFormData.city = this.editShippingAddressForm.controls.editCity.value;
         this.addressFormData.state = this.editShippingAddressForm.controls.editState.value;
         this.addressFormData.zipcode = this.editShippingAddressForm.controls.editZipcode.value;
@@ -443,8 +443,8 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.avalaraTaxModel.shipToAddress = new shippingAddress();
     this.avalaraTaxModel.itemTax = new ItemsTaxModel();
     this.avalaraTaxModel.deliveryLocation = address.state;
-    this.avalaraTaxModel.shipToAddress.addressLine1 = address.addressLineOne;
-    this.avalaraTaxModel.shipToAddress.addressLine2 = address.addressLineTwo;
+    this.avalaraTaxModel.shipToAddress.addressLine1 = address.addressLine1;
+    this.avalaraTaxModel.shipToAddress.addressLine2 = address.addressLine2;
     this.avalaraTaxModel.shipToAddress.city = address.city;
     this.avalaraTaxModel.shipToAddress.state = address.state;
     this.avalaraTaxModel.shipToAddress.zipcode = address.zipcode;

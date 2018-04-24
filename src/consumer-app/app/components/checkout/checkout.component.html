@@ -12,7 +12,7 @@
       <div class="row mb-3" *ngFor="let address of shippingAddressCheckout">
         <div class="col-sm-10">
           <div class="categ_outline_gray w-100 text-center customerShippingAddress" style="cursor:pointer" (click)="selectShippingAddress($event, address)">
-            {{address.addressLineOne}}, {{address.city}}, {{address.state}}, {{address.zipcode}}
+            {{address.addressLine1}}, {{address.city}}, {{address.state}}, {{address.zipcode}}
           </div>
         </div>
         <div class="col-sm-2 text-right">
@@ -41,7 +41,7 @@
           <input (keypress)="core.allowOnlyNumbers($event)" type="number" formControlName="addZipcode" class="form-control" placeholder="Zipcode" />
         </div>
         <div class="form-group">
-          <button [disabled]="addShippingAddressFormWrapper && (!addShippingAddressForm.controls.addAddressLineOne.value || !addShippingAddressForm.controls.addAddressLineTwo.value || !addShippingAddressForm.controls.addCity.value || !addShippingAddressForm.controls.addState.value || !addShippingAddressForm.controls.addZipcode.value)" type="button" (click)="addEditSave(addShippingAddressForm, 'add')" class="btn btn_red_right">
+          <button [disabled]="addShippingAddressFormWrapper && (!addShippingAddressForm.controls.addAddressLineOne.value || !addShippingAddressForm.controls.addCity.value || !addShippingAddressForm.controls.addState.value || !addShippingAddressForm.controls.addZipcode.value)" type="button" (click)="addEditSave(addShippingAddressForm, 'add')" class="btn btn_red_right">
             add
           </button>
           <button type="button" (click)="cancelAddress(addShippingAddressForm, 'add')" class="btn btn-outer btn_redouter_right">cancel</button>
@@ -70,7 +70,7 @@
           <input (keypress)="core.allowOnlyNumbers($event)" type="number" formControlName="editZipcode" class="form-control" placeholder="Zipcode" />
         </div>
         <div class="form-group">
-          <button type="button" [disabled]="editShippingAddressFormWrapper && (!editShippingAddressForm.controls.editAddressLineOne.value || !editShippingAddressForm.controls.editAddressLineTwo.value || !editShippingAddressForm.controls.editCity.value || !editShippingAddressForm.controls.editState.value || !editShippingAddressForm.controls.editZipcode.value)" (click)="addEditSave(editShippingAddressForm, 'edit')" class="btn btn_red_right">save</button>
+          <button type="button" [disabled]="editShippingAddressFormWrapper && (!editShippingAddressForm.controls.editAddressLineOne.value || !editShippingAddressForm.controls.editCity.value || !editShippingAddressForm.controls.editState.value || !editShippingAddressForm.controls.editZipcode.value)" (click)="addEditSave(editShippingAddressForm, 'edit')" class="btn btn_red_right">save</button>
           <button type="button" (click)="cancelAddress(editShippingAddressForm, 'edit')" class="btn btn-outer btn_redouter_right">cancel</button>
         </div>
       </form>

@@ -1,4 +1,5 @@
 export class ProductsInfo {
+    attributes: {};
     kalaUniqueId: string;
     retailerId: string;
     productSkuCode: string;
@@ -27,6 +28,7 @@ export class ProductsInfo {
     constructor(obj?: any) {
         this.productImages = new Array<any>();
         if (obj) {
+            this.attributes = obj.attributes;
             this.brandName = obj.brandName;
             this.createdDate = obj.createdDate;
             this.kalaPrice = obj.kalaPrice;

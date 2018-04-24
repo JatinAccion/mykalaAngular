@@ -5,9 +5,13 @@ import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import animateScrollTo from 'animated-scroll-to';
+import { Subject } from 'rxjs/Subject';
+import { BrowseProductsModal } from '../../../models/browse-products';
 
 @Injectable()
 export class CoreService {
+  loader: boolean;
+  tilesData: any[];
   private BASE_URL: string = environment.productList;
   hideUser: boolean = true;
   navVisible: boolean = true;
@@ -22,6 +26,7 @@ export class CoreService {
   userImg: string;
   loaderSearch: boolean = false;
   public modalReference: any;
+  esKey = new Subject<any[]>();
 
   constructor(
     private http: Http,
@@ -182,13 +187,29 @@ export class CoreService {
     return this.http.get(url).map((res) => res.json());
   }
 
+  getMainImage() {
+    for (var i = 0; i < this.tilesData.length; i++) {
+      if (this.tilesData[i].product.productImages) {
+        for (var j = 0; j < this.tilesData[i].product.productImages.length; j++) {
+          let product = this.tilesData[i].product.productImages[j]
+          if (product.mainImage == true) this.tilesData[i].product.mainImageSrc = `${environment.s3 + product.location}`
+        }
+      }
+    }
+  }
+
+  loadProducts(text) {
+    this.tilesData = [];
+    this.searchProduct(text).subscribe(res => {
+      this.tilesData = res.products.map(p => new BrowseProductsModal(p));
+      this.getMainImage();
+      this.esKey.next(this.tilesData);
+    });
+  }
+
   search(text) {
-    this.loaderSearch = true;
-    this.searchProduct(text).subscribe((res) => {
-      this.loaderSearch = false;
-    }, (err) => {
-      this.loaderSearch = false;
-    })
+    this.route.navigateByUrl("/elastic-product");
+    this.loadProducts(text);
   }
 
   allowOnlyNumbers(event) {

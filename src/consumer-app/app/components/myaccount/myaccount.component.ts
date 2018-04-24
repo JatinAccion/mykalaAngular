@@ -116,6 +116,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('closeAccountModal') closeAccountModal: ElementRef;
   @ViewChild('deleteCardModal') deleteCardModal: ElementRef;
   saveCardDetails: any;
+  pageLoader: boolean = false;
 
   constructor(
     public core: CoreService,
@@ -263,8 +264,10 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getConsumerProfile() {
+    this.pageLoader = true;
     let emailId = this.getUserInfo.emailId;
     this.myAccount.getUserDetails(emailId).subscribe((res) => {
+      this.pageLoader = false;
       window.localStorage['userInfo'] = JSON.stringify(res);
       this.getUserInfo = JSON.parse(window.localStorage['userInfo']);
       this.getAPICP = res;
@@ -459,8 +462,8 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
           if (addProfileAddress == false) {
             this.myAccountModel.profileInfo.address.push({
               addID: null,
-              addressLineOne: "",
-              addressLineTwo: "",
+              addressLine1: "",
+              addressLine2: "",
               addressType: "profileAddress",
               city: this.fetchGeoCode.split(',')[0],
               state: this.fetchGeoCode.split(',')[1].trim().split(" ")[0],
@@ -522,8 +525,8 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
       else if (element == 'shippingAddress') {
         this.getAllStates();
         obj.input_shippingAddress = true;
-        obj.append_editAddressLine1 = obj.addressLineOne;
-        obj.append_editAddressLine2 = obj.addressLineTwo;
+        obj.append_editAddressLine1 = obj.addressLine1;
+        obj.append_editAddressLine2 = obj.addressLine2;
         obj.append_editShippingCity = obj.city;
         obj.append_editShippingState = obj.state;
         obj.append_editShippingZipcode = obj.zipcode;
@@ -636,8 +639,8 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     else if (element == 'shippingAddress') {
       this.loader_shippingAddress = true;
       obj.input_shippingAddress = false;
-      obj.addressLineOne = obj.append_editAddressLine1;
-      obj.addressLineTwo = obj.append_editAddressLine2;
+      obj.addressLine1 = obj.append_editAddressLine1;
+      obj.addressLine2 = obj.append_editAddressLine2;
       obj.city = obj.append_editShippingCity;
       obj.state = obj.append_editShippingState;
       obj.zipcode = obj.append_editShippingZipcode;
