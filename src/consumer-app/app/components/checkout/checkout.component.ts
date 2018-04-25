@@ -408,8 +408,13 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     element.classList.remove("categ_outline_gray");
     element.classList.add("categ_outline_red");
     this.selectedAddressDetails = address;
+    let resShippingResponse = [];
     for (var i = 0; i < this.itemsInCart.length; i++) {
       this.checkout.getShippingMethods(address.state, this.itemsInCart[i].shipProfileId, this.itemsInCart[i].quantity, this.itemsInCart[i].weight, this.itemsInCart[i].price, this.itemsInCart[i].length, this.itemsInCart[i].height, this.itemsInCart[i].width).subscribe((res) => {
+        resShippingResponse.push({
+          shippingProfileId: res.shippingProfileId,
+          shippingOriginAddress: res.shippingOriginAddress
+        });
         let locationFee = res.locationFee;
         this.shippingMethod = res.deliveryMethods;
         this.loader_shippingMethod = false;
@@ -430,11 +435,14 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
             }
           }
         }
-        this.getTax(address, res.shippingOriginAddress)
+        //this.getTax(address, res.shippingOriginAddress)
       }, (err) => {
         console.log(err)
       });
     }
+    setTimeout(() => {
+      this.getTax(address, resShippingResponse);
+    }, 1500)
   }
 
   getTax(address, toAddress) {
@@ -456,14 +464,18 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.avalaraTaxModel.itemTax[item.retailerId] = new Array<ItemsTaxList>();
       for (var j = 0; j < this.filteredCartItems[i].orderItems.length; j++) {
         let order = this.filteredCartItems[i].orderItems[j]
-        this.avalaraTaxModel.itemTax[item.retailerId].push(new ItemsTaxList(number++, order.quantity, order.price, order.productId, order.taxCode, "", "", ""))
+        this.avalaraTaxModel.itemTax[item.retailerId].push(new ItemsTaxList(number++, order.quantity, order.price, order.productId, order.taxCode, "", "", "", order.shipProfileId))
       }
     }
-    for (var keys in this.avalaraTaxModel.itemTax) {
-      for (var i = 0; i < this.avalaraTaxModel.itemTax[keys].length; i++) {
-        let key = this.avalaraTaxModel.itemTax[keys][i];
-        key.shippingOriginAddress = new shippingAddress();
-        key.shippingOriginAddress = toAddress;
+    for (var i = 0; i < toAddress.length; i++) {
+      for (var keys in this.avalaraTaxModel.itemTax) {
+        for (var j = 0; j < this.avalaraTaxModel.itemTax[keys].length; j++) {
+          let key = this.avalaraTaxModel.itemTax[keys][j];
+          if (toAddress[i].shippingProfileId == key.shippingProfileId) {
+            key.shippingOriginAddress = new shippingAddress();
+            key.shippingOriginAddress = toAddress[i].shippingOriginAddress;
+          }
+        }
       }
     }
     console.log(this.avalaraTaxModel);

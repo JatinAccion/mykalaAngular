@@ -169,8 +169,14 @@ export class MycartComponent implements OnInit {
     this.addToCartModal.inStock = item.inStock;
     this.addToCartModal.productImage = item.productImage;
     this.addToCartModal.taxCode = item.taxCode
+    this.addToCartModal.shipProfileId = item.shipProfileId;
+    this.addToCartModal.productDescription = item.productDescription;
     this.addToCartModal.productSKUCode = item.productSKUCode;
     this.addToCartModal.productUPCCode = item.productUPCCode;
+    this.addToCartModal.width = item.width;
+    this.addToCartModal.height = item.height;
+    this.addToCartModal.length = item.length;
+    this.addToCartModal.weight = item.weight;
     if (to === 'toCart') {
       this.addToCartModal.label = "cart";
       let moveToCart: boolean = false;

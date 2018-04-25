@@ -28,6 +28,7 @@ export class ItemsTaxList {
         public description: string,
         public orderNumber: string,
         public isTaxNexus: string,
+        public shippingProfileId?: string,
         public shippingOriginAddress?: shippingAddress
     ) { }
 }
