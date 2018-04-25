@@ -74,6 +74,7 @@ import { MyNewsAlertsComponent } from './components/my-news-alerts/my-news-alert
 import { MyAlertsService } from './services/MyNewsAlertsService';
 import { MailEntryModule } from './components/mail-entry/mail-entry.module';
 import { ElasticSearchResult } from './components/elastic-search-result/elastic-search-result.component';
+import { MyCartService } from './services/mycart.service';
 
 @NgModule({
   declarations: [
@@ -150,6 +151,7 @@ import { ElasticSearchResult } from './components/elastic-search-result/elastic-
     ForgotPasswordService,
     GetOfferService,
     CheckoutService,
+    MyCartService,
     {
       provide: NgbDateParserFormatter,
       useClass: NgbDateFRParserFormatter
