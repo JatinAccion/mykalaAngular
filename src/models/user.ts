@@ -31,7 +31,7 @@ export class UserProfile {
 
   constructor(obj?: any) {
     this.roleName = ['admin'];
-    this.role = 'Admin';
+    // this.role = 'Admin';
     if (obj) {
       this.userId = obj.userId;
       this.password = obj.password;
@@ -40,7 +40,7 @@ export class UserProfile {
       this.emailId = obj.emailId;
       this.phone = obj.phone;
       this.roleName = obj.roleName;
-      this.role = obj.role || this.role;
+      this.role = obj.role;
       this.userCreateStatus = obj.userCreateStatus;
       this.user_status = obj.user_status;
       this.show = false;

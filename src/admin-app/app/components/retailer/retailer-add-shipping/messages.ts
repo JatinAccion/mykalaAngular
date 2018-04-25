@@ -8,20 +8,6 @@ export const userMessages = {
         ship_by_price: 'ship_by_price',
         ship_by_weight: 'ship_by_weight',
     },
-    location: {
-        'ContinentalUS': 'Continental US',
-        'AlaskaandHawaii': 'Alaska and Hawaii',
-        'USProtectorates': 'US Protectorates',
-        'territory': 'territory',
-        'state': 'state',
-    },
-    shippingMethods: {
-        'Nextday1businessdayshipping': 'Next day: 1 business day shipping',
-        'twoday2businessdayshipping': '2 day: 2 business day shipping',
-        'Express3to5businessdays': 'Express: 3 to 5 business days',
-        'Standard5to8businessdays': 'Standard: 5 to 8 business days',
-        'Custom': 'Custom'
-    },
     'noShippingmethodselected': 'Atleast one shipping method need to be selected',
     'duplicateShippingName': 'Please enter a valid and unique shipping profile',
     'tierRangesMismatch': 'Please enter a valid min value and max values, min value should be lesser than or equal to max value, max value should be lesser than or equal to next tier min value',

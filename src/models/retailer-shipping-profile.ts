@@ -80,14 +80,25 @@ export class DeliveryLocation {
             }
         } else {
             this.locations = new Array<Location>();
+        }
+        if (this.locations.filter(p => p.locationName === location.ContinentalUS).length === 0) {
             this.locations.push(new Location({
                 locationName: location.ContinentalUS, locationType: location.state, locationStatus: true, locationFee: 0
             }));
+        }
+        if (this.locations.filter(p => p.locationName === location.AlaskaandHawaii).length === 0) {
             this.locations.push(new Location({
                 locationName: location.AlaskaandHawaii, locationType: location.state, locationStatus: true, locationFee: 0
             }));
+        }
+        if (this.locations.filter(p => p.locationName === location.USProtectorates).length === 0) {
             this.locations.push(new Location({
                 locationName: location.USProtectorates, locationType: location.territory, locationStatus: true, locationFee: 0
+            }));
+        }
+        if (this.locations.filter(p => p.locationName === location.WashingtonDC).length === 0) {
+            this.locations.push(new Location({
+                locationName: location.WashingtonDC, locationType: location.state, locationStatus: true, locationFee: 0
             }));
         }
     }
@@ -110,6 +121,7 @@ export const location = {
     'ContinentalUS': 'Continental US',
     'AlaskaandHawaii': 'Alaska and Hawaii',
     'USProtectorates': 'US Protectorates',
+    'WashingtonDC': 'Washington DC',
     'territory': 'territory',
     'state': 'state',
 };

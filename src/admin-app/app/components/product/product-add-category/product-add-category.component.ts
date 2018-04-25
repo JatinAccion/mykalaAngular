@@ -97,7 +97,23 @@ export class ProductAddCategoryComponent implements OnInit, OnChanges {
   setProductHirerarchy() {
     this.product.productHierarchy = this.product.productTypeLevels.levels.map((p, i) => new ProductLevel({
       levelName: p.level.productTypeName,
-      levelId: p.level.productTypeId, levelCount: i
+      levelId: p.level.productTypeId,
+      levelCount: i + 3
+    }));
+    this.product.productHierarchy.unshift(new ProductLevel({
+      levelName: this.product.productSubCategoryName,
+      levelId: this.product.productSubCategoryId,
+      levelCount: 2
+    }));
+    this.product.productHierarchy.unshift(new ProductLevel({
+      levelName: this.product.productCategoryName,
+      levelId: this.product.productCategoryId,
+      levelCount: 1
+    }));
+    this.product.productHierarchy.unshift(new ProductLevel({
+      levelName: this.product.productPlaceName,
+      levelId: this.product.productPlaceId,
+      levelCount: 0
     }));
   }
   async setProductData() {
@@ -105,30 +121,35 @@ export class ProductAddCategoryComponent implements OnInit, OnChanges {
       this.productService.getProductPlaces().subscribe(res => {
         this.places = res;
       });
-      this.productService.getProductCategories([this.product.productPlace.PlaceId]).subscribe(catres => {
+      this.productService.getProductCategories([this.product.productPlaceId]).subscribe(catres => {
         this.categories = catres;
       });
-      this.productService.getProductSubCategories([this.product.productCategory.CategoryId]).subscribe(subres => {
+      this.productService.getProductSubCategories([this.product.productCategoryId]).subscribe(subres => {
         this.subCategories = subres;
       });
-      this.getTypes(this.product.productSubCategory.SubCategoryId);
+      this.getTypes(this.product.productSubCategoryId);
     } else {
       this.productService.getProductPlaces().subscribe(res => {
         this.places = res;
         if (this.product && this.product.productPlaceName && this.places && this.places.filter(p => p.PlaceName === this.product.productPlaceName).length > 0) {
           this.product.productPlace = this.places.filter(p => p.PlaceName === this.product.productPlaceName)[0];
           if (this.product.productPlace && this.product.productPlace.PlaceId) {
+            this.product.productPlaceId = this.product.productPlace.PlaceId;
             this.productService.getProductCategories([this.product.productPlace.PlaceId]).subscribe(catres => {
               this.categories = catres;
               if (this.product && this.product.productCategoryName && this.categories && this.categories.filter(p => p.CategoryName === this.product.productCategoryName).length > 0) {
                 this.product.productCategory = this.categories.filter(p => p.CategoryName === this.product.productCategoryName)[0];
                 if (this.product.productCategory && this.product.productCategory.CategoryId) {
+                  this.product.productCategoryId = this.product.productCategory.CategoryId;
                   this.productService.getProductSubCategories([this.product.productCategory.CategoryId]).subscribe(subres => {
                     this.subCategories = subres;
                     if (this.product && this.product.productSubCategoryName && this.subCategories && this.subCategories.filter(p => p.SubCategoryName === this.product.productSubCategoryName).length > 0) {
                       this.product.productSubCategory = this.subCategories.filter(p => p.SubCategoryName === this.product.productSubCategoryName)[0];
-                      // this.product.productTypeLevels = new ProductTypeLevels();
-                      this.getTypes(this.product.productSubCategory.SubCategoryId);
+                      if (this.product.productSubCategory && this.product.productSubCategory.SubCategoryId) {
+                        this.product.productSubCategoryId = this.product.productSubCategory.SubCategoryId;
+                        // this.product.productTypeLevels = new ProductTypeLevels();
+                        this.getTypes(this.product.productSubCategory.SubCategoryId);
+                      }
                     }
                   });
                 }
@@ -154,6 +175,7 @@ export class ProductAddCategoryComponent implements OnInit, OnChanges {
   }
   placeChanged(event) {
     this.product.productPlaceName = this.product.productPlace.PlaceName;
+    this.product.productPlaceId = this.product.productPlace.PlaceId;
     this.categories = new Array<ProductCategory>();
     this.subCategories = new Array<ProductSubCategory>();
     this.product.productTypeLevels = new ProductTypeLevels();
@@ -178,6 +200,7 @@ export class ProductAddCategoryComponent implements OnInit, OnChanges {
   }
   categoryChanged(event) {
     this.product.productCategoryName = this.product.productCategory.CategoryName;
+    this.product.productCategoryId = this.product.productCategory.CategoryId;
     this.subCategories = new Array<ProductSubCategory>();
     this.product.productTypeLevels = new ProductTypeLevels();
     delete this.product.productSubCategory;
@@ -202,38 +225,51 @@ export class ProductAddCategoryComponent implements OnInit, OnChanges {
     this.product.productTypeLevels = new ProductTypeLevels();
     if (this.product.productSubCategory) {
       this.product.productSubCategoryName = this.product.productSubCategory.SubCategoryName;
+      this.product.productSubCategoryId = this.product.productSubCategory.SubCategoryId;
       if (this.product.productSubCategory.taxCode) {
         this.product.taxCode = this.product.productSubCategory.taxCode;
       }
       this.getTypes(this.product.productSubCategory.SubCategoryId);
     }
   }
-  getTypes(parentId) {
+  getProductTypes(id) {
+    const level = this.product.productTypeLevels;
+    if (level && level.levels && level.levels.filter(p => p.levelOptions && p.levelOptions.length > 0 && p.levelOptions[0].parentId === id).length > 0) {
+      return level.levels.filter(p => p.levelOptions[0].parentId === id)[0].levelOptions;
+    } else {
+      return this.productService.getProductTypes([id]).toPromise().then(res => res);
+    }
+  }
+  async getTypes(parentId) {
     if (parentId) {
       this.typesLoading = true;
-      this.productService.getProductTypes([parentId]).subscribe(res => {
-        this.productTypes = res;
-        this.typesLoading = false;
-        if (res.length > 0) {
-          const newLevel = new ProductTypeLevel({ levelOptions: res, levelName: ' ' });
-          if (this.product.productTypeLevels && this.product.productTypeLevels.levels.length === 0) {
-            newLevel.levelName = 'Product Type';
-            if (res.filter(p => p.productTypeName === this.product.productTypeName).length > 0) {
-              newLevel.level = res.filter(p => p.productTypeName === this.product.productTypeName)[0];
+      this.productTypes = await this.getProductTypes(parentId);
+      this.typesLoading = false;
+      const level = this.product.productTypeLevels;
+      if (level && level.levels && level.levels.filter(p => p.levelOptions && p.levelOptions.length > 0 && p.levelOptions[0].parentId === parentId).length > 0) {
+      } else {
+        this.productService.getProductTypes([parentId]).subscribe(res => {
+          if (res.length > 0) {
+            const newLevel = new ProductTypeLevel({ levelOptions: res, levelName: ' ' });
+            if (this.product.productTypeLevels && this.product.productTypeLevels.levels.length === 0) {
+              newLevel.levelName = 'Product Type';
+              if (res.filter(p => p.productTypeName === this.product.productTypeName).length > 0) {
+                newLevel.level = res.filter(p => p.productTypeName === this.product.productTypeName)[0];
+              }
             }
+            this.product.productTypeLevels.levels.push(newLevel);
           }
-          this.product.productTypeLevels.levels.push(newLevel);
-        }
-        this.setProductHirerarchy();
-        // if (res.length === 0) {
-        //   this.fG1.controls.productTypeName.clearValidators();
-        // } else {
-        //   this.fG1.controls.productTypeName.setValidators([Validators.required]);
-        // }
-        // this.fG1.controls.productTypeName.updateValueAndValidity();
-        this.setType();
-        // this.setFormValidators();
-      });
+          this.setProductHirerarchy();
+          // if (res.length === 0) {
+          //   this.fG1.controls.productTypeName.clearValidators();
+          // } else {
+          //   this.fG1.controls.productTypeName.setValidators([Validators.required]);
+          // }
+          // this.fG1.controls.productTypeName.updateValueAndValidity();
+          this.setType();
+          // this.setFormValidators();
+        });
+      }
     }
   }
   setType() {
@@ -254,6 +290,10 @@ export class ProductAddCategoryComponent implements OnInit, OnChanges {
     // this.product.productTypeName = this.product.productType ? this.product.productType.TypeName : '';
     this.setProductHirerarchy();
     if (level && level.level && level.level.productTypeId) {
+      if (this.product.productSubCategoryId === level.level.parentId) {
+        this.product.productTypeId = level.level.productTypeId;
+        this.product.productTypeName = level.level.productTypeName;
+      }
       this.spliceLevels(level.level.productTypeId);
     }
     if (level.level.nextLevelProductTypeStatus) {

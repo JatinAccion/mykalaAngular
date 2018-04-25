@@ -13,6 +13,7 @@
         "favicon.ico",
         "terms.html",
         "privacy.html",
+        "unsubscribe.html",
         "logo.png"
       ],
       "index": "index.html",
@@ -46,6 +47,7 @@
         "favicon.ico",
         "terms.html",
         "privacy.html",
+        "unsubscribe.html",
         "logo.png"
       ],
       "index": "index.html",
