@@ -17,6 +17,7 @@ import { filter } from 'rxjs/operator/filter';
 import animateScrollTo from 'animated-scroll-to';
 import { AvalaraTaxModel, shippingAddress, ItemsTaxModel, ItemsTaxList } from '../../../../models/tax';
 import { CheckOutMessages } from './checkoutMessages';
+import { regexPatterns } from '../../../../common/regexPatterns';
 
 @Component({
   selector: 'app-checkout',
@@ -326,11 +327,11 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.editShippingAddressFormWrapper = false;
       this.addShippingAddressFormWrapper = true;
       this.addShippingAddressForm = this.formBuilder.group({
-        addAddressLineOne: [''],
+        addAddressLineOne: ['', Validators.required],
         addAddressLineTwo: [''],
-        addCity: [''],
-        addState: [''],
-        addZipcode: ['']
+        addCity: ['', Validators.required],
+        addState: ['', Validators.required],
+        addZipcode: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(5), Validators.pattern(regexPatterns.zipcodeRegex)]]
       });
     }
   }
@@ -340,11 +341,11 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.editShippingAddressFormWrapper = true;
     this.addShippingAddressFormWrapper = false;
     this.editShippingAddressForm = this.formBuilder.group({
-      editAddressLineOne: [address.addressLine1],
+      editAddressLineOne: [address.addressLine1, Validators.required],
       editAddressLineTwo: [address.addressLine2],
-      editCity: [address.city],
-      editState: [address.state],
-      editZipcode: [address.zipcode]
+      editCity: [address.city, Validators.required],
+      editState: [address.state, Validators.required],
+      editZipcode: [address.zipcode, [Validators.required, Validators.minLength(5), Validators.maxLength(5), Validators.pattern(regexPatterns.zipcodeRegex)]]
     });
     this.addressFormData = address;
   }
