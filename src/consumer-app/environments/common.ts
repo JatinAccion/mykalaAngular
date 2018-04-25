@@ -59,7 +59,9 @@ export const apiNames = {
         cancelOrder: 'cancelOrder',
         trackOrderShipment: 'trackOrderShipment',
         support: 'support/saveSupportRequest',
-        shippedItems: 'shippedItems'
+        shippedItems: 'shippedItems',
+        saveCart: 'saveCart',
+        myCart: 'myCart'
     },
     shippingMethod: {
         method: 'retailer/v1',
