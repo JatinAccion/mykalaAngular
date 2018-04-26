@@ -443,7 +443,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     setTimeout(() => {
       this.getTax(address, resShippingResponse);
-    }, 1500)
+    }, 3000)
   }
 
   getTax(address, toAddress) {
@@ -480,16 +480,29 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }
     console.log(this.avalaraTaxModel);
+    for (var i = 0; i < this.itemsInCart.length; i++) {
+      let items = this.itemsInCart[i];
+      items["productTaxCost"] = 0;
+    }
     this.checkout.getTax(this.avalaraTaxModel).subscribe((res) => {
       this.loader_productTax = false;
-      this.totalProductTax = res.totalTax;
-      for (var i = 0; i < res.lines.length; i++) {
-        let line = res.lines[i];
+      if (res.status !== 'Non taxable product') {
+        this.totalProductTax = res.totalTax;
+        for (var i = 0; i < res.lines.length; i++) {
+          let line = res.lines[i];
+          for (var j = 0; j < this.itemsInCart.length; j++) {
+            let items = this.itemsInCart[j];
+            if (line.itemCode == items.productId) {
+              items["productTaxCost"] = line.taxCalculated;
+            }
+          }
+        }
+      }
+      else {
         for (var j = 0; j < this.itemsInCart.length; j++) {
           let items = this.itemsInCart[j];
-          if (line.itemCode == items.productId) {
-            items["productTaxCost"] = line.taxCalculated;
-          }
+          items["productTaxCost"] = 0;
+          this.totalProductTax = 0;
         }
       }
     }, (err) => {
