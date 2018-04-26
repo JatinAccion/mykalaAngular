@@ -93,12 +93,14 @@ export class CoreService {
     this.hideUserInfo(true);
     if (localStorage.getItem('userInfo')) {
       const usr = new UserProfile(JSON.parse(localStorage.getItem('userInfo')));
-      if (usr && usr.isConsumer && usr.userId === userId) {
+      // if (usr && usr.isConsumer && usr.userId === userId) {
+      if (usr && usr.userId === userId) {
         this.setUser(usr);
         return true;
       }
+      return false;
     }
-    return false;
+    return true;
   }
 
   redirectTo(pageName: string) {

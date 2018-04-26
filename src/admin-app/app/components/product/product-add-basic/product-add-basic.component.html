@@ -38,8 +38,8 @@
             <div class="input-group">
                 <input type="number" class="form-control" [(ngModel)]="product.weight" min='0' placeholder="" pattern formControlName="weight">
                 <select class="input-group-addon" [(ngModel)]="product.weightunit" formControlName="weightunit">
-                    <option>pounds</option>
-                    <option>ounces</option>
+                    <option value="lbs" >pounds</option>
+                    <option value="oz" >ounces</option>
                 </select>
             </div>
             <app-field-error-display [field]="fG1.controls.weight" [errorMsg]="errorMsgs"> </app-field-error-display>

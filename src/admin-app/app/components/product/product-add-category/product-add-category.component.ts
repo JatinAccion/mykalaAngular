@@ -123,9 +123,11 @@ export class ProductAddCategoryComponent implements OnInit, OnChanges {
       });
       this.productService.getProductCategories([this.product.productPlaceId]).subscribe(catres => {
         this.categories = catres;
+        this.product.productCategory = this.categories.firstOrDefault(p => p.CategoryName === this.product.productCategoryName);
       });
       this.productService.getProductSubCategories([this.product.productCategoryId]).subscribe(subres => {
         this.subCategories = subres;
+        this.product.productSubCategory = (this.subCategories.filter(p => p.SubCategoryName === this.product.productSubCategoryName).push(this.productSubCategoryDummy))[0];
       });
       this.getTypes(this.product.productSubCategoryId);
     } else {
