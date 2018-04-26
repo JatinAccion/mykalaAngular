@@ -7,7 +7,7 @@ import { AuthService } from '../../../services/auth.service';
 import { UserProfile } from '../../../../../models/user';
 
 @Component({
-  selector: 'app-mail-product',
+  selector: 'app-mail-changenotification',
   template: '<div class="header bgimage"><div>',
   encapsulation: ViewEncapsulation.None
 })

@@ -8,7 +8,7 @@ import { UserProfile } from '../../../../../models/user';
 import { MyOrdersService } from '../../../services/myorder.service';
 
 @Component({
-  selector: 'app-mail-product',
+  selector: 'app-mail-leavereview',
   template: '<div class="header bgimage"><div>',
   encapsulation: ViewEncapsulation.None
 })

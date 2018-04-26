@@ -8,6 +8,7 @@ import { MailLeaveReviewComponent } from './mail-components/mail-leavereview.com
 import { MailTrackOrderComponent } from './mail-components/mail-trackorder.component';
 import { MailMyoffersComponent } from './mail-components/mail-myoffers.component';
 import { MailChangeNotificationComponent } from './mail-components/mail-changenotification.component';
+import { MailViewOrderComponent } from './mail-components/mail-vieworder.component';
 
 
 const appRoutes: Routes = [
@@ -30,6 +31,10 @@ const appRoutes: Routes = [
   {
     path: 'mail/:userId/order/:orderId/product/:productId/track',
     component: MailTrackOrderComponent,
+  },
+  {
+    path: 'mail/:userId/order/:orderId',
+    component: MailViewOrderComponent,
   },
   {
     path: 'mail/:userId/changenotification',

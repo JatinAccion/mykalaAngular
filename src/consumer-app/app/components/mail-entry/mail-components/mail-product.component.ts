@@ -19,7 +19,7 @@ export class MailProductComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(`mail/${this.userId}/product/${this.productId}`);
+    // console.log(`mail/${this.userId}/product/${this.productId}`);
     this.core.getProductDetails(this.productId);
   }
 }

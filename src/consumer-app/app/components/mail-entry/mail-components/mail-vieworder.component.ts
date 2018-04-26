@@ -7,11 +7,12 @@ import { AuthService } from '../../../services/auth.service';
 import { UserProfile } from '../../../../../models/user';
 
 @Component({
-  selector: 'app-mail-myaccount',
+  selector: 'app-mail-vieworder',
   template: '<div class="header bgimage"><div>',
   encapsulation: ViewEncapsulation.None
 })
-export class MailMyaccountComponent implements OnInit {
+export class MailViewOrderComponent implements OnInit {
+  orderId: any;
   unAuthorized: boolean;
   loader: boolean;
   userId: any;
@@ -21,14 +22,14 @@ export class MailMyaccountComponent implements OnInit {
     private auth: AuthService,
     public core: CoreService, private localStorageService: LocalStorageService) {
     this.userId = route.snapshot.params['userId'];
+    this.orderId = route.snapshot.params['orderId'];
   }
 
   ngOnInit() {
     if (!this.core.validateUser(this.userId)) {
-      // this.core.clearStorageUserInfo();
       this.router.navigateByUrl('/home');
     } else {
-      this.core.redirectTo('myaccount');
+      this.core.redirectTo('myorder');
     }
   }
 }

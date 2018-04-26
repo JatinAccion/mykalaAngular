@@ -11,6 +11,7 @@ import { MailLeaveReviewComponent } from './mail-components/mail-leavereview.com
 import { MailTrackOrderComponent } from './mail-components/mail-trackorder.component';
 import { MailMyoffersComponent } from './mail-components/mail-myoffers.component';
 import { MailChangeNotificationComponent } from './mail-components/mail-changenotification.component';
+import { MailViewOrderComponent } from './mail-components/mail-vieworder.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { MailChangeNotificationComponent } from './mail-components/mail-changeno
     MailLeaveReviewComponent,
     MailTrackOrderComponent,
     MailMyoffersComponent,
-    MailChangeNotificationComponent
+    MailChangeNotificationComponent,
+    MailViewOrderComponent
   ],
   providers: []
 })
