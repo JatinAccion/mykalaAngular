@@ -49,30 +49,32 @@
     <!--Order Shipment Block-->
     <div class="myCart-list" *ngFor="let modal of orders">
       <div *ngFor="let order of modal.orderItems">
-        <div>Your items have shipped! Estimated delivery on: {{order.deliveryDate}}</div>
-        <small class="pull-right colorlightGray">{{getFullDate(modal.purchasedDate)}}</small>
-        <div class="row p-3">
-          <div class="col-sm-2">
-            <img [src]="order.productImage" class="img-fluid" />
-          </div>
-          <div class="col-sm-10">
-            <div class="row">
-              <div class="col-sm-12">{{order.productName}}</div>
+        <div *ngIf="order.productItemStatus == 'ORDERSHIPPED'">
+          <div>Your items have shipped! Estimated delivery on: {{order.deliveryDate}}</div>
+          <!-- <small class="pull-right colorlightGray">{{getFullDate(modal.orderShippedDate)}}</small> -->
+          <div class="row p-3">
+            <div class="col-sm-2">
+              <img [src]="order.productImage" class="img-fluid" />
             </div>
-            <div class="row">
-              <div class="col-sm-3 colorlightGray">
-                Quantity:
+            <div class="col-sm-10">
+              <div class="row">
+                <div class="col-sm-12">{{order.productName}}</div>
               </div>
-              <div class="col-sm-9">
-                {{order.productQuantity}}
+              <div class="row">
+                <div class="col-sm-3 colorlightGray">
+                  Quantity:
+                </div>
+                <div class="col-sm-9">
+                  {{order.productQuantity}}
+                </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-3 colorlightGray">
-                Total:
-              </div>
-              <div class="col-sm-9">
-                {{order.totalProductPrice | currency}}
+              <div class="row">
+                <div class="col-sm-3 colorlightGray">
+                  Total:
+                </div>
+                <div class="col-sm-9">
+                  {{order.totalProductPrice | currency}}
+                </div>
               </div>
             </div>
           </div>
