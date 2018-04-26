@@ -8,6 +8,7 @@ import { CoreService } from '../../services/core.service';
 import { Router, RouterOutlet } from '@angular/router';
 import { AbstractControl } from '@angular/forms/src/model';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { regexPatterns } from '../../../../common/regexPatterns';
 
 @Component({
   selector: 'app-profile-info',
@@ -22,7 +23,7 @@ export class ProfileInfoComponent implements OnInit {
   loaderLocation: boolean = false;
   getUserInfo = JSON.parse(window.localStorage['userInfo']);
   profileInfo: FormGroup;
-  zipCodeRegex: '^\d{5}(?:[-\s]\d{4})?$';
+  zipCodeRegex = regexPatterns.zipcodeRegex;
   profileUserMsg = userMessages;
   profileInputValMsg = inputValidation;
   fetchGeoCode: string;
@@ -66,7 +67,7 @@ export class ProfileInfoComponent implements OnInit {
   _keuyp(e) {
     this.fetchGeoCode = '';
     let input = e.currentTarget;
-    if (this.profileInfo.controls.location.value.length == 5) {
+    if (this.profileInfo.controls.location.value.length == 5 && this.profileInfo.controls.location.errors == null) {
       this.loaderLocation = true;
       input.setAttribute('readonly', true);
       this.profileInfoServ.getLocation(this.profileInfo.controls.location.value)

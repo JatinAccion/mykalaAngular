@@ -17,6 +17,7 @@ import { filter } from 'rxjs/operator/filter';
 import animateScrollTo from 'animated-scroll-to';
 import { AvalaraTaxModel, shippingAddress, ItemsTaxModel, ItemsTaxList } from '../../../../models/tax';
 import { CheckOutMessages } from './checkoutMessages';
+import { regexPatterns } from '../../../../common/regexPatterns';
 
 @Component({
   selector: 'app-checkout',
@@ -326,11 +327,11 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.editShippingAddressFormWrapper = false;
       this.addShippingAddressFormWrapper = true;
       this.addShippingAddressForm = this.formBuilder.group({
-        addAddressLineOne: [''],
+        addAddressLineOne: ['', Validators.required],
         addAddressLineTwo: [''],
-        addCity: [''],
-        addState: [''],
-        addZipcode: ['']
+        addCity: ['', Validators.required],
+        addState: ['', Validators.required],
+        addZipcode: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(5), Validators.pattern(regexPatterns.zipcodeRegex)]]
       });
     }
   }
@@ -340,11 +341,11 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.editShippingAddressFormWrapper = true;
     this.addShippingAddressFormWrapper = false;
     this.editShippingAddressForm = this.formBuilder.group({
-      editAddressLineOne: [address.addressLine1],
+      editAddressLineOne: [address.addressLine1, Validators.required],
       editAddressLineTwo: [address.addressLine2],
-      editCity: [address.city],
-      editState: [address.state],
-      editZipcode: [address.zipcode]
+      editCity: [address.city, Validators.required],
+      editState: [address.state, Validators.required],
+      editZipcode: [address.zipcode, [Validators.required, Validators.minLength(5), Validators.maxLength(5), Validators.pattern(regexPatterns.zipcodeRegex)]]
     });
     this.addressFormData = address;
   }
@@ -442,7 +443,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     setTimeout(() => {
       this.getTax(address, resShippingResponse);
-    }, 1500)
+    }, 3000)
   }
 
   getTax(address, toAddress) {
@@ -479,16 +480,29 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }
     console.log(this.avalaraTaxModel);
+    for (var i = 0; i < this.itemsInCart.length; i++) {
+      let items = this.itemsInCart[i];
+      items["productTaxCost"] = 0;
+    }
     this.checkout.getTax(this.avalaraTaxModel).subscribe((res) => {
       this.loader_productTax = false;
-      this.totalProductTax = res.totalTax;
-      for (var i = 0; i < res.lines.length; i++) {
-        let line = res.lines[i];
+      if (res.status !== 'Non taxable product') {
+        this.totalProductTax = res.totalTax;
+        for (var i = 0; i < res.lines.length; i++) {
+          let line = res.lines[i];
+          for (var j = 0; j < this.itemsInCart.length; j++) {
+            let items = this.itemsInCart[j];
+            if (line.itemCode == items.productId) {
+              items["productTaxCost"] = line.taxCalculated;
+            }
+          }
+        }
+      }
+      else {
         for (var j = 0; j < this.itemsInCart.length; j++) {
           let items = this.itemsInCart[j];
-          if (line.itemCode == items.productId) {
-            items["productTaxCost"] = line.taxCalculated;
-          }
+          items["productTaxCost"] = 0;
+          this.totalProductTax = 0;
         }
       }
     }, (err) => {

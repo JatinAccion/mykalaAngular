@@ -75,6 +75,9 @@ export class Step1Component implements OnInit {
         this.userResponse.subcategory.push(this.viewSavedData[i].subCategory);
         this.Step1SelectedValues.subcategory = this.viewSavedData[i].subCategory;
         this.getSubcategoryId = this.viewSavedData[i].subCategory.id;
+        this.gSCM.placeName = this.viewSavedData[i].place.name;
+        this.gSCM.categoryName = this.viewSavedData[i].category.name;
+        this.gSCM.productType = this.viewSavedData[i].subCategory.name;
         for (var j = 0; j < this.viewSavedData[i].type.length; j++) {
           this.userResponse.type.push(this.viewSavedData[i].type[j]);
           this.Step1SelectedValues.type.push(this.viewSavedData[i].type[j]);
@@ -226,18 +229,19 @@ export class Step1Component implements OnInit {
       this.Step1SelectedValues.subcategory = obj;
     }
     else {
-      if (obj.selection.multiSelect == 'N') {
+      if (obj.selection.multiSelect == 'N' && obj.name != 'No Preference') {
         this.Step1SelectedValues.type = [];
-        let elements = document.querySelectorAll(".typeList");
-        for (var i = 0; i < elements.length; i++) {
-          if (elements[i].classList.contains("categ_outline_red") == true) {
-            elements[i].classList.remove("categ_outline_red")
-            elements[i].classList.add("categ_outline_gray")
-          }
-        }
+        this.activeInactive();
         e.currentTarget.className = "categ_outline_red m-2 typeList";
       }
-      else {
+      else if (obj.selection.multiSelect == 'Y' && obj.name != 'No Preference') {
+        for (var i = 0; i < this.Step1SelectedValues.type.length; i++) {
+          if (this.Step1SelectedValues.type[i].name == 'No Preference') {
+            this.Step1SelectedValues.type = [];
+            this.activeInactive();
+            break;
+          }
+        }
         e.currentTarget.className = "categ_outline_red m-2 typeList";
         for (var i = 0; i < this.Step1SelectedValues.type.length; i++) {
           if (this.Step1SelectedValues.type[i].length == 0) this.Step1SelectedValues.type.splice(i, 1);
@@ -249,10 +253,32 @@ export class Step1Component implements OnInit {
           }
         }
       }
+      else {
+        for (var i = 0; i < this.Step1SelectedValues.type.length; i++) {
+          if (this.Step1SelectedValues.type[i].name == 'No Preference') {
+            this.Step1SelectedValues.type = [];
+            this.activeInactive();
+            return false;
+          }
+        }
+        this.Step1SelectedValues.type = [];
+        this.activeInactive();
+        e.currentTarget.className = "categ_outline_red m-2 typeList";
+      }
       this.Step1SelectedValues.type.push(obj);
     }
     if (this.Step1SelectedValues.type[0].hasOwnProperty("id")) this.getUpdateTypes();
   };
+
+  activeInactive() {
+    let elements = document.querySelectorAll(".typeList");
+    for (var i = 0; i < elements.length; i++) {
+      if (elements[i].classList.contains("categ_outline_red") == true) {
+        elements[i].classList.remove("categ_outline_red")
+        elements[i].classList.add("categ_outline_gray")
+      }
+    }
+  }
 
   getUpdateTypes() {
     let userSelection = JSON.parse(window.localStorage['levelSelections']);

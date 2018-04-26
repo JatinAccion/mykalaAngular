@@ -60,8 +60,8 @@ export const apiNames = {
         trackOrderShipment: 'trackOrderShipment',
         support: 'support/saveSupportRequest',
         shippedItems: 'shippedItems',
-        saveCart: 'saveCart',
-        myCart: 'myCart'
+        saveCartItems: 'saveCart',
+        getCartItems: 'myCart'
     },
     shippingMethod: {
         method: 'retailer/v1',
