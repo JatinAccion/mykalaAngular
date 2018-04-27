@@ -69,10 +69,11 @@ export class Product {
             this.productSubCategoryName = obj.productSubCategoryName;
             // this.productTypeName = obj.productTypeName;
             if (obj.productHierarchy) {
-                this.productHierarchy = obj.productHierarchy.map(p => new ProductType(p));
-                // if (this.productHierarchy && this.productHierarchy.filter(p => p.parentName === this.productSubCategoryName).length > 0) {
-                //     this.productTypeName = this.productHierarchy.filter(p => p.parentName === this.productSubCategoryName)[0].productTypeName;
-                // }
+                this.productHierarchy = obj.productHierarchy.map(p => new ProductLevel(p)).sort((a, b) => a < b);
+                if (this.productHierarchy.length > 0) { this.productPlaceId = this.productHierarchy[0].levelId; this.productPlaceName = this.productHierarchy[0].levelName; }
+                if (this.productHierarchy.length > 1) { this.productCategoryId = this.productHierarchy[1].levelId; this.productCategoryName = this.productHierarchy[1].levelName; }
+                if (this.productHierarchy.length > 2) { this.productSubCategoryId = this.productHierarchy[2].levelId; this.productSubCategoryName = this.productHierarchy[2].levelName; }
+                if (this.productHierarchy.length > 3) { this.productTypeId = this.productHierarchy[3].levelId; this.productTypeName = this.productHierarchy[3].levelName; }
             }
             this.retailPrice = obj.retailPrice;
             this.kalaPrice = obj.kalaPrice;

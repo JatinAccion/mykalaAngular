@@ -52,7 +52,7 @@ export class InquiriesReportComponent implements OnInit {
   colors = ['#94A5B7', '#D6ECF6', '#436798', '#2A4B70'];
   reportYears = 5;
   stacks = ['stack 0'];
-  labels = ['Average Ratings', 'Total Ratings', 'Reviews Completed', 'Reviews Not Completed', 'Average Reviews'];
+  labels = ['Average Inquiries', 'Total Inquiries'];
   yearLabels = Array.apply(null, { length: this.reportYears }).fill(this.currentYear).map((p, i) => (p - i).toString()).reverse();
   monthLabels = this.dateUtils.getMonths();
   type = 'bar';
@@ -347,7 +347,7 @@ export class InquiriesReportComponent implements OnInit {
     this.reportsService.getInquiriesSummary(this.summaryInquiryType, this.summaryInquiryCategory, this.summaryYear.toString(), this.reportModel === 'Monthly' ? this.summaryMonth.toString() : '').subscribe(res => {
       this.retailerInquiriesSummary = res;
       let month = this.summaryMonth + 1;
-      let year = this.summaryYear;
+      let year = this.summaryYear - 1;
       const monthLabels = [];
       const yearLabels = Array.apply(null, { length: this.reportYears }).fill(this.summaryYear).map((p, i) => p - i).reverse();
       let data = [];

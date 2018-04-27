@@ -98,28 +98,31 @@ export class ProductAddCategoryComponent implements OnInit, OnChanges {
     this.product.productHierarchy = this.product.productTypeLevels.levels.map((p, i) => new ProductLevel({
       levelName: p.level.productTypeName,
       levelId: p.level.productTypeId,
-      levelCount: i + 3
+      levelCount: i + 1 + 3
     }));
     this.product.productHierarchy.unshift(new ProductLevel({
       levelName: this.product.productSubCategoryName,
       levelId: this.product.productSubCategoryId,
-      levelCount: 2
+      levelCount: 3
     }));
     this.product.productHierarchy.unshift(new ProductLevel({
       levelName: this.product.productCategoryName,
       levelId: this.product.productCategoryId,
-      levelCount: 1
+      levelCount: 2
     }));
     this.product.productHierarchy.unshift(new ProductLevel({
       levelName: this.product.productPlaceName,
       levelId: this.product.productPlaceId,
-      levelCount: 0
+      levelCount: 1
     }));
   }
   async setProductData() {
+    delete this.product.productTypeLevels;
+    this.product.productTypeLevels = new ProductTypeLevels();
     if (this.product.productPlaceId && this.product.productCategoryId && this.product.productSubCategoryId) {
       this.productService.getProductPlaces().subscribe(res => {
         this.places = res;
+        this.product.productPlace = this.places.firstOrDefault(p => p.PlaceId === this.product.productPlaceId || p.PlaceName === this.product.productPlaceName);
       });
       this.productService.getProductCategories([this.product.productPlaceId]).subscribe(catres => {
         this.categories = catres;
@@ -129,7 +132,15 @@ export class ProductAddCategoryComponent implements OnInit, OnChanges {
         this.subCategories = subres;
         this.product.productSubCategory = this.subCategories.firstOrDefault(p => p.SubCategoryName === this.product.productSubCategoryName);
       });
-      this.getTypes(this.product.productSubCategoryId);
+      let productTypeLevelName = 'Product Type';
+      for (let i = 3; i < this.product.productHierarchy.length; i++) {
+        const element = this.product.productHierarchy[i];
+        const parentElement = this.product.productHierarchy[i - 1];
+        const res = await this.getProductTypes(parentElement.levelId);
+        this.product.productTypeLevels.levels.push(new ProductTypeLevel({ levelOptions: res, levelName: productTypeLevelName, level: res.firstOrDefault(p => p.productTypeId === element.levelId) }));
+        productTypeLevelName = '';
+      }
+      // this.getTypes(this.product.productSubCategoryId);
     } else {
       this.productService.getProductPlaces().subscribe(res => {
         this.places = res;

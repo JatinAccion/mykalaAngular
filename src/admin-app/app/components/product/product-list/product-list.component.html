@@ -128,8 +128,12 @@
                                     <td width="30%">{{product.productCategoryName}}</td>
                                 </tr>
                                 <tr>
-                                    <td class="colorlightGray">Product type:</td>
-                                    <td>{{product.productTypeName}}</td>
+                                    <td *ngIf="!product.productTypeName" class="colorlightGray">Product sub category:</td>
+                                    <td *ngIf="!product.productTypeName">{{product.productSubCategoryName}}</td>
+                                    
+                                    <td *ngIf="product.productTypeName" class="colorlightGray">Product type:</td>
+                                    <td *ngIf="product.productTypeName">{{product.productTypeName}}</td>
+
                                     <td class="colorlightGray">Kala Product ID:</td>
                                     <td>{{product.kalaUniqueId}}</td>
                                 </tr>

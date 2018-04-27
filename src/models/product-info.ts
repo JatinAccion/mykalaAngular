@@ -56,8 +56,8 @@ export class ProductType {
     }
 }
 export class ProductLevel {
-    public levelName: String;
-    public levelId: String;
+    public levelName: string;
+    public levelId: string;
     public levelCount: number;
     constructor(obj?: any) {
         if (obj) {
@@ -78,6 +78,7 @@ export class ProductTypeLevel {
             this.levelOptions = obj.levelOptions;
         }
         this.levelName = obj.levelName;
+        this.level = obj.level;
     }
 }
 export class ProductTypeLevels {
