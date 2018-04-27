@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit, CuiComponent {
   userInactive: boolean = false;
   unAuthorized: boolean = false;
   verificationMail: boolean = false;
+  notExists: boolean = false;
   emailRegex = regexPatterns.emailRegex;
   loginUserMessage = userMessages;
   loginInputValMsg = inputValidation;
@@ -88,6 +89,7 @@ export class LoginComponent implements OnInit, CuiComponent {
     this.userInactive = false;
     this.unAuthorized = false;
     this.verificationMail = false;
+    this.notExists = false;
   }
 
   onSubmit() {
@@ -97,6 +99,7 @@ export class LoginComponent implements OnInit, CuiComponent {
     this.userInactive = false;
     this.unAuthorized = false;
     this.verificationMail = false;
+    this.notExists = false;
     this.loader = false;
     if (!this.loginKala.controls.email.value) this.emailValidation = true;
     else if (this.loginKala.controls.email.value && this.loginKala.controls.email.errors) this.emailValidation = true;
@@ -107,37 +110,49 @@ export class LoginComponent implements OnInit, CuiComponent {
       this.credentialModal.email = this.loginKala.controls.email.value;
       this.credentialModal.password = window.btoa(this.loginKala.controls.password.value);
       this.credentialModal.remember = this.loginKala.controls.remember.value;
-      this.auth.login(this.userCredential).then((res) => {
-        this.checkRememberMe();
-        const resJson = res.json();
-        this.localStorageService.setItem('token', resJson.access_token, resJson.expires_in);
-        this.auth.getUserInfo(resJson.access_token).subscribe(res => {
-          this.loader = false;
-          if (res.userCreateStatus == false) {
-            localStorage.removeItem("token");
-            this.userInactive = true;
-          }
-          else {
-            if (res.roleName[0] != "consumer") this.unAuthorized = true;
-            else {
-              window.localStorage['userInfo'] = JSON.stringify(res);
-              this.core.hideUserInfo(false);
-              this.core.setUser(res);
-              if (window.localStorage['tbnAfterLogin'] != undefined) {
-                let url = window.localStorage['tbnAfterLogin'];
-                localStorage.removeItem("tbnAfterLogin");
-                this.router.navigateByUrl(url);
+      this.auth.getUserByEmailId(this.credentialModal.email).subscribe((res) => {
+        if (res.userId != null || res.userId != undefined) {
+          this.auth.login(this.userCredential).then((res) => {
+            this.checkRememberMe();
+            const resJson = res.json();
+            this.localStorageService.setItem('token', resJson.access_token, resJson.expires_in);
+            this.auth.getUserInfo(resJson.access_token).subscribe(res => {
+              this.loader = false;
+              if (res.userCreateStatus == false) {
+                localStorage.removeItem("token");
+                this.userInactive = true;
               }
-              else this.router.navigateByUrl('/home');
-            }
-          }
-        }, err => {
-          console.log(err);
-        })
-      }).catch((err) => {
+              else {
+                if (res.roleName[0] != "consumer") this.unAuthorized = true;
+                else {
+                  window.localStorage['userInfo'] = JSON.stringify(res);
+                  this.core.hideUserInfo(false);
+                  this.core.setUser(res);
+                  if (window.localStorage['tbnAfterLogin'] != undefined) {
+                    let url = window.localStorage['tbnAfterLogin'];
+                    localStorage.removeItem("tbnAfterLogin");
+                    this.router.navigateByUrl(url);
+                  }
+                  else this.router.navigateByUrl('/home');
+                }
+              }
+            }, err => {
+              this.loader = false;
+              console.log(err);
+            })
+          }).catch((err) => {
+            this.loader = false;
+            this.loginError = true;
+            console.log(err);
+          });
+        }
+        else {
+          this.loader = false;
+          this.notExists = true;
+        }
+      }, (err) => {
         this.loader = false;
-        this.loginError = true;
-        console.log(err);
+        console.log("Error", err)
       });
     }
   }

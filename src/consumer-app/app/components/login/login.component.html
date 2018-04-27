@@ -73,6 +73,10 @@
           {{loginInputValMsg.unAuthorized}}
         </div>
 
+        <div *ngIf="notExists" class="alert alert-danger errorMessages">
+          {{loginInputValMsg.notExists}}
+        </div>
+
         <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 46%" *ngIf="loader" />
         <!--Loader-->
       </div>

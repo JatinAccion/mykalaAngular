@@ -7,6 +7,7 @@ export const inputValidation = {
     validEmail: 'Please enter a valid email address',
     passwordRequired: 'Please enter your password',
     inactiveUser: 'Your account is not yet verfied with Kala.',
-    unAuthorized: 'Server could not verify that you are authorized to access the portal.',
+    unAuthorized: 'We couldn\'t verify that you are authorized to access the portal.',
+    notExists: 'We couldn\'t find an account for that email address. Please enter a different email or create an account.',
     verifyMail: "A verfication link has been sent to the email address you have provided. Please verifiy your account at the earliest."
 };
