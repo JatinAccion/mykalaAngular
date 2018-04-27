@@ -48,6 +48,12 @@ export class AuthService {
     return this.http.get(url).map((res) => res.json());
   }
 
+  getUserByEmailId(emailId) {
+    const BASE_URL: string = environment.userService;
+    const url: string = `${BASE_URL}/email/${emailId}`;
+    return this.http.get(url).map((res) => res.json())
+  }
+
   /* For Mobile/Conversational UI
   login(user: User): Promise<any> {
     let url: string = `${this.BASE_URL}/login`;

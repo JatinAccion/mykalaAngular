@@ -100,6 +100,7 @@ export class MyordersComponent implements OnInit {
       this.consumerSupport.orderDate = new Date(modal.purchasedDate);
       this.consumerSupport.productName = order.productName;
       this.consumerSupport.productCost = order.totalProductPrice;
+      this.questionCounter = 0;
       this.supportMessages.push({
         mainImage: '/consumer-app/assets/images/logo.png',
         from: 'Kala',
@@ -227,7 +228,7 @@ export class MyordersComponent implements OnInit {
         this.core.openModal(this.contactKalaModal)
         setTimeout(() => {
           this.core.modalReference.close();
-        }, 2000)
+        }, 5000)
         this.resetAll(order);
       }, (err) => {
         console.log('Something went wrong')
