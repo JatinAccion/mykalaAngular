@@ -78,7 +78,8 @@ export const apiNames = {
         viewUploadedProducts: 'products/dump',
         deleteSummary: 'products/summary/{summaryId}',
         getProducts: 'products/all',
-        getProductReview: 'consumer/v1/productReviewCount'
+        getProductReview: 'consumer/v1/productReviewCount',
+        getProductMeta: 'products/partial'
     },
     orders: {
         get: '',
@@ -86,8 +87,8 @@ export const apiNames = {
         paymentReports: 'paymentReports/{paymentType}/summary/{summary}/{year}/{month}',
         consumerPayment: 'consumerPayment/{paymentType}/{year}/{month}',
         getOrders: 'orders/{paymentType}/{year}/{month}',
-        consumerYearlyReport: 'customerYearlyReport/{memberType}/{year}/{month}',
-        consumerCount: 'customerCount/{memberType}/{year}/{month}',
+        consumerYearlyReport: 'consumer/v1/customerYearlyReport/{memberType}/{year}/{month}',
+        consumerCount: 'consumer/v1/customerCount/{memberType}/{year}/{month}',
         orderReviewCount: 'consumer/v1/report/completeReview/{year}/{month}',
         avgReviewCount: 'consumer/v1/report/avgReview/{year}/{month}',
         avgResponseTime: 'consumer/v1/report/avgResponseTime/{year}/{month}',

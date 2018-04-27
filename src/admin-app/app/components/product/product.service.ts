@@ -10,7 +10,7 @@ import 'rxjs/add/operator/catch';
 import { LocalStorageService } from '../../services/LocalStorage.service';
 import { environment } from './../../../environments/environment';
 import { nameValue } from '../../../../models/nameValue';
-import { Product, Products } from '../../../../models/product';
+import { Product, Products, ProductAttributesMasterData } from '../../../../models/product';
 import { ProductPlace, ProductType, ProductSubCategory, ProductCategory } from '../../../../models/product-info';
 import { RetailerProfileInfo } from '../../../../models/retailer-profile-info';
 import { ProductUploads } from '../../../../models/productUpload';
@@ -256,6 +256,7 @@ export class ProductService {
         return new ProductUploads();
       })
       .catch(this.handleError);
+
   }
   deleteuploadSummary(summaryId: any) {
     this.headers = this.getHttpHeraders();
@@ -278,6 +279,24 @@ export class ProductService {
     return this.http
       .put(`${url}/${productId}/${status}`, { headers: this.headers })
       .map(res => res.text())
+      .catch(this.handleError);
+  }
+
+  getAttributesMasterData(placeName: string, category: string, subCategory: string): Observable<ProductAttributesMasterData> {
+
+    const url = `${this.BASE_URL}/${environment.apis.product.getProductMeta}`;
+    return this.http
+      .post(`${url}`, {
+        'categoryName': category,
+        'placeName': placeName,
+        'productType': subCategory
+      }, { headers: this.headers })
+      .map(res => {
+        if (res.text() !== '') {
+          return new ProductAttributesMasterData(res.json());
+        }
+        return new ProductAttributesMasterData();
+      })
       .catch(this.handleError);
   }
 }

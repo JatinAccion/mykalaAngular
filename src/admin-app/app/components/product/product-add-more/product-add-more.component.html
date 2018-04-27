@@ -1,13 +1,13 @@
-<div class="row p-3">
+<!-- <div class="row p-3">
     Product dimensions
 </div>
 <div class="row p-2">
     <div class="col-sm-2 p-2 colorlightGray">
-        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.Length)">Length:</label>
+        <label class="control-label">Length:</label>
     </div>
     <div class="col-sm-10">
         <div class="input-group">
-            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="Length">
+            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern>
             <span class="input-group-addon" id="basic-addon1">
                 <select class="ddl_Product">
                     <option>inches</option>
@@ -16,239 +16,244 @@
                 </select>
             </span>
         </div>
-        <app-field-error-display [field]="fG1.controls.Length" [errorMsg]="errorMsgs"> </app-field-error-display>
+
     </div>
     <div class="col-sm-2 p-2 colorlightGray">
-        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.height)">Height:</label>
+        <label class="control-label">Height:</label>
     </div>
     <div class="col-sm-10">
         <div class="input-group">
-            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="height"> 
+            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern>
         </div>
-        <app-field-error-display [field]="fG1.controls.height" [errorMsg]="errorMsgs"> </app-field-error-display>
+
     </div>
     <div class="col-sm-2 p-2 colorlightGray">
-        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.Weight)">Weight:</label>
+        <label class="control-label">Weight:</label>
     </div>
     <div class="col-sm-10">
         <div class="input-group">
-            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="Weight"> 
+            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern>
         </div>
-        <app-field-error-display [field]="fG1.controls.Weight" [errorMsg]="errorMsgs"> </app-field-error-display>
+
     </div>
-</div> 
+</div>
 <div class="row p-3">
     Product weight
 </div>
-<div class="row pb-2 pr-4 pl-3"> 
+<div class="row pb-2 pr-4 pl-3">
     <div class="input-group">
-        <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="prodectWeight">
+        <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern>
         <span class="input-group-addon" id="basic-addon1">
             <select class="ddl_Product">
                 <option>pounds</option>
-                <option>ounces</option> 
+                <option>ounces</option>
             </select>
         </span>
-    </div> 
-</div> 
+    </div>
+</div>
 <div class="row p-3">
     Shipping weight
 </div>
-<div class="row pb-2 pr-4 pl-3"> 
+<div class="row pb-2 pr-4 pl-3">
     <div class="input-group">
-        <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="shippingWeight">
+        <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern>
         <span class="input-group-addon" id="basic-addon1">
             <select class="ddl_Product">
                 <option>pounds</option>
-                <option>ounces</option> 
+                <option>ounces</option>
             </select>
         </span>
-    </div> 
+    </div>
 </div>
 <div class="row p-3">
     Package dimensions
 </div>
 <div class="row">
-        <table class="table table-borderless">
-            <tr>
-                <td width="5%"><input type="radio" value="1" name="select" /></td>
-                <td width="95%">
-                    <div class="border_outline row mr-3">
-                        <div class="col-sm-8 p-3 ">
-                            <strong>Letter</strong>
-                            <div>Minimum: 5” long, 3 ½” high, and 0.007” thick Maximum: 11-1/2” long, 6-1/8” high, and ¼” thick</div>
-                        </div>
-                        <div class="col-sm-4 text-center">
-                            <img src="/admin-app/assets/images/icon_letter.png" />
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td width="5%"><input type="radio" value="1" name="select" /></td>
-                <td width="95%"> 
-                    <div class="row border_outline mr-3">
-                        <div class="col-sm-8 p-3">
-                            <strong>Small</strong>
-                            <div>Max. Size: Length + (2 x Width) + (2 x Height) <= 28”</div>
+    <table class="table table-borderless">
+        <tr>
+            <td width="5%">
+                <input type="radio" value="1" name="select" />
+            </td>
+            <td width="95%">
+                <div class="row border_outline mr-3">
+                    <div class="col-sm-8 p-3">
+                        <strong>Small</strong>
+                        <div>Max. Size: Length + (2 x Width) + (2 x Height)
+                            <=2 8”</div>
                         </div>
                         <div class="col-sm-4 text-center">
                             <img src="/admin-app/assets/images/icon_small.png" />
                         </div>
-                    </div> 
-                </td>
-            </tr>
-            <tr>
-                <td width="5%"><input type="radio" value="1" name="select" /></td>
-                <td width="95%">
-                    <div class="row border_outline mr-3">
-                        <div class="col-sm-8 p-3">
-                            <strong>Medium</strong>
-                            <div>Max. Size: Length + (2 x Width) + (2 x Height) > 28”, <= 84”</div>
+                    </div>
+            </td>
+        </tr>
+        <tr>
+            <td width="5%">
+                <input type="radio" value="1" name="select" />
+            </td>
+            <td width="95%">
+                <div class="row border_outline mr-3">
+                    <div class="col-sm-8 p-3">
+                        <strong>Medium</strong>
+                        <div>Max. Size: Length + (2 x Width) + (2 x Height) > 28”,
+                            <=8 4”</div>
                         </div>
                         <div class="col-sm-4 text-center">
                             <img src="/admin-app/assets/images/icon_medium.png" />
                         </div>
                     </div>
-                </td>
-            </tr>
-            <tr>
-                <td width="5%"><input type="radio" value="1" name="select" /></td>
-                <td width="95%">
-                    <div class="row border_outline mr-3">
-                        <div class="col-sm-8 p-3">
-                            <strong>Large</strong>
-                            <div>Max. Size: Length + (2 x Width) + (2 x Height) > 84”, <= 165”</div>
+            </td>
+        </tr>
+        <tr>
+            <td width="5%">
+                <input type="radio" value="1" name="select" />
+            </td>
+            <td width="95%">
+                <div class="row border_outline mr-3">
+                    <div class="col-sm-8 p-3">
+                        <strong>Large</strong>
+                        <div>Max. Size: Length + (2 x Width) + (2 x Height) > 84”,
+                            <=1 65”</div>
                         </div>
                         <div class="col-sm-4 text-center">
                             <img src="/admin-app/assets/images/icon_Large.png" />
                         </div>
                     </div>
-                </td>
-            </tr>
-            <tr>
-                <td width="5%"><input type="radio" value="1" name="select" /></td>
-                <td width="95%">
-                    <div class="row border_outline mr-3">
-                        <div class="col-sm-8 p-3">
-                            <strong>Oversized</strong>
-                            <div>Max. Size: Length + (2 x Width) + (2 x Height) > 165”</div>
-                        </div>
-                        <div class="col-sm-4 text-center">
-                            <img src="/admin-app/assets/images/icon_oversize.png" />
-                        </div>
+            </td>
+        </tr>
+        <tr>
+            <td width="5%">
+                <input type="radio" value="1" name="select" />
+            </td>
+            <td width="95%">
+                <div class="row border_outline mr-3">
+                    <div class="col-sm-8 p-3">
+                        <strong>Oversized</strong>
+                        <div>Max. Size: Length + (2 x Width) + (2 x Height) > 165”</div>
                     </div>
-                </td>
-            </tr>
-            <tr>
-                <td width="5%"><input type="radio" value="1" name="select" /></td>
-                <td width="95%">
-                    <div class="row border_outline p-3 mr-3">
-                        <strong>Irregular</strong>
-                        Assumes shipment can’t be sorted with mail processing equipment due to size,
-                        shape, or content issues.
-                        The longest side of the package is over 60 inches or the second longest side is
-                        over 30 inches.
-                        The package is encased in an external shipping container made of metal or
-                        wood.
-                        The package is a cylindrical item, such as a barrel, drum, pail, or tire that isn't
-                        fully encased in a corrugated cardboard shipping container.
+                    <div class="col-sm-4 text-center">
+                        <img src="/admin-app/assets/images/icon_oversize.png" />
                     </div>
-                </td>
-            </tr>
-        </table> 
-   </div>
-<div class="row p-3">
-    <div class="input-group">
-        <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="addAttribute"> 
+                </div>
+            </td>
+        </tr>
+    </table>
     </div>
-    <app-field-error-display [field]="fG1.controls.addAttribute" [errorMsg]="errorMsgs"> </app-field-error-display>
-</div>
-<div class="row">
-    <div class="col-sm-12 p-0 text-right">
-        <div ngbDropdown class="d-inline-block">
-            <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Toggle dropdown</button>
-            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-              <button class="dropdown-item">Action - 1</button>
-              <button class="dropdown-item">Another Action</button>
-              <button class="dropdown-item">Something else is here</button>
+    <div class="row p-3">
+        <div class="input-group">
+            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-sm-12 p-0 text-right">
+            <div ngbDropdown class="d-inline-block">
+                <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Toggle dropdown</button>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    <button class="dropdown-item">Action - 1</button>
+                    <button class="dropdown-item">Another Action</button>
+                    <button class="dropdown-item">Something else is here</button>
+                </div>
             </div>
-          </div>
+        </div>
     </div>
-</div>
-<div class="row m-2">
-    <div class="col-sm-12 p-0">
-        Additional features:<span class="float-right"><a href="#" class="circle_Gray">x</a></span>
+    <div class="row m-2">
+        <div class="col-sm-12 p-0">
+            Additional features:
+            <span class="float-right">
+                <a href="#" class="circle_Gray">x</a>
+            </span>
+        </div>
     </div>
-</div>
-<div class="row m-2">
-    <div class="input-group">
-        <input type="text" class="form-control" aria-describedby=" " placeholder="Wood" pattern formControlName="additionalFeature1">
-        <span class="input-group-addon" id="basic-addon1">X</span>
-    </div> 
-</div>
-<div class="row m-2">
-    <div class="input-group">
-        <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="additionalFeature2">
-        <span class="input-group-addon" id="basic-addon1">X</span>
-    </div> 
-</div>
-<div class="row m-2">
-    <div class="input-group">
-        <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="additionalFeature3">
-        <span class="input-group-addon" id="basic-addon1">X</span>
-    </div> 
-</div>
-<div class="col-sm-12 text-right p-2">
-    <a href="#">Add more</a>
-</div>  
-<div class="row m-2">
-    <div class="col-sm-12 p-0">
-        Number of Lights:<span class="float-right"><a href="#" class="circle_Gray">x</a></span>
+    <div class="row m-2">
+        <div class="input-group">
+            <input type="text" class="form-control" aria-describedby=" " placeholder="Wood" pattern>
+            <span class="input-group-addon" id="basic-addon1">X</span>
+        </div>
     </div>
-</div>
-<div class="row m-2">
-    <div class="input-group">
-        <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="noLights">
+    <div class="row m-2">
+        <div class="input-group">
+            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern>
+            <span class="input-group-addon" id="basic-addon1">X</span>
+        </div>
     </div>
-</div>
-<div class="row m-2">
-    <div class="col-sm-12 p-0">
-        Voltage:<span class="float-right"><a href="#" class="circle_Gray">x</a></span>
+    <div class="row m-2">
+        <div class="input-group">
+            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern>
+            <span class="input-group-addon" id="basic-addon1">X</span>
+        </div>
     </div>
+    <div class="col-sm-12 text-right p-2">
+        <a href="#">Add more</a>
+    </div> -->
+<div *ngFor="let attr of attributes">
+    <span [ngSwitch]="attr.attrType">
+        <div *ngSwitchCase="'string'">
+            <app-pmd-inputselect [prodAttr]="attr" (prodAttrChange)="changeAttrValue(attr)" (onDelete)="deleteAttr(attr)" [data]="getAttrbuteKeyMasterData(attr)"></app-pmd-inputselect>
+        </div>
+        <div *ngSwitchCase="'number'"> </div>
+        <div *ngSwitchCase="'array'">
+            <app-pmd-inputlist [prodAttr]="attr" (prodAttrChange)="changeAttrValue(attr)" (onDelete)="deleteAttr(attr)"></app-pmd-inputlist>
+
+        </div>
+    </span>
 </div>
-<div class="row m-2">
-    <div class="input-group">
-        <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="voltage">
-        <span class="input-group-addon" id="basic-addon1">Volts</span> 
+<!-- <div class="row m-2">
+        <div class="col-sm-12 p-0">
+            Number of Lights:
+            <span class="float-right">
+                <a href="#" class="circle_Gray">x</a>
+            </span>
+        </div>
     </div>
-</div> 
-<div class="row m-2">
-    <div class="col-sm-12 p-0">
-        Base diameter:<span class="float-right"><a href="#" class="circle_Gray">x</a></span>
+    <div class="row m-2">
+        <div class="input-group">
+            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern>
+        </div>
     </div>
-</div>
-<div class="row m-2">
-    <div class="input-group">
-        <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
-        <span class="input-group-addon" id="basic-addon1">
-            <select class="ddl_Product">
-                <option>inches</option>
-                <option>centimeters</option>
-                <option>feet</option>
-            </select>
-        </span>
+    <div class="row m-2">
+        <div class="col-sm-12 p-0">
+            Voltage:
+            <span class="float-right">
+                <a href="#" class="circle_Gray">x</a>
+            </span>
+        </div>
     </div>
-</div>
-   <!--
+    <div class="row m-2">
+        <div class="input-group">
+            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern>
+            <span class="input-group-addon" id="basic-addon1">Volts</span>
+        </div>
+    </div>
+    <div class="row m-2">
+        <div class="col-sm-12 p-0">
+            Base diameter:
+            <span class="float-right">
+                <a href="#" class="circle_Gray">x</a>
+            </span>
+        </div>
+    </div>
+    <div class="row m-2">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+            <span class="input-group-addon" id="basic-addon1">
+                <select class="ddl_Product">
+                    <option>inches</option>
+                    <option>centimeters</option>
+                    <option>feet</option>
+                </select>
+            </span>
+        </div>
+    </div> -->
+<!--
 <div class="row p-2">
     <div class="col-sm-2 p-2 colorlightGray">
-        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.Width)">Width:</label>
+        <label class="control-label" >Width:</label>
     </div>
     <div class="col-sm-10">
         <div class="input-group">
-            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="Width">
-            <app-field-error-display [field]="fG1.controls.Width" [errorMsg]="errorMsgs"> </app-field-error-display>
+            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern >
+            
         </div>
     </div>
 </div>
@@ -258,7 +263,7 @@
 <div class="row p-2">
     <div class="col-sm-12">
         <div class="input-group">
-            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="Length">
+            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern >
             <span class="input-group-addon" id="basic-addon1">
                 <select class="ddl_Product">
                     <option>inches</option>
@@ -267,7 +272,7 @@
                 </select>
             </span>
         </div>
-        <app-field-error-display [field]="fG1.controls.Length" [errorMsg]="errorMsgs"> </app-field-error-display>
+        
     </div>
 </div>
 <div class="row pr-3 pl-3">
@@ -275,11 +280,11 @@
 </div>
 <div class="row p-2">
     <div class="col-sm-2 p-2 colorlightGray">
-        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.prodectWeight)">weight:</label>
+        <label class="control-label" >weight:</label>
     </div>
     <div class="col-sm-10">
         <div class="input-group">
-            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="prodectWeight">
+            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern >
             <span class="input-group-addon" id="basic-addon1">
                 <select class="ddl_Product">
                     <option>pounds</option>
@@ -287,7 +292,7 @@
                 </select>
             </span>
         </div>
-        <app-field-error-display [field]="fG1.controls.prodectWeight" [errorMsg]="errorMsgs"> </app-field-error-display>
+        
     </div>
 </div>
 <div class="row pr-3 pl-3">
@@ -295,11 +300,11 @@
 </div>
 <div class="row p-2">
     <div class="col-sm-2 p-2 colorlightGray">
-        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.shippingWeight)">weight:</label>
+        <label class="control-label" >weight:</label>
     </div>
     <div class="col-sm-10">
         <div class="input-group">
-            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="shippingWeight">
+            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern >
             <span class="input-group-addon" id="basic-addon1">
                 <select class="ddl_Product">
                         <option>pounds</option>
@@ -307,7 +312,7 @@
                 </select>
             </span>
         </div>
-        <app-field-error-display [field]="fG1.controls.shippingWeight" [errorMsg]="errorMsgs"> </app-field-error-display>
+        
     </div>
 </div>
 <div class="row pr-3 pl-3">
@@ -315,11 +320,11 @@
 </div>
 <div class="row p-2">
     <div class="col-sm-2 p-2 colorlightGray">
-        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.packageLength)">Length:</label>
+        <label class="control-label" >Length:</label>
     </div>
     <div class="col-sm-10">
         <div class="input-group">
-            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="packageLength">
+            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern >
             <span class="input-group-addon" id="basic-addon1">
                 <select class="ddl_Product">
                     <option>inches</option>
@@ -328,26 +333,26 @@
                 </select>
             </span>
         </div>
-        <app-field-error-display [field]="fG1.controls.packageLength" [errorMsg]="errorMsgs"> </app-field-error-display>
+        
     </div>
 </div>
 <div class="row p-2">
     <div class="col-sm-2 p-2 colorlightGray">
-        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.packageHeight)">Height:</label>
+        <label class="control-label" >Height:</label>
     </div>
     <div class="col-sm-10">
-        <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="packageHeight">
-        <app-field-error-display [field]="fG1.controls.packageHeight" [errorMsg]="errorMsgs"> </app-field-error-display>
+        <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern >
+        
     </div>
 </div>
 <div class="row p-2">
     <div class="col-sm-2 p-2 colorlightGray">
-        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.packageWidth)">Width:</label>
+        <label class="control-label" >Width:</label>
     </div>
     <div class="col-sm-10">
         <div class="input-group">
-            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="packageWidth">
-            <app-field-error-display [field]="fG1.controls.packageWidth" [errorMsg]="errorMsgs"> </app-field-error-display>
+            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern >
+            
         </div>
     </div>
 </div>
@@ -357,10 +362,10 @@
 <div class="row p-2">
     <div class="col-sm-12">
         <div class="input-group">
-            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="maxWatts">
+            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern >
             <span class="input-group-addon" id="basic-addon1"> watts </span>
         </div>
-        <app-field-error-display [field]="fG1.controls.maxWatts" [errorMsg]="errorMsgs"> </app-field-error-display>
+        
     </div>
 </div>
 <div class="row pr-3 pl-3">
@@ -383,19 +388,19 @@
 <div class="row p-2">
     <div class="col-sm-12">
         <div class="input-group">
-            <input type="text" class="form-control" aria-describedby=" " placeholder="Wood" pattern formControlName="additonalFeature">
+            <input type="text" class="form-control" aria-describedby=" " placeholder="Wood" pattern >
             <span class="input-group-addon" id="basic-addon1"> X </span>
         </div>
-        <app-field-error-display [field]="fG1.controls.additonalFeature" [errorMsg]="errorMsgs"> </app-field-error-display>
+        
     </div>
 </div>
 <div class="row p-2">
     <div class="col-sm-12">
         <div class="input-group">
-            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="additonalext">
+            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern >
             <span class="input-group-addon" id="basic-addon1"> watts </span>
         </div>
-        <app-field-error-display [field]="fG1.controls.additonalext" [errorMsg]="errorMsgs"> </app-field-error-display>
+        
     </div>
 </div>
 <div class="row pr-3 pl-3">
@@ -409,9 +414,9 @@
 <div class="row p-2">
     <div class="col-sm-12">
         <div class="input-group">
-            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="noLights">
+            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern >
         </div>
-        <app-field-error-display [field]="fG1.controls.noLights" [errorMsg]="errorMsgs"> </app-field-error-display>
+        
     </div>
 </div>
 <div class="row pr-3 pl-3">
@@ -420,10 +425,10 @@
 <div class="row p-2">
     <div class="col-sm-12">
         <div class="input-group">
-            <input type="text" class="form-control" aria-describedby=" " placeholder="Wood" pattern formControlName="voltage">
+            <input type="text" class="form-control" aria-describedby=" " placeholder="Wood" pattern >
             <span class="input-group-addon" id="basic-addon1"> Volts </span>
         </div>
-        <app-field-error-display [field]="fG1.controls.voltage" [errorMsg]="errorMsgs"> </app-field-error-display>
+        
     </div>
 </div>
 <div class="row pr-3 pl-3">
@@ -447,7 +452,7 @@
 <div class="row p-2">
     <div class="col-sm-12">
         <div class="input-group">
-            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="basediameter">
+            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern >
             <span class="input-group-addon" id="basic-addon1">
                 <select class="ddl_Product">
                     <option>inches</option>
@@ -456,7 +461,7 @@
                 </select>
             </span>
         </div>
-        <app-field-error-display [field]="fG1.controls.basediameter" [errorMsg]="errorMsgs"> </app-field-error-display>
+        
     </div>
 </div> 
 <div class="row pr-3 pl-3">
@@ -465,38 +470,38 @@
 <div class="row pr-3 pl-3"> 
     <div class="col-sm-12">
         <input type="checkbox">
-        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.furniture)"> Crystal </label>
+        <label class="control-label" > Crystal </label>
     </div>
     <div class="col-sm-12">
         <input type="checkbox">
-        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.smallitem)"> Bamboo </label>
+        <label class="control-label" > Bamboo </label>
     </div>
     <div class="col-sm-12">
         <input type="checkbox">
-        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.bussshipping)"> Ceramic </label>
+        <label class="control-label" > Ceramic </label>
     </div>
     <div class="col-sm-12">
         <input type="checkbox">
-        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.bussshipping)"> Metal </label>
+        <label class="control-label" > Metal </label>
     </div>
     <div class="col-sm-12">
         <input type="checkbox">
-        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.bussshipping)"> Wood </label>
+        <label class="control-label" > Wood </label>
     </div>
     <div class="col-sm-12">
         <input type="checkbox">
-        <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.bussshipping)"> Glass </label>
+        <label class="control-label" > Glass </label>
     </div>
 </div>
 <div class="row p-2">
     <div class="col-sm-12">
         <div class="input-group">
-            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="materialType">
+            <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern >
             <span class="input-group-addon" id="basic-addon1">
                 +
             </span>
         </div>
-        <app-field-error-display [field]="fG1.controls.materialType" [errorMsg]="errorMsgs"> </app-field-error-display>
+        
     </div>
 </div> -->
 <hr />
@@ -505,6 +510,6 @@
         <a class="btn btn-default ancProfile1">Next</a>
     </div>
     <div class="col-sm-12 text-right show">
-        <a class="btn btn-default ancProfile1">Save &amp; Next</a>
+        <a class="btn btn-default ancProfile1" (click)="saveData()">Save &amp; Next</a>
     </div>
 </div>

@@ -7,7 +7,9 @@ import { IAlert } from '../../../../../models/IAlert';
 import { environment } from '../../../../environments/environment';
 import { ValidatorExt } from '../../../../../common/ValidatorExtensions';
 import { ProductService } from '../product.service';
-import { Product } from '../../../../../models/product';
+import { Product, ProdAttr, ProductAttributesMasterData } from '../../../../../models/product';
+import { CoreService } from '../../../services/core.service';
+import { userMessages } from './messages';
 
 
 @Component({
@@ -17,67 +19,61 @@ import { Product } from '../../../../../models/product';
   encapsulation: ViewEncapsulation.None
 })
 export class ProductAddMoreComponent implements OnInit {
+
+  attributesMasterData: ProductAttributesMasterData;
   // #region declarations
 
   @Input() product: Product;
   @Output() productChange = new EventEmitter<Product>();
   @Output() SaveData = new EventEmitter<any>();
   @ViewChild('tabs') ngbTabSet: NgbTabset;
-  alert: IAlert = {
-    id: 1,
-    type: 'success',
-    message: '',
-    show: false
-  };
-  fG1 = new FormGroup({});
+
   step = 1;
   errorMsgs: any;
   saveLoader = true;
-
+  attributes = new Array<ProdAttr>();
   // #endregion declaration
   constructor(
-    private formBuilder: FormBuilder,
-    private retialerService: ProductService,
-    public validatorExt: ValidatorExt
+    private productService: ProductService,
+    private core: CoreService
   ) {
   }
-  ngOnInit() {
-    this.setFormValidators();
+  async ngOnInit() {
+    await this.getAttributesMasterData();
+    this.getAttributes();
   }
-  closeAlert(alert: IAlert) {
-    this.alert.show = false;
+  getAttributes() {
+    this.attributes = Object.entries(this.product.attributes).map(p => new ProdAttr(p));
+  }
+  changeAttrValue(attr: ProdAttr) {
+    this.product.attributes[attr.key] = attr.value;
+  }
+  deleteAttr(attr: ProdAttr) {
+    delete this.product.attributes[attr.key];
+    this.getAttributes();
   }
 
-  setFormValidators() {
-    this.fG1 = this.formBuilder.group({
-      orderEmail: ['', [Validators.pattern(environment.regex.emailRegex), Validators.maxLength(255), Validators.required]],
-      shipEmail: ['', [Validators.maxLength(255), Validators.pattern(environment.regex.emailRegex), Validators.required]],
-    });
-
-    this.errorMsgs = {
-      'orderEmail': { required: 'Please enter order email ', error: 'Please enter valid order email' },
-      'shipEmail': { required: 'Please enter shipping email', error: 'Please enter valid shipping email' },
-    };
-  }
 
   saveData() {
-    this.readForm();
-    this.validatorExt.validateAllFormFields(this.fG1);
-    if (!this.fG1.valid) {
-    } else {
-      this.saveLoader = true;
-      this.productChange.emit(this.product);
-      this.SaveData.emit('tab-delivery');
+    this.saveLoader = true;
+    this.productService
+      .saveProduct(this.product).subscribe(res => {
+        this.core.message.success(userMessages.success);
+        this.saveLoader = false;
+      }, err => {
+        console.log(err);
+        this.core.message.error(userMessages.error);
+        this.saveLoader = false;
+      });
+  }
+  getAttributesMasterData() {
+    return this.productService.getAttributesMasterData(this.product.productPlaceName, this.product.productCategoryName, this.product.productSubCategoryName).toPromise().then(p => {
+      this.attributesMasterData = p;
+    });
+  }
+  getAttrbuteKeyMasterData(attr: ProdAttr) {
+    if (attr && this.attributesMasterData && this.attributesMasterData.attributes[attr.key] != null) {
+      return this.attributesMasterData.attributes[attr.key];
     }
-    return false;
   }
-
-
-  readForm() {
-    return this.product;
-  }
-
-  getData(retailerId) { }
-
-
 }

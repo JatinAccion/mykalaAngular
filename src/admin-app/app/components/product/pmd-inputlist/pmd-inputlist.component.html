@@ -1,0 +1,17 @@
+<div class="row m-2">
+    <div class="col-sm-12 p-0">
+        {{prodAttr.key}}:
+        <span class="float-right">
+            <a (click)="delete()" class="circle_Gray">x</a>
+        </span>
+    </div>
+</div>
+<div class="row m-2" *ngFor="let listItem of prodAttr.values; let in=index" >
+    <div class="input-group">
+        <input type="text" class="form-control"  [(ngModel)]="prodAttr.values[in]" (change)="saveData()"  >
+        <span class="input-group-addon" id="basic-addon1" (click)="deleteListItem(listItem)">X</span>
+    </div>
+</div>
+<div class="col-sm-12 text-right p-2">
+    <a (click)="addListItem()">Add more</a>
+</div>

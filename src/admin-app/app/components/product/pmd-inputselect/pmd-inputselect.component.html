@@ -1,0 +1,23 @@
+<div class="row m-2">
+    <div class="col-sm-12 p-0">
+        {{prodAttr.key}} :
+        <span class="float-right">
+            <a (click)="delete()" class="circle_Gray">x</a>
+        </span>
+    </div>
+</div>
+<div class="row m-2" *ngIf="showSelect">
+    <div class="input-group">
+        <select class="ddl_default  form-control" [(ngModel)]="prodAttr.strValue" (change)="saveData()">
+            <option value="">Select {{prodAttr.key}}</option>
+            <option *ngFor="let option of data" value="{{option}}">
+                {{option}}
+            </option>
+        </select>
+    </div>
+</div>
+<div class="row m-2" *ngIf="showOtherEntry">
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="{{prodAttr.placeholder}}" (change)="saveData()" [(ngModel)]="otherValue">
+    </div>
+</div>

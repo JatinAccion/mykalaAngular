@@ -23,6 +23,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { ProductUploadComponent } from './product-upload/product-upload.component';
 import { GlobalErrorHandler } from '../../../../common/GlobalErrorHandler';
 import { ProductUploadMetaComponent } from './product-upload-meta/product-upload-meta.component';
+import { PmdInputTextComponent } from './pmd-inputtext/pmd-inputtext.component';
+import { PmdInputListComponent } from './pmd-inputlist/pmd-inputlist.component';
+import { PmdInputSelectComponent } from './pmd-inputselect/pmd-inputselect.component';
 
 @NgModule({
   imports: [
@@ -45,7 +48,10 @@ import { ProductUploadMetaComponent } from './product-upload-meta/product-upload
     ProductAddPricingComponent,
     ProductMetaComponent,
     ProductUploadComponent,
-    ProductUploadMetaComponent
+    ProductUploadMetaComponent,
+    PmdInputTextComponent,
+    PmdInputListComponent,
+    PmdInputSelectComponent
   ],
   providers: [ProductService, ValidatorExt, {
     provide: ErrorHandler,

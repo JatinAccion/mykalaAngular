@@ -145,3 +145,51 @@ export class Products extends Pagination {
     }
     public content: Product[];
 }
+export class ProdAttr {
+    public key: string;
+    public value: any;
+    public strValue: string;
+    public numValue: number;
+    public values: string[];
+    public placeholder: string;
+    public attrType: string;
+    constructor(obj?: any) {
+        if (obj) {
+            this.key = obj[0];
+            this.placeholder = `${obj[0]}`;
+            const val = obj[1];
+            this.value = val;
+            this.attrType = 'string'; // typeof val;
+            switch (typeof val) {
+                case 'string':
+                    this.strValue = val;
+                    break;
+                case 'number':
+                    this.numValue = val;
+                    break;
+                case 'object':
+                    if (Array.isArray(val)) {
+                        this.values = val;
+                        this.attrType = 'array';
+                    } else {
+                        // this.value = JSON.stringify(val);
+                    }
+                    break;
+                default:
+                    // this.value = JSON.stringify(val);
+                    break;
+            }
+        }
+    }
+}
+export class ProductAttributesMasterData {
+    public attributes: Map<string, Array<string>>;
+    constructor(obj?: any) {
+        this.attributes = new Map<string, Array<string>>();
+        if (obj && obj.attributes) {
+            Object.keys(obj.attributes).forEach(key => {
+                this.attributes[key] = obj.attributes[key];
+            });
+        }
+    }
+}
