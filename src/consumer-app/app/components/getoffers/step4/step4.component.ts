@@ -125,13 +125,13 @@ export class Step4Component implements OnInit {
         this.Step4Modal.consumerExist = true;
       }
       this.getOffer.confirmOffer(this.Step4Modal).subscribe(res => {
-        if (res.getOffersResponse == null) {
+        this.loader = false;
+        if (res.getOffersResponse == null || res.getOffersResponse.length == 0 || res.getOffersResponse == undefined) {
           this.confirmValidationMsg.label = "noOffer";
           this.confirmValidationMsg.message = "Sorry, but we don't have offer matches for you";
           this.core.openModal(this.confirmOfferModal);
         }
         else {
-          this.loader = false;
           localStorage.removeItem("GetOfferStep_1");
           localStorage.removeItem("GetOfferStep_2");
           localStorage.removeItem("GetOfferStep_3");

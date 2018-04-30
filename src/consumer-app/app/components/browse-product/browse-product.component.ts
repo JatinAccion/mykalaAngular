@@ -54,6 +54,7 @@ export class BrowseProductComponent implements OnInit {
         this.productListingModal = new BrowseProductsModal(content);
         if (this.productListingModal.product.productStatus != false) this.tilesData.push(this.productListingModal);
       }
+      this.filterIamgeURL();
       this.getMainImage();
       if (this.tilesData.length > 0) this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' ' + this.selectedTilesData.category.name + ' for you';
       else this.headerMessage = 'Sorry, but we don\'t have product matches for you';
@@ -67,11 +68,22 @@ export class BrowseProductComponent implements OnInit {
     });
   }
 
+  filterIamgeURL() {
+    for (var i = 0; i < this.tilesData.length; i++) {
+      for (var j = 0; j < this.tilesData[i].product.productImages.length; j++) {
+        let product = this.tilesData[i].product.productImages[j];
+        if (product.location.indexOf('data:') === -1 && product.location.indexOf('https:') === -1) {
+          this.tilesData[i].product.productImages[j].location = this.s3 + product.location;
+        }
+      }
+    }
+  }
+
   getMainImage() {
     for (var i = 0; i < this.tilesData.length; i++) {
       for (var j = 0; j < this.tilesData[i].product.productImages.length; j++) {
         let product = this.tilesData[i].product.productImages[j]
-        if (product.mainImage == true) this.tilesData[i].product.mainImageSrc = `${this.s3 + product.location}`
+        if (product.mainImage == true) this.tilesData[i].product.mainImageSrc = product.location
       }
     }
   }

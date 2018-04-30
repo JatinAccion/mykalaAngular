@@ -521,7 +521,17 @@ export class Step2Component implements OnInit {
               }
             }
           }
-          this.GetOfferStep_2PS.attributes[key].push(this.getObjectFromOrder[i].otherInputValue)
+          // this.GetOfferStep_2PS.attributes[key].push(this.getObjectFromOrder[i].otherInputValue)
+          if (this.GetOfferStep_2PS.attributes[key].length > 0 && this.getObjectFromOrder[i].otherInputValue != undefined ||
+            this.GetOfferStep_2PS.attributes[key].length == 0 && this.getObjectFromOrder[i].otherInputValue != undefined) {
+            this.GetOfferStep_2PS.attributes[key].push(this.getObjectFromOrder[i].otherInputValue)
+          }
+          else if (this.GetOfferStep_2PS.attributes[key].length > 0 && this.getObjectFromOrder[i].otherInputValue == undefined) { }
+          else delete this.GetOfferStep_2PS.attributes[key];
+          if (this.GetOfferStep_2PS.attributes[key] != undefined && this.GetOfferStep_2PS.attributes[key].indexOf('') > -1) {
+            if (this.GetOfferStep_2PS.attributes[key].length == 1) delete this.GetOfferStep_2PS.attributes[key];
+            else this.GetOfferStep_2PS.attributes[key].splice(this.GetOfferStep_2PS.attributes[key].indexOf(''))
+          }
         }
       }
     }

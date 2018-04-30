@@ -84,7 +84,7 @@
 
           <!--Custom Zipcodes Entry-->
           <span *ngIf="inputNewLocation" style="position: relative;">
-            <input (keyup)="_keuyp($event)" (keypress)="core.allowOnlyNumbers($event)" formControlName="zipCode" type="text" class="categ_outline_red text-center w-15 mr-2" />
+            <input (keyup)="_keuyp($event)" maxlength="5" (keypress)="core.allowOnlyNumbers($event)" formControlName="zipCode" type="text" class="categ_outline_red text-center w-15 mr-2" />
             <img style="top:5px; right:20px" width="15" src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2" *ngIf="loaderLocation" />
           </span>
           <div style="cursor: pointer" (click)="addNewLocation($event)" class="categ_outline_red mr-2 noBackground colorred">+</div>
