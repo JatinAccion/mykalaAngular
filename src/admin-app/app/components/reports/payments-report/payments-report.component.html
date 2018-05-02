@@ -177,18 +177,23 @@
                     <table class="p-0 w-100" width="100">
                         <tbody>
                             <tr class="payment_border">
-                                <td class="p-1" width="60%">Sales Revenue: </td>
+                                <td class="p-1" width="60%">Total Sales: </td>
                                 <td class="p-1 text-right" width="20%">{{summary.saleRevenue | currency}}</td>
                                 <td width="20%"></td>
                             </tr>
                             <tr>
-                                <td class="p-1 text-right">Cost of Goods Sold: </td>
+                                <td class="p-1 text-right">Product Sales Revenue: </td>
                                 <td class="p-1 text-right">{{summary.totalCostOfGoods | currency}}</td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td class="p-1 text-right">Processing / Shipping Fees:</td>
+                                <td class="p-1 text-right">Shipping & Handling Fees:</td>
                                 <td class="p-1 text-right">{{summary.totalShipCost | currency}}</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="p-1 text-right">Payment Processing Fees:</td>
+                                <td class="p-1 text-right">{{summary.stripeProcessingFees | currency}}</td>
                                 <td></td>
                             </tr>
                             <tr class="payment_border">

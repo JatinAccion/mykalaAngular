@@ -86,8 +86,8 @@ export class Product {
             this.createdDate = obj.createdDate;
             this.taxCode = obj.taxCode;
             this.weight = obj.weight;
-            this.weightunit = obj.weightunit;
-            this.dimensionunit = obj.dimensionunit;
+            this.weightunit = obj.weightunit || 'lbs';
+            this.dimensionunit = obj.dimensionunit || 'inches';
             this.length = obj.length;
             this.height = obj.height;
             this.width = obj.width;
@@ -120,6 +120,45 @@ export class Product {
     }
     get brandName(): string {
         return this.attributes['Brand'];
+    }
+    get attributesList(): Array<ProdAttr> {
+        if (this.attributes) {
+            const attributeList = Object.entries(this.attributes).map(p => new ProdAttr(p));
+            attributeList.removeAll(p => p.key.toLowerCase() === 'unit' || p.key.toLowerCase() === 'features');
+            return attributeList;
+        } return new Array<ProdAttr>();
+    }
+
+    get featuresList(): Array<string> {
+        if (this.attributes && this.attributes['Features']) {
+            return this.attributes['Features'];
+        } return [];
+    }
+
+    getAttributesList_AttrType(attributesMasterData?: Map<string, Array<string>>): Array<ProdAttr> {
+        if (this.attributes) {
+            const attributeList = Object.entries(this.attributes).map(p => new ProdAttr(p));
+            for (let i = 0; i < attributeList.length; i++) {
+                const element = attributeList[i];
+                switch (element.key.toLowerCase()) {
+                    case 'size':
+                        element.attrType = 'string';
+                        break;
+                    case 'unit':
+                        element.attrType = 'hidden';
+                        break;
+                    case 'features':
+                        element.attrType = 'array';
+                        break;
+                    default:
+                        if (attributesMasterData && attributesMasterData[element.key]) {
+                            element.attrType = 'select';
+                        }
+                        break;
+                }
+                return attributeList;
+            } return new Array<ProdAttr>();
+        }
     }
 }
 export class ProductImage {

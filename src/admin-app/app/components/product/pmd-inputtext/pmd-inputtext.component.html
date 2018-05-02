@@ -1,10 +1,13 @@
 <div class="row m-2">
     <div class="col-sm-12 p-0">
-        {{prodAttr.key}} :<span class="float-right"><a (click)="delete()" class="circle_Gray">x</a></span>
+        {{prodAttr.key}} :
+        <span class="float-right">
+            <!-- <a (click)="delete()" class="circle_Gray">x</a> -->
+        </span>
     </div>
 </div>
 <div class="row m-2">
     <div class="input-group">
-        <input type="text" class="form-control" placeholder="{{prodAttr.placeholder}}" (change)="saveData()" [(ngModel)]="prodAttr.strValue" >
+        <input type="text" class="form-control" placeholder="{{prodAttr.placeholder}}" (change)="saveData()" [(ngModel)]="prodAttr.strValue">
     </div>
 </div>

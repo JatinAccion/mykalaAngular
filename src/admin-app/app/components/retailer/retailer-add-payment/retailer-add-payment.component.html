@@ -83,7 +83,7 @@
         </div>
         <div class="col-sm-6">
             <div class="form-group">
-                <input type="text" class="form-control" aria-describedby="" placeholder="Zipcode" pattern formControlName="zipcode">
+                <input type="text" class="form-control" aria-describedby="" placeholder="Zipcode" pattern formControlName="zipcode" maxlength="5">
                 <!--Validation-->
                 <app-field-error-display [field]="paymentFG1.controls.zipcode" [errorMsg]="errorMsgs"> </app-field-error-display>
                 <!--Validation-->
@@ -191,7 +191,7 @@
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
-                    <input type="text" class="form-control" aria-describedby="" placeholder="Zipcode" pattern formControlName="zipcodeLegalContact">
+                    <input type="text" class="form-control" aria-describedby="" placeholder="Zipcode" pattern formControlName="zipcodeLegalContact" maxlength="5">
                     <!--Validation-->
                     <app-field-error-display [field]="paymentFG2.controls.zipcodeLegalContact" [errorMsg]="errorMsgs"> </app-field-error-display>
                     <!--Validation-->
@@ -230,7 +230,7 @@
         </div>
         <div class="col-sm-6">
             <div class="form-group">
-                <input type="text" class="form-control" aria-describedby="" placeholder="Zipcode" pattern formControlName="zipcode">
+                <input type="text" class="form-control" aria-describedby="" placeholder="Zipcode" pattern formControlName="zipcode" maxlength="5">
                 <!--Validation-->
                 <app-field-error-display [field]="paymentFG2.controls.zipcode" [errorMsg]="errorMsgs"> </app-field-error-display>
                 <!--Validation-->

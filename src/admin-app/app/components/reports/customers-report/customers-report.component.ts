@@ -82,7 +82,7 @@ export class CustomersReportComponent implements OnInit {
     this.goto('new', 0);
     this.goto('active', 0);
     this.goto('total', 0);
-    // this.goto('closed', 0);
+    this.goto('closed', 0);
     // this.getDetails('new');
   }
   goto(type, incr) {

@@ -10,13 +10,23 @@ import { Product, ProdAttr } from '../../../../../models/product';
   encapsulation: ViewEncapsulation.None
 })
 export class PmdInputListComponent implements OnInit {
+  _prodAttr: any;
   // #region declarations
-
-  @Input() prodAttr: ProdAttr;
+  listSize = 5;
   @Output() prodAttrChange = new EventEmitter<ProdAttr>();
   @Output() onDelete = new EventEmitter<ProdAttr>();
-
-
+  @Input() set prodAttr(prodAttr: ProdAttr) {
+    this._prodAttr = this.formatValues(prodAttr);
+  }
+  get prodAttr(): ProdAttr {
+    return this._prodAttr;
+  }
+  formatValues(prodAttr: ProdAttr) {
+    while (prodAttr.values.length <= 5) {
+      prodAttr.values.add('');
+    }
+    return prodAttr;
+  }
   // #endregion declaration
   constructor() { }
   ngOnInit() { }
@@ -27,8 +37,9 @@ export class PmdInputListComponent implements OnInit {
   delete() {
     this.onDelete.emit(this.prodAttr);
   }
-  deleteListItem(listItem) {
-    delete this.prodAttr.values[this.prodAttr.values.indexOf(listItem)];
+  deleteListItem(index) {
+    this.prodAttr.values[index] = '';
+    this.saveData();
   }
   addListItem() {
     this.prodAttr.values.push('');

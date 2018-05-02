@@ -11,16 +11,31 @@ import { Product, ProdAttr } from '../../../../../models/product';
   encapsulation: ViewEncapsulation.None
 })
 export class PmdInputSelectComponent implements OnInit {
+  _data: any;
   // #region declarations
 
   @Input() prodAttr: ProdAttr;
   @Output() prodAttrChange = new EventEmitter<ProdAttr>();
   @Output() onDelete = new EventEmitter<ProdAttr>();
-  @Input() data: Array<string>;
+  @Input() set data(values: Array<string>) {
+    this._data = this.cleanData(values);
 
+  }
+  get data(): Array<string> {
+    return this._data;
+  }
   showOtherEntry: boolean;
   otherValue: string;
   showSelect = true;
+  cleanData(values: Array<string>): Array<string> {
+    if (values && values.removeAll(p => p === 'No Preference')) {
+
+    }
+    if (values && !values.firstOrDefault(p => p === 'Other')) {
+      values.add('Others');
+    }
+    return values;
+  }
 
   // #endregion declaration
   constructor() { }
@@ -30,7 +45,12 @@ export class PmdInputSelectComponent implements OnInit {
       this.showSelect = false;
       this.showOtherEntry = true;
     }
-    this.otherValue = this.showOtherEntry ? this.prodAttr.strValue : '';
+    if (this.showOtherEntry) {
+      this.otherValue = this.prodAttr.strValue;
+      this.prodAttr.strValue = 'Other';
+    } else {
+      this.otherValue = '';
+    }
   }
   saveData() {
     this.checkOther();
@@ -43,9 +63,10 @@ export class PmdInputSelectComponent implements OnInit {
     this.onDelete.emit(this.prodAttr);
   }
   checkOther() {
-    this.showOtherEntry = this.prodAttr.strValue === 'Other';
-    if (this.prodAttr.strValue && this.data && this.data.filter(p => p === this.prodAttr.strValue && p !== 'Other').length > 0) {
-      this.showOtherEntry = false;
+    if (this.prodAttr.strValue) {
+      this.showOtherEntry = this.prodAttr.strValue === 'Other';
+      const itemFound = this.data && this.data.filter(p => p === this.prodAttr.strValue && p !== 'Other').length > 0;
+      this.showOtherEntry = !itemFound;
     }
   }
 }

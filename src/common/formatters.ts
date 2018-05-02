@@ -58,6 +58,7 @@ export function toAddressString(strings: string[]) {
         };
     }
 
+
     if (!Array.prototype.remove) {
         Array.prototype.remove = function (item: any): boolean {
             const index = (<Array<any>>this).indexOf(item);
@@ -76,7 +77,17 @@ export function toAddressString(strings: string[]) {
             }
         };
     }
-
+    if (!Array.prototype.removeAll) {
+        Array.prototype.removeAll = function (predicate: (item: any) => boolean): boolean {
+            for (let i = (<Array<any>>this).length - 1 ; i >= 0; i--) {
+                const item = (<Array<any>>this)[i];
+                if (predicate(item)) {
+                    (<Array<any>>this).splice(i, 1);
+                }
+            }
+            return true;
+        };
+    }
     if (!Array.prototype.add) {
         Array.prototype.add = function (item: any): void {
             (<Array<any>>this).push(item);

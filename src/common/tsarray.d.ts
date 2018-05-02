@@ -9,4 +9,5 @@ interface Array<T> {
     add(item: T): void;
     addRange(items: T[]): void;
     removeRange(items: T[]): void;
+    removeAll(predicate: (item: T) => boolean): boolean;
 }

@@ -51,11 +51,11 @@ export class ProductUploadComponent implements OnInit {
     });
   }
   upload() {
-    const update = this.uploadOperation === 'Add Products' ;
+    const all = this.uploadOperation === 'Add Products';
+    const update = this.uploadOperation === 'Update Quantity';
     const quantity = this.uploadOperation === 'Update Products';
-    const all = this.uploadOperation === 'Update Quantity';
 
-    this.productService.saveproductFiles(this.retailerId, this.productFiles, update, quantity, all).subscribe(event => {
+    this.productService.saveproductFiles(this.retailerId, this.productFiles, all, update, quantity).subscribe(event => {
       if (event.type === HttpEventType.UploadProgress) {
         const percentDone = Math.round(100 * event.loaded / event.total);
         this.progress = percentDone;

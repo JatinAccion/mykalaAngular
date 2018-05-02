@@ -82,7 +82,8 @@ export const apiNames = {
         getProductMeta: 'products/partial'
     },
     orders: {
-        get: '',
+        // get: 'reports/orderItemsList',
+        get: 'orderItemsList',
         paymentCounts: 'paymentCounts/{paymentType}/{year}/{month}',
         paymentReports: 'paymentReports/{paymentType}/summary/{summary}/{year}/{month}',
         consumerPayment: 'consumerPayment/{paymentType}/{year}/{month}',

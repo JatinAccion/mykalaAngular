@@ -40,17 +40,15 @@ export class ProductAddMoreComponent implements OnInit {
   }
   async ngOnInit() {
     await this.getAttributesMasterData();
-    this.getAttributes();
+    this.attributes = this.product.getAttributesList_AttrType(this.attributesMasterData.attributes);
   }
-  getAttributes() {
-    this.attributes = Object.entries(this.product.attributes).map(p => new ProdAttr(p));
-  }
+
   changeAttrValue(attr: ProdAttr) {
     this.product.attributes[attr.key] = attr.value;
   }
   deleteAttr(attr: ProdAttr) {
     delete this.product.attributes[attr.key];
-    this.getAttributes();
+    this.attributes = this.product.getAttributesList_AttrType(this.attributesMasterData.attributes);
   }
 
 

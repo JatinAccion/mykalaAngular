@@ -67,7 +67,7 @@
                         </div>
                     </td>
                     <td>{{inquiry.priority}}</td>
-                    <td>{{inquiry.inquiryDate| date: 'MMM dd, yyyy, hh:mm a'}}</td>
+                    <td>{{inquiry.createdDate| date: 'MMM dd, yyyy, hh:mm a'}}</td>
                     <td>
                         <a class="colorBlue" (click)="getOrderDetails(inquiry, inquiry.orderId)" [attr.aria-expanded]="!inquiry.isCollapsed">
                             <i class="fa fa-caret-down" aria-hidden="true"></i>

@@ -252,7 +252,7 @@
                                                     </div>
                                                     <div class="float-left" *ngIf="i == 4">
                                                         <span>
-                                                            <input class="form-control ml-2" type="text" class="smallInput" aria-describedby="basic-addon1" [(ngModel)]="deliveryMethodCustomName" formControlName="shippingName"> days
+                                                            <input class="form-control ml-2" type="text" class="smallInput w-100" aria-describedby="basic-addon1" [(ngModel)]="deliveryMethodCustomName" formControlName="shippingName">
                                                         </span>
                                                     </div>
                                                 </ng-template>
@@ -323,7 +323,7 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" placeholder="Zipcode" pattern formControlName="zipcode">
+                                                    <input type="text" class="form-control" placeholder="Zipcode" pattern formControlName="zipcode" maxlength="5">
                                                     <!--Validation-->
                                                     <app-field-error-display [field]="shippingFG3.controls.zipcode" [errorMsg]="errorMsgs"> </app-field-error-display>
                                                     <!--Validation-->

@@ -24,7 +24,7 @@ export class PaymentsReportComponent implements OnInit {
     'manual': { widgetType: 'MANUAL/PAID', year: this.currentYear, month: this.currentMonth, value: 0 },
     'pending': { widgetType: 'TOTAL/PENDING', year: this.currentYear, month: this.currentMonth, value: 0 }
   };
-  summary = { totalCostOfGoods: 0, totalTaxesCost: 0, totalShipCost: 0, saleRevenue: 0, netRevenue: 0 };
+  summary = { totalCostOfGoods: 0, totalTaxesCost: 0, totalShipCost: 0, saleRevenue: 0, netRevenue: 0, stripeProcessingFees: 0, commissionFees: 0 };
   backgroundColors = ['#df7970', '#4c9ca0', '#ae7d99', '#c9d45c', '#5592ad', '#6d78ad', '#51cda0', '#f8f378', '#ae6653', '#60df63', '#60c9df'];
   type = 'pie';
   data = {
@@ -132,15 +132,19 @@ export class PaymentsReportComponent implements OnInit {
         this.summary.totalCostOfGoods = res[0].totalCostOfGoods;
         this.summary.totalShipCost = res[0].totalShipCost;
         this.summary.totalTaxesCost = res[0].totalTaxesCost;
+        this.summary.stripeProcessingFees = res[0].stripeProcessingFees;
+        this.summary.commissionFees = res[0].commisionFees;
 
-        this.summary.saleRevenue = this.summary.totalCostOfGoods + this.summary.totalShipCost + this.summary.totalTaxesCost;
-        this.summary.netRevenue = this.summary.totalCostOfGoods + this.summary.totalShipCost + + this.summary.totalTaxesCost;
+        this.summary.saleRevenue = this.summary.totalCostOfGoods + this.summary.totalShipCost + this.summary.totalTaxesCost + this.summary.stripeProcessingFees + this.summary.commissionFees;
+        this.summary.netRevenue = this.summary.commissionFees;
       } else {
         this.summary.totalCostOfGoods = 0;
         this.summary.totalShipCost = 0;
         this.summary.totalTaxesCost = 0;
         this.summary.saleRevenue = 0;
         this.summary.netRevenue = 0;
+        this.summary.stripeProcessingFees = 0;
+        this.summary.commissionFees = 0;
       }
     });
   }

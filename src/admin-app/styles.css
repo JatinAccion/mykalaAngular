@@ -603,3 +603,7 @@ ol li{
 ::-ms-clear { display: none; } 
 /* Chrome */ 
 ::-webkit-search-decoration, ::-webkit-search-cancel-button, ::-webkit-search-results-button, ::-webkit-search-results-decoration { display: none; }
+.border-bottom{
+    border-bottom: 1px solid #eceeef;
+}
+ 

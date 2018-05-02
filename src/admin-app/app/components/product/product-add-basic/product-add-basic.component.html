@@ -6,12 +6,12 @@
             <input type="text" class="form-control" placeholder="" pattern [(ngModel)]="product.productName" formControlName="productName">
             <app-field-error-display [field]="fG1.controls.productName" [errorMsg]="errorMsgs"> </app-field-error-display>
         </div>
-        <div class="form-group col-sm-12 pt-2">
+        <!-- <div class="form-group col-sm-12 pt-2">
             <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.brandName)">Brand name:</label>
             <small class="float-right">{{ validatorExt.remainingCharacters(fG1.controls.brandName, 50) }} characters left</small>
             <input type="text" class="form-control" [(ngModel)]="product.brandName" placeholder="" pattern formControlName="brandName">
             <app-field-error-display [field]="fG1.controls.brandName" [errorMsg]="errorMsgs"> </app-field-error-display>
-        </div>
+        </div> -->
         <div class="form-group col-sm-12 pt-2">
             <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.productSkuCode)">SKU code:</label>
             <input type="text" class="form-control" [(ngModel)]="product.productSkuCode" placeholder="" pattern formControlName="productSkuCode">
@@ -34,7 +34,7 @@
             <app-field-error-display [field]="fG1.controls.quantity" [errorMsg]="errorMsgs"> </app-field-error-display>
         </div>
         <div class="form-group col-sm-12 pt-2">
-            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.weight)">Product Wight:</label>
+            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.weight)">Product Weight:</label>
             <div class="input-group">
                 <input type="number" class="form-control" [(ngModel)]="product.weight" min='0' placeholder="" pattern formControlName="weight">
                 <select class="input-group-addon" [(ngModel)]="product.weightunit" formControlName="weightunit">
@@ -43,9 +43,10 @@
                 </select>
             </div>
             <app-field-error-display [field]="fG1.controls.weight" [errorMsg]="errorMsgs"> </app-field-error-display>
+            <app-field-error-display [field]="fG1.controls.weightunit" [errorMsg]="errorMsgs"> </app-field-error-display>
         </div>
         <div class="form-group col-sm-12 pt-2">
-            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.length)">Product Dimentions: </label>
+            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.length)">Product Dimensions: </label>
             <div class="form-group pl-2 pt-2">
                 <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.length)">Length: </label>
                 <div class="input-group">
@@ -55,6 +56,7 @@
                     </select>
                 </div>
                 <app-field-error-display [field]="fG1.controls.length" [errorMsg]="errorMsgs"> </app-field-error-display>
+                <app-field-error-display [field]="fG1.controls.dimensionunit" [errorMsg]="errorMsgs"> </app-field-error-display>
             </div>
             <div class="form-group pl-2 pt-2">
                 <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.height)">Height: </label>

@@ -232,7 +232,7 @@ export class InquiryAddComponent implements OnInit {
     // this.inquiry.customerId = form.customerId;
     // this.inquiry.customerName = form.customerName;
     this.inquiry.orderId = form.orderId;
-    this.inquiry.orderDate = form.orderDate;
+    // this.inquiry.orderDate = form.orderDate;
     // this.inquiry.productName = form.productName;
     // this.inquiry.productCost = form.productCost;
     this.inquiry.inquiryType = form.inquiryType;

@@ -52,7 +52,7 @@
     <pagination-controls id='server' (pageChange)="getPage($event)"></pagination-controls>
 </div>
 <div class="backgroundWhite">
-    <table class="table table-responsive"  sortable-table (sorted)="onSorted($event)">
+    <table class="table table-responsive" sortable-table (sorted)="onSorted($event)">
         <thead>
             <tr>
                 <th width="5%">
@@ -98,7 +98,7 @@
                         <div ngbDropdownMenu aria-labelledby="dropdown01">
                             <button class="dropdown-item" (click)="deactivate(product)">Activate/Deactivate</button>
                             <button class="dropdown-item" *ngIf="!bulkUploadView" (click)="delete(product)">Delete</button>
-                            <button class="dropdown-item"  [routerLink]="['/product-edit', product.kalaUniqueId]">Edit Product</button>
+                            <button class="dropdown-item" [routerLink]="['/product-edit', product.kalaUniqueId]">Edit Product</button>
                         </div>
                     </div>
                 </td>
@@ -115,7 +115,7 @@
                                     <th *ngIf="!bulkUploadView">
                                         <a class="btn btn-default" (click)="delete(product)">Delete</a>
                                     </th>
-                                    <th colspan="2" class="text-right" >
+                                    <th colspan="2" class="text-right">
                                         <a class="btn btn-default" [routerLink]="['/product-edit', product.kalaUniqueId]">Edit Product</a>
                                     </th>
                                 </tr>
@@ -130,7 +130,7 @@
                                 <tr>
                                     <td *ngIf="!product.productTypeName" class="colorlightGray">Product sub category:</td>
                                     <td *ngIf="!product.productTypeName">{{product.productSubCategoryName}}</td>
-                                    
+
                                     <td *ngIf="product.productTypeName" class="colorlightGray">Product type:</td>
                                     <td *ngIf="product.productTypeName">{{product.productTypeName}}</td>
 
@@ -150,41 +150,42 @@
                                     <td>{{product.retailPrice| currency}}</td>
                                 </tr>
                                 <tr>
-                                    <!-- <td class="colorlightGray">Make a bid:</td>
-                                    <td>Y</td> --> 
                                     <td class="colorlightGray">Added date:</td>
                                     <td>{{product.createdDate| date:'fullDate'}}</td>
                                     <td class="colorlightGray">Lowest price:</td>
                                     <td>{{product.lowestPrice|currency}}</td>
                                 </tr>
                                 <tr>
-                                   
                                     <td class="colorlightGray">Product description:</td>
-                                    <td>{{product.productDescription}}</td>
+                                    <td colspan="3">{{product.productDescription}}</td>
                                 </tr>
                                 <tr>
-                                    <td class="colorlightGray">Special features:</td>
-                                    <td>{{product.brandName}}</td>
-                                    <td class="colorlightGray">Color/Finish:</td>
-                                    <td>N/A</td>
+                                    <td colspan="4" class="pt-1 pb-0">
+                                        <div class="row">
+                                            <div class="col-sm-6 py-1 border-bottom" *ngFor="let attr of product.attributesList">
+                                                <div class="row">
+                                                    <div class="colorlightGray col-sm-5 py-1">{{attr.key}}</div>
+                                                    <div class="col-sm-7 p-1">{{attr.value}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td class="colorlightGray">Size:</td>
-                                    <td> 20cm / 30cm / 40cm</td>
-                                    <td class="colorlightGray">Size-fit category: </td>
-                                    <td>N/A</td>
+                                    <td class="colorlightGray  border-top-0">Features:</td>
+                                    <td colspan="3" class="border-top-0">
+                                        <div *ngFor="let item of product.featuresList">
+                                            <span *ngIf="item"> {{item}}</span>
+                                        </div>
+                                        <!-- {{product.featuresList}} -->
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td class="colorlightGray">Size country: </td>
-                                    <td>China</td>
-                                    <td class="colorlightGray">Dimensions:</td>
-                                    <td> 20cm x 20cm x 60cmH</td>
-                                </tr>
-                                <tr>
+
+                                    <td class="colorlightGray ">Dimensions: ({{product.dimensionunit}})</td>
+                                    <td> {{product.length}}" x {{product.height}}" x {{product.width}}"</td>
                                     <td class="colorlightGray">Weight: </td>
-                                    <td>10 lbs</td>
-                                    <td class="colorlightGray">Availability indicator:</td>
-                                    <td> N/A</td>
+                                    <td>{{product.weight}} {{product.weightunit}}</td>
                                 </tr>
                                 <tr>
                                     <td class="colorlightGray">Shipping profile:</td>

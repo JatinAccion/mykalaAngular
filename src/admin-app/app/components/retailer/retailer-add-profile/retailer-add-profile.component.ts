@@ -259,7 +259,7 @@ export class RetailerAddProfileComponent implements OnInit {
       this.profileFG1.controls.profileImage.updateValueAndValidity();
     }
     this.profileInfoObj.businessLogoPath = this.profileFG1.value.profileImage;
-    this.profileInfoObj.businessName = this.profileFG1.value.businessName;
+    this.profileInfoObj.businessName = this.profileFG1.value.businessName.trim();
     this.profileInfoObj.tin = this.profileFG1.value.tin;
     this.profileInfoObj.businessSummary = this.profileFG1.value.businessSummary;
     this.profileInfoObj.sellerTypeId = this.profileFG1.value.sellerTypeId;

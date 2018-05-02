@@ -71,7 +71,7 @@
         </div>
         <div class="col-sm-6">
             <div class="form-group">
-                <input type="text" class="form-control" aria-describedby="" placeholder="Zipcode" pattern formControlName="zipcode">
+                <input type="text" class="form-control" aria-describedby="" placeholder="Zipcode" pattern formControlName="zipcode" maxlength="5">
                 <!--Validation-->
                 <app-field-error-display [field]="profileFG1.controls.zipcode" [errorMsg]="errorMsgs"> </app-field-error-display>
                 <!--Validation-->
@@ -195,7 +195,7 @@
         </div>
         <div class="col-sm-6">
             <div class="form-group">
-                <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Zipcode" pattern formControlName="contact_zipcode">
+                <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Zipcode" pattern formControlName="contact_zipcode" maxlength="5">
                 <!--Validation-->
                 <app-field-error-display [field]="profileFG2.controls.contact_zipcode" [errorMsg]="errorMsgs"> </app-field-error-display>
                 <!--Validation-->
