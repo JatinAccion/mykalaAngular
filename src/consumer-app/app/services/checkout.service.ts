@@ -43,7 +43,7 @@ export class CheckoutService {
 
     getShippingMethods(shippingProfileState, shippingProfileId, productQuantity, productWeight, productPrice, productLength, productHeight, productWidth) {
         const BASE_URL: string = environment.shippingMethod;
-        const url: string = `${BASE_URL}/${environment.apis.shippingMethod.method}/shippingMethods?locationName=${shippingProfileState}&shippingProfileId=${shippingProfileId}&productQuantity=${productQuantity}&productWeight=${productWeight}&productPrice=${productPrice}&productLength=${productLength}&productHeight=${productHeight}&productWidth=${productWidth}`;
+        const url: string = `${BASE_URL}/${environment.apis.shippingMethod.method}/shippingMethods?locationName=${shippingProfileState}&shippingProfileId=${shippingProfileId}&productQuantity=${productQuantity}&productWeight=${productWeight}&productPrice=${productPrice * productQuantity}&productLength=${productLength}&productHeight=${productHeight}&productWidth=${productWidth}`;
         return this.http.get(url).map((res) => res.json());
     }
 

@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { CoreService } from '../../services/core.service';
 import { Router, NavigationEnd } from '@angular/router';
 import { SidebarModule } from 'ng-sidebar';
+import { environment } from '../../../environments/environment.local';
 
 @Component({
   selector: 'app-header',
@@ -16,7 +17,8 @@ export class HeaderComponent implements OnInit {
   emailId: string;
   userImg: string;
   showLounge: boolean;
-  
+  s3 = environment.s3;
+
   constructor(private router: Router, public core: CoreService) { }
 
   ngOnInit() {
@@ -31,12 +33,30 @@ export class HeaderComponent implements OnInit {
               this.firstName = JSON.parse(window.localStorage['userInfo']).firstName;
               this.lastName = JSON.parse(window.localStorage['userInfo']).lastName;
               this.emailId = JSON.parse(window.localStorage['userInfo']).emailId;
-              this.userImg = JSON.parse(window.localStorage['userInfo']).consumerImagePath;
+              let userImage = JSON.parse(window.localStorage['userInfo']).consumerImagePath;
+              if (userImage != undefined) {
+                if (userImage.indexOf('data:') > -1 || userImage.indexOf('https:') > -1) {
+                  this.userImg = JSON.parse(window.localStorage['userInfo']).consumerImagePath;
+                  this.refineImage(this.userImg);
+                  break;
+                }
+                else {
+                  this.userImg = this.s3 + JSON.parse(window.localStorage['userInfo']).consumerImagePath;
+                  this.refineImage(this.userImg);
+                  break;
+                }
+              }
             }
             return;
           }
           else return;
         }
       });
+  }
+
+  refineImage(img) {
+    let userInformation = JSON.parse(window.localStorage['userInfo']);
+    userInformation.consumerImagePath = img;
+    window.localStorage['userInfo'] = JSON.stringify(userInformation);
   }
 }

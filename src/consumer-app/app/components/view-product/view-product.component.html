@@ -27,7 +27,7 @@
         <div class="row">
           <ngb-carousel class="customSlider w-100">
             <ng-template ngbSlide *ngFor="let image of selectedProduct.product.productImages; let i=index">
-              <img src="{{s3}}{{image.location}}" alt="Slide {{i}}">
+              <img src="{{image.location}}" alt="Slide {{i}}">
             </ng-template>
           </ngb-carousel>
         </div>

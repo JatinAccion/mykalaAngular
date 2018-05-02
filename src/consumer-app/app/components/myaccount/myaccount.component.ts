@@ -268,6 +268,9 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     let emailId = this.getUserInfo.emailId;
     this.myAccount.getUserDetails(emailId).subscribe((res) => {
       this.pageLoader = false;
+      if (res.consumerImagePath.indexOf('data:') === -1 && res.consumerImagePath.indexOf('https:') === -1) {
+        res.consumerImagePath = this.imgS3 + res.consumerImagePath;
+      }
       window.localStorage['userInfo'] = JSON.stringify(res);
       this.getUserInfo = JSON.parse(window.localStorage['userInfo']);
       this.getAPICP = res;
@@ -423,6 +426,9 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
         this.ProfileSaveModel.profilePic = this.myAccountModel.profileInfo.consumerImagePath;
         this.myAccount.saveProfileImage(this.ProfileSaveModel).subscribe((res) => {
           this.loader_profileImage = false;
+          if (res.consumerImagePath.indexOf('data:') === -1 && res.consumerImagePath.indexOf('https:') === -1) {
+            res.consumerImagePath = this.imgS3 + res.consumerImagePath;
+          }
           window.localStorage['userInfo'] = JSON.stringify(res);
           this.core.hideUserInfo(false);
         }, (err) => {

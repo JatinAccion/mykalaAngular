@@ -54,7 +54,7 @@
                 <p *ngIf="emptyConfirmPassword" class="clearfix colorlightGray mb-0" style="font-size: 13px; color: #e06263">Please confirm new password</p>
                 <p *ngIf="invalidPassword" class="clearfix colorlightGray mb-0" style="font-size: 13px; color: #e06263">Password length must be at least 8 characters: 1 Uppercase Character, 1 Lowercase Character, 1 Number and 1 Special Character</p>
                 <p *ngIf="oldNewPassword" class="clearfix colorlightGray mb-0" style="font-size: 13px; color: #e06263">Old password and New password cannot be same</p>
-                <p *ngIf="newConfirmPassword" class="clearfix colorlightGray mb-0" style="font-size: 13px; color: #e06263">New password and confirm password doesn't match</p>
+                <p *ngIf="newConfirmPassword" class="clearfix colorlightGray mb-0" style="font-size: 13px; color: #e06263">New and Confirm Passwords don't match</p>
               </div>
               <img src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_myAc" *ngIf="loader_password" />
               <button [disabled]="emptyNewPassword || emptyConfirmPassword || invalidPassword || oldNewPassword || newConfirmPassword || input_Password && !append_NewPassword || input_Password && !append_ConfirmPassword" class="col-sm-3 text-right p-2 colorred txtasbutton cursor" (click)="appendInput($event, 'password')">change</button>

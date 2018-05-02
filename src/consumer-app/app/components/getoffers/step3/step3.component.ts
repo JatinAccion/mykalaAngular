@@ -5,6 +5,7 @@ import { GetOfferService } from '../../../services/getOffer.service';
 import { CoreService } from '../../../services/core.service';
 import { GetOfferModal } from '../../../../../models/getOffer.modal';
 import { OfferInfo3 } from '../../../../../models/steps.modal';
+import { regexPatterns } from '../../../../../common/regexPatterns';
 
 @Component({
   selector: 'app-step3',
@@ -133,7 +134,7 @@ export class Step3Component implements OnInit {
           "minPrice": [this.viewSavedData[i].priceRange.minPrice],
           "maxPrice": [this.viewSavedData[i].priceRange.maxPrice],
           "delivery": [this.viewSavedData[i].delivery],
-          "zipCode": ['', Validators.compose([Validators.pattern(this.zipCodeRegex), Validators.minLength(5), Validators.maxLength(5)])],
+          "zipCode": ['', Validators.compose([Validators.pattern(regexPatterns.zipcodeRegex), Validators.minLength(5), Validators.maxLength(5)])],
           "instruction": [this.viewSavedData[i].instruction]
         });
       }
@@ -143,7 +144,7 @@ export class Step3Component implements OnInit {
         "minPrice": [this.minPrice],
         "maxPrice": [this.maxPrice],
         "delivery": [''],
-        "zipCode": ['', Validators.compose([Validators.pattern(this.zipCodeRegex), Validators.minLength(5), Validators.maxLength(5)])],
+        "zipCode": ['', Validators.compose([Validators.pattern(regexPatterns.zipcodeRegex), Validators.minLength(5), Validators.maxLength(5)])],
         "instruction": ['']
       });
     }
@@ -197,7 +198,7 @@ export class Step3Component implements OnInit {
     this.fetchGeoCode = '';
     let input = e.currentTarget;
     this.removeSelectedAddress();
-    if (this.getOffer_orderInfo.controls.zipCode.value.length == 5) {
+    if (this.getOffer_orderInfo.controls.zipCode.value.length == 5 && regexPatterns.zipcodeRegex.test(this.getOffer_orderInfo.controls.zipCode.value)) {
       this.enterZipcode = false;
       this.loaderLocation = true;
       input.setAttribute('readonly', true);
@@ -218,7 +219,9 @@ export class Step3Component implements OnInit {
           });
         });
     }
-    else this.enterZipcode = true;
+    else {
+      this.enterZipcode = true;
+    }
   };
 
   skip() {
