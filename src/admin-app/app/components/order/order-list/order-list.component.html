@@ -27,13 +27,13 @@
                         <th width="5%">
                             <input type="checkbox" />
                         </th>
-                        <th sortable-column="orderId" width="10%">Order No.</th>
-                        <th sortable-column="orderStatus" width="10%">Status</th>
-                        <th sortable-column="purchasedDate" width="10%">Order Date</th>
+                        <th width="10%">Order No.</th>
+                        <th width="10%">Status</th>
+                        <th sortable-column="orderDate" width="10%">Order Date</th>
                         <th sortable-column="retailerName" width="15%">Seller</th>
                         <th sortable-column="customerName" width="20%">Buyer</th>
-                        <th sortable-column="productId" width="12%">Product</th>
-                        <th sortable-column="purchasedPrice" width="10%">Sale Total</th>
+                        <th width="12%">Product</th>
+                        <th sortable-column="orderAmount" width="10%">Sale Total</th>
                         <th sortable-column="issue" width="6%">Issue</th>
                         <th width="2%"></th>
                     </tr>
@@ -49,16 +49,25 @@
                             </a>
                         </td>
                         <td>{{order.orderStatus}}</td>
-                        <td>{{order.purchasedDate | date:'shortDate'}}</td>
-                        <td>{{order.orderItems[0].retailerName}}</td>
+                        <td>{{order.orderDate | date:'shortDate'}}</td>
+                        <td>{{order.retailerName}}</td>
                         <td>{{order.customerName}}</td>
                         <td>
-                            <a class="colorBlue" target="_blank" [routerLink]="['../product-edit', order.orderItems[0].productId]">
-                                {{order.orderItems[0].productId}}
-                            </a>
+                            <div  *ngFor="let product of order.products">
+                                <a class="colorBlue" target="_blank" class="text-nowrap" [routerLink]="['../product-edit', product.productId]">
+                                    <span [ngSwitch]="product.productItemStatus">
+                                        <i *ngSwitchCase="orderStatus.ORDERCANCELED" class="fa fa-times-circle" aria-hidden="true"></i>
+                                        <i *ngSwitchCase="orderStatus.ORDERPENDING" class="fa fa-clock-o" aria-hidden="true"></i>
+                                        <i *ngSwitchCase="orderStatus.ORDERPROCESSED" class="fa fa-cogs" aria-hidden="true"></i>
+                                        <i *ngSwitchCase="orderStatus.ORDERSHIPPED" class="fa fa-truck" aria-hidden="true"></i>
+                                        <i *ngSwitchCase="orderStatus.ORDERDELIVERED" class="fa fa-check" aria-hidden="true"></i>
+                                    </span>
+                                    {{product.productId}}
+                                </a>
+                            </div>
                         </td>
-                        <td class="text-right">{{order.purchasedPrice | currency }}</td>
-                        <td>Y</td>
+                        <td class="text-right">{{order.orderAmount | currency }}</td>
+                        <td>{{order.issue?'Y':'N'}}</td>
                         <td>
                             <a class="colorBlue" (click)="order.isCollapsed = !order.isCollapsed" [attr.aria-expanded]="!order.isCollapsed" aria-controls="collapseExample">
                                 <i class="fa fa-caret-down" aria-hidden="true"></i>
@@ -67,7 +76,7 @@
                     </tr>
                     <tr>
                         <td colspan="10" *ngIf="!order.isCollapsed" class="divOrderDetails">
-                            <app-order-details [order]="order"></app-order-details>
+                            <app-order-details [retailerOrder]="order"></app-order-details>
                         </td>
                     </tr>
                 </tbody>

@@ -84,6 +84,7 @@ export const apiNames = {
     orders: {
         // get: 'reports/orderItemsList',
         get: 'orderItemsList',
+        retailerOrders: 'retailerOrders',
         paymentCounts: 'paymentCounts/{paymentType}/{year}/{month}',
         paymentReports: 'paymentReports/{paymentType}/summary/{summary}/{year}/{month}',
         consumerPayment: 'consumerPayment/{paymentType}/{year}/{month}',

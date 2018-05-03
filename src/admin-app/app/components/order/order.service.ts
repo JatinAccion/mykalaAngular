@@ -10,7 +10,7 @@ import 'rxjs/add/operator/catch';
 import { LocalStorageService } from '../../services/LocalStorage.service';
 import { environment } from './../../../environments/environment';
 import { nameValue } from '../../../../models/nameValue';
-import { ReportOrders, ReportConsumer, ReportOrder, ConsumerOffersOrdersCount } from '../../../../models/report-order';
+import { ReportOrders, ReportConsumer, ReportOrder, ConsumerOffersOrdersCount, RetailerOrders } from '../../../../models/report-order';
 import { Product } from '../../../../models/product';
 
 @Injectable()
@@ -43,6 +43,14 @@ export class OrderService {
       .map(p => this.handleResponse(p, ReportOrders))
       .catch(this.handleError);
   }
+  getRetailerOrders(query: any): Observable<RetailerOrders> {
+    this.headers = this.getHttpHeraders();
+    const url = `${this.BASE_URL}/${environment.apis.orders.retailerOrders}`;
+    return this.http
+      .get(url, { search: query, headers: this.headers })
+      .map(p => this.handleResponse(p, RetailerOrders))
+      .catch(this.handleError);
+  }
 
   getById(orderId: any): Observable<ReportOrder> {
     this.headers = this.getHttpHeraders();
@@ -58,7 +66,7 @@ export class OrderService {
     const url = `${environment.productApi}/${environment.apis.product.getProducts}/${productIds}`;
     return this.http
       .get(url, { headers: this.headers })
-      .map(p => this.handleArrayResponse(p, ReportOrders))
+      .map(p => this.handleArrayResponse(p, Product))
       .catch(this.handleError);
   }
   getProductReviews(productIds: string[]): Observable<any> {

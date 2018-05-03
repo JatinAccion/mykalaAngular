@@ -51,10 +51,112 @@ export class ReportOrders extends Pagination {
   constructor(obj?: any) {
     if (obj) {
       super(obj);
-      this.content = obj.content.map(p => new ReportOrder(p));
+      if (obj.content) {
+        this.content = obj.content.map(p => new ReportOrder(p));
+      } else {
+        this.content = new Array<ReportOrder>();
+      }
     }
   }
   public content: ReportOrder[];
+}
+export const OrderStatus = {
+  ORDERPENDING: 'ORDERPENDING',
+  ORDERPROCESSED: 'ORDERPROCESSED',
+  ORDERCANCELED: 'ORDERCANCELED',
+  ORDERSHIPPED: 'ORDERSHIPPED',
+  ORDERDELIVERED: 'ORDERDELIVERED',
+}
+export class RetailerOrder {
+  sellerOrderId: string;
+  orderId: string;
+  orderStatus: string;
+  retailerId: string;
+  retailerName: string;
+  customerName: string;
+  orderDate: string;
+  orderAmount: number;
+  shippingCost: number;
+  products: Array<ProductOrderStatus>;
+  sellerPaymentAmount: string;
+  issue: string;
+
+  isCollapsed: boolean;
+
+  constructor(obj?: any) {
+    this.products = new Array<ProductOrderStatus>();
+    this.isCollapsed = true;
+    if (obj) {
+      this.sellerOrderId = obj.sellerOrderId;
+      this.orderId = obj.orderId;
+      this.retailerId = obj.retailerId;
+      this.retailerName = obj.retailerName;
+      this.customerName = obj.customerName;
+      this.orderDate = obj.orderDate;
+      this.orderAmount = obj.orderAmount;
+      this.shippingCost = obj.shippingCost;
+      if (obj.products) {
+        this.products = obj.products.map(p => new ProductOrderStatus(p));
+        this.orderStatus = this._OrderStatus;
+      }
+      this.sellerPaymentAmount = obj.sellerPaymentAmount;
+      this.issue = obj.issue;
+
+    }
+  }
+  get _OrderStatus() {
+    if (this.products && this.products.length > 0) {
+      const count = this.products.filter(p => p.productItemStatus !== OrderStatus.ORDERCANCELED).length;
+      const canceled = this.products.filter(p => p.productItemStatus === OrderStatus.ORDERCANCELED).length;
+      const pending = this.products.filter(p => p.productItemStatus === OrderStatus.ORDERPENDING).length;
+      const processed = this.products.filter(p => p.productItemStatus === OrderStatus.ORDERPROCESSED).length;
+      const shipped = this.products.filter(p => p.productItemStatus === OrderStatus.ORDERSHIPPED).length;
+      const delivered = this.products.filter(p => p.productItemStatus === OrderStatus.ORDERDELIVERED).length;
+      switch (true) {
+        case count === 0:
+          this.orderStatus = 'Canceled';
+          break;
+        case count === delivered:
+          this.orderStatus = 'Delivered';
+          break;
+        case count === shipped + delivered:
+          this.orderStatus = 'Shipped';
+          break;
+        case count === processed + shipped + delivered:
+          this.orderStatus = 'Processed';
+          break;
+        case count === pending + processed + shipped + delivered:
+          this.orderStatus = 'Pending';
+          break;
+        default:
+          this.orderStatus = 'Pending';
+          break;
+      }
+    }
+    return this.orderStatus;
+  }
+}
+
+export class RetailerOrders extends Pagination {
+  constructor(obj?: any) {
+    if (obj && obj.length > 0) {
+      super(obj[0]);
+      this.content = obj.map(p => new RetailerOrder(p));
+    }
+  }
+  public content: RetailerOrder[];
+}
+export class ProductOrderStatus {
+  public productId: string;
+  public productName: string;
+  public productItemStatus: string;
+  constructor(obj?: any) {
+    if (obj) {
+      this.productId = obj.productId;
+      this.productName = obj.productName;
+      this.productItemStatus = obj.productItemStatus;
+    }
+  }
 }
 export class ReportPaymentData {
   public connectAccountId: string;

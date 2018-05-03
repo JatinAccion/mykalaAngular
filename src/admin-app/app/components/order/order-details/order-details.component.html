@@ -73,11 +73,11 @@
             </tr>
             <tr>
                 <td>Shipping cost:</td>
-                <td>{{order.totalShipCost | currency}}</td>
+                <td>{{retailerOrder.shippingCost | currency}}</td>
             </tr>
             <tr>
                 <td>Total:</td>
-                <td>{{order.purchasedPrice | currency}}</td>
+                <td>{{retailerOrder.orderAmount | currency}}</td>
             </tr>
             <tr>
                 <td>Paid with:</td>
@@ -85,7 +85,7 @@
             </tr>
             <tr>
                 <td>Ship to:</td>
-                <td>{{order.address.toString()}}</td>
+                <td>{{order.address?order.address.toString():''}}</td>
             </tr>
         </table>
     </div>
@@ -110,7 +110,7 @@
             <tr>
                 <td>Seller payment status :</td>
                 <!-- {{order.sellerPayment|json}} -->
-                <td>{{order.sellerPayment && order.sellerPayment.paymentStatus ? order.sellerPayment.paymentStatus:'Unpaid'}}
+                <td *ngIf="retailerOrder.orderStatus === 'Delivered'" >{{order.sellerPayment && order.sellerPayment.paymentStatus ? order.sellerPayment.paymentStatus:'Unpaid'  }}
                     <span class="float-right" *ngIf="!order.sellerPayment || (order.sellerPayment.paymentStatus !== 'PENDING' && order.sellerPayment.paymentStatus !== 'PAID')">
                         <a class="ancDefault" (click)='sellerPayment(order.orderId, order.orderItems[0].retailerId, "PENDING")'>Pending </a>
                     </span>

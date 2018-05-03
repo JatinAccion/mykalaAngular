@@ -42,7 +42,7 @@ export class ProductUploadComponent implements OnInit {
   }
   getPage(page: number) {
     const searchParams = {
-      page: page - 1, size: 10, sortOrder: 'desc', elementType: 'createdDate,DESC'
+      page: page - 1, size: 10, sortOrder: 'desc', sort: 'createdDate,DESC'
     };
     const locationHash = window.location.hash.split('/page')[0];
     window.location.hash = locationHash + '/page/' + page;
@@ -52,8 +52,8 @@ export class ProductUploadComponent implements OnInit {
   }
   upload() {
     const all = this.uploadOperation === 'Add Products';
-    const update = this.uploadOperation === 'Update Quantity';
-    const quantity = this.uploadOperation === 'Update Products';
+    const update = this.uploadOperation === 'Update Products';
+    const quantity = this.uploadOperation === 'Update Quantity';
 
     this.productService.saveproductFiles(this.retailerId, this.productFiles, all, update, quantity).subscribe(event => {
       if (event.type === HttpEventType.UploadProgress) {

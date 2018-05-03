@@ -216,9 +216,9 @@ export class ProductService {
       formdata.append('files', element.file, this.guid() + element.file.name);
     }
     // formdata.append('retailerId', retailerId);
-    formdata.append('quantity', quantity ? 'true' : 'false');
     formdata.append('all', all ? 'true' : 'false');
     formdata.append('update', update ? 'true' : 'false');
+    formdata.append('quantity', quantity ? 'true' : 'false');
 
     const url = `${this.BASE_URL}/${environment.apis.product.upload}`;
     const req = new HttpRequest('POST', url, formdata, {
