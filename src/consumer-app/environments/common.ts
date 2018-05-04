@@ -61,7 +61,8 @@ export const apiNames = {
         support: 'support/saveSupportRequest',
         shippedItems: 'shippedItems',
         saveCartItems: 'saveCart',
-        getCartItems: 'myCart'
+        getCartItems: 'myCart',
+        deleteCart: 'deleteCart'
     },
     shippingMethod: {
         method: 'retailer/v1',

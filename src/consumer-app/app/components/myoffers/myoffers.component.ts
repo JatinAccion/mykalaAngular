@@ -34,8 +34,8 @@ export class MyoffersComponent implements OnInit {
     this.userData = JSON.parse(window.localStorage['userInfo']);
     localStorage.removeItem("offerIdForEdit");
     if (window.localStorage['getOffers'] != undefined) this.getOffersData = JSON.parse(window.localStorage['getOffers']);
-    this.getOffersDataFn() //Temperaroy based on the confirm result
-    //this.getOffers(); //Enable once get offers algorithm is implemented
+    //this.getOffersDataFn() //Temperaroy based on the confirm result
+    this.getOffers(); //Enable once get offers algorithm is implemented
     this.s3 = environment.s3;
   }
 
@@ -62,12 +62,31 @@ export class MyoffersComponent implements OnInit {
     this.myOffer.loadOffers(emailId).subscribe((res) => {
       this.loader = false;
       this.myOffersDetails = res;
+      this.refineAttributes();
       for (var i = 0; i < this.myOffersDetails.length; i++) {
         let objDate = new Date(this.myOffersDetails[i].getOffersRequestDTO.startDate), locale = "en-us", month = objDate.toLocaleString(locale, { month: "long" });
         this.myOffersDetails[i].getOffersRequestDTO.startDate = objDate.toLocaleString(locale, { month: "short" }) + ' ' + objDate.getDate() + ', ' + this.formatAMPM(objDate);
         this.calculateTimeLeft(this.myOffersDetails[i].getOffersRequestDTO);
       }
     });
+  }
+
+  refineAttributes() {
+    for (var i = 0; i < this.myOffersDetails.length; i++) {
+      this.getOffersDataAttr = [];
+      if (this.myOffersDetails[i].getOffersRequestDTO.attributes != null) {
+        for (var key in this.myOffersDetails[i].getOffersRequestDTO.attributes) {
+          if (key == "Zipcode" || key == "DeliveryMethod") { }
+          else {
+            this.getOffersDataAttr.push({
+              key: key,
+              values: this.myOffersDetails[i].getOffersRequestDTO.attributes[key]
+            })
+          }
+        }
+        this.myOffersDetails[i].getOffersRequestDTO.attributes = this.getOffersDataAttr;
+      }
+    }
   }
 
   formatAMPM(date) {

@@ -60,7 +60,7 @@
     <div class="col-sm-3 colorlightGray">
       <p>Price range:</p>
     </div>
-    <div class="col-sm-6 text-left">$ {{Step4Summary.priceRange.minPrice}} - $ {{Step4Summary.priceRange.maxPrice}}</div>
+    <div class="col-sm-6 text-left">{{Step4Summary.priceRange.minPrice | currency}} - {{Step4Summary.priceRange.maxPrice | currency}}</div>
   </div>
 
   <div class="row" *ngIf="Step3Data != undefined && Step3Data != ''">

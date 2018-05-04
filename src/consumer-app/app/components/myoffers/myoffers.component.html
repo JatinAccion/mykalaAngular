@@ -1,60 +1,46 @@
 <div class="container">
   <app-sub-menus></app-sub-menus>
   <div style="height:135px;width:100%;"></div>
+  <img src="/consumer-app/assets/images/loader.gif" *ngIf="loader" style="margin: 0 49%" class="mt-2 mb-4" />
 
-  <div class="row myCart mt-4 mb-4">
-    <img src="/consumer-app/assets/images/loader.gif" *ngIf="loader" width="25" height="25" class="ml-3" />
+  <div class="row myCart mt-4 mb-4" *ngIf="myOffersDetails.length > 0;else noOffer">
     <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" id="myOfferAccordian">
-      <ngb-panel>
-        <!--Title-->
+      <ngb-panel *ngFor="let offer of myOffersDetails">
         <ng-template ngbPanelTitle>
           <div class="row pb-1">
-            <!--Left Heading and Time-->
             <div class="col-sm-9">
               <p>
                 <strong>
-                  {{getOffersData.getOffersRequestDTO.placeName}} - {{getOffersData.getOffersRequestDTO.categoryName}} - {{getOffersData.getOffersRequestDTO.subCategoryName}}
+                  {{offer.getOffersRequestDTO.placeName}} - {{offer.getOffersRequestDTO.categoryName}} - {{offer.getOffersRequestDTO.subCategoryName}}
                 </strong>
               </p>
-
               <div>
-                <span class="colorlightGray">Offers started: </span> {{getOffersData.getOffersRequestDTO.startDate}}
+                <span class="colorlightGray">Offers started: </span> {{offer.getOffersRequestDTO.startDate}}
                 <span class="colorlightGray">Offer ends in:</span>
-                <span class="colorred">{{getOffersData.getOffersRequestDTO.remainingTime}}</span>
-                <span class="label label-default">{{getOffersData.getOffersResponse.length}} offers</span>
+                <span class="colorred">{{offer.getOffersRequestDTO.remainingTime}}</span>
+                <span class="label label-default">{{offer.getOffersResponse.length}} offers</span>
               </div>
             </div>
-            <!--Left Heading and Time-->
-
-            <!--Right Button-->
             <div class="col-sm-3 mt-2 text-right pr-4">
               <button class="btn-outer btn_red_right mr-2" (click)="editOffer(offer)">edit offer</button>
               <button class="btn-outer btn_red_right" (click)="endOffer(offer)">end offer</button>
             </div>
-            <!--Right Button-->
           </div>
         </ng-template>
-        <!--Title-->
 
-        <!--Content-->
         <ng-template ngbPanelContent>
           <hr />
           <div class="row relativePosition">
-            <!--Left Tiles Details-->
             <div class="col-sm-7 p-0">
               <div class="row pl-3">
                 <div class="col-sm-3 pb-2 colorlightGray">Category:</div>
-                <div class="col-sm-9 pb-2">{{getOffersData.getOffersRequestDTO.categoryName}}</div>
+                <div class="col-sm-9 pb-2">{{offer.getOffersRequestDTO.categoryName}}</div>
               </div>
               <div class="row pl-3">
                 <div class="col-sm-3 pb-2 colorlightGray">Sub - category:</div>
-                <div class="col-sm-9 pb-2">{{getOffersData.getOffersRequestDTO.subCategoryName}}</div>
+                <div class="col-sm-9 pb-2">{{offer.getOffersRequestDTO.subCategoryName}}</div>
               </div>
-              <!-- <div class="row pl-3">
-                <div class="col-sm-3 pb-2 colorlightGray">Type:</div>
-                <div class="col-sm-9 pb-2">{{getOffersData.getOffersRequestDTO.productType}}</div>
-              </div> -->
-              <div class="row pl-3" *ngFor="let keys of getOffersData.getOffersRequestDTO.attributes.getOffersDataAttr">
+              <div class="row pl-3" *ngFor="let keys of offer.getOffersRequestDTO.attributes">
                 <div class="col-sm-3 pb-2 colorlightGray">{{keys.key}}</div>
                 <div class="col-sm-9 pb-2">
                   <span *ngFor="let values of keys.values; let isLast=last">
@@ -64,24 +50,22 @@
               </div>
               <div class="row pl-3">
                 <div class="col-sm-3 pb-2 colorlightGray">Price range:</div>
-                <div class="col-sm-9 pb-2">{{getOffersData.getOffersRequestDTO.price.minPrice | currency}} - {{getOffersData.getOffersRequestDTO.price.maxPrice | currency}}</div>
+                <div class="col-sm-9 pb-2">{{offer.getOffersRequestDTO.price.minPrice | currency}} - {{offer.getOffersRequestDTO.price.maxPrice | currency}}</div>
               </div>
-              <div class="row pl-3">
+              <div class="row pl-3" *ngIf="offer.getOffersRequestDTO.deliveryMethod != undefined || offer.getOffersRequestDTO.deliveryMethod != null">
                 <div class="col-sm-3 pb-2 colorlightGray">Delivery:</div>
-                <div class="col-sm-9 pb-2">{{getOffersData.getOffersRequestDTO.deliveryMethod}}</div>
+                <div class="col-sm-9 pb-2">{{offer.getOffersRequestDTO.deliveryMethod}}</div>
               </div>
-              <div class="row pl-3">
+              <div class="row pl-3" *ngIf="offer.getOffersRequestDTO.deliveryLocation != null && offer.getOffersRequestDTO.deliveryLocation != undefined">
                 <div class="col-sm-3 pb-2 colorlightGray">Zipcode:</div>
                 <div class="col-sm-9 pb-2">
-                  <span *ngFor="let location of getOffersData.getOffersRequestDTO.deliveryLocation">{{location.zipcode}}</span>
+                  <span *ngFor="let location of offer.getOffersRequestDTO.deliveryLocation">{{location.zipcode}}</span>
                 </div>
               </div>
             </div>
-            <!--Left Tiles Details-->
 
-            <!--Right Product Listing-->
             <div class="col-sm-5 multi_scroll" style="height: 400px">
-              <div class="row p-2 mb-4" *ngFor="let product of getOffersData.getOffersResponse">
+              <div class="row p-2 mb-4" *ngFor="let product of offer.getOffersResponse">
                 <div class="col-sm-4 p-0 productImage">
                   <img (click)="core.getProductDetails(product.product.kalaUniqueId)" src="/consumer-app/assets/images/product1.png" class="img-fluid cursor" />
                 </div>
@@ -100,114 +84,15 @@
                 </div>
               </div>
             </div>
-            <!--Right Product Listing-->
           </div>
         </ng-template>
-        <!--Content-->
       </ngb-panel>
     </ngb-accordion>
   </div>
 
-  <!-- <div class="row myCart mt-4 mb-4">
-    <img src="/consumer-app/assets/images/loader.gif" *ngIf="loader" width="25" height="25" class="ml-3" />
-    <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" id="myOfferAccordian" *ngIf="myOffersDetails.length > 0">
-      <ngb-panel *ngFor="let offer of myOffersDetails">
-        
-        <ng-template ngbPanelTitle>
-          <div class="row pb-1">
-            
-            <div class="col-sm-9">
-              <p>
-                <strong>
-                  {{offer.getOffersRequestDTO.placeName}} - {{offer.getOffersRequestDTO.categoryName}} - {{offer.getOffersRequestDTO.subCategoryName}}
-                </strong>
-              </p>
-
-              <div>
-                <span class="colorlightGray">Offers started: </span> {{offer.getOffersRequestDTO.startDate}}
-                <span class="colorlightGray">Offer ends in:</span>
-                <span class="colorred">{{offer.getOffersRequestDTO.remainingTime}}</span>
-                <span class="label label-default">{{offer.getOffersResponse.length}} offers</span>
-              </div>
-            </div>
-            
-
-            
-            <div class="col-sm-3 mt-2 text-right pr-4">
-              <button class="btn-outer btn_red_right mr-2" (click)="editOffer(offer)">edit offer</button>
-              <button class="btn-outer btn_red_right" (click)="endOffer(offer)">end offer</button>
-            </div>
-            
-          </div>
-        </ng-template>
-        
-
-        
-        <ng-template ngbPanelContent>
-          <hr />
-          <div class="row relativePosition">
-            
-            <div class="col-sm-7 p-0">
-              <div class="row pl-3">
-                <div class="col-sm-3 pb-2 colorlightGray">Category:</div>
-                <div class="col-sm-9 pb-2">{{offer.getOffersRequestDTO.categoryName}}</div>
-              </div>
-              <div class="row pl-3">
-                <div class="col-sm-3 pb-2 colorlightGray">Sub - category:</div>
-                <div class="col-sm-9 pb-2">{{offer.getOffersRequestDTO.subCategoryName}}</div>
-              </div>
-              <div class="row pl-3">
-                <div class="col-sm-3 pb-2 colorlightGray">Type:</div>
-                <div class="col-sm-9 pb-2">
-                  <span *ngFor="let type of offer.getOffersRequestDTO.typeName">
-                    {{type}},
-                  </span>
-                </div>
-              </div>
-              <div class="row pl-3">
-                <div class="col-sm-3 pb-2 colorlightGray">Price range:</div>
-                <div class="col-sm-9 pb-2">$ {{offer.getOffersRequestDTO.price.minPrice}} - $ {{offer.getOffersRequestDTO.price.maxPrice}}</div>
-              </div>
-              <div class="row pl-3">
-                <div class="col-sm-3 pb-2 colorlightGray">Delivery:</div>
-                <div class="col-sm-9 pb-2">{{offer.getOffersRequestDTO.deliveryMethod}}</div>
-              </div>
-              <div class="row pl-3">
-                <div class="col-sm-3 pb-2 colorlightGray">Zipcode:</div>
-                <div class="col-sm-9 pb-2">
-                  <span *ngFor="let location of offer.getOffersRequestDTO.deliveryLocation">{{location.zipcode}}</span>
-                </div>
-              </div>
-            </div>
-            
-
-            
-            <div class="col-sm-5 multi_scroll">
-              <div class="row p-2" *ngFor="let product of offer.getOffersResponse">
-                <div class="col-sm-4 p-0 productImage" *ngFor="let image of product.product.productImages">
-                  <img *ngIf="image.mainImage;else hideDiv" src="{{s3}}{{image.location}}" class="img-fluid" />
-                  <ng-template #hideDiv>
-                    <span class="tobeHidden">other content...</span>
-                  </ng-template>
-                </div>
-                <div class="col-sm-8">
-                  <p>
-                    <strong>{{product.product.productTypeName}}</strong>
-                  </p>
-                  <div>
-                    {{product.retailerName}}
-                    <span class="float-right colorred"> ${{product.product.kalaPrice}} </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-          </div>
-        </ng-template>
-        
-      </ngb-panel>
-    </ngb-accordion>
-
-    <p *ngIf="myOffersDetails.length == 0" class="ml-4">No offers to display</p>
-  </div> -->
+  <ng-template #noOffer>
+    <div *ngIf="!loader" class="myCart-list text-center mt-2 colorred">
+      <u routerLink="/home">You don’t currently have any active offers to display. Click here to continue shopping.</u>
+    </div>
+  </ng-template>
 </div>
