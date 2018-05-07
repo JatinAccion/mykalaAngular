@@ -2,6 +2,8 @@ import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef } from '@an
 import { CoreService } from '../../services/core.service';
 import { AddToCart } from '../../../../models/addToCart';
 import { Router } from '@angular/router';
+import { MyCartService } from '../../services/mycart.service';
+import { SaveGetCartItems } from '../../../../models/save-get-cart';
 
 @Component({
   selector: 'app-mycart',
@@ -19,19 +21,68 @@ export class MycartComponent implements OnInit {
   addToCartModal = new AddToCart();
   fromMoveFunction: boolean = false;
   @ViewChild('myCartModal') myCartModal: ElementRef;
-  confirmValidationMsg = { label: '', message: '' }
+  confirmValidationMsg = { label: '', message: '' };
+  userData: any;
+  cartData = [];
+  loader: boolean = false;
 
   constructor(
     public core: CoreService,
-    private route: Router
+    private route: Router,
+    private mycart: MyCartService
   ) { }
 
   ngOnInit() {
     this.core.checkIfLoggedOut(); /*** If User Logged Out*/
     this.core.hide();
     this.core.searchMsgToggle();
-    this.checkItemsInCart();
-    this.checkItemsInWishlist();
+    localStorage.removeItem('existingItemsInCart');
+    localStorage.removeItem('existingItemsInWishList');
+    if (window.localStorage['userInfo'] != undefined) {
+      this.userData = JSON.parse(window.localStorage['userInfo']);
+      this.getCartItems(this.userData.userId);
+    }
+    else {
+      this.loader = true;
+      this.checkItemsInCart();
+      this.checkItemsInWishlist();
+      this.loader = false;
+    }
+  }
+
+  getCartItems(userId) {
+    this.loader = true;
+    this.mycart.getCartItems(userId).subscribe((res) => {
+      console.log(res);
+      let cartItems = [];
+      let wishListItems = [];
+      if (window.localStorage['existingItemsInCart'] != undefined) cartItems = JSON.parse(window.localStorage['existingItemsInCart']);
+      if (window.localStorage['existingItemsInWishList'] != undefined) wishListItems = JSON.parse(window.localStorage['existingItemsInCart']);
+      this.cartData = new Array<SaveGetCartItems>();
+      for (var i = 0; i < res.length; i++) {
+        let items = res[i];
+        this.cartData.push(new SaveGetCartItems(items.userId, items.label, items.retailerId, items.retailerName, items.productId, items.productName, items.price, items.quantity, items.inStock, items.productImage, items.taxCode, items.productSKUCode, items.productUPCCode, items.width, items.height, items.length, items.weight, items.shipProfileId, items.productDescription, items.cartId))
+      }
+      for (var i = 0; i < this.cartData.length; i++) {
+        if (this.cartData[i].label == 'cart') {
+          cartItems.push(this.cartData[i]);
+          window.localStorage['existingItemsInCart'] = JSON.stringify(cartItems);
+        }
+        else {
+          wishListItems.push(this.cartData[i]);
+          window.localStorage['existingItemsInWishList'] = JSON.stringify(wishListItems);
+        }
+      }
+      this.checkItemsInCart();
+      this.checkItemsInWishlist();
+      this.loader = false;
+      if (window.localStorage['callSaveCart'] != undefined) {
+        localStorage.removeItem('callSaveCart');
+        this.saveCartData();
+      }
+    }, (err) => {
+      console.log(err);
+    })
   }
 
   checkItemsInCart() {
@@ -268,6 +319,37 @@ export class MycartComponent implements OnInit {
       }
     }
     this.fromMoveFunction = false;
+    this.saveCartData();
+  }
+
+  saveCartData() {
+    this.loader = true;
+    let data; let wishlist;
+    if (window.localStorage['existingItemsInCart'] != undefined) data = JSON.parse(window.localStorage['existingItemsInCart']);
+    if (window.localStorage['existingItemsInWishList'] != undefined) wishlist = JSON.parse(window.localStorage['existingItemsInWishList']);
+    let userData = JSON.parse(window.localStorage['userInfo']);
+    if (data != undefined) {
+      for (var i = 0; i < data.length; i++) {
+        data[i].userId = userData.userId;
+      }
+    }
+    if (wishlist != undefined) {
+      for (var i = 0; i < wishlist.length; i++) {
+        wishlist[i].userId = userData.userId;
+      }
+    }
+    this.cartData = new Array<SaveGetCartItems>();
+    if (data == undefined && wishlist == undefined) this.cartData = [];
+    else if (data != undefined && wishlist != undefined) this.cartData = [...data, ...wishlist];
+    else if (data == undefined) this.cartData = [...wishlist];
+    else this.cartData = [...data];
+    this.mycart.saveCartItems(this.cartData).subscribe((res) => {
+      this.loader = false;
+      console.log(res);
+    }, (err) => {
+      this.loader = false;
+      console.log(err);
+    })
   }
 
   deleteItem(item, from) {
@@ -294,6 +376,11 @@ export class MycartComponent implements OnInit {
       }
       if (this.savedForLater.length == 0) localStorage.removeItem("existingItemsInWishList");
     }
+    this.mycart.deleteCartItem(item).subscribe((res) => {
+      console.log(res)
+    }, (err) => {
+      console.log(err)
+    })
   }
 
   confirmUser() {
@@ -309,12 +396,6 @@ export class MycartComponent implements OnInit {
     }
     else {
       let data = JSON.parse(window.localStorage['existingItemsInCart']);
-      let userData = JSON.parse(window.localStorage['userInfo']);
-      for (var i = 0; i < data.length; i++) {
-        if (data[i].userId == undefined || data[i].userId == "" || data[i].userId == null) {
-          data[i].userId = userData.userId;
-        }
-      }
       window.localStorage['existingItemsInCart'] = JSON.stringify(data);
       window.localStorage['TotalAmount'] = this.TotalAmountCartPayable;
       this.route.navigateByUrl("/checkout");

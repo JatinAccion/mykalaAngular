@@ -238,3 +238,21 @@
     <!--Return Policy-->
   </div>
 </div>
+
+<!--Promt For Login-->
+<ng-template #viewProductModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Buy Now</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>{{this.confirmValidationMsg.message}}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outer btn_red_right" (click)="c('Close click'); confirmUser()">Yes</button>
+    <button type="button" class="btn btn-outer btn_redouter_right" (click)="c('Close click')">No</button>
+  </div>
+</ng-template>
+<!--Promt For Login-->

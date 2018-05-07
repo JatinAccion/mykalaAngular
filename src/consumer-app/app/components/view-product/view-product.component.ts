@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { CoreService } from '../../services/core.service';
 import { AddToCart } from '../../../../models/addToCart';
 import { Router, RouterOutlet } from '@angular/router';
@@ -23,6 +23,9 @@ export class ViewProductComponent implements OnInit {
   alreadyAddedInCart: boolean = false;
   s3 = environment.s3;
   userData: any;
+  @ViewChild('viewProductModal') viewProductModal: ElementRef;
+  confirmValidationMsg = { label: '', message: '' };
+
   constructor(
     public core: CoreService,
     private route: Router,
@@ -86,50 +89,62 @@ export class ViewProductComponent implements OnInit {
     }
   }
 
+  confirmUser() {
+    window.localStorage['tbnAfterLogin'] = window.location.hash.split("#")[1];
+    this.route.navigateByUrl('/login');
+  }
+
   addToCart(to) {
-    if (this.userData != undefined) this.addToCartModal.userId = this.userData.userId;
-    else this.addToCartModal.userId = "";
-    this.addToCartModal.label = "cart";
-    this.addToCartModal.retailerId = this.selectedProduct.product.retailerId;
-    this.addToCartModal.retailerName = this.selectedProduct.retailerName;
-    this.addToCartModal.productId = this.selectedProduct.product.kalaUniqueId;
-    this.addToCartModal.productName = this.selectedProduct.product.productName;
-    this.addToCartModal.price = this.selectedProduct.product.kalaPrice;
-    this.addToCartModal.quantity = parseFloat(this.quantity);
-    this.addToCartModal.inStock = this.selectedProduct.product.quantity;
-    this.addToCartModal.retailerReturns = this.selectedProduct.retailerReturns;
-    this.addToCartModal.shipProfileId = this.selectedProduct.product.shipProfileId;
-    this.addToCartModal.productDescription = this.selectedProduct.product.productDescription;
-    this.addToCartModal.taxCode = this.selectedProduct.product.taxCode;
-    this.addToCartModal.productSKUCode = this.selectedProduct.product.productSkuCode;
-    this.addToCartModal.productUPCCode = this.selectedProduct.product.productUpcCode;
-    this.addToCartModal.width = this.selectedProduct.product.width;
-    this.addToCartModal.height = this.selectedProduct.product.height;
-    this.addToCartModal.length = this.selectedProduct.product.length;
-    this.addToCartModal.weight = this.selectedProduct.product.weight;
-    for (var i = 0; i < this.selectedProduct.product.productImages.length; i++) {
-      let image = this.selectedProduct.product.productImages[i]
-      if (image.mainImage == true) this.addToCartModal.productImage = image.location;
+    if (window.localStorage['token'] == undefined) {
+      this.confirmValidationMsg.label = 'login';
+      this.confirmValidationMsg.message = "You must be logged in to add items in the cart! Do you want to login now ?"
+      this.core.openModal(this.viewProductModal);
     }
-    if (to === 'toCart') window.localStorage['addedInCart'] = JSON.stringify(this.addToCartModal);
     else {
-      if (window.localStorage['existingItemsInWishList'] != undefined) {
-        let wishListItems = JSON.parse(window.localStorage['existingItemsInWishList']);
-        for (var i = 0; i < wishListItems.length; i++) {
-          if (this.addToCartModal.productId == wishListItems[i].productId) {
-            if (eval(`${this.addToCartModal.quantity + wishListItems[i].quantity}`) > wishListItems[i].inStock) {
-              alert("Can't proceed");
-              localStorage.removeItem('savedForLater');
-              return false;
+      this.addToCartModal.userId = this.userData.userId;
+      this.addToCartModal.label = "cart";
+      this.addToCartModal.retailerId = this.selectedProduct.product.retailerId;
+      this.addToCartModal.retailerName = this.selectedProduct.retailerName;
+      this.addToCartModal.productId = this.selectedProduct.product.kalaUniqueId;
+      this.addToCartModal.productName = this.selectedProduct.product.productName;
+      this.addToCartModal.price = this.selectedProduct.product.kalaPrice;
+      this.addToCartModal.quantity = parseFloat(this.quantity);
+      this.addToCartModal.inStock = this.selectedProduct.product.quantity;
+      this.addToCartModal.retailerReturns = this.selectedProduct.retailerReturns;
+      this.addToCartModal.shipProfileId = this.selectedProduct.product.shipProfileId;
+      this.addToCartModal.productDescription = this.selectedProduct.product.productDescription;
+      this.addToCartModal.taxCode = this.selectedProduct.product.taxCode;
+      this.addToCartModal.productSKUCode = this.selectedProduct.product.productSkuCode;
+      this.addToCartModal.productUPCCode = this.selectedProduct.product.productUpcCode;
+      this.addToCartModal.width = this.selectedProduct.product.width;
+      this.addToCartModal.height = this.selectedProduct.product.height;
+      this.addToCartModal.length = this.selectedProduct.product.length;
+      this.addToCartModal.weight = this.selectedProduct.product.weight;
+      for (var i = 0; i < this.selectedProduct.product.productImages.length; i++) {
+        let image = this.selectedProduct.product.productImages[i]
+        if (image.mainImage == true) this.addToCartModal.productImage = image.location;
+      }
+      if (to === 'toCart') window.localStorage['addedInCart'] = JSON.stringify(this.addToCartModal);
+      else {
+        if (window.localStorage['existingItemsInWishList'] != undefined) {
+          let wishListItems = JSON.parse(window.localStorage['existingItemsInWishList']);
+          for (var i = 0; i < wishListItems.length; i++) {
+            if (this.addToCartModal.productId == wishListItems[i].productId) {
+              if (eval(`${this.addToCartModal.quantity + wishListItems[i].quantity}`) > wishListItems[i].inStock) {
+                alert("Can't proceed");
+                localStorage.removeItem('savedForLater');
+                return false;
+              }
+              else window.localStorage['savedForLater'] = JSON.stringify(this.addToCartModal);
             }
             else window.localStorage['savedForLater'] = JSON.stringify(this.addToCartModal);
           }
-          else window.localStorage['savedForLater'] = JSON.stringify(this.addToCartModal);
         }
+        else window.localStorage['savedForLater'] = JSON.stringify(this.addToCartModal);
       }
-      else window.localStorage['savedForLater'] = JSON.stringify(this.addToCartModal);
+      window.localStorage['callSaveCart'] = true;
+      this.route.navigateByUrl('/mycart');
     }
-    this.route.navigateByUrl('/mycart');
   }
 
 }
