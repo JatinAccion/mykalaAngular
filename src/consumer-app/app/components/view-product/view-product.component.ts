@@ -80,12 +80,10 @@ export class ViewProductComponent implements OnInit {
   filterAttributes(attributesData) {
     let attributes = [];
     for (var key in attributesData) {
-      if (key != 'Color' && key != 'Size') {
-        attributes.push({
-          key: key,
-          value: attributesData[key]
-        })
-      }
+      attributes.push({
+        key: key,
+        value: attributesData[key]
+      })
     }
     this.selectedProduct.product.filteredAttr = attributes;
   }
@@ -93,8 +91,18 @@ export class ViewProductComponent implements OnInit {
   loadSimilarItems(e, data, from) {
     let element;
     let selectionMade = from;
+    let lastColor;
+    let lastSize;
     if (from == 'color') element = document.getElementsByClassName('data_color');
     else element = document.getElementsByClassName('data_size');
+    let colorElem = document.getElementsByClassName('data_color');
+    let sizeElem = document.getElementsByClassName('data_size');
+    for (var i = 0; i < colorElem.length; i++) {
+      if (colorElem[i].classList.contains('categ_outline_red')) lastColor = colorElem[i].innerHTML
+    }
+    for (var i = 0; i < sizeElem.length; i++) {
+      if (sizeElem[i].classList.contains('categ_outline_red')) lastSize = sizeElem[i].innerHTML
+    }
     for (var i = 0; i < element.length; i++) {
       element[i].classList.remove("categ_outline_red");
       element[i].classList.add("categ_outline_gray");
@@ -102,7 +110,7 @@ export class ViewProductComponent implements OnInit {
     e.currentTarget.classList.remove("categ_outline_gray");
     e.currentTarget.classList.add("categ_outline_red");
     //Get Product
-    this.viewProduct.getProductDetails(this.selectedProduct).subscribe((res) => {
+    this.viewProduct.getProductDetails(this.selectedProduct, data, from, lastColor, lastSize).subscribe((res) => {
       console.log(res);
       this.productListingModal = new BrowseProductsModal(res);
       window.localStorage['selectedProduct'] = JSON.stringify(this.productListingModal);
