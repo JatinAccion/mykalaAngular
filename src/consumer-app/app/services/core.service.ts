@@ -151,7 +151,7 @@ export class CoreService {
 
   getProductDetails(productId) {
     this.getDetails(productId).subscribe((res) => {
-      const tile = { deliveryMethod: '', product: res, retailerName: '', retailerReturns: '' }
+      const tile = new BrowseProductsModal(res);
       window.localStorage['selectedProduct'] = JSON.stringify(tile);
       if (window.localStorage['levelSelections']) {
         const updateStorage = JSON.parse(window.localStorage['levelSelections']);

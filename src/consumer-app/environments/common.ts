@@ -40,7 +40,9 @@ export const apiNames = {
         getSubCategories: 'subCategories',
         getTypes: 'types',
         getProduct: 'productDetails',
-        search: 'textSearch?type'
+        search: 'textSearch?type',
+        dynamicAttributes: 'dynamicAttributes',
+        productDetails: 'productDetails'
     },
     getOffers: {
         confirmOffer: 'getOffersRequest',
