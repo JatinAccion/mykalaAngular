@@ -29,6 +29,7 @@ export class ViewProductComponent implements OnInit {
   dynamicColorData: any;
   dynamicSizeData: any;
   productListingModal = new BrowseProductsModal();
+  unitValue: string;
 
   constructor(
     public core: CoreService,
@@ -80,11 +81,17 @@ export class ViewProductComponent implements OnInit {
   filterAttributes(attributesData) {
     let attributes = [];
     for (var key in attributesData) {
-      attributes.push({
-        key: key,
-        value: attributesData[key]
-      })
+      if (key == 'Unit') { this.unitValue = attributesData[key] }
+      else {
+        attributes.push({
+          key: key,
+          value: attributesData[key]
+        })
+      }
     }
+    attributes.filter((x) => {
+      if (x.key == 'Size') { x.key = x.key + ' ' + '(' + this.unitValue + ')' }
+    })
     this.selectedProduct.product.filteredAttr = attributes;
   }
 

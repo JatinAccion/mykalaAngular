@@ -1,6 +1,6 @@
 <div class="container">
   <div class="contentHeight"></div>
-  <img src="/consumer-app/assets/images/loader.gif" style="margin:0 49%" class="mb-5" *ngIf="loader"/>
+  <img src="/consumer-app/assets/images/loader.gif" style="margin:0 49%" class="mb-5" *ngIf="loader" />
 
   <div *ngIf="!loader">
     <!--Title-->
@@ -57,10 +57,15 @@
         </div>
 
         <div class="row">
-          <h4 class="col-12 pl-4 pr-4 text_multiple">
-            {{selectedProduct.product.kalaPrice | currency}}
-            <span style="text-decoration: line-through; font-size: 16px; margin-left: 20px;">{{selectedProduct.product.retailPrice | currency}}</span>
+          <h4 class="col-12 pl-4 pr-4 text_multiple" *ngIf="selectedProduct.product.retailPrice <= selectedProduct.product.kalaPrice;else showDefault">
+            <span class="priceFontSize">{{selectedProduct.product.kalaPrice | currency}}</span>
           </h4>
+          <ng-template #showDefault>
+            <h4 class="col-12 pl-4 pr-4 text_multiple">
+              <span class="priceFontSize">{{selectedProduct.product.kalaPrice | currency}}</span>
+              <span style="text-decoration: line-through; font-size: 16px; margin-left: 20px;">{{selectedProduct.product.retailPrice | currency}}</span>
+            </h4>
+          </ng-template>
         </div>
 
         <div class="row" *ngIf="dynamicColorData != undefined && dynamicSizeData != undefined">
@@ -70,8 +75,8 @@
               <span *ngFor="let color of dynamicColorData" title="{{color}}" (click)="loadSimilarItems($event, color, 'color')" class="categ_outline_gray cursor mr-2 mb-2 data_color">{{color}}</span>
             </span>
           </div>
-          <div class="col-12 pl-4 pr-4 mb-3 mt-1">
-            <span class="w-25 text-left d-block float-left">Size</span>
+          <div class="col-12 pl-4 pr-4 mb-0 mt-1">
+            <span class="w-25 text-left d-block float-left">Size ({{unitValue}})</span>
             <span class="w-75 text-left d-block float-right">
               <span *ngFor="let size of dynamicSizeData" title="{{size}}" (click)="loadSimilarItems($event, size, 'size')" class="categ_outline_gray cursor mr-2 mb-2 data_size">{{size}}</span>
             </span>
@@ -125,7 +130,9 @@
           <ng-template ngbTabTitle>description</ng-template>
           <ng-template ngbTabContent>
             <div class="col-12 p-1">
-              <h4 class="subtitle">details</h4>
+              <h4 class="subtitle">
+                <strong>details</strong>
+              </h4>
               <div class="col-sm-12 p-0">
                 <table width="100%" class="customeTable">
                   <tr *ngFor="let attribute of selectedProduct.product.filteredAttr">
@@ -216,8 +223,8 @@
               <td colspan="2" *ngIf="attribute.key == 'Features';else showDefault">
                 <table width="100%">
                   <tr>
-                    <td width="40%" valign="top">{{attribute.key}}:</td>
-                    <td width="60%" class="colorred">
+                    <td width="20%" valign="top">{{attribute.key}}:</td>
+                    <td width="80%" class="colorred">
                       <ul class="pl-3 mb-0">
                         <li *ngFor="let value of attribute.value">{{value}}</li>
                       </ul>
@@ -226,8 +233,8 @@
                 </table>
               </td>
               <ng-template #showDefault>
-                <td width="40%" valign="top">{{attribute.key}}:</td>
-                <td width="60%" class="colorred">{{attribute.value}}</td>
+                <td width="20%" valign="top">{{attribute.key}}:</td>
+                <td width="80%" class="colorred">{{attribute.value}}</td>
               </ng-template>
             </tr>
           </table>

@@ -3001,3 +3001,7 @@ label{display:block}
 table.customeTable tr td {
     padding: 6px 0px;
 }
+.priceFontSize{
+    font-family: 'open_sanssemibold';
+    font-size: 25px;
+}
