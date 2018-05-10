@@ -115,7 +115,7 @@ export class InquiriesReportComponent implements OnInit {
   };
   type_byCategory = 'line';
   data_byCategory = {
-    labels: this.reportModel === 'Monthly' ? this.monthLabels.map(p => new Date(this.currentYear, p.value, 1)) : this.yearLabels.map(p => new Date(p, 0, 1)),
+    labels: this.reportModel === 'Monthly' ? this.monthLabels.map(p => new Date(this.currentYear, p.value - 1, 1)) : this.yearLabels.map(p => new Date(p, 0, 1)),
     datasets: [
       {
         type: 'line',
@@ -363,7 +363,7 @@ export class InquiriesReportComponent implements OnInit {
       }
       this.loading = false;
       this.data_byCategory = {
-        labels: this.reportModel === 'Monthly' ? monthLabels.map(p => new Date(p.year, p.month, 1)) : yearLabels.map(p => new Date(p, 0, 1)),
+        labels: this.reportModel === 'Monthly' ? monthLabels.map(p => new Date(p.year, p.month - 1, 1)) : yearLabels.map(p => new Date(p, 0, 1)),
         datasets: [
           {
             type: 'line',

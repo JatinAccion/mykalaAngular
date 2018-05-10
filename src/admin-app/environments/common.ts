@@ -61,7 +61,7 @@ export const apiNames = {
     },
     product: {
         get: 'products/filterBy',
-        save: 'products/save',
+        save: 'products',
         delete: 'products/{productId}',
         changeStatus: 'products/changeStatus',
         saveImage: 'products/images',
@@ -102,7 +102,8 @@ export const apiNames = {
     },
     consumer: {
         get: 'consumer/v1/userId',
-        orderOfferNumber: 'orderOfferNumber'
+        orderOfferNumber: 'orderOfferNumber',
+        getConsumerDetails: 'consumer/v1/consumerDetails'
     },
     inquiry: {
         get: 'support/inquiriesList',

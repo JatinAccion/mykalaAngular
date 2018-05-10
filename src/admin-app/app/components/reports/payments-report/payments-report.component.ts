@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { ReportOrders, ReportPaymentDatas } from '../../../../../models/report-order';
 import { ReportsService } from '../reports.service';
+import DateUtils from '../../../../../common/utils';
 
 @Component({
   selector: 'app-payments-report',
@@ -9,20 +10,24 @@ import { ReportsService } from '../reports.service';
   encapsulation: ViewEncapsulation.None
 })
 export class PaymentsReportComponent implements OnInit {
+  sortDirection: 'DESC';
+  sortColumn = 'paymentInitiatedDate';
+  page = 0;
   activeWidget: { widgetType: string; year: number; month: number; value: number; };
   summaryType = 'TOTAL';
   loading: boolean;
   orders: ReportPaymentDatas;
+  dateUtils = new DateUtils();
   isCollapsed = true;
   reportModel = 'Monthly';
   currentYear = new Date().getFullYear();
-  currentMonth = new Date().getMonth();
-  details = { widgetType: 'TOTAL/PAID', year: this.currentYear, month: this.currentMonth };
+  currentMonth = new Date().getMonth() + 1;
+  details = { widgetType: 'TOTAL/PAID', year: this.currentYear, month: this.currentMonth, monthName: this.dateUtils.getMonthName(this.currentMonth) };
   widget = {
-    'total': { widgetType: 'TOTAL/PAID', year: this.currentYear, month: this.currentMonth, value: 0 },
-    'automatic': { widgetType: 'AUTOMATIC/PAID', year: this.currentYear, month: this.currentMonth, value: 0 },
-    'manual': { widgetType: 'MANUAL/PAID', year: this.currentYear, month: this.currentMonth, value: 0 },
-    'pending': { widgetType: 'TOTAL/PENDING', year: this.currentYear, month: this.currentMonth, value: 0 }
+    'total': { widgetType: 'TOTAL/PAID', year: this.currentYear, month: this.currentMonth, monthName: this.dateUtils.getMonthName(this.currentMonth), value: 0 },
+    'automatic': { widgetType: 'AUTOMATIC/PAID', year: this.currentYear, month: this.currentMonth, monthName: this.dateUtils.getMonthName(this.currentMonth), value: 0 },
+    'manual': { widgetType: 'MANUAL/PAID', year: this.currentYear, month: this.currentMonth, monthName: this.dateUtils.getMonthName(this.currentMonth), value: 0 },
+    'pending': { widgetType: 'TOTAL/PENDING', year: this.currentYear, month: this.currentMonth, monthName: this.dateUtils.getMonthName(this.currentMonth), value: 0 }
   };
   summary = { totalCostOfGoods: 0, totalTaxesCost: 0, totalShipCost: 0, saleRevenue: 0, netRevenue: 0, stripeProcessingFees: 0, commissionFees: 0 };
   backgroundColors = ['#df7970', '#4c9ca0', '#ae7d99', '#c9d45c', '#5592ad', '#6d78ad', '#51cda0', '#f8f378', '#ae6653', '#60df63', '#60c9df'];
@@ -86,7 +91,7 @@ export class PaymentsReportComponent implements OnInit {
     this.goto('total', 0);
     this.goto('automatic', 0);
     this.goto('manual', 0);
-    // this.goto('pending', 0);
+    this.goto('pending', 0);
     // this.getDetails('total');
   }
   goto(type, incr) {
@@ -106,7 +111,8 @@ export class PaymentsReportComponent implements OnInit {
     }
     widget.year = date.getFullYear();
     widget.month = date.getMonth() || 0;
-    this.reportsService.getPaymentCounts(widget.widgetType, widget.year.toString(), this.reportModel !== 'Monthly' ? '' : (widget.month + 1).toString()).subscribe((res) => { widget.value = res.values; });
+    widget.monthName = this.dateUtils.getMonthName(widget.month || 12);
+    this.reportsService.getPaymentCounts(widget.widgetType, widget.year.toString(), this.reportModel !== 'Monthly' ? '' : (widget.month).toString()).subscribe((res) => { widget.value = res.values; });
     this.getDetails(type);
   }
   getDetails(type) {
@@ -120,22 +126,22 @@ export class PaymentsReportComponent implements OnInit {
     }
     this.activeWidget = widget;
     this.getSummary();
-    this.reportsService.getconsumerPaymentReports(widget.widgetType, widget.year.toString(), this.reportModel !== 'Monthly' ? '' : (widget.month + 1).toString()).subscribe((res) => { this.setupChartData(res); });
+    this.reportsService.getconsumerPaymentReports(widget.widgetType, widget.year.toString(), this.reportModel !== 'Monthly' ? '' : (widget.month).toString()).subscribe((res) => { this.setupChartData(res); });
     this.details.widgetType = widget.widgetType;
     this.details.year = widget.year;
     this.details.month = widget.month;
     // this.getPage(1);
   }
   getSummary() {
-    this.reportsService.getPaymentReports(this.activeWidget.widgetType, this.summaryType, this.activeWidget.year.toString(), this.reportModel !== 'Monthly' ? '' : (this.activeWidget.month + 1).toString()).subscribe((res) => {
+    this.reportsService.getPaymentReports(this.activeWidget.widgetType, this.summaryType, this.activeWidget.year.toString(), this.reportModel !== 'Monthly' ? '' : (this.activeWidget.month).toString()).subscribe((res) => {
       if (res && res.length > 0) {
         this.summary.totalCostOfGoods = res[0].totalCostOfGoods;
         this.summary.totalShipCost = res[0].totalShipCost;
         this.summary.totalTaxesCost = res[0].totalTaxesCost;
         this.summary.stripeProcessingFees = res[0].stripeProcessingFees;
-        this.summary.commissionFees = res[0].commisionFees;
+        this.summary.commissionFees = res[0].commissionFees;
 
-        this.summary.saleRevenue = this.summary.totalCostOfGoods + this.summary.totalShipCost + this.summary.totalTaxesCost + this.summary.stripeProcessingFees + this.summary.commissionFees;
+        this.summary.saleRevenue = this.summary.totalCostOfGoods - this.summary.totalShipCost - this.summary.totalTaxesCost;
         this.summary.netRevenue = this.summary.commissionFees;
       } else {
         this.summary.totalCostOfGoods = 0;
@@ -160,12 +166,33 @@ export class PaymentsReportComponent implements OnInit {
       ]
     };
   }
+  // getPage(page: number) {
+  //   this.loading = true;
+  //   const searchParams = { page: page - 1, size: 10, sortOrder: 'asc', elementType: 'createdDate,ASC' };
+  //   this.reportsService.getPaymentDetails(searchParams).subscribe(res => {
+  //     this.orders = res;
+  //     this.loading = false;
+  //   });
+  // }
   getPage(page: number) {
+    this.page = page;
+    this.getPageSorted(this.page, this.sortColumn, this.sortDirection);
+  }
+  getPageSorted(page: number, sortColumn: string, sortDirection: string = 'desc') {
     this.loading = true;
-    const searchParams = { page: page - 1, size: 10, sortOrder: 'asc', elementType: 'createdDate,ASC' };
+
+    const searchParams = {
+      page: page - 1, size: 10, sortOrder: sortDirection, sort: `${sortColumn},${sortDirection.toUpperCase()}`
+    };
+
     this.reportsService.getPaymentDetails(searchParams).subscribe(res => {
       this.orders = res;
       this.loading = false;
     });
+  }
+  onSorted($event) { // $event = {sortColumn: 'id', sortDirection:'asc'}
+    this.sortColumn = $event.sortColumn;
+    this.sortDirection = $event.sortDirection;
+    this.getPageSorted(this.page, this.sortColumn, this.sortDirection);
   }
 }

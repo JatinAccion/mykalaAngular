@@ -57,6 +57,6 @@ export class UserProfile {
     return this.roleName && this.roleName.length > 0 && this.roleName.indexOf('consumer') > -1;
   }
   get isKalaAdmin(): boolean {
-    return this.emailId.toLowerCase() !== 'developer@mykala.com';
+    return this.emailId.toLowerCase() === 'developer@mykala.com';
   }
 }

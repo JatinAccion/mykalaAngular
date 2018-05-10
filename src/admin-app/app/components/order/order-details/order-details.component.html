@@ -40,8 +40,8 @@
     <div class="col-sm-4 offset-2" *ngIf="orderItem">
         <table width="100%" class="no_tdBorder" border="0">
             <tr>
-                <td>Product Place:</td>
-                <td>{{orderItem.product?orderItem.product.productPlaceName:''}}</td>
+                <td width="40%">Product Place:</td>
+                <td width="60%">{{orderItem.product?orderItem.product.productPlaceName:''}}</td>
             </tr>
             <tr>
                 <td>Category:</td>
@@ -68,8 +68,8 @@
     <div class="col-sm-4">
         <table width="100%" class="no_tdBorder" border="0">
             <tr>
-                <td>Order number:</td>
-                <td>{{order.orderId}}</td>
+                <td width="40%">Order number:</td>
+                <td width="60%">{{order.orderId}}</td>
             </tr>
             <tr>
                 <td>Shipping cost:</td>
@@ -107,10 +107,10 @@
                 <td>Delivered on:</td>
                 <td>{{order.purchasedDate | date:'shortDate'}}</td>
             </tr>
-            <tr>
+            <tr *ngIf="retailerOrder.orderStatus === 'Shipped' || retailerOrder.orderStatus === 'Delivered'">
                 <td>Seller payment status :</td>
                 <!-- {{order.sellerPayment|json}} -->
-                <td *ngIf="retailerOrder.orderStatus === 'Delivered'" >{{order.sellerPayment && order.sellerPayment.paymentStatus ? order.sellerPayment.paymentStatus:'Unpaid'  }}
+                <td>{{order.sellerPayment && order.sellerPayment.paymentStatus ? order.sellerPayment.paymentStatus:'Unpaid' }}
                     <span class="float-right" *ngIf="!order.sellerPayment || (order.sellerPayment.paymentStatus !== 'PENDING' && order.sellerPayment.paymentStatus !== 'PAID')">
                         <a class="ancDefault" (click)='sellerPayment(order.orderId, order.orderItems[0].retailerId, "PENDING")'>Pending </a>
                     </span>
@@ -119,7 +119,7 @@
                     </span>
                 </td>
             </tr>
-            <tr>
+            <tr *ngIf="retailerOrder.orderStatus === 'Shipped' || retailerOrder.orderStatus === 'Delivered'">
                 <td>Paid on:</td>
                 <td>{{order.sellerPayment?(order.sellerPayment.paymentDate | date:'fullDate'):''}}</td>
             </tr>
@@ -139,8 +139,8 @@
         <div class="col-sm-4">
             <table width="100%" class="no_tdBorder" border="0">
                 <tr>
-                    <td>Priority:</td>
-                    <td>
+                    <td width="40%">Priority:</td>
+                    <td width="60%">
                         <strong>{{inquiry.priority}}</strong>
                     </td>
                 </tr>
@@ -185,8 +185,8 @@
         <div class="col-sm-4">
             <table width="100%" class="no_tdBorder" border="0">
                 <tr>
-                    <td>Assigned to :</td>
-                    <td>{{getUser(inquiry.assignedTo).username}}</td>
+                    <td width="40%">Assigned to :</td>
+                    <td width="60%">{{getUser(inquiry.assignedTo).username}}</td>
                 </tr>
                 <tr>
                     <td colspan="2">

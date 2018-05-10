@@ -24,7 +24,7 @@
         <app-field-error-display [field]="paymentFG1.controls.paymentVehicle" [errorMsg]="errorMsgs"> </app-field-error-display>
         <!--Validation-->
     </div>
-    <div class="row" *ngIf="isAdminUser">
+    <div class="row" *ngIf="isKalaAdmin">
         <div class="col-sm-6">
             <div class="form-group">
                 <label class="control-label" [ngClass]="validatorExt.displayFieldCss(paymentFG1.controls.commissionRate)">Commission Rate(%)</label>
@@ -75,7 +75,13 @@
     <div class="row">
         <div class="col-sm-6">
             <div class="form-group">
-                <input type="text" class="form-control" aria-describedby="" placeholder="State" pattern formControlName="state">
+                <!-- <input type="text" class="form-control" aria-describedby="" placeholder="State" pattern formControlName="state"> -->
+                <select class="ddl_default w-100 form-control" formControlName="state" >
+                    <option value=''>Select state</option>
+                    <option *ngFor="let option of states" value="{{option}}">
+                        {{option}}
+                    </option>
+                </select>
                 <!--Validation-->
                 <app-field-error-display [field]="paymentFG1.controls.state" [errorMsg]="errorMsgs"> </app-field-error-display>
                 <!--Validation-->
@@ -183,7 +189,13 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group">
-                    <input type="text" class="form-control" aria-describedby="" placeholder="State" pattern formControlName="stateLegalContact">
+                    <!-- <input type="text" class="form-control" aria-describedby="" placeholder="State" pattern formControlName=""> -->
+                    <select class="ddl_default w-100 form-control" formControlName="stateLegalContact" >
+                        <option value=''>Select state</option>
+                        <option *ngFor="let option of states" value="{{option}}">
+                            {{option}}
+                        </option>
+                    </select>
                     <!--Validation-->
                     <app-field-error-display [field]="paymentFG2.controls.stateLegalContact" [errorMsg]="errorMsgs"> </app-field-error-display>
                     <!--Validation-->
@@ -222,7 +234,13 @@
     <div class="row">
         <div class="col-sm-6">
             <div class="form-group">
-                <input type="text" class="form-control" aria-describedby="" placeholder="State" pattern formControlName="state">
+                <!-- <input type="text" class="form-control" aria-describedby="" placeholder="State" pattern formControlName="state"> -->
+                <select class="ddl_default w-100 form-control" formControlName="state" >
+                    <option value=''>Select state</option>
+                    <option *ngFor="let option of states" value="{{option}}">
+                        {{option}}
+                    </option>
+                </select>
                 <!--Validation-->
                 <app-field-error-display [field]="paymentFG2.controls.state" [errorMsg]="errorMsgs"> </app-field-error-display>
                 <!--Validation-->

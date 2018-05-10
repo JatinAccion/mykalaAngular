@@ -15,8 +15,8 @@ export class OrderListComponent implements OnInit {
   orders: RetailerOrders;
   isCollapsed = true;
   page = 1;
-  sortColumn = 'createdDate';
-  sortDirection = 'asc';
+  sortColumn = 'orderDate';
+  sortDirection = 'desc';
   orderStatus= OrderStatus;
   constructor(private orderService: OrderService) {
     this.orders = new RetailerOrders();
@@ -31,7 +31,7 @@ export class OrderListComponent implements OnInit {
   }
   getPageSorted(page: number, sortColumn: string, sortDirection: string) {
     this.loading = true;
-    const searchParams = { page: page - 1, size: 50, sortOrder: sortDirection, elementType: sortColumn, retailerName: this.search, customerName: this.search, orderId: this.search };
+    const searchParams = { page: page - 1, size: 10, sortOrder: sortDirection, elementType: sortColumn, retailerName: this.search, customerName: this.search, orderId: this.search };
     if (this.search === '' || this.searchType !== 'Seller') { delete searchParams.retailerName; }
     if (this.search === '' || this.searchType !== 'Member') { delete searchParams.customerName; }
     if (this.search === '' || this.searchType !== 'Order Number') { delete searchParams.orderId; }

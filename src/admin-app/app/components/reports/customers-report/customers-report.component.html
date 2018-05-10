@@ -11,7 +11,7 @@
         </div>
     </div>
     <div class="row ">
-        <div class="col-sm-3 pl-0">
+        <div class="col-sm-4 pl-0">
             <div class="backgroundWhite">
                 <div class="text-center p-2">
                     New Members
@@ -29,7 +29,7 @@
                         </a>
                     </div>
                     <div class="col-sm-8 text-center colorlightGray">
-                        {{this.reportModel !== 'Monthly'?'':(widget.new.month + 1 + ',') }} {{widget.new.year}}
+                        {{this.reportModel !== 'Monthly'?'':(widget.new.monthName + ',') }} {{widget.new.year}}
                     </div>
                     <div class="col-sm-2">
                         <a (click)="goto('new',1)">
@@ -47,7 +47,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-3 pl-0">
+        <div class="col-sm-4 pl-0" *ngIf="false">
             <div class="backgroundWhite">
                 <div class="text-center p-2">
                     Active Members
@@ -65,7 +65,7 @@
                         </a>
                     </div>
                     <div class="col-sm-8 text-center colorlightGray">
-                        {{this.reportModel !== 'Monthly'?'':(widget.active.month + 1 + ',') }} {{widget.active.year}}
+                        {{this.reportModel !== 'Monthly'?'':(widget.active.monthName + ',') }} {{widget.active.year}}
                     </div>
                     <div class="col-sm-2">
                         <a (click)="goto('active',1)">
@@ -83,7 +83,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-3 pl-0">
+        <div class="col-sm-4 pl-0">
             <div class="backgroundWhite">
                 <div class="text-center p-2">
                     Total Members
@@ -101,7 +101,7 @@
                         </a>
                     </div>
                     <div class="col-sm-8 text-center colorlightGray">
-                        {{this.reportModel !== 'Monthly'?'':(widget.total.month + 1 + ',') }} {{widget.total.year}}
+                        {{this.reportModel !== 'Monthly'?'':(widget.total.monthName + ',') }} {{widget.total.year}}
                     </div>
                     <div class="col-sm-2">
                         <a (click)="goto('total',1)">
@@ -119,7 +119,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-3 pl-0 pr-1">
+        <div class="col-sm-4 pl-0 pr-1">
             <div class="backgroundWhite">
                 <div class="text-center p-2">
                     Closed Accounts
@@ -137,7 +137,7 @@
                         </a>
                     </div>
                     <div class="col-sm-8 text-center colorlightGray">
-                        {{this.reportModel !== 'Monthly'?'':(widget.closed.month + 1 + ',')}} {{widget.closed.year}}
+                        {{this.reportModel !== 'Monthly'?'':(widget.closed.monthName + ',')}} {{widget.closed.year}}
                     </div>
                     <div class="col-sm-2">
                         <a (click)="goto('closed',1)">
@@ -165,8 +165,11 @@
         </div>
     </div>
     <div class="row p-2 mt-3">
-        <div class="col-sm-12 p-0 pt-3 pagination_align">
+        <div class="col-sm-6 p-0 pt-3 pagination_align">
             <pagination-controls id='server' class="my-pagination" (pageChange)="getPage($event)" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page"></pagination-controls>
+        </div>
+        <div class="col-sm-6">
+            <input type="text" placeholder="search by consumer name" class="form-control txt_Search" [(ngModel)]="consumerName" (keyup.enter)="getPage(1)" />
         </div>
     </div>
     <div class="row p-2">
@@ -176,30 +179,29 @@
                 <option>PDF</option>
             </select>
         </div> -->
-        <table class="table backgroundWhite">
+        <table class="table backgroundWhite" sortable-table (sorted)="onSorted($event)">
             <thead>
                 <tr>
                     <th width="5%"></th>
-                    <th width="10%">Member ID</th>
-                    <th width="14%">Name</th>
-                    <th width="10%">Member Since</th>
+                    <th sortable-column="customerId" width="10%">Member ID</th>
+                    <th sortable-column="firstName" width="24%">Name</th>
+                    <th sortable-column="createdAt" width="10%">Member Since</th>
                     <th width="15%"># of Transactions</th>
                     <th width="12%">Total $ Sales</th>
                     <th width="12%">Offer Requests</th>
-                    <th width="10%">Last active</th>
-                    <th width="12%">Payment Date</th>
+                    <th width="10%">Last Purchase Date</th>
                 </tr>
             </thead>
-            <tbody *ngFor="let order of orders.content | paginate: { id: 'server', itemsPerPage: orders.size, currentPage: orders.number + 1 , totalItems: orders.totalElements }; let idx = index">
+            <tbody *ngFor="let consumer of consumers.content | paginate: { id: 'server', itemsPerPage: consumers.size, currentPage: consumers.number + 1 , totalItems: consumers.totalElements }; let idx = index">
                 <tr>
-                    <td> {{(orders.size*orders.number) + idx+1}} </td>
-                    <td>{{order.orderId}}</td>
-                    <td>{{order.orderItems[0].retailerName}}</td>
-                    <td>{{order.purchasedDate | date:'shortDate'}}</td>
-                    <td>{{order.payment.paymentStatus || 'unpaid' }}</td>
-                    <td>{{'Manual'}}</td>
-                    <td>{{(order.payment.paymentAmount /100) || '0'| currency }}</td>
-                    <td>{{order.payment.paymentDate | date:'shortDate'}}</td>
+                    <td> {{((consumers.size * consumers.number) || 0) + idx + 1}} </td>
+                    <td>{{consumer.customerId}}</td>
+                    <td>{{consumer.firstName + ' ' + consumer.lastName}}</td>
+                    <td>{{consumer.createdAt | date:'shortDate'}}</td>
+                    <td class="text-right">{{consumer.numberOfTransaction || 0}}</td>
+                    <td class="text-right">{{consumer.purchasedPrice - consumer.totalShipCost - consumer.totalTaxCost | currency }}</td>
+                    <td class="text-right">{{consumer.offerMade || 0}}</td>
+                    <td>{{consumer.lastActive | date:'shortDate'}}</td>
                 </tr>
             </tbody>
         </table>

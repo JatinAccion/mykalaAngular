@@ -22,7 +22,7 @@ export class PmdInputListComponent implements OnInit {
     return this._prodAttr;
   }
   formatValues(prodAttr: ProdAttr) {
-    while (prodAttr.values.length <= 5) {
+    while (prodAttr.values.length < 5) {
       prodAttr.values.add('');
     }
     return prodAttr;

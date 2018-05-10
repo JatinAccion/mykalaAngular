@@ -13,6 +13,7 @@ import { nameValue } from '../../../../models/nameValue';
 import { ReportOrders, ReportRetailerInquirys, ReportPaymentDatas } from '../../../../models/report-order';
 import { ReportReviewSummary } from '../../../../models/report-review';
 import { Retailers, RetailerReviews, ReviewRatings } from '../../../../models/retailer';
+import { ReportConsumers } from '../../../../models/report-consumer';
 
 @Injectable()
 export class ReportsService {
@@ -57,7 +58,7 @@ export class ReportsService {
   }
   getPaymentReports(paymentType: string, summary: string, year: string, month?: string) {
     this.headers = this.getHttpHeraders();
-    const url = `${environment.ordersReportApi}/${environment.apis.orders.paymentReports}`.replace('{paymentType}', paymentType).replace('{summary}',summary).replace('{year}', year).replace('{month}', month || '');
+    const url = `${environment.ordersReportApi}/${environment.apis.orders.paymentReports}`.replace('{paymentType}', paymentType).replace('{summary}', summary).replace('{year}', year).replace('{month}', month || '');
     return this.http
       .get(url, { headers: this.headers })
       .map(p => p.json())
@@ -79,7 +80,15 @@ export class ReportsService {
       .map(p => this.handleResponse(p, ReportOrders))
       .catch(this.handleError);
   }
-  getPaymentDetails( query?: any): Observable<ReportPaymentDatas> {
+  getConsumers(query?: any): Observable<ReportConsumers> {
+    this.headers = this.getHttpHeraders();
+    const url = `${environment.consumerApi}/${environment.apis.consumer.getConsumerDetails}`;
+    return this.http
+      .get(url, { search: query, headers: this.headers })
+      .map(p => this.handleResponse(p, ReportConsumers))
+      .catch(this.handleError);
+  }
+  getPaymentDetails(query?: any): Observable<ReportPaymentDatas> {
     this.headers = this.getHttpHeraders();
     const url = `${environment.ordersReportApi}/${environment.apis.orders.getPaymentDetails}`;
     return this.http
@@ -142,12 +151,12 @@ export class ReportsService {
       .map(p => p.json())
       .catch(this.handleError);
   }
-  getConsumerYearlyReport(memberType: string, year: string, month?: string) {
+  getConsumerYearlyReport(memberType: string, year: string, month?: string): Observable<ReportReviewSummary> {
     this.headers = this.getHttpHeraders();
     const url = `${environment.consumerApi}/${environment.apis.orders.consumerYearlyReport}`.replace('{memberType}', memberType).replace('{year}', year).replace('{month}', month || '');
     return this.http
       .get(url, { headers: this.headers })
-      .map(p => p.json())
+      .map(p => this.handleResponse(p, ReportReviewSummary))
       .catch(this.handleError);
   }
   getInquiryReport(type: string, year: string, month?: string) {

@@ -16,6 +16,7 @@ export const environment = {
   consumerApi: 'http://dev-consumer-profile.us-east-2.elasticbeanstalk.com',
   // consumerApi: 'http://qa-consumer-service.us-west-1.elasticbeanstalk.com',
   // consumerApi: 'http://192.168.169.185:6090',
+  // InquiryApi: 'http://192.168.168.150:8099/retailer/v1',
   InquiryApi: 'http://dev-retailer-service-mongo.us-east-1.elasticbeanstalk.com/retailer/v1',
   stripePK: 'pk_test_9th9u2YsJ2y1ms60AgtpXoMS',
   apis: apiNames,

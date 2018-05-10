@@ -66,10 +66,13 @@ export class ProductAddComponent implements OnInit {
     this.getRetailersData();
     if (this.productId) {
       this.productService.get({ 'productName': this.productId }).subscribe(p => {
-        if (p && p.content.length > 0) {
+        if (p && p.content.length > 0 && p.content[0].kalaUniqueId === this.productId) {
           this.product = p.content[0];
           this.setActiveTab({ nextId: 'tab-category' });
           this.setRetailerDropDown();
+        } else {
+          this.core.message.info('Product not found');
+          this.product = new Product({ kalaUniqueId: this.productId });
         }
       });
     }

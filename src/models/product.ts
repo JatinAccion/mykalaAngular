@@ -156,9 +156,10 @@ export class Product {
                         }
                         break;
                 }
-                return attributeList;
-            } return new Array<ProdAttr>();
+            }
+            return attributeList;
         }
+        return new Array<ProdAttr>();
     }
 }
 export class ProductImage {

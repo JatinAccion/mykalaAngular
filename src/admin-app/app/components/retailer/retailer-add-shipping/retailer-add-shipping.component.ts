@@ -29,6 +29,7 @@ import { userMessages } from './messages';
   encapsulation: ViewEncapsulation.None
 })
 export class RetailerAddShippingComponent implements OnInit {
+  states: string[];
   // #region declarations
   @ViewChild('tabs') ngbTabSet: NgbTabset;
   currentOrientation = 'horizontal';
@@ -64,6 +65,7 @@ export class RetailerAddShippingComponent implements OnInit {
   }
   ngOnInit() {
     this.addShipping();
+    this.getStates();
     this.shippingObj = this.shippings.shippings[0] || new RetialerShippingProfile();
     this.setValidators();
     if (this.retailerId) {
@@ -316,7 +318,8 @@ export class RetailerAddShippingComponent implements OnInit {
     if (this.shippingObj.step === 0) { this.shippingObj.step = 1; }
   }
   validateShippingFG2() {
-    return (this.shippingFG2.get('shippingMethods') as FormArray).controls.filter(p => p.get('selected').value == true).length > 0;
+    return (this.shippingFG2.get('shippingMethods') as FormArray).controls.filter(p => p.get('selected').value == true).length > 0 &&
+      ((this.shippingFG2.get('shippingMethods')as FormArray).controls.filter(p => p.get('shippingMethodId').value === 4)[0] as FormGroup) .controls.shippingName.value !== ''      ;
   }
   validateUniqueShippingName() {
     return this.shippings.shippings.filter(p => p.shippingProfileName === this.shippingObj.shippingProfileName && p.sequence !== this.shippingObj.sequence).length > 0;
@@ -426,5 +429,10 @@ export class RetailerAddShippingComponent implements OnInit {
     (this.shippingFG2.get('shippingMethods') as FormArray).controls[index].get('selected').patchValue(!val);
     $event.stopPropagation();
     $event.preventDefault();
+  }
+  getStates() {
+    this.retialerService.getStates().subscribe(p => {
+      this.states = p.stateAbbreviation;
+    });
   }
 }

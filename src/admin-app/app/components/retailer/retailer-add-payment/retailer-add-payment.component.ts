@@ -24,6 +24,7 @@ import DateUtils from '../../../../../common/utils';
   encapsulation: ViewEncapsulation.None
 })
 export class RetailerAddPaymentComponent implements OnInit {
+  states: string[];
   @Input() retailerId: string;
   @Output() SaveData = new EventEmitter<any>();
   @Input() paymentData: RetailerPaymentInfo;
@@ -56,6 +57,7 @@ export class RetailerAddPaymentComponent implements OnInit {
 
   ngOnInit() {
     this.getPaymentInfoDropdowndata();
+    this.getStates();
     this.paymentInfoObj = new RetailerPaymentInfo();
     this.setFormValidators();
     if (this.retailerId) {
@@ -361,5 +363,10 @@ export class RetailerAddPaymentComponent implements OnInit {
         });
       }
     }
+  }
+  getStates() {
+    this.retialerService.getStates().subscribe(p => {
+      this.states = p.stateAbbreviation;
+    });
   }
 }

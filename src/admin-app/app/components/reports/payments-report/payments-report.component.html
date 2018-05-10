@@ -30,7 +30,7 @@
                         </a>
                     </div>
                     <div class="col-sm-8 text-center colorlightGray">
-                        {{this.reportModel !== 'Monthly'?'':(widget.total.month + 1 + ',') }} {{widget.total.year}}
+                        {{this.reportModel !== 'Monthly'?'':(widget.total.monthName + ',') }} {{widget.total.year}}
                     </div>
                     <div class="col-sm-2">
                         <a (click)="goto('total',1)">
@@ -66,7 +66,7 @@
                         </a>
                     </div>
                     <div class="col-sm-8 text-center colorlightGray">
-                        {{this.reportModel !== 'Monthly'?'':(widget.automatic.month + 1 + ',') }} {{widget.automatic.year}}
+                        {{this.reportModel !== 'Monthly'?'':(widget.automatic.monthName + ',') }} {{widget.automatic.year}}
                     </div>
                     <div class="col-sm-2">
                         <a (click)="goto('automatic',1)">
@@ -102,7 +102,7 @@
                         </a>
                     </div>
                     <div class="col-sm-8 text-center colorlightGray">
-                        {{this.reportModel !== 'Monthly'?'':(widget.manual.month + 1 + ',') }} {{widget.manual.year}}
+                        {{this.reportModel !== 'Monthly'?'':(widget.manual.monthName + ',') }} {{widget.manual.year}}
                     </div>
                     <div class="col-sm-2">
                         <a (click)="goto('manual',1)">
@@ -138,7 +138,7 @@
                         </a>
                     </div>
                     <div class="col-sm-8 text-center colorlightGray">
-                        {{this.reportModel !== 'Monthly'?'':(widget.pending.month + 1 + ',')}} {{widget.pending.year}}
+                        {{this.reportModel !== 'Monthly'?'':(widget.pending.monthName + ',')}} {{widget.pending.year}}
                     </div>
                     <div class="col-sm-2">
                         <a (click)="goto('pending',1)">
@@ -178,12 +178,12 @@
                         <tbody>
                             <tr class="payment_border">
                                 <td class="p-1" width="60%">Total Sales: </td>
-                                <td class="p-1 text-right" width="20%">{{summary.saleRevenue | currency}}</td>
+                                <td class="p-1 text-right" width="20%">{{summary.totalCostOfGoods | currency}}</td>
                                 <td width="20%"></td>
                             </tr>
                             <tr>
                                 <td class="p-1 text-right">Product Sales Revenue: </td>
-                                <td class="p-1 text-right">{{summary.totalCostOfGoods | currency}}</td>
+                                <td class="p-1 text-right">{{summary.saleRevenue | currency}}</td>
                                 <td></td>
                             </tr>
                             <tr>
@@ -219,23 +219,23 @@
     </div>
     <div class="row p-2">
 
-        <table class="table backgroundWhite">
+        <table class="table backgroundWhite" sortable-table (sorted)="onSorted($event)">
             <thead>
                 <tr>
                     <th width="5%"></th>
                     <th width="10%">Order ID</th>
-                    <th width="14%">Seller</th>
-                    <th width="10%">Order Date</th>
-                    <th width="15%">Status</th>
-                    <th width="12%">Type</th>
-                    <th width="12%">Sale $</th>
-                    <th width="10%">Payment $</th>
-                    <th width="12%">Payment Date</th>
+                    <th sortable-column="retailerName" width="14%">Seller</th>
+                    <th sortable-column="orderDate" width="10%">Order Date</th>
+                    <th sortable-column="paymentStatus" width="15%">Status</th>
+                    <th sortable-column="paymentType" width="12%">Type</th>
+                    <th sortable-column="orderAmount" width="12%">Sale $</th>
+                    <th sortable-column="sellerPaymentAmount" width="10%">Payment $</th>
+                    <th sortable-column="paymentInitiatedDate" width="12%">Payment Date</th>
                 </tr>
             </thead>
             <tbody *ngFor="let order of orders.content | paginate: { id: 'server', itemsPerPage: orders.size, currentPage: orders.number + 1 , totalItems: orders.totalElements }; let idx = index">
                 <tr>
-                    <td> {{(orders.size*orders.number) + idx+1}} </td>
+                    <td> {{((orders.size*orders.number)||0) + idx+1}} </td>
                     <td>{{order.orderId}}</td>
                     <td>{{order.retailerName}}</td>
                     <td>{{order.orderDate | date:'shortDate'}}</td>

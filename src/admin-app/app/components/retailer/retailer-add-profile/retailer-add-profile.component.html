@@ -63,7 +63,13 @@
     <div class="row">
         <div class="col-sm-6">
             <div class="form-group">
-                <input type="text" class="form-control" aria-describedby="" placeholder="State" pattern formControlName="state">
+                <!-- <input type="text" class="form-control" aria-describedby="" placeholder="State" pattern formControlName="state"> -->
+                <select class="ddl_default w-100 form-control" formControlName="state" >
+                    <option value=''>Select state</option>
+                    <option *ngFor="let option of states" value="{{option}}">
+                        {{option}}
+                    </option>
+                </select>
                 <!--Validation-->
                 <app-field-error-display [field]="profileFG1.controls.state" [errorMsg]="errorMsgs"> </app-field-error-display>
                 <!--Validation-->
@@ -187,7 +193,13 @@
     <div class="row">
         <div class="col-sm-6">
             <div class="form-group">
-                <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="State" pattern formControlName="contact_state">
+                <!-- <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="State" pattern formControlName="contact_state"> -->
+                <select class="ddl_default w-100 form-control" formControlName="contact_state" >
+                    <option value=''>Select state</option>
+                    <option *ngFor="let option of states" value="{{option}}">
+                        {{option}}
+                    </option>
+                </select>
                 <!--Validation-->
                 <app-field-error-display [field]="profileFG2.controls.contact_state" [errorMsg]="errorMsgs"> </app-field-error-display>
                 <!--Validation-->

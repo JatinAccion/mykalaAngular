@@ -24,6 +24,7 @@ import { SellerType } from '../../../../../models/retailer';
   encapsulation: ViewEncapsulation.None
 })
 export class RetailerAddProfileComponent implements OnInit {
+  states: string[];
   contactType: any;
   contactTypes: any[];
   @Input() retailerId: string;
@@ -54,6 +55,7 @@ export class RetailerAddProfileComponent implements OnInit {
   }
   ngOnInit() {
     this.getContactsNames();
+    this.getStates();
     this.profileInfoObj = new RetailerProfileInfo();
     this.setFormValidators();
     this.getProfileInfoDropdowndata();
@@ -322,6 +324,10 @@ export class RetailerAddProfileComponent implements OnInit {
       }
     }
   }
-
+  getStates() {
+    this.retialerService.getStates().subscribe(p => {
+      this.states = p.stateAbbreviation;
+    });
+  }
   // #endregion ProfileInfo
 }

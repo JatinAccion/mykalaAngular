@@ -50,11 +50,11 @@ export class OrderDetailsComponent implements OnInit {
   }
   getData() {
     this.loading = true;
-    this.getProfileInfo(this.order.orderItems[0].retailerId);
+    this.getProfileInfo(this.retailerOrder.retailerId);
     this.getProductInfo(this.retailerOrder.products.map(p => p.productId));
     this.getConsumer(this.order.userId);
-    this.getSellerPaymentStatus(this.order.orderId, this.order.orderItems[0].retailerId);
-    this.getInquiryList(this.order.orderId);
+    this.getSellerPaymentStatus(this.retailerOrder.orderId, this.retailerOrder.retailerId);
+    this.getInquiryList(this.retailerOrder.orderId);
     this.getUsers();
   }
   getProfileInfo(retailerId: string) {

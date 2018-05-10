@@ -17,14 +17,14 @@ export class SalesReportComponent implements OnInit {
   orders: ReportOrders;
   isCollapsed = true;
   reportModel = 'Monthly';
-  currentMonth = 1;
   currentYear = new Date().getFullYear();
-  details = { widgetType: 'total', year: 2018, month: 2 };
+  currentMonth = new Date().getMonth() + 1;
+  details = { widgetType: 'total', year: this.currentYear, month: this.currentMonth };
   widget = {
-    'total': { widgetType: 'Total', year: 2018, month: 2, value: 0, monthName: this.dateUtils.getMonthName(this.currentMonth) },
-    'automatic': { widgetType: 'Automatic', year: 2018, month: 2, value: 0, monthName: this.dateUtils.getMonthName(this.currentMonth) },
-    'manual': { widgetType: 'Manual', year: 2018, month: 2, value: 0, monthName: this.dateUtils.getMonthName(this.currentMonth) },
-    'pending': { widgetType: 'Pending', year: 2018, month: 2, value: 0, monthName: this.dateUtils.getMonthName(this.currentMonth) }
+    'total': { widgetType: 'Total', year: this.currentYear, month: this.currentMonth, value: 0, monthName: this.dateUtils.getMonthName(this.currentMonth) },
+    'automatic': { widgetType: 'Automatic', year: this.currentYear, month: this.currentMonth, value: 0, monthName: this.dateUtils.getMonthName(this.currentMonth) },
+    'manual': { widgetType: 'Manual', year: this.currentYear, month: this.currentMonth, value: 0, monthName: this.dateUtils.getMonthName(this.currentMonth) },
+    'pending': { widgetType: 'Pending', year: this.currentYear, month: this.currentMonth, value: 0, monthName: this.dateUtils.getMonthName(this.currentMonth) }
   };
   summary = { totalCostOfGoods: 0, totalTaxesCost: 0, totalShipCost: 0, saleRevenue: 0, netRevenue: 0 };
   backgroundColors = ['#df7970', '#4c9ca0', '#ae7d99', '#c9d45c', '#5592ad', '#6d78ad', '#51cda0', '#f8f378', '#ae6653', '#60df63', '#60c9df'];

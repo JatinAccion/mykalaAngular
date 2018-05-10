@@ -25,7 +25,7 @@ export class InquiryListComponent implements OnInit {
   order: ReportOrder;
   page = 1;
   sortColumn = 'createdDate';
-  sortDirection = 'asc';
+  sortDirection = 'desc';
   constructor(private inquiryService: InquiryService, private orderService: OrderService, private userService: UserService, private core: CoreService) {
     this.inquirys = new Inquirys();
   }

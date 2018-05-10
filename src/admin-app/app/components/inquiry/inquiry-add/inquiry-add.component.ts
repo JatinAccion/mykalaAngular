@@ -250,8 +250,13 @@ export class InquiryAddComponent implements OnInit {
     this.inquiry.resolutionType = form.resolutionType;
     this.inquiry.resolutionDescription = form.resolutionDescription;
     this.inquiry.resolutionNotes = [form.resolutionNotes];
-    this.inquiry.createdDate = this.toDate(this.inquiry.createdDate || new Date());
-    this.inquiry.modifiedDate = this.toDate(new Date());
+    if (!this.inquiry.supportId) {
+      delete this.inquiry.createdDate;
+      delete this.inquiry.modifiedDate;
+    } else {
+      delete this.inquiry.modifiedDate;
+    }
+
   }
   toDate(obj) {
     if (obj.year && obj.month && obj.day) {
