@@ -2998,3 +2998,6 @@ label{display:block}
 .starIconView{
     font-size:17px;
 }
+table.customeTable tr td {
+    padding: 6px 0px;
+}

@@ -17,7 +17,12 @@ export class MyCartService {
 
     saveCartItems(data) {
         const url: string = `${this.BASE_URL}/${environment.apis.consumerCheckout.saveCartItems}`;
-        return this.http.post(url, data).map(res => res.json());
+        return this.http.put(url, data).map(res => res.json());
+    }
+
+    deleteCartItem(item) {
+        const url: string = `${this.BASE_URL}/${item.cartId}/${environment.apis.consumerCheckout.deleteCart}`;
+        return this.http.delete(url).map(res => res.text());
     }
 
 }

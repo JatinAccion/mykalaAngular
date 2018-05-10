@@ -7,6 +7,7 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import animateScrollTo from 'animated-scroll-to';
 import { Subject } from 'rxjs/Subject';
 import { BrowseProductsModal } from '../../../models/browse-products';
+import { MyCartService } from './mycart.service';
 
 @Injectable()
 export class CoreService {
@@ -31,7 +32,8 @@ export class CoreService {
   constructor(
     private http: Http,
     private route: Router,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private mycart: MyCartService
   ) { }
 
   hide() { this.navVisible = false; }
@@ -149,7 +151,7 @@ export class CoreService {
 
   getProductDetails(productId) {
     this.getDetails(productId).subscribe((res) => {
-      const tile = { deliveryMethod: '', product: res, retailerName: '', retailerReturns: '' }
+      const tile = new BrowseProductsModal(res);
       window.localStorage['selectedProduct'] = JSON.stringify(tile);
       if (window.localStorage['levelSelections']) {
         const updateStorage = JSON.parse(window.localStorage['levelSelections']);
@@ -189,12 +191,25 @@ export class CoreService {
     return this.http.get(url).map((res) => res.json());
   }
 
+  filterIamgeURL() {
+    for (var i = 0; i < this.tilesData.length; i++) {
+      if (this.tilesData[i].product.productImages) {
+        for (var j = 0; j < this.tilesData[i].product.productImages.length; j++) {
+          let product = this.tilesData[i].product.productImages[j];
+          if (product.location.indexOf('data:') === -1 && product.location.indexOf('https:') === -1) {
+            this.tilesData[i].product.productImages[j].location = environment.s3 + product.location;
+          }
+        }
+      }
+    }
+  }
+
   getMainImage() {
     for (var i = 0; i < this.tilesData.length; i++) {
       if (this.tilesData[i].product.productImages) {
         for (var j = 0; j < this.tilesData[i].product.productImages.length; j++) {
           let product = this.tilesData[i].product.productImages[j]
-          if (product.mainImage == true) this.tilesData[i].product.mainImageSrc = `${environment.s3 + product.location}`
+          if (product.mainImage == true) this.tilesData[i].product.mainImageSrc = product.location;
         }
       }
     }
@@ -204,6 +219,7 @@ export class CoreService {
     this.tilesData = [];
     this.searchProduct(text).subscribe(res => {
       this.tilesData = res.products.map(p => new BrowseProductsModal(p));
+      this.filterIamgeURL();
       this.getMainImage();
       this.esKey.next(this.tilesData);
     });
@@ -222,6 +238,26 @@ export class CoreService {
     }
     else if (key < 48 || key > 57) return false;
     else return true;
+  }
+
+  getItemsInCart(userId) {
+    this.mycart.getCartItems(userId).subscribe((res) => {
+      let cartItems = [];
+      let wishListItems = []
+      for (var i = 0; i < res.length; i++) {
+        let items = res[i];
+        if (items.label == 'cart') {
+          cartItems.push(res[i]);
+          window.localStorage['existingItemsInCart'] = JSON.stringify(cartItems);
+        }
+        else {
+          wishListItems.push(res[i]);
+          window.localStorage['existingItemsInWishList'] = JSON.stringify(wishListItems);
+        }
+      }
+    }, (err) => {
+      console.log('Failed to load cart items')
+    })
   }
 
 }

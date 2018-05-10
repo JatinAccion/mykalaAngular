@@ -128,6 +128,7 @@ export class LoginComponent implements OnInit, CuiComponent {
                   window.localStorage['userInfo'] = JSON.stringify(res);
                   this.core.hideUserInfo(false);
                   this.core.setUser(res);
+                  this.core.getItemsInCart(res.userId);
                   if (window.localStorage['tbnAfterLogin'] != undefined) {
                     let url = window.localStorage['tbnAfterLogin'];
                     localStorage.removeItem("tbnAfterLogin");

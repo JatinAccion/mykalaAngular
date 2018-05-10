@@ -40,7 +40,9 @@ export const apiNames = {
         getSubCategories: 'subCategories',
         getTypes: 'types',
         getProduct: 'productDetails',
-        search: 'textSearch?type'
+        search: 'textSearch?type',
+        dynamicAttributes: 'dynamicAttributes',
+        productDetails: 'productDetails'
     },
     getOffers: {
         confirmOffer: 'getOffersRequest',
@@ -61,7 +63,8 @@ export const apiNames = {
         support: 'support/saveSupportRequest',
         shippedItems: 'shippedItems',
         saveCartItems: 'saveCart',
-        getCartItems: 'myCart'
+        getCartItems: 'myCart',
+        deleteCart: 'deleteCart'
     },
     shippingMethod: {
         method: 'retailer/v1',

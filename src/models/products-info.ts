@@ -2,6 +2,7 @@ export class ProductsInfo {
     attributes: {};
     kalaUniqueId: string;
     retailerId: string;
+    retailerName: string;
     productSkuCode: string;
     productUpcCode: number;
     brandName: string;
@@ -25,6 +26,7 @@ export class ProductsInfo {
     height: number;
     width: number;
     weight: number;
+    productHierarchy: Array<any>;
     constructor(obj?: any) {
         this.productImages = new Array<any>();
         if (obj) {
@@ -46,6 +48,7 @@ export class ProductsInfo {
             this.quantity = obj.quantity;
             this.retailPrice = obj.retailPrice;
             this.retailerId = obj.retailerId;
+            this.retailerName = obj.retailerName;
             this.shipProfileId = obj.shipProfileId;
             this.productImages = obj.productImages;
             this.taxCode = obj.taxCode;
@@ -54,6 +57,7 @@ export class ProductsInfo {
             this.weight = obj.weight;
             this.width = obj.width;
             this.mainImageSrc = '';
+            this.productHierarchy = obj.productHierarchy;
         }
     }
 }

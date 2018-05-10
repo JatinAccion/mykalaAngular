@@ -436,14 +436,16 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
             }
           }
         }
-        //this.getTax(address, res.shippingOriginAddress)
+        if (this.filteredCartItems.length == resShippingResponse.length) {
+          this.getTax(address, resShippingResponse);
+        }
       }, (err) => {
         console.log(err)
       });
     }
-    setTimeout(() => {
-      this.getTax(address, resShippingResponse);
-    }, 3000)
+    // setTimeout(() => {
+    //   this.getTax(address, resShippingResponse);
+    // }, 3000)
   }
 
   getTax(address, toAddress) {
