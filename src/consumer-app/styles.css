@@ -3005,3 +3005,6 @@ table.customeTable tr td {
     font-family: 'open_sanssemibold';
     font-size: 25px;
 }
+.unavailable {
+    border: 1px dashed #b1b1b1;
+}

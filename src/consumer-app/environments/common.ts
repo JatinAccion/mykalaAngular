@@ -32,7 +32,8 @@ export const apiNames = {
         userReviewList: 'userReviewList',
         updateOffer: 'updateOffer',
         updateReview: 'reviewRead',
-        addressList: 'addressList'
+        addressList: 'addressList',
+        productReviewSummary: 'productReviewSummary'
     },
     products: {
         getPlaces: 'places',
@@ -69,7 +70,8 @@ export const apiNames = {
     shippingMethod: {
         method: 'retailer/v1',
         getTax: 'tax/v1/productsTax',
-        getStates: 'retailer/v1/states/name'
+        getStates: 'retailer/v1/states/name',
+        retailerPolicy: 'shippingReturns'
     }
 };
 

@@ -30,6 +30,9 @@ export class ViewProductComponent implements OnInit {
   dynamicSizeData: any;
   productListingModal = new BrowseProductsModal();
   unitValue: string;
+  dynamicAttributeSize: Array<any>;
+  dynamicAttributeColor: Array<any>;
+  totalReviewSummary: any;
 
   constructor(
     public core: CoreService,
@@ -54,6 +57,8 @@ export class ViewProductComponent implements OnInit {
 
   loadProductInfo(fromInternalAPI?: any) {
     this.selectedProduct = JSON.parse(window.localStorage['selectedProduct']);
+    this.loadReviewsSummary(this.selectedProduct.product.kalaUniqueId);
+    this.loadRetailerPolicy(this.selectedProduct.product.retailerId);
     this.filterIamgeURL();
     this.getMainImage();
     this.getStockNumber();
@@ -61,6 +66,26 @@ export class ViewProductComponent implements OnInit {
     if (this.selectedProduct.product.attributes.Color != undefined && this.selectedProduct.product.attributes.Size != {}) {
       this.loadAttributes(this.selectedProduct.product.attributes, fromInternalAPI);
     }
+  }
+
+  loadReviewsSummary(productId) {
+    this.viewProduct.getReviewsSummary(productId).subscribe((res) => {
+      this.totalReviewSummary = res[0];
+      this.totalReviewSummary.average = parseInt(this.totalReviewSummary.avg);
+    }, (err) => {
+      console.log(err);
+    })
+  }
+
+  loadRetailerPolicy(retailerId) {
+    this.viewProduct.getRetailerPolicy(retailerId).subscribe((res) => {
+      let data = JSON.parse(window.localStorage['selectedProduct']);
+      data.product.returnPolicy = res.returnPolicy;
+      window.localStorage['selectedProduct'] = JSON.stringify(data);
+      this.selectedProduct = JSON.parse(window.localStorage['selectedProduct']);
+    }, (err) => {
+      console.log(err);
+    })
   }
 
   loadAttributes(attributesData, fromInternalAPI?: any) {
@@ -100,6 +125,8 @@ export class ViewProductComponent implements OnInit {
     let selectionMade = from;
     let lastColor;
     let lastSize;
+    let sendOnlyColor = false;
+    let sendOnlySize = false;
     if (from == 'color') element = document.getElementsByClassName('data_color');
     else element = document.getElementsByClassName('data_size');
     let colorElem = document.getElementsByClassName('data_color');
@@ -112,12 +139,29 @@ export class ViewProductComponent implements OnInit {
     }
     for (var i = 0; i < element.length; i++) {
       element[i].classList.remove("categ_outline_red");
+      element[i].classList.remove("unavailable");
       element[i].classList.add("categ_outline_gray");
     }
     e.currentTarget.classList.remove("categ_outline_gray");
     e.currentTarget.classList.add("categ_outline_red");
+    if (this.dynamicAttributeSize != undefined && this.dynamicAttributeColor != undefined) {
+      if (from == 'color') {
+        console.log(this.dynamicAttributeColor);
+        if (this.dynamicAttributeColor.indexOf(data) === -1) {
+          sendOnlyColor = true;
+          sendOnlySize = false;
+        }
+      }
+      else {
+        console.log(this.dynamicAttributeSize);
+        if (this.dynamicAttributeSize.indexOf(data) === -1) {
+          sendOnlyColor = false;
+          sendOnlySize = true;
+        }
+      }
+    }
     //Get Product
-    this.viewProduct.getProductDetails(this.selectedProduct, data, from, lastColor, lastSize).subscribe((res) => {
+    this.viewProduct.getProductDetails(this.selectedProduct, data, from, lastColor, lastSize, sendOnlyColor, sendOnlySize).subscribe((res) => {
       console.log(res);
       this.productListingModal = new BrowseProductsModal(res);
       window.localStorage['selectedProduct'] = JSON.stringify(this.productListingModal);
@@ -134,15 +178,50 @@ export class ViewProductComponent implements OnInit {
       console.log(res);
       if (selectionMade == 'color') {
         this.dynamicColorData = res.allColors;
-        this.dynamicSizeData = res.selectedSizes;
+        this.dynamicSizeData = res.allSizes;
+        let element = document.getElementsByClassName('data_color');
+        let allSize = document.getElementsByClassName('data_size');
+        let selectedColor = res.selectedColor[0];
+        let availableSizes = res.selectedSizes;
+        this.dynamicAttributeSize = res.selectedSizes;
+        let data = [];
+        this.filterAttribute(element, selectedColor, allSize, availableSizes, data);
       }
       else {
-        this.dynamicColorData = res.selectedColor;
+        this.dynamicColorData = res.allColors;
         this.dynamicSizeData = res.allSizes;
+        let element = document.getElementsByClassName('data_size');
+        let allColor = document.getElementsByClassName('data_color');
+        let selectedSize = res.selectedSizes[0];
+        let availableColors = res.selectedColor;
+        this.dynamicAttributeColor = res.selectedColor;
+        let data = [];
+        this.filterAttribute(element, selectedSize, allColor, availableColors, data);
       }
     }, (err) => {
       console.log(err)
     })
+  }
+
+  filterAttribute(element, selectedData, currentData, availableData, data) {
+    for (var i = 0; i < element.length; i++) {
+      if (element[i].innerHTML != selectedData) element[i].classList.add('unavailable');
+    }
+    for (var i = 0; i < currentData.length; i++) {
+      data.push(currentData[i].innerHTML);
+      currentData[i].classList.add('unavailable');
+      currentData[i].classList.remove('categ_outline_red');
+      currentData[i].classList.add('categ_outline_gray');
+    }
+    let notAvailabe = data.filter(val => availableData.includes(val));
+    for (var i = 0; i < notAvailabe.length; i++) {
+      for (var j = 0; j < currentData.length; j++) {
+        if (notAvailabe[i] == currentData[j].innerHTML) {
+          currentData[j].classList.remove('unavailable');
+          currentData[j].classList.remove('categ_outline_red');
+        }
+      }
+    }
   }
 
   filterIamgeURL() {
@@ -161,8 +240,13 @@ export class ViewProductComponent implements OnInit {
     }
   }
 
-  animateToTiles() {
-    var scroll = document.querySelector('.returnPolicy') as HTMLElement
+  animateToTiles(from) {
+    if (from == 'retailer') {
+      var scroll = document.querySelector('.returnPolicy') as HTMLElement
+    }
+    else {
+      var scroll = document.querySelector('.consumerReviews') as HTMLElement;
+    }
     animateScrollTo(scroll);
   }
 
