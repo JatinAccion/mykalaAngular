@@ -335,7 +335,7 @@ export class MyordersComponent implements OnInit {
     this.cancelOrderModel.orderItemId = order.productId;
     this.cancelOrderModel.chargeId = modal.payment.paymentNumber;
     this.myOrder.cancelOrder(this.cancelOrderModel).subscribe((res) => {
-      if (res == 'ORDERCANCELED') res = 'ORDER CANCELED';
+      if (res == 'ORDERCANCELLED') res = 'ORDER CANCELLED';
       order.productItemStatus = res;
       order.cancelOrder = true;
       order.trackOrder = true;

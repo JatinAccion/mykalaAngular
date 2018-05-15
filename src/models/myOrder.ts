@@ -64,8 +64,8 @@ export class MyOrders {
                 this.orderItems[j].contactSupport = false;
                 this.orderItems[j].trackOrder = false;
                 this.orderItems[j].showCustomerSupport = false;
-            } else if (order.productItemStatus === 'ORDERCANCELED') {
-                this.orderItems[j].productItemStatus = 'ORDER CANCELED';
+            } else if (order.productItemStatus === 'ORDERCANCELLED') {
+                this.orderItems[j].productItemStatus = 'ORDER CANCELLED';
                 this.orderItems[j].leaveReview = true;
                 this.orderItems[j].cancelOrder = true;
                 this.orderItems[j].contactSupport = true;

@@ -487,6 +487,7 @@ export class Step2Component implements OnInit {
   }
 
   skip() {
+    window.localStorage['GetOfferPrice'] = JSON.stringify(this.getObjectFromOrder);
     localStorage.removeItem('GetOfferStep_2');
     this.route.navigate(['/getoffer', 'step3']);
   }
