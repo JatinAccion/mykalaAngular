@@ -32,6 +32,7 @@ import { TrackOrderComponent } from './components/track-order/track-order.compon
 import { MyNewsAlertsComponent } from './components/my-news-alerts/my-news-alerts.component';
 import { MailEntryRoutingModule } from './components/mail-entry/mail-entry-routing.module';
 import { ElasticSearchResult } from './components/elastic-search-result/elastic-search-result.component';
+import { ViewOfferComponent } from './components/view-offer/view-offer.component';
 
 const appRoutes: Routes = [
     {
@@ -101,6 +102,12 @@ const appRoutes: Routes = [
         path: 'view-product',
         component: ViewProductComponent,
         data: { header: 'header1' }
+    },
+    {
+        path: 'view-offer',
+        component: ViewOfferComponent,
+        data: { header: 'header1' },
+        canActivate: [EnsureAuthenticated]
     },
     {
         path: 'mycart',

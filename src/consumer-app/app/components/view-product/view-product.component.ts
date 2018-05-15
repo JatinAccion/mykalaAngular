@@ -320,24 +320,7 @@ export class ViewProductComponent implements OnInit {
         let image = this.selectedProduct.product.productImages[i]
         if (image.mainImage == true) this.addToCartModal.productImage = image.location;
       }
-      if (to === 'toCart') window.localStorage['addedInCart'] = JSON.stringify(this.addToCartModal);
-      else {
-        if (window.localStorage['existingItemsInWishList'] != undefined) {
-          let wishListItems = JSON.parse(window.localStorage['existingItemsInWishList']);
-          for (var i = 0; i < wishListItems.length; i++) {
-            if (this.addToCartModal.productId == wishListItems[i].productId) {
-              if (eval(`${this.addToCartModal.quantity + wishListItems[i].quantity}`) > wishListItems[i].inStock) {
-                alert("Can't proceed");
-                localStorage.removeItem('savedForLater');
-                return false;
-              }
-              else window.localStorage['savedForLater'] = JSON.stringify(this.addToCartModal);
-            }
-            else window.localStorage['savedForLater'] = JSON.stringify(this.addToCartModal);
-          }
-        }
-        else window.localStorage['savedForLater'] = JSON.stringify(this.addToCartModal);
-      }
+      window.localStorage['addedInCart'] = JSON.stringify(this.addToCartModal);
       window.localStorage['callSaveCart'] = true;
       this.route.navigateByUrl('/mycart');
     }

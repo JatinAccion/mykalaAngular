@@ -67,19 +67,15 @@
             <div class="col-sm-5 multi_scroll" style="height: 400px">
               <div class="row p-2 mb-4" *ngFor="let product of offer.getOffersResponse">
                 <div class="col-sm-4 p-0 productImage">
-                  <img (click)="core.getProductDetails(product.product.kalaUniqueId)" src="/consumer-app/assets/images/product1.png" class="img-fluid cursor" />
+                  <img (click)="viewOfferDetails(product)" src="/consumer-app/assets/images/product1.png" class="img-fluid cursor" />
                 </div>
                 <div class="col-sm-8">
                   <p>
-                    <strong (click)="core.getProductDetails(product.product.kalaUniqueId)" class="cursor">{{product.product.productName}}</strong>
+                    <strong (click)="viewOfferDetails(product)" class="cursor">{{product.product.productName}}</strong>
                   </p>
                   <div>
                     <u>{{product.retailerName}}</u>
                     <span class="float-right colorred w-100"> Offer Price: {{product.offerPrice | currency}} </span>
-                    <br />
-                    <span class="float-right colorred w-100"> Difference: {{product.difference}} </span>
-                    <br />
-                    <span class="float-right colorred w-100"> Price Match Score: {{product.priceMatchScore}} </span>
                   </div>
                 </div>
               </div>

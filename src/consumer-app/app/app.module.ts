@@ -75,6 +75,8 @@ import { MyAlertsService } from './services/MyNewsAlertsService';
 import { MailEntryModule } from './components/mail-entry/mail-entry.module';
 import { ElasticSearchResult } from './components/elastic-search-result/elastic-search-result.component';
 import { MyCartService } from './services/mycart.service';
+import { ViewOfferComponent } from './components/view-offer/view-offer.component';
+import { ViewOfferService } from './services/viewOffer.service';
 
 @NgModule({
   declarations: [
@@ -114,7 +116,8 @@ import { MyCartService } from './services/mycart.service';
     LeaveReviewComponent,
     TrackOrderComponent,
     MyNewsAlertsComponent,
-    ElasticSearchResult
+    ElasticSearchResult,
+    ViewOfferComponent
   ],
   imports: [
     BrowserModule,
@@ -152,6 +155,7 @@ import { MyCartService } from './services/mycart.service';
     GetOfferService,
     CheckoutService,
     MyCartService,
+    ViewOfferService,
     {
       provide: NgbDateParserFormatter,
       useClass: NgbDateFRParserFormatter

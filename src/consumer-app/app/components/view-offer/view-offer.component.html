@@ -6,7 +6,7 @@
     <!--Title-->
     <div class="title web-title">
       <h2>{{selectedProduct.product.productName}} |
-        <span class="btnClose" routerLink="/browse-product" style="cursor: pointer">X</span>
+        <span class="btnClose" routerLink="/myoffer" style="cursor: pointer">X</span>
       </h2>
     </div>
     <!--Title-->
@@ -38,7 +38,7 @@
           <div class="title backgroundWhite row mob-title">
             <div class="col-12 p-0">
               <h2>{{selectedProduct.product.productName}} |
-                <span class="btnClose" routerLink="/browse-product" style="cursor: pointer">X</span>
+                <span class="btnClose" routerLink="/myoffer" style="cursor: pointer">X</span>
               </h2>
             </div>
           </div>
@@ -51,21 +51,14 @@
       <div class="col-sm-6 col-12 productDtl-right">
         <div class="row mob-title">
           <div class="col-12 p-0 pl-2">
-            <!-- <img src="/consumer-app/assets/images/prod-thumb.png" /> -->
             <u style="cursor:pointer" (click)="animateToTiles('retailer')">{{selectedProduct.product.retailerName}}</u>
           </div>
         </div>
 
         <div class="row">
-          <h4 class="col-12 pl-4 pr-4 text_multiple" *ngIf="selectedProduct.product.retailPrice <= selectedProduct.product.kalaPrice;else showDefault">
+          <h4 class="col-12 pl-4 pr-4 text_multiple">
             <span class="priceFontSize">{{selectedProduct.product.kalaPrice | currency}}</span>
           </h4>
-          <ng-template #showDefault>
-            <h4 class="col-12 pl-4 pr-4 text_multiple">
-              <span class="priceFontSize">{{selectedProduct.product.kalaPrice | currency}}</span>
-              <span style="text-decoration: line-through; font-size: 16px; margin-left: 20px;">{{selectedProduct.product.retailPrice | currency}}</span>
-            </h4>
-          </ng-template>
         </div>
 
         <div class="row" *ngIf="totalReviewSummary != undefined">
@@ -94,15 +87,8 @@
           </div>
         </div>
 
-        <!-- <strike>$258.00 +</strike> -->
         <div class="row">
           <div *ngIf="!alreadyAddedInCart" class="col-sm-12 pl-4 pt-3 mb-4">
-            <!-- <label>
-            <strong>Select Quantity</strong>
-          </label>
-          <select [(ngModel)]="quantity" [disabled]="selectedProduct.product.quantity == 0" class="form-control">
-            <option *ngFor="let i of inStock" value="{{i}}">{{i}}</option>
-          </select> -->
             <span *ngIf="selectedProduct.product.quantity > 0;else outOfStock">{{selectedProduct.product.quantity}} in stock</span>
             <ng-template #outOfStock>
               <span>Out of stock</span>
@@ -110,7 +96,7 @@
           </div>
 
           <div *ngIf="!alreadyAddedInCart" class="col-sm-12 p-2 pl-4 pr-4">
-            <input class="btn btn_red_right w-100" type="button" [disabled]="!quantity || selectedProduct.product.quantity == 0" (click)="addToCart('toCart')" value="buy it now" />
+            <input class="btn btn_red_right w-100" type="button" [disabled]="!quantity || selectedProduct.product.quantity == 0" (click)="addToCart('toCart')" value="accept" />
           </div>
 
           <div *ngIf="alreadyAddedInCart" class="col-sm-12 p-2 pl-4 pr-4 mt-3">
@@ -122,12 +108,12 @@
 
           <div *ngIf="!alreadyAddedInCart" class="col-sm-12">
             <div class="row p-2">
-              <div class="col-sm-12">
-                <input class="btn w-100 btn_redouter_right" routerLink="/getoffer" type="button" value="get offers" />
+              <div class="col-sm-6">
+                <input class="btn w-100 btn_redouter_right" type="button" value="decline" />
               </div>
-              <!-- <div class="col-sm-6">
-              <input class="btn w-100 btn_redouter_right" type="button" [disabled]="!quantity" (click)="addToCart('toWishlist')" value="save for later" />
-            </div> -->
+              <div class="col-sm-6">
+                <input class="btn w-100 btn_redouter_right" type="button" value="save for later" routerLink="/myoffer" />
+              </div>
             </div>
           </div>
         </div>
@@ -208,7 +194,7 @@
             <div class="col-12 p-1 returnPolicy">
               <h4 class="subtitle">Returns and exchange policy</h4>
               <br />
-              <p class="w-100">{{selectedProduct.retailerReturns}}</p>
+              <p class="w-100">{{retailerPolicy}}</p>
             </div>
           </ng-template>
         </ngb-tab>
@@ -277,13 +263,6 @@
               <hr />
             </td>
           </tr>
-          <!-- <tr>
-        <td class="p-0 text-right">
-          <a href="#" class="colorred">
-            <small>show more</small>
-          </a>
-        </td>
-      </tr> -->
         </table>
         <ng-template #noReviews>
           <div class="row w-100">
@@ -305,21 +284,3 @@
     </div>
   </div>
 </div>
-
-<!--Promt For Login-->
-<ng-template #viewProductModal let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h4 class="modal-title">Buy Now</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <p>{{this.confirmValidationMsg.message}}</p>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outer btn_red_right" (click)="c('Close click'); confirmUser()">Yes</button>
-    <button type="button" class="btn btn-outer btn_redouter_right" (click)="c('Close click')">No</button>
-  </div>
-</ng-template>
-<!--Promt For Login-->
