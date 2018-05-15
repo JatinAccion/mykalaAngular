@@ -33,6 +33,7 @@ export class ViewProductComponent implements OnInit {
   dynamicAttributeSize: Array<any>;
   dynamicAttributeColor: Array<any>;
   totalReviewSummary: any;
+  retailerPolicy: string;
 
   constructor(
     public core: CoreService,
@@ -63,15 +64,22 @@ export class ViewProductComponent implements OnInit {
     this.getMainImage();
     this.getStockNumber();
     this.getReviews(this.selectedProduct.product.kalaUniqueId);
-    if (this.selectedProduct.product.attributes.Color != undefined && this.selectedProduct.product.attributes.Size != {}) {
-      this.loadAttributes(this.selectedProduct.product.attributes, fromInternalAPI);
+    if (this.selectedProduct.product.attributes != undefined && this.selectedProduct.product.attributes != {}) {
+      if (this.selectedProduct.product.attributes.Color != undefined && this.selectedProduct.product.attributes.Size != {}) {
+        this.loadAttributes(this.selectedProduct.product.attributes, fromInternalAPI);
+      }
+      else {
+        this.loadAttributes(this.selectedProduct.product.attributes, undefined);
+      }
     }
   }
 
   loadReviewsSummary(productId) {
     this.viewProduct.getReviewsSummary(productId).subscribe((res) => {
-      this.totalReviewSummary = res[0];
-      this.totalReviewSummary.average = parseInt(this.totalReviewSummary.avg);
+      if (res.length > 0) {
+        this.totalReviewSummary = res[0];
+        this.totalReviewSummary.average = parseInt(this.totalReviewSummary.avg);
+      }
     }, (err) => {
       console.log(err);
     })
@@ -79,10 +87,7 @@ export class ViewProductComponent implements OnInit {
 
   loadRetailerPolicy(retailerId) {
     this.viewProduct.getRetailerPolicy(retailerId).subscribe((res) => {
-      let data = JSON.parse(window.localStorage['selectedProduct']);
-      data.product.returnPolicy = res.returnPolicy;
-      window.localStorage['selectedProduct'] = JSON.stringify(data);
-      this.selectedProduct = JSON.parse(window.localStorage['selectedProduct']);
+      this.retailerPolicy = res.returnPolicy;
     }, (err) => {
       console.log(err);
     })
@@ -93,7 +98,6 @@ export class ViewProductComponent implements OnInit {
     if (fromInternalAPI == undefined) {
       if (this.selectedProduct.product.attributes.Color != undefined && this.selectedProduct.product.attributes.Size != undefined) {
         this.viewProduct.getDynamicAttributes(this.selectedProduct, this.selectedProduct.product.attributes.Color, "").subscribe((res) => {
-          console.log(res);
           this.dynamicColorData = res.allColors;
           this.dynamicSizeData = res.allSizes;
         }, (err) => {
@@ -146,14 +150,12 @@ export class ViewProductComponent implements OnInit {
     e.currentTarget.classList.add("categ_outline_red");
     if (this.dynamicAttributeSize != undefined && this.dynamicAttributeColor != undefined) {
       if (from == 'color') {
-        console.log(this.dynamicAttributeColor);
         if (this.dynamicAttributeColor.indexOf(data) === -1) {
           sendOnlyColor = true;
           sendOnlySize = false;
         }
       }
       else {
-        console.log(this.dynamicAttributeSize);
         if (this.dynamicAttributeSize.indexOf(data) === -1) {
           sendOnlyColor = false;
           sendOnlySize = true;
@@ -162,7 +164,6 @@ export class ViewProductComponent implements OnInit {
     }
     //Get Product
     this.viewProduct.getProductDetails(this.selectedProduct, data, from, lastColor, lastSize, sendOnlyColor, sendOnlySize).subscribe((res) => {
-      console.log(res);
       this.productListingModal = new BrowseProductsModal(res);
       window.localStorage['selectedProduct'] = JSON.stringify(this.productListingModal);
       this.loadProductInfo('fromInternalAPI');
@@ -175,7 +176,6 @@ export class ViewProductComponent implements OnInit {
     })
     //Get Color and Sizes
     this.viewProduct.getDynamicAttributes(this.selectedProduct, data, from).subscribe((res) => {
-      console.log(res);
       if (selectionMade == 'color') {
         this.dynamicColorData = res.allColors;
         this.dynamicSizeData = res.allSizes;

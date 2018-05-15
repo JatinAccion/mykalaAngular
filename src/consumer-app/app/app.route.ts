@@ -77,12 +77,14 @@ const appRoutes: Routes = [
     {
         path: 'checkout',
         component: CheckoutComponent,
-        data: { header: 'header1' }
+        data: { header: 'header1' },
+        canActivate: [EnsureAuthenticated]
     },
     {
         path: 'trackOrder',
         component: TrackOrderComponent,
-        data: { header: 'header1' }
+        data: { header: 'header1' },
+        canActivate: [EnsureAuthenticated]
     },
     {
         path: 'getoffer',
@@ -103,32 +105,38 @@ const appRoutes: Routes = [
     {
         path: 'mycart',
         component: MycartComponent,
-        data: { header: 'header1' }
+        data: { header: 'header1' },
+        canActivate: [EnsureAuthenticated]
     },
     {
         path: 'myorder',
         component: MyordersComponent,
-        data: { header: 'header1' }
+        data: { header: 'header1' },
+        canActivate: [EnsureAuthenticated]
     },
     {
         path: 'myaccount',
         component: MyaccountComponent,
-        data: { header: 'header1' }
+        data: { header: 'header1' },
+        canActivate: [EnsureAuthenticated]
     },
     {
         path: 'myoffer',
         component: MyoffersComponent,
-        data: { header: 'header1' }
+        data: { header: 'header1' },
+        canActivate: [EnsureAuthenticated]
     },
     {
         path: 'myalerts',
         component: MyNewsAlertsComponent,
-        data: { header: 'header1' }
+        data: { header: 'header1' },
+        canActivate: [EnsureAuthenticated]
     },
     {
         path: 'leave-review',
         component: LeaveReviewComponent,
-        data: { header: 'header1' }
+        data: { header: 'header1' },
+        canActivate: [EnsureAuthenticated]
     },
     {
         path: 'logout',
