@@ -2720,11 +2720,6 @@ label{display:block}
 .customSlider{
     background: #fff;
     height: 400px;
-    box-shadow: 3px 2px 3px #eee;
-    -moz-box-shadow: 3px 2px 3px #eee;
-    -webkit-box-shadow: 3px 2px 3px #eee;
-    -o-box-shadow: 3px 2px 3px #eee;
-    -ms-box-shadow: 3px 2px 3px #eee;
     position: relative;
     z-index: 1;
 }
@@ -3007,4 +3002,22 @@ table.customeTable tr td {
 }
 .unavailable {
     border: 1px dashed #b1b1b1;
+}
+.productHeading{
+    font-size: 25px;
+    padding-left: 8px;
+    font-family: 'open_sanssemibold';
+    margin-top: 8px;
+    line-height: 32px;
+}
+.sliderContentContainer {
+    background:#fff
+}
+.sliderShadow{
+    box-shadow: 3px 2px 3px #eee;
+    -moz-box-shadow: 3px 2px 3px #eee;
+    -webkit-box-shadow: 3px 2px 3px #eee;
+    -o-box-shadow: 3px 2px 3px #eee;
+    -ms-box-shadow: 3px 2px 3px #eee;
+    z-index: 1;
 }
