@@ -50,7 +50,8 @@ export class ElasticSearchResult implements OnInit {
     updateStorage.subType.imgUrl = tile.product.mainImageSrc;
     window.localStorage['levelSelections'] = JSON.stringify(updateStorage);
     window.localStorage['selectedProduct'] = JSON.stringify(tile);
-    this.route.navigateByUrl("/view-product")
+    this.route.navigateByUrl("/view-product");
+    window.localStorage['fromES'] = true;
   }
 
 }

@@ -42,6 +42,7 @@ export const apiNames = {
         getTypes: 'types',
         getProduct: 'productDetails',
         search: 'textSearch?type',
+        typeAhead: 'typeAhead',
         dynamicAttributes: 'dynamicAttributes',
         productDetails: 'productDetails'
     },

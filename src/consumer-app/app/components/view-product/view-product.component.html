@@ -6,7 +6,10 @@
     <!--Title-->
     <div class="title web-title">
       <h2>{{selectedProduct.product.productName}} |
-        <span class="btnClose" routerLink="/browse-product" style="cursor: pointer">X</span>
+        <span *ngIf="fromES;else default" class="btnClose" routerLink="/elastic-product" style="cursor: pointer">X</span>
+        <ng-template #default>
+          <span class="btnClose" routerLink="/browse-product" style="cursor: pointer">X</span>
+        </ng-template>
       </h2>
     </div>
     <!--Title-->

@@ -34,6 +34,7 @@ export class ViewProductComponent implements OnInit {
   dynamicAttributeColor: Array<any>;
   totalReviewSummary: any;
   retailerPolicy: string;
+  fromES: boolean;
 
   constructor(
     public core: CoreService,
@@ -46,6 +47,10 @@ export class ViewProductComponent implements OnInit {
     this.core.hide();
     this.core.searchMsgToggle();
     localStorage.removeItem("addedInCart");
+    if (window.localStorage['fromES'] != undefined) {
+      this.fromES = true;
+      localStorage.removeItem('fromES');
+    }
     if (window.localStorage['userInfo'] != undefined) this.userData = JSON.parse(window.localStorage['userInfo'])
     if (window.localStorage['selectedProduct'] != undefined) {
       this.loadProductInfo(undefined);

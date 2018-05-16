@@ -3021,3 +3021,33 @@ table.customeTable tr td {
     -ms-box-shadow: 3px 2px 3px #eee;
     z-index: 1;
 }
+.suggesstionList {
+    position: absolute;
+    background: #fff;
+    z-index: 1;
+    top: 37px;
+    left: 14px;
+    width: 272px;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    box-shadow: 1px 0px 14px #6f6f6f99;
+    -moz-box-shadow: 1px 0px 14px #6f6f6f99;
+    -webkit-box-shadow: 1px 0px 14px #6f6f6f99;
+    -o-box-shadow: 1px 0px 14px #6f6f6f99;
+    -ms-box-shadow: 1px 0px 14px #6f6f6f99;
+}
+.suggesstionList li{
+    list-style: none;
+    cursor: pointer;
+    padding: 5px 12px;
+}
+.suggesstionList li:hover {
+    background: #e06263;
+    color: #fff;
+    font-family: 'open_sanssemibold';
+}
+.suggesstionList li.activeList{
+    background: #e06263;
+    color: #fff;
+    font-family: 'open_sanssemibold';
+}

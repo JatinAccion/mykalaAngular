@@ -4,13 +4,14 @@
         <h1>Take the Search out of Shopping</h1>
         <h4>Your Online Shopping Experience. Personalized.</h4>
         <div class="banner_action d-inline-block">
-            <form>
-                <input type="text" #searchBar class="form-control float-left" placeholder="What can we help you find?" />
-                <button (click)="core.search(searchBar.value)" type="submit" class="btn btn-red float-left text-center">
-                    <span *ngIf="!core.loaderSearch">EXPLORE</span>
-                    <img *ngIf="core.loaderSearch" src="/consumer-app/assets/images/loaderWhite.gif" style="margin-top: -3px" />
-                </button>
-            </form>
+            <input type="text" #searchBar (blur)="core.hideSuggesstionList()" (keydown)="core.navigateSL($event)" (keyup)="core.searchSuggestion(searchBar.value, $event)" class="form-control float-left" placeholder="What can we help you find?" />
+            <button (click)="core.search(searchBar.value)" class="btn btn-red float-left text-center">
+                <span *ngIf="!core.loaderSearch">EXPLORE</span>
+                <img *ngIf="core.loaderSearch" src="/consumer-app/assets/images/loaderWhite.gif" style="margin-top: -3px" />
+            </button>
+            <ol class="p-0 float-left text-left suggesstionList" *ngIf="core.suggesstionList != undefined && core.suggesstionList.length > 0">
+                <li *ngFor="let list of core.suggesstionList; let i = index" (click)="core.search(list)" [ngClass]="{'activeList':i == core.arrowkeyLocation}">{{list}}</li>
+            </ol>
         </div>
     </div>
     <div class="row hdr_footer">
