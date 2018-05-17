@@ -9,7 +9,7 @@
 <div class="row m-2" *ngIf="showSelect">
     <div class="input-group">
         <select class="  form-control" [(ngModel)]="prodAttr.strValue" (change)="saveData()">
-            <option value="">Select {{prodAttr.key}}</option>
+            <option value selected disabled>Select {{prodAttr.key}}</option>
             <option *ngFor="let option of data" value="{{option}}">
                 {{option}}
             </option>

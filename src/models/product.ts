@@ -39,7 +39,8 @@ export class Product {
     public isCollapsed: boolean | null = true;
     public mainImage: ProductImage;
     public otherImages: ProductImage[] | null = new Array<ProductImage>();
-    public attributes: Map<string, object>;
+    public attributes: Map<string, string>;
+    public attributeArray: Array<ProdAttr>;
     public taxCode: string;
     public reviewCount: number;
     public weight: number;
@@ -52,7 +53,7 @@ export class Product {
     constructor(obj?: any) {
         this.otherImages = new Array<ProductImage>();
         this.productImages = new Array<ProductImage>();
-        this.attributes = new Map<string, object>();
+        this.attributeArray = new Array<ProdAttr>();
         this.productHierarchy = new Array<ProductLevel>();
         this.productTypeLevels = new ProductTypeLevels();
         if (obj) {
@@ -91,8 +92,11 @@ export class Product {
             this.length = obj.length;
             this.height = obj.height;
             this.width = obj.width;
-            if (obj.attributes) {
+            if (obj.attributes && JSON.stringify(obj.attributes) !== '{}') {
                 this.attributes = obj.attributes;
+                Object.entries(obj.attributes).map(p => {
+                    this.attributeArray.push(new ProdAttr({ key: p[0], value: p[1] }));
+                });
                 this.brandName = obj.attributes.Brand;
                 // this.productTypeName = obj.attributes.Type;
             }
@@ -114,12 +118,12 @@ export class Product {
     }
 
     set brandName(val: string) {
-        if (this.attributes) {
-            this.attributes['Brand'] = val;
+        if (this.attributeArray) {
+            this.attributeArray['Brand'] = val;
         }
     }
     get brandName(): string {
-        return this.attributes['Brand'];
+        return this.attributeArray['Brand'];
     }
     get attributesList(): Array<ProdAttr> {
         if (this.attributes) {
@@ -135,11 +139,19 @@ export class Product {
         } return [];
     }
 
-    getAttributesList_AttrType(attributesMasterData?: Map<string, Array<string>>): Array<ProdAttr> {
-        if (this.attributes) {
-            const attributeList = Object.entries(this.attributes).map(p => new ProdAttr(p));
-            for (let i = 0; i < attributeList.length; i++) {
-                const element = attributeList[i];
+    getAttributesList_AttrType(attributesMasterData?: Array<ProdAttr>): Array<ProdAttr> {
+        if (!this.attributes) {
+            this.attributeArray = new Array<ProdAttr>();
+        }
+        if (attributesMasterData && attributesMasterData.length > 0) {
+            const attributeList = this.attributeArray.map(p => { p.attrType = 'hidden'; return p; });
+
+            attributesMasterData.forEach(p => {
+                let element = attributeList.firstOrDefault(q => q.key === p.key);
+                if (!element) {
+                    element = new ProdAttr({ key: p.key, value: '' });
+                    attributeList.push(element);
+                }
                 switch (element.key.toLowerCase()) {
                     case 'size':
                         element.attrType = 'string';
@@ -147,16 +159,17 @@ export class Product {
                     case 'unit':
                         element.attrType = 'hidden';
                         break;
+                    case 'price':
+                        element.attrType = 'hidden';
+                        break;
                     case 'features':
                         element.attrType = 'array';
                         break;
                     default:
-                        if (attributesMasterData && attributesMasterData[element.key]) {
-                            element.attrType = 'select';
-                        }
+                        element.attrType = 'select';
                         break;
                 }
-            }
+            });
             return attributeList;
         }
         return new Array<ProdAttr>();
@@ -195,9 +208,9 @@ export class ProdAttr {
     public attrType: string;
     constructor(obj?: any) {
         if (obj) {
-            this.key = obj[0];
-            this.placeholder = `${obj[0]}`;
-            const val = obj[1];
+            this.key = obj.key || obj[0];
+            this.placeholder = `${this.key}`;
+            const val = obj.value || obj[1] || '';
             this.value = val;
             this.attrType = 'string'; // typeof val;
             switch (typeof val) {
@@ -223,12 +236,12 @@ export class ProdAttr {
     }
 }
 export class ProductAttributesMasterData {
-    public attributes: Map<string, Array<string>>;
+    public attributes: Array<ProdAttr>;
     constructor(obj?: any) {
-        this.attributes = new Map<string, Array<string>>();
+        this.attributes = new Array<ProdAttr>();
         if (obj && obj.attributes) {
             Object.keys(obj.attributes).forEach(key => {
-                this.attributes[key] = obj.attributes[key];
+                this.attributes.push(new ProdAttr({ key: key, value: obj.attributes[key] }));
             });
         }
     }

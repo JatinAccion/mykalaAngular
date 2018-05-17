@@ -401,7 +401,7 @@ export class ReviewsReportComponent implements OnInit {
   }
   getPage(page: number) {
     this.loading = true;
-    const searchParams = { page: page - 1, size: 10, sortOrder: 'asc', elementType: 'retailerId', retailerName: this.retailerName };
+    const searchParams = { page: page - 1, size: 10, sortOrder: 'asc', elementType: 'businessName', retailerName: this.retailerName };
     this.reportsService.getReviews(searchParams).subscribe(res => {
       this.retailers = res;
       this.loading = false;

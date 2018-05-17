@@ -6,9 +6,9 @@
         </span>
     </div>
 </div>
-<div class="row m-2" *ngFor="let listItem of prodAttr.values; let in=index" >
-    <div class="input-group">
-        <input type="text" class="form-control"  [(ngModel)]="prodAttr.values[in]" (change)="saveData()"  >
+<div class="row m-2" *ngFor="let listItem of values;let in= index " >
+    <div class="input-group">       
+        <input type="text" class="form-control" [(ngModel)]="listItem.value" (change)="saveData()"  >
         <span class="input-group-addon" id="basic-addon1" (click)="deleteListItem(in)">X</span>
     </div>
 </div>

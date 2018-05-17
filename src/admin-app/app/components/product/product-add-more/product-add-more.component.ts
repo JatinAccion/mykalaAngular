@@ -44,7 +44,15 @@ export class ProductAddMoreComponent implements OnInit {
   }
 
   changeAttrValue(attr: ProdAttr) {
+    this.product.attributes = this.product.attributes || new Map<string, string>();
+    this.product.attributeArray = this.product.attributeArray || new Array<ProdAttr>();
     this.product.attributes[attr.key] = attr.value;
+    const existingAttr = this.product.attributeArray.firstOrDefault(p => p.key === attr.key);
+    if (existingAttr) {
+      existingAttr.value = attr.value;
+    } else {
+      this.product.attributeArray.push(attr);
+    }
   }
   deleteAttr(attr: ProdAttr) {
     delete this.product.attributes[attr.key];
@@ -70,8 +78,11 @@ export class ProductAddMoreComponent implements OnInit {
     });
   }
   getAttrbuteKeyMasterData(attr: ProdAttr) {
-    if (attr && this.attributesMasterData && this.attributesMasterData.attributes[attr.key] != null) {
-      return this.attributesMasterData.attributes[attr.key];
+    if (attr && this.attributesMasterData) {
+      const ele = this.attributesMasterData.attributes.firstOrDefault(p => p.key === attr.key);
+      if (ele) {
+        return ele.values;
+      }
     }
   }
 }

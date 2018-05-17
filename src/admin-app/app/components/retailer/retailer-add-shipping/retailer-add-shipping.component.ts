@@ -308,7 +308,13 @@ export class RetailerAddShippingComponent implements OnInit {
       }
     } else if (this.shippingObj.step === 2) {
       this.validatorExt.validateAllFormFields(this.shippingFG2);
-      if (this.validateShippingFG2()) { this.shippingObj.step++; } else { this.core.message.info(userMessages.noShippingmethodselected); }
+      if (!this.validateShippingFG2()) {
+        this.core.message.info(userMessages.noShippingmethodselected);
+      } else if (!this.validateShippingMethodCustomName()) {
+        this.core.message.info(userMessages.customShippingmethodName);
+      } else {
+        this.shippingObj.step++;
+      }
     }
     // if (this.shippingObj.step === 2) { this.setValidatorsFG2(); }
     if (this.shippingObj.step === 4) { this.shippingObj.step = 3; }
@@ -318,8 +324,13 @@ export class RetailerAddShippingComponent implements OnInit {
     if (this.shippingObj.step === 0) { this.shippingObj.step = 1; }
   }
   validateShippingFG2() {
-    return (this.shippingFG2.get('shippingMethods') as FormArray).controls.filter(p => p.get('selected').value == true).length > 0 &&
-      ((this.shippingFG2.get('shippingMethods')as FormArray).controls.filter(p => p.get('shippingMethodId').value === 4)[0] as FormGroup) .controls.shippingName.value !== ''      ;
+    return (this.shippingFG2.get('shippingMethods') as FormArray).controls.filter(p => p.get('selected').value == true).length > 0;
+  }
+  validateShippingMethodCustomName() {
+    const customShippingMethod = ((this.shippingFG2.get('shippingMethods') as FormArray).controls.filter(p => p.get('shippingMethodId').value === 4)[0] as FormGroup).controls;
+    if (customShippingMethod.selected.value != true || customShippingMethod.shippingName.value !== '') {
+      return true;
+    }
   }
   validateUniqueShippingName() {
     return this.shippings.shippings.filter(p => p.shippingProfileName === this.shippingObj.shippingProfileName && p.sequence !== this.shippingObj.sequence).length > 0;

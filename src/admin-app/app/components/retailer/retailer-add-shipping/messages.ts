@@ -9,6 +9,7 @@ export const userMessages = {
         ship_by_weight: 'ship_by_weight',
     },
     'noShippingmethodselected': 'Atleast one shipping method need to be selected',
+    'customShippingmethodName': 'Please enter a custom shipping method name',
     'duplicateShippingName': 'Please enter a valid and unique shipping profile',
     'tierRangesMismatch': 'Please enter a valid min value and max values, min value should be lesser than or equal to max value, max value should be lesser than or equal to next tier min value',
 };

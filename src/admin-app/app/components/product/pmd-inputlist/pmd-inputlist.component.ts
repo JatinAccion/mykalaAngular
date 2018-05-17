@@ -18,27 +18,32 @@ export class PmdInputListComponent implements OnInit {
   @Input() set prodAttr(prodAttr: ProdAttr) {
     this._prodAttr = this.formatValues(prodAttr);
   }
+  values = new Array<ProdAttr>();
   get prodAttr(): ProdAttr {
     return this._prodAttr;
   }
   formatValues(prodAttr: ProdAttr) {
-    while (prodAttr.values.length < 5) {
-      prodAttr.values.add('');
+    if (!prodAttr.values) {
+      prodAttr.values = new Array<string>();
     }
+    while (prodAttr.values.length < 5) {
+      prodAttr.values.push('');
+    }
+    this.values = prodAttr.values.map(p => new ProdAttr({ value: p }));
     return prodAttr;
   }
   // #endregion declaration
   constructor() { }
   ngOnInit() { }
   saveData() {
-    this.prodAttr.value = this.prodAttr.values;
+    this.prodAttr.value = this.values.map(p => p.value);
     this.prodAttrChange.emit(this.prodAttr);
   }
   delete() {
     this.onDelete.emit(this.prodAttr);
   }
   deleteListItem(index) {
-    this.prodAttr.values[index] = '';
+    this.values[index].value = '';
     this.saveData();
   }
   addListItem() {

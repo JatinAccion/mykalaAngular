@@ -80,6 +80,9 @@ export class RetailerOrder {
   products: Array<ProductOrderStatus>;
   sellerPaymentAmount: string;
   issue: string;
+  orderProcessedDate: Date;
+  orderShippedDate: Date;
+  orderDeliveredDate: Date;
 
   isCollapsed: boolean;
 
@@ -95,6 +98,9 @@ export class RetailerOrder {
       this.orderDate = obj.orderDate;
       this.orderAmount = obj.orderAmount;
       this.shippingCost = obj.shippingCost;
+      this.orderProcessedDate = obj.orderProcessedDate;
+      this.orderShippedDate = obj.orderShippedDate;
+      this.orderDeliveredDate = obj.orderDeliveredDate;
       if (obj.products) {
         this.products = obj.products.map(p => new ProductOrderStatus(p));
         this.orderStatus = this._OrderStatus;
@@ -142,6 +148,8 @@ export class RetailerOrders extends Pagination {
     if (obj && obj.length > 0) {
       super(obj[0]);
       this.content = obj.map(p => new RetailerOrder(p));
+    } else {
+      this.content = new Array<RetailerOrder>();
     }
   }
   public content: RetailerOrder[];

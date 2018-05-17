@@ -64,9 +64,11 @@ export class Inquiry {
 }
 export class Inquirys extends Pagination {
   constructor(obj?: any) {
-    if (obj) {
+    if (obj && obj.content && obj.content.length > 0) {
       super(obj);
       this.content = obj.content.map(p => new Inquiry(p));
+    } else {
+      this.content = new Array<Inquiry>();
     }
   }
   public content: Inquiry[];

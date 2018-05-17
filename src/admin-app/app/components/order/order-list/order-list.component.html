@@ -53,7 +53,7 @@
                         <td>{{order.retailerName}}</td>
                         <td>{{order.customerName}}</td>
                         <td>
-                            <div  *ngFor="let product of order.products">
+                            <div *ngFor="let product of order.products">
                                 <a class="colorBlue" target="_blank" class="text-nowrap" [routerLink]="['../product-edit', product.productId]">
                                     <span [ngSwitch]="product.productItemStatus">
                                         <i *ngSwitchCase="orderStatus.ORDERCANCELED" class="fa fa-times-circle" aria-hidden="true"></i>
@@ -81,6 +81,7 @@
                     </tr>
                 </tbody>
             </table>
+            <h3 *ngIf="!orders.content || orders.content.length == 0">No Orders are available</h3>
         </div>
     </div>
 </div>

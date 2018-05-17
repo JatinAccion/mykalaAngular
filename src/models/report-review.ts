@@ -37,7 +37,7 @@ export class ReviewItem {
             this.month = obj.month;
             this.total = obj.total;
             this.completed = obj.completed;
-            this.avg = obj.avg;
+            this.avg = Math.round(obj.avg * 100) / 100;
             this.count = obj.count;
             this.closedAccounts = obj.closedAccounts;
             this.newMembers = obj.newMembers;

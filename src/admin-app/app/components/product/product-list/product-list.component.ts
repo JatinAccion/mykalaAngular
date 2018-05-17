@@ -51,8 +51,8 @@ export class ProductListComponent implements OnInit {
   isCollapsed = true;
   bulkUploadView = false;
   page = 1;
-  sortColumn = 'createdDate';
-  sortDirection = 'asc';
+  sortColumn = 'productName';
+  sortDirection = 'desc';
   constructor(private productService: ProductService, private retialerService: RetialerService, route: ActivatedRoute, private core: CoreService) {
     this.products = new Products();
     this.sourceId = route.snapshot.params['id'];
@@ -168,7 +168,7 @@ export class ProductListComponent implements OnInit {
     this.loading = true;
 
     const searchParams = {
-      page: page - 1, size: 10, sortOrder: sortDirection, elementType: sortColumn, productName: this.productName, productStatus: [], productPlaceName: [], productCategoryName: [], productSubCategoryName: [], retailerId: [], sourceId: this.sourceId
+      page: (page - 1).toString(), size: '10', sortOrder: sortDirection, elementType: sortColumn, productName: this.productName, productStatus: [], productPlaceName: [], productCategoryName: [], productSubCategoryName: [], retailerId: [], sourceId: this.sourceId
     };
     if (this.productStatus === undefined) { delete searchParams.productStatus; } else { searchParams.productStatus = [this.productStatus]; }
     if (this.selectedPlaces.length > 0) { searchParams.productPlaceName = this.selectedPlaces.map(p => p.itemName); } else { delete searchParams.productPlaceName; }

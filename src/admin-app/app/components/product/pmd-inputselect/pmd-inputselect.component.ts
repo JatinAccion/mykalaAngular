@@ -32,7 +32,7 @@ export class PmdInputSelectComponent implements OnInit {
 
     }
     if (values && !values.firstOrDefault(p => p === 'Other')) {
-      values.add('Others');
+      values.add('Other');
     }
     return values;
   }

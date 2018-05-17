@@ -92,20 +92,20 @@
     <div class="col-sm-4 offset-2">
         <table width="100%" class="no_tdBorder" border="0">
             <tr>
-                <td width="60%">Order placed:</td>
-                <td width="40%">{{order.purchasedDate | date:'shortDate'}}</td>
+                <td width="40%">Order placed:</td>
+                <td width="60%">{{order.purchasedDate | date:'MMM dd, yyyy, hh:mm a'}}</td>
             </tr>
             <tr>
                 <td>Processed on:</td>
-                <td>{{order.purchasedDate | date:'shortDate'}}</td>
+                <td>{{retailerOrder.orderProcessedDate | date:'MMM dd, yyyy, hh:mm a'}}</td>
             </tr>
             <tr>
                 <td>Shipped on:</td>
-                <td>{{order.purchasedDate | date:'shortDate'}}</td>
+                <td>{{retailerOrder.orderShippedDate | date:'MMM dd, yyyy, hh:mm a'}}</td>
             </tr>
             <tr>
                 <td>Delivered on:</td>
-                <td>{{order.purchasedDate | date:'shortDate'}}</td>
+                <td>{{retailerOrder.orderDeliveredDate | date:'MMM dd, yyyy, hh:mm a'}}</td>
             </tr>
             <tr *ngIf="retailerOrder.orderStatus === 'Shipped' || retailerOrder.orderStatus === 'Delivered'">
                 <td>Seller payment status :</td>
