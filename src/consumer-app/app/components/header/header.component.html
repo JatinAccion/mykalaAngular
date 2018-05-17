@@ -13,12 +13,19 @@
         </div>
         <div class="col-sm-7 mt-2">
           <div class="dialogue dialogue_right clearfix">
-            <form (ngSubmit)="core.search(searchBar.value)">
+            <!-- <form (ngSubmit)="core.search(searchBar.value)">
               <input type="text" #searchBar placeholder="what can we help you find?">
               <span>
                 <img src="/consumer-app/assets/images/voice.png">
               </span>
-            </form>
+            </form> -->
+            <input type="text" [(ngModel)]="core.searchBar" (blur)="core.hideSuggesstionList()" (keydown)="core.navigateSL($event)" (keyup)="core.searchSuggestion(core.searchBar, $event)" placeholder="What can we help you find?">
+            <span>
+              <img src="/consumer-app/assets/images/voice.png">
+            </span>
+            <div class="p-0 float-left text-left suggesstionList suggesstionListBig" *ngIf="core.suggesstionList != undefined && core.suggesstionList.length > 0">
+              <button *ngFor="let list of core.suggesstionList; let i = index" (click)="core.search(list)" [ngClass]="{'activeList':i == core.arrowkeyLocation}">{{list}}</button>
+            </div>
           </div>
         </div>
         <div class="col-sm-4 col-12 text-right">
@@ -157,12 +164,19 @@
             <a class="dialogue dialogue_left">{{core.showHeaderMessage}}</a>
           </div>
           <div class="dialogue dialogue_right clearfix searchBox" *ngIf="core.showSearch">
-            <form (ngSubmit)="core.search(searchBar.value)">
+            <!-- <form (ngSubmit)="core.search(searchBar.value)">
               <input type="text" #searchBar placeholder="what can we help you find?">
               <span>
                 <img src="/consumer-app/assets/images/voice.png">
               </span>
-            </form>
+            </form> -->
+            <input type="text" [(ngModel)]="core.searchBar" (blur)="core.hideSuggesstionList()" (keydown)="core.navigateSL($event)" (keyup)="core.searchSuggestion(core.searchBar, $event)" placeholder="What can we help you find?">
+            <span>
+              <img src="/consumer-app/assets/images/voice.png">
+            </span>
+            <div class="p-0 float-left text-left suggesstionList suggesstionListBig" *ngIf="core.suggesstionList != undefined && core.suggesstionList.length > 0">
+              <button *ngFor="let list of core.suggesstionList; let i = index" (click)="core.search(list)" [ngClass]="{'activeList':i == core.arrowkeyLocation}">{{list}}</button>
+            </div>
           </div>
           <div *ngIf="!core.showSearch" class="col-sm-12 mb-3 p-0 text-right pr-3">
             <a class="dialogue dialogue_right colorwhite" [routerLink]="['/getoffer', 'step1']">{{core.searchMessage}}</a>

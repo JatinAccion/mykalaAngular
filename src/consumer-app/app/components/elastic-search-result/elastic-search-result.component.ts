@@ -12,7 +12,7 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./elastic-search-result.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class ElasticSearchResult implements OnInit {
+export class ElasticSearchResult implements OnInit, OnDestroy {
   s3 = environment.s3
   tilesData = [];
   loader: boolean = false;
@@ -38,7 +38,13 @@ export class ElasticSearchResult implements OnInit {
       this.loader = true;
       this.tilesData = p;
       this.loader = false;
+    }, (err) => {
+      this.loader = false;
     });
+  }
+
+  ngOnDestroy() {
+    this.core.searchBar = "";
   }
 
   viewDetails(tile) {

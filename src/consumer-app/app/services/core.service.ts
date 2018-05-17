@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ViewChild, ElementRef } from '@angular/core';
 import { Http } from '@angular/http';
 import { User, UserProfile } from '../../../models/user';
 import { environment } from '../../environments/environment';
@@ -31,15 +31,20 @@ export class CoreService {
   states = ['Alabama', 'Alaska', 'American Samoa', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District Of Columbia', 'Federated States Of Micronesia', 'Florida', 'Georgia', 'Guam', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Marshall Islands', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Northern Mariana Islands', 'Ohio', 'Oklahoma', 'Oregon', 'Palau', 'Pennsylvania', 'Puerto Rico', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tenneccssee', 'Texas', 'Utah', 'Vermont', 'Virgin Islands', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
   suggesstionList: Array<any>;
   arrowkeyLocation = 0;
+  resetToDefault: number;
+  showHeaderSuggestion: boolean = false;
+  searchBar: string;
 
   navigateSL(event: KeyboardEvent) {
     setTimeout(() => {
       switch (event.keyCode) {
         case 38: // this is the ascii of arrow up
           this.arrowkeyLocation--;
+          if (this.arrowkeyLocation == -1) this.arrowkeyLocation = this.resetToDefault - 1;
           break;
         case 40: // this is the ascii of arrow down
           this.arrowkeyLocation++;
+          if (this.arrowkeyLocation > this.resetToDefault - 1) this.arrowkeyLocation = 0
           break;
       }
     })
@@ -248,34 +253,48 @@ export class CoreService {
 
   search(text) {
     if (text !== '' || text !== undefined) {
+      this.searchBar = text;
       this.route.navigateByUrl("/elastic-product");
       this.loadProducts(text);
     }
   }
 
   searchSuggestion(text, e) {
-    if (e.keyCode != 38 && e.keyCode != 40) this.arrowkeyLocation = 0;
     this.suggesstionList = [];
-    if (text === '') this.suggesstionList = [];
-    else {
-      this.suggesstionList = this.states.filter(v => v.toLowerCase().indexOf(text.toLowerCase()) > -1).slice(0, 10)
+    //If Enter is Pressed
+    if (e.keyCode == 13) {
+      let keyword = document.getElementsByClassName('activeList')[0];
+      this.searchBar = keyword.innerHTML;
+      this.search(keyword.innerHTML);
     }
-    // else {
-    //   this.getProductSuggesstion(text).subscribe((res) => {
-    //     if (res.length > 0) {
-    //       this.suggesstionList = res.filter(v => v.toLowerCase().indexOf(text.toLowerCase()) > -1).slice(0, 10)
-    //     }
-    //   }, (err) => {
-    //     console.log(err)
-    //   })
-    // }
+    //Else
+    else {
+      if (e.keyCode != 38 && e.keyCode != 40) this.arrowkeyLocation = 0;
+      if (text === '') this.suggesstionList = [];
+      else {
+        this.searchBar = text;
+        this.suggesstionList = this.states.filter(v => v.toLowerCase().indexOf(text.toLowerCase()) > -1).slice(0, 10)
+        this.resetToDefault = this.suggesstionList.length;
+      }
+      /* else {
+        this.getProductSuggesstion(text).subscribe((res) => {
+          console.log(res);
+          if (res.length > 0) {
+            this.suggesstionList = res.filter(v => v.toLowerCase().indexOf(text.toLowerCase()) > -1).slice(0, 10)
+            this.resetToDefault = this.suggesstionList.length;
+          }
+        }, (err) => {
+          console.log(err)
+        })
+      } */
+    }
   }
 
   hideSuggesstionList() {
     setTimeout(() => {
       this.suggesstionList = [];
       this.arrowkeyLocation = 0;
-    }, 1000)
+    }, 200)
   }
 
   allowOnlyNumbers(event) {

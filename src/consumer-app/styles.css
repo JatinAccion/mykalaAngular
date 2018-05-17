@@ -3036,17 +3036,26 @@ table.customeTable tr td {
     -o-box-shadow: 1px 0px 14px #6f6f6f99;
     -ms-box-shadow: 1px 0px 14px #6f6f6f99;
 }
-.suggesstionList li{
-    list-style: none;
+.suggesstionList button{
     cursor: pointer;
     padding: 5px 12px;
+    text-align: left;
+    border: none;
+    width: 100%;
+    background: #fff;
+    font-family: 'open_sansregular';
 }
-.suggesstionList li:hover {
+.suggesstionListBig{
+    top: 40px;
+    left: 23px;
+    width: 595px;
+}
+.suggesstionList button:hover {
     background: #e06263;
     color: #fff;
     font-family: 'open_sanssemibold';
 }
-.suggesstionList li.activeList{
+.suggesstionList button.activeList{
     background: #e06263;
     color: #fff;
     font-family: 'open_sanssemibold';
