@@ -175,7 +175,9 @@ export class Step2Component implements OnInit {
   showHideElements() {
     for (var i = 0; i < this.getObjectFromOrder.length; i++) {
       let elements = this.getObjectFromOrder[i];
-      if (elements.values.length > 5) this.getObjectFromOrder[i].hideRemaining = true;
+      if (elements.values.length > 5) {
+        if (this.getObjectFromOrder[i].hideRemaining == undefined || this.getObjectFromOrder[i].hideRemaining) this.getObjectFromOrder[i].hideRemaining = true;
+      }
     }
   }
 
@@ -196,6 +198,7 @@ export class Step2Component implements OnInit {
         if (i > 4) elements[i].classList.add("d-none");
       }
       offer.hideRemaining = true;
+      offer.expanded = false;
     }
     else {
       e.currentTarget.innerHTML = "show less -"
@@ -203,6 +206,7 @@ export class Step2Component implements OnInit {
         if (elements[i].classList.contains("d-none")) elements[i].classList.remove("d-none");
       }
       offer.hideRemaining = false;
+      offer.expanded = true;
     }
   }
 
