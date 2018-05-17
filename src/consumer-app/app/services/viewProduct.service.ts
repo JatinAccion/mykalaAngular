@@ -13,6 +13,17 @@ export class ViewProductService {
         return this.http.get(url).map((res) => res.json());
     }
 
+    getReviewsSummary(productId) {
+        const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.review}/${environment.apis.profileInterest.productReviewSummary}/${productId}`;
+        return this.http.get(url).map((res) => res.json());
+    }
+
+    getRetailerPolicy(retailerId) {
+        const BASE_URL: string = environment.shippingMethod;
+        const url: string = `${BASE_URL}/retailer/v1/${retailerId}/${environment.apis.shippingMethod.retailerPolicy}`;
+        return this.http.get(url).map((res) => res.json());
+    }
+
     getDynamicAttributes(selectedProduct, data, from) {
         const BASE_URL: string = environment.productList;
         let url: string;
@@ -21,16 +32,24 @@ export class ViewProductService {
         return this.http.get(url).map((res) => res.json());
     }
 
-    getProductDetails(selectedProduct, data, from, lastColor?: any, lastSize?: any) {
+    getProductDetails(selectedProduct, data, from, lastColor?: any, lastSize?: any, sendOnlyColor?: any, sendOnlySize?: any) {
         const BASE_URL: string = environment.productList;
         let url: string;
-        if (from == 'color') {
-            if (lastSize != undefined) url = `${BASE_URL}/${environment.apis.products.productDetails}?retailerName=${selectedProduct.product.retailerName}&productName=${selectedProduct.product.productName}&productPlaceName=${selectedProduct.product.productPlaceName}&productCategoryName=${selectedProduct.product.productCategoryName}&productSubCategoryName=${selectedProduct.product.productSubCategoryName}&Color=${data}&Size=${lastSize}`;
-            else url = `${BASE_URL}/${environment.apis.products.productDetails}?retailerName=${selectedProduct.product.retailerName}&productName=${selectedProduct.product.productName}&productPlaceName=${selectedProduct.product.productPlaceName}&productCategoryName=${selectedProduct.product.productCategoryName}&productSubCategoryName=${selectedProduct.product.productSubCategoryName}&Color=${data}`;
+        if (sendOnlyColor) {
+            url = `${BASE_URL}/${environment.apis.products.productDetails}?retailerName=${selectedProduct.product.retailerName}&productName=${selectedProduct.product.productName}&productPlaceName=${selectedProduct.product.productPlaceName}&productCategoryName=${selectedProduct.product.productCategoryName}&productSubCategoryName=${selectedProduct.product.productSubCategoryName}&Color=${data}`;
+        }
+        else if (sendOnlySize) {
+            url = `${BASE_URL}/${environment.apis.products.productDetails}?retailerName=${selectedProduct.product.retailerName}&productName=${selectedProduct.product.productName}&productPlaceName=${selectedProduct.product.productPlaceName}&productCategoryName=${selectedProduct.product.productCategoryName}&productSubCategoryName=${selectedProduct.product.productSubCategoryName}&Size=${data}`;
         }
         else {
-            if (lastColor != undefined) url = `${BASE_URL}/${environment.apis.products.productDetails}?retailerName=${selectedProduct.product.retailerName}&productName=${selectedProduct.product.productName}&productPlaceName=${selectedProduct.product.productPlaceName}&productCategoryName=${selectedProduct.product.productCategoryName}&productSubCategoryName=${selectedProduct.product.productSubCategoryName}&Size=${data}&Color=${lastColor}`;
-            else url = `${BASE_URL}/${environment.apis.products.productDetails}?retailerName=${selectedProduct.product.retailerName}&productName=${selectedProduct.product.productName}&productPlaceName=${selectedProduct.product.productPlaceName}&productCategoryName=${selectedProduct.product.productCategoryName}&productSubCategoryName=${selectedProduct.product.productSubCategoryName}&Size=${data}`;
+            if (from == 'color') {
+                if (lastSize != undefined) url = `${BASE_URL}/${environment.apis.products.productDetails}?retailerName=${selectedProduct.product.retailerName}&productName=${selectedProduct.product.productName}&productPlaceName=${selectedProduct.product.productPlaceName}&productCategoryName=${selectedProduct.product.productCategoryName}&productSubCategoryName=${selectedProduct.product.productSubCategoryName}&Color=${data}&Size=${lastSize}`;
+                else url = `${BASE_URL}/${environment.apis.products.productDetails}?retailerName=${selectedProduct.product.retailerName}&productName=${selectedProduct.product.productName}&productPlaceName=${selectedProduct.product.productPlaceName}&productCategoryName=${selectedProduct.product.productCategoryName}&productSubCategoryName=${selectedProduct.product.productSubCategoryName}&Color=${data}`;
+            }
+            else {
+                if (lastColor != undefined) url = `${BASE_URL}/${environment.apis.products.productDetails}?retailerName=${selectedProduct.product.retailerName}&productName=${selectedProduct.product.productName}&productPlaceName=${selectedProduct.product.productPlaceName}&productCategoryName=${selectedProduct.product.productCategoryName}&productSubCategoryName=${selectedProduct.product.productSubCategoryName}&Size=${data}&Color=${lastColor}`;
+                else url = `${BASE_URL}/${environment.apis.products.productDetails}?retailerName=${selectedProduct.product.retailerName}&productName=${selectedProduct.product.productName}&productPlaceName=${selectedProduct.product.productPlaceName}&productCategoryName=${selectedProduct.product.productCategoryName}&productSubCategoryName=${selectedProduct.product.productSubCategoryName}&Size=${data}`;
+            }
         }
         return this.http.get(url).map((res) => res.json());
     }

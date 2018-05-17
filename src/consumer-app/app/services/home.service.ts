@@ -24,8 +24,8 @@ export class HomeService {
   }
 
   getProductList(placeName, categoryName, subCategory?: any) {
-    if (subCategory != undefined) var url: string = `${this.BASE_URL}/subCategory?page=0&size=200&sortOrder=asc&elementType=createdDate&PlaceName=${placeName}&productCategoryName=${categoryName}&productSubCategoryName=${subCategory}`;
-    else var url: string = `${this.BASE_URL}/subCategory?page=0&size=200&sortOrder=asc&elementType=createdDate&PlaceName=${placeName}&productCategoryName=${categoryName}`;
+    if (subCategory != undefined) var url: string = `${this.BASE_URL}/browseProduct?page=0&size=200&sortOrder=asc&elementType=createdDate&productPlaceName=${placeName}&productCategoryName=${categoryName}&productSubCategoryName=${subCategory}`;
+    else var url: string = `${this.BASE_URL}/browseProduct?page=0&size=200&sortOrder=asc&elementType=createdDate&productPlaceName=${placeName}&productCategoryName=${categoryName}`;
 
     return this.http.get(url).map((res) => res.json());
   }

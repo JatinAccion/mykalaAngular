@@ -24,6 +24,7 @@ export class LogoutComponent implements OnInit {
     localStorage.removeItem("levelSelections");
     localStorage.removeItem("selectedProduct");
     localStorage.removeItem("TotalAmount");
+    localStorage.removeItem('GetOfferPrice');
     this.core.clearUser();
     this.core.hideUserInfo(true);
     this.router.navigateByUrl('/login');

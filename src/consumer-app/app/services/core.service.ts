@@ -28,6 +28,22 @@ export class CoreService {
   loaderSearch: boolean = false;
   public modalReference: any;
   esKey = new Subject<any[]>();
+  states = ['Alabama', 'Alaska', 'American Samoa', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District Of Columbia', 'Federated States Of Micronesia', 'Florida', 'Georgia', 'Guam', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Marshall Islands', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Northern Mariana Islands', 'Ohio', 'Oklahoma', 'Oregon', 'Palau', 'Pennsylvania', 'Puerto Rico', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tenneccssee', 'Texas', 'Utah', 'Vermont', 'Virgin Islands', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
+  suggesstionList: Array<any>;
+  arrowkeyLocation = 0;
+
+  navigateSL(event: KeyboardEvent) {
+    setTimeout(() => {
+      switch (event.keyCode) {
+        case 38: // this is the ascii of arrow up
+          this.arrowkeyLocation--;
+          break;
+        case 40: // this is the ascii of arrow down
+          this.arrowkeyLocation++;
+          break;
+      }
+    })
+  }
 
   constructor(
     private http: Http,
@@ -191,6 +207,11 @@ export class CoreService {
     return this.http.get(url).map((res) => res.json());
   }
 
+  getProductSuggesstion(text) {
+    const url: string = `${environment.productList}/${environment.apis.products.typeAhead}/${text}`;
+    return this.http.get(url).map((res) => res.json());
+  }
+
   filterIamgeURL() {
     for (var i = 0; i < this.tilesData.length; i++) {
       if (this.tilesData[i].product.productImages) {
@@ -226,8 +247,35 @@ export class CoreService {
   }
 
   search(text) {
-    this.route.navigateByUrl("/elastic-product");
-    this.loadProducts(text);
+    if (text !== '' || text !== undefined) {
+      this.route.navigateByUrl("/elastic-product");
+      this.loadProducts(text);
+    }
+  }
+
+  searchSuggestion(text, e) {
+    if (e.keyCode != 38 && e.keyCode != 40) this.arrowkeyLocation = 0;
+    this.suggesstionList = [];
+    if (text === '') this.suggesstionList = [];
+    else {
+      this.suggesstionList = this.states.filter(v => v.toLowerCase().indexOf(text.toLowerCase()) > -1).slice(0, 10)
+    }
+    // else {
+    //   this.getProductSuggesstion(text).subscribe((res) => {
+    //     if (res.length > 0) {
+    //       this.suggesstionList = res.filter(v => v.toLowerCase().indexOf(text.toLowerCase()) > -1).slice(0, 10)
+    //     }
+    //   }, (err) => {
+    //     console.log(err)
+    //   })
+    // }
+  }
+
+  hideSuggesstionList() {
+    setTimeout(() => {
+      this.suggesstionList = [];
+      this.arrowkeyLocation = 0;
+    }, 1000)
   }
 
   allowOnlyNumbers(event) {
