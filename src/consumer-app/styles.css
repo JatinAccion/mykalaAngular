@@ -1430,6 +1430,9 @@ h4.subtitle{
     color: #999999;
     font-size: 12px;
 }
+.bcpointer .bcpointerText{
+    text-decoration: underline
+}
 .profile_Edit{
     position: absolute;
     bottom: 0px;
