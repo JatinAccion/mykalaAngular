@@ -30,7 +30,7 @@
       <div class="col-sm-6 p-0 sliderShadow">
         <div class="container">
           <!-- main slider carousel -->
-          <div class="row">
+          <div class="row" *ngIf="selectedProduct.product.productImages != undefined && selectedProduct.product.productImages.length > 0">
             <ngb-carousel class="customSlider w-100">
               <ng-template ngbSlide *ngFor="let image of selectedProduct.product.productImages; let i=index">
                 <img src="{{image.location}}" alt="Slide {{i}}">

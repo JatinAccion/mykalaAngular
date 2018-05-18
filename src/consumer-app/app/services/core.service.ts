@@ -253,6 +253,7 @@ export class CoreService {
 
   search(text) {
     if (text !== '' || text !== undefined) {
+      localStorage.removeItem('esKeyword');
       this.searchBar = text;
       this.route.navigateByUrl("/elastic-product");
       this.loadProducts(text);
@@ -260,7 +261,7 @@ export class CoreService {
   }
 
   searchSuggestion(text, e) {
-    this.suggesstionList = [];
+    //this.suggesstionList = [];
     //If Enter is Pressed
     if (e.keyCode == 13) {
       let keyword = document.getElementsByClassName('activeList')[0];
@@ -271,22 +272,23 @@ export class CoreService {
     else {
       if (e.keyCode != 38 && e.keyCode != 40) this.arrowkeyLocation = 0;
       if (text === '') this.suggesstionList = [];
+      // else {
+      //   this.searchBar = text;
+      //   this.suggesstionList = this.states.filter(v => v.toLowerCase().indexOf(text.toLowerCase()) > -1).slice(0, 10)
+      //   this.resetToDefault = this.suggesstionList.length;
+      // }
       else {
-        this.searchBar = text;
-        this.suggesstionList = this.states.filter(v => v.toLowerCase().indexOf(text.toLowerCase()) > -1).slice(0, 10)
-        this.resetToDefault = this.suggesstionList.length;
-      }
-      /* else {
         this.getProductSuggesstion(text).subscribe((res) => {
           console.log(res);
           if (res.length > 0) {
-            this.suggesstionList = res.filter(v => v.toLowerCase().indexOf(text.toLowerCase()) > -1).slice(0, 10)
+            this.suggesstionList = res;
             this.resetToDefault = this.suggesstionList.length;
           }
+          else this.suggesstionList = [];
         }, (err) => {
           console.log(err)
         })
-      } */
+      }
     }
   }
 

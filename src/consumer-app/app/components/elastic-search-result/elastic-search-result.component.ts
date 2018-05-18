@@ -34,6 +34,7 @@ export class ElasticSearchResult implements OnInit, OnDestroy {
     this.core.headerScroll();
     localStorage.removeItem("selectedProduct");
     this.loader = true;
+    if (window.localStorage['esKeyword'] != undefined) this.core.search(window.localStorage['esKeyword']);
     this.core.esKey.subscribe(p => {
       this.loader = true;
       this.tilesData = p;
@@ -44,20 +45,15 @@ export class ElasticSearchResult implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    window.localStorage['esKeyword'] = this.core.searchBar;
     this.core.searchBar = "";
   }
 
   viewDetails(tile) {
-    let updateStorage = JSON.parse(window.localStorage['levelSelections']);
-    updateStorage.subType.id = tile.product.kalaUniqueId;
-    updateStorage.subType.name = tile.product.productName;
-    updateStorage.subType.text = tile.product.productName;
-    updateStorage.subType.level = "5";
-    updateStorage.subType.imgUrl = tile.product.mainImageSrc;
-    window.localStorage['levelSelections'] = JSON.stringify(updateStorage);
     window.localStorage['selectedProduct'] = JSON.stringify(tile);
     this.route.navigateByUrl("/view-product");
     window.localStorage['fromES'] = true;
+    window.localStorage['esKeyword'] = this.core.searchBar;
   }
 
 }

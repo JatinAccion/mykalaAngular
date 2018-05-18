@@ -56,17 +56,21 @@ export class ViewProductComponent implements OnInit {
       this.loadProductInfo(undefined);
     }
     if (window.localStorage['existingItemsInCart'] != undefined) this.itemsInCart();
-    this.selectedProduct.product.productImages.sort(function (x, y) {
-      return (x.mainImage === y.mainImage) ? 0 : x.mainImage ? -1 : 1;
-    });
+    if (this.selectedProduct.product.productImages) {
+      this.selectedProduct.product.productImages.sort(function (x, y) {
+        return (x.mainImage === y.mainImage) ? 0 : x.mainImage ? -1 : 1;
+      });
+    }
   }
 
   loadProductInfo(fromInternalAPI?: any) {
     this.selectedProduct = JSON.parse(window.localStorage['selectedProduct']);
     this.loadReviewsSummary(this.selectedProduct.product.kalaUniqueId);
     this.loadRetailerPolicy(this.selectedProduct.product.retailerId);
-    this.filterIamgeURL();
-    this.getMainImage();
+    if (this.selectedProduct.product.productImages) {
+      this.filterIamgeURL();
+      this.getMainImage();
+    }
     this.getStockNumber();
     this.getReviews(this.selectedProduct.product.kalaUniqueId);
     if (this.selectedProduct.product.attributes != undefined && this.selectedProduct.product.attributes != {}) {
