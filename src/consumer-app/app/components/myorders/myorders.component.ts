@@ -75,6 +75,12 @@ export class MyordersComponent implements OnInit {
       this.loader = false;
       this.myorderModal = res.map(p => new MyOrders(p));
       this.myorderModal.map(p => p.orderItems.filter(q => q.productItemStatus === 'ORDER PENDING').map(r => this.disableCancel(p, r)));
+      this.myorderModal.sort(function (a, b) {
+        var nameA = a.purchasedDate, nameB = b.purchasedDate
+        if (nameA < nameB) return -1
+        if (nameA > nameB) return 1
+        return 0
+      });
     }, (err) => {
       this.loader = false;
       console.log(err);
@@ -228,7 +234,7 @@ export class MyordersComponent implements OnInit {
         this.core.openModal(this.contactKalaModal)
         setTimeout(() => {
           this.core.modalReference.close();
-        }, 5000)
+        }, 7000)
         this.resetAll(order);
       }, (err) => {
         console.log('Something went wrong')
@@ -273,8 +279,8 @@ export class MyordersComponent implements OnInit {
     }
   }
 
-  getTotalCost(shippingCost, productCost, taxCost) {
-    return eval(`${shippingCost + productCost + taxCost}`);
+  getTotalCost(shippingCost, productCostWithQuantiy, taxCost) {
+    return eval(`${shippingCost + productCostWithQuantiy + taxCost}`);
   }
 
   getPurchaseDate(date) {

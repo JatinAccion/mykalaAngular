@@ -67,13 +67,24 @@
           </div>
         </div>
 
-        <div class="row" *ngIf="totalReviewSummary != undefined">
+        <div class="row" *ngIf="totalReviewSummary != undefined && totalReviewSummary != ''">
           <div class="col-12 pl-4 pr-4 mt-2">
             <span *ngFor="let rating of getRating(totalReviewSummary.average)">
               <i class="fa fa-star starIcon starIconView" aria-hidden="true"></i>
             </span>
-            <span class="cursor" style="color: blue" (click)="animateToTiles('reviews')">
+            <span *ngFor="let rating of getRating(totalReviewSummary.left)">
+              <i class="fa fa-star fa-star-gray starIcon starIconView" aria-hidden="true"></i>
+            </span>
+            <span class="cursor" style="color: blue" class="ml-2" (click)="animateToTiles('reviews')">
               <u>{{totalReviewSummary.total}}</u>
+            </span>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="selectedProduct.product.deliveryMethod != undefined">
+          <div class="col-sm-12 pl-4 pt-4 mb-2">
+            <span>Get it by
+              <span style="font-family: 'open_sansbold'">{{selectedProduct.product.deliveryMethod}}</span>
             </span>
           </div>
         </div>

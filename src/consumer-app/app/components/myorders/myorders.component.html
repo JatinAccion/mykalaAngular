@@ -97,7 +97,7 @@
               <div class="row">
                 <p class="col-sm-3 colorlightGray">Total:</p>
                 <p class="col-sm-9">
-                  <strong>{{getTotalCost(order.shippingCost, order.productPrice, order.productTaxCost) | currency}}</strong>
+                  <strong>{{getTotalCost(order.shippingCost, order.productPrice * order.productQuantity, order.productTaxCost) | currency}}</strong>
                 </p>
               </div>
               <div class="row">
@@ -153,8 +153,8 @@
     <p>Are you sure you want to cancel the order?</p>
   </div>
   <div class="modal-footer">
-      <button type="button" class="btn btn-outer btn_red_right" (click)="c('Close click'); confirmCancelOrder()">Yes</button>
-      <button type="button" class="btn btn-outer btn_redouter_right" (click)="c('Close click')">No</button>
+    <button type="button" class="btn btn-outer btn_red_right" (click)="c('Close click'); confirmCancelOrder()">Yes</button>
+    <button type="button" class="btn btn-outer btn_redouter_right" (click)="c('Close click')">No</button>
   </div>
 </ng-template>
 <!--Cancel Order-->

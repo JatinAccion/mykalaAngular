@@ -2492,7 +2492,9 @@ ngb-modal-window{
 .fa-star{
     color: #FABC2E !important;
 }
-
+.fa-star-gray{
+    color: #CCCCCC !important;
+}
 .imgVendor{
     border-radius:50px; 
     width:40px;
@@ -3062,4 +3064,13 @@ table.customeTable tr td {
     background: #e06263;
     color: #fff;
     font-family: 'open_sanssemibold';
+}
+.productNoImage{
+    border: 5px solid #ececec;
+    text-align: center;
+    width: 100%;
+    padding-top: 55px !important;
+    font-size: 18px;
+    background: #fbfbfb;
+    opacity: .4;
 }

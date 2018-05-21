@@ -63,13 +63,25 @@ export class ViewOfferComponent implements OnInit {
     if (this.selectedProduct.product.attributes != undefined && this.selectedProduct.product.attributes != {}) {
       this.filterAttributes(this.selectedProduct.product.attributes);
     }
+    this.getItBy(this.selectedProduct.product.shipProfileId);
+  }
+
+  getItBy(shippingProfileId) {
+    this.viewOffer.getItBy(shippingProfileId).subscribe((res) => {
+      console.log(res);
+      this.selectedProduct.product.deliveryMethod = this.getDeliveryDate(res, new Date())
+    }, (err) => {
+      console.log(err);
+    })
   }
 
   loadReviewsSummary(productId) {
+    this.totalReviewSummary = '';
     this.viewOffer.getReviewsSummary(productId).subscribe((res) => {
       if (res.length > 0) {
         this.totalReviewSummary = res[0];
         this.totalReviewSummary.average = parseInt(this.totalReviewSummary.avg);
+        this.totalReviewSummary.left = eval(`${5 - this.totalReviewSummary.average}`)
       }
     }, (err) => {
       console.log(err);
@@ -89,6 +101,9 @@ export class ViewOfferComponent implements OnInit {
     for (var key in attributesData) {
       if (key == 'Unit') { this.unitValue = attributesData[key] }
       else {
+        if (key == 'Color' && attributesData[key].indexOf(';') > -1) {
+          attributesData[key] = attributesData[key].split(";").join(",");
+        }
         attributes.push({
           key: key,
           value: attributesData[key]
@@ -96,7 +111,9 @@ export class ViewOfferComponent implements OnInit {
       }
     }
     attributes.filter((x) => {
-      if (x.key == 'Size') { x.key = x.key + ' ' + '(' + this.unitValue + ')' }
+      if (x.key == 'Size') {
+        if (this.unitValue != undefined) x.key = x.key + ' ' + '(' + this.unitValue + ')'
+      }
     })
     this.selectedProduct.product.filteredAttr = attributes;
   }
@@ -185,6 +202,34 @@ export class ViewOfferComponent implements OnInit {
     window.localStorage['addedInCart'] = JSON.stringify(this.addToCartModal);
     window.localStorage['callSaveCart'] = true;
     this.route.navigateByUrl('/mycart');
+  }
+
+  getDeliveryDate(deliveryMethod, currentDate) {
+    let weekday = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
+    // Express: 3 to 5 business days Delivery
+    if (deliveryMethod == 'Express: 3 to 5 business days') {
+      let date = new Date(currentDate), locale = "en-us", month = date.toLocaleString(locale, { month: "long" });
+      let getDay = new Date(date.getTime() + 120 * 60 * 60 * 1000); //Calculating on the next 5days basis
+      return getDay.toLocaleString(locale, { month: "short" }) + ' ' + (getDay.getDate()) + ', ' + weekday[getDay.getDay()]
+    }
+    // 2 day: 2 business day shipping days Delivery
+    else if (deliveryMethod == '2 day: 2 business day shipping') {
+      let date = new Date(currentDate), locale = "en-us", month = date.toLocaleString(locale, { month: "long" });
+      let getDay = new Date(date.getTime() + 48 * 60 * 60 * 1000); //Calculating on the next 5days basis
+      return getDay.toLocaleString(locale, { month: "short" }) + ' ' + (getDay.getDate()) + ', ' + weekday[getDay.getDay()]
+    }
+    // Standard: 5 to 8 business days Delivery
+    else if (deliveryMethod == 'Standard: 5 to 8 business days') {
+      let date = new Date(currentDate), locale = "en-us", month = date.toLocaleString(locale, { month: "long" });
+      let getDay = new Date(date.getTime() + 192 * 60 * 60 * 1000); //Calculating on the next 5days basis
+      return getDay.toLocaleString(locale, { month: "short" }) + ' ' + (getDay.getDate()) + ', ' + weekday[getDay.getDay()]
+    }
+    // Next day: 1 business day shipping
+    else {
+      let date = new Date(currentDate), locale = "en-us", month = date.toLocaleString(locale, { month: "long" });
+      let getDay = new Date(date.getTime() + 24 * 60 * 60 * 1000); //Calculating on the next 5days basis
+      return getDay.toLocaleString(locale, { month: "short" }) + ' ' + (getDay.getDate()) + ', ' + weekday[getDay.getDay()]
+    }
   }
 
 }

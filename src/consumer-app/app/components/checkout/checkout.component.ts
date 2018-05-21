@@ -649,18 +649,22 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     let checkInStock = [];
     let proceed = false;
     if ((this.selectedAddressDetails || this.selectedCardDetails || this.selectedMethodDetails) == undefined) {
-      this.confirmValidationMsg.message = "Please select a Shipping Address, Shipping Method and a Card";
+      this.confirmValidationMsg.message = "Please select a Shipping Address, Shipping Method and Payment Option";
       this.core.openModal(this.checkoutModal);
     }
-    else if (this.selectedAddressDetails == undefined) {
-      this.confirmValidationMsg.message = "Please select a Shipping Address";
+    else if (this.selectedAddressDetails == undefined && this.selectedMethodDetails == undefined) {
+      this.confirmValidationMsg.message = "Please select a Shipping Address and Shipping Method";
       this.core.openModal(this.checkoutModal);
     }
-    else if (this.selectedCardDetails == undefined) {
-      this.confirmValidationMsg.message = "Please select a Card";
+    else if (this.selectedCardDetails == undefined && this.selectedMethodDetails == undefined) {
+      this.confirmValidationMsg.message = "Please select a Shipping Method and Payment Option";
       this.core.openModal(this.checkoutModal);
     }
-    else if (this.selectedMethodDetails == undefined) {
+    else if (this.selectedCardDetails == undefined && this.selectedMethodDetails != undefined && this.selectedAddressDetails != undefined) {
+      this.confirmValidationMsg.message = "Please select a Payment Option";
+      this.core.openModal(this.checkoutModal);
+    }
+    else if (this.selectedMethodDetails == undefined && this.selectedCardDetails != undefined && this.selectedAddressDetails != undefined) {
       this.confirmValidationMsg.message = "Please select a Shipping Method";
       this.core.openModal(this.checkoutModal);
     }
@@ -669,7 +673,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       for (var i = 0; i < getAllSelects.length; i++) {
         var selectedValue = getAllSelects[i] as HTMLSelectElement;
         if (selectedValue.selectedIndex == 0) {
-          this.confirmValidationMsg.message = "Please select per product shipping methods";
+          this.confirmValidationMsg.message = "Please select Shipping Methods for all the items";
           this.core.openModal(this.checkoutModal);
           return false
         }

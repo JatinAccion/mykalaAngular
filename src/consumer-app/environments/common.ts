@@ -72,7 +72,8 @@ export const apiNames = {
         method: 'retailer/v1',
         getTax: 'tax/v1/productsTax',
         getStates: 'retailer/v1/states/name',
-        retailerPolicy: 'shippingReturns'
+        retailerPolicy: 'shippingReturns',
+        latestShipMethodName: 'latestShipMethodName'
     }
 };
 

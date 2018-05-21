@@ -66,9 +66,12 @@
 
             <div class="col-sm-5 multi_scroll" style="height: 400px">
               <div class="row p-2 mb-4" *ngFor="let product of offer.getOffersResponse">
-                <div class="col-sm-4 p-0 productImage">
-                  <img (click)="viewOfferDetails(product)" src="/consumer-app/assets/images/product1.png" class="img-fluid cursor" />
+                <div class="col-sm-4 p-0 productImage" *ngIf="product.product.mainImageSrc != null;else dafault">
+                  <img (click)="viewOfferDetails(product)" [src]="product.product.mainImageSrc" class="img-fluid cursor" />
                 </div>
+                <ng-template #dafault>
+                  <div class="col-sm-4 p-0 productImage productNoImage">No Image Available</div>
+                </ng-template>
                 <div class="col-sm-8">
                   <p>
                     <strong (click)="viewOfferDetails(product)" class="cursor">{{product.product.productName}}</strong>

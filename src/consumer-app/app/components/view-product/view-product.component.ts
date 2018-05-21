@@ -47,14 +47,9 @@ export class ViewProductComponent implements OnInit {
     this.core.hide();
     this.core.searchMsgToggle();
     localStorage.removeItem("addedInCart");
-    if (window.localStorage['fromES'] != undefined) {
-      this.fromES = true;
-      localStorage.removeItem('fromES');
-    }
+    if (window.localStorage['fromES'] != undefined) this.fromES = true;
     if (window.localStorage['userInfo'] != undefined) this.userData = JSON.parse(window.localStorage['userInfo'])
-    if (window.localStorage['selectedProduct'] != undefined) {
-      this.loadProductInfo(undefined);
-    }
+    if (window.localStorage['selectedProduct'] != undefined) this.loadProductInfo(undefined);
     if (window.localStorage['existingItemsInCart'] != undefined) this.itemsInCart();
     if (this.selectedProduct.product.productImages) {
       this.selectedProduct.product.productImages.sort(function (x, y) {
@@ -81,13 +76,25 @@ export class ViewProductComponent implements OnInit {
         this.loadAttributes(this.selectedProduct.product.attributes, undefined);
       }
     }
+    this.getItBy(this.selectedProduct.product.shipProfileId);
+  }
+
+  getItBy(shippingProfileId) {
+    this.viewProduct.getItBy(shippingProfileId).subscribe((res) => {
+      console.log(res);
+      this.selectedProduct.product.deliveryMethod = this.getDeliveryDate(res, new Date())
+    }, (err) => {
+      console.log(err);
+    })
   }
 
   loadReviewsSummary(productId) {
+    this.totalReviewSummary = '';
     this.viewProduct.getReviewsSummary(productId).subscribe((res) => {
       if (res.length > 0) {
         this.totalReviewSummary = res[0];
         this.totalReviewSummary.average = parseInt(this.totalReviewSummary.avg);
+        this.totalReviewSummary.left = eval(`${5 - this.totalReviewSummary.average}`)
       }
     }, (err) => {
       console.log(err);
@@ -332,6 +339,34 @@ export class ViewProductComponent implements OnInit {
       window.localStorage['addedInCart'] = JSON.stringify(this.addToCartModal);
       window.localStorage['callSaveCart'] = true;
       this.route.navigateByUrl('/mycart');
+    }
+  }
+
+  getDeliveryDate(deliveryMethod, currentDate) {
+    let weekday = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
+    // Express: 3 to 5 business days Delivery
+    if (deliveryMethod == 'Express: 3 to 5 business days') {
+      let date = new Date(currentDate), locale = "en-us", month = date.toLocaleString(locale, { month: "long" });
+      let getDay = new Date(date.getTime() + 120 * 60 * 60 * 1000); //Calculating on the next 5days basis
+      return getDay.toLocaleString(locale, { month: "short" }) + ' ' + (getDay.getDate()) + ', ' + weekday[getDay.getDay()]
+    }
+    // 2 day: 2 business day shipping days Delivery
+    else if (deliveryMethod == '2 day: 2 business day shipping') {
+      let date = new Date(currentDate), locale = "en-us", month = date.toLocaleString(locale, { month: "long" });
+      let getDay = new Date(date.getTime() + 48 * 60 * 60 * 1000); //Calculating on the next 5days basis
+      return getDay.toLocaleString(locale, { month: "short" }) + ' ' + (getDay.getDate()) + ', ' + weekday[getDay.getDay()]
+    }
+    // Standard: 5 to 8 business days Delivery
+    else if (deliveryMethod == 'Standard: 5 to 8 business days') {
+      let date = new Date(currentDate), locale = "en-us", month = date.toLocaleString(locale, { month: "long" });
+      let getDay = new Date(date.getTime() + 192 * 60 * 60 * 1000); //Calculating on the next 5days basis
+      return getDay.toLocaleString(locale, { month: "short" }) + ' ' + (getDay.getDate()) + ', ' + weekday[getDay.getDay()]
+    }
+    // Next day: 1 business day shipping
+    else {
+      let date = new Date(currentDate), locale = "en-us", month = date.toLocaleString(locale, { month: "long" });
+      let getDay = new Date(date.getTime() + 24 * 60 * 60 * 1000); //Calculating on the next 5days basis
+      return getDay.toLocaleString(locale, { month: "short" }) + ' ' + (getDay.getDate()) + ', ' + weekday[getDay.getDay()]
     }
   }
 
