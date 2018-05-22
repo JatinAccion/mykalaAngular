@@ -5,7 +5,7 @@
 
   <div class="row myCart mt-4 mb-4" *ngIf="myOffersDetails.length > 0;else noOffer">
     <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" id="myOfferAccordian">
-      <ngb-panel *ngFor="let offer of myOffersDetails">
+      <ngb-panel *ngFor="let offer of myOffersDetails | reverse">
         <ng-template ngbPanelTitle>
           <div class="row pb-1">
             <div class="col-sm-9">

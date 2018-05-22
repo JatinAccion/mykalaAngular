@@ -71,6 +71,12 @@ export class MyoffersComponent implements OnInit {
         this.myOffersDetails[i].getOffersRequestDTO.startDate = objDate.toLocaleString(locale, { month: "short" }) + ' ' + objDate.getDate() + ', ' + this.formatAMPM(objDate);
         this.calculateTimeLeft(this.myOffersDetails[i].getOffersRequestDTO);
       }
+      this.myOffersDetails.sort(function (a, b) {
+        var nameA = a.startDate, nameB = b.startDate
+        if (nameA < nameB) return -1
+        if (nameA > nameB) return 1
+        return 0
+      });
     });
   }
 

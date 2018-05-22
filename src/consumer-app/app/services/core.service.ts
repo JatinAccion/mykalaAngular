@@ -251,10 +251,14 @@ export class CoreService {
     });
   }
 
-  search(text) {
+  search(text, from?: string) {
     if (text !== '' || text !== undefined) {
-      localStorage.removeItem('esKeyword');
+      if (from == 'explore' && this.suggesstionList.length > 0) {
+        let keyword = document.getElementsByClassName('activeList')[0];
+        text = keyword.innerHTML;
+      }
       this.searchBar = text;
+      localStorage.removeItem('esKeyword');
       this.route.navigateByUrl("/elastic-product");
       this.loadProducts(text);
     }
