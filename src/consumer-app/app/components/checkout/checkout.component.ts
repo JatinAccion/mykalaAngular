@@ -18,6 +18,7 @@ import animateScrollTo from 'animated-scroll-to';
 import { AvalaraTaxModel, shippingAddress, ItemsTaxModel, ItemsTaxList } from '../../../../models/tax';
 import { CheckOutMessages } from './checkoutMessages';
 import { regexPatterns } from '../../../../common/regexPatterns';
+import { MyCartService } from '../../services/mycart.service';
 
 @Component({
   selector: 'app-checkout',
@@ -105,7 +106,8 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     private checkout: CheckoutService,
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
-    private route: Router
+    private route: Router,
+    private mycart: MyCartService
   ) { }
 
   ngOnInit() {
@@ -735,12 +737,25 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
           }
           this.checkout.chargeAmount(this.ProductCheckoutModal).subscribe((res) => {
             this.paymentSuccessfullMsg = res;
-            localStorage.removeItem('existingItemsInCart');
             this.loader_chargeAmount = false;
-            this.route.navigateByUrl('/myorder');
+            /* Deleting Items from Cart */
+            let itemsOfCart = JSON.parse(window.localStorage['existingItemsInCart']);
+            let deleteResponse = [];
+            for (var i = 0; i < itemsOfCart.length; i++) {
+              this.mycart.deleteCartItem(itemsOfCart[i]).subscribe((res) => {
+                deleteResponse.push(res);
+                if (itemsOfCart.length == deleteResponse.length) {
+                  localStorage.removeItem('existingItemsInCart');
+                  this.route.navigateByUrl('/myorder');
+                }
+              }, (err) => {
+                console.log("Error From Delete Items API")
+              })
+            }
+            /* Deleting Items from Cart */
           }, (err) => {
             this.loader_chargeAmount = false;
-            console.log("Something went wrong");
+            console.log("Error From Place an Order API");
           })
         }, 3000)
       }, 1000)
@@ -749,14 +764,6 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
   showRetailerReturns(order) {
     this.retailerReturnPolicy = order.retailerReturns;
-  }
-
-  open(content) {
-    this.modalService.open(content).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
   }
 
   private getDismissReason(reason: any): string {

@@ -267,6 +267,7 @@ export class CoreService {
       let keyword = document.getElementsByClassName('activeList')[0];
       this.searchBar = keyword.innerHTML;
       this.search(keyword.innerHTML);
+      this.suggesstionList = [];
     }
     //Else
     else {
@@ -279,7 +280,6 @@ export class CoreService {
       // }
       else {
         this.getProductSuggesstion(text).subscribe((res) => {
-          console.log(res);
           if (res.length > 0) {
             this.suggesstionList = res;
             this.resetToDefault = this.suggesstionList.length;

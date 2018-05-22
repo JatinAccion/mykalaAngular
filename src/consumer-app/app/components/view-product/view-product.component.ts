@@ -128,6 +128,9 @@ export class ViewProductComponent implements OnInit {
     for (var key in attributesData) {
       if (key == 'Unit') { this.unitValue = attributesData[key] }
       else {
+        if (key == 'Color' && attributesData[key].indexOf(';') > -1) {
+          attributesData[key] = attributesData[key].split(";").join(",");
+        }
         attributes.push({
           key: key,
           value: attributesData[key]
@@ -135,7 +138,9 @@ export class ViewProductComponent implements OnInit {
       }
     }
     attributes.filter((x) => {
-      if (x.key == 'Size') { x.key = x.key + ' ' + '(' + this.unitValue + ')' }
+      if (x.key == 'Size') {
+        if (this.unitValue != undefined) x.key = x.key + ' ' + '(' + this.unitValue + ')'
+      }
     })
     this.selectedProduct.product.filteredAttr = attributes;
   }

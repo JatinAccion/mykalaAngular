@@ -108,7 +108,7 @@
           </div>
         </div>
 
-        <div class="row" *ngIf="dynamicColorData != undefined && dynamicSizeData != undefined">
+        <div class="row" *ngIf="dynamicColorData != undefined && dynamicColorData.length > 0 && dynamicSizeData != undefined && dynamicSizeData.length > 0">
           <div class="col-12 pl-4 pr-4 mb-3">
             <span class="w-25 text-left d-block float-left">Color</span>
             <span class="w-75 text-left d-block float-right">
