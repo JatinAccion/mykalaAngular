@@ -332,6 +332,7 @@ export class ViewProductComponent implements OnInit {
       this.addToCartModal.height = this.selectedProduct.product.height;
       this.addToCartModal.length = this.selectedProduct.product.length;
       this.addToCartModal.weight = this.selectedProduct.product.weight;
+      this.addToCartModal.orderFrom = "PRODUCT";
       for (var i = 0; i < this.selectedProduct.product.productImages.length; i++) {
         let image = this.selectedProduct.product.productImages[i]
         if (image.mainImage == true) this.addToCartModal.productImage = image.location;

@@ -19,4 +19,5 @@ export class AddToCart {
     public length: number;
     public weight: number;
     public width: number;
+    public orderFrom: string;
 }
