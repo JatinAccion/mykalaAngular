@@ -40,6 +40,7 @@ export class OrderItems {
         public totalProductPrice: number,
         public deliveryMethod: string,
         public productUPCCode: number,
-        public productSKUCode: string
+        public productSKUCode: string,
+        public orderFrom: string
     ) { }
 }

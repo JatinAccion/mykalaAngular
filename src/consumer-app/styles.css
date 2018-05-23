@@ -3074,3 +3074,9 @@ table.customeTable tr td {
     background: #fbfbfb;
     opacity: .4;
 }
+#card-errors{
+    font-size: 14px;
+    margin-bottom: 10px;
+    font-family: 'open_sanssemibold';
+    color: #E06163;
+}
