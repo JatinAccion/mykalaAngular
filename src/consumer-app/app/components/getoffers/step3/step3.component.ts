@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { GetOfferService } from '../../../services/getOffer.service';
@@ -36,6 +36,8 @@ export class Step3Component implements OnInit {
   loaderZipcodes: boolean = false;
   zipcodeRequired: boolean = false;
   enterZipcode: boolean = false;
+  @ViewChild('selectValidationModal') selectValidationModal: ElementRef;
+  validationMsg: string;
 
   constructor(
     private route: Router,
@@ -234,15 +236,24 @@ export class Step3Component implements OnInit {
   };
 
   next() {
-    if (this.getCSC.length == 0) {
-      this.zipcodeRequired = true;
-      return false;
+    if (!this.getOffer_orderInfo.controls.minPrice.value && !this.getOffer_orderInfo.controls.maxPrice.value) {
+      this.validationMsg = "Min Price and Max Price cannot be 0";
+      this.core.openModal(this.selectValidationModal);
+    }
+    else if (this.getOffer_orderInfo.controls.minPrice.value < parseFloat(this.minPrice) || !this.getOffer_orderInfo.controls.minPrice.value) {
+      this.validationMsg = "Invalid Min Price";
+      this.core.openModal(this.selectValidationModal);
+    }
+    else if (this.getCSC.length == 0) {
+      this.validationMsg = "Please select or enter a Zip Code";
+      this.core.openModal(this.selectValidationModal);
     }
     else {
+      if (this.Step3SelectedValues.delivery == "") this.Step3SelectedValues.delivery = "No Preference";
+      else this.Step3SelectedValues.delivery = this.getOffer_orderInfo.controls.delivery.value;
       this.Step3SelectedValues.location = this.getCSC;
       this.Step3SelectedValues.price.minPrice = this.getOffer_orderInfo.controls.minPrice.value;
       this.Step3SelectedValues.price.maxPrice = this.getOffer_orderInfo.controls.maxPrice.value;
-      this.Step3SelectedValues.delivery = this.getOffer_orderInfo.controls.delivery.value;
       this.Step3SelectedValues.instruction = this.getOffer_orderInfo.controls.instruction.value;
       this.Step3Modal.getoffer_3 = new Array<OfferInfo3>();
       this.Step3Modal.getoffer_3.push(new OfferInfo3(this.Step3SelectedValues.price, this.Step3SelectedValues.delivery, this.Step3SelectedValues.instruction, this.Step3SelectedValues.location))

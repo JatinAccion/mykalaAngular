@@ -22,8 +22,8 @@
               </div>
             </div>
             <div class="col-sm-3 mt-2 text-right pr-4">
-              <button class="btn-outer btn_red_right mr-2" (click)="editOffer(offer)">edit offer</button>
-              <button class="btn-outer btn_red_right" (click)="endOffer(offer)">end offer</button>
+              <button [disabled]="offer.getOffersRequestDTO.remainingTime == 'EXPIRED'" class="btn btn-outer btn_red_right mr-2" (click)="editOffer(offer)">edit offer</button>
+              <button [disabled]="offer.getOffersRequestDTO.remainingTime == 'EXPIRED'" class="btn btn-outer btn_red_right" (click)="endOffer(offer)">end offer</button>
             </div>
           </div>
         </ng-template>
@@ -64,24 +64,51 @@
               </div>
             </div>
 
+
             <div class="col-sm-5 multi_scroll" style="height: 400px">
-              <div class="row p-2 mb-4" *ngFor="let product of offer.getOffersResponse">
-                <div class="col-sm-4 p-0 productImage" *ngIf="product.product.mainImageSrc != null;else dafault">
-                  <img (click)="viewOfferDetails(product)" [src]="product.product.mainImageSrc" class="img-fluid cursor" />
-                </div>
-                <ng-template #dafault>
-                  <div class="col-sm-4 p-0 productImage productNoImage">No Image Available</div>
-                </ng-template>
-                <div class="col-sm-8">
-                  <p>
-                    <strong (click)="viewOfferDetails(product)" class="cursor">{{product.product.productName}}</strong>
-                  </p>
-                  <div>
-                    <u>{{product.retailerName}}</u>
-                    <span class="float-right colorred w-100"> Offer Price: {{product.offerPrice | currency}} </span>
+              <!--If Offer Expired-->
+              <div *ngIf="offer.getOffersRequestDTO.remainingTime == 'EXPIRED';else showDefault">
+                <div class="row p-2 mb-4" *ngFor="let product of offer.getOffersResponse">
+                  <div class="col-sm-4 p-0 productImage" *ngIf="product.product.mainImageSrc != null;else dafault">
+                    <img [src]="product.product.mainImageSrc" class="img-fluid" />
+                  </div>
+                  <ng-template #dafault>
+                    <div class="col-sm-4 p-0 productImage productNoImage">No Image Available</div>
+                  </ng-template>
+                  <div class="col-sm-8">
+                    <p>
+                      <strong>{{product.product.productName}}</strong>
+                    </p>
+                    <div>
+                      <u>{{product.retailerName}}</u>
+                      <span class="float-right colorred w-100"> Offer Price: {{product.offerPrice | currency}} </span>
+                    </div>
                   </div>
                 </div>
               </div>
+              <!--If Offer Expired-->
+
+              <!--If Offer Active-->
+              <ng-template #showDefault>
+                <div class="row p-2 mb-4" *ngFor="let product of offer.getOffersResponse">
+                  <div class="col-sm-4 p-0 productImage" *ngIf="product.product.mainImageSrc != null;else dafault">
+                    <img (click)="viewOfferDetails(product)" [src]="product.product.mainImageSrc" class="img-fluid cursor" />
+                  </div>
+                  <ng-template #dafault>
+                    <div class="col-sm-4 p-0 productImage productNoImage">No Image Available</div>
+                  </ng-template>
+                  <div class="col-sm-8">
+                    <p>
+                      <strong (click)="viewOfferDetails(product)" class="cursor">{{product.product.productName}}</strong>
+                    </p>
+                    <div>
+                      <u>{{product.retailerName}}</u>
+                      <span class="float-right colorred w-100"> Offer Price: {{product.offerPrice | currency}} </span>
+                    </div>
+                  </div>
+                </div>
+                <!--If Offer Active-->
+              </ng-template>
             </div>
           </div>
         </ng-template>

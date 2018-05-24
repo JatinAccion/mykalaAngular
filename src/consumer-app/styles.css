@@ -1564,41 +1564,14 @@ h4.subtitle{
     color:#fff; 
     background:#615754;
     border-bottom:solid 1px #f3f3f4;
+    cursor: pointer;
     box-shadow: rgb(153, 153, 153) 5px 0px 5px inset;
 }
-/*.category_tiles li img{ 
-    width:50px;
-} 
-.category_tiles li:nth-child(1){
-    background:#c8792f; 
+.category_tiles:last-child li{
+    border-bottom: none;
 }
-.category_tiles li:nth-child(2){
-    background:#dfad26; 
-}
-.category_tiles li:nth-child(3){
-    background:#eac625; 
-}
-.category_tiles li:nth-child(4){
-    background:#98b945; 
-}
-.category_tiles li:nth-child(5){
-    background:#4ba681; 
-}
-.category_tiles li:nth-child(6){
-    background:#4b8da6; 
-}
-.category_tiles li:nth-child(7){
-    background:#7a81c4; 
-}
-.category_tiles li:nth-child(8){
-    background:#ba86d8; 
-}
-.category_tiles li:nth-child(9){
-    background:#f3845e; 
-}*/
 .cat_subMenu{
     margin:0px;
-    display: none;
     padding:0px;
     border-top:solid 1px #999999;
 }
@@ -1610,6 +1583,7 @@ h4.subtitle{
     background:#615754 !important;
     color:#fff;
     border:none;
+    cursor: pointer;
 }
 .cat_subMenu li span{
      color:#fff !important;
@@ -2355,6 +2329,9 @@ form.checkout button:active {
 #myOfferAccordian .card-body{
     padding: 0rem 1.75rem 1rem;
     border-bottom: 1px solid rgba(0,0,0,.125);
+}
+#myOfferAccordian .card-body{
+    padding: 0rem 1.75rem 0rem;
 }
 #myOfferAccordian .card-body{
     border-bottom: none;

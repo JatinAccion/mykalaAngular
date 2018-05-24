@@ -92,7 +92,7 @@
         </div>
 
         <div class="row" *ngIf="selectedProduct.product.deliveryMethod != undefined">
-          <div class="col-sm-12 pl-4 pt-4 mb-2">
+          <div class="col-sm-12 pl-4 pt-4 mb-4">
             <span>Get it by
               <span style="font-family: 'open_sansbold'">{{selectedProduct.product.deliveryMethod}}</span>
             </span>
@@ -100,7 +100,7 @@
         </div>
 
         <div class="row">
-          <div *ngIf="!alreadyAddedInCart" class="col-sm-12 pl-4 pt-3 mb-4">
+          <div *ngIf="!alreadyAddedInCart" class="col-sm-12 pl-4 mb-4">
             <span *ngIf="selectedProduct.product.quantity > 0;else outOfStock">{{selectedProduct.product.quantity}} in stock</span>
             <ng-template #outOfStock>
               <span>Out of stock</span>
