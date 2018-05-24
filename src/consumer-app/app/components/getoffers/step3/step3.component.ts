@@ -37,7 +37,7 @@ export class Step3Component implements OnInit {
   zipcodeRequired: boolean = false;
   enterZipcode: boolean = false;
   @ViewChild('selectValidationModal') selectValidationModal: ElementRef;
-  validationMsg: string;
+  validationMsg = { message: '', priceAvailable: false };
 
   constructor(
     private route: Router,
@@ -237,15 +237,18 @@ export class Step3Component implements OnInit {
 
   next() {
     if (!this.getOffer_orderInfo.controls.minPrice.value && !this.getOffer_orderInfo.controls.maxPrice.value) {
-      this.validationMsg = "Min Price and Max Price cannot be 0";
+      this.validationMsg.message = "Min. and max. price range must be at least";
+      this.validationMsg.priceAvailable = true;
       this.core.openModal(this.selectValidationModal);
     }
     else if (this.getOffer_orderInfo.controls.minPrice.value < parseFloat(this.minPrice) || !this.getOffer_orderInfo.controls.minPrice.value) {
-      this.validationMsg = "Invalid Min Price";
+      this.validationMsg.message = "Please enter a minimum price range of at least";
+      this.validationMsg.priceAvailable = true;
       this.core.openModal(this.selectValidationModal);
     }
     else if (this.getCSC.length == 0) {
-      this.validationMsg = "Please select or enter a Zip Code";
+      this.validationMsg.message = "Please select or enter your delivery Zip Code";
+      this.validationMsg.priceAvailable = false;
       this.core.openModal(this.selectValidationModal);
     }
     else {

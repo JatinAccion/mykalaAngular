@@ -138,9 +138,12 @@
     </button>
   </div>
   <div class="modal-body">
-    <p>
-      {{validationMsg}}
+    <p *ngIf="validationMsg.priceAvailable;else defaultMsg">
+      {{validationMsg.message}} {{minPrice | currency}}
     </p>
+    <ng-template #defaultMsg>
+      <p>{{validationMsg.message}}</p>
+    </ng-template>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-outer btn_redouter_right" (click)="c('Close click')">Close</button>
