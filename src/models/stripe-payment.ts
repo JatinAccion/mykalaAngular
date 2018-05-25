@@ -19,7 +19,8 @@ export class StripePayment {
     public commissionRate: string;
     public fixRate: string;
     public last4SSN: string;
-
+    public updateExternalAccount: boolean;
+    public connectAccountId: string;
     /** retailerProfile instanceof RetailerProfileInfo, retailerPayment instanceof RetailerPaymentInfo, tosAcceptance instanceof TosAcceptance, dob instanceof Date */
     constructor(obj?: any) {
         if (obj) {
@@ -61,6 +62,8 @@ export class StripePayment {
             if (obj.ssnlast4) {
                 this.last4SSN = obj.ssnlast4;
             }
+            this.updateExternalAccount = obj.updateExternalAccount;
+            this.connectAccountId = obj.connectAccountId;
         }
     }
 }

@@ -40,34 +40,6 @@ export class CustomersReportComponent implements OnInit {
   constructor(private reportsService: ReportsService) {
     this.consumers = new ReportConsumers();
   }
-  formatDate(date, format) {
-    const monthNames = [
-      'January', 'February', 'March',
-      'April', 'May', 'June', 'July',
-      'August', 'September', 'October',
-      'November', 'December'
-    ];
-    const monthNamesShort = [
-      'Jan', 'Feb', 'Mar',
-      'Apr', 'May', 'Jun', 'Jul',
-      'Aug', 'Sep', 'Oct',
-      'Nov', 'Dec'
-    ];
-
-    const day = date.getDate();
-    const monthIndex = date.getMonth();
-    const year = date.getFullYear();
-    switch (format) {
-      case 'MM YYYY':
-        return monthIndex + ' ' + year;
-      case 'MMM YYYY':
-        return monthNamesShort[monthIndex] + ' ' + year;
-      case 'MMMM YYYY':
-        return monthNames[monthIndex] + ' ' + year;
-      default:
-        return day + ' ' + monthNames[monthIndex] + ' ' + year;
-    }
-  }
   chartDataObj(dataLables?: Array<ReviewItem>,
     existingConsumers?: Array<number>,
     newConsumers?: Array<number>,
@@ -75,7 +47,7 @@ export class CustomersReportComponent implements OnInit {
     if (dataLables && existingConsumers && newConsumers && closedConsumers) {
       const data = {
         labels: this.reportModel === 'Monthly'
-          ? dataLables.map(p => this.formatDate(new Date(p.year, p.month - 1, 1), 'MMM YYYY'))
+          ? dataLables.map(p => this.reportsService.formatDate(new Date(p.year, p.month - 1, 1), 'MMM YYYY'))
           : dataLables.map(p => p.year), // new Date(p.year, 0, 1)),
         datasets: [
           {
@@ -210,12 +182,7 @@ export class CustomersReportComponent implements OnInit {
     this.details.month = widget.month;
   }
   setupChartData(res: ReportReviewSummary, widgetType) {
-    let reportData = new Array<ReviewItem>();
-    if (this.reportModel === 'Monthly') {
-      reportData = this.getPrev12Months(this.details.year, this.details.month);
-    } else {
-      reportData = this.getPrev5Years(this.details.year);
-    }
+    const reportData = this.getReportData(this.reportModel);
     for (let i = 0; i < reportData.length; i++) {
       const element = reportData[i];
       const dataElement = res.consumerRecords.firstOrDefault(p => p.year === element.year && p.month === element.month);
@@ -241,22 +208,14 @@ export class CustomersReportComponent implements OnInit {
       reportData.map(p => p.closedAccounts));
     this.options = this.chartOptionsObj();
   }
-  getPrev12Months(year: number, month: number) {
-    const reportData = new Array<ReviewItem>();
-    let _year = year - 1;
-    let _month = month + 1;
-    for (let i = 0; i < 12; i++) {
-      reportData.push(new ReviewItem({ year: _year, month: _month }));
-      if (_month === 12) {
-        _month = 1; _year++;
-      } else { _month++; }
-    }
-    return reportData;
-  }
-  getPrev5Years(year: number) {
-    const reportData = new Array<ReviewItem>();
-    for (let i = 4; i >= 0; i--) {
-      reportData.push(new ReviewItem({ year: year - i, month: 0 }));
+
+
+  private getReportData(reportModel) {
+    let reportData = new Array<ReviewItem>();
+    if (reportModel === 'Monthly') {
+      reportData = this.reportsService.getPrev12Months(this.details.year, this.details.month);
+    } else {
+      reportData = this.reportsService.getPrev5Years(this.details.year);
     }
     return reportData;
   }

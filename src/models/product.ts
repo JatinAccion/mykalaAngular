@@ -68,6 +68,8 @@ export class Product {
             this.productPlaceName = obj.productPlaceName;
             this.productCategoryName = obj.productCategoryName;
             this.productSubCategoryName = obj.productSubCategoryName;
+            this.weightunit = 'lbs';
+            this.dimensionunit = 'inches';
             // this.productTypeName = obj.productTypeName;
             if (obj.productHierarchy) {
                 this.productHierarchy = obj.productHierarchy.map(p => new ProductLevel(p)).sort((a, b) => a < b);
@@ -237,6 +239,7 @@ export class ProdAttr {
 }
 export class ProductAttributesMasterData {
     public attributes: Array<ProdAttr>;
+    public attributeMetaData: Array<AttributeMetaData>;
     constructor(obj?: any) {
         this.attributes = new Array<ProdAttr>();
         if (obj && obj.attributes) {
@@ -244,5 +247,14 @@ export class ProductAttributesMasterData {
                 this.attributes.push(new ProdAttr({ key: key, value: obj.attributes[key] }));
             });
         }
+    }
+}
+export class AttributeMetaData { 
+    public attrName: string;
+    public order: number;
+    public isNumber: boolean;
+
+    constructor(obj?: any) { 
+
     }
 }

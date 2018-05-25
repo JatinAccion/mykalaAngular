@@ -24,6 +24,8 @@ import DateUtils from '../../../../../common/utils';
   encapsulation: ViewEncapsulation.None
 })
 export class RetailerAddPaymentComponent implements OnInit {
+  updateExternalAccount: boolean;
+  reActivateStripe: boolean;
   states: string[];
   @Input() retailerId: string;
   @Output() SaveData = new EventEmitter<any>();
@@ -39,6 +41,7 @@ export class RetailerAddPaymentComponent implements OnInit {
   paymentVehicles: Array<nameValue> = new Array<nameValue>();
   paymentInfoStep = 1;
   paymentInfoObj: RetailerPaymentInfo;
+  paymentInfoDbObj: RetailerPaymentInfo;
   errorMsgs = inputValidations;
   paymentSaveloader = false;
   activateStripe = true;
@@ -66,8 +69,39 @@ export class RetailerAddPaymentComponent implements OnInit {
       this.paymentMethodChange();
       this.paymentVehicleChange();
     }
+    this.onChanges();
   }
-
+  onChanges(): void {
+    if (this.paymentInfoDbObj && this.paymentInfoDbObj.retailerBankPaymentId) {
+      this.paymentFG2.valueChanges.subscribe(val => {
+        switch (false) {
+          case val.bankAccountName === this.paymentInfoDbObj.bankAccountName:
+          case val.bankAccountNumber === this.paymentInfoDbObj.bankAccountNumber:
+          case val.bankABARoutingNumber === this.paymentInfoDbObj.bankABARoutingNumber:
+          case val.bankSwiftCode === this.paymentInfoDbObj.bankSwiftCode:
+            this.reActivateStripe = true;
+            this.updateExternalAccount = true;
+            break;
+          case val.firstName + ' ' + val.lastName === this.paymentInfoDbObj.legalContact.name:
+          case val.ssnlast4 === this.paymentInfoDbObj.last4SSN:
+          case val.dob === this.paymentInfoDbObj.dob:
+          case val.addressLine1LegalContact === this.paymentInfoDbObj.legalContact.addressLine1:
+          case val.addressLine2LegalContact === this.paymentInfoDbObj.legalContact.addressLine2:
+          case val.cityLegalContact === this.paymentInfoDbObj.legalContact.city:
+          case val.stateLegalContact === this.paymentInfoDbObj.legalContact.state:
+          case val.zipcodeLegalContact === this.paymentInfoDbObj.legalContact.zipcode:
+            this.reActivateStripe = true;
+            this.updateExternalAccount = false;
+            break;
+          default:
+            this.reActivateStripe = false;
+            this.updateExternalAccount = false;
+            break;
+        }
+        console.log(val);
+      });
+    }
+  }
   setFormValidators() {
     this.paymentFG1 = this.formBuilder.group({
       paymentMethod: [this.paymentData.paymentMethod, [Validators.required]],
@@ -91,7 +125,7 @@ export class RetailerAddPaymentComponent implements OnInit {
       lastName: [this.paymentData.legalContact.lastName, [Validators.pattern(environment.regex.textRegex), Validators.required]],
       ssnlast4: [this.paymentData.last4SSN, [Validators.maxLength(4), Validators.minLength(4),
       Validators.pattern(environment.regex.zipcodeRegex), Validators.required]],
-      dob: [this.paymentData.dob, [Validators.pattern(environment.regex.textRegex), Validators.required]],
+      dob: [new DateUtils().fromDate( this.paymentData.dob), [Validators.pattern(environment.regex.textRegex), Validators.required]],
       addressLine1LegalContact: [this.paymentData.legalContact.addressLine1, [Validators.pattern(environment.regex.textRegex), Validators.required]],
       addressLine2LegalContact: [this.paymentData.legalContact.addressLine2, [Validators.pattern(environment.regex.textRegex)]],
       cityLegalContact: [this.paymentData.legalContact.city, [Validators.pattern(environment.regex.textRegex), Validators.required]],
@@ -276,10 +310,10 @@ export class RetailerAddPaymentComponent implements OnInit {
     return this.paymentInfoObj;
   }
   disableBankInfo() {
-    this.paymentFG2.controls.bankAccountName.reset({ value: this.paymentInfoObj.bankAccountName, disabled: this.stripeInegrated });
-    this.paymentFG2.controls.bankAccountNumber.reset({ value: this.paymentInfoObj.bankAccountNumber, disabled: this.stripeInegrated });
-    this.paymentFG2.controls.bankABARoutingNumber.reset({ value: this.paymentInfoObj.bankABARoutingNumber, disabled: this.stripeInegrated });
-    this.paymentFG2.controls.bankSwiftCode.reset({ value: this.paymentInfoObj.bankSwiftCode, disabled: this.stripeInegrated });
+    // this.paymentFG2.controls.bankAccountName.reset({ value: this.paymentInfoObj.bankAccountName, disabled: this.stripeInegrated });
+    // this.paymentFG2.controls.bankAccountNumber.reset({ value: this.paymentInfoObj.bankAccountNumber, disabled: this.stripeInegrated });
+    // this.paymentFG2.controls.bankABARoutingNumber.reset({ value: this.paymentInfoObj.bankABARoutingNumber, disabled: this.stripeInegrated });
+    // this.paymentFG2.controls.bankSwiftCode.reset({ value: this.paymentInfoObj.bankSwiftCode, disabled: this.stripeInegrated });
   }
   getPaymentInfo(retailerId) {
     this.retialerService
@@ -290,12 +324,13 @@ export class RetailerAddPaymentComponent implements OnInit {
             res.legalContact.firstName = res.legalContact.name.split(' ')[0];
             res.legalContact.lastName = res.legalContact.name.split(' ')[1];
           }
-          // res.legalContact.dob = res.dob;
-          // res.legalContact.ssnlast4 = res.last4SSN;
+          res.legalContact.dob = res.dob;
+          res.legalContact.ssnlast4 = res.last4SSN;
         }
         this.paymentData = res;
         this.setFormValidators();
         this.paymentInfoObj = new RetailerPaymentInfo(res);
+        this.paymentInfoDbObj = new RetailerPaymentInfo(res);
         this.stripeInegrated = this.paymentInfoObj.stripeConnectAccountId && this.paymentInfoObj.stripeConnectAccountId !== '' || false;
         this.activateStripe = this.stripeInegrated || this.paymentInfoObj.paymentMethod && this.paymentInfoObj.paymentMethod !== this.retialerService.paymentMethods[0].name || false;
         this.disableBankInfo();
@@ -318,51 +353,85 @@ export class RetailerAddPaymentComponent implements OnInit {
     } else if (!this.paymentFG2.valid) {
       this.paymentInfoNext();
     } else {
-      if (this.paymentInfoObj.stripeToken === undefined) {
-        this.paymentSaveloader = true;
-        stripe.createToken('bank_account', {
-          country: 'US',
-          currency: 'usd',
-          routing_number: this.paymentInfoObj.bankABARoutingNumber,
-          account_number: this.paymentInfoObj.bankAccountNumber,
-          account_holder_name: this.paymentInfoObj.bankAccountName,
-          account_holder_type: 'company'
-        }).then(response => {
-          if (response.error) {
-            const error = response.error.message;
-            console.error(error);
-            this.core.message.info(response.error.message);
-            this.paymentSaveloader = false;
-          } else {
-            this.core.message.success(userMessages.stripe_token_created);
-            this.paymentInfoObj.stripeToken = response.token.id;
-            const stripePaymnentObj = new StripePayment({
-              retailerProfile: this.profileData,
-              retailerPayment: this.paymentInfoObj,
-              tosAcceptance: new TosAcceptance({ client_ip: response.token.client_ip, created: response.token.created }),
-              dob: this.paymentInfoObj.dob, ssnlast4: this.paymentInfoObj.last4SSN
-            });
-            this.retialerService.addSellerAccount(stripePaymnentObj).subscribe(p => {
-              this.core.message.success(userMessages.stripe_integration_completed);
-              this.paymentInfoObj.stripeConnectAccountId = p;
-              this.paymentInfoObj.bankAccountNumber = this.paymentInfoObj.bankAccountNumber.substr(this.paymentInfoObj.bankAccountNumber.length - 4);
-              this.paymentInfoObj.dob = new DateUtils().toDate(this.paymentInfoObj.dob);
-              this.stripeInegrated = true;
-              this.retialerService
-                .paymentInfoSave(this.paymentInfoObj)
-                .subscribe(res => {
-                  this.SaveData.emit('tab-Payment');
-                  this.paymentSaveloader = false;
-                  this.disableBankInfo();
-                  this.core.message.success(userMessages.success);
-                  return true;
-                }, err => { this.paymentSaveloader = false; this.core.message.error(userMessages.error); }, () => this.paymentSaveloader = false);
-              return false;
-            }, err => { this.paymentSaveloader = false; this.core.message.error(err, userMessages.stripe_integration_error); }, () => this.paymentSaveloader = false);
-          }
-        });
+      if (this.reActivateStripe) {
+        if (this.updateExternalAccount) {
+          this.processStripeWithToken();
+        } else {
+          this.processStripeWithNoToken();
+        }
+      } else {
+        this.processStripeWithToken();
       }
     }
+  }
+  async processStripeWithToken() {
+    if (this.paymentInfoObj.stripeToken === undefined) {
+      this.paymentSaveloader = true;
+      stripe.createToken('bank_account', {
+        country: 'US',
+        currency: 'usd',
+        routing_number: this.paymentInfoObj.bankABARoutingNumber,
+        account_number: this.paymentInfoObj.bankAccountNumber,
+        account_holder_name: this.paymentInfoObj.bankAccountName,
+        account_holder_type: 'company'
+      }).then(response => {
+        if (response.error) {
+          const error = response.error.message;
+          console.error(error);
+          this.core.message.info(response.error.message);
+          this.paymentSaveloader = false;
+        } else {
+          this.core.message.success(userMessages.stripe_token_created);
+          this.paymentInfoObj.stripeToken = response.token.id;
+          const stripePaymnentObj = new StripePayment({
+            retailerProfile: this.profileData,
+            retailerPayment: this.paymentInfoObj,
+            tosAcceptance: new TosAcceptance({ client_ip: response.token.client_ip, created: response.token.created }),
+            dob: this.paymentInfoObj.dob, ssnlast4: this.paymentInfoObj.last4SSN,
+            updateExternalAccount: this.updateExternalAccount,
+            connectAccountId: this.paymentInfoObj.stripeConnectAccountId
+          });
+          this.addSellerAccount(stripePaymnentObj);
+        }
+      });
+    }
+  }
+  async processStripeWithNoToken() {
+    this.paymentSaveloader = true;
+    const stripePaymnentObj = new StripePayment({
+      retailerProfile: this.profileData,
+      retailerPayment: this.paymentInfoObj,
+      dob: this.paymentInfoObj.dob, ssnlast4: this.paymentInfoObj.last4SSN,
+      updateExternalAccount: this.updateExternalAccount,
+      connectAccountId: this.paymentInfoObj.stripeConnectAccountId
+    });
+    this.addSellerAccount(stripePaymnentObj);
+  }
+
+  addSellerAccount(stripePaymnentObj: StripePayment) {
+    this.retialerService.addSellerAccount(stripePaymnentObj, this.reActivateStripe).subscribe(p => {
+      this.core.message.success(userMessages.stripe_integration_completed);
+      this.paymentInfoObj.stripeConnectAccountId = p;
+      this.paymentInfoObj.bankAccountNumber = this.paymentInfoObj.bankAccountNumber.substr(this.paymentInfoObj.bankAccountNumber.length - 4);
+      this.paymentInfoObj.dob = new DateUtils().toDate(this.paymentInfoObj.dob);
+      this.stripeInegrated = true;
+      this.retialerService
+        .paymentInfoSave(this.paymentInfoObj)
+        .subscribe(res => {
+          this.SaveData.emit('tab-Payment');
+          this.paymentSaveloader = false;
+          this.disableBankInfo();
+          this.core.message.success(userMessages.success);
+          return true;
+        }, err => {
+          this.paymentSaveloader = false;
+          this.core.message.error(userMessages.error);
+        }, () => this.paymentSaveloader = false);
+      return false;
+    }, err => {
+      this.paymentSaveloader = false;
+      this.core.message.error(err, userMessages.stripe_integration_error);
+    }, () => this.paymentSaveloader = false);
   }
   getStates() {
     this.retialerService.getStates().subscribe(p => {

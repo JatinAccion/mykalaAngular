@@ -46,7 +46,7 @@ export class PmdInputSelectComponent implements OnInit {
       this.showOtherEntry = true;
     }
     if (this.showOtherEntry) {
-      this.otherValue = this.prodAttr.strValue;
+      this.otherValue = this.prodAttr.value;
       this.prodAttr.strValue = 'Other';
     } else {
       this.otherValue = '';

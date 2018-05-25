@@ -89,7 +89,7 @@
         </div>
         <div class="col-sm-6">
             <div class="form-group">
-                <input type="text" class="form-control" aria-describedby="" placeholder="Zipcode" pattern formControlName="zipcode" maxlength="5">
+                <input type="text" class="form-control" aria-describedby="" onkeypress='return event.charCode >= 48 && event.charCode <= 57' placeholder="Zipcode" pattern formControlName="zipcode" maxlength="5">
                 <!--Validation-->
                 <app-field-error-display [field]="paymentFG1.controls.zipcode" [errorMsg]="errorMsgs"> </app-field-error-display>
                 <!--Validation-->
@@ -203,7 +203,7 @@
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
-                    <input type="text" class="form-control" aria-describedby="" placeholder="Zipcode" pattern formControlName="zipcodeLegalContact" maxlength="5">
+                    <input type="text" class="form-control" aria-describedby="" onkeypress='return event.charCode >= 48 && event.charCode <= 57' placeholder="Zipcode" pattern formControlName="zipcodeLegalContact" maxlength="5">
                     <!--Validation-->
                     <app-field-error-display [field]="paymentFG2.controls.zipcodeLegalContact" [errorMsg]="errorMsgs"> </app-field-error-display>
                     <!--Validation-->
@@ -248,7 +248,7 @@
         </div>
         <div class="col-sm-6">
             <div class="form-group">
-                <input type="text" class="form-control" aria-describedby="" placeholder="Zipcode" pattern formControlName="zipcode" maxlength="5">
+                <input type="text" class="form-control" aria-describedby="" onkeypress='return event.charCode >= 48 && event.charCode <= 57' placeholder="Zipcode" pattern formControlName="zipcode" maxlength="5">
                 <!--Validation-->
                 <app-field-error-display [field]="paymentFG2.controls.zipcode" [errorMsg]="errorMsgs"> </app-field-error-display>
                 <!--Validation-->
@@ -278,8 +278,12 @@
     <div class="col-sm-6 text-right" *ngIf="paymentInfoStep!==1 && activateStripe && !stripeInegrated">
         <button (click)="stripe()" class="btn btn-default ancProfile1" [disabled]="paymentSaveloader">Register Your Account with Stripe
             <i class="fa fa-repeat fa-spin" aria-hidden="true" *ngIf="paymentSaveloader"></i>
-        </button>
-        <!-- <p>By registering your account, you agree to our <a href="/terms.html" target="_blank">Services Agreement</a>.</p> -->
+        </button>        
+    </div>
+    <div class="col-sm-6 text-right" *ngIf="paymentInfoStep!==1 && activateStripe && reActivateStripe">
+        <button (click)="stripe()" class="btn btn-default ancProfile1" [disabled]="paymentSaveloader">Update / Register Your Account with Stripe
+            <i class="fa fa-repeat fa-spin" aria-hidden="true" *ngIf="paymentSaveloader"></i>
+        </button>        
     </div>
 </div>
 <!-- </form> -->

@@ -32,6 +32,7 @@ export const apiNames = {
         get: '{retailerId}/bankDetails',
         save: 'bankDetails',
         addSellerAccount: 'addSellerAccount',
+        updateSellerAccount: 'updateSellerAccount',
         delete: 'delete',
     },
     retailerShippingInfo: {
@@ -95,10 +96,17 @@ export const apiNames = {
         avgReviewCount: 'consumer/v1/report/avgReview/{year}/{month}',
         avgResponseTime: 'consumer/v1/report/avgResponseTime/{year}/{month}',
         sellerPayment: 'sellerPayment',
+        saveShipmentTracking: 'saveShipmentTracking',
         sellerPaymentStatus: '{orderId}/{retailerId}/sellerPaymentStatus',
         getRetailerReviews: 'reports/review',
         getRetailerReviewRatings: 'consumer/v1/report/retailerReviewRatings/{retailerId}',
         getPaymentDetails: 'paymentDetails',
+    },
+    salesReport: {
+        widOne: 'totalOrder/{year}/{month}',
+        widTwo: 'totalSales/{year}/{month}',
+        widFour: 'reports/salesReturnAndExchange/{year}/{month}',
+        chart: 'reports/orderOffersCount/{year}/{month}',
     },
     consumer: {
         get: 'consumer/v1/userId',

@@ -63,10 +63,10 @@ export class ReportOrders extends Pagination {
 export const OrderStatus = {
   ORDERPENDING: 'ORDERPENDING',
   ORDERPROCESSED: 'ORDERPROCESSED',
-  ORDERCANCELED: 'ORDERCANCELED',
+  ORDERCANCELLED: 'ORDERCANCELLED',
   ORDERSHIPPED: 'ORDERSHIPPED',
   ORDERDELIVERED: 'ORDERDELIVERED',
-}
+};
 export class RetailerOrder {
   sellerOrderId: string;
   orderId: string;
@@ -110,17 +110,21 @@ export class RetailerOrder {
 
     }
   }
+  set _ProductStatusShipped(productId: string) {
+    const product = this.products.firstOrDefault(p => p.productId === productId);
+    product.productItemStatus = OrderStatus.ORDERSHIPPED;
+  }
   get _OrderStatus() {
     if (this.products && this.products.length > 0) {
-      const count = this.products.filter(p => p.productItemStatus !== OrderStatus.ORDERCANCELED).length;
-      const canceled = this.products.filter(p => p.productItemStatus === OrderStatus.ORDERCANCELED).length;
+      const count = this.products.filter(p => p.productItemStatus !== OrderStatus.ORDERCANCELLED).length;
+      const cancelled = this.products.filter(p => p.productItemStatus === OrderStatus.ORDERCANCELLED).length;
       const pending = this.products.filter(p => p.productItemStatus === OrderStatus.ORDERPENDING).length;
       const processed = this.products.filter(p => p.productItemStatus === OrderStatus.ORDERPROCESSED).length;
       const shipped = this.products.filter(p => p.productItemStatus === OrderStatus.ORDERSHIPPED).length;
       const delivered = this.products.filter(p => p.productItemStatus === OrderStatus.ORDERDELIVERED).length;
       switch (true) {
         case count === 0:
-          this.orderStatus = 'Canceled';
+          this.orderStatus = 'Cancelled';
           break;
         case count === delivered:
           this.orderStatus = 'Delivered';
@@ -158,11 +162,14 @@ export class ProductOrderStatus {
   public productId: string;
   public productName: string;
   public productItemStatus: string;
+  public trackingNumber: string;
+  public selected: boolean;
   constructor(obj?: any) {
     if (obj) {
       this.productId = obj.productId;
       this.productName = obj.productName;
       this.productItemStatus = obj.productItemStatus;
+      this.trackingNumber = obj.trackingNumber;
     }
   }
 }
@@ -234,6 +241,7 @@ export class ReportOrderItem {
   deliveryMethod: string;
   deliveryStatus: string;
   product: Product;
+  trackingNumber: string;
   constructor(obj?: any) {
     if (obj) {
       this.productId = obj.productId;
@@ -249,6 +257,7 @@ export class ReportOrderItem {
       this.totalProductPrice = obj.totalProductPrice;
       this.deliveryMethod = obj.deliveryMethod;
       this.deliveryStatus = obj.deliveryStatus;
+      this.trackingNumber = obj.trackingNumber;
     }
   }
 }
@@ -363,5 +372,31 @@ export class ReportRetailerInquirys extends Pagination {
   }
   public content: ReportRetailerInquiry[];
 }
-
+export class ShippingTracking {
+  public orderId: string;
+  public retailerOrderId: string;
+  public retailerName: string;
+  public trackingNumber: string;
+  public carrier: string;
+  public productSKU: Array<string>;
+  public productIds: Array<string>;
+  public shipmentDate: string; // "2018-05-16"
+  constructor(obj?: any) {
+    this.productSKU = new Array<string>();
+    this.productIds = new Array<string>();
+    if (obj) {
+      this.orderId = obj.orderId;
+      this.retailerName = obj.retailerName;
+      this.trackingNumber = obj.trackingNumber;
+      this.carrier = obj.carrier;
+      if (obj.productSKU && obj.productSKU.length > 0) {
+        this.productSKU = obj.productSKU;
+      }
+      if (obj.productIds && obj.productIds.length > 0) {
+        this.productIds = obj.productIds;
+      }
+      this.shipmentDate = obj.shipmentDate;
+    }
+  }
+}
 

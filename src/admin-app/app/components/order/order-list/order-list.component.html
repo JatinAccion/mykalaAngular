@@ -38,7 +38,7 @@
                         <th width="2%"></th>
                     </tr>
                 </thead>
-                <tbody *ngFor="let order of orders.content | paginate: { id: 'server', itemsPerPage: orders.size, currentPage: orders.number + 1 , totalItems: orders.totalElements }">
+                <tbody *ngFor="let order of orders.content | paginate: { id: 'server', itemsPerPage: orders.size, currentPage: orders.number + 1 , totalItems: orders.totalElements }; let idx = index">
                     <tr>
                         <td>
                             <input type="checkbox" />
@@ -56,7 +56,7 @@
                             <div *ngFor="let product of order.products">
                                 <a class="colorBlue" target="_blank" class="text-nowrap" [routerLink]="['../product-edit', product.productId]">
                                     <span [ngSwitch]="product.productItemStatus">
-                                        <i *ngSwitchCase="orderStatus.ORDERCANCELED" class="fa fa-times-circle" aria-hidden="true"></i>
+                                        <i *ngSwitchCase="orderStatus.ORDERCANCELLED" class="fa fa-times-circle" aria-hidden="true"></i>
                                         <i *ngSwitchCase="orderStatus.ORDERPENDING" class="fa fa-clock-o" aria-hidden="true"></i>
                                         <i *ngSwitchCase="orderStatus.ORDERPROCESSED" class="fa fa-cogs" aria-hidden="true"></i>
                                         <i *ngSwitchCase="orderStatus.ORDERSHIPPED" class="fa fa-truck" aria-hidden="true"></i>
@@ -76,7 +76,7 @@
                     </tr>
                     <tr>
                         <td colspan="10" *ngIf="!order.isCollapsed" class="divOrderDetails">
-                            <app-order-details [retailerOrder]="order"></app-order-details>
+                            <app-order-details [(retailerOrder)]="orders.content[idx]"></app-order-details>
                         </td>
                     </tr>
                 </tbody>

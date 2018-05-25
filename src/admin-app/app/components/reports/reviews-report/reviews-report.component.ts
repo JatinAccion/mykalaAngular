@@ -32,12 +32,7 @@ export class ReviewsReportComponent implements OnInit {
   retailerName = '';
   ratings = [1, 2, 3, 4, 5];
   details = { widgetType: 'one', year: this.currentYear, month: this.currentMonth };
-  widget = {
-    'one': { widgetType: 'Average', year: this.currentYear, month: this.currentMonth, monthName: this.dateUtils.getMonthName(this.currentMonth), value: 0, values: [], first: false, last: true, index: 0 },
-    'two': { widgetType: 'Ratings', year: this.currentYear, month: this.currentMonth, monthName: this.dateUtils.getMonthName(this.currentMonth), value: 0, values: [], first: false, last: true, index: 0 },
-    'three': { widgetType: 'Completed', year: this.currentYear, month: this.currentMonth, monthName: this.dateUtils.getMonthName(this.currentMonth), value: 0, values: [], first: false, last: true, index: 0 },
-    'four': { widgetType: 'NotCompleted', year: this.currentYear, month: this.currentMonth, monthName: this.dateUtils.getMonthName(this.currentMonth), value: 0, values: [], first: false, last: true, index: 0 }
-  };
+  widget: any;
   colors = ['#94A5B7', '#D6ECF6', '#436798', '#2A4B70'];
   reportYears = 5;
   stacks = ['stack 0'];

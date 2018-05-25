@@ -11,7 +11,7 @@ import { LocalStorageService } from '../../services/LocalStorage.service';
 import { environment } from './../../../environments/environment';
 import { nameValue } from '../../../../models/nameValue';
 import { ReportOrders, ReportRetailerInquirys, ReportPaymentDatas } from '../../../../models/report-order';
-import { ReportReviewSummary } from '../../../../models/report-review';
+import { ReportReviewSummary, ReviewItem } from '../../../../models/report-review';
 import { Retailers, RetailerReviews, ReviewRatings } from '../../../../models/retailer';
 import { ReportConsumers } from '../../../../models/report-consumer';
 
@@ -198,11 +198,59 @@ export class ReportsService {
       .map(p => this.handleResponse(p, ReportReviewSummary))
       .catch(this.handleError);
   }
+
+  //#region Sales Reports
+
+  srGetWidOneData(year: string, month?: string): Observable<Array<ReviewItem>> {
+    this.headers = this.getHttpHeraders();
+    const url = `${environment.ordersReportApi}/${environment.apis.salesReport.widOne}`.replace('{year}', year).replace('{month}', month || '');
+    return this.http
+      .get(url, { headers: this.headers })
+      .map(p => this.handleArrayResponse(p, ReviewItem))
+      .catch(this.handleError);
+  }
+  srGetWidTwoData(year: string, month?: string): Observable<Array<ReviewItem>> {
+   this.headers = this.getHttpHeraders();
+    const url = `${environment.ordersReportApi}/${environment.apis.salesReport.widTwo}`.replace('{year}', year).replace('{month}', month || '');
+    return this.http
+      .get(url, { headers: this.headers })
+      .map(p => this.handleArrayResponse(p, ReviewItem))
+      .catch(this.handleError);
+  }
+
+  srGetWidFourData(year: string, month?: string): Observable<Array<ReviewItem>> {
+   this.headers = this.getHttpHeraders();
+    const url = `${environment.InquiryApi}/${environment.apis.salesReport.widFour}`.replace('{year}', year).replace('{month}', month || '');
+    return this.http
+      .get(url, { headers: this.headers })
+      .map(p => this.handleArrayResponse(p, ReviewItem))
+      .catch(this.handleError);
+  }
+  srGetChartData(year: string, month?: string): Observable<Array<ReviewItem>> {
+   this.headers = this.getHttpHeraders();
+    const url = `${environment.InquiryApi}/${environment.apis.salesReport.chart}`.replace('{year}', year).replace('{month}', month || '');
+    return this.http
+      .get(url, { headers: this.headers })
+      .map(p => this.handleArrayResponse(p, ReviewItem))
+      .catch(this.handleError);
+  }
+
+
+  //#endregion
+
+
   private handleResponse<T>(response: any, type: (new (any) => T)): T {
     if (response.text() === '') {
       return new type(null);
     } else {
       return new type(response.json());
+    }
+  }
+  private handleArrayResponse<T>(response: any, type: (new (any) => T)): T[] {
+    if (response.text() === '') {
+      return [];
+    } else {
+      return response.json().map(p => new type(p));
     }
   }
   private handleError(error: any) {
@@ -211,5 +259,51 @@ export class ReportsService {
     console.error(error);
     return Observable.throw(error.json().error || 'Server error');
   }
+  getPrev12Months(year: number, month: number) {
+    const reportData = new Array<ReviewItem>();
+    let _year = year - 1;
+    let _month = month + 1;
+    for (let i = 0; i < 12; i++) {
+      reportData.push(new ReviewItem({ year: _year, month: _month }));
+      if (_month === 12) {
+        _month = 1; _year++;
+      } else { _month++; }
+    }
+    return reportData;
+  }
+  getPrev5Years(year: number) {
+    const reportData = new Array<ReviewItem>();
+    for (let i = 4; i >= 0; i--) {
+      reportData.push(new ReviewItem({ year: year - i, month: 0 }));
+    }
+    return reportData;
+  }
+  formatDate(date, format) {
+    const monthNames = [
+      'January', 'February', 'March',
+      'April', 'May', 'June', 'July',
+      'August', 'September', 'October',
+      'November', 'December'
+    ];
+    const monthNamesShort = [
+      'Jan', 'Feb', 'Mar',
+      'Apr', 'May', 'Jun', 'Jul',
+      'Aug', 'Sep', 'Oct',
+      'Nov', 'Dec'
+    ];
 
+    const day = date.getDate();
+    const monthIndex = date.getMonth();
+    const year = date.getFullYear();
+    switch (format) {
+      case 'MM YYYY':
+        return monthIndex + ' ' + year;
+      case 'MMM YYYY':
+        return monthNamesShort[monthIndex] + ' ' + year;
+      case 'MMMM YYYY':
+        return monthNames[monthIndex] + ' ' + year;
+      default:
+        return day + ' ' + monthNames[monthIndex] + ' ' + year;
+    }
+  }
 }

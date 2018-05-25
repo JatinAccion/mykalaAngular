@@ -55,6 +55,10 @@
                 <td>Delivery Method:</td>
                 <td>{{orderItem.deliveryMethod}}</td>
             </tr>
+            <tr>
+                <td>Tracking Number:</td>
+                <td>{{orderItem.trackingNumber}}</td>
+            </tr>
         </table>
     </div>
     <hr />
@@ -99,11 +103,84 @@
                 <td>Processed on:</td>
                 <td>{{retailerOrder.orderProcessedDate | date:'MMM dd, yyyy, hh:mm a'}}</td>
             </tr>
-            <tr>
+            <tr *ngIf="showTrackingForm" >
+                <td colspan="2">
+                    <div [formGroup]="fG1">
+                        <div class="row pb-1">
+                            <div class="col-sm-5 pr-0">
+                                <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.trackingNumber)">Tracking Number:</label>
+                            </div>
+                            <div class="col-sm-7 pl-0">
+                                <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="trackingNumber">
+                                <!--Validation-->
+                                <app-field-error-display [field]="fG1.controls.trackingNumber" [errorMsg]="errorMsgs"> </app-field-error-display>
+                                <!--Validation-->
+                            </div>
+                        </div>
+                        <div class="row pb-1">
+                            <div class="col-sm-5">
+                                <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.carrier)">Carrier:</label>
+                            </div>
+                            <div class="col-sm-7 pl-0">
+                                <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="carrier">
+                                <!--Validation-->
+                                <app-field-error-display [field]="fG1.controls.carrier" [errorMsg]="errorMsgs"> </app-field-error-display>
+                                <!--Validation-->
+                            </div>
+                        </div>                        
+                        <div class="row pb-1">
+                            <div class="col-sm-5">
+                                <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.shipmentDate)">Shipment Date:</label>
+                            </div>
+                            <div class="col-sm-7 pl-0">
+                                <div class="input-group">
+                                    <input formControlName="shipmentDate" (focus)="d.open()" [minDate]="minDateInquiry" [maxDate]="maxDateInquiry" ngbDatepicker #d="ngbDatepicker" class="form-control" >
+                                    <div class="input-group-append">
+                                        <button class="btn btn-default ancProfile1" (click)="d.toggle()">
+                                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!--Validation-->
+                                <app-field-error-display [field]="fG1.controls.shipmentDate" [errorMsg]="errorMsgs"> </app-field-error-display>
+                                <!--Validation-->
+                            </div>
+                        </div>
+                        <div class=" row pb-1">
+                            <div class="col-sm-5">
+                                <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.productSKU)">Products:</label>
+                            </div>                            
+                            <div class="col-sm-12 "> 
+                                <label *ngFor="let option of processedProducts" class="pl-5 p-1" >
+                                    <input type="checkbox" [(ngModel)]="option.selected" formControlName="productSKU"> {{option.productName}}
+                                </label>
+<!--                                  
+                                   
+                               <select class="ddl_default form-control w-50" formControlName="productSKU" >
+                                    <option value=''>Product</option>
+                                    <option *ngFor="let option of processedProducts" [ngValue]="option.productId">
+                                        {{option.productName}}
+                                    </option>
+                                </select>  -->
+                                <!--Validation-->
+                                <app-field-error-display [field]="fG1.controls.productSKU" [errorMsg]="errorMsgs"> </app-field-error-display>
+                                <!--Validation-->
+                            </div>                                
+                        </div>
+                        <div class="col-sm-12 py-3 text-right">
+                                <button class="btn btn-default ancProfile1" (click)="clear()">Cancel</button>
+                                <button class="btn btn-default ancProfile1" [disabled]="saveloader" (click)="saveShipmentTracking();">Save
+                                    <i class="fa fa-repeat fa-spin" aria-hidden="true" *ngIf="saveloader"></i>
+                                </button>
+                            </div>
+                    </div>
+                </td>
+            </tr>
+            <tr *ngIf="!showTrackingForm">
                 <td>Shipped on:</td>
                 <td>{{retailerOrder.orderShippedDate | date:'MMM dd, yyyy, hh:mm a'}}</td>
             </tr>
-            <tr>
+            <tr *ngIf="!showTrackingForm">
                 <td>Delivered on:</td>
                 <td>{{retailerOrder.orderDeliveredDate | date:'MMM dd, yyyy, hh:mm a'}}</td>
             </tr>

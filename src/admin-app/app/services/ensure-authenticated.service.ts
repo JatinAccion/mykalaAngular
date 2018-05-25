@@ -35,7 +35,7 @@ export class EnsureAuthenticated implements CanActivate {
       //  return confirm('Are you sure, you want to navigate to list page ');
        return true;
     } else {
-      this.router.navigateByUrl('/home');
+      this.router.navigateByUrl('/login');
       return false;
     }
   }

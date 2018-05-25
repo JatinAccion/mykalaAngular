@@ -10,7 +10,7 @@ import 'rxjs/add/operator/catch';
 import { LocalStorageService } from '../../services/LocalStorage.service';
 import { environment } from './../../../environments/environment';
 import { nameValue } from '../../../../models/nameValue';
-import { ReportOrders, ReportConsumer, ReportOrder, ConsumerOffersOrdersCount, RetailerOrders } from '../../../../models/report-order';
+import { ReportOrders, ReportConsumer, ReportOrder, ConsumerOffersOrdersCount, RetailerOrders, ShippingTracking } from '../../../../models/report-order';
 import { Product } from '../../../../models/product';
 
 @Injectable()
@@ -60,7 +60,14 @@ export class OrderService {
       .map(p => this.handleResponse(p, ReportOrder))
       .catch(this.handleError);
   }
-
+  saveShipmentTracking(shippingTracking: ShippingTracking) { 
+    this.headers = this.getHttpHeraders();
+    const url = `${environment.ordersApi}/${environment.apis.orders.saveShipmentTracking}`;
+    return this.http
+      .post(url, shippingTracking, { headers: this.headers })
+      .map(p => p.text())
+      .catch(this.handleError);
+  }
   getProducts(productIds: string[]): Observable<Product[]> {
     this.headers = this.getHttpHeraders();
     const url = `${environment.productApi}/${environment.apis.product.getProducts}/${productIds}`;

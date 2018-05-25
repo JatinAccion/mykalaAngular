@@ -31,18 +31,23 @@ export class ReviewItem {
     public closedAccounts: number;
     public newMembers: number;
     public totalMembers: number;
+    public orderCount: number;
+    public offerCount: number;
+    public returns: number;
     constructor(obj?: any) {
         if (obj) {
             this.year = obj.year;
             this.month = obj.month;
-            this.total = obj.total;
+            this.total = obj.total || obj.purchasedPrice;
             this.completed = obj.completed;
             this.avg = Math.round(obj.avg * 100) / 100;
             this.count = obj.count;
             this.closedAccounts = obj.closedAccounts;
             this.newMembers = obj.newMembers;
             this.totalMembers = obj.totalMembers;
-
+            this.orderCount = obj.orderCount;
+            this.offerCount = obj.offerCount;
+            this.returns = obj.returns;
         }
     }
 }

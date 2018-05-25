@@ -11,12 +11,12 @@
         </div>
     </div>
     <div class="row ">
-        <div class="col-sm-3 pl-0">
+        <div class="col-sm-4 pl-0">
             <div class="backgroundWhite">
                 <div class="text-center p-2">
                     Transactions
                     <span class="float-right">
-                        <a>
+                        <a (click)="goto('one',0)">
                             <i class="fa fa-refresh" aria-hidden="true"></i>
                         </a>
                     </span>
@@ -24,35 +24,35 @@
                 </div>
                 <div class="row pl-3 pr-2 pb-2">
                     <div class="col-sm-2">
-                        <a (click)="goto('total',-1)">
+                       <a (click)="goto('one',-1)" *ngIf="!widget.one.first">
                             <i class="fa fa-caret-left caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
                     <div class="col-sm-8 text-center colorlightGray">
-                        {{this.reportModel !== 'Monthly'?'':(widget.total.monthName + ',') }} {{widget.total.year}}
+                        {{this.reportModel !== 'Monthly'?'':(widget.one.monthName + ',') }} {{widget.one.year}}
                     </div>
                     <div class="col-sm-2">
-                        <a (click)="goto('total',1)">
+                       <a (click)="goto('one',1)" *ngIf="!widget.one.last">
                             <i class="fa fa-caret-right caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
                 </div>
                 <div class="row p-2">
                     <div class="col-sm-12 text-center colorDarkBlue">
-                        <h4>{{widget.total.value}}</h4>
+                        <h4>{{widget.one.value}}</h4>
                     </div>
                 </div>
                 <div class="text-center p-2">
-                    <a class="btn btn-default" (click)="getDetails('total')">Detail</a>
+                    <a class="btn btn-default" (click)="getDetails('one')">Detail</a>
                 </div>
             </div>
         </div>
-        <div class="col-sm-3 pl-0">
+        <div class="col-sm-4 pl-0">
             <div class="backgroundWhite">
                 <div class="text-center p-2">
                     Revenue
                     <span class="float-right">
-                        <a (click)="goto('automatic',0)">
+                        <a (click)="goto('two',0)">
                             <i class="fa fa-refresh" aria-hidden="true"></i>
                         </a>
                     </span>
@@ -60,35 +60,35 @@
                 </div>
                 <div class="row pl-3 pr-2 pb-2">
                     <div class="col-sm-2">
-                        <a (click)="goto('automatic',-1)">
+                         <a (click)="goto('two',-1)" *ngIf="!widget.two.first">
                             <i class="fa fa-caret-left caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
                     <div class="col-sm-8 text-center colorlightGray">
-                        {{this.reportModel !== 'Monthly'?'':(widget.automatic.monthName + ',') }} {{widget.automatic.year}}
+                        {{this.reportModel !== 'Monthly'?'':(widget.two.monthName + ',') }} {{widget.two.year}}
                     </div>
                     <div class="col-sm-2">
-                        <a (click)="goto('automatic',1)">
+                        <a (click)="goto('two',1)" *ngIf="!widget.two.last">
                             <i class="fa fa-caret-right caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
                 </div>
                 <div class="row p-2">
                     <div class="col-sm-12 text-center colorDarkBlue">
-                        <h4>{{widget.automatic.value | currency}}</h4>
+                        <h4>{{widget.two.value | currency}}</h4>
                     </div>
                 </div>
                 <div class="text-center p-2">
-                    <a class="btn btn-default" (click)="getDetails('automatic')">Detail</a>
+                    <a class="btn btn-default" (click)="getDetails('two')">Detail</a>
                 </div>
             </div>
         </div>
-        <div class="col-sm-3 pl-0">
+        <div class="col-sm-4 pl-0" *ngIf="false">
             <div class="backgroundWhite">
                 <div class="text-center p-2">
                     Cart Abandonment
                     <span class="float-right">
-                        <a (click)="goto('manual',0)">
+                        <a (click)="goto('three',0)">
                             <i class="fa fa-refresh" aria-hidden="true"></i>
                         </a>
                     </span>
@@ -96,7 +96,7 @@
                 </div>
                 <div class="row pl-3 pr-2 pb-2">
                     <div class="col-sm-2">
-                        <a (click)="goto('manual',-1)">
+                        <a (click)="goto('three',-1)" *ngIf="!widget.three.first">
                             <i class="fa fa-caret-left caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -104,7 +104,7 @@
                         {{this.reportModel !== 'Monthly'?'':(widget.manual.monthName + ',') }} {{widget.manual.year}}
                     </div>
                     <div class="col-sm-2">
-                        <a (click)="goto('manual',1)">
+                        <a (click)="goto('three',1)" *ngIf="!widget.three.last">
                             <i class="fa fa-caret-right caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -120,12 +120,12 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-3 pl-0">
+        <div class="col-sm-4 pl-0">
             <div class="backgroundWhite">
                 <div class="text-center p-2">
                     Returns
                     <span class="float-right">
-                        <a (click)="goto('pending',0)">
+                        <a (click)="goto('four',0)">
                             <i class="fa fa-refresh" aria-hidden="true"></i>
                         </a>
                     </span>
@@ -133,27 +133,27 @@
                 </div>
                 <div class="row pl-3 pr-2 pb-2">
                     <div class="col-sm-2">
-                        <a (click)="goto('pending',-1)">
+                        <a (click)="goto('four',-1)" *ngIf="!widget.four.first">
                             <i class="fa fa-caret-left caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
                     <div class="col-sm-8 text-center colorlightGray">
-                        {{this.reportModel !== 'Monthly'?'':(widget.pending.monthName + ',')}} {{widget.pending.year}}
+                        {{this.reportModel !== 'Monthly'?'':(widget.four.monthName + ',')}} {{widget.four.year}}
                     </div>
                     <div class="col-sm-2">
-                        <a (click)="goto('pending',1)">
+                        <a (click)="goto('four',1)" *ngIf="!widget.four.last">
                             <i class="fa fa-caret-right caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
                 </div>
                 <div class="row p-2">
                     <div class="row col-sm-12 text-center colorDarkBlue">
-                        <h4 class="col-sm-6">{{widget.pending.value}}</h4>
-                        <h4 class="col-sm-6">{{widget.pending.value| currency}}</h4>
+                        <h4 class="col-sm-6">{{widget.four.countValue}}</h4>
+                        <h4 class="col-sm-6">{{widget.four.value| currency}}</h4>
                     </div>
                 </div>
                 <div class="text-center p-2">
-                    <a class="btn btn-default" (click)="getDetails('pending')">Detail</a>
+                    <a class="btn btn-default" (click)="getDetails('four')">Detail</a>
                 </div>
             </div>
         </div>

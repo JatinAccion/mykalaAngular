@@ -207,12 +207,15 @@ export class RetialerService {
         .catch(this.handleError);
     }
   }
-  addSellerAccount(stripePayment: StripePayment): Observable<any> {
+  addSellerAccount(stripePayment: StripePayment, reActivateStripe: boolean): Observable<any> {
     this.headers = this.getHttpHeraders();
-    const url = `${environment.paymentApi}/${environment.apis.retailerPaymentInfo.addSellerAccount}`;
-
-    return this.http
-      .post(`${url}`, stripePayment, { headers: this.headers })
+    let url = `${environment.paymentApi}/${environment.apis.retailerPaymentInfo.addSellerAccount}`;
+    const requestOptions = { body: stripePayment, method: RequestMethod.Post, headers: this.headers };
+    if (reActivateStripe) {
+      url = `${environment.paymentApi}/${environment.apis.retailerPaymentInfo.updateSellerAccount}`;
+      requestOptions.method = RequestMethod.Put;
+    }
+    return this.http.request(url, requestOptions)
       .map(res => res.text())
       .catch(this.handleError);
   }
