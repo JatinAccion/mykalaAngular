@@ -5,6 +5,7 @@ import { Router, RouterOutlet } from '@angular/router';
 import { SearchDataModal } from '../../../../models/searchData.modal';
 import { BrowseProductsModal } from '../../../../models/browse-products';
 import { environment } from '../../../environments/environment';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-browse-product',
@@ -95,7 +96,7 @@ export class BrowseProductComponent implements OnInit {
     document.getElementById("mySidenav").style.width = "300px";
     this.homeService.getTilesCategory(this.selectedTilesData.place.id).subscribe(res => {
       this.loaderCategory = false;
-      for (var i = 0; i < res.length; i++) this.categoryList.push(new SearchDataModal(res[i].categoryId, res[i].categoryName, res[i].categoryName, "2"));
+      for (var i = 0; i < res.length; i++) this.categoryList.push(new SearchDataModal(res[i].categoryId, res[i].categoryName, res[i].categoryName, "2", "", "", "", false));
     });
   };
 
@@ -107,15 +108,8 @@ export class BrowseProductComponent implements OnInit {
     this.loadersubCategory = true;
     this.selectedCategoryData = object;
     this.subCategory = [];
-    e.currentTarget.nextElementSibling.style.display = 'block';
-    //If Previous Siblings is Present
-    if (e.currentTarget.parentElement.parentElement.previousElementSibling.className == 'category_tiles') {
-      e.currentTarget.parentElement.parentElement.previousElementSibling.firstElementChild.lastElementChild.style.display = 'none';
-    }
-    //If Next Siblings is Present
-    if (e.currentTarget.parentElement.parentElement.nextElementSibling == null) { }
-    else e.currentTarget.parentElement.parentElement.nextElementSibling.firstElementChild.lastElementChild.style.display = 'none';
-
+    for (var i = 0; i < this.categoryList.length; i++) this.categoryList[i].expanded = false;
+    object.expanded = true;
     this.homeService.getTilesSubCategory(object.id).subscribe(res => {
       this.loadersubCategory = false;
       for (var i = 0; i < res.length; i++) this.subCategory.push(new SearchDataModal(res[i].subCategoryId, res[i].subCategoryName, res[i].subCategoryName, "3"));

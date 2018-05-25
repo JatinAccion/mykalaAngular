@@ -6,6 +6,7 @@ export class SearchDataModal {
         public level?: string,
         public imgUrl?: string,
         public iconUrl?: string,
-        public selection?: any
+        public selection?: any,
+        public expanded?: boolean
     ) { }
 }

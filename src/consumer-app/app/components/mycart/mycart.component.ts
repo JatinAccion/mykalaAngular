@@ -228,6 +228,7 @@ export class MycartComponent implements OnInit {
     this.addToCartModal.height = item.height;
     this.addToCartModal.length = item.length;
     this.addToCartModal.weight = item.weight;
+    this.addToCartModal.orderFrom = item.orderFrom;
     if (to === 'toCart') {
       this.addToCartModal.label = "cart";
       let moveToCart: boolean = false;

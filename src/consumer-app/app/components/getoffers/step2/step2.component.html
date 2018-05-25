@@ -24,7 +24,10 @@
             <div class="categ_outline_gray mr-3 mb-3 {{offers.key}} {{offers.orderNo}}" style="cursor: pointer" (click)="select(offers, values, $event)" *ngFor="let values of offers.values">{{values}}</div>
             <input type="text" [(ngModel)]="offers.otherInputValue" class="form-control d-inline w-25" *ngIf="offers.otherInput" style="height: 30px" />
           </div>
-          <div class="col-sm-2" style="cursor: pointer" *ngIf="offers.hideRemaining != undefined" class="colorred" (click)="toggleElements(offers, $event)">show more +</div>
+          <div class="col-sm-2" style="cursor: pointer" *ngIf="offers.hideRemaining != undefined && offers.hideRemaining && !offers.expanded;else showLess" class="colorred" (click)="toggleElements(offers, $event)">show more +</div>
+          <ng-template #showLess>
+            <div class="col-sm-2" style="cursor: pointer" *ngIf="!offers.hideRemaining && offers.expanded" class="colorred" (click)="toggleElements(offers, $event)">show less -</div>
+          </ng-template>
         </div>
         <hr />
       </div>

@@ -12,7 +12,7 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./elastic-search-result.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class ElasticSearchResult implements OnInit {
+export class ElasticSearchResult implements OnInit, OnDestroy {
   s3 = environment.s3
   tilesData = [];
   loader: boolean = false;
@@ -34,24 +34,26 @@ export class ElasticSearchResult implements OnInit {
     this.core.headerScroll();
     localStorage.removeItem("selectedProduct");
     this.loader = true;
+    if (window.localStorage['esKeyword'] != undefined) this.core.search(window.localStorage['esKeyword']);
     this.core.esKey.subscribe(p => {
       this.loader = true;
       this.tilesData = p;
       this.loader = false;
+    }, (err) => {
+      this.loader = false;
     });
   }
 
+  ngOnDestroy() {
+    window.localStorage['esKeyword'] = this.core.searchBar;
+    this.core.searchBar = "";
+  }
+
   viewDetails(tile) {
-    let updateStorage = JSON.parse(window.localStorage['levelSelections']);
-    updateStorage.subType.id = tile.product.kalaUniqueId;
-    updateStorage.subType.name = tile.product.productName;
-    updateStorage.subType.text = tile.product.productName;
-    updateStorage.subType.level = "5";
-    updateStorage.subType.imgUrl = tile.product.mainImageSrc;
-    window.localStorage['levelSelections'] = JSON.stringify(updateStorage);
     window.localStorage['selectedProduct'] = JSON.stringify(tile);
     this.route.navigateByUrl("/view-product");
     window.localStorage['fromES'] = true;
+    window.localStorage['esKeyword'] = this.core.searchBar;
   }
 
 }

@@ -53,4 +53,10 @@ export class ViewProductService {
         }
         return this.http.get(url).map((res) => res.json());
     }
+
+    getItBy(shippingProfileId) {
+        const BASE_URL: string = environment.shippingMethod;
+        const url: string = `${BASE_URL}/retailer/v1/${shippingProfileId}/${environment.apis.shippingMethod.latestShipMethodName}`;
+        return this.http.get(url).map((res) => res.text());
+    }
 }

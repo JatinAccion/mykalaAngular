@@ -18,6 +18,7 @@ import animateScrollTo from 'animated-scroll-to';
 import { AvalaraTaxModel, shippingAddress, ItemsTaxModel, ItemsTaxList } from '../../../../models/tax';
 import { CheckOutMessages } from './checkoutMessages';
 import { regexPatterns } from '../../../../common/regexPatterns';
+import { MyCartService } from '../../services/mycart.service';
 
 @Component({
   selector: 'app-checkout',
@@ -105,7 +106,8 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     private checkout: CheckoutService,
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
-    private route: Router
+    private route: Router,
+    private mycart: MyCartService
   ) { }
 
   ngOnInit() {
@@ -649,18 +651,22 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     let checkInStock = [];
     let proceed = false;
     if ((this.selectedAddressDetails || this.selectedCardDetails || this.selectedMethodDetails) == undefined) {
-      this.confirmValidationMsg.message = "Please select a Shipping Address, Shipping Method and a Card";
+      this.confirmValidationMsg.message = "Please select a Shipping Address, Shipping Method and Payment Option";
       this.core.openModal(this.checkoutModal);
     }
-    else if (this.selectedAddressDetails == undefined) {
-      this.confirmValidationMsg.message = "Please select a Shipping Address";
+    else if (this.selectedAddressDetails == undefined && this.selectedMethodDetails == undefined) {
+      this.confirmValidationMsg.message = "Please select a Shipping Address and Shipping Method";
       this.core.openModal(this.checkoutModal);
     }
-    else if (this.selectedCardDetails == undefined) {
-      this.confirmValidationMsg.message = "Please select a Card";
+    else if (this.selectedCardDetails == undefined && this.selectedMethodDetails == undefined) {
+      this.confirmValidationMsg.message = "Please select a Shipping Method and Payment Option";
       this.core.openModal(this.checkoutModal);
     }
-    else if (this.selectedMethodDetails == undefined) {
+    else if (this.selectedCardDetails == undefined && this.selectedMethodDetails != undefined && this.selectedAddressDetails != undefined) {
+      this.confirmValidationMsg.message = "Please select a Payment Option";
+      this.core.openModal(this.checkoutModal);
+    }
+    else if (this.selectedMethodDetails == undefined && this.selectedCardDetails != undefined && this.selectedAddressDetails != undefined) {
       this.confirmValidationMsg.message = "Please select a Shipping Method";
       this.core.openModal(this.checkoutModal);
     }
@@ -669,7 +675,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       for (var i = 0; i < getAllSelects.length; i++) {
         var selectedValue = getAllSelects[i] as HTMLSelectElement;
         if (selectedValue.selectedIndex == 0) {
-          this.confirmValidationMsg.message = "Please select per product shipping methods";
+          this.confirmValidationMsg.message = "Please select Shipping Methods for all the items";
           this.core.openModal(this.checkoutModal);
           return false
         }
@@ -695,7 +701,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.ProductCheckoutModal.purchasedPrice = eval(`${this.totalProductTax + this.totalAmountFromCart + this.finalShippingAmount}`);
       for (var i = 0; i < this.itemsInCart.length; i++) {
         let item = this.itemsInCart[i]
-        this.ProductCheckoutModal.orderItems.push(new OrderItems(item.productId, item.productName, item.retailerName, item.retailerId, item.productDescription, item.productImage, item.quantity, item.price, item.productTaxCost, item.shippingCost, eval(`${item.price * item.quantity}`), item.deliveryMethod, item.productUPCCode, item.productSKUCode))
+        this.ProductCheckoutModal.orderItems.push(new OrderItems(item.productId, item.productName, item.retailerName, item.retailerId, item.productDescription, item.productImage, item.quantity, item.price, item.productTaxCost, item.shippingCost, eval(`${item.price * item.quantity}`), item.deliveryMethod, item.productUPCCode, item.productSKUCode, item.orderFrom))
       };
       console.log(this.ProductCheckoutModal);
       for (var i = 0; i < this.itemsInCart.length; i++) {
@@ -731,12 +737,25 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
           }
           this.checkout.chargeAmount(this.ProductCheckoutModal).subscribe((res) => {
             this.paymentSuccessfullMsg = res;
-            localStorage.removeItem('existingItemsInCart');
             this.loader_chargeAmount = false;
-            this.route.navigateByUrl('/myorder');
+            /* Deleting Items from Cart */
+            let itemsOfCart = JSON.parse(window.localStorage['existingItemsInCart']);
+            let deleteResponse = [];
+            for (var i = 0; i < itemsOfCart.length; i++) {
+              this.mycart.deleteCartItem(itemsOfCart[i]).subscribe((res) => {
+                deleteResponse.push(res);
+                if (itemsOfCart.length == deleteResponse.length) {
+                  localStorage.removeItem('existingItemsInCart');
+                  this.route.navigateByUrl('/myorder');
+                }
+              }, (err) => {
+                console.log("Error From Delete Items API")
+              })
+            }
+            /* Deleting Items from Cart */
           }, (err) => {
             this.loader_chargeAmount = false;
-            console.log("Something went wrong");
+            console.log("Error From Place an Order API");
           })
         }, 3000)
       }, 1000)
@@ -745,20 +764,6 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
   showRetailerReturns(order) {
     this.retailerReturnPolicy = order.retailerReturns;
-  }
-
-  open(content) {
-    this.modalService.open(content).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) return 'by pressing ESC';
-    else if (reason === ModalDismissReasons.BACKDROP_CLICK) return 'by clicking on a backdrop';
-    else return `with: ${reason}`;
   }
 
 }

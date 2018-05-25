@@ -4,14 +4,14 @@
         <h1>Take the Search out of Shopping</h1>
         <h4>Your Online Shopping Experience. Personalized.</h4>
         <div class="banner_action d-inline-block">
-            <input type="text" #searchBar (blur)="core.hideSuggesstionList()" (keydown)="core.navigateSL($event)" (keyup)="core.searchSuggestion(searchBar.value, $event)" class="form-control float-left" placeholder="What can we help you find?" />
-            <button (click)="core.search(searchBar.value)" class="btn btn-red float-left text-center">
+            <input type="text" [(ngModel)]="core.searchBar" (blur)="core.hideSuggesstionList()" (keydown)="core.navigateSL($event)" (keyup)="core.searchSuggestion(core.searchBar, $event)" class="form-control float-left" placeholder="What can we help you find?" />
+            <button (click)="core.search(core.searchBar, 'explore')" class="btn btn-red float-left text-center">
                 <span *ngIf="!core.loaderSearch">EXPLORE</span>
                 <img *ngIf="core.loaderSearch" src="/consumer-app/assets/images/loaderWhite.gif" style="margin-top: -3px" />
             </button>
-            <ol class="p-0 float-left text-left suggesstionList" *ngIf="core.suggesstionList != undefined && core.suggesstionList.length > 0">
-                <li *ngFor="let list of core.suggesstionList; let i = index" (click)="core.search(list)" [ngClass]="{'activeList':i == core.arrowkeyLocation}">{{list}}</li>
-            </ol>
+            <div class="p-0 float-left text-left suggesstionList" *ngIf="core.suggesstionList != undefined && core.suggesstionList.length > 0">
+                <button *ngFor="let list of core.suggesstionList; let i = index" (click)="core.search(list)" [ngClass]="{'activeList':i == core.arrowkeyLocation}">{{list}}</button>
+            </div>
         </div>
     </div>
     <div class="row hdr_footer">
@@ -191,7 +191,7 @@
             <a (click)="contactKalaBtn()" href="javascript:void(0)" style="width: 150px" class="btn btn_default">CALL US</a>
         </div>
         <h4 class="pb-0" *ngIf="emailKala">support@mykala.com</h4>
-        <h4 class="pb-0" *ngIf="contactKala">1-855-4-MYKALA (695252)</h4>
+        <h4 class="pb-0" *ngIf="contactKala">1-855-4-MYKALA (1-855-469-5252)</h4>
     </div>
 </section>
 <div class="row">

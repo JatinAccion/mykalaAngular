@@ -30,7 +30,7 @@
       <div class="col-sm-6 p-0 sliderShadow">
         <div class="container">
           <!-- main slider carousel -->
-          <div class="row">
+          <div class="row" *ngIf="selectedProduct.product.productImages != undefined && selectedProduct.product.productImages.length > 0">
             <ngb-carousel class="customSlider w-100">
               <ng-template ngbSlide *ngFor="let image of selectedProduct.product.productImages; let i=index">
                 <img src="{{image.location}}" alt="Slide {{i}}">
@@ -77,19 +77,30 @@
           </div>
         </div>
 
-        <div class="row" *ngIf="totalReviewSummary != undefined">
+        <div class="row" *ngIf="totalReviewSummary != undefined && totalReviewSummary != ''">
           <div class="col-12 pl-4 pr-4 mt-2">
             <span *ngFor="let rating of getRating(totalReviewSummary.average)">
               <i class="fa fa-star starIcon starIconView" aria-hidden="true"></i>
             </span>
-            <span class="cursor" style="color: blue" (click)="animateToTiles('reviews')">
+            <span *ngFor="let rating of getRating(totalReviewSummary.left)">
+              <i class="fa fa-star fa-star-gray starIcon starIconView" aria-hidden="true"></i>
+            </span>
+            <span class="cursor" style="color: blue" class="ml-2" (click)="animateToTiles('reviews')">
               <u>{{totalReviewSummary.total}}</u>
             </span>
           </div>
         </div>
 
+        <div class="row" *ngIf="selectedProduct.product.deliveryMethod != undefined">
+          <div class="col-sm-12 pl-4 pt-4 mb-4">
+            <span>Get it by
+              <span style="font-family: 'open_sansbold'">{{selectedProduct.product.deliveryMethod}}</span>
+            </span>
+          </div>
+        </div>
+
         <div class="row">
-          <div *ngIf="!alreadyAddedInCart" class="col-sm-12 pl-4 pt-3 mb-4">
+          <div *ngIf="!alreadyAddedInCart" class="col-sm-12 pl-4 mb-4">
             <span *ngIf="selectedProduct.product.quantity > 0;else outOfStock">{{selectedProduct.product.quantity}} in stock</span>
             <ng-template #outOfStock>
               <span>Out of stock</span>
@@ -97,7 +108,7 @@
           </div>
         </div>
 
-        <div class="row" *ngIf="dynamicColorData != undefined && dynamicSizeData != undefined">
+        <div class="row" *ngIf="dynamicColorData != undefined && dynamicColorData.length > 0 && dynamicSizeData != undefined && dynamicSizeData.length > 0">
           <div class="col-12 pl-4 pr-4 mb-3">
             <span class="w-25 text-left d-block float-left">Color</span>
             <span class="w-75 text-left d-block float-right">
