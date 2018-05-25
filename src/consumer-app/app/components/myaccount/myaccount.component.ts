@@ -26,7 +26,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   cardCvc: any;
   cardZip: any;
   getStates: any;
-
+  readStripe: boolean = false;
   error: string;
   cardHandler = this.onChange.bind(this);
   @ViewChild('cardInfo') cardInfo: ElementRef;
@@ -115,8 +115,10 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   customerId: string;
   @ViewChild('closeAccountModal') closeAccountModal: ElementRef;
   @ViewChild('deleteCardModal') deleteCardModal: ElementRef;
+  @ViewChild('deleteAddressModal') deleteAddressModal: ElementRef;
   saveCardDetails: any;
   pageLoader: boolean = false;
+  addressIdForDelete: string;
 
   constructor(
     public core: CoreService,
@@ -173,59 +175,63 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    const elementStyles = {
-      base: {
-        color: '#000',
-        fontWeight: 600,
-        fontFamily: 'Open Sans',
-        fontSize: '16px',
-        fontSmoothing: 'antialiased',
+    if (this.readStripe) {
+      const elementStyles = {
+        base: {
+          color: '#000',
+          fontWeight: 600,
+          font: [{
+            family: 'Open Sans',
+            src: "url('https://fonts.googleapis.com/css?family=Open+Sans')"
+          }],
+          fontSize: '16px',
+          ':focus': {
+            color: '#424770',
+          },
 
-        ':focus': {
-          color: '#424770',
+          '::placeholder': {
+            color: '#9BACC8',
+          },
+
+          ':focus::placeholder': {
+            color: '#CFD7DF',
+          },
         },
-
-        '::placeholder': {
-          color: '#9BACC8',
+        invalid: {
+          color: '#000',
+          ':focus': {
+            color: '#FA755A',
+          },
+          '::placeholder': {
+            color: '#FFCCA5',
+          },
         },
+      };
 
-        ':focus::placeholder': {
-          color: '#CFD7DF',
-        },
-      },
-      invalid: {
-        color: '#000',
-        ':focus': {
-          color: '#FA755A',
-        },
-        '::placeholder': {
-          color: '#FFCCA5',
-        },
-      },
-    };
+      const elementClasses = {
+        focus: 'focus',
+        empty: 'empty',
+        invalid: 'invalid',
+      };
+      // this.card = elements.create('card', { style });
+      this.cardNumber = elements.create('cardNumber', { style: elementStyles, classes: elementClasses, });
+      this.cardExpiry = elements.create('cardExpiry', { style: elementStyles, classes: elementClasses, });
+      this.cardCvc = elements.create('cardCvc', { style: elementStyles, classes: elementClasses, });
+      this.cardZip = elements.create('postalCode', { style: elementStyles, classes: elementClasses, placeholder: 'Zipcode', });
 
-    const elementClasses = {
-      focus: 'focus',
-      empty: 'empty',
-      invalid: 'invalid',
-    };
-    // this.card = elements.create('card', { style });
-    this.cardNumber = elements.create('cardNumber', { style: elementStyles, classes: elementClasses, });
-    this.cardExpiry = elements.create('cardExpiry', { style: elementStyles, classes: elementClasses, });
-    this.cardCvc = elements.create('cardCvc', { style: elementStyles, classes: elementClasses, });
-    this.cardZip = elements.create('postalCode', { style: elementStyles, classes: elementClasses, placeholder: 'Zipcode', });
-
-    // this.card.mount(this.cardInfo.nativeElement);
-    this.cardNumber.mount(this.cardNumberInfo.nativeElement);
-    this.cardExpiry.mount(this.cardExpiryInfo.nativeElement);
-    this.cardCvc.mount(this.cardCvcInfo.nativeElement);
-    this.cardZip.mount(this.cardZipInfo.nativeElement);
-
-    this.cardNumber.addEventListener('change', ({ brand }) => {
-      if (brand) {
-        this.setBrandIcon(brand);
-      }
-    });
+      // this.card.mount(this.cardInfo.nativeElement);
+      this.cardNumber.mount(this.cardNumberInfo.nativeElement);
+      this.cardExpiry.mount(this.cardExpiryInfo.nativeElement);
+      this.cardCvc.mount(this.cardCvcInfo.nativeElement);
+      this.cardZip.mount(this.cardZipInfo.nativeElement);
+    }
+    if (this.cardNumber != undefined) {
+      this.cardNumber.addEventListener('change', ({ brand }) => {
+        if (brand) {
+          this.setBrandIcon(brand);
+        }
+      });
+    }
   }
 
   setBrandIcon(brand) {
@@ -242,15 +248,13 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // this.card.removeEventListener('change', this.cardHandler);
-    // this.cardNumber.removeEventListener('change', this.cardHandler);
-    // this.cardExpiry.removeEventListener('change', this.cardHandler);
-    // this.cardCvc.removeEventListener('change', this.cardHandler);
-    // this.card.destroy();
-    this.cardNumber.destroy();
-    this.cardExpiry.destroy();
-    this.cardZip.destroy();
-    this.cardCvc.destroy();
+    if (this.cardNumber != undefined) {
+      this.cardNumber.destroy();
+      this.cardExpiry.destroy();
+      this.cardZip.destroy();
+      this.cardCvc.destroy();
+      this.cardNumber = undefined;
+    }
   }
 
   ngOnInit() {
@@ -313,7 +317,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     this.addCard = false;
     this.error = null;
     this.ngOnDestroy();
-    this.ngAfterViewInit();
+    //this.ngAfterViewInit();
   }
 
   updateCard(stripeAddCard) {
@@ -337,8 +341,23 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
+  confirmDeleteAddress(address) {
+    this.addressIdForDelete = address.addID;
+    this.core.openModal(this.deleteAddressModal);
+  }
+
+  deleteAddress() {
+    this.myAccount.deleteAddress(this.addressIdForDelete, this.getUserInfo.emailId).subscribe((res) => {
+      this.myAccountModel.profileInfo.address = new Array<MyAccountAddress>();
+      this.myAccountModel.profileInfo.address = res;
+    }, (err) => {
+      console.log(err)
+    })
+  }
+
   addNewCard() {
     this.addCard = !this.addCard;
+    this.readStripe = true;
     if (this.addCard) this.ngAfterViewInit();
     else this.resetAddCard();
   }
@@ -698,6 +717,8 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   saveNewAddress(e) {
+    let getText = document.getElementsByClassName("cursor");
+    for (let i = 0; i < getText.length; i++) getText[i].removeAttribute("disabled");
     this.myAccountModel.profileInfo.address.push(new MyAccountAddress(null, this.append_addAddressLine1, this.append_addAddressLine2, this.append_addShippingCity, this.append_addShippingState, this.append_addShippingZipcode.toString(), 'shippingAddress'));
     /**API to Save Address**/
     this.AddressSaveModel.emailId = this.getUserInfo.emailId;
@@ -733,6 +754,27 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     else if (this.passwordRegex.test(this.append_ConfirmPassword) == false) this.invalidPassword = true;
     else if (this.append_Password == this.append_NewPassword) this.oldNewPassword = true;
     else if (this.append_NewPassword != this.append_ConfirmPassword) this.newConfirmPassword = true;
+  }
+
+  terminate(from, obj?: any) {
+    if (from == 'addAddress') {
+      this.addShippingAddress = false;
+      this.append_addAddressLine1 = "";
+      this.append_addAddressLine2 = "";
+      this.append_addShippingCity = "";
+      this.append_addShippingState = "";
+      this.append_addShippingZipcode = "";
+    }
+    else if (from == 'editAddress') {
+      let getText = document.getElementsByClassName("cursor");
+      for (let i = 0; i < getText.length; i++) getText[i].removeAttribute("disabled");
+      obj.input_shippingAddress = false;
+      obj.append_editAddressLine1 = obj.addressLine1;
+      obj.append_editAddressLine2 = obj.addressLine2;
+      obj.append_editShippingCity = obj.city;
+      obj.append_editShippingState = obj.state;
+      obj.append_editShippingZipcode = obj.zipcode;
+    }
   }
 
   hideAllInputs(obj?: any) {

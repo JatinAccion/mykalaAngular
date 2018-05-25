@@ -42,6 +42,11 @@ export class MyAccountService {
         return this.http.delete(url).map((res) => res.text());
     }
 
+    deleteAddress(addressId, emailId) {
+        const url: string = `${this.BASE_URL}/${emailId}/${environment.apis.profileInterest.deleteAddress}/${addressId}`;
+        return this.http.delete(url).map((res) => res.json());
+    }
+
     getInterest() {
         const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.getCatalogue}`;
         return this.http.get(url).map((res) => res.json());

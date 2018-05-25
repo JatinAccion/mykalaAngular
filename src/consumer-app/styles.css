@@ -3057,3 +3057,11 @@ table.customeTable tr td {
     font-family: 'open_sanssemibold';
     color: #E06163;
 }
+.inlineButtonStyle{
+    padding-top: 0 !important; 
+    cursor: pointer; 
+    padding-left: 0px !important
+}
+.addDel_Icon{
+    font-size: 17px;
+}
