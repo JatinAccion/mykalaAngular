@@ -148,7 +148,7 @@
                     <div class="mb-3 row" *ngIf="shippingAddress.addressType == 'shippingAddress'">
                       <div class="col-sm-8 text-right p-2" style="padding-top: 0 !important">
                         <span *ngIf="!shippingAddress.input_shippingAddress">{{shippingAddress.addressLine1}}, </span>
-                        <span *ngIf="!shippingAddress.input_shippingAddress">{{shippingAddress.addressLine2}}, </span>
+                        <span *ngIf="!shippingAddress.input_shippingAddress">{{shippingAddress.addressLine2}}<span *ngIf="shippingAddress.addressLine2 != ''">,</span></span>
                         <span *ngIf="!shippingAddress.input_shippingAddress">{{shippingAddress.city}},</span>
                         <span *ngIf="!shippingAddress.input_shippingAddress">{{shippingAddress.state}},</span>
                         <span *ngIf="!shippingAddress.input_shippingAddress">{{shippingAddress.zipcode}}</span>
