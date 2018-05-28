@@ -41,6 +41,7 @@ export class OrderItems {
         public deliveryMethod: string,
         public productUPCCode: number,
         public productSKUCode: string,
-        public orderFrom: string
+        public orderFrom: string,
+        public productHierarchy: string
     ) { }
 }

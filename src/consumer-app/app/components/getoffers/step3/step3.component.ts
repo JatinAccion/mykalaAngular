@@ -252,7 +252,7 @@ export class Step3Component implements OnInit {
       this.core.openModal(this.selectValidationModal);
     }
     else {
-      if (this.Step3SelectedValues.delivery == "") this.Step3SelectedValues.delivery = "No Preference";
+      if (this.getOffer_orderInfo.controls.delivery.value == "") this.Step3SelectedValues.delivery = "No Preference";
       else this.Step3SelectedValues.delivery = this.getOffer_orderInfo.controls.delivery.value;
       this.Step3SelectedValues.location = this.getCSC;
       this.Step3SelectedValues.price.minPrice = this.getOffer_orderInfo.controls.minPrice.value;

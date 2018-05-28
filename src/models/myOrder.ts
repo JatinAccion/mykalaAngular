@@ -109,6 +109,8 @@ export class OrderItems {
     public productSKUCode: string;
     public shipTrackingId: string;
     public carrier: string;
+    public productHierarchy: string;
+    public orderFrom: string;
     public leaveReview?: boolean;
     public contactSupport?: boolean;
     public cancelOrder?: boolean;
@@ -133,6 +135,8 @@ export class OrderItems {
             this.productSKUCode = obj.productSKUCode;
             this.shipTrackingId = obj.shipTrackingId;
             this.carrier = obj.carrier;
+            this.productHierarchy = obj.productHierarchy;
+            this.orderFrom = obj.orderFrom;
             this.leaveReview = obj.leaveReview;
             this.contactSupport = obj.contactSupport;
             this.cancelOrder = obj.cancelOrder;
