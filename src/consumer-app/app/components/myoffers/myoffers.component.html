@@ -92,14 +92,14 @@
               <ng-template #showDefault>
                 <div class="row p-2 mb-4" *ngFor="let product of offer.getOffersResponse">
                   <div class="col-sm-4 p-0 productImage" *ngIf="product.product.mainImageSrc != null;else dafault">
-                    <img (click)="viewOfferDetails(product)" [src]="product.product.mainImageSrc" class="img-fluid cursor" />
+                    <img (click)="viewOfferDetails(product, offer.offerID)" [src]="product.product.mainImageSrc" class="img-fluid cursor" />
                   </div>
                   <ng-template #dafault>
                     <div class="col-sm-4 p-0 productImage productNoImage">No Image Available</div>
                   </ng-template>
                   <div class="col-sm-8">
                     <p>
-                      <strong (click)="viewOfferDetails(product)" class="cursor">{{product.product.productName}}</strong>
+                      <strong (click)="viewOfferDetails(product, offer.offerID)" class="cursor">{{product.product.productName}}</strong>
                     </p>
                     <div>
                       <u>{{product.retailerName}}</u>

@@ -58,7 +58,7 @@ export class ProductsInfo {
             this.weight = obj.weight;
             this.width = obj.width;
             this.mainImageSrc = '';
-            if (obj.productHierarchy.length > 0) {
+            if (obj.productHierarchy != null && obj.productHierarchy != undefined && obj.productHierarchy.length > 0) {
                 this.productHierarchy = `${obj.productHierarchy[0].levelName},${obj.productHierarchy[1].levelName},${obj.productHierarchy[2].levelName}`;
             }
             this.offerPrice = obj.offerPrice;

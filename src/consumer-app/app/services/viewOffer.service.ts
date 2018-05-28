@@ -29,4 +29,9 @@ export class ViewOfferService {
         const url: string = `${BASE_URL}/retailer/v1/${shippingProfileId}/${environment.apis.shippingMethod.latestShipMethodName}`;
         return this.http.get(url).map((res) => res.text());
     }
+
+    declineOffer(offerId, productId) {
+        const url: string = `${this.BASE_URL}/offer/${offerId}/product/${productId}`;
+        return this.http.delete(url, offerId).map((res) => res.text())
+    }
 }

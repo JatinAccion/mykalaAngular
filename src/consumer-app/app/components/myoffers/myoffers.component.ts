@@ -168,10 +168,10 @@ export class MyoffersComponent implements OnInit {
     })
   }
 
-  viewOfferDetails(product) {
+  viewOfferDetails(product, offerID) {
     product.product.kalaPrice = product.offerPrice;
-    let selectedProduct = new BrowseProductsModal(product.product)
-    window.localStorage['selectedProduct'] = JSON.stringify(selectedProduct);
+    let selectedProduct = new BrowseProductsModal(product.product);
+    window.localStorage['selectedProduct'] = JSON.stringify({ selectedProduct: selectedProduct, offerId: offerID });
     this.route.navigateByUrl("/view-offer")
   }
 

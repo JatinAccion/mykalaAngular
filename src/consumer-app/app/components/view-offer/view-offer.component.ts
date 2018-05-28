@@ -53,7 +53,7 @@ export class ViewOfferComponent implements OnInit {
   }
 
   loadProductInfo() {
-    this.selectedProduct = JSON.parse(window.localStorage['selectedProduct']);
+    this.selectedProduct = JSON.parse(window.localStorage['selectedProduct']).selectedProduct;
     this.loadReviewsSummary(this.selectedProduct.product.kalaUniqueId);
     this.loadRetailerPolicy(this.selectedProduct.product.retailerId);
     this.filterIamgeURL();
@@ -64,6 +64,15 @@ export class ViewOfferComponent implements OnInit {
       this.filterAttributes(this.selectedProduct.product.attributes);
     }
     this.getItBy(this.selectedProduct.product.shipProfileId);
+  }
+
+  declineOffer(productId) {
+    let offerId = JSON.parse(window.localStorage['selectedProduct']).offerId;
+    this.viewOffer.declineOffer(offerId, productId).subscribe((res) => {
+      console.log(res);
+    }, (err) => {
+      console.log(err);
+    })
   }
 
   getItBy(shippingProfileId) {
