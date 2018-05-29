@@ -31,7 +31,7 @@ export class ViewOfferService {
     }
 
     declineOffer(offerId, productId) {
-        const url: string = `${this.BASE_URL}/offer/${offerId}/product/${productId}`;
+        const url: string = `${this.BASE_URL}/offers/${offerId}/products/${productId}`;
         return this.http.delete(url, offerId).map((res) => res.text())
     }
 }

@@ -62,6 +62,11 @@ export class MyoffersComponent implements OnInit {
     let emailId = this.userData.emailId
     this.myOffer.loadOffers(emailId).subscribe((res) => {
       this.loader = false;
+      let filteredRes = [];
+      for (var i = 0; i < res.length; i++) {
+        if (res[i].getOffersResponse.length > 0) filteredRes.push(res[i])
+      }
+      res = filteredRes;
       this.myOffersDetails = res;
       this.filterIamgeURL(res);
       this.getMainImage(res);

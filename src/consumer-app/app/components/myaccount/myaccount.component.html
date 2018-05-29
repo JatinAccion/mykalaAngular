@@ -164,7 +164,7 @@
                         <button *ngIf="shippingAddress.input_shippingAddress" [disabled]="shippingAddress.input_shippingAddress && (!shippingAddress.append_editAddressLine1 || !shippingAddress.append_editShippingCity || !shippingAddress.append_editShippingState || !shippingAddress.append_editShippingZipcode || shippingAddress.append_editShippingZipcode.length != 5 || shippingAddress.append_editShippingZipcode == '00000')" (click)="removeInput($event, 'shippingAddress', shippingAddress)" style="cursor: pointer" class="btn btn_red_right mr-2 mt-2">done</button>
                         <button *ngIf="shippingAddress.input_shippingAddress" style="cursor: pointer" (click)="terminate('editAddress', shippingAddress)" class="btn-outer btn_redouter_right btn-outer-margin">cancel</button>
                       </div>
-                      <div class="col-sm-1 p-0 text-right addDel_Icon colorred cursor">
+                      <div class="col-sm-1 p-0 text-right addDel_Icon colorred cursor" *ngIf="!shippingAddress.input_shippingAddress">
                         <i class="fa fa-trash" aria-hidden="true" title="delete address" (click)="confirmDeleteAddress(shippingAddress)"></i>
                       </div>
                       <button *ngIf="!shippingAddress.input_shippingAddress" class="col-sm-3 text-right p-2 mt-0 colorred txtasbutton cursor" style="padding-top: 0 !important; cursor: pointer" (click)="appendInput($event, 'shippingAddress', shippingAddress)">change</button>

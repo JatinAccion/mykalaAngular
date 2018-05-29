@@ -43,11 +43,11 @@
 } 
 html, body, div, img {
   margin: 0;
-  padding: 0; }
-
+  padding: 0; 
+}
 html {
-  height: 100%; }
-
+  height: 100%; 
+}
 body {
   background: #f3f3f4;
   height: 100%;
@@ -55,7 +55,22 @@ body {
   position: relative; 
   src: url('/consumer-app/assets/fonts/opensans-bold-webfont.eot');
 }
-
+input::placeholder,
+input:-ms-input-placeholder,
+input::-ms-input-placeholder, {
+    color: #f6dbd6 !important;
+}
+.dialogue input::placeholder {
+    color: #fff;
+}
+.dialogue input::placeholder,
+.dialogue input:-ms-input-placeholder,
+.dialogue input::-ms-input-placeholder, {
+    color: #fff !important;
+}
+input, select, textarea {
+    font-family: open_sansregular;
+}
 a:hover {
   text-decoration: none;
   cursor: pointer; }
@@ -66,9 +81,6 @@ a:hover {
   clear: both;
   height: 0;
   visibility: hidden; }
-
-::-webkit-input-placeholder {
-  color: #f6dbd6; }
 
 #main {
   height: 100%;

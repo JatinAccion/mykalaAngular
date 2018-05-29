@@ -355,25 +355,25 @@ export class ViewProductComponent implements OnInit {
     if (deliveryMethod == 'Express: 3 to 5 business days') {
       let date = new Date(currentDate), locale = "en-us", month = date.toLocaleString(locale, { month: "long" });
       let getDay = new Date(date.getTime() + 120 * 60 * 60 * 1000); //Calculating on the next 5days basis
-      return getDay.toLocaleString(locale, { month: "short" }) + ' ' + (getDay.getDate()) + ', ' + weekday[getDay.getDay()]
+      return weekday[getDay.getDay()] + ', ' + getDay.toLocaleString(locale, { month: "long" }) + ' ' + (getDay.getDate())
     }
     // 2 day: 2 business day shipping days Delivery
     else if (deliveryMethod == '2 day: 2 business day shipping') {
       let date = new Date(currentDate), locale = "en-us", month = date.toLocaleString(locale, { month: "long" });
       let getDay = new Date(date.getTime() + 48 * 60 * 60 * 1000); //Calculating on the next 5days basis
-      return getDay.toLocaleString(locale, { month: "short" }) + ' ' + (getDay.getDate()) + ', ' + weekday[getDay.getDay()]
+      return weekday[getDay.getDay()] + ', ' + getDay.toLocaleString(locale, { month: "long" }) + ' ' + (getDay.getDate())
     }
     // Standard: 5 to 8 business days Delivery
     else if (deliveryMethod == 'Standard: 5 to 8 business days') {
       let date = new Date(currentDate), locale = "en-us", month = date.toLocaleString(locale, { month: "long" });
       let getDay = new Date(date.getTime() + 192 * 60 * 60 * 1000); //Calculating on the next 5days basis
-      return getDay.toLocaleString(locale, { month: "short" }) + ' ' + (getDay.getDate()) + ', ' + weekday[getDay.getDay()]
+      return weekday[getDay.getDay()] + ', ' + getDay.toLocaleString(locale, { month: "long" }) + ' ' + (getDay.getDate())
     }
     // Next day: 1 business day shipping
     else {
       let date = new Date(currentDate), locale = "en-us", month = date.toLocaleString(locale, { month: "long" });
       let getDay = new Date(date.getTime() + 24 * 60 * 60 * 1000); //Calculating on the next 5days basis
-      return getDay.toLocaleString(locale, { month: "short" }) + ' ' + (getDay.getDate()) + ', ' + weekday[getDay.getDay()]
+      return weekday[getDay.getDay()] + ', ' + getDay.toLocaleString(locale, { month: "long" }) + ' ' + (getDay.getDate())
     }
   }
 

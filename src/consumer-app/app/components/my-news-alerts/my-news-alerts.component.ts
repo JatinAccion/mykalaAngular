@@ -49,8 +49,10 @@ export class MyNewsAlertsComponent implements OnInit {
       });
       this.myalerts.loadOrders(this.userData.userId).subscribe((res) => {
         this.orders = res;
+        this.formatImages(this.orders, 'order');
         this.myalerts.loadReviews(this.userData.emailId).subscribe((res) => {
           this.reviews = res;
+          this.formatImages(this.reviews, 'review');
           this.reviews.sort(function (a, b) {
             var dateA = a.reviewDate, dateB = b.reviewDate
             if (dateA < dateB) //sort string descending
@@ -68,6 +70,27 @@ export class MyNewsAlertsComponent implements OnInit {
     }, (err) => {
       console.log("Offers::::", err)
     })
+  }
+
+  formatImages(data, from) {
+    if (from == 'order') {
+      for (var i = 0; i < data.length; i++) {
+        for (var j = 0; j < data[i].orderItems.length; j++) {
+          let image = data[i].orderItems[j].productImage;
+          if (image.indexOf('maxHeight') > -1) {
+            data[i].orderItems[j].productImage = image.split(";")[0]
+          }
+        }
+      }
+    }
+    else {
+      for (var i = 0; i < data.length; i++) {
+        let image = data[i].productImage;
+        if (image.indexOf('maxHeight') > -1) {
+          data[i].productImage = image.split(";")[0]
+        }
+      }
+    }
   }
 
   goToPage(data, from) {
@@ -109,6 +132,15 @@ export class MyNewsAlertsComponent implements OnInit {
     minutes = minutes < 10 ? '0' + minutes : minutes;
     var strTime = hours + ':' + minutes + ' ' + ampm;
     return strTime;
+  }
+
+  trackOrder(modal, order) {
+    this.myalerts.trackOrder('SHIPPO_TRANSIT').subscribe((res) => {
+      window.localStorage['productForTracking'] = JSON.stringify({ modal: modal, order: order, goShippoRes: res });
+      this.route.navigateByUrl("/trackOrder");
+    }, (err) => {
+      console.log(err);
+    })
   }
 
 }

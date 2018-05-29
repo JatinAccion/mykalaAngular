@@ -179,12 +179,8 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
       const elementStyles = {
         base: {
           color: '#000',
-          fontWeight: 600,
-          font: [{
-            family: 'Open Sans',
-            src: "url('https://fonts.googleapis.com/css?family=Open+Sans')"
-          }],
-          fontSize: '16px',
+          fontFamily: '"Open Sans", "Helvetica Neue", "Helvetica", sans-serif',
+          fontSize: '15px',
           ':focus': {
             color: '#424770',
           },
@@ -317,6 +313,8 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     this.addCard = false;
     this.error = null;
     this.ngOnDestroy();
+    let getText = document.getElementsByClassName("cursor");
+    for (let i = 0; i < getText.length; i++) getText[i].removeAttribute("disabled");
     //this.ngAfterViewInit();
   }
 
@@ -358,7 +356,11 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   addNewCard() {
     this.addCard = !this.addCard;
     this.readStripe = true;
-    if (this.addCard) this.ngAfterViewInit();
+    if (this.addCard) {
+      let getText = document.getElementsByClassName("cursor");
+      for (let i = 0; i < getText.length; i++) getText[i].setAttribute("disabled", "disabled");
+      this.ngAfterViewInit();
+    }
     else this.resetAddCard();
   }
 
@@ -639,27 +641,20 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
       return false;
     }
     else if (element == 'interest') {
-      if (this.getInterest.length > 0) {
-        this.loader_Interest = true;
-        this.myAccountModel.profileInfo.consumerInterests = this.getInterest;
-        this.getAPICP.consumerInterests = this.myAccountModel.profileInfo.consumerInterests
-        this.getInterest = [];
-        /**API to Save Interest**/
-        this.getUserInfo = JSON.parse(window.localStorage['userInfo'])
-        this.InterestSaveModel.emailId = this.getUserInfo.emailId;
-        this.InterestSaveModel.consumerInterests = this.myAccountModel.profileInfo.consumerInterests;
-        this.myAccount.saveInterest(this.InterestSaveModel).subscribe((res) => {
-          this.loader_Interest = false;
-          window.localStorage['userInfo'] = JSON.stringify(res);
-        }, (err) => {
-          this.loader_Interest = false;
-          console.log(err);
-        });
-        /**API to Save Interest**/
-      }
-      else {
-        this.myAccountModel.profileInfo.consumerInterests = this.getAPICP.consumerInterests;
-      }
+      this.loader_Interest = true;
+      this.myAccountModel.profileInfo.consumerInterests = this.getInterest;
+      this.getAPICP.consumerInterests = this.myAccountModel.profileInfo.consumerInterests
+      this.getInterest = [];
+      this.getUserInfo = JSON.parse(window.localStorage['userInfo'])
+      this.InterestSaveModel.emailId = this.getUserInfo.emailId;
+      this.InterestSaveModel.consumerInterests = this.myAccountModel.profileInfo.consumerInterests;
+      this.myAccount.saveInterest(this.InterestSaveModel).subscribe((res) => {
+        this.loader_Interest = false;
+        window.localStorage['userInfo'] = JSON.stringify(res);
+      }, (err) => {
+        this.loader_Interest = false;
+        console.log(err);
+      });
     }
     else if (element == 'shippingAddress') {
       this.loader_shippingAddress = true;
@@ -757,6 +752,8 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   terminate(from, obj?: any) {
+    let getText = document.getElementsByClassName("cursor");
+    for (let i = 0; i < getText.length; i++) getText[i].removeAttribute("disabled");
     if (from == 'addAddress') {
       this.addShippingAddress = false;
       this.append_addAddressLine1 = "";
@@ -766,8 +763,6 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
       this.append_addShippingZipcode = "";
     }
     else if (from == 'editAddress') {
-      let getText = document.getElementsByClassName("cursor");
-      for (let i = 0; i < getText.length; i++) getText[i].removeAttribute("disabled");
       obj.input_shippingAddress = false;
       obj.append_editAddressLine1 = obj.addressLine1;
       obj.append_editAddressLine2 = obj.addressLine2;

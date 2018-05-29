@@ -6,7 +6,7 @@
   <div *ngIf="offers != undefined || reviews != undefined; else noOffer">
     <!--Get Offer Block-->
     <ng-container *ngFor="let offer of offers">
-      <div class="cursor" [ngClass]="{'myCart-list':offer.unRead, 'myCart-list-nobg':!offer.unRead}" *ngIf="offer.getOffersResponse.length > 0" (click)="goToPage(offer, 'offer')">
+      <div class="cursor" [ngStyle]="{'cursor':offer.expire ? 'no-drop' : 'pointer'}" [ngClass]="{'myCart-list':offer.unRead, 'myCart-list-nobg':!offer.unRead}" *ngIf="offer.getOffersResponse.length > 0" (click)="!offer.expire && goToPage(offer, 'offer')">
         <div class="mb-3">
           <!--Expire Soon False-->
           <span *ngIf="!offer.expireSoon; else showDefault">
@@ -48,7 +48,7 @@
 
     <!--Order Shipment Block-->
     <div class="myCart-list" *ngFor="let modal of orders">
-      <div *ngFor="let order of modal.orderItems">
+      <div *ngFor="let order of modal.orderItems" (click)="trackOrder(modal, order)" class="cursor">
         <div *ngIf="order.productItemStatus == 'ORDERSHIPPED'">
           <div>Your items have shipped! Estimated delivery on: {{order.deliveryDate}}</div>
           <!-- <small class="pull-right colorlightGray">{{getFullDate(modal.orderShippedDate)}}</small> -->
@@ -89,11 +89,11 @@
       <div class="mb-2">You reviewed
         <strong>{{review.productName}}</strong>
       </div>
-      <div class="row p-0">
+      <div class="row p-3">
         <div class="col-sm-2">
           <img style="width:100%" [src]="review.productImage" />
         </div>
-        <div class="col-sm-10 mt-4">
+        <div class="col-sm-10 mt-0">
           <div class="mb-2">
             Ratings:
             <span *ngFor="let rating of loopNumber(review.rating, 'ratings')">
