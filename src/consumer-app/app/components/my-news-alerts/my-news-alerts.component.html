@@ -50,7 +50,7 @@
     <div class="myCart-list" *ngFor="let modal of orders">
       <div *ngFor="let order of modal.orderItems" (click)="trackOrder(modal, order)" class="cursor">
         <div *ngIf="order.productItemStatus == 'ORDERSHIPPED'">
-          <div>Your items have shipped! Estimated delivery on: {{order.deliveryDate}}</div>
+          <div>Your items have shipped! Estimated delivery on: {{getDeliveryDate(order.deliveryMethod, modal.purchasedDate)}}</div>
           <!-- <small class="pull-right colorlightGray">{{getFullDate(modal.orderShippedDate)}}</small> -->
           <div class="row p-3">
             <div class="col-sm-2">
@@ -58,7 +58,9 @@
             </div>
             <div class="col-sm-10">
               <div class="row">
-                <div class="col-sm-12">{{order.productName}}</div>
+                <div class="col-sm-12 mb-3">
+                  <strong>{{order.productName}}</strong>
+                </div>
               </div>
               <div class="row">
                 <div class="col-sm-3 colorlightGray">
@@ -73,7 +75,7 @@
                   Total:
                 </div>
                 <div class="col-sm-9">
-                  {{order.totalProductPrice | currency}}
+                  {{getTotaPrice(order.productPrice * order.productQuantity, order.productTaxCost, order.shippingCost) | currency}}
                 </div>
               </div>
             </div>
@@ -106,6 +108,39 @@
       </div>
     </div>
     <!--Reviews Block-->
+
+    <!--Post Reviews Block-->
+    <div class="cursor" [ngClass]="{'myCart-list':review.unRead, 'myCart-list-nobg':!review.unRead}" *ngFor="let review of postReviewAlert" (click)="goToPage(review, 'postReview')">
+      <small class="pull-right colorlightGray">{{getFullDate(review.purchasedDate)}}</small>
+      <div class="mb-2">
+        Thank you for your recent purchase from {{review.orderItems.retailerName}}. Please tell us about your experience and help spread the word.
+      </div>
+      <div class="row p-3">
+        <div class="col-sm-2">
+          <img style="width:100%" [src]="review.orderItems.productImage" />
+        </div>
+        <div class="col-sm-10 mt-0">
+          <div class="mb-2">
+            <div class="mb-3">
+              <strong>{{review.orderItems.productName}}</strong>
+            </div>
+            <div class="row">
+              <div class="col-sm-3">Quantity</div>
+              <div class="col-sm-9">{{review.orderItems.productQuantity}}</div>
+            </div>
+            <div class="row">
+              <div class="col-sm-3">Total</div>
+              <div class="col-sm-9">{{getTotaPrice(review.orderItems.productPrice * review.orderItems.productQuantity, review.orderItems.productTaxCost, review.orderItems.shippingCost) | currency}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!hideShowMoreBtn" class="col-sm-12 text-center mt-4 mb-4">
+      <button (click)="loadMore()" class="btn btn_red_right">show more</button>
+    </div>
+    <!--Post Reviews Block-->
   </div>
 
   <ng-template #noOffer>

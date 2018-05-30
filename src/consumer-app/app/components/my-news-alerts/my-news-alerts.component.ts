@@ -17,6 +17,10 @@ export class MyNewsAlertsComponent implements OnInit {
   offers: Array<any>;
   reviews: Array<any>;
   orders: Array<any>;
+  postReviewAlert: Array<any>;
+  showMorePageCounter = 0;
+  showMoreSizeCounter = 5;
+  hideShowMoreBtn: boolean = true
 
   constructor(
     public core: CoreService,
@@ -39,28 +43,25 @@ export class MyNewsAlertsComponent implements OnInit {
     this.myalerts.loadOffers(this.userData.emailId).subscribe((res) => {
       this.loader = false;
       this.offers = res;
-      this.offers.sort(function (a, b) {
-        var dateA = a.endDate, dateB = b.endDate
-        if (dateA < dateB) //sort string descending
-          return 1
-        if (dateA > dateB)
-          return -1
-        return 0 //default return value (no sorting)
-      });
+      this.sort(this.offers, 'offer')
       this.myalerts.loadOrders(this.userData.userId).subscribe((res) => {
         this.orders = res;
         this.formatImages(this.orders, 'order');
         this.myalerts.loadReviews(this.userData.emailId).subscribe((res) => {
           this.reviews = res;
           this.formatImages(this.reviews, 'review');
-          this.reviews.sort(function (a, b) {
-            var dateA = a.reviewDate, dateB = b.reviewDate
-            if (dateA < dateB) //sort string descending
-              return 1
-            if (dateA > dateB)
-              return -1
-            return 0 //default return value (no sorting)
-          });
+          this.sort(this.offers, 'review')
+          this.myalerts.loadPostReviewAlert(this.userData.userId, this.showMorePageCounter, this.showMoreSizeCounter).subscribe((res) => {
+            if (res.length > 0) {
+              this.hideShowMoreBtn = false;
+              this.postReviewAlert = res;
+              this.formatImages(this.postReviewAlert, 'postReview');
+              this.sort(this.postReviewAlert, 'postReview')
+            }
+            else this.hideShowMoreBtn = true;
+          }, (err) => {
+            console.log("Post Reviews::::", err);
+          })
         }, (err) => {
           console.log("Reviews::::", err)
         })
@@ -70,6 +71,39 @@ export class MyNewsAlertsComponent implements OnInit {
     }, (err) => {
       console.log("Offers::::", err)
     })
+  }
+
+  sort(data, from) {
+    if (from == 'offer') {
+      this.offers.sort(function (a, b) {
+        var dateA = a.endDate, dateB = b.endDate
+        if (dateA < dateB)
+          return 1
+        if (dateA > dateB)
+          return -1
+        return 0
+      });
+    }
+    else if (from == 'review') {
+      data.sort(function (a, b) {
+        var dateA = a.reviewDate, dateB = b.reviewDate
+        if (dateA < dateB)
+          return 1
+        if (dateA > dateB)
+          return -1
+        return 0
+      });
+    }
+    else {
+      data.sort(function (a, b) {
+        var dateA = a.purchaseDate, dateB = b.purchaseDate
+        if (dateA < dateB)
+          return 1
+        if (dateA > dateB)
+          return -1
+        return 0
+      });
+    }
   }
 
   formatImages(data, from) {
@@ -83,14 +117,48 @@ export class MyNewsAlertsComponent implements OnInit {
         }
       }
     }
-    else {
+    else if (from == 'review') {
       for (var i = 0; i < data.length; i++) {
-        let image = data[i].productImage;
-        if (image.indexOf('maxHeight') > -1) {
-          data[i].productImage = image.split(";")[0]
+        if (data[i].productImage) {
+          let image = data[i].productImage;
+          if (image.indexOf('data:') === -1 && image.indexOf('https:') === -1) {
+            data[i].productImage = this.s3 + image;
+          }
+          if (image.indexOf('maxHeight') > -1) {
+            data[i].productImage = image.split(";")[0]
+          }
         }
       }
     }
+    else {
+      for (var i = 0; i < data.length; i++) {
+        let image = data[i].orderItems.productImage;
+        if (image.indexOf('maxHeight') > -1) {
+          data[i].orderItems.productImage = image.split(";")[0]
+        }
+      }
+    }
+  }
+
+  loadMore() {
+    let userId = this.userData.userId;
+    this.showMorePageCounter = this.showMorePageCounter + 1;
+    this.showMoreSizeCounter = this.showMoreSizeCounter;
+    this.myalerts.loadPostReviewAlert(this.userData.userId, this.showMorePageCounter, this.showMoreSizeCounter).subscribe((res) => {
+      if (res.length > 0) {
+        this.hideShowMoreBtn = false;
+        this.postReviewAlert = [...this.postReviewAlert, ...res];
+        this.formatImages(this.postReviewAlert, 'postReview');
+        this.sort(this.postReviewAlert, 'postReview')
+      }
+      else this.hideShowMoreBtn = true;
+    }, (err) => {
+      console.log("Post Reviews::::", err);
+    })
+  }
+
+  getTotaPrice(priceWithQuantity, productTaxCost, shippingCost) {
+    return eval(`${priceWithQuantity + productTaxCost + shippingCost}`);
   }
 
   goToPage(data, from) {
@@ -103,12 +171,17 @@ export class MyNewsAlertsComponent implements OnInit {
       })
     }
     //Reviews
-    else {
+    else if (from == 'review') {
       this.myalerts.updateReview(data.consumerReviewId).subscribe((res) => {
         console.log(res)
       }, (err) => {
         console.log(err)
       })
+    }
+    else {
+      let modal = { purchasedDate: data.purchasedDate, orderId: data._id };
+      window.localStorage['forReview'] = JSON.stringify({ modal: modal, order: data.orderItems, from: 'NA' });
+      this.route.navigateByUrl("/leave-review");
     }
   }
 
@@ -119,7 +192,35 @@ export class MyNewsAlertsComponent implements OnInit {
 
   getFullDate(date) {
     let objDate = new Date(date), locale = "en-us", month = objDate.toLocaleString(locale, { month: "long" });
-    return objDate.toLocaleString(locale, { month: "short" }) + ' ' + objDate.getDate() + ', ' + this.formatAMPM(objDate);
+    return objDate.toLocaleString(locale, { month: "long" }) + ' ' + objDate.getDate() + ', ' + this.formatAMPM(objDate);
+  }
+
+  getDeliveryDate(deliveryMethod, purchaseDate) {
+    let weekday = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
+    // Express: 3 to 5 business days Delivery
+    if (deliveryMethod == 'Express: 3 to 5 business days') {
+      let date = new Date(purchaseDate), locale = "en-us", month = date.toLocaleString(locale, { month: "long" });
+      let getDay = new Date(date.getTime() + 120 * 60 * 60 * 1000); //Calculating on the next 5days basis
+      return weekday[getDay.getDay()] + ', ' + getDay.toLocaleString(locale, { month: "long" }) + ' ' + (getDay.getDate())
+    }
+    // 2 day: 2 business day shipping days Delivery
+    else if (deliveryMethod == '2 day: 2 business day shipping') {
+      let date = new Date(purchaseDate), locale = "en-us", month = date.toLocaleString(locale, { month: "long" });
+      let getDay = new Date(date.getTime() + 48 * 60 * 60 * 1000); //Calculating on the next 5days basis
+      return weekday[getDay.getDay()] + ', ' + getDay.toLocaleString(locale, { month: "long" }) + ' ' + (getDay.getDate())
+    }
+    // Standard: 5 to 8 business days Delivery
+    else if (deliveryMethod == 'Standard: 5 to 8 business days') {
+      let date = new Date(purchaseDate), locale = "en-us", month = date.toLocaleString(locale, { month: "long" });
+      let getDay = new Date(date.getTime() + 192 * 60 * 60 * 1000); //Calculating on the next 5days basis
+      return weekday[getDay.getDay()] + ', ' + getDay.toLocaleString(locale, { month: "long" }) + ' ' + (getDay.getDate())
+    }
+    // Next day: 1 business day shipping
+    else {
+      let date = new Date(purchaseDate), locale = "en-us", month = date.toLocaleString(locale, { month: "long" });
+      let getDay = new Date(date.getTime() + 24 * 60 * 60 * 1000); //Calculating on the next 5days basis
+      return weekday[getDay.getDay()] + ', ' + getDay.toLocaleString(locale, { month: "long" }) + ' ' + (getDay.getDate())
+    }
   }
 
   formatAMPM(date) {

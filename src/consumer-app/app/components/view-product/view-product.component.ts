@@ -251,6 +251,9 @@ export class ViewProductComponent implements OnInit {
       if (product.location.indexOf('data:') === -1 && product.location.indexOf('https:') === -1) {
         this.selectedProduct.product.productImages[i].location = this.s3 + product.location;
       }
+      if (product.location.indexOf('maxHeight') > -1) {
+        this.selectedProduct.product.productImages[i].location = product.location.split(";")[0];
+      }
     }
   }
 

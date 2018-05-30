@@ -32,6 +32,7 @@ export class ElasticSearchResult implements OnInit, OnDestroy {
     localStorage.removeItem('GetOfferStep_3');
     localStorage.removeItem('GetOfferStep_4');
     this.core.headerScroll();
+    this.core.hide();
     localStorage.removeItem("selectedProduct");
     this.loader = true;
     if (window.localStorage['esKeyword'] != undefined) this.core.search(window.localStorage['esKeyword']);

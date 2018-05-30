@@ -69,11 +69,11 @@
               <!--If Offer Expired-->
               <div *ngIf="offer.getOffersRequestDTO.remainingTime == 'EXPIRED';else showDefault">
                 <div class="row p-2 mb-4" *ngFor="let product of offer.getOffersResponse">
-                  <div class="col-sm-4 p-0 productImage" *ngIf="product.product.mainImageSrc != null;else dafault">
+                  <div class="col-sm-4 pt-2 pl-2 pr-2 pt-0 productImage" *ngIf="product.product.mainImageSrc != null;else dafault">
                     <img [src]="product.product.mainImageSrc" class="img-fluid" />
                   </div>
                   <ng-template #dafault>
-                    <div class="col-sm-4 p-0 productImage productNoImage">No Image Available</div>
+                    <div class="col-sm-4 pt-2 pl-2 pr-2 pt-0 productImage productNoImage">No Image Available</div>
                   </ng-template>
                   <div class="col-sm-8">
                     <p>
@@ -91,11 +91,11 @@
               <!--If Offer Active-->
               <ng-template #showDefault>
                 <div class="row p-2 mb-4" *ngFor="let product of offer.getOffersResponse">
-                  <div class="col-sm-4 p-0 productImage" *ngIf="product.product.mainImageSrc != null;else dafault">
+                  <div class="col-sm-4 pt-2 pl-2 pr-2 pt-0 productImage" *ngIf="product.product.mainImageSrc != null;else dafault">
                     <img (click)="viewOfferDetails(product, offer.offerID)" [src]="product.product.mainImageSrc" class="img-fluid cursor" />
                   </div>
                   <ng-template #dafault>
-                    <div class="col-sm-4 p-0 productImage productNoImage">No Image Available</div>
+                    <div class="col-sm-4 pt-2 pl-2 pr-2 pt-0 productImage productNoImage">No Image Available</div>
                   </ng-template>
                   <div class="col-sm-8">
                     <p>

@@ -2734,6 +2734,8 @@ label{display:block}
     top:50%;
     left:50%;
     width:auto;
+    height:100%;
+    padding: 80px;
     transform: translate(-50%, -50%);
     -moz-transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%, -50%);
@@ -2770,6 +2772,12 @@ label{display:block}
     -webkit-border-radius: 20px;
     -ms-border-radius: 20px;
     -o-border-radius: 20px;
+}
+.customSlider .carousel-item.active{
+    display: inherit;
+}
+.customSlider .carousel-item img{
+    height: 100%;
 }
 .orderSuccess{
     background: green;

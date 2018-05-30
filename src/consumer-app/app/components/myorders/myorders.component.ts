@@ -75,6 +75,7 @@ export class MyordersComponent implements OnInit {
       this.loader = false;
       this.myorderModal = res.map(p => new MyOrders(p));
       this.myorderModal.map(p => p.orderItems.filter(q => q.productItemStatus === 'ORDER PENDING').map(r => this.disableCancel(p, r)));
+      this.filterImageURL()
       this.myorderModal.sort(function (a, b) {
         var nameA = a.purchasedDate, nameB = b.purchasedDate
         if (nameA < nameB) return -1
@@ -85,6 +86,17 @@ export class MyordersComponent implements OnInit {
       this.loader = false;
       console.log(err);
     })
+  }
+
+  filterImageURL() {
+    for (var i = 0; i < this.myorderModal.length; i++) {
+      for (var j = 0; j < this.myorderModal[i].orderItems.length; j++) {
+        let image = this.myorderModal[i].orderItems[j].productImage;
+        if (image.indexOf('maxHeight') > -1) {
+          this.myorderModal[i].orderItems[j].productImage = image.split(";")[0]
+        }
+      }
+    }
   }
 
   showSupportPanel(modal, order) {

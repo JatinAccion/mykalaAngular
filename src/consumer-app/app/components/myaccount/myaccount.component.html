@@ -96,10 +96,10 @@
               <div class="col-sm-4 p-2 colorlightGray">date of birth</div>
               <div class="col-sm-5 p-2 text-right">
                 <span #dobElement *ngIf="!input_dob">{{myAccountModel.profileInfo.birthMonth}}/{{myAccountModel.profileInfo.birthDate}}/{{myAccountModel.profileInfo.birthYear}}</span>
-                <input *ngIf="input_dob" [(ngModel)]="append_dob" (focus)="d.open()" [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker #d="ngbDatepicker" class="txtnml width100 appendedInput" placeholder="mm-dd-yyyy" autofocus>
+                <input *ngIf="input_dob" [(ngModel)]="append_dob" (focus)="d.open()" [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker #d="ngbDatepicker" readonly class="txtnml width100 appendedInput" placeholder="mm-dd-yyyy" autofocus>
               </div>
               <img src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_myAc" *ngIf="loader_DOB" />
-              <button class="col-sm-3 text-right p-2 colorred txtasbutton cursor" (click)="appendInput($event, 'dob'); selectSelected($event)">change</button>
+              <button class="col-sm-3 text-right p-2 colorred txtasbutton cursor" (click)="appendInput($event, 'dob')">change</button>
             </div>
             <!--Date Of Birth-->
 
@@ -148,7 +148,9 @@
                     <div class="mb-3 row" *ngIf="shippingAddress.addressType == 'shippingAddress'">
                       <div class="col-sm-8 text-right p-2" style="padding-top: 0 !important">
                         <span *ngIf="!shippingAddress.input_shippingAddress">{{shippingAddress.addressLine1}}, </span>
-                        <span *ngIf="!shippingAddress.input_shippingAddress">{{shippingAddress.addressLine2}}<span *ngIf="shippingAddress.addressLine2 != ''">,</span></span>
+                        <span *ngIf="!shippingAddress.input_shippingAddress">{{shippingAddress.addressLine2}}
+                          <span *ngIf="shippingAddress.addressLine2 != ''">,</span>
+                        </span>
                         <span *ngIf="!shippingAddress.input_shippingAddress">{{shippingAddress.city}},</span>
                         <span *ngIf="!shippingAddress.input_shippingAddress">{{shippingAddress.state}},</span>
                         <span *ngIf="!shippingAddress.input_shippingAddress">{{shippingAddress.zipcode}}</span>

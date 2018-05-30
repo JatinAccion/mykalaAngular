@@ -285,6 +285,11 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
       this.myAccountModel.profileInfo.birthDate = new Date(res.dateOfBirth).getDate().toString();
       this.myAccountModel.profileInfo.birthMonth = (new Date(res.dateOfBirth).getMonth() + 1).toString();
       this.myAccountModel.profileInfo.birthYear = new Date(res.dateOfBirth).getFullYear().toString();
+      this.model = {
+        year: parseFloat(this.myAccountModel.profileInfo.birthYear),
+        month: parseFloat(this.myAccountModel.profileInfo.birthMonth),
+        day: parseFloat(this.myAccountModel.profileInfo.birthDate)
+      };
       this.myAccountModel.userData.emailId = res.emailId;
       this.myAccountModel.userData.password = "......";
       this.myAccountModel.profileInfo.firstName = res.firstName;
@@ -533,7 +538,8 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       else if (element == 'dob') {
         this.input_dob = true;
-        this.append_dob = this.dobElement.nativeElement.innerText;
+        //this.append_dob = this.dobElement.nativeElement.innerText;
+        this.append_dob = this.model;
       }
       else if (element == 'interest') {
         this.myAccount.getInterest().subscribe(res => {
@@ -629,6 +635,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
       console.log(this.DOBSaveModel);
       this.myAccount.saveDOB(this.DOBSaveModel).subscribe((res) => {
         this.loader_DOB = false;
+        this.model = this.append_dob;
         window.localStorage['userInfo'] = JSON.stringify(res);
       }, (err) => {
         this.loader_DOB = false;
