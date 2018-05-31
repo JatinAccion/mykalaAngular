@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ReportOrders } from '../../../../../models/report-order';
+import { ReportOrders, ReportProductSolds } from '../../../../../models/report-order';
 import { ReportsService } from '../reports.service';
 import DateUtils from '../../../../../common/utils';
 import { ReviewItem } from '../../../../../models/report-review';
@@ -11,12 +11,13 @@ import { ReviewItem } from '../../../../../models/report-review';
   encapsulation: ViewEncapsulation.None
 })
 export class SalesReportComponent implements OnInit {
+  gridData: ReportProductSolds;
   dateUtils = new DateUtils();
   currentJustify = 'start';
   currentOrientation = 'horizontal';
   loading: boolean;
   orders: ReportOrders;
-  isCollapsed = true;
+  isCollapsed = true; p = 1; size = 5;
   type = 'bar';
   data: any;
   options: any;
@@ -35,10 +36,11 @@ export class SalesReportComponent implements OnInit {
   }
   initializeWidget() {
     this.widget = {
-      'one': { widgetType: 'Average', year: this.currentYear, month: this.currentMonth, monthName: this.dateUtils.getMonthName(this.currentMonth), value: 0, values: [], first: false, last: true, index: 0 },
-      'two': { widgetType: 'Ratings', year: this.currentYear, month: this.currentMonth, monthName: this.dateUtils.getMonthName(this.currentMonth), value: 0, values: [], first: false, last: true, index: 0 },
-      'three': { widgetType: 'Completed', year: this.currentYear, month: this.currentMonth, monthName: this.dateUtils.getMonthName(this.currentMonth), value: 0, values: [], first: false, last: true, index: 0 },
-      'four': { widgetType: 'NotCompleted', year: this.currentYear, month: this.currentMonth, monthName: this.dateUtils.getMonthName(this.currentMonth), value: 0, values: [], countValues: [], countValue: 0, first: false, last: true, index: 0 }
+      'one': { widgetType: 'one', year: this.currentYear, month: this.currentMonth, monthName: this.dateUtils.getMonthName(this.currentMonth), value: 0, values: [], first: false, last: true, index: 0 },
+      'two': { widgetType: 'two', year: this.currentYear, month: this.currentMonth, monthName: this.dateUtils.getMonthName(this.currentMonth), value: 0, values: [], first: false, last: true, index: 0 },
+      'three': { widgetType: 'three', year: this.currentYear, month: this.currentMonth, monthName: this.dateUtils.getMonthName(this.currentMonth), value: 0, values: [], first: false, last: true, index: 0 },
+      'four': { widgetType: 'four', year: this.currentYear, month: this.currentMonth, monthName: this.dateUtils.getMonthName(this.currentMonth), value: 0, values: [], countValues: [], countValue: 0, first: false, last: true, index: 0 },
+      'grid': { widgetType: 'grid', year: this.currentYear, month: this.currentMonth, monthName: this.dateUtils.getMonthName(this.currentMonth), value: 0, values: [], first: false, last: true, index: 0 }
     };
   }
   initializeBackGroundColors() {
@@ -132,13 +134,15 @@ export class SalesReportComponent implements OnInit {
     this.initializeBackGroundColors();
     this.getData();
     this.setupChartData();
+    this.getGridData(1);
   }
   getData() {
     this.currentYear = new Date().getFullYear();
     this.currentMonth = new Date().getMonth() + 1;
     this.initializeWidget();
     this.getWidData();
-    // this.getDetails('one');
+    this.setupChartData();
+    this.getGridData(1);
   }
   getWidData() {
     const yearLabels = Array.apply(null, { length: this.reportYears }).fill(this.currentYear).map((p, i) => p - i).reverse();
@@ -147,7 +151,7 @@ export class SalesReportComponent implements OnInit {
       const reportData = this.getReportData(this.reportModel);
       for (let i = 0; i < reportData.length; i++) {
         const element = reportData[i];
-        const dataElement = res.firstOrDefault(p => p.year === element.year || p.month === element.month);
+        const dataElement = res.firstOrDefault(p => (p.year === element.year && p.month === 0) || (p.month === element.month && p.year === 0));
         if (dataElement) {
           element.count = dataElement.count || 0;
           element.total = dataElement.total || 0;
@@ -190,7 +194,6 @@ export class SalesReportComponent implements OnInit {
       this.widget.four.index = this.widget.four.values.length - 1;
       this.widget.four.value = this.widget.four.values[this.widget.four.index];
       this.widget.four.countValue = this.widget.four.countValues[this.widget.four.index];
-
     });
   }
 
@@ -204,6 +207,7 @@ export class SalesReportComponent implements OnInit {
       case 'two': widget = this.widget.two; break;
       // case 'three': widget = this.widget.three; break;
       case 'four': widget = this.widget.four; break;
+      case 'grid': widget = this.widget.grid; break;
     }
     widget.index += incr;
     widget.first = false;
@@ -218,11 +222,6 @@ export class SalesReportComponent implements OnInit {
       widget.first = false;
       widget.last = true;
     }
-
-    widget.value = widget.values[widget.index];
-    if (type === 'four') {
-      widget.countValue = widget.countValues[widget.index];
-    }
     date = new Date(widget.year, widget.month - 1, 1);
     if (this.reportModel !== 'Monthly') {
       date.setFullYear(widget.year + incr);
@@ -232,6 +231,15 @@ export class SalesReportComponent implements OnInit {
     widget.year = date.getFullYear();
     widget.month = (date.getMonth() || 0) + 1;
     widget.monthName = this.dateUtils.getMonthName(widget.month || 12);
+
+    if (type !== 'grid') {
+      widget.value = widget.values[widget.index];
+      if (type === 'four') {
+        widget.countValue = widget.countValues[widget.index];
+      }
+    } else {
+      this.getGridData(1);
+    }
   }
   getDetails(type) {
     // let widget = this.widget.one;
@@ -283,11 +291,14 @@ export class SalesReportComponent implements OnInit {
       this.initializeOptions();
     });
   }
-  getPage(page: number) {
+
+  getGridData(page: number) {
     this.loading = true;
-    const searchParams = { page: page - 1, size: 10, sortOrder: 'asc', elementType: 'createdDate' };
-    this.reportsService.getOrders(this.details.widgetType, this.details.year.toString(), (this.details.month + 1).toString(), searchParams).subscribe(res => {
-      this.orders = res;
+    const searchParams = { page: page - 1, size: 1000, sortOrder: 'asc', elementType: 'createdDate' };
+    this.reportsService.srGetGridData(this.widget.grid.year.toString(), this.reportModel !== 'Monthly' ? '' : (this.widget.grid.month).toString(), searchParams).subscribe(res => {
+      this.gridData = res;
+      this.widget.grid.values = this.getReportData(this.reportModel).map(p => p.count);
+      this.widget.grid.index = this.widget.grid.values.length - 1;
       this.loading = false;
     });
   }

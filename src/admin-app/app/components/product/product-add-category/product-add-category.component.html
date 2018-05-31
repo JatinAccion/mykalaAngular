@@ -30,7 +30,7 @@
             <tr>
                 <td class="border-0">
                     <select class="ddl_default form-control" [(ngModel)]="product.productSubCategory" [disabled]="typesLoading" (change)="subCategoryChanged($event)">
-                        <option [ngValue]="productSubCategoryDummy">Select Sub Catetory</option>
+                        <option [ngValue]="productSubCategoryDummy">Select Sub Category</option>
                         <option *ngFor="let option of subCategories" [ngValue]="option">
                             {{option.SubCategoryName}}
                         </option>

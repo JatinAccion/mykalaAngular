@@ -372,6 +372,31 @@ export class ReportRetailerInquirys extends Pagination {
   }
   public content: ReportRetailerInquiry[];
 }
+
+export class ReportProductSold {
+  productHierarchy: string;
+  totalproduct: number;
+
+  constructor(obj?: any) {
+    if (obj) {
+      this.totalproduct = obj.totalproduct;
+      if (obj.orderItems) {
+        this.productHierarchy = obj.orderItems.productHierarchy;
+      }
+    }
+  }
+}
+
+export class ReportProductSolds extends Pagination {
+  constructor(obj?: any) {
+    if (obj) {
+      super(obj);
+      this.content = obj.content.map(p => new ReportProductSold(p));
+    }
+  }
+  public content: ReportProductSold[];
+}
+
 export class ShippingTracking {
   public orderId: string;
   public retailerOrderId: string;

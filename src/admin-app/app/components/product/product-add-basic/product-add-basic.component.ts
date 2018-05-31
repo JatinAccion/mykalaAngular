@@ -39,6 +39,12 @@ export class ProductAddBasicComponent implements OnInit {
   }
   ngOnInit() {
     this.setFormValidators();
+    if (!this.product.dimensionunit) {
+      this.product.dimensionunit = 'inches';
+    }
+    if (!this.product.weightunit) {
+      this.product.weightunit = 'lbs';
+    }
   }
 
   setFormValidators() {

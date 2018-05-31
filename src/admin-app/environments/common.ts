@@ -103,10 +103,11 @@ export const apiNames = {
         getPaymentDetails: 'paymentDetails',
     },
     salesReport: {
-        widOne: 'totalOrder/{year}/{month}',
-        widTwo: 'totalSales/{year}/{month}',
+        widOne: 'reports/totalOrder/{year}/{month}',
+        widTwo: 'reports/totalSales/{year}/{month}',
         widFour: 'reports/salesReturnAndExchange/{year}/{month}',
         chart: 'reports/orderOffersCount/{year}/{month}',
+        grid: 'reports/topProductSold/{year}/{month}',
     },
     consumer: {
         get: 'consumer/v1/userId',

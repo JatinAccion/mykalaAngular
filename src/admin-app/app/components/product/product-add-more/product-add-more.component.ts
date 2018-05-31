@@ -10,6 +10,7 @@ import { ProductService } from '../product.service';
 import { Product, ProdAttr, ProductAttributesMasterData } from '../../../../../models/product';
 import { CoreService } from '../../../services/core.service';
 import { userMessages } from './messages';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -34,7 +35,7 @@ export class ProductAddMoreComponent implements OnInit {
   attributes = new Array<ProdAttr>();
   // #endregion declaration
   constructor(
-    private productService: ProductService,
+    private productService: ProductService, private router: Router,
     private core: CoreService
   ) {
   }
@@ -66,6 +67,7 @@ export class ProductAddMoreComponent implements OnInit {
       .saveProduct(this.product).subscribe(res => {
         this.core.message.success(userMessages.success);
         this.saveLoader = false;
+        this.router.navigateByUrl('/product-list');
       }, err => {
         console.log(err);
         this.core.message.error(userMessages.error);

@@ -10,7 +10,7 @@ export const inputValidations = {
     'productDescription': { required: 'Please enter a description of the product', error: 'Please enter valid product Description' },
     'quantity': { required: 'Please enter the available product quantity', error: 'Please enter a valid product quantity' },
     'weight': { required: 'Please enter the product weight', error: 'Please enter a valid product weight' },
-    'weightunit': { required: 'Please enter the product weightunit', error: 'Please enter a valid product weightunit' },
+    'weightunit': { required: 'Please enter the product weightunit', error: 'Please enter a valid product weight unit' },
     'dimensionunit': { required: 'Please enter the product dimension unit', error: 'Please enter a valid product dimension unit' },
     'length': { required: 'Please enter a product length', error: 'Please enter a valid product length' },
     'height': { required: 'Please enter a product height', error: 'Please enter a valid product height' },

@@ -24,7 +24,7 @@
                 </div>
                 <div class="row pl-3 pr-2 pb-2">
                     <div class="col-sm-2">
-                       <a (click)="goto('one',-1)" *ngIf="!widget.one.first">
+                        <a (click)="goto('one',-1)" *ngIf="!widget.one.first">
                             <i class="fa fa-caret-left caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -32,7 +32,7 @@
                         {{this.reportModel !== 'Monthly'?'':(widget.one.monthName + ',') }} {{widget.one.year}}
                     </div>
                     <div class="col-sm-2">
-                       <a (click)="goto('one',1)" *ngIf="!widget.one.last">
+                        <a (click)="goto('one',1)" *ngIf="!widget.one.last">
                             <i class="fa fa-caret-right caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -60,7 +60,7 @@
                 </div>
                 <div class="row pl-3 pr-2 pb-2">
                     <div class="col-sm-2">
-                         <a (click)="goto('two',-1)" *ngIf="!widget.two.first">
+                        <a (click)="goto('two',-1)" *ngIf="!widget.two.first">
                             <i class="fa fa-caret-left caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -158,81 +158,47 @@
             </div>
         </div>
     </div>
-    <div class="row p-2 mt-3 backgroundWhite">
-        <chart [type]="type" [data]="data" [options]="options" style="width: 80%;height:400px;"></chart>
-    </div>
-    <div class="row mt-5">
-        <div class="col-sm-6 backgroundWhite">
-            <ngb-tabset #tabs="ngbTabset" class="accountsTabs" [orientation]="currentOrientation" [justify]="currentJustify">
-                <ngb-tab title="Traffic & Transactions">
-                    <ng-template ngbTabContent>
-                        <div class="row backgroundWhite">
-                            <chart [type]="type" [data]="data" [options]="options" style="width: 80%;height:400px;"></chart>
-                        </div>
-                    </ng-template>
-                </ngb-tab>
-                <ngb-tab title="Top Viewed Products">
-                    <ng-template ngbTabContent>
-                        <div class="row backgroundWhite">
-                            <chart [type]="type" [data]="data" [options]="options" style="width: 80%;height:400px;"></chart>
-                        </div>
-                    </ng-template>
-                </ngb-tab>
-                <ngb-tab title="Sales by Product">
-                    <ng-template ngbTabContent>
-                        <div class="row backgroundWhite">
-                            <chart [type]="type" [data]="data" [options]="options" style="width: 80%;height:400px;"></chart>
-                        </div>
-                    </ng-template>
-                </ngb-tab>
-                <ngb-tab title="Sales by State">
-                    <ng-template ngbTabContent>
-                        <div class="row backgroundWhite">
-                            <chart [type]="type" [data]="data" [options]="options" style="width: 80%;height:400px;"></chart>
-                        </div>
-                    </ng-template>
-                </ngb-tab>
-            </ngb-tabset>
+    <div class="row mt-3">
+        <div class="col-sm-8 pl-0">
+            <chart [type]="type" class="backgroundWhite" [data]="data" [options]="options" style="width: 100%;height:400px;"></chart>
         </div>
-        <div class="col-sm-6">
-            <div class="backgroundWhite">
-                <div class="text-center p-2">
-                    Top Inquiries, by Seller
-                    <span class="float-right">
-                        <select class="ddl_default">
-                            <option>Complaints</option>
-                            <option>Total1</option>
-                        </select>
-                    </span>
-                </div>
-                <div class="row p-2 m-2">
-                    <table class="p-0 w-100" width="100">
-                        <thead>
-                            <tr>
-                                <th width="40%">Seller</th>
-                                <th width="30%">Complaints</th>
-                                <th width="30%">Open</th>
-                            </tr>
-                        </thead>
-                        <tbody *ngFor="let order of orders.content | paginate: { id: 'server', itemsPerPage: orders.size, currentPage: orders.number + 1 , totalItems: orders.totalElements }; let idx = index">
-                            <tr>
-                                <td>{{order.orderItems[0].retailerName}}</td>
-                                <td>{{order.purchasedPrice | currency }}</td>
-                                <td>{{(order.payment.paymentAmount /100) || '0'| currency }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="col-sm-12 p-0 pt-3 pagination_align">
-                        <pagination-controls id='server' class="my-pagination" (pageChange)="getPage($event)" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page"></pagination-controls>
+        <div class="col-sm-4 pl-0">
+                <div class="backgroundWhite salesProduct">
+                        <h5 class="text-center p-3 m-0">
+                            Top Products Types Sold
+                        </h5>
+                        <div class="row pt-2 p-2">
+                            <div class="col-sm-2">
+                                    <a (click)="goto('grid',-1)" *ngIf="!widget.grid.first">
+                                        <i class="fa fa-caret-left caretFont" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                                <div class="col-sm-8 text-center colorlightGray">
+                                    {{this.reportModel !== 'Monthly'?'':(widget.grid.monthName + ',') }} {{widget.grid.year}}
+                                </div>
+                                <div class="col-sm-2">
+                                    <a (click)="goto('grid',1)" *ngIf="!widget.grid.last">
+                                        <i class="fa fa-caret-right caretFont" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                        </div> 
+                        <div class="row p-2 m-2" *ngIf="gridData && gridData.content.length>0">
+                            <table class="table" width="100">
+                                <tbody *ngFor="let item of gridData.content | paginate: { id: 'client', itemsPerPage: size, currentPage: p , totalItems: gridData.content.length }; let idx = index">
+                                    <tr>
+                                        <td>{{(p>1?(p-1)*size:0) + idx+1}}</td>
+                                        <td>{{item.productHierarchy}}</td>
+                                        <td>{{item.totalproduct }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="col-sm-12 p-0 pt-3 pagination_align">
+                                <pagination-controls id='client' class="my-pagination" (pageChange)="p = $event" ></pagination-controls>
+                            </div>
+                        </div>
+                        <h3 *ngIf="!gridData || !gridData.content || gridData.content.length == 0">No data is available</h3>
                     </div>
-                </div>
-            </div>
-            <div class="row p-2 mt-3">
-
-            </div>
-            <div class="row p-2">
-
-            </div>
         </div>
-    </div>
+       
+    </div> 
 </div>

@@ -23,13 +23,13 @@ export class PmdInputListComponent implements OnInit {
     return this._prodAttr;
   }
   formatValues(prodAttr: ProdAttr) {
-    if (!prodAttr.values) {
-      prodAttr.values = new Array<string>();
+    if (!prodAttr.value) {
+      prodAttr.value = new Array<string>();
     }
-    while (prodAttr.values.length < 5) {
-      prodAttr.values.push('');
+    while (prodAttr.value.length < 5) {
+      prodAttr.value.push('');
     }
-    this.values = prodAttr.values.map(p => new ProdAttr({ value: p }));
+    this.values = prodAttr.value.map(p => new ProdAttr({ value: p }));
     return prodAttr;
   }
   // #endregion declaration
@@ -47,6 +47,6 @@ export class PmdInputListComponent implements OnInit {
     this.saveData();
   }
   addListItem() {
-    this.prodAttr.values.push('');
+    this.prodAttr.value.push('');
   }
 }

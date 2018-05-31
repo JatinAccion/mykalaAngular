@@ -10,7 +10,7 @@ import 'rxjs/add/operator/catch';
 import { LocalStorageService } from '../../services/LocalStorage.service';
 import { environment } from './../../../environments/environment';
 import { nameValue } from '../../../../models/nameValue';
-import { ReportOrders, ReportRetailerInquirys, ReportPaymentDatas } from '../../../../models/report-order';
+import { ReportOrders, ReportRetailerInquirys, ReportPaymentDatas, ReportProductSolds } from '../../../../models/report-order';
 import { ReportReviewSummary, ReviewItem } from '../../../../models/report-review';
 import { Retailers, RetailerReviews, ReviewRatings } from '../../../../models/retailer';
 import { ReportConsumers } from '../../../../models/report-consumer';
@@ -203,7 +203,7 @@ export class ReportsService {
 
   srGetWidOneData(year: string, month?: string): Observable<Array<ReviewItem>> {
     this.headers = this.getHttpHeraders();
-    const url = `${environment.ordersReportApi}/${environment.apis.salesReport.widOne}`.replace('{year}', year).replace('{month}', month || '');
+    const url = `${environment.ordersApi}/${environment.apis.salesReport.widOne}`.replace('{year}', year).replace('{month}', month || '');
     return this.http
       .get(url, { headers: this.headers })
       .map(p => this.handleArrayResponse(p, ReviewItem))
@@ -211,13 +211,12 @@ export class ReportsService {
   }
   srGetWidTwoData(year: string, month?: string): Observable<Array<ReviewItem>> {
    this.headers = this.getHttpHeraders();
-    const url = `${environment.ordersReportApi}/${environment.apis.salesReport.widTwo}`.replace('{year}', year).replace('{month}', month || '');
+    const url = `${environment.ordersApi}/${environment.apis.salesReport.widTwo}`.replace('{year}', year).replace('{month}', month || '');
     return this.http
       .get(url, { headers: this.headers })
       .map(p => this.handleArrayResponse(p, ReviewItem))
       .catch(this.handleError);
   }
-
   srGetWidFourData(year: string, month?: string): Observable<Array<ReviewItem>> {
    this.headers = this.getHttpHeraders();
     const url = `${environment.InquiryApi}/${environment.apis.salesReport.widFour}`.replace('{year}', year).replace('{month}', month || '');
@@ -232,6 +231,14 @@ export class ReportsService {
     return this.http
       .get(url, { headers: this.headers })
       .map(p => this.handleArrayResponse(p, ReviewItem))
+      .catch(this.handleError);
+  }
+  srGetGridData(year: string, month?: string, query?: any): Observable<ReportProductSolds> {
+   this.headers = this.getHttpHeraders();
+    const url = `${environment.ordersApi}/${environment.apis.salesReport.grid}`.replace('{year}', year).replace('{month}', month || '');
+    return this.http
+      .get(url, {search: query, headers: this.headers })
+      .map(p => this.handleResponse(p, ReportProductSolds))
       .catch(this.handleError);
   }
 
