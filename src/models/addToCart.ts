@@ -21,4 +21,5 @@ export class AddToCart {
     public width: number;
     public orderFrom: string;
     public productHierarchy: string;
+    public productAttributes: string;
 }
