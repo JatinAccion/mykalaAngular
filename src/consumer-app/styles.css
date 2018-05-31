@@ -3085,3 +3085,25 @@ table.customeTable tr td {
 .addDel_Icon{
     font-size: 17px;
 }
+.offerImageContainer {
+    width: 130px;
+    height: 130px;
+    position: relative;
+    padding: 10px;
+    border: 1px solid #eaeaea;
+    background: #fff;
+}
+.offerImageContainer img {
+    position: absolute;
+    width: 110px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+}
+.myCart-list-nobg .offerImageContainer {
+    border: 1px solid #dcdcdc;
+}
