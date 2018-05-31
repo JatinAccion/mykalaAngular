@@ -62,6 +62,11 @@ export class MyoffersComponent implements OnInit {
     let emailId = this.userData.emailId
     this.myOffer.loadOffers(emailId).subscribe((res) => {
       this.loader = false;
+      let filteredRes = [];
+      for (var i = 0; i < res.length; i++) {
+        if (res[i].getOffersResponse.length > 0) filteredRes.push(res[i])
+      }
+      res = filteredRes;
       this.myOffersDetails = res;
       this.filterIamgeURL(res);
       this.getMainImage(res);
@@ -81,13 +86,16 @@ export class MyoffersComponent implements OnInit {
   }
 
   filterIamgeURL(res) {
-    for (var i = 0; i < res[i].length; i++) {
+    for (var i = 0; i < res.length; i++) {
       for (var j = 0; j < res[i].getOffersResponse.length; j++) {
         if (res[i].getOffersResponse[j].product.productImages) {
-          for (var k = 0; j < res[i].getOffersResponse[j].product.productImages.length; k++) {
+          for (var k = 0; k < res[i].getOffersResponse[j].product.productImages.length; k++) {
             let product = res[i].getOffersResponse[j].product.productImages[k];
             if (product.location.indexOf('data:') === -1 && product.location.indexOf('https:') === -1) {
               res[i].getOffersResponse[j].product.productImages[k].location = this.s3 + product.location;
+            }
+            if (product.location.indexOf('maxHeight') > -1) {
+              res[i].getOffersResponse[j].product.productImages[k].location = product.location.split(";")[0];
             }
           }
         }
@@ -168,10 +176,10 @@ export class MyoffersComponent implements OnInit {
     })
   }
 
-  viewOfferDetails(product) {
+  viewOfferDetails(product, offerID) {
     product.product.kalaPrice = product.offerPrice;
-    let selectedProduct = new BrowseProductsModal(product.product)
-    window.localStorage['selectedProduct'] = JSON.stringify(selectedProduct);
+    let selectedProduct = new BrowseProductsModal(product.product);
+    window.localStorage['selectedProduct'] = JSON.stringify({ selectedProduct: selectedProduct, offerId: offerID });
     this.route.navigateByUrl("/view-offer")
   }
 

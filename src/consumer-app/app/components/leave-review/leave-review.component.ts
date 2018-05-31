@@ -105,7 +105,8 @@ export class LeaveReviewComponent implements OnInit {
         localStorage.removeItem("forReview");
         setTimeout(() => {
           this.core.modalReference.close();
-          this.route.navigateByUrl("/myorder");
+          if (this.productForReview.from != undefined) this.route.navigateByUrl("/myalerts");
+          else this.route.navigateByUrl("/myorder");
         }, 2000);
       })
     }

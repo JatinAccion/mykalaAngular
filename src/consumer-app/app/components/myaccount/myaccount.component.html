@@ -96,10 +96,10 @@
               <div class="col-sm-4 p-2 colorlightGray">date of birth</div>
               <div class="col-sm-5 p-2 text-right">
                 <span #dobElement *ngIf="!input_dob">{{myAccountModel.profileInfo.birthMonth}}/{{myAccountModel.profileInfo.birthDate}}/{{myAccountModel.profileInfo.birthYear}}</span>
-                <input *ngIf="input_dob" [(ngModel)]="append_dob" (focus)="d.open()" [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker #d="ngbDatepicker" class="txtnml width100 appendedInput" placeholder="mm-dd-yyyy" autofocus>
+                <input *ngIf="input_dob" [(ngModel)]="append_dob" (focus)="d.open()" [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker #d="ngbDatepicker" readonly class="txtnml width100 appendedInput" placeholder="mm-dd-yyyy" autofocus>
               </div>
               <img src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_myAc" *ngIf="loader_DOB" />
-              <button class="col-sm-3 text-right p-2 colorred txtasbutton cursor" (click)="appendInput($event, 'dob'); selectSelected($event)">change</button>
+              <button class="col-sm-3 text-right p-2 colorred txtasbutton cursor" (click)="appendInput($event, 'dob')">change</button>
             </div>
             <!--Date Of Birth-->
 
@@ -124,9 +124,9 @@
             <p class="colorlightGray">shipping addresses</p>
             <!--Shipping Address-->
             <div class="row">
-              <button (click)="addNewAddress($event)" class="col-sm-4 p-2 txtasbutton colorred cursor" style="padding-top: 0 !important">add</button>
+              <button (click)="addNewAddress($event)" class="col-sm-4 p-2 txtasbutton colorred cursor" style="padding-top: 0 !important">add address</button>
 
-              <div class="col-sm-8 p-0">
+              <div class="col-sm-8 p-0 mt-2">
                 <!--Add Address Form-->
                 <div *ngIf="addShippingAddress" class="col-sm-10 p-0">
                   <input [(ngModel)]="append_addAddressLine1" type="text" class="txtnml width100 appendedInput" placeholder="Address Line 1" autofocus>
@@ -136,35 +136,40 @@
                     <option value selected disabled>Select a state</option>
                     <option *ngFor="let state of getStates" value="{{state}}">{{state}}</option>
                   </select>
-                  <input maxlength="5" (keypress)="core.allowOnlyNumbers($event)" [(ngModel)]="append_addShippingZipcode" type="text" class="txtnml width100 appendedInput" placeholder="Zipcode">
+                  <input maxlength="5" (keypress)="core.allowOnlyNumbers($event)" [(ngModel)]="append_addShippingZipcode" type="text" class="txtnml width100 appendedInput mb-2" placeholder="Zipcode">
                 </div>
-                <button [disabled]="addShippingAddress && (!append_addAddressLine1 || !append_addShippingCity || !append_addShippingState || !append_addShippingZipcode || append_addShippingZipcode.length != 5 || append_addShippingZipcode == '00000')" *ngIf="addShippingAddress" (click)="saveNewAddress($event)" class="col-sm-2 p-2 mb-2 text-right txtasbutton colorred" style="padding-top: 0 !important; cursor: pointer; padding-left: 0px !important">done</button>
+                <button [disabled]="addShippingAddress && (!append_addAddressLine1 || !append_addShippingCity || !append_addShippingState || !append_addShippingZipcode || append_addShippingZipcode.length != 5 || append_addShippingZipcode == '00000')" *ngIf="addShippingAddress" (click)="saveNewAddress($event)" class="btn btn_red_right mr-2 mt-2" style="cursor: pointer">add</button>
+                <button *ngIf="addShippingAddress" style="cursor: pointer" (click)="terminate('addAddress')" class="btn-outer btn_redouter_right btn-outer-margin">cancel</button>
                 <!--Add Address Form-->
 
                 <!--Edit Address-->
                 <div *ngIf="!addShippingAddress" class="col-sm-12 row text-right">
                   <div class="w-100" *ngFor="let shippingAddress of myAccountModel.profileInfo.address">
                     <div class="mb-3 row" *ngIf="shippingAddress.addressType == 'shippingAddress'">
-                      <div class="col-sm-9 text-right p-2" style="padding-top: 0 !important">
-                        <span *ngIf="!shippingAddress.input_shippingAddress">{{shippingAddress.addressLine1}}</span>
-                        <br />
-                        <span *ngIf="!shippingAddress.input_shippingAddress">{{shippingAddress.addressLine2}}</span>
-                        <br />
+                      <div class="col-sm-8 text-right p-2" style="padding-top: 0 !important">
+                        <span *ngIf="!shippingAddress.input_shippingAddress">{{shippingAddress.addressLine1}}, </span>
+                        <span *ngIf="!shippingAddress.input_shippingAddress">{{shippingAddress.addressLine2}}
+                          <span *ngIf="shippingAddress.addressLine2 != ''">,</span>
+                        </span>
                         <span *ngIf="!shippingAddress.input_shippingAddress">{{shippingAddress.city}},</span>
                         <span *ngIf="!shippingAddress.input_shippingAddress">{{shippingAddress.state}},</span>
                         <span *ngIf="!shippingAddress.input_shippingAddress">{{shippingAddress.zipcode}}</span>
 
-                        <input style="position: relative; top: -37px;" *ngIf="shippingAddress.input_shippingAddress" type="text" [(ngModel)]="shippingAddress.append_editAddressLine1" class="txtnml width100 appendedInput" placeholder="Address Line 1" autofocus>
-                        <input style="position: relative; top: -37px;" *ngIf="shippingAddress.input_shippingAddress" type="text" [(ngModel)]="shippingAddress.append_editAddressLine2" class="txtnml width100 appendedInput" placeholder="Address Line 2">
-                        <input style="position: relative; top: -37px;" *ngIf="shippingAddress.input_shippingAddress" type="text" [(ngModel)]="shippingAddress.append_editShippingCity" class="txtnml width100 appendedInput" placeholder="City">
-                        <select style="position: relative; top: -37px;" *ngIf="shippingAddress.input_shippingAddress" [(ngModel)]="shippingAddress.append_editShippingState" class="txtnml width100 appendedInput">
+                        <input *ngIf="shippingAddress.input_shippingAddress" type="text" [(ngModel)]="shippingAddress.append_editAddressLine1" class="txtnml width100 appendedInput" placeholder="Address Line 1" autofocus>
+                        <input *ngIf="shippingAddress.input_shippingAddress" type="text" [(ngModel)]="shippingAddress.append_editAddressLine2" class="txtnml width100 appendedInput" placeholder="Address Line 2">
+                        <input *ngIf="shippingAddress.input_shippingAddress" type="text" [(ngModel)]="shippingAddress.append_editShippingCity" class="txtnml width100 appendedInput" placeholder="City">
+                        <select *ngIf="shippingAddress.input_shippingAddress" [(ngModel)]="shippingAddress.append_editShippingState" class="txtnml width100 appendedInput">
                           <option value selected disabled>Select a state</option>
                           <option *ngFor="let state of getStates" value="{{state}}" selected="shippingAddress.append_editShippingState == state">{{state}}</option>
                         </select>
-                        <input maxlength="5" style="position: relative; top: -37px;" *ngIf="shippingAddress.input_shippingAddress" type="text" (keypress)="core.allowOnlyNumbers($event)" [(ngModel)]="shippingAddress.append_editShippingZipcode" class="txtnml width100 appendedInput" placeholder="Zipcode">
+                        <input maxlength="5" *ngIf="shippingAddress.input_shippingAddress" type="text" (keypress)="core.allowOnlyNumbers($event)" [(ngModel)]="shippingAddress.append_editShippingZipcode" class="txtnml width100 appendedInput mb-1" placeholder="Zipcode">
+                        <button *ngIf="shippingAddress.input_shippingAddress" [disabled]="shippingAddress.input_shippingAddress && (!shippingAddress.append_editAddressLine1 || !shippingAddress.append_editShippingCity || !shippingAddress.append_editShippingState || !shippingAddress.append_editShippingZipcode || shippingAddress.append_editShippingZipcode.length != 5 || shippingAddress.append_editShippingZipcode == '00000')" (click)="removeInput($event, 'shippingAddress', shippingAddress)" style="cursor: pointer" class="btn btn_red_right mr-2 mt-2">done</button>
+                        <button *ngIf="shippingAddress.input_shippingAddress" style="cursor: pointer" (click)="terminate('editAddress', shippingAddress)" class="btn-outer btn_redouter_right btn-outer-margin">cancel</button>
                       </div>
-
-                      <button [disabled]="shippingAddress.input_shippingAddress && (!shippingAddress.append_editAddressLine1 || !shippingAddress.append_editShippingCity || !shippingAddress.append_editShippingState || !shippingAddress.append_editShippingZipcode || shippingAddress.append_editShippingZipcode.length != 5 || shippingAddress.append_editShippingZipcode == '00000')" class="col-sm-3 text-right p-2 colorred txtasbutton cursor" style="padding-top: 0 !important; cursor: pointer" (click)="appendInput($event, 'shippingAddress', shippingAddress)">change</button>
+                      <div class="col-sm-1 p-0 text-right addDel_Icon colorred cursor" *ngIf="!shippingAddress.input_shippingAddress">
+                        <i class="fa fa-trash" aria-hidden="true" title="delete address" (click)="confirmDeleteAddress(shippingAddress)"></i>
+                      </div>
+                      <button *ngIf="!shippingAddress.input_shippingAddress" class="col-sm-3 text-right p-2 mt-0 colorred txtasbutton cursor" style="padding-top: 0 !important; cursor: pointer" (click)="appendInput($event, 'shippingAddress', shippingAddress)">change</button>
                     </div>
                   </div>
                 </div>
@@ -178,7 +183,7 @@
               <div class="col-sm-12 p-3 colorlightGray">
                 <p class="colorlightGray mb-0">payment information</p>
               </div>
-              <div class="col-sm-10 pt-0 pl-3 pr-3">
+              <div class="col-sm-10 pt-0 pl-3 pr-3 mb-4">
                 <!--Add New Cards Form-->
                 <div class="row" [hidden]="!addCard">
                   <form #checkout="ngForm" (ngSubmit)="onSubmit(checkout)" class="checkout pl-1 pr-0 pb-0 pt-0 mt-0 mb-4">
@@ -203,13 +208,13 @@
                 </div>
                 <!--Add New Cards Form-->
               </div>
-              <button class="col-sm-2 text-right p-2 colorred txtasbutton cursor" (click)="addNewCard()">add</button>
+              <button class="col-sm-2 text-right p-2 colorred txtasbutton cursor position-relative" style="z-index:1" (click)="addNewCard()">add</button>
             </div>
             <!--Add New Cards-->
 
             <!--Listing All The Cards-->
             <div class="row">
-              <div class="col-sm-12 pt-0 pl-3 pr-3">
+              <div class="col-sm-12 pt-0 pl-3 pr-5" style="margin-top: -25px">
                 <div class="categ_outline_gray mr-2 mb-2" style="cursor:pointer" *ngFor="let card of getCardsDetails">
                   {{card.cardType}} {{card.last4Digit}}
                   <span (click)="confirmDeleteCard(card)" class="ml-2">
@@ -302,4 +307,22 @@
     <button type="button" class="btn btn-outer btn_redouter_right" (click)="c('Close click')">No</button>
   </div>
 </ng-template>
-<!--Close Account-->
+<!--Delete Card-->
+
+<!--Delete Card-->
+<ng-template #deleteAddressModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Delete Address</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure you want to delete the address?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outer btn_red_right" (click)="c('Close click'); deleteAddress()">Yes</button>
+    <button type="button" class="btn btn-outer btn_redouter_right" (click)="c('Close click')">No</button>
+  </div>
+</ng-template>
+<!--Delete Card-->

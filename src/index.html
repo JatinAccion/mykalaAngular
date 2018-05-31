@@ -13,8 +13,16 @@
   <script src="https://js.stripe.com/v3/"></script>
   <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDPSk91ksjR47kqdFbElVwL7eM8FgIZEHw"></script>
   <script type="text/javascript">
-    var stripe = Stripe('pk_test_pNeF3FuRWQ99HxWEMvVbLlKN'); // use your test publishable key
-    var elements = stripe.elements();
+    var stripe = Stripe('pk_test_pNeF3FuRWQ99HxWEMvVbLlKN');
+    var elements = stripe.elements({
+      fonts: [
+        {
+          family: 'Open Sans',
+          src: 'local("Open Sans"), local("OpenSans"), url(https://fonts.gstatic.com/s/opensans/v13/cJZKeOuBrn4kERxqtaUH3ZBw1xU1rKptJj_0jans920.woff2) format("woff2")',
+          unicodeRange: 'U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215',
+        },
+      ]
+    });
   </script>
 </head>
 

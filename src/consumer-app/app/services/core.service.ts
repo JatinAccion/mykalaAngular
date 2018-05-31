@@ -225,6 +225,9 @@ export class CoreService {
           if (product.location.indexOf('data:') === -1 && product.location.indexOf('https:') === -1) {
             this.tilesData[i].product.productImages[j].location = environment.s3 + product.location;
           }
+          if (product.location.indexOf('maxHeight') > -1) {
+            this.tilesData[i].product.productImages[j].location = product.location.split(";")[0];
+          }
         }
       }
     }

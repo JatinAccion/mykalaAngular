@@ -113,7 +113,7 @@
           <div *ngIf="!alreadyAddedInCart" class="col-sm-12">
             <div class="row p-2">
               <div class="col-sm-6">
-                <input class="btn w-100 btn_redouter_right" type="button" value="decline" />
+                <input (click)="declineOffer(selectedProduct.product.kalaUniqueId)" class="btn w-100 btn_redouter_right" type="button" value="decline" />
               </div>
               <div class="col-sm-6">
                 <input class="btn w-100 btn_redouter_right" type="button" value="save for later" routerLink="/myoffer" />

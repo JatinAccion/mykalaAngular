@@ -26,7 +26,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   cardCvc: any;
   cardZip: any;
   getStates: any;
-
+  readStripe: boolean = false;
   error: string;
   cardHandler = this.onChange.bind(this);
   @ViewChild('cardInfo') cardInfo: ElementRef;
@@ -115,8 +115,10 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   customerId: string;
   @ViewChild('closeAccountModal') closeAccountModal: ElementRef;
   @ViewChild('deleteCardModal') deleteCardModal: ElementRef;
+  @ViewChild('deleteAddressModal') deleteAddressModal: ElementRef;
   saveCardDetails: any;
   pageLoader: boolean = false;
+  addressIdForDelete: string;
 
   constructor(
     public core: CoreService,
@@ -173,59 +175,59 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    const elementStyles = {
-      base: {
-        color: '#000',
-        fontWeight: 600,
-        fontFamily: 'Open Sans',
-        fontSize: '16px',
-        fontSmoothing: 'antialiased',
+    if (this.readStripe) {
+      const elementStyles = {
+        base: {
+          color: '#000',
+          fontFamily: '"Open Sans", "Helvetica Neue", "Helvetica", sans-serif',
+          fontSize: '15px',
+          ':focus': {
+            color: '#424770',
+          },
 
-        ':focus': {
-          color: '#424770',
+          '::placeholder': {
+            color: '#9BACC8',
+          },
+
+          ':focus::placeholder': {
+            color: '#CFD7DF',
+          },
         },
-
-        '::placeholder': {
-          color: '#9BACC8',
+        invalid: {
+          color: '#000',
+          ':focus': {
+            color: '#FA755A',
+          },
+          '::placeholder': {
+            color: '#FFCCA5',
+          },
         },
+      };
 
-        ':focus::placeholder': {
-          color: '#CFD7DF',
-        },
-      },
-      invalid: {
-        color: '#000',
-        ':focus': {
-          color: '#FA755A',
-        },
-        '::placeholder': {
-          color: '#FFCCA5',
-        },
-      },
-    };
+      const elementClasses = {
+        focus: 'focus',
+        empty: 'empty',
+        invalid: 'invalid',
+      };
+      // this.card = elements.create('card', { style });
+      this.cardNumber = elements.create('cardNumber', { style: elementStyles, classes: elementClasses, });
+      this.cardExpiry = elements.create('cardExpiry', { style: elementStyles, classes: elementClasses, });
+      this.cardCvc = elements.create('cardCvc', { style: elementStyles, classes: elementClasses, });
+      this.cardZip = elements.create('postalCode', { style: elementStyles, classes: elementClasses, placeholder: 'Zipcode', });
 
-    const elementClasses = {
-      focus: 'focus',
-      empty: 'empty',
-      invalid: 'invalid',
-    };
-    // this.card = elements.create('card', { style });
-    this.cardNumber = elements.create('cardNumber', { style: elementStyles, classes: elementClasses, });
-    this.cardExpiry = elements.create('cardExpiry', { style: elementStyles, classes: elementClasses, });
-    this.cardCvc = elements.create('cardCvc', { style: elementStyles, classes: elementClasses, });
-    this.cardZip = elements.create('postalCode', { style: elementStyles, classes: elementClasses, placeholder: 'Zipcode', });
-
-    // this.card.mount(this.cardInfo.nativeElement);
-    this.cardNumber.mount(this.cardNumberInfo.nativeElement);
-    this.cardExpiry.mount(this.cardExpiryInfo.nativeElement);
-    this.cardCvc.mount(this.cardCvcInfo.nativeElement);
-    this.cardZip.mount(this.cardZipInfo.nativeElement);
-
-    this.cardNumber.addEventListener('change', ({ brand }) => {
-      if (brand) {
-        this.setBrandIcon(brand);
-      }
-    });
+      // this.card.mount(this.cardInfo.nativeElement);
+      this.cardNumber.mount(this.cardNumberInfo.nativeElement);
+      this.cardExpiry.mount(this.cardExpiryInfo.nativeElement);
+      this.cardCvc.mount(this.cardCvcInfo.nativeElement);
+      this.cardZip.mount(this.cardZipInfo.nativeElement);
+    }
+    if (this.cardNumber != undefined) {
+      this.cardNumber.addEventListener('change', ({ brand }) => {
+        if (brand) {
+          this.setBrandIcon(brand);
+        }
+      });
+    }
   }
 
   setBrandIcon(brand) {
@@ -242,15 +244,13 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // this.card.removeEventListener('change', this.cardHandler);
-    // this.cardNumber.removeEventListener('change', this.cardHandler);
-    // this.cardExpiry.removeEventListener('change', this.cardHandler);
-    // this.cardCvc.removeEventListener('change', this.cardHandler);
-    // this.card.destroy();
-    this.cardNumber.destroy();
-    this.cardExpiry.destroy();
-    this.cardZip.destroy();
-    this.cardCvc.destroy();
+    if (this.cardNumber != undefined) {
+      this.cardNumber.destroy();
+      this.cardExpiry.destroy();
+      this.cardZip.destroy();
+      this.cardCvc.destroy();
+      this.cardNumber = undefined;
+    }
   }
 
   ngOnInit() {
@@ -285,6 +285,11 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
       this.myAccountModel.profileInfo.birthDate = new Date(res.dateOfBirth).getDate().toString();
       this.myAccountModel.profileInfo.birthMonth = (new Date(res.dateOfBirth).getMonth() + 1).toString();
       this.myAccountModel.profileInfo.birthYear = new Date(res.dateOfBirth).getFullYear().toString();
+      this.model = {
+        year: parseFloat(this.myAccountModel.profileInfo.birthYear),
+        month: parseFloat(this.myAccountModel.profileInfo.birthMonth),
+        day: parseFloat(this.myAccountModel.profileInfo.birthDate)
+      };
       this.myAccountModel.userData.emailId = res.emailId;
       this.myAccountModel.userData.password = "......";
       this.myAccountModel.profileInfo.firstName = res.firstName;
@@ -313,7 +318,9 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     this.addCard = false;
     this.error = null;
     this.ngOnDestroy();
-    this.ngAfterViewInit();
+    let getText = document.getElementsByClassName("cursor");
+    for (let i = 0; i < getText.length; i++) getText[i].removeAttribute("disabled");
+    //this.ngAfterViewInit();
   }
 
   updateCard(stripeAddCard) {
@@ -337,9 +344,28 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
+  confirmDeleteAddress(address) {
+    this.addressIdForDelete = address.addID;
+    this.core.openModal(this.deleteAddressModal);
+  }
+
+  deleteAddress() {
+    this.myAccount.deleteAddress(this.addressIdForDelete, this.getUserInfo.emailId).subscribe((res) => {
+      this.myAccountModel.profileInfo.address = new Array<MyAccountAddress>();
+      this.myAccountModel.profileInfo.address = res;
+    }, (err) => {
+      console.log(err)
+    })
+  }
+
   addNewCard() {
     this.addCard = !this.addCard;
-    if (this.addCard) this.ngAfterViewInit();
+    this.readStripe = true;
+    if (this.addCard) {
+      let getText = document.getElementsByClassName("cursor");
+      for (let i = 0; i < getText.length; i++) getText[i].setAttribute("disabled", "disabled");
+      this.ngAfterViewInit();
+    }
     else this.resetAddCard();
   }
 
@@ -512,7 +538,8 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       else if (element == 'dob') {
         this.input_dob = true;
-        this.append_dob = this.dobElement.nativeElement.innerText;
+        //this.append_dob = this.dobElement.nativeElement.innerText;
+        this.append_dob = this.model;
       }
       else if (element == 'interest') {
         this.myAccount.getInterest().subscribe(res => {
@@ -608,6 +635,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
       console.log(this.DOBSaveModel);
       this.myAccount.saveDOB(this.DOBSaveModel).subscribe((res) => {
         this.loader_DOB = false;
+        this.model = this.append_dob;
         window.localStorage['userInfo'] = JSON.stringify(res);
       }, (err) => {
         this.loader_DOB = false;
@@ -620,27 +648,20 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
       return false;
     }
     else if (element == 'interest') {
-      if (this.getInterest.length > 0) {
-        this.loader_Interest = true;
-        this.myAccountModel.profileInfo.consumerInterests = this.getInterest;
-        this.getAPICP.consumerInterests = this.myAccountModel.profileInfo.consumerInterests
-        this.getInterest = [];
-        /**API to Save Interest**/
-        this.getUserInfo = JSON.parse(window.localStorage['userInfo'])
-        this.InterestSaveModel.emailId = this.getUserInfo.emailId;
-        this.InterestSaveModel.consumerInterests = this.myAccountModel.profileInfo.consumerInterests;
-        this.myAccount.saveInterest(this.InterestSaveModel).subscribe((res) => {
-          this.loader_Interest = false;
-          window.localStorage['userInfo'] = JSON.stringify(res);
-        }, (err) => {
-          this.loader_Interest = false;
-          console.log(err);
-        });
-        /**API to Save Interest**/
-      }
-      else {
-        this.myAccountModel.profileInfo.consumerInterests = this.getAPICP.consumerInterests;
-      }
+      this.loader_Interest = true;
+      this.myAccountModel.profileInfo.consumerInterests = this.getInterest;
+      this.getAPICP.consumerInterests = this.myAccountModel.profileInfo.consumerInterests
+      this.getInterest = [];
+      this.getUserInfo = JSON.parse(window.localStorage['userInfo'])
+      this.InterestSaveModel.emailId = this.getUserInfo.emailId;
+      this.InterestSaveModel.consumerInterests = this.myAccountModel.profileInfo.consumerInterests;
+      this.myAccount.saveInterest(this.InterestSaveModel).subscribe((res) => {
+        this.loader_Interest = false;
+        window.localStorage['userInfo'] = JSON.stringify(res);
+      }, (err) => {
+        this.loader_Interest = false;
+        console.log(err);
+      });
     }
     else if (element == 'shippingAddress') {
       this.loader_shippingAddress = true;
@@ -698,6 +719,8 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   saveNewAddress(e) {
+    let getText = document.getElementsByClassName("cursor");
+    for (let i = 0; i < getText.length; i++) getText[i].removeAttribute("disabled");
     this.myAccountModel.profileInfo.address.push(new MyAccountAddress(null, this.append_addAddressLine1, this.append_addAddressLine2, this.append_addShippingCity, this.append_addShippingState, this.append_addShippingZipcode.toString(), 'shippingAddress'));
     /**API to Save Address**/
     this.AddressSaveModel.emailId = this.getUserInfo.emailId;
@@ -733,6 +756,27 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     else if (this.passwordRegex.test(this.append_ConfirmPassword) == false) this.invalidPassword = true;
     else if (this.append_Password == this.append_NewPassword) this.oldNewPassword = true;
     else if (this.append_NewPassword != this.append_ConfirmPassword) this.newConfirmPassword = true;
+  }
+
+  terminate(from, obj?: any) {
+    let getText = document.getElementsByClassName("cursor");
+    for (let i = 0; i < getText.length; i++) getText[i].removeAttribute("disabled");
+    if (from == 'addAddress') {
+      this.addShippingAddress = false;
+      this.append_addAddressLine1 = "";
+      this.append_addAddressLine2 = "";
+      this.append_addShippingCity = "";
+      this.append_addShippingState = "";
+      this.append_addShippingZipcode = "";
+    }
+    else if (from == 'editAddress') {
+      obj.input_shippingAddress = false;
+      obj.append_editAddressLine1 = obj.addressLine1;
+      obj.append_editAddressLine2 = obj.addressLine2;
+      obj.append_editShippingCity = obj.city;
+      obj.append_editShippingState = obj.state;
+      obj.append_editShippingZipcode = obj.zipcode;
+    }
   }
 
   hideAllInputs(obj?: any) {

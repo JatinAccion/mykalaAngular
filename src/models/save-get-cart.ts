@@ -19,6 +19,8 @@ export class SaveGetCartItems {
         public weight: number,
         public shipProfileId: string,
         public productDescription: string,
+        public orderFrom: string,
+        public productHierarchy: string,
         public cartId?: string,
     ) { }
 }

@@ -34,4 +34,16 @@ export class MyAlertsService {
         const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.updateReview}/${reviewId}/${false}`;
         return this.http.get(url).map((res) => res.json())
     }
+
+    trackOrder(orderId) {
+        const BASE_URL: string = environment.checkout;
+        const url: string = `${BASE_URL}/${environment.apis.consumerCheckout.trackOrderShipment}/${orderId}`;
+        return this.http.get(url).map(res => res.json());
+    }
+
+    loadPostReviewAlert(userId, page, size) {
+        const BASE_URL: string = environment.checkout;
+        const url: string = `${BASE_URL}/consumer/${userId}/${environment.apis.profileInterest.postReviewAlert}?page=${page}&size=${size}`;
+        return this.http.get(url).map(res => res.json());
+    }
 }

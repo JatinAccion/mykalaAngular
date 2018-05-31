@@ -99,6 +99,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('deleteCardModal') deleteCardModal: ElementRef;
   confirmValidationMsg = { label: '', message: '' };
   saveCardDetails: any;
+  readStripe: boolean = false;
 
   constructor(
     public core: CoreService,
@@ -128,56 +129,59 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    const elementStyles = {
-      base: {
-        color: '#000',
-        fontWeight: 600,
-        fontFamily: 'Quicksand, Open Sans, Segoe UI, sans-serif',
-        fontSize: '16px',
-        fontSmoothing: 'antialiased',
+    if (this.readStripe) {
+      const elementStyles = {
+        base: {
+          color: '#000',
+          fontFamily: '"Open Sans", "Helvetica Neue", "Helvetica", sans-serif',
+          fontSize: '15px',
+          ':focus': {
+            color: '#424770',
+          },
 
-        ':focus': {
-          color: '#424770',
-        },
+          '::placeholder': {
+            color: '#9BACC8',
+          },
 
-        '::placeholder': {
-          color: '#9BACC8',
+          ':focus::placeholder': {
+            color: '#CFD7DF',
+          },
         },
+        invalid: {
+          color: '#000',
+          ':focus': {
+            color: '#FA755A',
+          },
+          '::placeholder': {
+            color: '#FFCCA5',
+          },
+        },
+      };
 
-        ':focus::placeholder': {
-          color: '#CFD7DF',
-        },
-      },
-      invalid: {
-        color: '#FA755A',
-        ':focus': {
-          color: '#FA755A'
-        },
-        '::placeholder': {
-          color: '#FFCCA5',
-        },
-      },
-    };
+      const elementClasses = {
+        focus: 'focus',
+        empty: 'empty',
+        invalid: 'invalid',
+      };
+      // this.card = elements.create('card', { style });
+      this.cardNumber = elements.create('cardNumber', { style: elementStyles, classes: elementClasses, });
+      this.cardExpiry = elements.create('cardExpiry', { style: elementStyles, classes: elementClasses, });
+      this.cardCvc = elements.create('cardCvc', { style: elementStyles, classes: elementClasses, });
+      this.cardZip = elements.create('postalCode', { style: elementStyles, classes: elementClasses, placeholder: 'Zipcode', });
 
-    const elementClasses = {
-      focus: 'focus',
-      empty: 'empty',
-      invalid: 'invalid',
-    };
-
-    this.cardNumber = elements.create('cardNumber', { style: elementStyles, classes: elementClasses, });
-    this.cardExpiry = elements.create('cardExpiry', { style: elementStyles, classes: elementClasses, });
-    this.cardCvc = elements.create('cardCvc', { style: elementStyles, classes: elementClasses, });
-    this.cardZip = elements.create('postalCode', { style: elementStyles, classes: elementClasses, placeholder: 'Zipcode', });
-    this.cardNumber.mount(this.cardNumberInfo.nativeElement);
-    this.cardExpiry.mount(this.cardExpiryInfo.nativeElement);
-    this.cardCvc.mount(this.cardCvcInfo.nativeElement);
-    this.cardZip.mount(this.cardZipInfo.nativeElement);
-    this.cardNumber.addEventListener('change', ({ brand }) => {
-      if (brand) {
-        this.setBrandIcon(brand);
-      }
-    });
+      // this.card.mount(this.cardInfo.nativeElement);
+      this.cardNumber.mount(this.cardNumberInfo.nativeElement);
+      this.cardExpiry.mount(this.cardExpiryInfo.nativeElement);
+      this.cardCvc.mount(this.cardCvcInfo.nativeElement);
+      this.cardZip.mount(this.cardZipInfo.nativeElement);
+    }
+    if (this.cardNumber != undefined) {
+      this.cardNumber.addEventListener('change', ({ brand }) => {
+        if (brand) {
+          this.setBrandIcon(brand);
+        }
+      });
+    }
   }
 
   setBrandIcon(brand) {
@@ -194,10 +198,13 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.cardNumber.destroy();
-    this.cardExpiry.destroy();
-    this.cardCvc.destroy();
-    this.cardZip.destroy();
+    if (this.cardNumber != undefined) {
+      this.cardNumber.destroy();
+      this.cardExpiry.destroy();
+      this.cardZip.destroy();
+      this.cardCvc.destroy();
+      this.cardNumber = undefined;
+    }
   }
 
   getRetailerIds() {
@@ -610,6 +617,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
   addNewCard() {
     this.addCard = !this.addCard;
+    this.readStripe = true;
     if (this.addCard) this.ngAfterViewInit();
     else this.resetAddCard();
   }
@@ -618,7 +626,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.addCard = false;
     this.error = null;
     this.ngOnDestroy();
-    this.ngAfterViewInit();
+    //this.ngAfterViewInit();
   }
 
   updateCard(stripeAddCard) {
@@ -701,7 +709,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.ProductCheckoutModal.purchasedPrice = eval(`${this.totalProductTax + this.totalAmountFromCart + this.finalShippingAmount}`);
       for (var i = 0; i < this.itemsInCart.length; i++) {
         let item = this.itemsInCart[i]
-        this.ProductCheckoutModal.orderItems.push(new OrderItems(item.productId, item.productName, item.retailerName, item.retailerId, item.productDescription, item.productImage, item.quantity, item.price, item.productTaxCost, item.shippingCost, eval(`${item.price * item.quantity}`), item.deliveryMethod, item.productUPCCode, item.productSKUCode, item.orderFrom))
+        this.ProductCheckoutModal.orderItems.push(new OrderItems(item.productId, item.productName, item.retailerName, item.retailerId, item.productDescription, item.productImage, item.quantity, item.price, item.productTaxCost, item.shippingCost, eval(`${item.price * item.quantity}`), item.deliveryMethod, item.productUPCCode, item.productSKUCode, item.orderFrom, item.productHierarchy))
       };
       console.log(this.ProductCheckoutModal);
       for (var i = 0; i < this.itemsInCart.length; i++) {

@@ -53,7 +53,7 @@ export class ViewOfferComponent implements OnInit {
   }
 
   loadProductInfo() {
-    this.selectedProduct = JSON.parse(window.localStorage['selectedProduct']);
+    this.selectedProduct = JSON.parse(window.localStorage['selectedProduct']).selectedProduct;
     this.loadReviewsSummary(this.selectedProduct.product.kalaUniqueId);
     this.loadRetailerPolicy(this.selectedProduct.product.retailerId);
     this.filterIamgeURL();
@@ -64,6 +64,15 @@ export class ViewOfferComponent implements OnInit {
       this.filterAttributes(this.selectedProduct.product.attributes);
     }
     this.getItBy(this.selectedProduct.product.shipProfileId);
+  }
+
+  declineOffer(productId) {
+    let offerId = JSON.parse(window.localStorage['selectedProduct']).offerId;
+    this.viewOffer.declineOffer(offerId, productId).subscribe((res) => {
+      this.route.navigateByUrl('/myoffer');
+    }, (err) => {
+      console.log(err);
+    })
   }
 
   getItBy(shippingProfileId) {
@@ -123,6 +132,9 @@ export class ViewOfferComponent implements OnInit {
       let product = this.selectedProduct.product.productImages[i];
       if (product.location.indexOf('data:') === -1 && product.location.indexOf('https:') === -1) {
         this.selectedProduct.product.productImages[i].location = this.s3 + product.location;
+      }
+      if (product.location.indexOf('maxHeight') > -1) {
+        this.selectedProduct.product.productImages[i].location = product.location.split(";")[0];
       }
     }
   }
@@ -211,25 +223,25 @@ export class ViewOfferComponent implements OnInit {
     if (deliveryMethod == 'Express: 3 to 5 business days') {
       let date = new Date(currentDate), locale = "en-us", month = date.toLocaleString(locale, { month: "long" });
       let getDay = new Date(date.getTime() + 120 * 60 * 60 * 1000); //Calculating on the next 5days basis
-      return getDay.toLocaleString(locale, { month: "short" }) + ' ' + (getDay.getDate()) + ', ' + weekday[getDay.getDay()]
+      return weekday[getDay.getDay()] + ', ' + getDay.toLocaleString(locale, { month: "long" }) + ' ' + (getDay.getDate())
     }
     // 2 day: 2 business day shipping days Delivery
     else if (deliveryMethod == '2 day: 2 business day shipping') {
       let date = new Date(currentDate), locale = "en-us", month = date.toLocaleString(locale, { month: "long" });
       let getDay = new Date(date.getTime() + 48 * 60 * 60 * 1000); //Calculating on the next 5days basis
-      return getDay.toLocaleString(locale, { month: "short" }) + ' ' + (getDay.getDate()) + ', ' + weekday[getDay.getDay()]
+      return weekday[getDay.getDay()] + ', ' + getDay.toLocaleString(locale, { month: "long" }) + ' ' + (getDay.getDate())
     }
     // Standard: 5 to 8 business days Delivery
     else if (deliveryMethod == 'Standard: 5 to 8 business days') {
       let date = new Date(currentDate), locale = "en-us", month = date.toLocaleString(locale, { month: "long" });
       let getDay = new Date(date.getTime() + 192 * 60 * 60 * 1000); //Calculating on the next 5days basis
-      return getDay.toLocaleString(locale, { month: "short" }) + ' ' + (getDay.getDate()) + ', ' + weekday[getDay.getDay()]
+      return weekday[getDay.getDay()] + ', ' + getDay.toLocaleString(locale, { month: "long" }) + ' ' + (getDay.getDate())
     }
     // Next day: 1 business day shipping
     else {
       let date = new Date(currentDate), locale = "en-us", month = date.toLocaleString(locale, { month: "long" });
       let getDay = new Date(date.getTime() + 24 * 60 * 60 * 1000); //Calculating on the next 5days basis
-      return getDay.toLocaleString(locale, { month: "short" }) + ' ' + (getDay.getDate()) + ', ' + weekday[getDay.getDay()]
+      return weekday[getDay.getDay()] + ', ' + getDay.toLocaleString(locale, { month: "long" }) + ' ' + (getDay.getDate())
     }
   }
 

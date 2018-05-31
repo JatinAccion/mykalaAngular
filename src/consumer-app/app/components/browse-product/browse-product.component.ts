@@ -77,6 +77,9 @@ export class BrowseProductComponent implements OnInit {
         if (product.location.indexOf('data:') === -1 && product.location.indexOf('https:') === -1) {
           this.tilesData[i].product.productImages[j].location = this.s3 + product.location;
         }
+        if (product.location.indexOf('maxHeight') > -1) {
+          this.tilesData[i].product.productImages[j].location = product.location.split(";")[0];
+        }
       }
     }
   }
@@ -85,7 +88,9 @@ export class BrowseProductComponent implements OnInit {
     for (var i = 0; i < this.tilesData.length; i++) {
       for (var j = 0; j < this.tilesData[i].product.productImages.length; j++) {
         let product = this.tilesData[i].product.productImages[j]
-        if (product.mainImage == true) this.tilesData[i].product.mainImageSrc = product.location
+        if (product.mainImage == true) {
+          this.tilesData[i].product.mainImageSrc = product.location
+        }
       }
     }
   }
