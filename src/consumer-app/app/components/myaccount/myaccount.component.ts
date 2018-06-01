@@ -540,6 +540,10 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
         this.input_dob = true;
         //this.append_dob = this.dobElement.nativeElement.innerText;
         this.append_dob = this.model;
+        setTimeout(() => {
+          let date = document.getElementsByClassName('datePickerInput')[0] as HTMLElement;
+          date.focus();
+        })
       }
       else if (element == 'interest') {
         this.myAccount.getInterest().subscribe(res => {
