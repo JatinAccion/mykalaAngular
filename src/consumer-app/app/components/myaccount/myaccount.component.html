@@ -94,13 +94,14 @@
             <!--Date Of Birth-->
             <div class="row" style="position:relative">
               <div class="col-sm-4 p-2 colorlightGray">date of birth</div>
-              <div class="col-sm-5 p-2 text-right">
-                <span #dobElement *ngIf="!input_dob">{{myAccountModel.profileInfo.birthMonth}}/{{myAccountModel.profileInfo.birthDate}}/{{myAccountModel.profileInfo.birthYear}}</span>
+              <div class="col-sm-5 p-2 text-right matDOB">
+                <span #dobElement *ngIf="!input_dob">{{selectedDOB.month}}/{{selectedDOB.date}}/{{selectedDOB.year}}</span>
+                <!-- <span #dobElement *ngIf="!input_dob">{{myAccountModel.profileInfo.birthMonth}}/{{myAccountModel.profileInfo.birthDate}}/{{myAccountModel.profileInfo.birthYear}}</span> -->
                 <!-- <input *ngIf="input_dob" [(ngModel)]="append_dob" (focus)="d.open()" [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker #d="ngbDatepicker" readonly class="txtnml width100 appendedInput datePickerInput" placeholder="mm-dd-yyyy" autofocus> -->
                 <mat-form-field *ngIf="input_dob" class="example-full-width">
-                  <input class="txtnml width100 appendedInput datePickerInput" matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" placeholder="Choose a date">
-                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <input [value]="myAccountModel.profileInfo.dob" (dateChange)="addEvent('change', $event)" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="txtnml width100 appendedInput datePickerInput" (focus)="picker.open()" matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker">
                   <mat-datepicker #picker></mat-datepicker>
+                  <p *ngIf="invalidDOB" class="clearfix colorlightGray mb-0 colorred text-right" style="font-size: 13px; border: none; position:absolute; right:0">Invalid Date</p>
                 </mat-form-field>
               </div>
               <img src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_myAc" *ngIf="loader_DOB" />
@@ -111,7 +112,7 @@
             <!--Style Preferences-->
             <div class="row" style="position:relative">
               <div class="col-sm-6 p-2 colorlightGray">
-                <p class="colorlightGray">style perferences</p>
+                <p class="colorlightGray">style preferences</p>
               </div>
               <img src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_myAc" *ngIf="loader_Interest" />
               <button class="col-sm-6 text-right p-2 colorred txtasbutton cursor changeInterestBtn" (click)="appendInput($event, 'interest')">change</button>

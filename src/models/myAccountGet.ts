@@ -14,6 +14,7 @@ export class MyaccountProfileInfo {
     lastName: string;
     consumerImagePath: string;
     gender: string;
+    dob: Date;
     birthDate: string;
     birthMonth: string;
     birthYear: string;
