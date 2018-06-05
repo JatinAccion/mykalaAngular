@@ -140,6 +140,7 @@ export class JoinKalaComponent implements OnInit, CuiComponent {
       this.userModel.lastName = this.joinKala.value.lastname;
       this.userModel.password = this.joinKala.value.password;
       this.userModel.emailId = this.joinKala.value.email.toLowerCase();
+      this.userModel.fullName = this.joinKala.value.firstname + ' ' + this.joinKala.value.lastname;
       this.userModel.userCreateStatus = false;
       this.userModel.phone = "";
       this.userModel.roleName = [];

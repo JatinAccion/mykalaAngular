@@ -7,7 +7,7 @@
     <!--Get Offer Block-->
     <ng-container *ngFor="let offer of offers">
       <div class="cursor" [ngStyle]="{'cursor':offer.expire ? 'no-drop' : 'pointer'}" [ngClass]="{'myCart-list':offer.unRead, 'myCart-list-nobg':!offer.unRead}" *ngIf="offer.getOffersResponse.length > 0" (click)="!offer.expire && goToPage(offer, 'offer')">
-        <div class="mb-3">
+        <div class="mb-4">
           <!--Expire Soon False-->
           <span *ngIf="!offer.expireSoon; else showDefault">
             Get Offers for
@@ -39,9 +39,9 @@
           <!--Expire Soon True-->
         </div>
         <small class="pull-right colorlightGray">{{getFullDate(offer.startDate)}}</small>
-        <span class="d-inline mr-4 mb-3" *ngFor="let images of loopNumber(offer.getOffersResponse.length, 'offers'); let i=index">
-          <img *ngIf="i<5" src="/consumer-app/assets/images/img_17.jpg" class="img-fluid" width="55" />
-        </span>
+        <div class="d-inline-block mr-4 offerImageContainer" *ngFor="let product of offer.getOffersResponse; let i=index">
+          <img *ngIf="i<5" [src]="product.product.mainImageSrc" class="img-fluid" />
+        </div>
       </div>
     </ng-container>
     <!--Get Offer Block-->

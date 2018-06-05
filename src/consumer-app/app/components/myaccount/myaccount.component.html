@@ -96,7 +96,12 @@
               <div class="col-sm-4 p-2 colorlightGray">date of birth</div>
               <div class="col-sm-5 p-2 text-right">
                 <span #dobElement *ngIf="!input_dob">{{myAccountModel.profileInfo.birthMonth}}/{{myAccountModel.profileInfo.birthDate}}/{{myAccountModel.profileInfo.birthYear}}</span>
-                <input *ngIf="input_dob" [(ngModel)]="append_dob" (focus)="d.open()" [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker #d="ngbDatepicker" readonly class="txtnml width100 appendedInput" placeholder="mm-dd-yyyy" autofocus>
+                <!-- <input *ngIf="input_dob" [(ngModel)]="append_dob" (focus)="d.open()" [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker #d="ngbDatepicker" readonly class="txtnml width100 appendedInput datePickerInput" placeholder="mm-dd-yyyy" autofocus> -->
+                <mat-form-field *ngIf="input_dob" class="example-full-width">
+                  <input class="txtnml width100 appendedInput datePickerInput" matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" placeholder="Choose a date">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
               </div>
               <img src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_myAc" *ngIf="loader_DOB" />
               <button class="col-sm-3 text-right p-2 colorred txtasbutton cursor" (click)="appendInput($event, 'dob')">change</button>

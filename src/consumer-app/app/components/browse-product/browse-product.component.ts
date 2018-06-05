@@ -28,6 +28,10 @@ export class BrowseProductComponent implements OnInit {
   selectedCategoryData: any;
   getOffersData;
   productListingModal = new BrowseProductsModal();
+  showMorePageCounter = 0;
+  showMoreSizeCounter = 30;
+  showMoreBtn: boolean = false
+
   constructor(private homeService: HomeService, public core: CoreService, private route: Router) { }
 
   ngOnInit() {
@@ -40,16 +44,19 @@ export class BrowseProductComponent implements OnInit {
     this.core.headerScroll();
     localStorage.removeItem("selectedProduct");
     this.loader = true;
-    this.loadTypes();
+    this.loadTypes(undefined);
     this.core.pageLabel();
   }
 
   /*Sequential Search Result*/
-  loadTypes() {
+  loadTypes(from?: any) {
     this.loader = true;
-    this.tilesData = [];
+    if (from == undefined) this.tilesData = [];
+    else this.showMorePageCounter++;
     this.selectedTilesData = JSON.parse(window.localStorage['levelSelections']);
-    this.homeService.getProductList(this.selectedTilesData.place.name, this.selectedTilesData.category.name, this.selectedTilesData.subcategory.name).subscribe(res => {
+    this.homeService.getProductList(this.selectedTilesData.place.name, this.selectedTilesData.category.name, this.showMorePageCounter, this.showMoreSizeCounter, this.selectedTilesData.subcategory.name).subscribe(res => {
+      if (res.content.length > 0) this.showMoreBtn = true;
+      else this.showMoreBtn = false;
       this.loader = false;
       for (var i = 0; i < res.content.length; i++) {
         let content = res.content[i];

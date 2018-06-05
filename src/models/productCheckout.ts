@@ -42,6 +42,7 @@ export class OrderItems {
         public productUPCCode: number,
         public productSKUCode: string,
         public orderFrom: string,
-        public productHierarchy: string
+        public productHierarchy: string,
+        public productAttributes: string
     ) { }
 }

@@ -8,6 +8,8 @@ import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawe
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.route';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from './material.module';
 
 import { AuthService } from './services/auth.service';
 import { CoreService } from './services/core.service';
@@ -129,6 +131,8 @@ import { ViewOfferService } from './services/viewOffer.service';
     DxNumberBoxModule,
     Angular2FontawesomeModule,
     MailEntryModule,
+    BrowserAnimationsModule,
+    MaterialModule,
     NgbModule.forRoot(),
     SidebarModule.forRoot()
   ],

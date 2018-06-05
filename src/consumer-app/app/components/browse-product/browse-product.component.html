@@ -52,4 +52,8 @@
             </div>
         </div>
     </div>
+
+    <div *ngIf="showMoreBtn" class="col-sm-12 text-center mt-4 mb-5">
+        <button (click)="loadTypes('loadMore')" class="btn btn_red_right">show more</button>
+    </div>
 </div>

@@ -43,6 +43,8 @@ export class MyNewsAlertsComponent implements OnInit {
     this.myalerts.loadOffers(this.userData.emailId).subscribe((res) => {
       this.loader = false;
       this.offers = res;
+      this.filterImageURL();
+      this.getMainImage();
       this.sort(this.offers, 'offer')
       this.myalerts.loadOrders(this.userData.userId).subscribe((res) => {
         this.orders = res;
@@ -71,6 +73,35 @@ export class MyNewsAlertsComponent implements OnInit {
     }, (err) => {
       console.log("Offers::::", err)
     })
+  }
+
+  filterImageURL() {
+    for (var i = 0; i < this.offers.length; i++) {
+      for (var j = 0; j < this.offers[i].getOffersResponse.length; j++) {
+        for (var k = 0; k < this.offers[i].getOffersResponse[j].product.productImages.length; k++) {
+          let product = this.offers[i].getOffersResponse[j].product.productImages[k];
+          if (product.location.indexOf('data:') === -1 && product.location.indexOf('https:') === -1) {
+            this.offers[i].getOffersResponse[j].product.productImages[k].location = this.s3 + product.location;
+          }
+          if (product.location.indexOf('maxHeight') > -1) {
+            this.offers[i].getOffersResponse[j].product.productImages[k].location = product.location.split(";")[0];
+          }
+        }
+      }
+    }
+  }
+
+  getMainImage() {
+    for (var i = 0; i < this.offers.length; i++) {
+      for (var j = 0; j < this.offers[i].getOffersResponse.length; j++) {
+        for (var k = 0; k < this.offers[i].getOffersResponse[j].product.productImages.length; k++) {
+          let product = this.offers[i].getOffersResponse[j].product.productImages[k]
+          if (product.mainImage == true) {
+            this.offers[i].getOffersResponse[j].product.mainImageSrc = product.location
+          }
+        }
+      }
+    }
   }
 
   sort(data, from) {

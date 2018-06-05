@@ -61,7 +61,7 @@ export class MycartComponent implements OnInit {
       this.cartData = new Array<SaveGetCartItems>();
       for (var i = 0; i < res.length; i++) {
         let items = res[i];
-        this.cartData.push(new SaveGetCartItems(items.userId, items.label, items.retailerId, items.retailerName, items.productId, items.productName, items.price, items.quantity, items.inStock, items.productImage, items.taxCode, items.productSKUCode, items.productUPCCode, items.width, items.height, items.length, items.weight, items.shipProfileId, items.productDescription, items.orderFrom, items.productHierarchy, items.cartId))
+        this.cartData.push(new SaveGetCartItems(items.userId, items.label, items.retailerId, items.retailerName, items.productId, items.productName, items.price, items.quantity, items.inStock, items.productImage, items.taxCode, items.productSKUCode, items.productUPCCode, items.width, items.height, items.length, items.weight, items.shipProfileId, items.productDescription, items.orderFrom, items.productHierarchy, items.productAttributes, items.cartId))
       }
       for (var i = 0; i < this.cartData.length; i++) {
         if (this.cartData[i].label == 'cart') {
@@ -230,6 +230,7 @@ export class MycartComponent implements OnInit {
     this.addToCartModal.weight = item.weight;
     this.addToCartModal.orderFrom = item.orderFrom;
     this.addToCartModal.productHierarchy = item.productHierarchy;
+    this.addToCartModal.productAttributes = item.productAttributes;
     if (to === 'toCart') {
       this.addToCartModal.label = "cart";
       let moveToCart: boolean = false;

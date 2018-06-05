@@ -126,8 +126,10 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     private cd: ChangeDetectorRef,
     private route: Router
   ) {
-    this.minDate = { year: 1940, month: 1, day: 1 };
-    this.maxDate = { year: this.today.getFullYear(), month: this.today.getMonth() + 1, day: this.today.getDate() };
+    this.minDate = new Date(1970, 0, 1);
+    this.maxDate = new Date(this.today.getFullYear(), this.today.getMonth() + 1, this.today.getDate())
+    // this.minDate = { year: 1940, month: 1, day: 1 };
+    // this.maxDate = { year: this.today.getFullYear(), month: this.today.getMonth() + 1, day: this.today.getDate() };
   }
 
   turnOnOffNotifications(e, from) {
@@ -540,6 +542,10 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
         this.input_dob = true;
         //this.append_dob = this.dobElement.nativeElement.innerText;
         this.append_dob = this.model;
+        setTimeout(() => {
+          let date = document.getElementsByClassName('datePickerInput')[0] as HTMLElement;
+          date.focus();
+        })
       }
       else if (element == 'interest') {
         this.myAccount.getInterest().subscribe(res => {

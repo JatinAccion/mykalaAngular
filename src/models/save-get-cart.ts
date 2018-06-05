@@ -21,6 +21,7 @@ export class SaveGetCartItems {
         public productDescription: string,
         public orderFrom: string,
         public productHierarchy: string,
+        public productAttributes: string,
         public cartId?: string,
     ) { }
 }
