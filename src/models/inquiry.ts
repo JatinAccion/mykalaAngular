@@ -8,6 +8,7 @@ export class Inquiry {
   public orderDate: string;
   public productName: string;
   public productCost: number;
+  public productTotalCost: number;
   public productsCount: number;
   public inquiryType: string;
   // public inquiryTypeOther: string;
@@ -41,6 +42,7 @@ export class Inquiry {
       this.orderDate = obj.orderDate;
       this.productName = obj.productName;
       this.productCost = obj.productCost;
+      this.productTotalCost= obj.productTotalCost;
       this.inquiryType = obj.inquiryType;
       this.inquiryDate = obj.inquiryDate;
       this.inquiryCategory = obj.inquiryCategory;

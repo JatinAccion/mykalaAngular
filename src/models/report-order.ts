@@ -375,6 +375,9 @@ export class ReportRetailerInquirys extends Pagination {
 
 export class ReportProductSold {
   productHierarchy: string;
+  productPlace: string;
+  productCategory: string;
+  productSubCategory: string;
   totalproduct: number;
 
   constructor(obj?: any) {
@@ -382,6 +385,12 @@ export class ReportProductSold {
       this.totalproduct = obj.totalproduct;
       if (obj.orderItems) {
         this.productHierarchy = obj.orderItems.productHierarchy;
+        if (this.productHierarchy) {
+          const splits = this.productHierarchy.split(',');
+          this.productPlace = splits[0];
+          this.productCategory = splits[1];
+          this.productSubCategory = splits[2];
+        }
       }
     }
   }

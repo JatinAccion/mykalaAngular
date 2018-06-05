@@ -171,6 +171,7 @@ export class InquiryAddComponent implements OnInit {
   setInquiryOrderDetails(orderItem: ReportOrderItem) {
     this.inquiry = this.inquiry || new Inquiry();
     this.inquiry.productName = orderItem.productName;
+    this.inquiry.productTotalCost = orderItem.productPrice + orderItem.productTaxCost + orderItem.shippingCost;
     this.inquiry.productCost = orderItem.productPrice;
     this.inquiry.retailerId = orderItem.retailerId;
     this.inquiry.retailerName = orderItem.retailerName;

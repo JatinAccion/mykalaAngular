@@ -11,6 +11,8 @@ import { ReviewItem } from '../../../../../models/report-review';
   encapsulation: ViewEncapsulation.None
 })
 export class SalesReportComponent implements OnInit {
+  sortDirection: any;
+  sortColumn: any;
   gridData: ReportProductSolds;
   dateUtils = new DateUtils();
   currentJustify = 'start';
@@ -147,7 +149,7 @@ export class SalesReportComponent implements OnInit {
   getWidData() {
     const yearLabels = Array.apply(null, { length: this.reportYears }).fill(this.currentYear).map((p, i) => p - i).reverse();
 
-    this.reportsService.srGetWidTwoData(this.currentYear.toString(), this.reportModel !== 'Monthly' ? '' : (this.currentMonth).toString()).subscribe(res => {
+    this.reportsService.srGetWidOneData(this.currentYear.toString(), this.reportModel !== 'Monthly' ? '' : (this.currentMonth).toString()).subscribe(res => {
       const reportData = this.getReportData(this.reportModel);
       for (let i = 0; i < reportData.length; i++) {
         const element = reportData[i];
@@ -161,10 +163,25 @@ export class SalesReportComponent implements OnInit {
         }
       }
       this.widget.one.values = reportData.map(p => p.count);
-      this.widget.two.values = reportData.map(p => p.total);
 
       this.widget.one.index = this.widget.one.values.length - 1;
       this.widget.one.value = this.widget.one.values[this.widget.one.index];
+
+    });
+    this.reportsService.srGetWidTwoData(this.currentYear.toString(), this.reportModel !== 'Monthly' ? '' : (this.currentMonth).toString()).subscribe(res => {
+      const reportData = this.getReportData(this.reportModel);
+      for (let i = 0; i < reportData.length; i++) {
+        const element = reportData[i];
+        const dataElement = res.firstOrDefault(p => (p.year === element.year && p.month === 0) || (p.month === element.month && p.year === 0));
+        if (dataElement) {
+          element.count = dataElement.count || 0;
+          element.total = dataElement.total || 0;
+        } else {
+          element.count = 0;
+          element.total = 0;
+        }
+      }
+      this.widget.two.values = reportData.map(p => p.total);
 
       this.widget.two.index = this.widget.two.values.length - 1;
       this.widget.two.value = this.widget.two.values[this.widget.two.index];
@@ -174,7 +191,9 @@ export class SalesReportComponent implements OnInit {
       const reportData = this.getReportData(this.reportModel);
       for (let i = 0; i < reportData.length; i++) {
         const element = reportData[i];
-        const dataElements = res.filter(p => p.year === element.year || p.month === element.month);
+        element.count = 0;
+        element.total = 0;
+        const dataElements = res.filter(p => (p.year === element.year && p.month === 0) || (p.month === element.month && p.year === 0));
         if (dataElements && dataElements.length > 0) {
           dataElements.forEach(p => {
             if (p.count > 0) {
@@ -184,9 +203,6 @@ export class SalesReportComponent implements OnInit {
               element.total = p.total;
             }
           });
-        } else {
-          element.count = 0;
-          element.total = 0;
         }
       }
       this.widget.four.countValues = reportData.map(p => p.count);
@@ -273,7 +289,7 @@ export class SalesReportComponent implements OnInit {
       const reportData = this.getReportData(this.reportModel);
       for (let i = 0; i < reportData.length; i++) {
         const element = reportData[i];
-        const dataElement = res.firstOrDefault(p => p.year === element.year || p.month === element.month);
+        const dataElement = res.firstOrDefault(p => (p.year === element.year && p.month === 0) || (p.month === element.month && p.year === 0));
         if (dataElement) {
           element.orderCount = dataElement.orderCount || 0;
           element.offerCount = dataElement.offerCount || 0;
@@ -301,5 +317,28 @@ export class SalesReportComponent implements OnInit {
       this.widget.grid.index = this.widget.grid.values.length - 1;
       this.loading = false;
     });
+  }
+  onSorted($event) { // $event = {sortColumn: 'id', sortDirection:'asc'}
+    this.sortColumn = $event.sortColumn;
+    this.sortDirection = $event.sortDirection;
+    const sortDirectionIndex = this.sortDirection === 'asc' ? 1 : -1;
+    switch (this.sortColumn) {
+      case 'productPlace':
+        this.gridData.content = this.gridData.content.sort((a, b) => a.productPlace < b.productPlace ? -1 * sortDirectionIndex : 1 * sortDirectionIndex);
+
+        break;
+      case 'productCategory':
+        this.gridData.content = this.gridData.content.sort((a, b) => a.productCategory < b.productCategory ? -1 * sortDirectionIndex : 1 * sortDirectionIndex);
+
+        break;
+      case 'productSubCategory':
+        this.gridData.content = this.gridData.content.sort((a, b) => a.productSubCategory < b.productSubCategory ? -1 * sortDirectionIndex : 1 * sortDirectionIndex);
+
+        break;
+      case 'totalproduct':
+        this.gridData.content = this.gridData.content.sort((a, b) => a.totalproduct < b.totalproduct ? -1 * sortDirectionIndex : 1 * sortDirectionIndex);
+
+        break;
+    }
   }
 }
