@@ -64,7 +64,7 @@ export class ProductsInfo {
             }
             this.offerPrice = obj.offerPrice;
             if (obj.attributes != undefined && Object.keys(obj.attributes).length > 0) {
-                this.productAttributes = `color:${obj.attributes.Color},brand:${obj.attributes.Brand},size:${obj.attributes.Size}`
+                this.productAttributes = `Color:${obj.attributes.Color},Brand:${obj.attributes.Brand},Size:${obj.attributes.Size}`
             }
         }
     }
