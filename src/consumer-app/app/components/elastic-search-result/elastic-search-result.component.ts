@@ -38,15 +38,17 @@ export class ElasticSearchResult implements OnInit, OnDestroy {
     if (window.localStorage['esKeyword'] != undefined) this.core.search(window.localStorage['esKeyword']);
     this.core.esKey.subscribe(p => {
       this.loader = true;
+      this.tilesData = [];
       for (var i = 0; i < p.length; i++) {
         let productStatus = p[i].product.productStatus
-        if (productStatus) this.tilesData.push(p)
+        if (productStatus) this.tilesData.push(p[i])
       }
       this.loader = false;
       if (this.tilesData.length > 0) this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' ' + ' for you';
       else this.headerMessage = 'Sorry, but we don\'t have product matches for you';
       this.core.show(this.headerMessage);
       window.localStorage['browseProductSearch'] = this.headerMessage;
+      return false;
     }, (err) => {
       this.loader = false;
     });

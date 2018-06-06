@@ -251,6 +251,7 @@ export class CoreService {
       this.filterIamgeURL();
       this.getMainImage();
       this.esKey.next(this.tilesData);
+      this.suggesstionList = [];
     });
   }
 
