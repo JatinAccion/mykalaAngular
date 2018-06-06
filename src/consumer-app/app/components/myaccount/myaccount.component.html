@@ -96,8 +96,6 @@
               <div class="col-sm-4 p-2 colorlightGray">date of birth</div>
               <div class="col-sm-5 p-2 text-right matDOB">
                 <span #dobElement *ngIf="!input_dob">{{selectedDOB.month}}/{{selectedDOB.date}}/{{selectedDOB.year}}</span>
-                <!-- <span #dobElement *ngIf="!input_dob">{{myAccountModel.profileInfo.birthMonth}}/{{myAccountModel.profileInfo.birthDate}}/{{myAccountModel.profileInfo.birthYear}}</span> -->
-                <!-- <input *ngIf="input_dob" [(ngModel)]="append_dob" (focus)="d.open()" [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker #d="ngbDatepicker" readonly class="txtnml width100 appendedInput datePickerInput" placeholder="mm-dd-yyyy" autofocus> -->
                 <mat-form-field *ngIf="input_dob" class="example-full-width">
                   <input [value]="myAccountModel.profileInfo.dob" (dateChange)="addEvent('change', $event)" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="txtnml width100 appendedInput datePickerInput" (focus)="picker.open()" matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker">
                   <mat-datepicker #picker></mat-datepicker>

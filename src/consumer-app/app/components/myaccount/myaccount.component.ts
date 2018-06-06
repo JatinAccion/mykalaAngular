@@ -131,8 +131,6 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {
     this.minDate = new Date(1940, 0, 1);
     this.maxDate = new Date(this.today.getFullYear(), this.today.getMonth(), this.today.getDate())
-    // this.minDate = { year: 1940, month: 1, day: 1 };
-    // this.maxDate = { year: this.today.getFullYear(), month: this.today.getMonth() + 1, day: this.today.getDate() };
   }
 
   turnOnOffNotifications(e, from) {
