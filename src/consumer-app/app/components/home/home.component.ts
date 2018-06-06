@@ -70,6 +70,7 @@ export class HomeComponent implements OnInit {
     localStorage.removeItem('GetOfferPrice');
     localStorage.removeItem("getOffers");
     localStorage.removeItem('fromES');
+    localStorage.removeItem('esKeyword');
     this.core.hide();
     this.core.pageLabel();
     this.getPlace();
