@@ -122,6 +122,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   addressIdForDelete: string;
   selectedDOB = { year: "1940", month: "1", date: "1" };
   invalidDOB: boolean = false;
+  @ViewChild('changeEmailModal') changeEmailModal: ElementRef;
 
   constructor(
     public core: CoreService,
@@ -604,21 +605,12 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     for (let i = 0; i < getText.length; i++) getText[i].removeAttribute("disabled");
     e.currentTarget.innerHTML = 'change';
     if (element == 'email') {
-      this.loader_emailImage = true;
-      this.input_Email = false;
-      /**API to Save Email**/
       this.EmailSaveModel.oldEmailId = this.getUserInfo.emailId;
       this.EmailSaveModel.newEmailId = this.append_Email;
-      this.myAccount.saveEmail(this.EmailSaveModel).subscribe((res) => {
-        this.loader_emailImage = false;
-        this.myAccountModel.userData.emailId = this.append_Email;
-        window.localStorage['userInfo'] = JSON.stringify(res);
-      }, (err) => {
-        this.loader_emailImage = false;
-        console.log(err)
-      });
-      /**API to Save Email**/
-      setTimeout(() => this.emailElement.nativeElement.innerText = this.append_Email, 100);
+      if (this.EmailSaveModel.newEmailId != this.EmailSaveModel.oldEmailId) {
+        this.core.openModal(this.changeEmailModal);
+      }
+      else this.discardEmailChange();
     }
     else if (element == 'password') {
       this.input_Password = false;
@@ -722,6 +714,25 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
       });
       /**API to Save Address**/
     }
+  }
+
+  confirmEmailChange() {
+    this.emailElement.nativeElement.innerText = this.EmailSaveModel.newEmailId;
+    this.myAccount.saveEmail(this.EmailSaveModel).subscribe((res) => {
+      this.loader_emailImage = false;
+      this.input_Email = false;
+      localStorage.removeItem('token');
+      this.route.navigateByUrl('/login');
+    }, (err) => {
+      this.loader_emailImage = false;
+      console.log(err)
+    });
+  }
+
+  discardEmailChange() {
+    this.loader_emailImage = false;
+    this.input_Email = false;
+    this.append_Email = this.EmailSaveModel.oldEmailId;
   }
 
   getAllStates() {

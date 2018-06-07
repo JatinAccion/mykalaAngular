@@ -35,21 +35,6 @@ export class CoreService {
   showHeaderSuggestion: boolean = false;
   searchBar: string;
 
-  navigateSL(event: KeyboardEvent) {
-    setTimeout(() => {
-      switch (event.keyCode) {
-        case 38: // this is the ascii of arrow up
-          this.arrowkeyLocation--;
-          if (this.arrowkeyLocation == -1) this.arrowkeyLocation = this.resetToDefault - 1;
-          break;
-        case 40: // this is the ascii of arrow down
-          this.arrowkeyLocation++;
-          if (this.arrowkeyLocation > this.resetToDefault - 1) this.arrowkeyLocation = 0
-          break;
-      }
-    })
-  }
-
   constructor(
     private http: Http,
     private route: Router,
@@ -257,10 +242,7 @@ export class CoreService {
 
   search(text, from?: string) {
     if (text !== '' || text !== undefined) {
-      if (from == 'explore' && this.suggesstionList.length > 0) {
-        let keyword = document.getElementsByClassName('activeList')[0];
-        text = keyword.innerHTML;
-      }
+      if (text.indexOf("in") > -1) text = text.split("in")[1].trim();
       this.searchBar = text;
       localStorage.removeItem('esKeyword');
       this.route.navigateByUrl("/elastic-product");
@@ -269,23 +251,15 @@ export class CoreService {
   }
 
   searchSuggestion(text, e) {
-    //this.suggesstionList = [];
-    //If Enter is Pressed
     if (e.keyCode == 13) {
       let keyword = document.getElementsByClassName('activeList')[0];
-      this.searchBar = keyword.innerHTML;
-      this.search(keyword.innerHTML);
+      this.searchBar = text;
+      this.search(this.searchBar);
       this.suggesstionList = [];
     }
-    //Else
     else {
       if (e.keyCode != 38 && e.keyCode != 40) this.arrowkeyLocation = 0;
       if (text === '') this.suggesstionList = [];
-      // else {
-      //   this.searchBar = text;
-      //   this.suggesstionList = this.states.filter(v => v.toLowerCase().indexOf(text.toLowerCase()) > -1).slice(0, 10)
-      //   this.resetToDefault = this.suggesstionList.length;
-      // }
       else {
         this.getProductSuggesstion(text).subscribe((res) => {
           if (res.length > 0) {

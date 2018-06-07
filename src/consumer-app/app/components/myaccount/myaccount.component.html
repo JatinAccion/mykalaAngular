@@ -296,6 +296,27 @@
 <!--Close Account-->
 
 <!--Delete Card-->
+<ng-template #changeEmailModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Email Address</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click'); discardEmailChange()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>
+      Your request has been submitted. A message has been sent to
+      <span style="font-family: 'open_sanssemibold'">{{append_Email}}</span> for you to validate and confirm your new email address.
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outer btn_red_right" (click)="c('Close click'); confirmEmailChange()">Ok</button>
+    <button type="button" class="btn btn-outer btn_redouter_right" (click)="c('Close click'); discardEmailChange()">Cancel</button>
+  </div>
+</ng-template>
+<!--Delete Card-->
+
+<!--Delete Card-->
 <ng-template #deleteCardModal let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title">Delete Card</h4>
