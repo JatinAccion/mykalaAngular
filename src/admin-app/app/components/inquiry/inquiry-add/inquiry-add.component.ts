@@ -54,7 +54,7 @@ export class InquiryAddComponent implements OnInit {
 
   minDateInquiry = { year: new Date().getFullYear() - 1, month: 1, day: 1 };
   maxDateInquiry = this.dateUtils.fromDate(Date.now());
-  minDateResolution = this.dateUtils.fromDate(Date.now());
+  minDateResolution = this.dateUtils.fromDate(this.minDateInquiry);
   maxDateResolution = this.dateUtils.fromDate(Date.now());
   // #endregion declaration
   // tslint:disable-next-line:whitespace
@@ -107,7 +107,7 @@ export class InquiryAddComponent implements OnInit {
   getInquiryData(id) {
     this.inquiryService.getInquiryDetails(id).subscribe((res) => {
       this.inquiry = res;
-      this.minDateInquiry = this.dateUtils.fromDate(res.inquiryDate);
+      this.minDateInquiry = this.dateUtils.fromDate(res.orderDate);
       this.setFormValidators();
       this.inquiryTypeChange();
       this.inquiryCategoryChange();
@@ -151,6 +151,8 @@ export class InquiryAddComponent implements OnInit {
       } else {
         this.inquiry.customerId = this.order.userId;
         this.inquiry.orderDate = this.toDate(this.order.purchasedDate);
+        this.minDateInquiry = this.fromDate(this.order.purchasedDate);
+        this.minDateResolution = this.fromDate(this.order.purchasedDate);
         this.inquiry.customerName = this.order.customerName;
         if (this.order.orderItems && this.order.orderItems.length > 0) {
           if (this.order.orderItems.length === 1 || !this.inquiry.productName) {
@@ -171,7 +173,7 @@ export class InquiryAddComponent implements OnInit {
   setInquiryOrderDetails(orderItem: ReportOrderItem) {
     this.inquiry = this.inquiry || new Inquiry();
     this.inquiry.productName = orderItem.productName;
-    this.inquiry.productTotalCost = orderItem.productPrice + orderItem.productTaxCost + orderItem.shippingCost;
+    this.inquiry.productTotalCost = (orderItem.productPrice * orderItem.productQuantity) + orderItem.productTaxCost + orderItem.shippingCost;
     this.inquiry.productCost = orderItem.productPrice;
     this.inquiry.retailerId = orderItem.retailerId;
     this.inquiry.retailerName = orderItem.retailerName;

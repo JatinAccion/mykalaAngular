@@ -25,7 +25,7 @@
                 </div>
                 <div class="row pl-3 pr-2 pb-2">
                     <div class="col-sm-2">
-                        <a (click)="goto('total',-1)">
+                        <a (click)="gotoAll('total',-1)">
                             <i class="fa fa-caret-left caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -33,7 +33,7 @@
                         {{this.reportModel !== 'Monthly'?'':(widget.total.monthName + ',') }} {{widget.total.year}}
                     </div>
                     <div class="col-sm-2">
-                        <a (click)="goto('total',1)">
+                        <a (click)="gotoAll('total',1)">
                             <i class="fa fa-caret-right caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -53,7 +53,7 @@
                 <div class="text-center p-2">
                     Automated Payments
                     <span class="float-right">
-                        <a (click)="goto('automatic',0)">
+                        <a (click)="gotoAll('automatic',0)">
                             <i class="fa fa-refresh" aria-hidden="true"></i>
                         </a>
                     </span>
@@ -61,7 +61,7 @@
                 </div>
                 <div class="row pl-3 pr-2 pb-2">
                     <div class="col-sm-2">
-                        <a (click)="goto('automatic',-1)">
+                        <a (click)="gotoAll('automatic',-1)">
                             <i class="fa fa-caret-left caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -69,7 +69,7 @@
                         {{this.reportModel !== 'Monthly'?'':(widget.automatic.monthName + ',') }} {{widget.automatic.year}}
                     </div>
                     <div class="col-sm-2">
-                        <a (click)="goto('automatic',1)">
+                        <a (click)="gotoAll('automatic',1)">
                             <i class="fa fa-caret-right caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -89,7 +89,7 @@
                 <div class="text-center p-2">
                     Manual Payments
                     <span class="float-right">
-                        <a (click)="goto('manual',0)">
+                        <a (click)="gotoAll('manual',0)">
                             <i class="fa fa-refresh" aria-hidden="true"></i>
                         </a>
                     </span>
@@ -97,7 +97,7 @@
                 </div>
                 <div class="row pl-3 pr-2 pb-2">
                     <div class="col-sm-2">
-                        <a (click)="goto('manual',-1)">
+                        <a (click)="gotoAll('manual',-1)">
                             <i class="fa fa-caret-left caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -105,7 +105,7 @@
                         {{this.reportModel !== 'Monthly'?'':(widget.manual.monthName + ',') }} {{widget.manual.year}}
                     </div>
                     <div class="col-sm-2">
-                        <a (click)="goto('manual',1)">
+                        <a (click)="gotoAll('manual',1)">
                             <i class="fa fa-caret-right caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -125,7 +125,7 @@
                 <div class="text-center p-2">
                     Pending Payments
                     <span class="float-right">
-                        <a (click)="goto('pending',0)">
+                        <a (click)="gotoAll('pending',0)">
                             <i class="fa fa-refresh" aria-hidden="true"></i>
                         </a>
                     </span>
@@ -133,7 +133,7 @@
                 </div>
                 <div class="row pl-3 pr-2 pb-2">
                     <div class="col-sm-2">
-                        <a (click)="goto('pending',-1)">
+                        <a (click)="gotoAll('pending',-1)">
                             <i class="fa fa-caret-left caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -141,7 +141,7 @@
                         {{this.reportModel !== 'Monthly'?'':(widget.pending.monthName + ',')}} {{widget.pending.year}}
                     </div>
                     <div class="col-sm-2">
-                        <a (click)="goto('pending',1)">
+                        <a (click)="gotoAll('pending',1)">
                             <i class="fa fa-caret-right caretFont" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -178,12 +178,12 @@
                         <tbody>
                             <tr class="payment_border">
                                 <td class="p-1" width="60%">Total Payments: </td>
-                                <td class="p-1 text-right" width="20%">{{summary.totalCostOfGoods | currency}}</td>
+                                <td class="p-1 text-right" width="20%">{{summary.saleRevenue | currency}}</td>
                                 <td width="20%"></td>
                             </tr>
                             <tr>
                                 <td class="p-1 text-right">Product Sales Revenue: </td>
-                                <td class="p-1 text-right">{{summary.saleRevenue | currency}}</td>
+                                <td class="p-1 text-right">{{summary.totalCostOfGoods | currency}}</td>
                                 <td></td>
                             </tr>
                             <tr>

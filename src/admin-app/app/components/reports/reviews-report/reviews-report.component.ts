@@ -92,7 +92,7 @@ export class ReviewsReportComponent implements OnInit {
     maintainAspectRatio: false,
     title: {
       display: true,
-      text: 'Retailer Reviews'
+      text: 'Total Reviews'
     },
     plugins: {
       datalabels: {
@@ -124,7 +124,7 @@ export class ReviewsReportComponent implements OnInit {
     maintainAspectRatio: false,
     title: {
       display: true,
-      text: 'Retailer Average Ratings'
+      text: 'Average Ratings'
     },
     plugins: {
       datalabels: {

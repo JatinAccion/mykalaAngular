@@ -29,15 +29,16 @@ export class PaymentsReportComponent implements OnInit {
     'manual': { widgetType: 'MANUAL/PAID', year: this.currentYear, month: this.currentMonth, monthName: this.dateUtils.getMonthName(this.currentMonth), value: 0 },
     'pending': { widgetType: 'TOTAL/PENDING', year: this.currentYear, month: this.currentMonth, monthName: this.dateUtils.getMonthName(this.currentMonth), value: 0 }
   };
-  summary = { totalCostOfGoods: 0, totalTaxesCost: 0, totalShipCost: 0, saleRevenue: 0, netRevenue: 0, stripeProcessingFees: 0, commissionFees: 0 };
+  summaryTotal = { totalCostOfGoods: 0, totalTaxesCost: 0, totalShipCost: 0, saleRevenue: 0, netRevenue: 0, stripeProcessingFees: 0, commissionFees: 0, totalPayment: 1 };
+  summary = { totalCostOfGoods: 0, totalTaxesCost: 0, totalShipCost: 0, saleRevenue: 0, netRevenue: 0, stripeProcessingFees: 0, commissionFees: 0, totalPayment: 1 };
   backgroundColors = ['#df7970', '#4c9ca0', '#ae7d99', '#c9d45c', '#5592ad', '#6d78ad', '#51cda0', '#f8f378', '#ae6653', '#60df63', '#60c9df'];
   type = 'pie';
   data = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    labels: [],//['January', 'February', 'March', 'April', 'May', 'June', 'July'],
     datasets: [
       {
         label: 'Consumer Payment Types',
-        data: [65, 59, 80, 81, 56, 55, 40],
+        data: [],//[65, 59, 80, 81, 56, 55, 40],
         backgroundColor: this.backgroundColors,
       }
     ]
@@ -57,7 +58,7 @@ export class PaymentsReportComponent implements OnInit {
       datalabels: {
         color: 'white',
         display: function (context) {
-          return context.dataset.data[context.dataIndex] > 15;
+          return context.dataset.data[context.dataIndex] > 0;
         },
         font: {
           weight: 'bold'
@@ -92,7 +93,14 @@ export class PaymentsReportComponent implements OnInit {
     this.goto('automatic', 0);
     this.goto('manual', 0);
     this.goto('pending', 0);
-    // this.getDetails('total');
+    this.getDetails('total');
+  }
+  gotoAll(type, incr) {
+    this.goto('total', incr);
+    this.goto('automatic', incr);
+    this.goto('manual', incr);
+    this.goto('pending', incr);
+    this.getDetails('total');
   }
   goto(type, incr) {
     let date = new Date();
@@ -113,18 +121,19 @@ export class PaymentsReportComponent implements OnInit {
     widget.month = date.getMonth() || 0;
     widget.monthName = this.dateUtils.getMonthName(widget.month || 12);
     this.reportsService.getPaymentCounts(widget.widgetType, widget.year.toString(), this.reportModel !== 'Monthly' ? '' : (widget.month).toString()).subscribe((res) => { widget.value = res.values; });
-    this.getDetails(type);
+    // this.getDetails(type);
   }
   getDetails(type) {
     let widget = this.widget.total;
     this.activeWidget = this.widget.total;
     switch (type) {
-      case 'one': widget = this.widget.total; break;
-      case 'two': widget = this.widget.automatic; break;
-      case 'three': widget = this.widget.manual; break;
-      case 'four': widget = this.widget.pending; break;
+      case 'total': widget = this.widget.total; break;
+      case 'automatic': widget = this.widget.automatic; break;
+      case 'manual': widget = this.widget.manual; break;
+      case 'pending': widget = this.widget.pending; break;
     }
     this.activeWidget = widget;
+    this.summaryTotal.saleRevenue = 0;
     this.getSummary();
     this.reportsService.getconsumerPaymentReports(widget.widgetType, widget.year.toString(), this.reportModel !== 'Monthly' ? '' : (widget.month).toString()).subscribe((res) => { this.setupChartData(res); });
     this.details.widgetType = widget.widgetType;
@@ -132,25 +141,51 @@ export class PaymentsReportComponent implements OnInit {
     this.details.month = widget.month;
     // this.getPage(1);
   }
-  getSummary() {
-    this.reportsService.getPaymentReports(this.activeWidget.widgetType, this.summaryType, this.activeWidget.year.toString(), this.reportModel !== 'Monthly' ? '' : (this.activeWidget.month).toString()).subscribe((res) => {
+  async getSummary() {
+    if (this.summaryType === 'AVG') {
+      if (this.summaryTotal.saleRevenue === 0) {
+        await this.getPaymentReportSummary();
+      }
+      this.summary.totalCostOfGoods = this.summaryTotal.totalCostOfGoods / this.summaryTotal.totalPayment;
+      this.summary.totalShipCost = this.summaryTotal.totalShipCost / this.summaryTotal.totalPayment;
+      this.summary.totalTaxesCost = this.summaryTotal.totalTaxesCost / this.summaryTotal.totalPayment;
+      this.summary.stripeProcessingFees = this.summaryTotal.stripeProcessingFees / this.summaryTotal.totalPayment;
+      this.summary.commissionFees = this.summaryTotal.commissionFees / this.summaryTotal.totalPayment;
+      this.summary.totalPayment = this.summaryTotal.totalPayment / this.summaryTotal.totalPayment;
+      this.summary.saleRevenue = this.summaryTotal.saleRevenue / this.summaryTotal.totalPayment;
+      this.summary.netRevenue = this.summaryTotal.netRevenue / this.summaryTotal.totalPayment;
+    } else {
+      await this.getPaymentReportSummary();
+      this.summary.totalCostOfGoods = this.summaryTotal.totalCostOfGoods;
+      this.summary.totalShipCost = this.summaryTotal.totalShipCost;
+      this.summary.totalTaxesCost = this.summaryTotal.totalTaxesCost;
+      this.summary.stripeProcessingFees = this.summaryTotal.stripeProcessingFees;
+      this.summary.commissionFees = this.summaryTotal.commissionFees;
+      this.summary.totalPayment = this.summaryTotal.totalPayment;
+      this.summary.saleRevenue = this.summaryTotal.saleRevenue;
+      this.summary.netRevenue = this.summaryTotal.netRevenue;
+    }
+  }
+  getPaymentReportSummary() {
+    return this.reportsService.getPaymentReports(this.activeWidget.widgetType, this.summaryType, this.activeWidget.year.toString(), this.reportModel !== 'Monthly' ? '' : (this.activeWidget.month).toString()).toPromise().then((res) => {
       if (res && res.length > 0) {
-        this.summary.totalCostOfGoods = res[0].totalCostOfGoods;
-        this.summary.totalShipCost = res[0].totalShipCost;
-        this.summary.totalTaxesCost = res[0].totalTaxesCost;
-        this.summary.stripeProcessingFees = res[0].stripeProcessingFees;
-        this.summary.commissionFees = res[0].commissionFees;
-
-        this.summary.saleRevenue = this.summary.totalCostOfGoods - this.summary.totalShipCost - this.summary.totalTaxesCost;
-        this.summary.netRevenue = this.summary.commissionFees;
+        this.summaryTotal.totalCostOfGoods = res[0].totalCostOfGoods;
+        this.summaryTotal.totalShipCost = res[0].totalShipCost;
+        this.summaryTotal.totalTaxesCost = res[0].totalTaxesCost;
+        this.summaryTotal.stripeProcessingFees = res[0].stripeProcessingFees;
+        this.summaryTotal.commissionFees = res[0].commissionFees;
+        this.summaryTotal.totalPayment = res[0].totalPayment;
+        this.summaryTotal.saleRevenue = res[0].sellerPayment;
+        this.summaryTotal.netRevenue = this.summaryTotal.commissionFees;
       } else {
-        this.summary.totalCostOfGoods = 0;
-        this.summary.totalShipCost = 0;
-        this.summary.totalTaxesCost = 0;
-        this.summary.saleRevenue = 0;
-        this.summary.netRevenue = 0;
-        this.summary.stripeProcessingFees = 0;
-        this.summary.commissionFees = 0;
+        this.summaryTotal.totalCostOfGoods = 0;
+        this.summaryTotal.totalShipCost = 0;
+        this.summaryTotal.totalTaxesCost = 0;
+        this.summaryTotal.saleRevenue = 0;
+        this.summaryTotal.netRevenue = 0;
+        this.summaryTotal.stripeProcessingFees = 0;
+        this.summaryTotal.commissionFees = 0;
+        this.summaryTotal.totalPayment = 1;
       }
     });
   }

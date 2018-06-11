@@ -20,7 +20,7 @@ export class InquiryListComponent implements OnInit {
   searchType = 'Seller';
   search: any;
   loading: boolean;
-  inquirys= new Inquirys();
+  inquirys = new Inquirys();
   isCollapsed = true;
   order: ReportOrder;
   page = 1;
@@ -61,7 +61,7 @@ export class InquiryListComponent implements OnInit {
       return this.orderService.getById(orderId).subscribe(p => {
         this.order = p;
         inquiry.productCost = p.orderItems.map(q => q.totalProductPrice).reduce((a, b) => a + b);
-        inquiry.productsCount = p.orderItems.length;
+        inquiry.productsCount = p.orderItems.firstOrDefault(q => q.productName === inquiry.productName).productQuantity;
       });
     }
   }
