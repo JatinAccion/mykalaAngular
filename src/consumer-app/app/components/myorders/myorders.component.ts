@@ -169,6 +169,7 @@ export class MyordersComponent implements OnInit {
       else {
         this.supportOptions.level = this.supportOptions.level + 1;
         this.supportOptions.name = name;
+        if (this.questionCounter == 3) this.questionCounter--;
         this.supportOptions.data = ["Yes", "No"];
       }
 

@@ -64,8 +64,14 @@
             <p class="colorlightGray">Date of Birth:</p>
           </div>
           <div class="col-sm-8">
-            <div class="form-group">
-              <input formControlName="dateOfBirth" (focus)="d.open()" [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker #d="ngbDatepicker" class="form-control" placeholder="mm-dd-yyyy">
+            <div class="form-group matDOB matDOBProfile">
+              <!-- <input formControlName="dateOfBirth" (focus)="d.open()" [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker #d="ngbDatepicker" class="form-control" placeholder="mm-dd-yyyy"> -->
+              <mat-form-field class="example-full-width">
+                <input (dateChange)="addEvent('change', $event)" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control" matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+              <div *ngIf="invalidDOB" class="alert alert-danger errorMessages mb-0">Invalid Date</div>
             </div>
           </div>
         </div>
@@ -109,7 +115,7 @@
           <p>We just need to collect a few details from you to set up your profile.</p>
           <hr />
           <div class="col-sm-12">
-            <button (click)="onSubmit(profileInfo)" [disabled]="profileInfo.controls.location.errors" type="button" class="btn btn_red_right width100">come on in</button>
+            <button (click)="onSubmit(profileInfo)" [disabled]="profileInfo.controls.location.errors || invalidDOB" type="button" class="btn btn_red_right width100">come on in</button>
           </div>
 
           <div class="clearfix">&nbsp;</div>

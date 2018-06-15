@@ -178,35 +178,49 @@
               <div class="col-sm-2 text-right pr-5">{{orders.quantity}}</div>
               <div class="col-sm-2 text-left">{{getPerItemTotal(orders.price, orders.quantity) | currency}}</div>
             </div>
+
             <!--If Shipping Methods are Different-->
             <div class="row py-3 ml-0 mr-0" *ngIf="item.differentShippingMethod && this.selectedAddressDetails != undefined && shippingMethod != undefined">
+              <div *ngIf="!orders.noDeliveryMethod;else default" class="col-12 row">
+                <div class="col-3 pl-4">Shipping Method</div>
+                <div class="col-6">
+                  <span class="plain-select w-100">
+                    <select class="taxAmounts" (change)="selectShippingMethod($event, $event.target.value, orders)">
+                      <option value selected disabled>Please select a method</option>
+                      <option value="{{shippingMethod.deliveryFee + orders.locationFee | currency}} - {{shippingMethod.deliveryMethodName}}" *ngFor="let shippingMethod of orders.deliveryTiers">
+                        {{shippingMethod.deliveryFee + orders.locationFee | currency}} - {{shippingMethod.deliveryMethodName}}
+                      </option>
+                    </select>
+                  </span>
+                </div>
+              </div>
+
+              <ng-template #default>
+                <div class="col-12 errorMessages_1">{{orders.noDeliveryMessage}}</div>
+              </ng-template>
+            </div>
+            <!--If Shipping Methods are Different-->
+          </div>
+
+          <!--If Shipping Methods are same-->
+          <div class="row row pt-3 mt-3 mb-3 ml-0 mr-0" *ngIf="!item.differentShippingMethod && this.selectedAddressDetails != undefined && shippingMethod != undefined">
+            <div *ngIf="!item.noDeliveryMethod;else default" class="col-12 row">
               <div class="col-3 pl-4">Shipping Method</div>
               <div class="col-6">
                 <span class="plain-select w-100">
-                  <select class="taxAmounts" (change)="selectShippingMethod($event, $event.target.value, orders)">
+                  <select class="taxAmounts" (change)="selectShippingMethod($event, $event.target.value, item)">
                     <option value selected disabled>Please select a method</option>
-                    <option value="{{shippingMethod.deliveryFee + orders.locationFee | currency}} - {{shippingMethod.deliveryMethodName}}" *ngFor="let shippingMethod of orders.deliveryTiers">
-                      {{shippingMethod.deliveryFee + orders.locationFee | currency}} - {{shippingMethod.deliveryMethodName}}
+                    <option value="{{shippingMethod.deliveryFee + item.locationFee | currency}} - {{shippingMethod.deliveryMethodName}}" *ngFor="let shippingMethod of item.deliveryTiers">
+                      {{shippingMethod.deliveryFee + item.locationFee | currency}} - {{shippingMethod.deliveryMethodName}}
                     </option>
                   </select>
                 </span>
               </div>
             </div>
-            <!--If Shipping Methods are Different-->
-          </div>
-          <!--If Shipping Methods are same-->
-          <div class="row row pt-3 mt-3 mb-3 ml-0 mr-0" *ngIf="!item.differentShippingMethod && this.selectedAddressDetails != undefined && shippingMethod != undefined">
-            <div class="col-3 pl-4">Shipping Method</div>
-            <div class="col-6">
-              <span class="plain-select w-100">
-                <select class="taxAmounts" (change)="selectShippingMethod($event, $event.target.value, item)">
-                  <option value selected disabled>Please select a method</option>
-                  <option value="{{shippingMethod.deliveryFee + item.locationFee | currency}} - {{shippingMethod.deliveryMethodName}}" *ngFor="let shippingMethod of item.deliveryTiers">
-                    {{shippingMethod.deliveryFee + item.locationFee | currency}} - {{shippingMethod.deliveryMethodName}}
-                  </option>
-                </select>
-              </span>
-            </div>
+
+            <ng-template #default>
+              <div class="col-12 errorMessages_1">{{orders.noDeliveryMessage}}</div>
+            </ng-template>
           </div>
           <!--If Shipping Methods are same-->
         </div>
@@ -246,7 +260,7 @@
           </tr>
         </table>
         <div class="p-3">
-          <button (click)="chargeAmount()" class="btn btn_red_right w-100 mb-2" [disabled]="loader_chargeAmount">confirm</button>
+          <button (click)="chargeAmount()" class="btn btn_red_right w-100 mb-2" [disabled]="loader_chargeAmount || ifNoDeliveryMethod">confirm</button>
           <span style="font-size:14px" class="d-block text-center" *ngIf="loader_chargeAmount">
             Please wait while we place your order...
             <img src="/consumer-app/assets/images/loader.gif" class="ml-2" width="22" *ngIf="loader_chargeAmount" />

@@ -1393,7 +1393,13 @@ h4.subtitle{
     margin-top: 10px;
     padding: 5px 15px;
 }
-
+.errorMessages_1{
+    font-size: 13px;
+    color: red;
+    margin-bottom: -12px;
+    margin-top: 15px;
+    font-family: 'open_sanssemibold';
+}
 .profImageWrapper{
     display: inline-block;
     width: 100px;
@@ -3112,4 +3118,67 @@ table.customeTable tr td {
 }
 .offerImageContainer:nth-child(n+8) {
     display: none !important;
+}
+.mat-form-field{
+    font-family: 'open_sansregular';
+    line-height: inherit;
+}
+.matDOB .mat-form-field-wrapper{
+    margin-bottom: -1.25em;
+}
+.matDOBProfile .mat-form-field {
+    width: 100%;
+}
+.matDOB .mat-input-element {
+   padding: 3px !important;
+   border: solid 1px #999999 !important;
+   width: 100% !important;
+   background: none !important;
+}
+.matDOBProfile .mat-input-element{
+    padding: .4rem .75rem !important;
+    display: block;
+    width: 100% !important;
+    color: #464a4c;
+    background-color: #fff !important;
+    border: 1px solid rgba(0,0,0,.15)  !important;
+    border-radius: .25rem;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s !important;
+    -moz-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s !important;
+    -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s !important;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s !important;
+    -ms-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s !important;
+}
+.matDOB .mat-focused {
+  background: none;
+}
+.matDOB .mat-form-field-underline {
+  visibility: hidden;
+}
+.matDOB .mat-form-field-underline .mat-form-field-ripple {
+   display: none;
+}
+.matDOB .mat-form-field-infix{
+   padding: 0;
+   border: none;
+}
+.matDOB .mat-form-field-prefix, .mat-form-field-suffix {
+  position: absolute;
+  right: 0;
+}
+.matDOBProfile .mat-form-field-prefix, .mat-form-field-suffix {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+.matDOBProfile .mat-form-field-prefix .mat-icon-button, 
+.matDOBProfile .mat-form-field-suffix .mat-icon-button {
+    outline: none;
+}
+.matDOB .mat-datepicker-toggle-active,
+.matDOBProfile .mat-datepicker-toggle-active {
+    color: #e06263;
+}
+.matDOBProfile .mat-button-focus-overlay {
+    background: none;
 }

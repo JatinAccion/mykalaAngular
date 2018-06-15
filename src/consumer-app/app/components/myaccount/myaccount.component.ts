@@ -10,6 +10,7 @@ import { StripeCheckoutModal } from '../../../../models/StripeCheckout';
 import { NgForm } from '@angular/forms';
 import { MyAccountProfileModel, MyAccountEmailModel, MyAccountPasswordModel, MyAccountAddressModel, MyAccountDOBModel, MyAccountInterestModel } from '../../../../models/myAccountPost';
 import { Router } from '@angular/router';
+import { MatDatepickerInputEvent } from '@angular/material';
 
 @Component({
   selector: 'app-myaccount',
@@ -119,6 +120,9 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   saveCardDetails: any;
   pageLoader: boolean = false;
   addressIdForDelete: string;
+  selectedDOB = { year: "1940", month: "1", date: "1" };
+  invalidDOB: boolean = false;
+  @ViewChild('changeEmailModal') changeEmailModal: ElementRef;
 
   constructor(
     public core: CoreService,
@@ -126,10 +130,8 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     private cd: ChangeDetectorRef,
     private route: Router
   ) {
-    this.minDate = new Date(1970, 0, 1);
-    this.maxDate = new Date(this.today.getFullYear(), this.today.getMonth() + 1, this.today.getDate())
-    // this.minDate = { year: 1940, month: 1, day: 1 };
-    // this.maxDate = { year: this.today.getFullYear(), month: this.today.getMonth() + 1, day: this.today.getDate() };
+    this.minDate = new Date(1940, 0, 1);
+    this.maxDate = new Date(this.today.getFullYear(), this.today.getMonth(), this.today.getDate())
   }
 
   turnOnOffNotifications(e, from) {
@@ -284,9 +286,13 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
       // this.myAccountModel.profileInfo.consumerImagePath = this.imgS3.concat(res.consumerImagePath);
       this.myAccountModel.profileInfo.consumerImagePath = res.consumerImagePath;
       this.myAccountModel.profileInfo.consumerInterests = res.consumerInterests;
+      this.myAccountModel.profileInfo.dob = new Date(res.dateOfBirth);
       this.myAccountModel.profileInfo.birthDate = new Date(res.dateOfBirth).getDate().toString();
       this.myAccountModel.profileInfo.birthMonth = (new Date(res.dateOfBirth).getMonth() + 1).toString();
       this.myAccountModel.profileInfo.birthYear = new Date(res.dateOfBirth).getFullYear().toString();
+      this.selectedDOB.year = this.myAccountModel.profileInfo.birthYear;
+      this.selectedDOB.month = this.myAccountModel.profileInfo.birthMonth;
+      this.selectedDOB.date = this.myAccountModel.profileInfo.birthDate;
       this.model = {
         year: parseFloat(this.myAccountModel.profileInfo.birthYear),
         month: parseFloat(this.myAccountModel.profileInfo.birthMonth),
@@ -300,6 +306,26 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
       this.myAccountModel.userId = res.userId;
       this.getCard();
     });
+  }
+
+  addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
+    this.invalidDOB = false;
+    if (event.value > this.maxDate) {
+      this.invalidDOB = true;
+      return false
+    }
+    else if (event.value < this.minDate) {
+      this.invalidDOB = true;
+      return false
+    }
+    else {
+      this.selectedDOB.year = event.value.getFullYear().toString();
+      this.selectedDOB.month = (event.value.getMonth() + 1).toString();
+      this.selectedDOB.date = event.value.getDate().toString();
+      this.myAccountModel.profileInfo.birthDate = this.selectedDOB.date;
+      this.myAccountModel.profileInfo.birthMonth = this.selectedDOB.month.toString();
+      this.myAccountModel.profileInfo.birthYear = this.selectedDOB.year;
+    }
   }
 
   getCard() {
@@ -545,7 +571,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
         setTimeout(() => {
           let date = document.getElementsByClassName('datePickerInput')[0] as HTMLElement;
           date.focus();
-        })
+        }, 100)
       }
       else if (element == 'interest') {
         this.myAccount.getInterest().subscribe(res => {
@@ -574,25 +600,17 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   removeInput(e, element, obj?: any) {
+    if (this.invalidDOB) return false;
     let getText = document.getElementsByClassName("cursor");
     for (let i = 0; i < getText.length; i++) getText[i].removeAttribute("disabled");
     e.currentTarget.innerHTML = 'change';
     if (element == 'email') {
-      this.loader_emailImage = true;
-      this.input_Email = false;
-      /**API to Save Email**/
       this.EmailSaveModel.oldEmailId = this.getUserInfo.emailId;
       this.EmailSaveModel.newEmailId = this.append_Email;
-      this.myAccount.saveEmail(this.EmailSaveModel).subscribe((res) => {
-        this.loader_emailImage = false;
-        this.myAccountModel.userData.emailId = this.append_Email;
-        window.localStorage['userInfo'] = JSON.stringify(res);
-      }, (err) => {
-        this.loader_emailImage = false;
-        console.log(err)
-      });
-      /**API to Save Email**/
-      setTimeout(() => this.emailElement.nativeElement.innerText = this.append_Email, 100);
+      if (this.EmailSaveModel.newEmailId != this.EmailSaveModel.oldEmailId) {
+        this.core.openModal(this.changeEmailModal);
+      }
+      else this.discardEmailChange();
     }
     else if (element == 'password') {
       this.input_Password = false;
@@ -629,20 +647,21 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
       /**API to Save Address**/
     }
     else if (element == 'dob') {
+      this.invalidDOB = false;
       this.input_dob = false;
       this.loader_DOB = true;
-      this.myAccountModel.profileInfo.birthDate = this.append_dob.day.toString();
-      this.myAccountModel.profileInfo.birthMonth = this.append_dob.month.toString();
-      this.myAccountModel.profileInfo.birthYear = this.append_dob.year.toString();
+      this.myAccountModel.profileInfo.birthDate = this.selectedDOB.date.toString();
+      this.myAccountModel.profileInfo.birthMonth = this.selectedDOB.month.toString();
+      this.myAccountModel.profileInfo.birthYear = this.selectedDOB.year.toString();
       this.getUserInfo = JSON.parse(window.localStorage['userInfo'])
       /**API to Save DOB**/
       this.DOBSaveModel.emailId = this.getUserInfo.emailId;
       this.DOBSaveModel.dateOfBirth = new Date(this.myAccountModel.profileInfo.birthYear + '-' + this.myAccountModel.profileInfo.birthMonth + '-' + this.myAccountModel.profileInfo.birthDate);
-      console.log(this.DOBSaveModel);
       this.myAccount.saveDOB(this.DOBSaveModel).subscribe((res) => {
         this.loader_DOB = false;
         this.model = this.append_dob;
         window.localStorage['userInfo'] = JSON.stringify(res);
+        this.myAccountModel.profileInfo.dob = new Date(res.dateOfBirth);
       }, (err) => {
         this.loader_DOB = false;
         console.log(err);
@@ -695,6 +714,25 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
       });
       /**API to Save Address**/
     }
+  }
+
+  confirmEmailChange() {
+    this.emailElement.nativeElement.innerText = this.EmailSaveModel.newEmailId;
+    this.myAccount.saveEmail(this.EmailSaveModel).subscribe((res) => {
+      this.loader_emailImage = false;
+      this.input_Email = false;
+      localStorage.removeItem('token');
+      this.route.navigateByUrl('/login');
+    }, (err) => {
+      this.loader_emailImage = false;
+      console.log(err)
+    });
+  }
+
+  discardEmailChange() {
+    this.loader_emailImage = false;
+    this.input_Email = false;
+    this.append_Email = this.EmailSaveModel.oldEmailId;
   }
 
   getAllStates() {
@@ -786,6 +824,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   hideAllInputs(obj?: any) {
+    if (this.invalidDOB) return false;
     this.input_Email = false;
     this.input_Password = false;
     this.input_Location = false;

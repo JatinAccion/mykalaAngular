@@ -59,9 +59,7 @@ export class ProductsInfo {
             this.weight = obj.weight;
             this.width = obj.width;
             this.mainImageSrc = '';
-            if (obj.productHierarchy != null && obj.productHierarchy != undefined && obj.productHierarchy.length > 0) {
-                this.productHierarchy = `${obj.productHierarchy[0].levelName},${obj.productHierarchy[1].levelName},${obj.productHierarchy[2].levelName}`;
-            }
+            this.productHierarchy = `${obj.productPlaceName},${obj.productCategoryName},${obj.productSubCategoryName}`;
             this.offerPrice = obj.offerPrice;
             if (obj.attributes != undefined && Object.keys(obj.attributes).length > 0) {
                 this.productAttributes = `Color:${obj.attributes.Color},Brand:${obj.attributes.Brand},Size:${obj.attributes.Size}`

@@ -208,6 +208,8 @@ export class ViewOfferComponent implements OnInit {
     this.addToCartModal.length = this.selectedProduct.product.length;
     this.addToCartModal.weight = this.selectedProduct.product.weight;
     this.addToCartModal.orderFrom = "OFFER";
+    this.addToCartModal.productHierarchy = this.selectedProduct.product.productHierarchy;
+    this.addToCartModal.productAttributes = this.selectedProduct.product.productAttributes;
     for (var i = 0; i < this.selectedProduct.product.productImages.length; i++) {
       let image = this.selectedProduct.product.productImages[i]
       if (image.mainImage == true) this.addToCartModal.productImage = image.location;

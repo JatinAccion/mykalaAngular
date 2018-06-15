@@ -9,6 +9,7 @@ import { Router, RouterOutlet } from '@angular/router';
 import { AbstractControl } from '@angular/forms/src/model';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { regexPatterns } from '../../../../common/regexPatterns';
+import { MatDatepickerInputEvent } from '@angular/material';
 
 @Component({
   selector: 'app-profile-info',
@@ -39,10 +40,12 @@ export class ProfileInfoComponent implements OnInit {
   minDate;
   maxDate;
   today = new Date();
+  invalidDOB: boolean = false;
+  selectedDOB = { year: "1940", month: "1", date: "1" };
 
   constructor(private routerOutlet: RouterOutlet, private router: Router, private profileInfoServ: ProfileInfoService, private formBuilder: FormBuilder, public core: CoreService) {
-    this.minDate = { year: 1940, month: 1, day: 1 };
-    this.maxDate = { year: this.today.getFullYear(), month: this.today.getMonth() + 1, day: this.today.getDate() };
+    this.minDate = new Date(1940, 0, 1);
+    this.maxDate = new Date(this.today.getFullYear(), this.today.getMonth(), this.today.getDate())
   }
 
   ngOnInit() {
@@ -62,6 +65,23 @@ export class ProfileInfoComponent implements OnInit {
       "location": ['', Validators.compose([Validators.pattern(this.zipCodeRegex), Validators.minLength(5), Validators.maxLength(5)])]
     });
   };
+
+  addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
+    this.invalidDOB = false;
+    if (event.value > this.maxDate) {
+      this.invalidDOB = true;
+      return false
+    }
+    else if (event.value < this.minDate) {
+      this.invalidDOB = true;
+      return false
+    }
+    else {
+      this.selectedDOB.year = event.value.getFullYear().toString();
+      this.selectedDOB.month = (event.value.getMonth() + 1).toString();
+      this.selectedDOB.date = event.value.getDate().toString();
+    }
+  }
 
   /*Geocode API Integration*/
   _keuyp(e) {
@@ -106,8 +126,8 @@ export class ProfileInfoComponent implements OnInit {
     this.profileInformation.emailId = this.getUserInfo.emailId;
     this.profileInformation.consumerImagePath = this.profileInfo.controls.profileImage.value;
     this.profileInformation.gender = this.profileInfo.controls.gender.value;
-    this.profileInformation.dateOfBirth = this.profileInfo.controls.dateOfBirth.value.year + '-' + this.profileInfo.controls.dateOfBirth.value.month + '-' + this.profileInfo.controls.dateOfBirth.value.day;
-
+    this.profileInformation.dateOfBirth = this.selectedDOB.year + '-' + this.selectedDOB.month + '-' + this.selectedDOB.date;
+    console.log(this.profileInformation);
     this.profileInfoServ.completeProfile(this.profileInformation).subscribe(res => {
       this.loader = false;
       if (this.profileInfoResponse.response !== null) {
