@@ -235,11 +235,22 @@ export class CustomersReportComponent implements OnInit {
   getPageSorted(page: number, sortColumn: string, sortDirection: string = 'desc') {
     this.loading = true;
     const searchParams = { page: page - 1, size: 10, sortOrder: sortDirection, elementType: sortColumn, firstName: this.consumerName };
+    switch (sortColumn) {
+      case 'numberOfTransaction':
+      case 'purchasedPrice':
+        this.reportsService.getConsumersBasedOnTransactions(searchParams).subscribe(res => {
+          this.consumers = res;
+          this.loading = false;
+        });
+        break;
 
-    this.reportsService.getConsumers(searchParams).subscribe(res => {
-      this.consumers = res;
-      this.loading = false;
-    });
+      default:
+        this.reportsService.getConsumers(searchParams).subscribe(res => {
+          this.consumers = res;
+          this.loading = false;
+        });
+        break;
+    }
   }
   onSorted($event) { // $event = {sortColumn: 'id', sortDirection:'asc'}
     this.sortColumn = $event.sortColumn;

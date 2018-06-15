@@ -88,6 +88,14 @@ export class ReportsService {
       .map(p => this.handleResponse(p, ReportConsumers))
       .catch(this.handleError);
   }
+  getConsumersBasedOnTransactions(query?: any): Observable<ReportConsumers> {
+    this.headers = this.getHttpHeraders();
+    const url = `${environment.ordersApi}/${environment.apis.consumer.getConsumerDetailsBasedOnTransactions}`;
+    return this.http
+      .get(url, { search: query, headers: this.headers })
+      .map(p => this.handleResponse(p, ReportConsumers))
+      .catch(this.handleError);
+  }
   getPaymentDetails(query?: any): Observable<ReportPaymentDatas> {
     this.headers = this.getHttpHeraders();
     const url = `${environment.ordersReportApi}/${environment.apis.orders.getPaymentDetails}`;

@@ -275,9 +275,9 @@ export class ProductService {
       .catch(this.handleError);
   }
   changeStatus(productId: string, status: boolean | null = true) {
-    const url = `${this.BASE_URL}/${environment.apis.product.changeStatus}`;
+    const url = `${this.BASE_URL}/${environment.apis.product.changeStatus}`.replace('{productId}', productId).replace('{status}', `${status}`);
     return this.http
-      .put(`${url}/${productId}/${status}`, { headers: this.headers })
+      .put(`${url}`, { headers: this.headers })
       .map(res => res.text())
       .catch(this.handleError);
   }

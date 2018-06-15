@@ -64,7 +64,7 @@ export const apiNames = {
         get: 'products/filterBy',
         save: 'products',
         delete: 'products/{productId}',
-        changeStatus: 'products/changeStatus',
+        changeStatus: 'products/{productId}/changeStatus/{status}',
         saveImage: 'products/images',
         markasMainImage: 'products/{productId}/images/{imageId}',
         deleteImage: 'products/{productId}/images/{imageId}',
@@ -112,7 +112,8 @@ export const apiNames = {
     consumer: {
         get: 'consumer/v1/userId',
         orderOfferNumber: 'orderOfferNumber',
-        getConsumerDetails: 'consumer/v1/consumerDetails'
+        getConsumerDetails: 'consumer/v1/consumerDetails',
+        getConsumerDetailsBasedOnTransactions: 'reports/customersReport'
     },
     inquiry: {
         get: 'support/inquiriesList',

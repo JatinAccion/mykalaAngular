@@ -96,8 +96,9 @@ export class Product {
             this.width = obj.width;
             if (obj.attributes && JSON.stringify(obj.attributes) !== '{}') {
                 this.attributes = obj.attributes;
-                Object.entries(obj.attributes).map(p => {
-                    this.attributeArray.push(new ProdAttr({ key: p[0], value: p[1] }));
+
+                Object.keys(obj.attributes).map(p => {
+                    this.attributeArray.push(new ProdAttr({ key: p, value: obj.attributes[p] }));
                 });
                 this.brandName = obj.attributes.Brand;
                 // this.productTypeName = obj.attributes.Type;
@@ -129,7 +130,7 @@ export class Product {
     }
     get attributesList(): Array<ProdAttr> {
         if (this.attributes) {
-            const attributeList = Object.entries(this.attributes).map(p => new ProdAttr(p));
+            const attributeList = Object.keys(this.attributes).map(p => new ProdAttr({ key: p, value: this.attributes[p] }));
             attributeList.removeAll(p => p.key.toLowerCase() === 'unit' || p.key.toLowerCase() === 'features');
             return attributeList;
         } return new Array<ProdAttr>();
@@ -210,7 +211,7 @@ export class ProdAttr {
     public attrType: string;
     constructor(obj?: any) {
         if (obj) {
-            this.key = obj.key || obj[0];
+            this.key = obj.key || obj;
             this.placeholder = `${this.key}`;
             const val = obj.value || obj[1] || '';
             this.value = val;
@@ -249,12 +250,12 @@ export class ProductAttributesMasterData {
         }
     }
 }
-export class AttributeMetaData { 
+export class AttributeMetaData {
     public attrName: string;
     public order: number;
     public isNumber: boolean;
 
-    constructor(obj?: any) { 
+    constructor(obj?: any) {
 
     }
 }

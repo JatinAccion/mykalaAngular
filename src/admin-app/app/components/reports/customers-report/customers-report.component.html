@@ -159,9 +159,9 @@
     <div class="row mt-5">
         <div class="backgroundWhite col-sm-12">
             <chart [type]="type" [data]="data" [options]="options" style="width: 100%;height:400px;"></chart>
-            <span class="paymentBars">
+            <!-- <span class="paymentBars">
                 <i class="fa fa-bars" aria-hidden="true"></i>
-            </span>
+            </span> -->
         </div>
     </div>
     <div class="row p-2 mt-3">
@@ -183,11 +183,11 @@
             <thead>
                 <tr>
                     <th width="5%"></th>
-                    <th sortable-column="customerId" width="10%">Member ID</th>
+                    <th width="10%">Member ID</th>
                     <th sortable-column="firstName" width="24%">Name</th>
                     <th sortable-column="createdAt" width="10%">Member Since</th>
-                    <th width="15%"># of Transactions</th>
-                    <th width="12%">Total $ Sales</th>
+                    <th sortable-column="numberOfTransaction" width="15%"># of Transactions</th>
+                    <th sortable-column="purchasedPrice" width="12%">Total $ Sales</th>
                     <th width="12%">Offer Requests</th>
                     <th width="10%">Last Purchase Date</th>
                 </tr>
@@ -195,7 +195,7 @@
             <tbody *ngFor="let consumer of consumers.content | paginate: { id: 'server', itemsPerPage: consumers.size, currentPage: consumers.number + 1 , totalItems: consumers.totalElements }; let idx = index">
                 <tr>
                     <td> {{((consumers.size * consumers.number) || 0) + idx + 1}} </td>
-                    <td>{{consumer.customerId}}</td>
+                    <td>{{consumer.userId}}</td>
                     <td>{{consumer.firstName + ' ' + consumer.lastName}}</td>
                     <td>{{consumer.createdAt | date:'shortDate'}}</td>
                     <td class="text-right">{{consumer.numberOfTransaction || 0}}</td>
