@@ -68,7 +68,7 @@
 							console.log(response);
 						}
 					};
-					xhttp.open("GET", "http://qa-signup-service.us-west-1.elasticbeanstalk.com/user/v1/unsubscribeAccount/" + userId, true);
+					xhttp.open("DELETE", "http://qa-signup-service.us-west-1.elasticbeanstalk.com/user/v1/delete/consumer/" + userId, true);
 					xhttp.setRequestHeader("Content-type", "application/json");
 					xhttp.send();
 			}
