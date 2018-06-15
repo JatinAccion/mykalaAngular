@@ -1393,7 +1393,13 @@ h4.subtitle{
     margin-top: 10px;
     padding: 5px 15px;
 }
-
+.errorMessages_1{
+    font-size: 13px;
+    color: red;
+    margin-bottom: -12px;
+    margin-top: 15px;
+    font-family: 'open_sanssemibold';
+}
 .profImageWrapper{
     display: inline-block;
     width: 100px;

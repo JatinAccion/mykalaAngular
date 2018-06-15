@@ -100,6 +100,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   confirmValidationMsg = { label: '', message: '' };
   saveCardDetails: any;
   readStripe: boolean = false;
+  ifNoDeliveryMethod: boolean = false;
 
   constructor(
     public core: CoreService,
@@ -434,13 +435,26 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
           for (var j = 0; j < this.filteredCartItems[i].orderItems.length; j++) {
             let order = this.filteredCartItems[i].orderItems[j];
             if (order.shipProfileId == res.shippingProfileId) {
-              if (this.filteredCartItems[i].differentShippingMethod) {
-                this.filteredCartItems[i].orderItems[j].deliveryTiers = res.deliveryMethods;
-                this.filteredCartItems[i].orderItems[j].locationFee = locationFee;
+              if (res.noDeliveryMethod) {
+                this.ifNoDeliveryMethod = true;
+                if (this.filteredCartItems[i].differentShippingMethod) {
+                  this.filteredCartItems[i].orderItems[j].noDeliveryMessage = res.noDeliveryMessage;
+                  this.filteredCartItems[i].orderItems[j].noDeliveryMethod = true;
+                }
+                else {
+                  this.filteredCartItems[i].noDeliveryMessage = res.noDeliveryMessage;
+                  this.filteredCartItems[i].noDeliveryMethod = true;
+                }
               }
               else {
-                this.filteredCartItems[i].deliveryTiers = res.deliveryMethods;
-                this.filteredCartItems[i].locationFee = locationFee;
+                if (this.filteredCartItems[i].differentShippingMethod) {
+                  this.filteredCartItems[i].orderItems[j].deliveryTiers = res.deliveryMethods;
+                  this.filteredCartItems[i].orderItems[j].locationFee = locationFee;
+                }
+                else {
+                  this.filteredCartItems[i].deliveryTiers = res.deliveryMethods;
+                  this.filteredCartItems[i].locationFee = locationFee;
+                }
               }
             }
           }
