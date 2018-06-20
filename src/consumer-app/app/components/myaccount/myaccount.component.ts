@@ -272,9 +272,12 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     let emailId = this.getUserInfo.emailId;
     this.myAccount.getUserDetails(emailId).subscribe((res) => {
       this.pageLoader = false;
-      if (res.consumerImagePath.indexOf('data:') === -1 && res.consumerImagePath.indexOf('https:') === -1) {
-        res.consumerImagePath = this.imgS3 + res.consumerImagePath;
+      if (res.consumerImagePath != undefined && res.consumerImagePath != null && res.consumerImagePath != "") {
+        if (res.consumerImagePath.indexOf('data:') === -1 && res.consumerImagePath.indexOf('https:') === -1) {
+          res.consumerImagePath = this.imgS3 + res.consumerImagePath;
+        }
       }
+      else res.consumerImagePath = "/consumer-app/assets/images/avatar.jpg";
       window.localStorage['userInfo'] = JSON.stringify(res);
       this.getUserInfo = JSON.parse(window.localStorage['userInfo']);
       this.getAPICP = res;
@@ -286,13 +289,20 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
       // this.myAccountModel.profileInfo.consumerImagePath = this.imgS3.concat(res.consumerImagePath);
       this.myAccountModel.profileInfo.consumerImagePath = res.consumerImagePath;
       this.myAccountModel.profileInfo.consumerInterests = res.consumerInterests;
-      this.myAccountModel.profileInfo.dob = new Date(res.dateOfBirth);
-      this.myAccountModel.profileInfo.birthDate = new Date(res.dateOfBirth).getDate().toString();
-      this.myAccountModel.profileInfo.birthMonth = (new Date(res.dateOfBirth).getMonth() + 1).toString();
-      this.myAccountModel.profileInfo.birthYear = new Date(res.dateOfBirth).getFullYear().toString();
-      this.selectedDOB.year = this.myAccountModel.profileInfo.birthYear;
-      this.selectedDOB.month = this.myAccountModel.profileInfo.birthMonth;
-      this.selectedDOB.date = this.myAccountModel.profileInfo.birthDate;
+      if (res.dateOfBirth != null) {
+        this.myAccountModel.profileInfo.dob = new Date(res.dateOfBirth);
+        this.myAccountModel.profileInfo.birthDate = new Date(res.dateOfBirth).getDate().toString();
+        this.myAccountModel.profileInfo.birthMonth = (new Date(res.dateOfBirth).getMonth() + 1).toString();
+        this.myAccountModel.profileInfo.birthYear = new Date(res.dateOfBirth).getFullYear().toString();
+        this.selectedDOB.year = this.myAccountModel.profileInfo.birthYear;
+        this.selectedDOB.month = this.myAccountModel.profileInfo.birthMonth;
+        this.selectedDOB.date = this.myAccountModel.profileInfo.birthDate;
+      }
+      else {
+        this.selectedDOB.year = '';
+        this.selectedDOB.month = '';
+        this.selectedDOB.date = '';
+      }
       this.model = {
         year: parseFloat(this.myAccountModel.profileInfo.birthYear),
         month: parseFloat(this.myAccountModel.profileInfo.birthMonth),
@@ -433,6 +443,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     let btn = document.getElementsByClassName("changeInterestBtn")[0].innerHTML;
     if (btn != 'change') {
       obj.selectImg = !obj.selectImg;
+      if (this.getInterest == null) this.getInterest = [];
       this.getInterest.push(new MyAccountConsumerInterest(e.currentTarget.id, e.currentTarget.title, e.currentTarget.src));
       this.getInterest = this.getInterest.filter((elem, index, self) => self.findIndex((img) => {
         return (img.id === elem.id && img.consumerInterestImageName === elem.consumerInterestImageName)

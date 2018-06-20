@@ -44,6 +44,10 @@
         </div>
       </div>
     </ng-container>
+
+    <div *ngIf="showMoreBtn_offer" class="col-sm-12 text-center mt-4 mb-4">
+      <button (click)="loadMore('offer')" class="btn btn_red_right">show more</button>
+    </div>
     <!--Get Offer Block-->
 
     <!--Order Shipment Block-->
@@ -83,6 +87,10 @@
         </div>
       </div>
     </div>
+
+    <div *ngIf="showMoreBtn_orderShipped" class="col-sm-12 text-center mt-4 mb-4">
+      <button (click)="loadMore('order')" class="btn btn_red_right">show more</button>
+    </div>
     <!--Order Shipment Block-->
 
     <!--Reviews Block-->
@@ -106,6 +114,10 @@
             <br />{{review.reviewDescription}}</div>
         </div>
       </div>
+    </div>
+
+    <div *ngIf="showMoreBtn_reviewedProduct" class="col-sm-12 text-center mt-4 mb-4">
+      <button (click)="loadMore('review')" class="btn btn_red_right">show more</button>
     </div>
     <!--Reviews Block-->
 
@@ -137,8 +149,8 @@
       </div>
     </div>
 
-    <div *ngIf="!hideShowMoreBtn" class="col-sm-12 text-center mt-4 mb-4">
-      <button (click)="loadMore()" class="btn btn_red_right">show more</button>
+    <div *ngIf="showMoreBtn_postReview" class="col-sm-12 text-center mt-4 mb-4">
+      <button (click)="loadMore('postReview')" class="btn btn_red_right">show more</button>
     </div>
     <!--Post Reviews Block-->
   </div>

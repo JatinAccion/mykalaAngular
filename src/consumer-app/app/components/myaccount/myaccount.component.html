@@ -95,7 +95,10 @@
             <div class="row" style="position:relative">
               <div class="col-sm-4 p-2 colorlightGray">date of birth</div>
               <div class="col-sm-5 p-2 text-right matDOB">
-                <span #dobElement *ngIf="!input_dob">{{selectedDOB.month}}/{{selectedDOB.date}}/{{selectedDOB.year}}</span>
+                <span #dobElement *ngIf="!input_dob">
+                  <span *ngIf="selectedDOB.month != '' && selectedDOB.date != '' && selectedDOB.year != '';else empty">{{selectedDOB.month}}/{{selectedDOB.date}}/{{selectedDOB.year}}</span>
+                  <ng-template #empty></ng-template>
+                </span>
                 <mat-form-field *ngIf="input_dob" class="example-full-width">
                   <input [value]="myAccountModel.profileInfo.dob" (dateChange)="addEvent('change', $event)" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="txtnml width100 appendedInput datePickerInput" (focus)="picker.open()" matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker">
                   <mat-datepicker #picker></mat-datepicker>

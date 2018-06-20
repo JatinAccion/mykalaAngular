@@ -18,9 +18,18 @@ export class MyNewsAlertsComponent implements OnInit {
   reviews: Array<any>;
   orders: Array<any>;
   postReviewAlert: Array<any>;
-  showMorePageCounter = 0;
-  showMoreSizeCounter = 5;
-  hideShowMoreBtn: boolean = true
+  offer_showMorePageCounter = 0;
+  offer_showMoreSizeCounter = 5;
+  orderShipped_showMorePageCounter = 0;
+  orderShipped_showMoreSizeCounter = 5;
+  reviewedProduct_showMorePageCounter = 0;
+  reviewedProduct_showMoreSizeCounter = 5;
+  postReview_showMorePageCounter = 0;
+  postReview_showMoreSizeCounter = 5;
+  showMoreBtn_offer: boolean = false;
+  showMoreBtn_orderShipped: boolean = false;
+  showMoreBtn_reviewedProduct: boolean = false;
+  showMoreBtn_postReview: boolean = false;
 
   constructor(
     public core: CoreService,
@@ -40,27 +49,32 @@ export class MyNewsAlertsComponent implements OnInit {
 
   loadOffers() {
     this.loader = true;
-    this.myalerts.loadOffers(this.userData.emailId).subscribe((res) => {
+    this.myalerts.loadOffers(this.userData.userId, this.offer_showMorePageCounter, this.offer_showMoreSizeCounter).subscribe((res) => {
       this.loader = false;
-      this.offers = res;
+      this.offers = res.content;
       this.filterImageURL();
       this.getMainImage();
-      this.sort(this.offers, 'offer')
-      this.myalerts.loadOrders(this.userData.userId).subscribe((res) => {
-        this.orders = res;
+      this.sort(this.offers, 'offer');
+      this.showHideShowMoreBtn(res, 'offer');
+      console.log("offer response::::::", res);
+      this.myalerts.loadOrders(this.userData.userId, this.orderShipped_showMorePageCounter, this.orderShipped_showMoreSizeCounter).subscribe((res) => {
+        this.orders = res.content;
+        for (var i = 0; i < this.orders.length; i++) this.orders[i].orderItems = [this.orders[i].orderItems];
         this.formatImages(this.orders, 'order');
-        this.myalerts.loadReviews(this.userData.emailId).subscribe((res) => {
-          this.reviews = res;
+        this.showHideShowMoreBtn(res, 'order');
+        console.log("order response::::::", res);
+        this.myalerts.loadReviews(this.userData.userId, this.reviewedProduct_showMorePageCounter, this.reviewedProduct_showMoreSizeCounter).subscribe((res) => {
+          this.reviews = res.content;
           this.formatImages(this.reviews, 'review');
-          this.sort(this.offers, 'review')
-          this.myalerts.loadPostReviewAlert(this.userData.userId, this.showMorePageCounter, this.showMoreSizeCounter).subscribe((res) => {
-            if (res.length > 0) {
-              this.hideShowMoreBtn = false;
-              this.postReviewAlert = res;
-              this.formatImages(this.postReviewAlert, 'postReview');
-              this.sort(this.postReviewAlert, 'postReview')
-            }
-            else this.hideShowMoreBtn = true;
+          this.sort(this.offers, 'review');
+          this.showHideShowMoreBtn(res, 'review');
+          console.log("review response::::::", res);
+          this.myalerts.loadPostReviewAlert(this.userData.userId, this.postReview_showMorePageCounter, this.postReview_showMoreSizeCounter).subscribe((res) => {
+            this.postReviewAlert = res.content;
+            this.formatImages(this.postReviewAlert, 'postReview');
+            this.sort(this.postReviewAlert, 'postReview');
+            this.showHideShowMoreBtn(res, 'postReview');
+            console.log("postReview response::::::", res)
           }, (err) => {
             console.log("Post Reviews::::", err);
           })
@@ -171,21 +185,84 @@ export class MyNewsAlertsComponent implements OnInit {
     }
   }
 
-  loadMore() {
+  showHideShowMoreBtn(data, from) {
+    if (from == 'offer') {
+      data.totalPages > 1 ? this.showMoreBtn_offer = true : this.showMoreBtn_offer = false;
+    }
+    else if (from == 'order') {
+      data.totalPages > 1 ? this.showMoreBtn_orderShipped = true : this.showMoreBtn_orderShipped = false;
+    }
+    else if (from == 'review') {
+      data.totalPages > 1 ? this.showMoreBtn_reviewedProduct = true : this.showMoreBtn_reviewedProduct = false;
+    }
+    else {
+      data.totalPages > 1 ? this.showMoreBtn_postReview = true : this.showMoreBtn_postReview = false;
+    }
+  }
+
+  loadMore(from) {
     let userId = this.userData.userId;
-    this.showMorePageCounter = this.showMorePageCounter + 1;
-    this.showMoreSizeCounter = this.showMoreSizeCounter;
-    this.myalerts.loadPostReviewAlert(this.userData.userId, this.showMorePageCounter, this.showMoreSizeCounter).subscribe((res) => {
-      if (res.length > 0) {
-        this.hideShowMoreBtn = false;
-        this.postReviewAlert = [...this.postReviewAlert, ...res];
+    /*From Offers Block*/
+    if (from == 'offer') {
+      this.offer_showMorePageCounter = this.offer_showMorePageCounter + 1;
+      this.offer_showMoreSizeCounter = this.offer_showMoreSizeCounter;
+      this.myalerts.loadOffers(this.userData.userId, this.offer_showMorePageCounter, this.offer_showMoreSizeCounter).subscribe((res) => {
+        this.loader = false;
+        this.offers = [...this.offers, ...res.content];
+        this.filterImageURL();
+        this.getMainImage();
+        this.sort(this.offers, 'offer');
+        this.showHideShowMoreBtn(res, 'offer');
+      }, (err) => {
+        console.log("Offers::::", err)
+      })
+    }
+    /*From Offers Block*/
+
+    /*From Order Shipped Block*/
+    else if (from == 'order') {
+      this.orderShipped_showMorePageCounter = this.orderShipped_showMorePageCounter + 1;
+      this.orderShipped_showMoreSizeCounter = this.orderShipped_showMoreSizeCounter;
+      this.myalerts.loadOrders(this.userData.userId, this.orderShipped_showMorePageCounter, this.orderShipped_showMoreSizeCounter).subscribe((res) => {
+        this.orders = [...this.orders, ...res.content];
+        for (var i = 0; i < this.orders.length; i++) this.orders[i].orderItems = [this.orders[i].orderItems];
+        this.formatImages(this.orders, 'order');
+        this.showHideShowMoreBtn(res, 'order');
+      }, (err) => {
+        console.log("Orders::::", err)
+      })
+    }
+    /*From Order Shipped Block*/
+
+    /*From Reviewed Products Block*/
+    else if (from == 'review') {
+      this.reviewedProduct_showMorePageCounter = this.reviewedProduct_showMorePageCounter + 1;
+      this.reviewedProduct_showMoreSizeCounter = this.reviewedProduct_showMoreSizeCounter;
+      this.myalerts.loadReviews(this.userData.userId, this.reviewedProduct_showMorePageCounter, this.reviewedProduct_showMoreSizeCounter).subscribe((res) => {
+        this.reviews = [...this.reviews, ...res.content];
+        this.formatImages(this.reviews, 'review');
+        this.sort(this.offers, 'review');
+        this.showHideShowMoreBtn(res, 'review');
+      }, (err) => {
+        console.log("Reviews::::", err)
+      })
+    }
+    /*From Reviewed Products Block*/
+
+    /*From Post Review Block*/
+    else {
+      this.postReview_showMorePageCounter = this.postReview_showMorePageCounter + 1;
+      this.postReview_showMoreSizeCounter = this.postReview_showMoreSizeCounter;
+      this.myalerts.loadPostReviewAlert(this.userData.userId, this.postReview_showMorePageCounter, this.postReview_showMoreSizeCounter).subscribe((res) => {
+        this.postReviewAlert = [...this.postReviewAlert, ...res.content];
         this.formatImages(this.postReviewAlert, 'postReview');
-        this.sort(this.postReviewAlert, 'postReview')
-      }
-      else this.hideShowMoreBtn = true;
-    }, (err) => {
-      console.log("Post Reviews::::", err);
-    })
+        this.sort(this.postReviewAlert, 'postReview');
+        this.showHideShowMoreBtn(res, 'postReview');
+      }, (err) => {
+        console.log("Post Reviews::::", err);
+      })
+    }
+    /*From Post Review Block*/
   }
 
   getTotaPrice(priceWithQuantity, productTaxCost, shippingCost) {
