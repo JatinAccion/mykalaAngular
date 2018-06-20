@@ -728,6 +728,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   confirmEmailChange() {
+    this.loader_emailImage = true;
     this.emailElement.nativeElement.innerText = this.EmailSaveModel.newEmailId;
     this.myAccount.saveEmail(this.EmailSaveModel).subscribe((res) => {
       this.loader_emailImage = false;
