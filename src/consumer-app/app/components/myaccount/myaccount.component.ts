@@ -776,6 +776,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   saveNewAddress(e) {
+    if (this.myAccountModel.profileInfo.address == null) this.myAccountModel.profileInfo.address = [];
     let getText = document.getElementsByClassName("cursor");
     for (let i = 0; i < getText.length; i++) getText[i].removeAttribute("disabled");
     this.myAccountModel.profileInfo.address.push(new MyAccountAddress(null, this.append_addAddressLine1, this.append_addAddressLine2, this.append_addShippingCity, this.append_addShippingState, this.append_addShippingZipcode.toString(), 'shippingAddress'));
