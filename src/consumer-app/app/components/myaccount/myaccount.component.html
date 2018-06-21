@@ -100,7 +100,7 @@
                   <ng-template #empty></ng-template>
                 </span>
                 <mat-form-field *ngIf="input_dob" class="example-full-width">
-                  <input [value]="myAccountModel.profileInfo.dob" (dateChange)="addEvent('change', $event)" (keypress)="core.allowOnlyNumbers($event)" class="txtnml width100 appendedInput datePickerInput" (focus)="picker.open()" matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker">
+                  <input maxlength="10" (paste)="$event.preventDefault()" [value]="myAccountModel.profileInfo.dob" (dateChange)="addEvent('change', $event)" (keypress)="core.allowOnlyNumbers($event)" class="txtnml width100 appendedInput datePickerInput" (focus)="picker.open()" matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker">
                   <mat-datepicker #picker></mat-datepicker>
                   <p *ngIf="invalidDOB" class="clearfix colorlightGray mb-0 colorred text-right" style="font-size: 13px; border: none; position:absolute; right:0">Invalid Date</p>
                 </mat-form-field>

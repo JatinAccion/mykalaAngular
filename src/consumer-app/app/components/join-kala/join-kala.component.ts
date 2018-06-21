@@ -46,6 +46,8 @@ export class JoinKalaComponent implements OnInit, CuiComponent {
   ngOnInit() {
     /**Clearing the Logged In Session */
     localStorage.removeItem('token');
+    localStorage.removeItem('existingItemsInCart');
+    localStorage.removeItem('existingItemsInWishList');
     this.core.clearUser();
     this.core.hideUserInfo(true);
     /**Clearing the Logged In Session */

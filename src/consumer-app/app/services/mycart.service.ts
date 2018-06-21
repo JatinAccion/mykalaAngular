@@ -25,4 +25,9 @@ export class MyCartService {
         return this.http.delete(url).map(res => res.text());
     }
 
+    deleteAllCartItem(userId) {
+        const url: string = `${this.BASE_URL}/${userId}/${environment.apis.consumerCheckout.deleteAllCartItems}`;
+        return this.http.delete(url).map(res => res.text());
+    }
+
 }

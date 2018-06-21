@@ -55,8 +55,8 @@ export class BrowseProductComponent implements OnInit {
     else this.showMorePageCounter++;
     this.selectedTilesData = JSON.parse(window.localStorage['levelSelections']);
     this.homeService.getProductList(this.selectedTilesData.place.name, this.selectedTilesData.category.name, this.showMorePageCounter, this.showMoreSizeCounter, this.selectedTilesData.subcategory.name).subscribe(res => {
-      if (res.content.length > 0) this.showMoreBtn = true;
-      else this.showMoreBtn = false;
+      if (res.content.length < 30) this.showMoreBtn = false;
+      else this.showMoreBtn = true;
       this.loader = false;
       for (var i = 0; i < res.content.length; i++) {
         let content = res.content[i];
@@ -65,10 +65,16 @@ export class BrowseProductComponent implements OnInit {
       }
       this.filterIamgeURL();
       this.getMainImage();
-      if (this.tilesData.length > 0) this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' ' + this.selectedTilesData.category.name + ' for you';
+      if (this.tilesData.length > 0) {
+        if (this.tilesData.length == 1) this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' product for you';
+        else this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' products for you';
+      }
       else this.headerMessage = 'Sorry, but we don\'t have product matches for you';
       if (this.selectedTilesData.subcategory.length == undefined) {
-        if (this.tilesData.length > 0) this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' ' + this.selectedTilesData.subcategory.name + ' for you';
+        if (this.tilesData.length > 0) {
+          if (this.tilesData.length == 1) this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' product for you';
+          else this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' products for you';
+        }
         else this.headerMessage = 'Sorry, but we don\'t have product matches for you';
       }
       this.core.show(this.headerMessage);

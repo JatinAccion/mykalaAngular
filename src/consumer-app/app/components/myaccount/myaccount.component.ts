@@ -11,6 +11,7 @@ import { NgForm } from '@angular/forms';
 import { MyAccountProfileModel, MyAccountEmailModel, MyAccountPasswordModel, MyAccountAddressModel, MyAccountDOBModel, MyAccountInterestModel } from '../../../../models/myAccountPost';
 import { Router } from '@angular/router';
 import { MatDatepickerInputEvent } from '@angular/material';
+import { regexPatterns } from '../../../../common/regexPatterns';
 
 @Component({
   selector: 'app-myaccount',
@@ -19,6 +20,7 @@ import { MatDatepickerInputEvent } from '@angular/material';
   encapsulation: ViewEncapsulation.None
 })
 export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
+  zipCodeRegex = regexPatterns.zipcodeRegex;
   addCard: boolean = false;
   savedCardDetails: any;
   // card: any;
@@ -320,21 +322,34 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
 
   addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
     this.invalidDOB = false;
-    if (event.value > this.maxDate) {
-      this.invalidDOB = true;
-      return false
-    }
-    else if (event.value < this.minDate) {
+    if (event.value == null) {
       this.invalidDOB = true;
       return false
     }
     else {
-      this.selectedDOB.year = event.value.getFullYear().toString();
-      this.selectedDOB.month = (event.value.getMonth() + 1).toString();
-      this.selectedDOB.date = event.value.getDate().toString();
-      this.myAccountModel.profileInfo.birthDate = this.selectedDOB.date;
-      this.myAccountModel.profileInfo.birthMonth = this.selectedDOB.month.toString();
-      this.myAccountModel.profileInfo.birthYear = this.selectedDOB.year;
+      if (event.value > this.maxDate) {
+        this.invalidDOB = true;
+        return false
+      }
+      else if (event.value < this.minDate) {
+        this.invalidDOB = true;
+        return false
+      }
+      else {
+        let dateInput = document.getElementsByClassName("datePickerInput")[0] as HTMLInputElement;
+        if (dateInput.value.length < 8) {
+          this.invalidDOB = true;
+          return false
+        }
+        else {
+          this.selectedDOB.year = event.value.getFullYear().toString();
+          this.selectedDOB.month = (event.value.getMonth() + 1).toString();
+          this.selectedDOB.date = event.value.getDate().toString();
+          this.myAccountModel.profileInfo.birthDate = this.selectedDOB.date;
+          this.myAccountModel.profileInfo.birthMonth = this.selectedDOB.month.toString();
+          this.myAccountModel.profileInfo.birthYear = this.selectedDOB.year;
+        }
+      }
     }
   }
 
@@ -509,10 +524,10 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     this.input_getLocation = false;
     this.fetchGeoCode = '';
     let input = e.currentTarget;
-    if (this.append_Location.toString().length == 5) {
+    if (input.value.toString().length == 5 && this.zipCodeRegex.test(input.value.toString()) == true) {
       this.loader = true;
       input.setAttribute('readonly', true);
-      this.myAccount.getLocation(this.append_Location)
+      this.myAccount.getLocation(input.value)
         .subscribe(data => {
           this.loader = false;
           this.input_getLocation = true;
@@ -525,7 +540,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
             if (address.addressType == 'profileAddress') {
               address.city = this.fetchGeoCode.split(',')[0];
               address.state = this.fetchGeoCode.split(',')[1].trim().split(" ")[0];
-              address.zipcode = this.append_Location;
+              address.zipcode = input.value;
               addProfileAddress = true;
               return false;
             }
@@ -539,7 +554,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
               addressType: "profileAddress",
               city: this.fetchGeoCode.split(',')[0],
               state: this.fetchGeoCode.split(',')[1].trim().split(" ")[0],
-              zipcode: this.append_Location
+              zipcode: input.value
             })
           }
         });

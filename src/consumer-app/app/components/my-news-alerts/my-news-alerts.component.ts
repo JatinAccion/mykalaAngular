@@ -50,30 +50,30 @@ export class MyNewsAlertsComponent implements OnInit {
   loadOffers() {
     this.loader = true;
     this.myalerts.loadOffers(this.userData.userId, this.offer_showMorePageCounter, this.offer_showMoreSizeCounter).subscribe((res) => {
-      this.loader = false;
       this.offers = res.content;
       this.filterImageURL();
       this.getMainImage();
       this.sort(this.offers, 'offer');
-      this.showHideShowMoreBtn(res, 'offer');
+      this.showHideShowMoreBtn(this.offers, res, 'offer');
       console.log("offer response::::::", res);
       this.myalerts.loadOrders(this.userData.userId, this.orderShipped_showMorePageCounter, this.orderShipped_showMoreSizeCounter).subscribe((res) => {
         this.orders = res.content;
         for (var i = 0; i < this.orders.length; i++) this.orders[i].orderItems = [this.orders[i].orderItems];
         this.formatImages(this.orders, 'order');
-        this.showHideShowMoreBtn(res, 'order');
+        this.showHideShowMoreBtn(this.orders, res, 'order');
         console.log("order response::::::", res);
         this.myalerts.loadReviews(this.userData.userId, this.reviewedProduct_showMorePageCounter, this.reviewedProduct_showMoreSizeCounter).subscribe((res) => {
           this.reviews = res.content;
           this.formatImages(this.reviews, 'review');
           this.sort(this.offers, 'review');
-          this.showHideShowMoreBtn(res, 'review');
+          this.showHideShowMoreBtn(this.reviews, res, 'review');
           console.log("review response::::::", res);
           this.myalerts.loadPostReviewAlert(this.userData.userId, this.postReview_showMorePageCounter, this.postReview_showMoreSizeCounter).subscribe((res) => {
+            this.loader = false;
             this.postReviewAlert = res.content;
             this.formatImages(this.postReviewAlert, 'postReview');
             this.sort(this.postReviewAlert, 'postReview');
-            this.showHideShowMoreBtn(res, 'postReview');
+            this.showHideShowMoreBtn(this.postReviewAlert, res, 'postReview');
             console.log("postReview response::::::", res)
           }, (err) => {
             console.log("Post Reviews::::", err);
@@ -185,18 +185,18 @@ export class MyNewsAlertsComponent implements OnInit {
     }
   }
 
-  showHideShowMoreBtn(data, from) {
+  showHideShowMoreBtn(data, res, from) {
     if (from == 'offer') {
-      data.totalPages > 1 ? this.showMoreBtn_offer = true : this.showMoreBtn_offer = false;
+      data.length >= res.totalElements ? this.showMoreBtn_offer = false : this.showMoreBtn_offer = true;
     }
     else if (from == 'order') {
-      data.totalPages > 1 ? this.showMoreBtn_orderShipped = true : this.showMoreBtn_orderShipped = false;
+      data.length >= res.totalElements ? this.showMoreBtn_orderShipped = false : this.showMoreBtn_orderShipped = true;
     }
     else if (from == 'review') {
-      data.totalPages > 1 ? this.showMoreBtn_reviewedProduct = true : this.showMoreBtn_reviewedProduct = false;
+      data.length >= res.totalElements ? this.showMoreBtn_reviewedProduct = false : this.showMoreBtn_reviewedProduct = true;
     }
     else {
-      data.totalPages > 1 ? this.showMoreBtn_postReview = true : this.showMoreBtn_postReview = false;
+      data.length >= res.totalElements ? this.showMoreBtn_postReview = false : this.showMoreBtn_postReview = true;
     }
   }
 
@@ -212,7 +212,7 @@ export class MyNewsAlertsComponent implements OnInit {
         this.filterImageURL();
         this.getMainImage();
         this.sort(this.offers, 'offer');
-        this.showHideShowMoreBtn(res, 'offer');
+        this.showHideShowMoreBtn(this.offers, res, 'offer');
       }, (err) => {
         console.log("Offers::::", err)
       })
@@ -227,7 +227,7 @@ export class MyNewsAlertsComponent implements OnInit {
         this.orders = [...this.orders, ...res.content];
         for (var i = 0; i < this.orders.length; i++) this.orders[i].orderItems = [this.orders[i].orderItems];
         this.formatImages(this.orders, 'order');
-        this.showHideShowMoreBtn(res, 'order');
+        this.showHideShowMoreBtn(this.orders, res, 'order');
       }, (err) => {
         console.log("Orders::::", err)
       })
@@ -241,8 +241,8 @@ export class MyNewsAlertsComponent implements OnInit {
       this.myalerts.loadReviews(this.userData.userId, this.reviewedProduct_showMorePageCounter, this.reviewedProduct_showMoreSizeCounter).subscribe((res) => {
         this.reviews = [...this.reviews, ...res.content];
         this.formatImages(this.reviews, 'review');
-        this.sort(this.offers, 'review');
-        this.showHideShowMoreBtn(res, 'review');
+        this.sort(this.reviews, 'review');
+        this.showHideShowMoreBtn(this.reviews, res, 'review');
       }, (err) => {
         console.log("Reviews::::", err)
       })
@@ -257,7 +257,7 @@ export class MyNewsAlertsComponent implements OnInit {
         this.postReviewAlert = [...this.postReviewAlert, ...res.content];
         this.formatImages(this.postReviewAlert, 'postReview');
         this.sort(this.postReviewAlert, 'postReview');
-        this.showHideShowMoreBtn(res, 'postReview');
+        this.showHideShowMoreBtn(this.postReviewAlert, res, 'postReview');
       }, (err) => {
         console.log("Post Reviews::::", err);
       })
