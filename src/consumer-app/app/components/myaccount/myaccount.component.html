@@ -82,7 +82,7 @@
                     </span>
                   </span>
                 </span>
-                <input *ngIf="input_Location" (keyup)="_keuyp($event)" onkeypress='return event.charCode >= 48 && event.charCode <= 57' [(ngModel)]="append_Location" type="number" class="txtnml width100 appendedInput" placeholder="zipcode" autofocus>
+                <input *ngIf="input_Location" (keyup)="_keuyp($event)" (keypress)="core.allowOnlyNumbers($event)" [(ngModel)]="append_Location" type="number" class="txtnml width100 appendedInput" placeholder="zipcode" autofocus>
                 <img src="/consumer-app/assets/images/loader.gif" class="absoluteImg_2 absoluteImg_3" *ngIf="loader" />
                 <p *ngIf="input_getLocation" class="clearfix colorlightGray pt-0 mb-0">{{fetchGeoCode}}</p>
               </div>
@@ -100,7 +100,7 @@
                   <ng-template #empty></ng-template>
                 </span>
                 <mat-form-field *ngIf="input_dob" class="example-full-width">
-                  <input [value]="myAccountModel.profileInfo.dob" (dateChange)="addEvent('change', $event)" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="txtnml width100 appendedInput datePickerInput" (focus)="picker.open()" matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker">
+                  <input [value]="myAccountModel.profileInfo.dob" (dateChange)="addEvent('change', $event)" (keypress)="core.allowOnlyNumbers($event)" class="txtnml width100 appendedInput datePickerInput" (focus)="picker.open()" matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker">
                   <mat-datepicker #picker></mat-datepicker>
                   <p *ngIf="invalidDOB" class="clearfix colorlightGray mb-0 colorred text-right" style="font-size: 13px; border: none; position:absolute; right:0">Invalid Date</p>
                 </mat-form-field>

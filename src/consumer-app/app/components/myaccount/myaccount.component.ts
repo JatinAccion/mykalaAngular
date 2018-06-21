@@ -519,6 +519,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
           input.removeAttribute('readonly');
           this.fetchGeoCode = data.results[0].formatted_address;
           let addProfileAddress: boolean = false;
+          if (this.myAccountModel.profileInfo.address == null) this.myAccountModel.profileInfo.address = [];
           for (let i = 0; i < this.myAccountModel.profileInfo.address.length; i++) {
             let address = this.myAccountModel.profileInfo.address[i]
             if (address.addressType == 'profileAddress') {
