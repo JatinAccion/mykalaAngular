@@ -169,7 +169,7 @@
             <pagination-controls id='server' class="my-pagination" (pageChange)="getPage($event)" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page"></pagination-controls>
         </div>
         <div class="col-sm-6">
-            <input type="text" placeholder="search by consumer name" class="form-control txt_Search" [(ngModel)]="consumerName" (keyup.enter)="getPage(1)" />
+            <input type="text" placeholder="search by consumer name" class="form-control txt_Search" [(ngModel)]="consumerName" (keyup.enter)="getSearchPage(1)" />
         </div>
     </div>
     <div class="row p-2">

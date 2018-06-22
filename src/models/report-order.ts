@@ -242,6 +242,7 @@ export class ReportOrderItem {
   deliveryStatus: string;
   product: Product;
   trackingNumber: string;
+  shipTrackingId: string;
   constructor(obj?: any) {
     if (obj) {
       this.productId = obj.productId;
@@ -258,6 +259,7 @@ export class ReportOrderItem {
       this.deliveryMethod = obj.deliveryMethod;
       this.deliveryStatus = obj.deliveryStatus;
       this.trackingNumber = obj.trackingNumber;
+      this.shipTrackingId = obj.shipTrackingId;
     }
   }
 }

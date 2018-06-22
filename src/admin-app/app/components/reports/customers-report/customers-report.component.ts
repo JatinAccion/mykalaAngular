@@ -228,6 +228,12 @@ export class CustomersReportComponent implements OnInit {
   //     this.loading = false;
   //   });
   // }
+
+  getSearchPage(page: number) {
+    this.page = page;
+    this.sortColumn = 'firstName';
+    this.getPageSorted(this.page, this.sortColumn, this.sortDirection);
+  }
   getPage(page: number) {
     this.page = page;
     this.getPageSorted(this.page, this.sortColumn, this.sortDirection);

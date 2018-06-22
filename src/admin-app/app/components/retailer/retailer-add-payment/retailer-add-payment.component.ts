@@ -112,7 +112,7 @@ export class RetailerAddPaymentComponent implements OnInit {
       addressLine1: [this.paymentData.bankAddress.addressLine1, [Validators.pattern(environment.regex.textRegex), Validators.required]],
       addressLine2: [this.paymentData.bankAddress.addressLine2, [Validators.pattern(environment.regex.textRegex)]],
       city: [this.paymentData.bankAddress.city, [Validators.pattern(environment.regex.textRegex), Validators.required]],
-      state: [this.paymentData.bankAddress.state, [Validators.pattern(environment.regex.textRegex), Validators.required]],
+      state: [this.paymentData.bankAddress.state || '', [Validators.pattern(environment.regex.textRegex), Validators.required]],
       zipcode: [this.paymentData.bankAddress.zipcode, [Validators.maxLength(5), Validators.minLength(5),
       Validators.pattern(environment.regex.zipcodeRegex), Validators.required]]
     });
@@ -125,7 +125,7 @@ export class RetailerAddPaymentComponent implements OnInit {
       lastName: [this.paymentData.legalContact.lastName, [Validators.pattern(environment.regex.textRegex), Validators.required]],
       ssnlast4: [this.paymentData.last4SSN, [Validators.maxLength(4), Validators.minLength(4),
       Validators.pattern(environment.regex.zipcodeRegex), Validators.required]],
-      dob: [new DateUtils().fromDate( this.paymentData.dob), [Validators.pattern(environment.regex.textRegex), Validators.required]],
+      dob: [new DateUtils().fromDate(this.paymentData.dob), [Validators.pattern(environment.regex.textRegex), Validators.required]],
       addressLine1LegalContact: [this.paymentData.legalContact.addressLine1, [Validators.pattern(environment.regex.textRegex), Validators.required]],
       addressLine2LegalContact: [this.paymentData.legalContact.addressLine2, [Validators.pattern(environment.regex.textRegex)]],
       cityLegalContact: [this.paymentData.legalContact.city, [Validators.pattern(environment.regex.textRegex), Validators.required]],
@@ -135,7 +135,7 @@ export class RetailerAddPaymentComponent implements OnInit {
       addressLine1: [this.paymentData.retailerBankAddress.addressLine1, [Validators.pattern(environment.regex.textRegex), Validators.required]],
       addressLine2: [this.paymentData.retailerBankAddress.addressLine2, [Validators.pattern(environment.regex.textRegex)]],
       city: [this.paymentData.retailerBankAddress.city, [Validators.pattern(environment.regex.textRegex), Validators.required]],
-      state: [this.paymentData.retailerBankAddress.state, [Validators.pattern(environment.regex.textRegex), Validators.required]],
+      state: [this.paymentData.retailerBankAddress.state || '', [Validators.pattern(environment.regex.textRegex), Validators.required]],
       zipcode: [this.paymentData.retailerBankAddress.zipcode, [Validators.maxLength(5), Validators.minLength(5),
       Validators.pattern(environment.regex.zipcodeRegex), Validators.required]]
     });
@@ -235,6 +235,9 @@ export class RetailerAddPaymentComponent implements OnInit {
     } else if (!this.paymentFG2.valid) {
       this.paymentInfoNext();
     } else {
+      if (this.paymentInfoObj.paymentMethod === this.paymentMethods[0].name) {
+        this.paymentInfoObj.dob = '';
+      }
       this.paymentSaveloader = true;
       this.retialerService
         .paymentInfoSave(this.paymentInfoObj)

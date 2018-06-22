@@ -248,7 +248,7 @@ export class RetailerAddShippingComponent implements OnInit {
       addressLine1: [this.shippingObj.shippingOriginAddress.addressLine1, [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
       addressLine2: [this.shippingObj.shippingOriginAddress.addressLine2, [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
       city: [this.shippingObj.shippingOriginAddress.city, [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
-      state: [this.shippingObj.shippingOriginAddress.state, [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
+      state: [this.shippingObj.shippingOriginAddress.state || '', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
       zipcode: [this.shippingObj.shippingOriginAddress.zipcode, [Validators.maxLength(5), Validators.minLength(5), Validators.pattern(environment.regex.zipcodeRegex), Validators.required]],
       countryName: [this.shippingObj.deliveryLocation.countryName, [Validators.required]],
       locations: this.formBuilder.array([])

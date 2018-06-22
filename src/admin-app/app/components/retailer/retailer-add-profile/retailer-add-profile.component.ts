@@ -75,11 +75,11 @@ export class RetailerAddProfileComponent implements OnInit {
       bussines_address: [this.profileData.businessAddress.addressLine1, [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
       bussines_address2: [this.profileData.businessAddress.addressLine2, [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
       city: [this.profileData.businessAddress.city, [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
-      state: [this.profileData.businessAddress.state, [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
+      state: [this.profileData.businessAddress.state || '', [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex), Validators.required]],
       zipcode: [this.profileData.businessAddress.zipcode, [Validators.maxLength(5), Validators.minLength(5), Validators.pattern(environment.regex.zipcodeRegex), Validators.required]],
       email: [this.profileData.businessAddress.email, [Validators.maxLength(255), Validators.pattern(environment.regex.emailRegex), Validators.required]],
       phone_number: [this.profileData.businessAddress.phoneNo, [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(environment.regex.phoneNumberRegex), Validators.required]],
-      sellerTypeId: [this.profileData.sellerTypeId, [Validators.required]]
+      sellerTypeId: [this.profileData.sellerTypeId || '', [Validators.required]]
     });
     this.profileFG3 = this.formBuilder.group({
       websiteUrl: [this.profileData.websiteUrl, [Validators.maxLength(255), Validators.pattern(environment.regex.textRegex)]],
@@ -154,7 +154,7 @@ export class RetailerAddProfileComponent implements OnInit {
       contact_address1: contact.addressLine1,
       contact_address2: contact.addressLine2,
       contact_city: contact.city,
-      contact_state: contact.state,
+      contact_state: contact.state || '',
       contact_zipcode: contact.zipcode,
       contact_email: contact.email,
       contact_phone_number: contact.phoneNo

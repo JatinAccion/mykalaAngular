@@ -64,8 +64,8 @@ export class OrderDetailsComponent implements OnInit {
     this.getData();
     this.setShippingTrackingEntry();
   }
-  setShippingTrackingEntry(){
-    if (this.retailerOrder.orderStatus === 'Processed' ) {
+  setShippingTrackingEntry() {
+    if (this.retailerOrder.orderStatus === 'Processed') {
       this.showTrackingForm = true;
       this.setFormValidators();
     } else {
@@ -99,6 +99,7 @@ export class OrderDetailsComponent implements OnInit {
             product.trackingNumber = this.shippingTracking.trackingNumber;
             const orderItem = this.order.orderItems.firstOrDefault(q => q.productId === p);
             orderItem.trackingNumber = this.shippingTracking.trackingNumber;
+            orderItem.shipTrackingId = this.shippingTracking.trackingNumber;
           });
           this.retailerOrder.orderStatus = this.retailerOrder._OrderStatus;
           this.retailerOrderChange.emit(this.retailerOrder);
@@ -119,10 +120,10 @@ export class OrderDetailsComponent implements OnInit {
     this.shippingTracking.trackingNumber = form.trackingNumber;
     this.shippingTracking.carrier = form.carrier;
     this.shippingTracking.shipmentDate = this.toDate(form.shipmentDate);
-    this.shippingTracking.productSKU = this.products.filter(p =>this.processedProducts.firstOrDefault(q=>q.productId=== p.kalaUniqueId && q.selected )).map(p => p.productSkuCode);
-    this.shippingTracking.productIds = this.products.filter(p => this.processedProducts.firstOrDefault(q=>q.productId=== p.kalaUniqueId && q.selected )).map(p => p.kalaUniqueId);
+    this.shippingTracking.productSKU = this.products.filter(p => this.processedProducts.firstOrDefault(q => q.productId === p.kalaUniqueId && q.selected)).map(p => p.productSkuCode);
+    this.shippingTracking.productIds = this.products.filter(p => this.processedProducts.firstOrDefault(q => q.productId === p.kalaUniqueId && q.selected)).map(p => p.kalaUniqueId);
   }
-  clear(){
+  clear() {
     this.fG1.reset();
   }
   getOrderDetails(orderId) {
@@ -149,7 +150,7 @@ export class OrderDetailsComponent implements OnInit {
     if (this.processedProducts.length === 1) {
       this.fG1.controls.productSKU.patchValue(this.processedProducts[0].productId);
       this.fG1.controls.productSKU.updateValueAndValidity();
-      this.processedProducts[0].selected=true;
+      this.processedProducts[0].selected = true;
     }
   }
   getProductInfo(productIds: string[]) {
