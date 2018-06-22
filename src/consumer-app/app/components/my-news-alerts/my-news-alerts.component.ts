@@ -232,7 +232,11 @@ export class MyNewsAlertsComponent implements OnInit {
       this.myalerts.loadOrders(this.userData.userId, this.orderShipped_showMorePageCounter, this.orderShipped_showMoreSizeCounter).subscribe((res) => {
         this.loader_order = false;
         this.orders = [...this.orders, ...res.content];
-        for (var i = 0; i < this.orders.length; i++) this.orders[i].orderItems = [this.orders[i].orderItems];
+        for (var i = 0; i < this.orders.length; i++) {
+          if (this.orders[i].orderItems.length == undefined) {
+            this.orders[i].orderItems = [this.orders[i].orderItems];
+          }
+        }
         this.formatImages(this.orders, 'order');
         this.showHideShowMoreBtn(this.orders, res, 'order');
       }, (err) => {
