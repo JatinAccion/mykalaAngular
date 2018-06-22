@@ -1,6 +1,6 @@
 <div class="container">
     <div class="contentHeight"></div>
-    <!--Side Bar-->
+    <!--Side Bar Category Change-->
     <div id="mySidenav" class="sidenav">
         <img src="/consumer-app/assets/images/loader_2.gif" class="absoluteImg_2" style="left: 20px; top: 20px" *ngIf="loaderCategory" />
         <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
@@ -14,7 +14,34 @@
             </li>
         </ul>
     </div>
-    <!--Side Bar-->
+    <!--Side Bar Category Change-->
+
+    <!--Side Bar Filter Panel-->
+    <div id="mySidenavFilter" class="sidenavFilter" [hidden]="!showFilterPanel">
+        <!--Close and Clear Filter Section-->
+        <ul class="filterActionList">
+            <li>
+                <a (click)="enableFilterPanel()">Close Filters</a>
+            </li>
+            <li>
+                <a>Clear All Filters</a>
+            </li>
+        </ul>
+        <!--Close and Clear Filter Section-->
+
+        <!--Select and Data Capsules Wrapper-->
+        <div class="selectionWrapperFilter">
+            <select class="form-control">
+                <option value selected>Select Subcategory</option>
+            </select>
+            <div class="selectedDataCapsules">
+                <span class="selectedDataCapsulesContent">Tv</span>
+                <span class="selectedDataCapsulesDelete">x</span>
+            </div>
+        </div>
+        <!--Select and Data Capsules Wrapper-->
+    </div>
+    <!--Side Bar Filter Panel-->
 
     <!--Type Section-->
     <div class="title">
@@ -34,6 +61,11 @@
             <a (click)="openNav()">
                 <img src="/consumer-app/assets/images/category.png" />
             </a>
+        </span>
+        <span (click)="enableFilterPanel()" class="float-right mt-4 web-category filterProducts">
+            <span>
+                <i class="fa fa-filter" aria-hidden="true"></i>
+            </span>
         </span>
     </div>
     <!--Type Section-->

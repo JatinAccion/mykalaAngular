@@ -30,7 +30,8 @@ export class BrowseProductComponent implements OnInit {
   productListingModal = new BrowseProductsModal();
   showMorePageCounter = 0;
   showMoreSizeCounter = 30;
-  showMoreBtn: boolean = false
+  showMoreBtn: boolean = false;
+  showFilterPanel: boolean = false;
 
   constructor(private homeService: HomeService, public core: CoreService, private route: Router) { }
 
@@ -156,6 +157,10 @@ export class BrowseProductComponent implements OnInit {
     window.localStorage['levelSelections'] = JSON.stringify(updateStorage);
     window.localStorage['selectedProduct'] = JSON.stringify(tile);
     this.route.navigateByUrl("/view-product")
+  }
+
+  enableFilterPanel() {
+    this.showFilterPanel = !this.showFilterPanel;
   }
 
 }
