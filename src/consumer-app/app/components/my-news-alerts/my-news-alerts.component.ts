@@ -14,6 +14,10 @@ export class MyNewsAlertsComponent implements OnInit {
   userData: any;
   s3: any;
   loader: boolean = false;
+  loader_offer: boolean = false;
+  loader_order: boolean = false;
+  loader_review: boolean = false;
+  loader_postReview: boolean = false;
   offers: Array<any>;
   reviews: Array<any>;
   orders: Array<any>;
@@ -204,10 +208,11 @@ export class MyNewsAlertsComponent implements OnInit {
     let userId = this.userData.userId;
     /*From Offers Block*/
     if (from == 'offer') {
+      this.loader_offer = true;
       this.offer_showMorePageCounter = this.offer_showMorePageCounter + 1;
       this.offer_showMoreSizeCounter = this.offer_showMoreSizeCounter;
       this.myalerts.loadOffers(this.userData.userId, this.offer_showMorePageCounter, this.offer_showMoreSizeCounter).subscribe((res) => {
-        this.loader = false;
+        this.loader_offer = false;
         this.offers = [...this.offers, ...res.content];
         this.filterImageURL();
         this.getMainImage();
@@ -221,9 +226,11 @@ export class MyNewsAlertsComponent implements OnInit {
 
     /*From Order Shipped Block*/
     else if (from == 'order') {
+      this.loader_order = true;
       this.orderShipped_showMorePageCounter = this.orderShipped_showMorePageCounter + 1;
       this.orderShipped_showMoreSizeCounter = this.orderShipped_showMoreSizeCounter;
       this.myalerts.loadOrders(this.userData.userId, this.orderShipped_showMorePageCounter, this.orderShipped_showMoreSizeCounter).subscribe((res) => {
+        this.loader_order = false;
         this.orders = [...this.orders, ...res.content];
         for (var i = 0; i < this.orders.length; i++) this.orders[i].orderItems = [this.orders[i].orderItems];
         this.formatImages(this.orders, 'order');
@@ -236,9 +243,11 @@ export class MyNewsAlertsComponent implements OnInit {
 
     /*From Reviewed Products Block*/
     else if (from == 'review') {
+      this.loader_review = true;
       this.reviewedProduct_showMorePageCounter = this.reviewedProduct_showMorePageCounter + 1;
       this.reviewedProduct_showMoreSizeCounter = this.reviewedProduct_showMoreSizeCounter;
       this.myalerts.loadReviews(this.userData.userId, this.reviewedProduct_showMorePageCounter, this.reviewedProduct_showMoreSizeCounter).subscribe((res) => {
+        this.loader_review = false;
         this.reviews = [...this.reviews, ...res.content];
         this.formatImages(this.reviews, 'review');
         this.sort(this.reviews, 'review');
@@ -251,9 +260,11 @@ export class MyNewsAlertsComponent implements OnInit {
 
     /*From Post Review Block*/
     else {
+      this.loader_postReview = true;
       this.postReview_showMorePageCounter = this.postReview_showMorePageCounter + 1;
       this.postReview_showMoreSizeCounter = this.postReview_showMoreSizeCounter;
       this.myalerts.loadPostReviewAlert(this.userData.userId, this.postReview_showMorePageCounter, this.postReview_showMoreSizeCounter).subscribe((res) => {
+        this.loader_postReview = false;
         this.postReviewAlert = [...this.postReviewAlert, ...res.content];
         this.formatImages(this.postReviewAlert, 'postReview');
         this.sort(this.postReviewAlert, 'postReview');
