@@ -85,6 +85,9 @@ export class CoreService {
     else {
       this.hideUser = false;
       this.userImg = JSON.parse(window.localStorage['userInfo']).consumerImagePath;
+      if (this.userImg == "" || this.userImg == undefined || this.userImg == null || this.userImg.indexOf("/assets/images/avatar.jpg") > -1 || this.userImg == "https://s3.us-east-2.amazonaws.com/") {
+        this.userImg = "/consumer-app/assets/images/avatar.jpg";
+      }
     }
   }
 

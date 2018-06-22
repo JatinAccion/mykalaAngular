@@ -9,19 +9,19 @@ export class MyAlertsService {
 
     constructor(private http: Http) { }
 
-    loadOffers(emailId) {
-        const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.consumerOffer}/${emailId}`;
+    loadOffers(userId, page, size) {
+        const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.consumerOffer}/${userId}?page=${page}&size=${size}`;
         return this.http.get(url).map((res) => res.json())
     }
 
-    loadOrders(userId) {
+    loadOrders(userId, page, size) {
         const BASE_URL: string = environment.checkout;
-        const url: string = `${BASE_URL}/${environment.apis.consumerCheckout.shippedItems}/${userId}`;
+        const url: string = `${BASE_URL}/${environment.apis.consumerCheckout.shippedItems}/${userId}?page=${page}&size=${size}`;
         return this.http.get(url).map((res) => res.json())
     }
 
-    loadReviews(emailId) {
-        const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.userReviewList}/${emailId}`;
+    loadReviews(userId, page, size) {
+        const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.userReviewList}/${userId}?page=${page}&size=${size}`;
         return this.http.get(url).map((res) => res.json())
     }
 

@@ -68,7 +68,8 @@ export const apiNames = {
         shippedItems: 'shippedItems',
         saveCartItems: 'saveCart',
         getCartItems: 'myCart',
-        deleteCart: 'deleteCart'
+        deleteCart: 'deleteCart',
+        deleteAllCartItems: 'deleteAllCartItems'
     },
     shippingMethod: {
         method: 'retailer/v1',

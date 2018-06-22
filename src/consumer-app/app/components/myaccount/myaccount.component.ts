@@ -11,6 +11,7 @@ import { NgForm } from '@angular/forms';
 import { MyAccountProfileModel, MyAccountEmailModel, MyAccountPasswordModel, MyAccountAddressModel, MyAccountDOBModel, MyAccountInterestModel } from '../../../../models/myAccountPost';
 import { Router } from '@angular/router';
 import { MatDatepickerInputEvent } from '@angular/material';
+import { regexPatterns } from '../../../../common/regexPatterns';
 
 @Component({
   selector: 'app-myaccount',
@@ -19,6 +20,7 @@ import { MatDatepickerInputEvent } from '@angular/material';
   encapsulation: ViewEncapsulation.None
 })
 export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
+  zipCodeRegex = regexPatterns.zipcodeRegex;
   addCard: boolean = false;
   savedCardDetails: any;
   // card: any;
@@ -272,9 +274,12 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     let emailId = this.getUserInfo.emailId;
     this.myAccount.getUserDetails(emailId).subscribe((res) => {
       this.pageLoader = false;
-      if (res.consumerImagePath.indexOf('data:') === -1 && res.consumerImagePath.indexOf('https:') === -1) {
-        res.consumerImagePath = this.imgS3 + res.consumerImagePath;
+      if (res.consumerImagePath != undefined && res.consumerImagePath != null && res.consumerImagePath != "") {
+        if (res.consumerImagePath.indexOf('data:') === -1 && res.consumerImagePath.indexOf('https:') === -1) {
+          res.consumerImagePath = this.imgS3 + res.consumerImagePath;
+        }
       }
+      else res.consumerImagePath = "/consumer-app/assets/images/avatar.jpg";
       window.localStorage['userInfo'] = JSON.stringify(res);
       this.getUserInfo = JSON.parse(window.localStorage['userInfo']);
       this.getAPICP = res;
@@ -286,13 +291,20 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
       // this.myAccountModel.profileInfo.consumerImagePath = this.imgS3.concat(res.consumerImagePath);
       this.myAccountModel.profileInfo.consumerImagePath = res.consumerImagePath;
       this.myAccountModel.profileInfo.consumerInterests = res.consumerInterests;
-      this.myAccountModel.profileInfo.dob = new Date(res.dateOfBirth);
-      this.myAccountModel.profileInfo.birthDate = new Date(res.dateOfBirth).getDate().toString();
-      this.myAccountModel.profileInfo.birthMonth = (new Date(res.dateOfBirth).getMonth() + 1).toString();
-      this.myAccountModel.profileInfo.birthYear = new Date(res.dateOfBirth).getFullYear().toString();
-      this.selectedDOB.year = this.myAccountModel.profileInfo.birthYear;
-      this.selectedDOB.month = this.myAccountModel.profileInfo.birthMonth;
-      this.selectedDOB.date = this.myAccountModel.profileInfo.birthDate;
+      if (res.dateOfBirth != null) {
+        this.myAccountModel.profileInfo.dob = new Date(res.dateOfBirth);
+        this.myAccountModel.profileInfo.birthDate = new Date(res.dateOfBirth).getDate().toString();
+        this.myAccountModel.profileInfo.birthMonth = (new Date(res.dateOfBirth).getMonth() + 1).toString();
+        this.myAccountModel.profileInfo.birthYear = new Date(res.dateOfBirth).getFullYear().toString();
+        this.selectedDOB.year = this.myAccountModel.profileInfo.birthYear;
+        this.selectedDOB.month = this.myAccountModel.profileInfo.birthMonth;
+        this.selectedDOB.date = this.myAccountModel.profileInfo.birthDate;
+      }
+      else {
+        this.selectedDOB.year = '';
+        this.selectedDOB.month = '';
+        this.selectedDOB.date = '';
+      }
       this.model = {
         year: parseFloat(this.myAccountModel.profileInfo.birthYear),
         month: parseFloat(this.myAccountModel.profileInfo.birthMonth),
@@ -310,21 +322,34 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
 
   addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
     this.invalidDOB = false;
-    if (event.value > this.maxDate) {
-      this.invalidDOB = true;
-      return false
-    }
-    else if (event.value < this.minDate) {
+    if (event.value == null) {
       this.invalidDOB = true;
       return false
     }
     else {
-      this.selectedDOB.year = event.value.getFullYear().toString();
-      this.selectedDOB.month = (event.value.getMonth() + 1).toString();
-      this.selectedDOB.date = event.value.getDate().toString();
-      this.myAccountModel.profileInfo.birthDate = this.selectedDOB.date;
-      this.myAccountModel.profileInfo.birthMonth = this.selectedDOB.month.toString();
-      this.myAccountModel.profileInfo.birthYear = this.selectedDOB.year;
+      if (event.value > this.maxDate) {
+        this.invalidDOB = true;
+        return false
+      }
+      else if (event.value < this.minDate) {
+        this.invalidDOB = true;
+        return false
+      }
+      else {
+        let dateInput = document.getElementsByClassName("datePickerInput")[0] as HTMLInputElement;
+        if (dateInput.value.length < 8) {
+          this.invalidDOB = true;
+          return false
+        }
+        else {
+          this.selectedDOB.year = event.value.getFullYear().toString();
+          this.selectedDOB.month = (event.value.getMonth() + 1).toString();
+          this.selectedDOB.date = event.value.getDate().toString();
+          this.myAccountModel.profileInfo.birthDate = this.selectedDOB.date;
+          this.myAccountModel.profileInfo.birthMonth = this.selectedDOB.month.toString();
+          this.myAccountModel.profileInfo.birthYear = this.selectedDOB.year;
+        }
+      }
     }
   }
 
@@ -433,6 +458,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     let btn = document.getElementsByClassName("changeInterestBtn")[0].innerHTML;
     if (btn != 'change') {
       obj.selectImg = !obj.selectImg;
+      if (this.getInterest == null) this.getInterest = [];
       this.getInterest.push(new MyAccountConsumerInterest(e.currentTarget.id, e.currentTarget.title, e.currentTarget.src));
       this.getInterest = this.getInterest.filter((elem, index, self) => self.findIndex((img) => {
         return (img.id === elem.id && img.consumerInterestImageName === elem.consumerInterestImageName)
@@ -498,22 +524,23 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
     this.input_getLocation = false;
     this.fetchGeoCode = '';
     let input = e.currentTarget;
-    if (this.append_Location.toString().length == 5) {
+    if (input.value.toString().length == 5 && this.zipCodeRegex.test(input.value.toString()) == true) {
       this.loader = true;
       input.setAttribute('readonly', true);
-      this.myAccount.getLocation(this.append_Location)
+      this.myAccount.getLocation(input.value)
         .subscribe(data => {
           this.loader = false;
           this.input_getLocation = true;
           input.removeAttribute('readonly');
           this.fetchGeoCode = data.results[0].formatted_address;
           let addProfileAddress: boolean = false;
+          if (this.myAccountModel.profileInfo.address == null) this.myAccountModel.profileInfo.address = [];
           for (let i = 0; i < this.myAccountModel.profileInfo.address.length; i++) {
             let address = this.myAccountModel.profileInfo.address[i]
             if (address.addressType == 'profileAddress') {
               address.city = this.fetchGeoCode.split(',')[0];
               address.state = this.fetchGeoCode.split(',')[1].trim().split(" ")[0];
-              address.zipcode = this.append_Location;
+              address.zipcode = input.value;
               addProfileAddress = true;
               return false;
             }
@@ -527,7 +554,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
               addressType: "profileAddress",
               city: this.fetchGeoCode.split(',')[0],
               state: this.fetchGeoCode.split(',')[1].trim().split(" ")[0],
-              zipcode: this.append_Location
+              zipcode: input.value
             })
           }
         });
@@ -717,6 +744,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   confirmEmailChange() {
+    this.loader_emailImage = true;
     this.emailElement.nativeElement.innerText = this.EmailSaveModel.newEmailId;
     this.myAccount.saveEmail(this.EmailSaveModel).subscribe((res) => {
       this.loader_emailImage = false;
@@ -763,6 +791,7 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   saveNewAddress(e) {
+    if (this.myAccountModel.profileInfo.address == null) this.myAccountModel.profileInfo.address = [];
     let getText = document.getElementsByClassName("cursor");
     for (let i = 0; i < getText.length; i++) getText[i].removeAttribute("disabled");
     this.myAccountModel.profileInfo.address.push(new MyAccountAddress(null, this.append_addAddressLine1, this.append_addAddressLine2, this.append_addShippingCity, this.append_addShippingState, this.append_addShippingZipcode.toString(), 'shippingAddress'));

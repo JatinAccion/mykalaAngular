@@ -51,6 +51,8 @@ export class ProfileInfoComponent implements OnInit {
   ngOnInit() {
     /**Clearing the Logged In Session */
     localStorage.removeItem('token');
+    localStorage.removeItem('existingItemsInCart');
+    localStorage.removeItem('existingItemsInWishList');
     this.core.clearUser();
     this.core.hideUserInfo(true);
     /**Clearing the Logged In Session */
@@ -68,18 +70,31 @@ export class ProfileInfoComponent implements OnInit {
 
   addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
     this.invalidDOB = false;
-    if (event.value > this.maxDate) {
-      this.invalidDOB = true;
-      return false
-    }
-    else if (event.value < this.minDate) {
+    if (event.value == null) {
       this.invalidDOB = true;
       return false
     }
     else {
-      this.selectedDOB.year = event.value.getFullYear().toString();
-      this.selectedDOB.month = (event.value.getMonth() + 1).toString();
-      this.selectedDOB.date = event.value.getDate().toString();
+      if (event.value > this.maxDate) {
+        this.invalidDOB = true;
+        return false
+      }
+      else if (event.value < this.minDate) {
+        this.invalidDOB = true;
+        return false
+      }
+      else {
+        let dateInput = document.getElementsByClassName("datePickerInput")[0] as HTMLInputElement;
+        if (dateInput.value.length < 8) {
+          this.invalidDOB = true;
+          return false
+        }
+        else {
+          this.selectedDOB.year = event.value.getFullYear().toString();
+          this.selectedDOB.month = (event.value.getMonth() + 1).toString();
+          this.selectedDOB.date = event.value.getDate().toString();
+        }
+      }
     }
   }
 
@@ -123,6 +138,7 @@ export class ProfileInfoComponent implements OnInit {
     this.profileInformation.userId = this.getUserInfo.userId;
     this.profileInformation.firstName = this.getUserInfo.firstName;
     this.profileInformation.lastName = this.getUserInfo.lastName;
+    this.profileInformation.fullName = this.getUserInfo.firstName + ' ' + this.getUserInfo.lastName;
     this.profileInformation.emailId = this.getUserInfo.emailId;
     this.profileInformation.consumerImagePath = this.profileInfo.controls.profileImage.value;
     this.profileInformation.gender = this.profileInfo.controls.gender.value;

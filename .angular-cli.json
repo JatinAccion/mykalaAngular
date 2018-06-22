@@ -48,6 +48,8 @@
         "terms.html",
         "privacy.html",
         "unsubscribe.html",
+        "closeAccount.html",
+        "resetPasswordMessage.html",
         "logo.png"
       ],
       "index": "index.html",

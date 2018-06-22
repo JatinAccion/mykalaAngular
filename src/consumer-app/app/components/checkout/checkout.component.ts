@@ -761,19 +761,12 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
             this.paymentSuccessfullMsg = res;
             this.loader_chargeAmount = false;
             /* Deleting Items from Cart */
-            let itemsOfCart = JSON.parse(window.localStorage['existingItemsInCart']);
-            let deleteResponse = [];
-            for (var i = 0; i < itemsOfCart.length; i++) {
-              this.mycart.deleteCartItem(itemsOfCart[i]).subscribe((res) => {
-                deleteResponse.push(res);
-                if (itemsOfCart.length == deleteResponse.length) {
-                  localStorage.removeItem('existingItemsInCart');
-                  this.route.navigateByUrl('/myorder');
-                }
-              }, (err) => {
-                console.log("Error From Delete Items API")
-              })
-            }
+            this.mycart.deleteAllCartItem(this.userId).subscribe((res) => {
+              localStorage.removeItem('existingItemsInCart');
+              this.route.navigateByUrl('/myorder');
+            }, (err) => {
+              console.log("Error From Delete Items API")
+            })
             /* Deleting Items from Cart */
           }, (err) => {
             this.loader_chargeAmount = false;

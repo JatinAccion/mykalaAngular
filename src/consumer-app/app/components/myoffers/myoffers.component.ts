@@ -59,8 +59,8 @@ export class MyoffersComponent implements OnInit {
 
   getOffers() {
     this.loader = true;
-    let emailId = this.userData.emailId
-    this.myOffer.loadOffers(emailId).subscribe((res) => {
+    let userId = this.userData.userId
+    this.myOffer.loadOffers(userId).subscribe((res) => {
       this.loader = false;
       let filteredRes = [];
       for (var i = 0; i < res.length; i++) {

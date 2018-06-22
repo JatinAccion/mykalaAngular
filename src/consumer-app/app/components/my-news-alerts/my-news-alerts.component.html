@@ -3,7 +3,7 @@
   <div style="height:135px;width:100%;"></div>
   <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 49%" class="mb-4 mt-3" *ngIf="loader">
 
-  <div *ngIf="offers != undefined || reviews != undefined; else noOffer">
+  <div *ngIf="offers?.length > 0 || orders?.length > 0 || reviews?.length > 0 || postReviewAlert?.length > 0; else noOffer">
     <!--Get Offer Block-->
     <ng-container *ngFor="let offer of offers">
       <div class="cursor" [ngStyle]="{'cursor':offer.expire ? 'no-drop' : 'pointer'}" [ngClass]="{'myCart-list':offer.unRead, 'myCart-list-nobg':!offer.unRead}" *ngIf="offer.getOffersResponse.length > 0" (click)="!offer.expire && goToPage(offer, 'offer')">
@@ -44,6 +44,10 @@
         </div>
       </div>
     </ng-container>
+
+    <div *ngIf="showMoreBtn_offer" class="col-sm-12 text-center mt-4 mb-4">
+      <button (click)="loadMore('offer')" class="btn btn_red_right">show more</button>
+    </div>
     <!--Get Offer Block-->
 
     <!--Order Shipment Block-->
@@ -83,6 +87,10 @@
         </div>
       </div>
     </div>
+
+    <div *ngIf="showMoreBtn_orderShipped" class="col-sm-12 text-center mt-4 mb-4">
+      <button (click)="loadMore('order')" class="btn btn_red_right">show more</button>
+    </div>
     <!--Order Shipment Block-->
 
     <!--Reviews Block-->
@@ -106,6 +114,10 @@
             <br />{{review.reviewDescription}}</div>
         </div>
       </div>
+    </div>
+
+    <div *ngIf="showMoreBtn_reviewedProduct" class="col-sm-12 text-center mt-4 mb-4">
+      <button (click)="loadMore('review')" class="btn btn_red_right">show more</button>
     </div>
     <!--Reviews Block-->
 
@@ -137,14 +149,14 @@
       </div>
     </div>
 
-    <div *ngIf="!hideShowMoreBtn" class="col-sm-12 text-center mt-4 mb-4">
-      <button (click)="loadMore()" class="btn btn_red_right">show more</button>
+    <div *ngIf="showMoreBtn_postReview" class="col-sm-12 text-center mt-4 mb-4">
+      <button (click)="loadMore('postReview')" class="btn btn_red_right">show more</button>
     </div>
     <!--Post Reviews Block-->
   </div>
 
   <ng-template #noOffer>
-    <div *ngIf="!loader" class="myCart-list text-center mt-2 colorred">
+    <div *ngIf="!loader" class="myCart-list text-center mt-3 colorred">
       <u routerLink="/home">You don’t currently have any active news or alerts to display. Click here to continue shopping.</u>
     </div>
   </ng-template>

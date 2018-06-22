@@ -5,6 +5,7 @@ export class ConsumerProfileInfo {
     public emailId: string;
     public firstName: string;
     public lastName: string;
+    public fullName: string;
     public consumerImagePath: string;
     public gender: string;
     public dateOfBirth: string;
