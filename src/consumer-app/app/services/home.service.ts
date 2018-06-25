@@ -34,4 +34,19 @@ export class HomeService {
     const url: string = `${this.BASE_URL}/subCategory/${subCategoryId}/${environment.apis.products.getTypes}`;
     return this.http.get(url).map((res) => res.json());
   }
+
+  filterLoadSubcategory(data) {
+    const url: string = `${this.BASE_URL}/subCategoriesList`;
+    return this.http.post(url, data).map((res) => res.json());
+  }
+
+  filterLoadType(data) {
+    const url: string = `${this.BASE_URL}/typesList`;
+    return this.http.post(url, data).map((res) => res.json());
+  }
+
+  loadProductFromFilter(ids) {
+    const url: string = `${this.BASE_URL}/dynamicSearch/${ids}?page=0&size=30`;
+    return this.http.get(url).map((res) => res.json());
+  }
 }
