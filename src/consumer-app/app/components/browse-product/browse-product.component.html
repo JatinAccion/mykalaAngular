@@ -103,8 +103,9 @@
         </span>
     </div>
     <!--Type Section-->
+    <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 46% 10%" *ngIf="loader" />
+    
     <div class="row browseProduct">
-        <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 46% 10%" *ngIf="loader" />
         <div class="example col-sm-3 col-6" style="margin-bottom: 25px" *ngFor="let tile of tilesData" (click)="viewDetails(tile)">
             <div class="prodImageContainer prodImageContainer_xl">
                 <img [src]="tile.product.mainImageSrc" class="product_hover img-fluid">
@@ -119,7 +120,7 @@
         </div>
     </div>
 
-    <div *ngIf="showMoreBtn" class="col-sm-12 text-center mt-4 mb-5">
+    <div *ngIf="showMoreBtn && !loader" class="col-sm-12 text-center mt-4 mb-5">
         <button (click)="loadTypes('loadMore')" class="btn btn_red_right">show more</button>
     </div>
 </div>

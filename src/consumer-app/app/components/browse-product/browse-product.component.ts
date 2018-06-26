@@ -171,6 +171,12 @@ export class BrowseProductComponent implements OnInit {
     updateStorage.category.text = this.selectedCategoryData.text;
     window.localStorage['levelSelections'] = JSON.stringify(updateStorage);
     this.subCategory = [];
+    this.filterSelectedSubcategory = null;
+    this.showSubCategoryFilter = false;
+    this.showTypeFilter1 = true;
+    this.filterModalAPI.fieldValues = [];
+    this.filterModalAPI.fieldValues.push(subcategory.id);
+    this.loadFilterPanelTypes();
     this.closeNav();
     this.loadTypes();
   };
@@ -204,7 +210,7 @@ export class BrowseProductComponent implements OnInit {
   /*Call to load the Subcategory data under Filter Panel*/
 
   /*Call to load the Type data under Filter Panel*/
-  loadFilterPanelTypes(from) {
+  loadFilterPanelTypes(from?: any) {
     this.homeService.filterLoadType(this.filterModalAPI).subscribe((res) => {
       if (from == 'type_1') this.filterTypeData_2 = res;
       else if (from == 'type_2') this.filterTypeData_3 = res;
@@ -220,18 +226,13 @@ export class BrowseProductComponent implements OnInit {
     var data = JSON.parse(data);
     if (from == 'subCategory') {
       if (data.nextLevelProductTypeStatus) {
+        this.clearTypeValues();
         this.showTypeFilter1 = true;
-        this.showTypeFilter2 = false;
-        this.showTypeFilter3 = false;
         this.filterModalAPI.fieldValues = [];
         this.filterModalAPI.fieldValues.push(data.subCategoryId);
         this.loadFilterPanelTypes('subCategory');
       }
-      else {
-        this.showTypeFilter1 = false;
-        this.showTypeFilter2 = false;
-        this.showTypeFilter3 = false;
-      }
+      else this.clearTypeValues();
       this.idsSubcatProd.push(data.subCategoryId);
       this.filterSelectedSubcategory.push(data);
       this.loadProductsParellel(this.idsSubcatProd);
@@ -296,7 +297,11 @@ export class BrowseProductComponent implements OnInit {
           this.filterSelectedSubcategory.splice(i, 1);
         }
       }
-      this.loadProductsParellel(this.idsSubcatProd);
+      if (this.idsSubcatProd.length > 0) this.loadProductsParellel(this.idsSubcatProd);
+      else {
+        this.clearTypeValues();
+        this.showTypeFilter1 = false;
+      }
     }
     else if (from == 'type_1') {
       for (var i = 0; i < this.idsTypeProd_1.length; i++) {
@@ -311,6 +316,8 @@ export class BrowseProductComponent implements OnInit {
       }
       if (this.filterSelectedType_1.length == 0) {
         this.resetType_1 = null;
+        this.resetType_2 = null;
+        this.resetType_3 = null;
         this.idsTypeProd_2 = [];
         this.idsTypeProd_3 = [];
         this.filterSelectedType_2 = [];
@@ -319,7 +326,11 @@ export class BrowseProductComponent implements OnInit {
         this.filterTypeData_3 = [];
         this.showTypeFilter2 = false;
         this.showTypeFilter3 = false;
-        this.loadProductsParellel(this.idsSubcatProd);
+        if (this.idsSubcatProd.length > 0) this.loadProductsParellel(this.idsSubcatProd);
+        else {
+          let updateStorage = JSON.parse(window.localStorage['levelSelections']);
+          this.loadProductsParellel(updateStorage.subcategory.id)
+        }
       }
       else this.loadProductsParellel(this.idsTypeProd_1);
     }
@@ -336,11 +347,13 @@ export class BrowseProductComponent implements OnInit {
       }
       if (this.filterSelectedType_2.length == 0) {
         this.resetType_2 = null;
+        this.resetType_3 = null;
+        this.showTypeFilter3 = false;
         this.idsTypeProd_3 = [];
         this.filterSelectedType_3 = [];
         this.filterTypeData_3 = [];
         this.showTypeFilter3 = false;
-        this.loadProductsParellel(this.idsSubcatProd);
+        this.loadProductsParellel(this.idsTypeProd_1);
       }
       else this.loadProductsParellel(this.idsTypeProd_2);
     }
@@ -357,26 +370,51 @@ export class BrowseProductComponent implements OnInit {
       }
       if (this.filterSelectedType_3.length == 0) {
         this.resetType_3 = null;
-        this.loadProductsParellel(this.idsSubcatProd);
+        this.loadProductsParellel(this.idsTypeProd_2);
       }
       else this.loadProductsParellel(this.idsTypeProd_3);
     }
 
     // If Subcategory FilterData is Empty
     if (this.filterSelectedSubcategory.length == 0) {
-      this.showTypeFilter1 = false;
-      this.resetSubcategory = null;
+      this.clearSubTypeValues()
       this.loadTypes(undefined); //Default
     }
   }
   /*Uncheck the selected Subcategory or Type and reload the product*/
 
+  /*Clear All Filters*/
   clearAllFilters() {
     this.enableFilterPanel();
     this.filterSelectedSubcategory = [];
+    this.clearSubTypeValues();
+    this.loadTypes(undefined);
+  }
+  /*Clear All Filters*/
+
+  /*Clear Types Data*/
+  clearTypeValues() {
+    this.idsTypeProd_1 = [];
+    this.idsTypeProd_2 = [];
+    this.idsTypeProd_3 = [];
+    this.filterSelectedType_1 = [];
+    this.filterSelectedType_2 = [];
+    this.filterSelectedType_3 = [];
+    this.filterTypeData_1 = [];
+    this.filterTypeData_2 = [];
+    this.filterTypeData_3 = [];
+    this.resetSubcategory = null;
+    this.resetType_1 = null;
+    this.resetType_2 = null;
+    this.resetType_3 = null;
     this.showTypeFilter1 = false;
     this.showTypeFilter2 = false;
     this.showTypeFilter3 = false;
+  }
+  /*Clear Types Data*/
+
+  /*Clear Subcategory and Types Data*/
+  clearSubTypeValues() {
     this.idsSubcatProd = [];
     this.idsTypeProd_1 = [];
     this.idsTypeProd_2 = [];
@@ -391,7 +429,9 @@ export class BrowseProductComponent implements OnInit {
     this.resetType_1 = null;
     this.resetType_2 = null;
     this.resetType_3 = null;
-    this.loadTypes(undefined);
+    this.showTypeFilter1 = false;
+    this.showTypeFilter2 = false;
+    this.showTypeFilter3 = false;
   }
-
+  /*Clear Subcategory and Types Data*/
 }
