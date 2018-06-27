@@ -112,14 +112,28 @@ export class ViewProductComponent implements OnInit {
   loadAttributes(attributesData, fromInternalAPI?: any) {
     this.filterAttributes(attributesData);
     if (fromInternalAPI == undefined) {
-      if (this.selectedProduct.product.attributes.Color != undefined && this.selectedProduct.product.attributes.Size != undefined) {
-        this.viewProduct.getDynamicAttributes(this.selectedProduct, this.selectedProduct.product.attributes.Color, "").subscribe((res) => {
+      /*If Color and Size or Only Size is Available*/
+      if (this.selectedProduct.product.attributes.Color != undefined && this.selectedProduct.product.attributes.Size != undefined
+        || this.selectedProduct.product.attributes.Color == undefined && this.selectedProduct.product.attributes.Size != undefined) {
+        this.viewProduct.getDynamicAttributes(this.selectedProduct, this.selectedProduct.product.attributes.Size, "size").subscribe((res) => {
           this.dynamicColorData = res.allColors;
           this.dynamicSizeData = res.allSizes;
         }, (err) => {
           console.log(err)
         })
       }
+      /*If Color and Size or Only Color is Available*/
+
+      /*If Only Color is Available*/
+      else if (this.selectedProduct.product.attributes.Color != undefined && this.selectedProduct.product.attributes.Size == undefined) {
+        this.viewProduct.getDynamicAttributes(this.selectedProduct, this.selectedProduct.product.attributes.Color, "color").subscribe((res) => {
+          this.dynamicColorData = res.allColors;
+          this.dynamicSizeData = res.allSizes;
+        }, (err) => {
+          console.log(err)
+        })
+      }
+      /*If Only Color is Available*/
     }
   }
 
@@ -225,8 +239,10 @@ export class ViewProductComponent implements OnInit {
   }
 
   filterAttribute(element, selectedData, currentData, availableData, data) {
-    for (var i = 0; i < element.length; i++) {
-      if (element[i].innerHTML != selectedData) element[i].classList.add('unavailable');
+    if (selectedData != undefined) {
+      for (var i = 0; i < element.length; i++) {
+        if (element[i].innerHTML != selectedData) element[i].classList.add('unavailable');
+      }
     }
     for (var i = 0; i < currentData.length; i++) {
       data.push(currentData[i].innerHTML);
