@@ -3192,6 +3192,9 @@ table.customeTable tr td {
 .matDOBProfile .mat-button-focus-overlay {
     background: none;
 }
+.mat-focused .placeholder {
+    color: #999999;
+}
 .filterProducts {
     background: #23150F;
     color: #fff;
