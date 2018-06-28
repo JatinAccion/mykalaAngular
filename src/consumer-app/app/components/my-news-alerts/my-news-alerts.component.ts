@@ -363,7 +363,9 @@ export class MyNewsAlertsComponent implements OnInit {
 
   trackOrder(modal, order) {
     this.myalerts.updateOrderShipped(modal.orderId, order.productId).subscribe((res) => {
-      this.myalerts.trackOrder('SHIPPO_TRANSIT').subscribe((res) => {
+      order.carrier = 'shippo';
+      order.shipTrackingId = 'SHIPPO_TRANSIT';
+      this.myalerts.trackOrder(order.carrier, order.shipTrackingId).subscribe((res) => {
         window.localStorage['productForTracking'] = JSON.stringify({ modal: modal, order: order, goShippoRes: res });
         this.route.navigateByUrl("/trackOrder");
       }, (err) => {

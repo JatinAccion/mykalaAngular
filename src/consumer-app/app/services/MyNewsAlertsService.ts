@@ -35,9 +35,9 @@ export class MyAlertsService {
         return this.http.get(url).map((res) => res.json())
     }
 
-    trackOrder(orderId) {
+    trackOrder(carrier, shippingTrackId) {
         const BASE_URL: string = environment.checkout;
-        const url: string = `${BASE_URL}/${environment.apis.consumerCheckout.trackOrderShipment}/${orderId}`;
+        const url: string = `${BASE_URL}/${environment.apis.consumerCheckout.trackOrderShipment}/${carrier}/${shippingTrackId}`;
         return this.http.get(url).map(res => res.json());
     }
 
