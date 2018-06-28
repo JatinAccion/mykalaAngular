@@ -53,9 +53,9 @@
     <!--Get Offer Block-->
 
     <!--Order Shipment Block-->
-    <div class="myCart-list" *ngFor="let modal of orders">
+    <div *ngFor="let modal of orders">
       <div *ngFor="let order of modal.orderItems" (click)="trackOrder(modal, order)" class="cursor">
-        <div *ngIf="order.productItemStatus == 'ORDERSHIPPED'">
+        <div [ngClass]="{'myCart-list':!order.shipmentRead, 'myCart-list-nobg':order.shipmentRead}" *ngIf="order.productItemStatus == 'ORDERSHIPPED'">
           <div>Your items have shipped! Estimated delivery on: {{getDeliveryDate(order.deliveryMethod, modal.purchasedDate)}}</div>
           <!-- <small class="pull-right colorlightGray">{{getFullDate(modal.orderShippedDate)}}</small> -->
           <div class="row p-3">
@@ -128,7 +128,7 @@
     <!--Reviews Block-->
 
     <!--Post Reviews Block-->
-    <div class="cursor" [ngClass]="{'myCart-list':review.unRead, 'myCart-list-nobg':!review.unRead}" *ngFor="let review of postReviewAlert" (click)="goToPage(review, 'postReview')">
+    <div class="cursor" [ngClass]="{'myCart-list':!review.orderItems.reviewRead, 'myCart-list-nobg':review.orderItems.reviewRead}" *ngFor="let review of postReviewAlert" (click)="goToPage(review, 'postReview')">
       <small class="pull-right colorlightGray">{{getFullDate(review.purchasedDate)}}</small>
       <div class="mb-2">
         Thank you for your recent purchase from {{review.orderItems.retailerName}}. Please tell us about your experience and help spread the word.

@@ -32,6 +32,8 @@ export const apiNames = {
         userReviewList: 'userReviewList',
         updateOffer: 'updateOffer',
         updateReview: 'reviewRead',
+        updateOrderShipped: 'shipmentRead',
+        updatePostReviewRead: 'reviewRead',
         addressList: 'addressList',
         productReviewSummary: 'productReviewSummary',
         deleteAddress: 'address',

@@ -285,7 +285,7 @@ export class MyNewsAlertsComponent implements OnInit {
   }
 
   goToPage(data, from) {
-    //Offers
+    /*Offers*/
     if (from == 'offer') {
       this.myalerts.updateOffer(data.offerID).subscribe((res) => {
         this.route.navigateByUrl('/myoffer');
@@ -293,7 +293,7 @@ export class MyNewsAlertsComponent implements OnInit {
         console.log(err)
       })
     }
-    //Reviews
+    /*Read Reviews*/
     else if (from == 'review') {
       this.myalerts.updateReview(data.consumerReviewId).subscribe((res) => {
         console.log(res)
@@ -301,10 +301,13 @@ export class MyNewsAlertsComponent implements OnInit {
         console.log(err)
       })
     }
+    /*Post Reviews*/
     else {
       let modal = { purchasedDate: data.purchasedDate, orderId: data._id };
-      window.localStorage['forReview'] = JSON.stringify({ modal: modal, order: data.orderItems, from: 'NA' });
-      this.route.navigateByUrl("/leave-review");
+      this.myalerts.updateReviewRead(data._id, data.orderItems.productId).subscribe((res) => {
+        window.localStorage['forReview'] = JSON.stringify({ modal: modal, order: data.orderItems, from: 'NA' });
+        this.route.navigateByUrl("/leave-review");
+      })
     }
   }
 
@@ -359,11 +362,13 @@ export class MyNewsAlertsComponent implements OnInit {
   }
 
   trackOrder(modal, order) {
-    this.myalerts.trackOrder('SHIPPO_TRANSIT').subscribe((res) => {
-      window.localStorage['productForTracking'] = JSON.stringify({ modal: modal, order: order, goShippoRes: res });
-      this.route.navigateByUrl("/trackOrder");
-    }, (err) => {
-      console.log(err);
+    this.myalerts.updateOrderShipped(modal.orderId, order.productId).subscribe((res) => {
+      this.myalerts.trackOrder('SHIPPO_TRANSIT').subscribe((res) => {
+        window.localStorage['productForTracking'] = JSON.stringify({ modal: modal, order: order, goShippoRes: res });
+        this.route.navigateByUrl("/trackOrder");
+      }, (err) => {
+        console.log(err);
+      })
     })
   }
 
