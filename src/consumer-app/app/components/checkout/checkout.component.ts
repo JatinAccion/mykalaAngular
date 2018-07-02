@@ -672,6 +672,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     let productQuantityInStock = [];
     let checkInStock = [];
     let proceed = false;
+    let productAvailable: boolean = true;
     if ((this.selectedAddressDetails || this.selectedCardDetails || this.selectedMethodDetails) == undefined) {
       this.confirmValidationMsg.message = "Please select a Shipping Address, Shipping Method and Payment Option";
       this.core.openModal(this.checkoutModal);
@@ -729,49 +730,61 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       for (var i = 0; i < this.itemsInCart.length; i++) {
         let item = this.itemsInCart[i];
         this.checkout.productAvailability(item.productId).subscribe((res) => {
-          productQuantityInStock.push({
-            productName: item.productName,
-            quantity: res.quantity,
-            productId: res.productId
-          });
+          if (res.quantity == 0) {
+            productAvailable = false;
+            this.confirmValidationMsg.message = res.productName + " is currently out of stock. Please update your cart.";
+            this.core.openModal(this.checkoutModal);
+            this.loader_chargeAmount = false;
+            return false;
+          }
+          else {
+            productQuantityInStock.push({
+              productName: item.productName,
+              quantity: res.quantity,
+              productId: res.productId
+            });
+          }
         });
       }
       setTimeout(() => {
         setTimeout(() => {
-          for (var i = 0; i < productQuantityInStock.length; i++) {
-            let product = productQuantityInStock[i];
-            for (var j = 0; j < this.itemsInCart.length; j++) {
-              let item = this.itemsInCart[j];
-              if (product.productId == item.productId) {
-                if (product.quantity >= item.inStock) {
-                  this.itemsInCart[j].inStock = product.quantity;
-                  this.itemsInCart[j]['availability'] = true;
-                  checkInStock.push(true);
-                }
-                else {
-                  this.itemsInCart[j].inStock = product.quantity;
-                  this.itemsInCart[j]['availability'] = false;
-                  checkInStock.push(false);
-                  this.showUnAvailableItems.push(item.productName)
+          /*Proceed to checkout if quantity available*/
+          if (productAvailable) {
+            for (var i = 0; i < productQuantityInStock.length; i++) {
+              let product = productQuantityInStock[i];
+              for (var j = 0; j < this.itemsInCart.length; j++) {
+                let item = this.itemsInCart[j];
+                if (product.productId == item.productId) {
+                  if (product.quantity >= item.inStock) {
+                    this.itemsInCart[j].inStock = product.quantity;
+                    this.itemsInCart[j]['availability'] = true;
+                    checkInStock.push(true);
+                  }
+                  else {
+                    this.itemsInCart[j].inStock = product.quantity;
+                    this.itemsInCart[j]['availability'] = false;
+                    checkInStock.push(false);
+                    this.showUnAvailableItems.push(item.productName)
+                  }
                 }
               }
             }
-          }
-          this.checkout.chargeAmount(this.ProductCheckoutModal).subscribe((res) => {
-            this.paymentSuccessfullMsg = res;
-            this.loader_chargeAmount = false;
-            /* Deleting Items from Cart */
-            this.mycart.deleteAllCartItem(this.userId).subscribe((res) => {
-              localStorage.removeItem('existingItemsInCart');
-              this.route.navigateByUrl('/myorder');
+            this.checkout.chargeAmount(this.ProductCheckoutModal).subscribe((res) => {
+              this.paymentSuccessfullMsg = res;
+              this.loader_chargeAmount = false;
+              /* Deleting Items from Cart */
+              this.mycart.deleteAllCartItem(this.userId).subscribe((res) => {
+                localStorage.removeItem('existingItemsInCart');
+                this.route.navigateByUrl('/myorder');
+              }, (err) => {
+                console.log("Error From Delete Items API")
+              })
+              /* Deleting Items from Cart */
             }, (err) => {
-              console.log("Error From Delete Items API")
+              this.loader_chargeAmount = false;
+              console.log("Error From Place an Order API");
             })
-            /* Deleting Items from Cart */
-          }, (err) => {
-            this.loader_chargeAmount = false;
-            console.log("Error From Place an Order API");
-          })
+          }
         }, 3000)
       }, 1000)
     }
