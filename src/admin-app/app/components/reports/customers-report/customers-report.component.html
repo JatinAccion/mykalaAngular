@@ -199,7 +199,7 @@
                     <td>{{consumer.firstName + ' ' + consumer.lastName}}</td>
                     <td>{{consumer.createdAt | date:'shortDate'}}</td>
                     <td class="text-right">{{consumer.numberOfTransaction || 0}}</td>
-                    <td class="text-right">{{consumer.purchasedPrice - consumer.totalShipCost - consumer.totalTaxCost | currency }}</td>
+                    <td class="text-right">{{consumer.purchasedPrice | currency }}</td>
                     <td class="text-right">{{consumer.offerMade || 0}}</td>
                     <td>{{consumer.lastActive | date:'shortDate'}}</td>
                 </tr>
