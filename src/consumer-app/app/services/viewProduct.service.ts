@@ -27,6 +27,10 @@ export class ViewProductService {
     getDynamicAttributes(selectedProduct, data, from) {
         const BASE_URL: string = environment.productList;
         let url: string;
+        selectedProduct.product.productName = selectedProduct.product.productName.replace("&", "%26");
+        selectedProduct.product.productPlaceName = selectedProduct.product.productPlaceName.replace("&", "%26");
+        selectedProduct.product.productCategoryName = selectedProduct.product.productCategoryName.replace("&", "%26");
+        selectedProduct.product.productSubCategoryName = selectedProduct.product.productSubCategoryName.replace("&", "%26");
         if (from == 'color') url = `${BASE_URL}/${environment.apis.products.dynamicAttributes}?retailerName=${selectedProduct.product.retailerName}&productName=${selectedProduct.product.productName}&productPlaceName=${selectedProduct.product.productPlaceName}&productCategoryName=${selectedProduct.product.productCategoryName}&productSubCategoryName=${selectedProduct.product.productSubCategoryName}&selected=Color&value=${data}`;
         else url = `${BASE_URL}/${environment.apis.products.dynamicAttributes}?retailerName=${selectedProduct.product.retailerName}&productName=${selectedProduct.product.productName}&productPlaceName=${selectedProduct.product.productPlaceName}&productCategoryName=${selectedProduct.product.productCategoryName}&productSubCategoryName=${selectedProduct.product.productSubCategoryName}&selected=Size&value=${data}`;
         return this.http.get(url).map((res) => res.json());
@@ -34,6 +38,10 @@ export class ViewProductService {
 
     getProductDetails(selectedProduct, data, from, lastColor?: any, lastSize?: any, sendOnlyColor?: any, sendOnlySize?: any) {
         const BASE_URL: string = environment.productList;
+        selectedProduct.product.productName = selectedProduct.product.productName.replace("&", "%26");
+        selectedProduct.product.productPlaceName = selectedProduct.product.productPlaceName.replace("&", "%26");
+        selectedProduct.product.productCategoryName = selectedProduct.product.productCategoryName.replace("&", "%26");
+        selectedProduct.product.productSubCategoryName = selectedProduct.product.productSubCategoryName.replace("&", "%26");
         let url: string;
         if (sendOnlyColor) {
             url = `${BASE_URL}/${environment.apis.products.productDetails}?retailerName=${selectedProduct.product.retailerName}&productName=${selectedProduct.product.productName}&productPlaceName=${selectedProduct.product.productPlaceName}&productCategoryName=${selectedProduct.product.productCategoryName}&productSubCategoryName=${selectedProduct.product.productSubCategoryName}&Color=${data}`;

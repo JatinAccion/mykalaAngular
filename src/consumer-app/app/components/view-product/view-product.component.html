@@ -108,7 +108,8 @@
           </div>
         </div>
 
-        <div class="row" *ngIf="dynamicColorData != undefined && dynamicColorData.length > 0 && dynamicSizeData != undefined && dynamicSizeData.length > 0">
+        <!--If Color and Size are available-->
+        <div class="row" *ngIf="dynamicColorData != undefined && dynamicColorData.length > 0 && dynamicSizeData != undefined && dynamicSizeData.length > 0; else showPartial">
           <div class="col-12 pl-4 pr-4 mb-3">
             <span class="w-25 text-left d-block float-left">Color</span>
             <span class="w-75 text-left d-block float-right">
@@ -122,6 +123,35 @@
             </span>
           </div>
         </div>
+        <!--If Color and Size are available-->
+
+        <ng-template #showPartial>
+          <!--If Only Color is available-->
+          <div class="row" *ngIf="dynamicColorData != undefined && dynamicColorData.length > 0; else showSize">
+            <div class="col-12 pl-4 pr-4 mb-3">
+              <span class="w-25 text-left d-block float-left">Color</span>
+              <span class="w-75 text-left d-block float-right">
+                <span *ngFor="let color of dynamicColorData" title="{{color}}" (click)="loadSimilarItems($event, color, 'color')" class="categ_outline_gray cursor mr-2 mb-2 data_color">{{color}}</span>
+              </span>
+            </div>
+          </div>
+          <!--If Only Color is available-->
+
+          <!--If Only Size is available-->
+          <ng-template #showSize>
+            <div class="row" *ngIf="dynamicSizeData != undefined && dynamicSizeData.length > 0">
+              <div class="col-12 pl-4 pr-4 mb-3">
+                <span class="w-25 text-left d-block float-left">Size
+                  <span *ngIf="unitValue != undefined">({{unitValue}})</span>
+                </span>
+                <span class="w-75 text-left d-block float-right">
+                  <span *ngFor="let size of dynamicSizeData" title="{{size}}" (click)="loadSimilarItems($event, size, 'size')" class="categ_outline_gray cursor mr-2 mb-2 data_size">{{size}}</span>
+                </span>
+              </div>
+            </div>
+          </ng-template>
+          <!--If Only Size is available-->
+        </ng-template>
 
         <!-- <strike>$258.00 +</strike> -->
         <div class="row">

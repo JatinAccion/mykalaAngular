@@ -31,19 +31,19 @@ export class MailTrackOrderComponent implements OnInit {
     if (!this.core.validateUser(this.userId)) {
       this.router.navigateByUrl('/home');
     } else {
-      this.trackOrder(this.orderId, this.productId);
+      //this.trackOrder(this.orderId, this.productId);
     }
   }
-  trackOrder(orderId, productId) {
-    this.myOrdersService.getById(orderId).subscribe(order => {
-      if (order.orderItems.filter(p => p.productId === productId).length > 0) {
-        this.myOrdersService.trackOrder('SHIPPO_TRANSIT').subscribe((res) => {
-          window.localStorage['productForTracking'] = JSON.stringify({ modal: order, order: order.orderItems.filter(p => p.productId === productId)[0], goShippoRes: res });
-          this.core.redirectTo('trackOrder');
-        }, (err) => {
-          console.log(err);
-        });
-      }
-    });
-  }
+  // trackOrder(orderId, productId) {
+  //   this.myOrdersService.getById(orderId).subscribe(order => {
+  //     if (order.orderItems.filter(p => p.productId === productId).length > 0) {
+  //       this.myOrdersService.trackOrder('SHIPPO_TRANSIT').subscribe((res) => {
+  //         window.localStorage['productForTracking'] = JSON.stringify({ modal: order, order: order.orderItems.filter(p => p.productId === productId)[0], goShippoRes: res });
+  //         this.core.redirectTo('trackOrder');
+  //       }, (err) => {
+  //         console.log(err);
+  //       });
+  //     }
+  //   });
+  // }
 }

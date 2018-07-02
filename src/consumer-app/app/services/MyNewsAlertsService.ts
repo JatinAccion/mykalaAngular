@@ -35,9 +35,9 @@ export class MyAlertsService {
         return this.http.get(url).map((res) => res.json())
     }
 
-    trackOrder(orderId) {
+    trackOrder(carrier, shippingTrackId) {
         const BASE_URL: string = environment.checkout;
-        const url: string = `${BASE_URL}/${environment.apis.consumerCheckout.trackOrderShipment}/${orderId}`;
+        const url: string = `${BASE_URL}/${environment.apis.consumerCheckout.trackOrderShipment}/${carrier}/${shippingTrackId}`;
         return this.http.get(url).map(res => res.json());
     }
 
@@ -45,5 +45,17 @@ export class MyAlertsService {
         const BASE_URL: string = environment.checkout;
         const url: string = `${BASE_URL}/consumer/${userId}/${environment.apis.profileInterest.postReviewAlert}?page=${page}&size=${size}`;
         return this.http.get(url).map(res => res.json());
+    }
+
+    updateOrderShipped(orderId, productId) {
+        const BASE_URL: string = environment.checkout;
+        const url: string = `${BASE_URL}/${environment.apis.profileInterest.updateOrderShipped}/${orderId}/${productId}`;
+        return this.http.get(url).map((res) => res.text());
+    }
+
+    updateReviewRead(orderId, productId) {
+        const BASE_URL: string = environment.checkout;
+        const url: string = `${BASE_URL}/${environment.apis.profileInterest.updatePostReviewRead}/${orderId}/${productId}`;
+        return this.http.get(url).map((res) => res.text());
     }
 }

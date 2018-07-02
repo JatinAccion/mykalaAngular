@@ -1,6 +1,6 @@
 <div class="container">
     <div class="contentHeight"></div>
-    <!--Side Bar-->
+    <!--Side Bar Category Change-->
     <div id="mySidenav" class="sidenav">
         <img src="/consumer-app/assets/images/loader_2.gif" class="absoluteImg_2" style="left: 20px; top: 20px" *ngIf="loaderCategory" />
         <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
@@ -14,7 +14,68 @@
             </li>
         </ul>
     </div>
-    <!--Side Bar-->
+    <!--Side Bar Category Change-->
+
+    <!--Side Bar Filter Panel-->
+    <div id="mySidenavFilter" class="sidenavFilter" [hidden]="!showFilterPanel">
+        <!--Close and Clear Filter Section-->
+        <ul class="filterActionList">
+            <li>
+                <a (click)="enableFilterPanel()">Close Filters</a>
+            </li>
+            <li>
+                <a (click)="clearAllFilters()">Clear All Filters</a>
+            </li>
+        </ul>
+        <!--Close and Clear Filter Section-->
+
+        <!--Select and Data Capsules Wrapper-->
+        <div class="selectionWrapperFilter" *ngIf="showSubCategoryFilter">
+            <select class="form-control" [(ngModel)]="resetSubcategory" (change)="loadFilterData($event.target.value, 'subCategory')">
+                <option [value]="null" selected>Select Subcategory</option>
+                <option [value]="toStr(data)" *ngFor="let data of filterSubcategoryData">{{data.subCategoryName}}</option>
+            </select>
+            <div class="selectedDataCapsules" *ngFor="let subCategory of filterSelectedSubcategory">
+                <span class="selectedDataCapsulesContent">{{subCategory.subCategoryName}}</span>
+                <span class="selectedDataCapsulesDelete" (click)="deleteFilterData(subCategory, 'subCategory')">x</span>
+            </div>
+        </div>
+
+        <div class="selectionWrapperFilter" *ngIf="showTypeFilter1">
+            <select class="form-control" [(ngModel)]="resetType_1" (change)="loadFilterData($event.target.value, 'type_1')">
+                <option [value]="null" selected>Select Type</option>
+                <option [value]="toStr(data)" *ngFor="let data of filterTypeData_1">{{data.productTypeName}}</option>
+            </select>
+            <div class="selectedDataCapsules" *ngFor="let type of filterSelectedType_1">
+                <span class="selectedDataCapsulesContent">{{type.productTypeName}}</span>
+                <span class="selectedDataCapsulesDelete" (click)="deleteFilterData(type, 'type_1')">x</span>
+            </div>
+        </div>
+
+        <div class="selectionWrapperFilter" *ngIf="showTypeFilter2">
+            <select class="form-control" [(ngModel)]="resetType_2" (change)="loadFilterData($event.target.value, 'type_2')">
+                <option [value]="null" selected>Select Type</option>
+                <option [value]="toStr(data)" *ngFor="let data of filterTypeData_2">{{data.productTypeName}}</option>
+            </select>
+            <div class="selectedDataCapsules" *ngFor="let type of filterSelectedType_2">
+                <span class="selectedDataCapsulesContent">{{type.productTypeName}}</span>
+                <span class="selectedDataCapsulesDelete" (click)="deleteFilterData(type, 'type_2')">x</span>
+            </div>
+        </div>
+
+        <div class="selectionWrapperFilter" *ngIf="showTypeFilter3">
+            <select class="form-control" [(ngModel)]="resetType_3" (change)="loadFilterData($event.target.value, 'type_3')">
+                <option [value]="null" selected>Select Type</option>
+                <option [value]="toStr(data)" *ngFor="let data of filterTypeData_3">{{data.productTypeName}}</option>
+            </select>
+            <div class="selectedDataCapsules" *ngFor="let type of filterSelectedType_3">
+                <span class="selectedDataCapsulesContent">{{type.productTypeName}}</span>
+                <span class="selectedDataCapsulesDelete" (click)="deleteFilterData(type, 'type_3')">x</span>
+            </div>
+        </div>
+        <!--Select and Data Capsules Wrapper-->
+    </div>
+    <!--Side Bar Filter Panel-->
 
     <!--Type Section-->
     <div class="title">
@@ -35,10 +96,16 @@
                 <img src="/consumer-app/assets/images/category.png" />
             </a>
         </span>
+        <span (click)="enableFilterPanel()" class="float-right mt-4 web-category filterProducts">
+            <span>
+                <i class="fa fa-filter" aria-hidden="true"></i>
+            </span>
+        </span>
     </div>
     <!--Type Section-->
+    <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 46% 10%" *ngIf="loader" />
+    
     <div class="row browseProduct">
-        <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 46% 10%" *ngIf="loader" />
         <div class="example col-sm-3 col-6" style="margin-bottom: 25px" *ngFor="let tile of tilesData" (click)="viewDetails(tile)">
             <div class="prodImageContainer prodImageContainer_xl">
                 <img [src]="tile.product.mainImageSrc" class="product_hover img-fluid">
@@ -53,7 +120,7 @@
         </div>
     </div>
 
-    <div *ngIf="showMoreBtn" class="col-sm-12 text-center mt-4 mb-5">
+    <div *ngIf="showMoreBtn && !loader" class="col-sm-12 text-center mt-4 mb-5">
         <button (click)="loadTypes('loadMore')" class="btn btn_red_right">show more</button>
     </div>
 </div>

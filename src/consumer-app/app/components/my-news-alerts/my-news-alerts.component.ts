@@ -14,6 +14,10 @@ export class MyNewsAlertsComponent implements OnInit {
   userData: any;
   s3: any;
   loader: boolean = false;
+  loader_offer: boolean = false;
+  loader_order: boolean = false;
+  loader_review: boolean = false;
+  loader_postReview: boolean = false;
   offers: Array<any>;
   reviews: Array<any>;
   orders: Array<any>;
@@ -204,10 +208,11 @@ export class MyNewsAlertsComponent implements OnInit {
     let userId = this.userData.userId;
     /*From Offers Block*/
     if (from == 'offer') {
+      this.loader_offer = true;
       this.offer_showMorePageCounter = this.offer_showMorePageCounter + 1;
       this.offer_showMoreSizeCounter = this.offer_showMoreSizeCounter;
       this.myalerts.loadOffers(this.userData.userId, this.offer_showMorePageCounter, this.offer_showMoreSizeCounter).subscribe((res) => {
-        this.loader = false;
+        this.loader_offer = false;
         this.offers = [...this.offers, ...res.content];
         this.filterImageURL();
         this.getMainImage();
@@ -221,11 +226,17 @@ export class MyNewsAlertsComponent implements OnInit {
 
     /*From Order Shipped Block*/
     else if (from == 'order') {
+      this.loader_order = true;
       this.orderShipped_showMorePageCounter = this.orderShipped_showMorePageCounter + 1;
       this.orderShipped_showMoreSizeCounter = this.orderShipped_showMoreSizeCounter;
       this.myalerts.loadOrders(this.userData.userId, this.orderShipped_showMorePageCounter, this.orderShipped_showMoreSizeCounter).subscribe((res) => {
+        this.loader_order = false;
         this.orders = [...this.orders, ...res.content];
-        for (var i = 0; i < this.orders.length; i++) this.orders[i].orderItems = [this.orders[i].orderItems];
+        for (var i = 0; i < this.orders.length; i++) {
+          if (this.orders[i].orderItems.length == undefined) {
+            this.orders[i].orderItems = [this.orders[i].orderItems];
+          }
+        }
         this.formatImages(this.orders, 'order');
         this.showHideShowMoreBtn(this.orders, res, 'order');
       }, (err) => {
@@ -236,9 +247,11 @@ export class MyNewsAlertsComponent implements OnInit {
 
     /*From Reviewed Products Block*/
     else if (from == 'review') {
+      this.loader_review = true;
       this.reviewedProduct_showMorePageCounter = this.reviewedProduct_showMorePageCounter + 1;
       this.reviewedProduct_showMoreSizeCounter = this.reviewedProduct_showMoreSizeCounter;
       this.myalerts.loadReviews(this.userData.userId, this.reviewedProduct_showMorePageCounter, this.reviewedProduct_showMoreSizeCounter).subscribe((res) => {
+        this.loader_review = false;
         this.reviews = [...this.reviews, ...res.content];
         this.formatImages(this.reviews, 'review');
         this.sort(this.reviews, 'review');
@@ -251,9 +264,11 @@ export class MyNewsAlertsComponent implements OnInit {
 
     /*From Post Review Block*/
     else {
+      this.loader_postReview = true;
       this.postReview_showMorePageCounter = this.postReview_showMorePageCounter + 1;
       this.postReview_showMoreSizeCounter = this.postReview_showMoreSizeCounter;
       this.myalerts.loadPostReviewAlert(this.userData.userId, this.postReview_showMorePageCounter, this.postReview_showMoreSizeCounter).subscribe((res) => {
+        this.loader_postReview = false;
         this.postReviewAlert = [...this.postReviewAlert, ...res.content];
         this.formatImages(this.postReviewAlert, 'postReview');
         this.sort(this.postReviewAlert, 'postReview');
@@ -270,7 +285,7 @@ export class MyNewsAlertsComponent implements OnInit {
   }
 
   goToPage(data, from) {
-    //Offers
+    /*Offers*/
     if (from == 'offer') {
       this.myalerts.updateOffer(data.offerID).subscribe((res) => {
         this.route.navigateByUrl('/myoffer');
@@ -278,7 +293,7 @@ export class MyNewsAlertsComponent implements OnInit {
         console.log(err)
       })
     }
-    //Reviews
+    /*Read Reviews*/
     else if (from == 'review') {
       this.myalerts.updateReview(data.consumerReviewId).subscribe((res) => {
         console.log(res)
@@ -286,10 +301,13 @@ export class MyNewsAlertsComponent implements OnInit {
         console.log(err)
       })
     }
+    /*Post Reviews*/
     else {
       let modal = { purchasedDate: data.purchasedDate, orderId: data._id };
-      window.localStorage['forReview'] = JSON.stringify({ modal: modal, order: data.orderItems, from: 'NA' });
-      this.route.navigateByUrl("/leave-review");
+      this.myalerts.updateReviewRead(data._id, data.orderItems.productId).subscribe((res) => {
+        window.localStorage['forReview'] = JSON.stringify({ modal: modal, order: data.orderItems, from: 'NA' });
+        this.route.navigateByUrl("/leave-review");
+      })
     }
   }
 
@@ -344,11 +362,15 @@ export class MyNewsAlertsComponent implements OnInit {
   }
 
   trackOrder(modal, order) {
-    this.myalerts.trackOrder('SHIPPO_TRANSIT').subscribe((res) => {
-      window.localStorage['productForTracking'] = JSON.stringify({ modal: modal, order: order, goShippoRes: res });
-      this.route.navigateByUrl("/trackOrder");
-    }, (err) => {
-      console.log(err);
+    this.myalerts.updateOrderShipped(modal.orderId, order.productId).subscribe((res) => {
+      // order.carrier = 'shippo';
+      // order.shipTrackingId = 'SHIPPO_TRANSIT';
+      this.myalerts.trackOrder(order.carrier, order.shipTrackingId).subscribe((res) => {
+        window.localStorage['productForTracking'] = JSON.stringify({ modal: modal, order: order, goShippoRes: res });
+        this.route.navigateByUrl("/trackOrder");
+      }, (err) => {
+        console.log(err);
+      })
     })
   }
 

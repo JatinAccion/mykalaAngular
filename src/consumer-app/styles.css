@@ -3192,3 +3192,113 @@ table.customeTable tr td {
 .matDOBProfile .mat-button-focus-overlay {
     background: none;
 }
+mat-form-field .placeholder {
+    float: left;
+    padding: 0;
+    margin-top: -5px;
+    width: auto;
+    margin-left: 2px;
+}
+.matDOBProfile .placeholder {
+    margin-top: -2px;
+    margin-left: 14px;
+}
+.mat-focused .placeholder {
+    color: #999999;
+}
+.filterProducts {
+    background: #23150F;
+    color: #fff;
+    height: 35px;
+    width: 35px;
+    text-align: center;
+    padding-top: 5px;
+    border-radius: 30px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.sidenavFilter {
+    position: fixed;
+    top: 0;
+    background: #79797A;
+    right: 0;
+    width: 35%;
+    z-index: 10000;
+    height: 100%;
+    padding: 30px 30px;
+    box-shadow: -5px 0px 10px #00000026;
+    -moz-box-shadow: -5px 0px 10px #00000026;
+    -webkit-box-shadow: -5px 0px 10px #00000026;
+    -o-box-shadow: -5px 0px 10px #00000026;
+    -ms-box-shadow: -5px 0px 10px #00000026;
+}
+ul.filterActionList {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    float: right;
+    margin-bottom: 30px;
+}
+ul.filterActionList li {
+    float: left;
+    padding: 0 15px;
+    margin-left: 10px;
+    line-height: 17px;
+    margin-left: 10px;
+    border-right: 1px solid #fff;
+}
+ul.filterActionList li:first-child {
+    margin-left: 0;
+    padding-left: 0;
+}
+ul.filterActionList li:last-child {
+    margin-left: 0;
+    border: none;
+    padding-right: 0;
+}
+ul.filterActionList a {
+    font-family: 'open_sanssemibold';
+    color: #fff !important;
+    font-size: 14px;
+}
+.selectionWrapperFilter {
+    float: left;
+    width: 100%;
+    margin-bottom: 30px
+}
+.selectionWrapperFilter select {
+    height: 45px !important;
+    margin-bottom: 15px;
+    outline: 0 !important;
+    border: none;
+    font-size: 14px;
+}
+.selectedDataCapsules {
+    float: left;
+    color: #fff;
+    font-size: 13px;
+    position: relative;
+    min-width: 70px;
+    margin-right: 12px;
+    padding: 3px 10px;
+    box-sizing: border-box;
+    background: #979797;
+    border-radius: 20px;
+    font-family: 'open_sanssemibold';
+    margin-bottom: 12px;
+    width: auto;
+}
+.selectedDataCapsulesContent {
+    display: inline-block;
+    margin-right: 20px;
+}
+.selectedDataCapsulesDelete {
+    position: absolute;
+    display: inline-block;
+    right: 0;
+    top: 0;
+    height: 100%;
+    padding: 2px 10px 2px 8px;
+    box-sizing: border-box;
+    cursor: pointer;
+}

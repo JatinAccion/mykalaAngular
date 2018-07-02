@@ -1,7 +1,7 @@
 <div class="container">
   <app-sub-menus></app-sub-menus>
   <div style="height:135px;width:100%;"></div>
-  <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 49%" class="mb-4 mt-3" *ngIf="loader">
+  <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 49%" class="mb-4 mt-4" *ngIf="loader">
 
   <div *ngIf="offers?.length > 0 || orders?.length > 0 || reviews?.length > 0 || postReviewAlert?.length > 0; else noOffer">
     <!--Get Offer Block-->
@@ -45,15 +45,17 @@
       </div>
     </ng-container>
 
-    <div *ngIf="showMoreBtn_offer" class="col-sm-12 text-center mt-4 mb-4">
+    <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 49%" class="mb-3 mt-3" *ngIf="loader_offer">
+
+    <div *ngIf="showMoreBtn_offer && !loader_offer" class="col-sm-12 text-center mt-4 mb-4">
       <button (click)="loadMore('offer')" class="btn btn_red_right">show more</button>
     </div>
     <!--Get Offer Block-->
 
     <!--Order Shipment Block-->
-    <div class="myCart-list" *ngFor="let modal of orders">
+    <div *ngFor="let modal of orders">
       <div *ngFor="let order of modal.orderItems" (click)="trackOrder(modal, order)" class="cursor">
-        <div *ngIf="order.productItemStatus == 'ORDERSHIPPED'">
+        <div [ngClass]="{'myCart-list':!order.shipmentRead, 'myCart-list-nobg':order.shipmentRead}" *ngIf="order.productItemStatus == 'ORDERSHIPPED'">
           <div>Your items have shipped! Estimated delivery on: {{getDeliveryDate(order.deliveryMethod, modal.purchasedDate)}}</div>
           <!-- <small class="pull-right colorlightGray">{{getFullDate(modal.orderShippedDate)}}</small> -->
           <div class="row p-3">
@@ -88,7 +90,9 @@
       </div>
     </div>
 
-    <div *ngIf="showMoreBtn_orderShipped" class="col-sm-12 text-center mt-4 mb-4">
+    <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 49%" class="mb-3 mt-3" *ngIf="loader_order">
+
+    <div *ngIf="showMoreBtn_orderShipped && !loader_order" class="col-sm-12 text-center mt-4 mb-4">
       <button (click)="loadMore('order')" class="btn btn_red_right">show more</button>
     </div>
     <!--Order Shipment Block-->
@@ -116,13 +120,15 @@
       </div>
     </div>
 
-    <div *ngIf="showMoreBtn_reviewedProduct" class="col-sm-12 text-center mt-4 mb-4">
+    <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 49%" class="mb-3 mt-3" *ngIf="loader_review">
+
+    <div *ngIf="showMoreBtn_reviewedProduct && !loader_review" class="col-sm-12 text-center mt-4 mb-4">
       <button (click)="loadMore('review')" class="btn btn_red_right">show more</button>
     </div>
     <!--Reviews Block-->
 
     <!--Post Reviews Block-->
-    <div class="cursor" [ngClass]="{'myCart-list':review.unRead, 'myCart-list-nobg':!review.unRead}" *ngFor="let review of postReviewAlert" (click)="goToPage(review, 'postReview')">
+    <div class="cursor" [ngClass]="{'myCart-list':!review.orderItems.reviewRead, 'myCart-list-nobg':review.orderItems.reviewRead}" *ngFor="let review of postReviewAlert" (click)="goToPage(review, 'postReview')">
       <small class="pull-right colorlightGray">{{getFullDate(review.purchasedDate)}}</small>
       <div class="mb-2">
         Thank you for your recent purchase from {{review.orderItems.retailerName}}. Please tell us about your experience and help spread the word.
@@ -149,7 +155,9 @@
       </div>
     </div>
 
-    <div *ngIf="showMoreBtn_postReview" class="col-sm-12 text-center mt-4 mb-4">
+    <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 49%" class="mb-3 mt-3" *ngIf="loader_postReview">
+
+    <div *ngIf="showMoreBtn_postReview && !loader_postReview" class="col-sm-12 text-center mt-4 mb-4">
       <button (click)="loadMore('postReview')" class="btn btn_red_right">show more</button>
     </div>
     <!--Post Reviews Block-->
