@@ -83,7 +83,8 @@ export class ProductAddMoreComponent implements OnInit {
     if (attr && this.attributesMasterData) {
       const ele = this.attributesMasterData.attributes.firstOrDefault(p => p.key === attr.key);
       if (ele) {
-        return ele.values;
+        return [{ values: ele.values, displayOther: ele.Display_Other === "Y" }];
+        // return ele.values;
       }
     }
   }

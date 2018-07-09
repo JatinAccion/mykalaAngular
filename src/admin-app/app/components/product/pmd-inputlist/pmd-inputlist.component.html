@@ -1,14 +1,15 @@
 <div class="row m-2">
     <div class="col-sm-12 p-0">
-        {{prodAttr.key}}:
+        {{prodAttr.key}}
+        <span *ngIf="prodAttr.Units !== undefined && prodAttr.Units !== ''">({{prodAttr.Units}})</span> :
         <span class="float-right">
             <!-- <a (click)="delete()" class="circle_Gray">x</a> -->
         </span>
     </div>
 </div>
-<div class="row m-2" *ngFor="let listItem of values;let in= index " >
-    <div class="input-group">       
-        <input type="text" class="form-control" [(ngModel)]="listItem.value" (change)="saveData()"  >
+<div class="row m-2" *ngFor="let listItem of values;let in= index ">
+    <div class="input-group">
+        <input type="text" class="form-control" [(ngModel)]="listItem.value" (change)="saveData()">
         <span class="input-group-addon" id="basic-addon1" (click)="deleteListItem(in)">X</span>
     </div>
 </div>

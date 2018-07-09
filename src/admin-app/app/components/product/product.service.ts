@@ -240,10 +240,13 @@ export class ProductService {
     // formdata.append('retailerId', retailerId);
 
     const url = `${this.BASE_URL}/${environment.apis.product.bulkUpload}`;
+    return this.http.post(url, formdata).map(p => p.text());
+    /*
     const req = new HttpRequest('POST', url, formdata, {
       reportProgress: true,
     });
-    return this.httpc.request(req).map(p => p);
+     return this.httpc.request(req).map(p => p);
+    */
   }
   getUploadSummary(query: any): Observable<ProductUploads> {
     const url = `${this.BASE_URL}/${environment.apis.product.uploadSummary}`;

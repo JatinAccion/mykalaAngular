@@ -152,7 +152,7 @@ export class Product {
             attributesMasterData.forEach(p => {
                 let element = attributeList.firstOrDefault(q => q.key === p.key);
                 if (!element) {
-                    element = new ProdAttr({ key: p.key, value: '' });
+                    element = new ProdAttr({ key: p.key, value: '', Is_Numeric: p.Is_Numeric, Units: p.Units, Display_Other: p.Display_Other });
                     attributeList.push(element);
                 }
                 switch (element.key.toLowerCase()) {
@@ -209,6 +209,9 @@ export class ProdAttr {
     public values: string[];
     public placeholder: string;
     public attrType: string;
+    public Is_Numeric: string;
+    public Units: string;
+    public Display_Other: string;
     constructor(obj?: any) {
         if (obj) {
             this.key = obj.key || obj;
@@ -216,6 +219,9 @@ export class ProdAttr {
             const val = obj.value || obj[1] || '';
             this.value = val;
             this.attrType = 'string'; // typeof val;
+            this.Is_Numeric = obj.Is_Numeric;
+            this.Units = obj.Units;
+            this.Display_Other = obj.Display_Other;
             switch (typeof val) {
                 case 'string':
                     this.strValue = val;
@@ -247,6 +253,15 @@ export class ProductAttributesMasterData {
             Object.keys(obj.attributes).forEach(key => {
                 this.attributes.push(new ProdAttr({ key: key, value: obj.attributes[key] }));
             });
+            for (var key in obj.attributes_orders.attributes_metadata) {
+                for (var i = 0; i < this.attributes.length; i++) {
+                    if (key == this.attributes[i].key) {
+                        this.attributes[i].Is_Numeric = obj.attributes_orders.attributes_metadata[key].Is_Numeric;
+                        this.attributes[i].Units = obj.attributes_orders.attributes_metadata[key].Units;
+                        this.attributes[i].Display_Other = obj.attributes_orders.attributes_metadata[key].Display_Other;
+                    }
+                }
+            }
         }
     }
 }

@@ -19,7 +19,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ProductUploadMetaComponent implements OnInit {
   uploadType: string;
-  product= new Product();
+  product = new Product();
 
   typesLoading: boolean;
   data = new ProductUploads();
@@ -54,7 +54,15 @@ export class ProductUploadMetaComponent implements OnInit {
     });
   }
   upload() {
-    this.productService.saveproductMetaFiles(this.product.productPlace.PlaceName, this.product.productCategory.CategoryName, this.product.productSubCategory.SubCategoryName, this.uploadType, this.productFiles).subscribe(event => {
+    this.productService.saveproductMetaFiles(this.product.productPlace.PlaceName, this.product.productCategory.CategoryName, this.product.productSubCategory.SubCategoryName, this.uploadType, this.productFiles).subscribe(res => {
+      if (typeof res == 'string') {
+        const percentDone = 100;
+        this.progress = percentDone;
+        this.core.message.success(`uploaded successfully.`);
+        this.progress = 0;
+        this.fileNames = '';
+      }
+      /* Subscribe to (event)
       if (event.type === HttpEventType.UploadProgress) {
         const percentDone = Math.round(100 * event.loaded / event.total);
         this.progress = percentDone;
@@ -65,7 +73,7 @@ export class ProductUploadMetaComponent implements OnInit {
         // this.getPage(1);
       } else if (event instanceof HttpResponse) {
         console.log('File is completely uploaded!');
-      }
+      }*/
     }, err => {
       this.core.message.error('error');
       this.progress = 0;
@@ -76,13 +84,18 @@ export class ProductUploadMetaComponent implements OnInit {
     this.productFiles = new Array<any>();
     this.fileNames = ''; this.progress = 0;
     if (fileInput.target.files && fileInput.target.files.length > 0) {
-      for (let i = 0; i < fileInput.target.files.length; i++) {
-        const file = fileInput.target.files[i];
-        this.productFiles.push({ file: file, mainImage: false });
-        this.fileNames += '; ' + file.name;
-        this.upload();
-        fileInput.target.value = '';
-      }
+      /* for (let i = 0; i < fileInput.target.files.length; i++) {
+         const file = fileInput.target.files[i];
+         this.productFiles.push({ file: file, mainImage: false });
+         this.fileNames += '; ' + file.name;
+         this.upload();
+         fileInput.target.value = '';
+      } */
+      const file = fileInput.target.files[0];
+      this.productFiles.push({ file: file, mainImage: false });
+      this.fileNames += '; ' + file.name;
+      this.upload();
+      fileInput.target.value = '';
     }
   }
 
