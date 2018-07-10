@@ -3,69 +3,57 @@
   <div style="height:135px;width:100%;"></div>
   <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 49%" class="mb-4 mt-4" *ngIf="loader">
 
-  <div *ngIf="offers?.length > 0 || orders?.length > 0 || reviews?.length > 0 || postReviewAlert?.length > 0; else noOffer">
-    <!--Get Offer Block-->
-    <ng-container *ngFor="let offer of offers">
-      <div class="cursor" [ngStyle]="{'cursor':offer.expire ? 'no-drop' : 'pointer'}" [ngClass]="{'myCart-list':offer.unRead, 'myCart-list-nobg':!offer.unRead}" *ngIf="offer.getOffersResponse.length > 0" (click)="!offer.expire && goToPage(offer, 'offer')">
+  <div *ngIf="alerts?.length > 0;else noOffer">
+    <ng-container *ngFor="let alert of alerts">
+      <!--Offers Alerts : Starts-->
+      <div (click)="!alert.offerExpire && updateAlert(alert, 'offer')" *ngIf="alert.alertType == 'OFFER'" class="cursor" [ngStyle]="{'cursor':alert.offerExpire ? 'no-drop' : 'pointer'}" [ngClass]="{'myCart-list':!alert.alertRead, 'myCart-list-nobg':alert.alertRead}">
         <div class="mb-4">
-          <!--Expire Soon False-->
-          <span *ngIf="!offer.expireSoon; else showDefault">
+          <!--Default-->
+          <span *ngIf="!alert.offerExpireSoon; else showDefault">
             Get Offers for
-            <strong>{{offer.getOffersRequestDTO.placeName}} - {{offer.getOffersRequestDTO.categoryName}} - {{offer.getOffersRequestDTO.subCategoryName}}</strong> is complete! You received
-            <strong>{{offer.getOffersResponse.length}}</strong> offers!
+            <strong *ngIf="alert.getOffersRequestDTO != null && alert.getOffersRequestDTO != undefined">{{alert.getOffersRequestDTO.placeName}} - {{alert.getOffersRequestDTO.categoryName}} - {{alert.getOffersRequestDTO.subCategoryName}}</strong> is complete! You received
+            <strong>{{alert.offerResponse.length}}</strong> offers!
           </span>
-          <!--Expire Soon False-->
+          <!--Default-->
 
-          <!--Expire Soon True-->
+          <!--Expiring Soon-->
           <ng-template #showDefault>
             Your offers are set to expire in
             <strong>24 hours</strong>! Click here to view them now
           </ng-template>
-          <!--Expire Soon True-->
+          <!--Expiring Soon-->
 
-          <!--Expire Soon False-->
-          <span class="d-inline float-right offerStatus" *ngIf="!offer.expireSoon;else expireSoon">
-            <span class="d-inline float-right offerStatus inactive" *ngIf="offer.expire;else activeOffer">Offer Expired</span>
+          <!--Offer Status-->
+          <span class="d-inline float-right offerStatus" *ngIf="!alert.offerExpireSoon">
+            <span class="d-inline float-right offerStatus inactive" *ngIf="alert.offerExpire;else activeOffer">Offer Expired</span>
             <ng-template #activeOffer>
               <span class="d-inline float-right offerStatus active">Offer Active</span>
             </ng-template>
           </span>
-          <!--Expire Soon False-->
-
-          <!--Expire Soon True-->
-          <!-- <ng-template #expireSoon>
-            <span class="d-inline float-right offerStatus expireSoon">Offer Expiring Soon</span>
-          </ng-template> -->
-          <!--Expire Soon True-->
+          <!--Offer Status-->
         </div>
-        <small class="pull-right colorlightGray">{{getFullDate(offer.startDate)}}</small>
-        <div class="d-inline-block mr-4 offerImageContainer" *ngFor="let product of offer.getOffersResponse; let i=index">
+
+        <small class="pull-right colorlightGray">{{getFullDate(alert.alertDate)}}</small>
+
+        <div class="d-inline-block mr-4 offerImageContainer" *ngFor="let product of alert.offerResponse; let i=index">
           <img *ngIf="i<5" [src]="product.product.mainImageSrc" class="img-fluid" />
         </div>
       </div>
-    </ng-container>
+      <!--Offers Alerts : Ends-->
 
-    <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 49%" class="mb-3 mt-3" *ngIf="loader_offer">
-
-    <div *ngIf="showMoreBtn_offer && !loader_offer" class="col-sm-12 text-center mt-4 mb-4">
-      <button (click)="loadMore('offer')" class="btn btn_red_right">show more</button>
-    </div>
-    <!--Get Offer Block-->
-
-    <!--Order Shipment Block-->
-    <div *ngFor="let modal of orders">
-      <div *ngFor="let order of modal.orderItems" (click)="trackOrder(modal, order)" class="cursor">
-        <div [ngClass]="{'myCart-list':!order.shipmentRead, 'myCart-list-nobg':order.shipmentRead}" *ngIf="order.productItemStatus == 'ORDERSHIPPED'">
-          <div>Your items have shipped! Estimated delivery on: {{getDeliveryDate(order.deliveryMethod, modal.purchasedDate)}}</div>
-          <!-- <small class="pull-right colorlightGray">{{getFullDate(modal.orderShippedDate)}}</small> -->
+      <!--Order Shipped Alerts : Starts-->
+      <div (click)="updateAlert(alert, 'order')" *ngIf="alert.alertType == 'SHIPPED'">
+        <div class="cursor" [ngClass]="{'myCart-list':!alert.alertRead, 'myCart-list-nobg':alert.alertRead}">
+          <div>Your item have shipped! Estimated delivery on: {{getDeliveryDate(alert.orderItems.deliveryMethod, alert.orderItems.orderShippedDate)}}</div>
+          <small class="pull-right colorlightGray">{{getFullDate(alert.alertDate)}}</small>
           <div class="row p-3">
             <div class="col-sm-2">
-              <img [src]="order.productImage" class="img-fluid" />
+              <img [src]="alert.orderItems.productImage" class="img-fluid" />
             </div>
             <div class="col-sm-10">
               <div class="row">
                 <div class="col-sm-12 mb-3">
-                  <strong>{{order.productName}}</strong>
+                  <strong>{{alert.orderItems.productName}}</strong>
                 </div>
               </div>
               <div class="row">
@@ -73,7 +61,7 @@
                   Quantity:
                 </div>
                 <div class="col-sm-9">
-                  {{order.productQuantity}}
+                  {{alert.orderItems.productQuantity}}
                 </div>
               </div>
               <div class="row">
@@ -81,86 +69,78 @@
                   Total:
                 </div>
                 <div class="col-sm-9">
-                  {{getTotaPrice(order.productPrice * order.productQuantity, order.productTaxCost, order.shippingCost) | currency}}
+                  {{getTotaPrice(alert.orderItems.productPrice * alert.orderItems.productQuantity, alert.orderItems.productTaxCost, alert.orderItems.shippingCost) | currency}}
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+      <!--Order Shipped Alerts : Ends-->
 
-    <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 49%" class="mb-3 mt-3" *ngIf="loader_order">
-
-    <div *ngIf="showMoreBtn_orderShipped && !loader_order" class="col-sm-12 text-center mt-4 mb-4">
-      <button (click)="loadMore('order')" class="btn btn_red_right">show more</button>
-    </div>
-    <!--Order Shipment Block-->
-
-    <!--Reviews Block-->
-    <div class="cursor" [ngClass]="{'myCart-list':review.unRead, 'myCart-list-nobg':!review.unRead}" *ngFor="let review of reviews" (click)="goToPage(review, 'review'); core.getProductDetails(review.productId)">
-      <small class="pull-right colorlightGray">{{getFullDate(review.reviewDate)}}</small>
-      <div class="mb-2">You reviewed
-        <strong>{{review.productName}}</strong>
-      </div>
-      <div class="row p-3">
-        <div class="col-sm-2">
-          <img style="width:100%" [src]="review.productImage" />
-        </div>
-        <div class="col-sm-10 mt-0">
-          <div class="mb-2">
-            Ratings:
-            <span *ngFor="let rating of loopNumber(review.rating, 'ratings')">
-              <i class="fa fa-star starIcon starIconView" aria-hidden="true"></i>
-            </span>
+      <!--Reviewed Products Alerts : Starts-->
+      <div (click)="updateAlert(alert, 'review')" *ngIf="alert.alertType == 'REVIEWED'">
+        <div class="cursor" [ngClass]="{'myCart-list':!alert.alertRead, 'myCart-list-nobg':alert.alertRead}">
+          <small class="pull-right colorlightGray">{{getFullDate(alert.alertDate)}}</small>
+          <div class="mb-2">You reviewed
+            <strong>{{alert.reviewedProductName}}</strong>
           </div>
-          <div>Comments:
-            <br />{{review.reviewDescription}}</div>
-        </div>
-      </div>
-    </div>
-
-    <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 49%" class="mb-3 mt-3" *ngIf="loader_review">
-
-    <div *ngIf="showMoreBtn_reviewedProduct && !loader_review" class="col-sm-12 text-center mt-4 mb-4">
-      <button (click)="loadMore('review')" class="btn btn_red_right">show more</button>
-    </div>
-    <!--Reviews Block-->
-
-    <!--Post Reviews Block-->
-    <div class="cursor" [ngClass]="{'myCart-list':!review.orderItems.reviewRead, 'myCart-list-nobg':review.orderItems.reviewRead}" *ngFor="let review of postReviewAlert" (click)="goToPage(review, 'postReview')">
-      <small class="pull-right colorlightGray">{{getFullDate(review.purchasedDate)}}</small>
-      <div class="mb-2">
-        Thank you for your recent purchase from {{review.orderItems.retailerName}}. Please tell us about your experience and help spread the word.
-      </div>
-      <div class="row p-3">
-        <div class="col-sm-2">
-          <img style="width:100%" [src]="review.orderItems.productImage" />
-        </div>
-        <div class="col-sm-10 mt-0">
-          <div class="mb-2">
-            <div class="mb-3">
-              <strong>{{review.orderItems.productName}}</strong>
+          <div class="row p-3">
+            <div class="col-sm-2">
+              <img style="width:100%" [src]="alert.reviewedProductImage" />
             </div>
-            <div class="row">
-              <div class="col-sm-3">Quantity</div>
-              <div class="col-sm-9">{{review.orderItems.productQuantity}}</div>
-            </div>
-            <div class="row">
-              <div class="col-sm-3">Total</div>
-              <div class="col-sm-9">{{getTotaPrice(review.orderItems.productPrice * review.orderItems.productQuantity, review.orderItems.productTaxCost, review.orderItems.shippingCost) | currency}}</div>
+            <div class="col-sm-10 mt-0">
+              <div class="mb-2">
+                Ratings:
+                <span *ngFor="let rating of loopNumber(alert.reviewRating, 'ratings')">
+                  <i class="fa fa-star starIcon starIconView" aria-hidden="true"></i>
+                </span>
+              </div>
+              <div>Comments:
+                <br />{{alert.reviewDescription}}</div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+      <!--Reviewed Products Alerts : Ends-->
 
-    <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 49%" class="mb-3 mt-3" *ngIf="loader_postReview">
+      <!--Post a Review Alerts : Starts-->
+      <div (click)="updateAlert(alert, 'postreview')" *ngIf="alert.alertType == 'LEAVEREVIEW'">
+        <div class="cursor" [ngClass]="{'myCart-list':!alert.alertRead, 'myCart-list-nobg':alert.alertRead}">
+          <small class="pull-right colorlightGray">{{getFullDate(alert.alertDate)}}</small>
+          <div class="mb-2">
+            Thank you for your recent purchase from {{alert.retailerName}}. Please tell us about your experience and help spread the word.
+          </div>
+          <div class="row p-3">
+            <div class="col-sm-2">
+              <img style="width:100%" [src]="alert.orderItems.productImage" />
+            </div>
+            <div class="col-sm-10 mt-0">
+              <div class="mb-2">
+                <div class="mb-3">
+                  <strong>{{alert.orderItems.productName}}</strong>
+                </div>
+                <div class="row">
+                  <div class="col-sm-3">Quantity</div>
+                  <div class="col-sm-9">{{alert.orderItems.productQuantity}}</div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-3">Total</div>
+                  <div class="col-sm-9">{{getTotaPrice(alert.orderItems.productPrice * alert.orderItems.productQuantity, alert.orderItems.productTaxCost, alert.orderItems.shippingCost) | currency}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--Post a Review Alerts : Ends-->
+    </ng-container>
 
-    <div *ngIf="showMoreBtn_postReview && !loader_postReview" class="col-sm-12 text-center mt-4 mb-4">
-      <button (click)="loadMore('postReview')" class="btn btn_red_right">show more</button>
+    <img src="/consumer-app/assets/images/loader.gif" style="margin: 0 49%" class="mb-3 mt-3" *ngIf="loaderShowMore">
+
+    <div *ngIf="enableShowMore && !loaderShowMore" class="col-sm-12 text-center mt-4 mb-4">
+      <button (click)="loadMore()" class="btn btn_red_right">show more</button>
     </div>
-    <!--Post Reviews Block-->
   </div>
 
   <ng-template #noOffer>

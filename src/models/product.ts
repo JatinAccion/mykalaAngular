@@ -157,7 +157,8 @@ export class Product {
                 }
                 switch (element.key.toLowerCase()) {
                     case 'size':
-                        element.attrType = 'string';
+                       // element.attrType = 'string';
+                        element.attrType = 'select';
                         break;
                     case 'unit':
                         element.attrType = 'hidden';

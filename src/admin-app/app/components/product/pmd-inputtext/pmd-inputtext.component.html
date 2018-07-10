@@ -1,6 +1,7 @@
 <div class="row m-2">
     <div class="col-sm-12 p-0">
-        {{prodAttr.key}} :
+        {{prodAttr.key}}
+        <span *ngIf="prodAttr.Units !== undefined && prodAttr.Units !== ''">({{prodAttr.Units}})</span> :
         <span class="float-right">
             <!-- <a (click)="delete()" class="circle_Gray">x</a> -->
         </span>

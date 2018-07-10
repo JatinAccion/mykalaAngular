@@ -37,7 +37,8 @@ export const apiNames = {
         addressList: 'addressList',
         productReviewSummary: 'productReviewSummary',
         deleteAddress: 'address',
-        postReviewAlert: 'reviewAlert'
+        postReviewAlert: 'reviewAlert',
+        getAllAlerts: 'alerts'
     },
     products: {
         getPlaces: 'places',
