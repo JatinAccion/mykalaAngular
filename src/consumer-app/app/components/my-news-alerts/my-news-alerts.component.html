@@ -44,7 +44,7 @@
       <!--Order Shipped Alerts : Starts-->
       <div (click)="updateAlert(alert, 'order')" *ngIf="alert.alertType == 'SHIPPED'">
         <div class="cursor" [ngClass]="{'myCart-list':!alert.alertRead, 'myCart-list-nobg':alert.alertRead}">
-          <div>Your item have shipped! Estimated delivery on: {{getDeliveryDate(alert.orderItems.deliveryMethod, alert.orderItems.orderShippedDate)}}</div>
+          <div>Your items have shipped! Estimated delivery on: {{getDeliveryDate(alert.orderItems.deliveryMethod, alert.orderItems.orderShippedDate)}}</div>
           <small class="pull-right colorlightGray">{{getFullDate(alert.alertDate)}}</small>
           <div class="row p-3">
             <div class="col-sm-2">

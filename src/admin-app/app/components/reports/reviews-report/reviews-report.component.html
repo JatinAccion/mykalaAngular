@@ -162,7 +162,7 @@
                 </div>
                 <div class="row p-2">
                     <div class="col-sm-12 text-center colorDarkBlue">
-                        <h4>{{widget.four.value}}</h4>
+                        <h4>{{widget.four.value == '0' ? 'N/A' : widget.four.value}}</h4>
                     </div>
                 </div>
                 <!-- <div class="text-center p-2">
@@ -174,7 +174,7 @@
 
     <div class="row mt-3">
         <div class="col-sm-12">
-            <div class="row p-0"> 
+            <div class="row p-0">
                 <div class="col-sm-8 p-0 pagination_align">
                     <pagination-controls id='server' class="my-pagination" (pageChange)="getPage($event)" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page"></pagination-controls>
                 </div>
@@ -189,7 +189,7 @@
                 </div> -->
             </div>
             <div class="row p-2">
-                <div class="col-sm-12 p-0"> 
+                <div class="col-sm-12 p-0">
                     <div class="col-sm-12 p-2 m-1 backgroundWhite">
                         <table class="table">
                             <thead>
