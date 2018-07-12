@@ -559,6 +559,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   selectShippingMethod(e, value, item) {
+    let sameSellerCount = 0;
     this.selectedMethodDetails = value;
     if (item.productId != undefined) {
       for (var i = 0; i < this.itemsInCart.length; i++) {
@@ -575,13 +576,21 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
           if (selectedItem.productId == this.itemsInCart[j].productId) {
             this.itemsInCart[j].deliveryMethod = value.split("-")[1].trim();
             this.itemsInCart[j].shippingCost = parseFloat(value.split("-")[0].trim().split("$")[1].trim());
+            this.itemsInCart[j].sameSeller = true;
+            sameSellerCount++;
           }
         }
       }
     }
     let getShippingCost = [];
     for (var i = 0; i < this.itemsInCart.length; i++) {
-      let item = this.itemsInCart[i]
+      if (this.itemsInCart[i].sameSeller) {
+        this.itemsInCart[i].shippingCost = eval(`${this.itemsInCart[i].shippingCost / sameSellerCount}`);
+        delete this.itemsInCart[i].sameSeller;
+      }
+    }
+    for (var i = 0; i < this.itemsInCart.length; i++) {
+      let item = this.itemsInCart[i];
       if (item.shippingCost == undefined) getShippingCost.push(0);
       else getShippingCost.push(item.shippingCost);
     }
