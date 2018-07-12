@@ -6,12 +6,14 @@
   <div *ngIf="alerts?.length > 0;else noOffer">
     <ng-container *ngFor="let alert of alerts">
       <!--Offers Alerts : Starts-->
-      <div (click)="!alert.offerExpire && updateAlert(alert, 'offer')" *ngIf="alert.alertType == 'OFFER'" class="cursor" [ngStyle]="{'cursor':alert.offerExpire ? 'no-drop' : 'pointer'}" [ngClass]="{'myCart-list':!alert.alertRead, 'myCart-list-nobg':alert.alertRead}">
+      <div (click)="!alert.offerExpire && updateAlert(alert, 'offer')" *ngIf="alert.alertType == 'OFFER'" class="cursor" [ngStyle]="{'cursor':alert.offerExpire ? 'no-drop' : 'pointer'}"
+        [ngClass]="{'myCart-list':!alert.alertRead, 'myCart-list-nobg':alert.alertRead}">
         <div class="mb-4">
           <!--Default-->
           <span *ngIf="!alert.offerExpireSoon; else showDefault">
             Get Offers for
-            <strong *ngIf="alert.getOffersRequestDTO != null && alert.getOffersRequestDTO != undefined">{{alert.getOffersRequestDTO.placeName}} - {{alert.getOffersRequestDTO.categoryName}} - {{alert.getOffersRequestDTO.subCategoryName}}</strong> is complete! You received
+            <strong *ngIf="alert.getOffersRequestDTO != null && alert.getOffersRequestDTO != undefined">{{alert.getOffersRequestDTO.placeName}} - {{alert.getOffersRequestDTO.categoryName}} - {{alert.getOffersRequestDTO.subCategoryName}}</strong>
+            is complete! You received
             <strong>{{alert.offerResponse.length}}</strong> offers!
           </span>
           <!--Default-->
@@ -44,7 +46,7 @@
       <!--Order Shipped Alerts : Starts-->
       <div (click)="updateAlert(alert, 'order')" *ngIf="alert.alertType == 'SHIPPED'">
         <div class="cursor" [ngClass]="{'myCart-list':!alert.alertRead, 'myCart-list-nobg':alert.alertRead}">
-          <div>Your items have shipped! Estimated delivery on: {{getDeliveryDate(alert.orderItems.deliveryMethod, alert.orderItems.orderShippedDate)}}</div>
+          <div>Your item(s) have shipped! Estimated delivery on: {{getDeliveryDate(alert.orderItems.deliveryMethod, alert.orderItems.orderShippedDate)}}</div>
           <small class="pull-right colorlightGray">{{getFullDate(alert.alertDate)}}</small>
           <div class="row p-3">
             <div class="col-sm-2">
@@ -69,7 +71,8 @@
                   Total:
                 </div>
                 <div class="col-sm-9">
-                  {{getTotaPrice(alert.orderItems.productPrice * alert.orderItems.productQuantity, alert.orderItems.productTaxCost, alert.orderItems.shippingCost) | currency}}
+                  {{getTotaPrice(alert.orderItems.productPrice * alert.orderItems.productQuantity, alert.orderItems.productTaxCost, alert.orderItems.shippingCost)
+                  | currency}}
                 </div>
               </div>
             </div>
@@ -109,7 +112,8 @@
         <div class="cursor" [ngClass]="{'myCart-list':!alert.alertRead, 'myCart-list-nobg':alert.alertRead}">
           <small class="pull-right colorlightGray">{{getFullDate(alert.alertDate)}}</small>
           <div class="mb-2">
-            Thank you for your recent purchase from {{alert.retailerName}}. Please tell us about your experience and help spread the word.
+            Thank you for your recent purchase from {{alert.retailerName}}. Please tell us about your experience and help spread the
+            word.
           </div>
           <div class="row p-3">
             <div class="col-sm-2">
@@ -126,7 +130,8 @@
                 </div>
                 <div class="row">
                   <div class="col-sm-3">Total</div>
-                  <div class="col-sm-9">{{getTotaPrice(alert.orderItems.productPrice * alert.orderItems.productQuantity, alert.orderItems.productTaxCost, alert.orderItems.shippingCost) | currency}}</div>
+                  <div class="col-sm-9">{{getTotaPrice(alert.orderItems.productPrice * alert.orderItems.productQuantity, alert.orderItems.productTaxCost,
+                    alert.orderItems.shippingCost) | currency}}</div>
                 </div>
               </div>
             </div>
