@@ -112,7 +112,7 @@
         <div class="cursor" [ngClass]="{'myCart-list':!alert.alertRead, 'myCart-list-nobg':alert.alertRead}">
           <small class="pull-right colorlightGray">{{getFullDate(alert.alertDate)}}</small>
           <div class="mb-2">
-            Thank you for your recent purchase from {{alert.retailerName}}. Please tell us about your experience and help spread the
+            Thank you for your recent purchase from {{alert.orderItems.retailerName}}. Please tell us about your experience and help spread the
             word.
           </div>
           <div class="row p-3">
