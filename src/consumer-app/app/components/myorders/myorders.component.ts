@@ -355,11 +355,23 @@ export class MyordersComponent implements OnInit {
     this.cancelOrderModel.chargeId = modal.payment.paymentNumber;
     this.myOrder.cancelOrder(this.cancelOrderModel).subscribe((res) => {
       if (res == 'ORDERCANCELLED') res = 'ORDER CANCELLED';
-      order.productItemStatus = res;
+      for (var i = 0; i < this.myorderModal.length; i++) {
+        if (this.myorderModal[i].orderId == modal.orderId) {
+          for (var j = 0; j < this.myorderModal[i].orderItems.length; j++) {
+            this.myorderModal[i].orderItems[j].productItemStatus = res;
+            this.myorderModal[i].orderItems[j].cancelOrder = true;
+            this.myorderModal[i].orderItems[j].trackOrder = true;
+            this.myorderModal[i].orderItems[j].leaveReview = true;
+            this.myorderModal[i].orderItems[j].contactSupport = true;
+          }
+          break;
+        }
+      }
+      /*order.productItemStatus = res;
       order.cancelOrder = true;
       order.trackOrder = true;
       order.leaveReview = true;
-      order.contactSupport = true;
+      order.contactSupport = true;*/
     }, (err) => {
       console.log(err)
     })

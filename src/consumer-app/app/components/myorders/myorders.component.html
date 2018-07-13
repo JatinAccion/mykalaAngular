@@ -6,8 +6,8 @@
   <div class="myCart mt-3">
     <!--Orders Available-->
     <div *ngIf="myorderModal.length > 0;else noOrders">
-      <div *ngFor="let modal of myorderModal | reverse">
-        <div class="myCart-list" *ngFor="let order of modal.orderItems">
+      <div class="myCart-list" *ngFor="let modal of myorderModal | reverse">
+        <div *ngFor="let order of modal.orderItems" class="orderItems">
           <h4 class="subtitle clearfix">
             Estimated delivery on: {{getDeliveryDate(order.deliveryMethod, modal.purchasedDate)}}
             <span class="float-right">Order Id: {{modal.orderId}}
@@ -97,7 +97,9 @@
               <div class="row">
                 <p class="col-sm-3 colorlightGray">Total:</p>
                 <p class="col-sm-9">
-                  <strong>{{getTotalCost(order.shippingCost, order.productPrice * order.productQuantity, order.productTaxCost) | currency}}</strong>
+                  <strong>{{getTotalCost(order.shippingCost, order.productPrice * order.productQuantity, order.productTaxCost) |
+                    currency}}
+                  </strong>
                 </p>
               </div>
               <div class="row">
@@ -124,7 +126,6 @@
               </div>
             </div>
           </div>
-          <div class="row">&nbsp;</div>
         </div>
       </div>
     </div>

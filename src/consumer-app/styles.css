@@ -3302,3 +3302,13 @@ ul.filterActionList a {
     box-sizing: border-box;
     cursor: pointer;
 }
+.orderItems{
+    padding-bottom: 25px;
+    margin-bottom: 25px;
+    border-bottom: 1px dashed #ccc;
+}
+.orderItems:last-child{
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border-bottom: none;
+}
