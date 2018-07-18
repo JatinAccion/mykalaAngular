@@ -298,7 +298,7 @@ export class MyordersComponent implements OnInit {
 
   getPurchaseDate(date) {
     let objDate = new Date(date), locale = "en-us", month = objDate.toLocaleString(locale, { month: "long" });
-    return objDate.toLocaleString(locale, { month: "short" }) + ' ' + objDate.getDate() + ', ' + this.formatAMPM(objDate);
+    return objDate.toLocaleString(locale, { month: "long" }) + ' ' + objDate.getDate() + ', ' + this.formatAMPM(objDate);
   }
 
   formatAMPM(date) {

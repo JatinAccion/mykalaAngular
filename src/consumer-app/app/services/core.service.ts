@@ -8,6 +8,7 @@ import animateScrollTo from 'animated-scroll-to';
 import { Subject } from 'rxjs/Subject';
 import { BrowseProductsModal } from '../../../models/browse-products';
 import { MyCartService } from './mycart.service';
+import { Location } from '@angular/common';
 
 @Injectable()
 export class CoreService {
@@ -39,7 +40,8 @@ export class CoreService {
     private http: Http,
     private route: Router,
     private modalService: NgbModal,
-    private mycart: MyCartService
+    private mycart: MyCartService,
+    private location: Location
   ) { }
 
   hide() { this.navVisible = false; }
@@ -312,6 +314,10 @@ export class CoreService {
     }, (err) => {
       console.log('Failed to load cart items')
     })
+  }
+
+  goPrevPage() {
+    this.location.back();
   }
 
 }
