@@ -123,6 +123,7 @@ export class ViewOfferComponent implements OnInit {
       if (x.key == 'Size') {
         if (this.unitValue != undefined) x.key = x.key + ' ' + '(' + this.unitValue + ')'
       }
+      if (x.key == 'Features') x.value = x.value.filter((x) => x !== "");
     })
     this.selectedProduct.product.filteredAttr = attributes;
   }

@@ -100,7 +100,8 @@
 
         <div class="row">
           <div *ngIf="!alreadyAddedInCart" class="col-sm-12 p-2 pl-4 pr-4">
-            <input class="btn btn_red_right w-100" type="button" [disabled]="!quantity || selectedProduct.product.quantity == 0" (click)="addToCart('toCart')" value="accept" />
+            <input class="btn btn_red_right w-100" type="button" [disabled]="!quantity || selectedProduct.product.quantity == 0" (click)="addToCart('toCart')"
+              value="accept" />
           </div>
 
           <div *ngIf="alreadyAddedInCart" class="col-sm-12 p-2 pl-4 pr-4 mt-3">
@@ -113,7 +114,8 @@
           <div *ngIf="!alreadyAddedInCart" class="col-sm-12">
             <div class="row p-2">
               <div class="col-sm-6">
-                <input (click)="declineOffer(selectedProduct.product.kalaUniqueId)" class="btn w-100 btn_redouter_right" type="button" value="decline" />
+                <input (click)="declineOffer(selectedProduct.product.kalaUniqueId)" class="btn w-100 btn_redouter_right" type="button" value="decline"
+                />
               </div>
               <div class="col-sm-6">
                 <input class="btn w-100 btn_redouter_right" type="button" value="save for later" routerLink="/myoffer" />
@@ -208,7 +210,7 @@
     <!-- mobile Desription -->
     <div class="web-desription">
       <!--Description-->
-      <div class="row">
+      <div class="row" *ngIf="selectedProduct.product.productDescription">
         <h4 class="subtitle mt-4">Description</h4>
         <br />
         <p class="w-100">{{selectedProduct.product.productDescription}}</p>
