@@ -94,37 +94,40 @@ export class Step3Component implements OnInit {
       let userData = JSON.parse(window.localStorage['userInfo'])
       this.existingLocation = [];
       this.goService.getExistingLocations(userData.userId).subscribe(res => {
-        for (var i = 0; i < res.length; i++) {
-          this.existingLocation.push({
-            "zipcode": res[i].zipcode,
-            "country": res[i].country,
-            "city": res[i].city,
-            "state": res[i].state
-          });
-        }
-        this.loaderZipcodes = false;
-        this.showExistingLocation = true;
-        if (this.viewSavedData != undefined) {
-          setTimeout(() => {
-            this.getCSC = [];
-            let deliveryLocation = document.getElementsByClassName("deliveryLocations")
-            for (var i = 0; i < this.viewSavedData[0].location.length; i++) {
-              let location = this.viewSavedData[0].location[i];
-              for (var j = 0; j < deliveryLocation.length; j++) {
-                if (location.zipcode == deliveryLocation[j].innerHTML) {
-                  deliveryLocation[j].classList.add("categ_outline_red");
-                  deliveryLocation[j].classList.remove("categ_outline_gray");
-                  this.getCSC.push({
-                    "zipcode": location.zipcode,
-                    "country": location.country,
-                    "state": location.state
-                  });
-                  break;
+        if (res.length > 0) {
+          for (var i = 0; i < res.length; i++) {
+            this.existingLocation.push({
+              "zipcode": res[i].zipcode,
+              "country": res[i].country,
+              "city": res[i].city,
+              "state": res[i].state
+            });
+          }
+          this.loaderZipcodes = false;
+          this.showExistingLocation = true;
+          if (this.viewSavedData != undefined) {
+            setTimeout(() => {
+              this.getCSC = [];
+              let deliveryLocation = document.getElementsByClassName("deliveryLocations")
+              for (var i = 0; i < this.viewSavedData[0].location.length; i++) {
+                let location = this.viewSavedData[0].location[i];
+                for (var j = 0; j < deliveryLocation.length; j++) {
+                  if (location.zipcode == deliveryLocation[j].innerHTML) {
+                    deliveryLocation[j].classList.add("categ_outline_red");
+                    deliveryLocation[j].classList.remove("categ_outline_gray");
+                    this.getCSC.push({
+                      "zipcode": location.zipcode,
+                      "country": location.country,
+                      "state": location.state
+                    });
+                    break;
+                  }
                 }
               }
-            }
-          }, 500)
+            }, 500)
+          }
         }
+        else this.loaderZipcodes = false;
       });
     }
 

@@ -34,7 +34,7 @@ export class HeaderComponent implements OnInit {
               this.lastName = JSON.parse(window.localStorage['userInfo']).lastName;
               this.emailId = JSON.parse(window.localStorage['userInfo']).emailId;
               let userImage = JSON.parse(window.localStorage['userInfo']).consumerImagePath;
-              if (userImage != undefined) {
+              if (userImage != undefined && userImage != "" && userImage != null) {
                 if (userImage.indexOf('data:') > -1 || userImage.indexOf('https:') > -1) {
                   this.userImg = JSON.parse(window.localStorage['userInfo']).consumerImagePath;
                   this.refineImage(this.userImg);

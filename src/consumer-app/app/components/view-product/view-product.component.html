@@ -156,7 +156,8 @@
         <!-- <strike>$258.00 +</strike> -->
         <div class="row">
           <div *ngIf="!alreadyAddedInCart" class="col-sm-12 p-2 pl-4 pr-4">
-            <input class="btn btn_red_right w-100" type="button" [disabled]="!quantity || selectedProduct.product.quantity == 0" (click)="addToCart('toCart')" value="buy it now" />
+            <input class="btn btn_red_right w-100" type="button" [disabled]="!quantity || selectedProduct.product.quantity == 0" (click)="addToCart('toCart')"
+              value="buy it now" />
           </div>
 
           <div *ngIf="alreadyAddedInCart" class="col-sm-12 p-2 pl-4 pr-4 mt-3">
@@ -264,7 +265,7 @@
     <!-- mobile Desription -->
     <div class="web-desription">
       <!--Description-->
-      <div class="row">
+      <div class="row" *ngIf="selectedProduct.product.productDescription">
         <h4 class="subtitle mt-4">Description</h4>
         <br />
         <p class="w-100">{{selectedProduct.product.productDescription}}</p>

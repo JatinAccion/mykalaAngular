@@ -100,7 +100,7 @@ export class LeaveReviewComponent implements OnInit {
       this.loader = true;
       this.review.postReview(this.requestReviewModel).subscribe((res) => {
         this.loader = false;
-        this.reviewValidationMsg = "Reviews submitted successfully";
+        this.reviewValidationMsg = "Thanks! Your review has been submitted";
         this.core.openModal(this.leaveReviewSubmittedModal);
         localStorage.removeItem("forReview");
         setTimeout(() => {
