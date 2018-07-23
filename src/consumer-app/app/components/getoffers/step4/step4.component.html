@@ -27,7 +27,7 @@
     <div class="col-sm-6 text-left">{{Step4Summary.subCategory.name}}</div>
   </div>
 
-  <div class="row" *ngIf="Step1Data != undefined && Step1Data[0].type?.length > 0">
+  <div class="row" *ngIf="Step1Data != undefined && !this.Step4Summary.noType">
     <div class="col-sm-3"></div>
     <div class="col-sm-3 colorlightGray">
       <p>Type:</p>
