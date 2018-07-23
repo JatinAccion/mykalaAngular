@@ -3,7 +3,8 @@ export class OfferInfo1 {
         public place: string,
         public category: string,
         public subCategory: string,
-        public type: Array<any>) { }
+        public type: Array<any>,
+        public noType: boolean) { }
 }
 export class OfferInfo2 {
     constructor(

@@ -41,6 +41,7 @@ export class Step1Component implements OnInit {
   showAvailableTypes: boolean = false;
   @ViewChild('selectValidationModal') selectValidationModal: ElementRef;
   validationMsg: string;
+  skipTrue: boolean = false;
 
   constructor(
     private homeService: HomeService,
@@ -63,7 +64,6 @@ export class Step1Component implements OnInit {
       this.loadedPlaces = true;
       this.loadedCategory = true;
       this.loadedSubCategory = true;
-      this.showAvailableTypes = true;
       this.viewSavedData = JSON.parse(window.localStorage['GetOfferStep_1']);
       for (var i = 0; i < this.viewSavedData.length; i++) {
         this.userResponse.place.push(this.viewSavedData[i].place);
@@ -78,9 +78,17 @@ export class Step1Component implements OnInit {
         this.gSCM.placeName = this.viewSavedData[i].place.name;
         this.gSCM.categoryName = this.viewSavedData[i].category.name;
         this.gSCM.productType = this.viewSavedData[i].subCategory.name;
-        for (var j = 0; j < this.viewSavedData[i].type.length; j++) {
-          this.userResponse.type.push(this.viewSavedData[i].type[j]);
-          this.Step1SelectedValues.type.push(this.viewSavedData[i].type[j]);
+        if (!this.viewSavedData[i].noType) {
+          this.skipTrue = false;
+          this.showAvailableTypes = true;
+          for (var j = 0; j < this.viewSavedData[i].type.length; j++) {
+            this.userResponse.type.push(this.viewSavedData[i].type[j]);
+            this.Step1SelectedValues.type.push(this.viewSavedData[i].type[j]);
+          }
+        }
+        else {
+          this.skipTrue = true;
+          this.showAvailableTypes = false;
         }
       }
     }
@@ -145,10 +153,22 @@ export class Step1Component implements OnInit {
 
   getofferSubCategory(obj) {
     this.loader_Type = true;
+    this.showAvailableTypes = true;
     this.noTypesAvailable = false;
     this.getoffers.getofferSubCategory(this.gSCM).subscribe(res => {
       this.loader_Type = false;
-      this.getObjectFromOrderNo(res);
+      if (res.noType) {
+        this.skipTrue = true;
+        this.showAvailableTypes = false;
+        this.gSCMRequestModal.attributes = {};
+        this.gSCMRequestModal.placeName = this.gSCM.placeName;
+        this.gSCMRequestModal.categoryName = this.gSCM.categoryName;
+        this.gSCMRequestModal.productType = this.gSCM.productType;
+      }
+      else {
+        this.skipTrue = false;
+        this.getObjectFromOrderNo(res);
+      }
     });
   }
 
@@ -267,7 +287,7 @@ export class Step1Component implements OnInit {
       }
       this.Step1SelectedValues.type.push(obj);
     }
-    if (this.Step1SelectedValues.type[0].hasOwnProperty("id")) this.getUpdateTypes();
+    if (this.Step1SelectedValues.type.length > 0 && this.Step1SelectedValues.type[0].hasOwnProperty("id")) this.getUpdateTypes();
   };
 
   activeInactive() {
@@ -349,14 +369,14 @@ export class Step1Component implements OnInit {
       this.validationMsg = "Please select a subcategory";
       this.core.openModal(this.selectValidationModal);
     }
-    else if (this.Step1SelectedValues.type[0] == undefined || this.Step1SelectedValues.type[0] == "") {
+    else if (!this.skipTrue && (this.Step1SelectedValues.type[0] == undefined || this.Step1SelectedValues.type[0] == "")) {
       this.validationMsg = "Please select a type"
       this.core.openModal(this.selectValidationModal);
     }
     else {
       this.checkIfStored = true;
       this.Step1Modal.getoffer_1 = new Array<OfferInfo1>();
-      this.Step1Modal.getoffer_1.push(new OfferInfo1(this.Step1SelectedValues.place, this.Step1SelectedValues.category, this.Step1SelectedValues.subcategory, this.Step1SelectedValues.type));
+      this.Step1Modal.getoffer_1.push(new OfferInfo1(this.Step1SelectedValues.place, this.Step1SelectedValues.category, this.Step1SelectedValues.subcategory, this.Step1SelectedValues.type, this.skipTrue ? true : false));
       window.localStorage['GetOfferStep_1'] = JSON.stringify(this.Step1Modal.getoffer_1);
       window.localStorage['GetOfferStep_2Request'] = JSON.stringify(this.gSCMRequestModal);
       this.route.navigate(['/getoffer', 'step2']);

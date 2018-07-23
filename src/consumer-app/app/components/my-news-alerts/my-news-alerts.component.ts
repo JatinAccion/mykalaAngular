@@ -19,6 +19,7 @@ export class MyNewsAlertsComponent implements OnInit {
   sizeCounter = 10;
   enableShowMore: boolean = false;
   alerts: Array<any>;
+  alertSubscribed: boolean = false;
 
   constructor(
     public core: CoreService,
@@ -39,14 +40,19 @@ export class MyNewsAlertsComponent implements OnInit {
 
   loadAllAlerts(from?: string) {
     this.loader = true;
-    this.myalerts.loadAllAlerts(this.userData.userId, this.pageCounter, this.sizeCounter).subscribe((res) => {
-      this.loader = false;
-      if (res.totalPages > 1) this.enableShowMore = true;
-      this.alerts = res.content;
-      this.filterImageURL();
-      this.getMainImage();
+    this.myalerts.checkSubscription(this.userData.userId).subscribe((res) => {
+      res == 'true' ? this.alertSubscribed = true : this.alertSubscribed = false;
+      this.myalerts.loadAllAlerts(this.userData.userId, this.pageCounter, this.sizeCounter).subscribe((res) => {
+        this.loader = false;
+        if (res.totalPages > 1) this.enableShowMore = true;
+        this.alerts = res.content;
+        this.filterImageURL();
+        this.getMainImage();
+      }, (err) => {
+        console.log("Error from Load All Alerts")
+      })
     }, (err) => {
-      console.log("Error from Load All Alerts")
+      console.log("Error from Check Alert Subscription API")
     })
   }
 
@@ -180,18 +186,5 @@ export class MyNewsAlertsComponent implements OnInit {
     var strTime = hours + ':' + minutes + ' ' + ampm;
     return strTime;
   }
-
-  /*trackOrder(modal, order) {
-    this.myalerts.updateOrderShipped(modal.orderId, order.productId).subscribe((res) => {
-      // order.carrier = 'shippo';
-      // order.shipTrackingId = 'SHIPPO_TRANSIT';
-      this.myalerts.trackOrder(order.carrier, order.shipTrackingId).subscribe((res) => {
-        window.localStorage['productForTracking'] = JSON.stringify({ modal: modal, order: order, goShippoRes: res });
-        this.route.navigateByUrl("/trackOrder");
-      }, (err) => {
-        console.log(err);
-      })
-    })
-  }*/
 
 }

@@ -197,7 +197,10 @@ export class OrderDetailsComponent implements OnInit {
       });
   }
   sellerPayment(orderId, retailerId, status) {
-    const sellerPayment = { orderId: orderId, retailerId: retailerId, paymentStatus: status, paymentType: 'MANUAL', retailerName: this.seller.businessName, paymentDate: this.toDate(new Date()) };
+    //Old Code const sellerPayment = { orderId: orderId, retailerId: retailerId, paymentStatus: status, paymentType: 'MANUAL', retailerName: this.seller.businessName, paymentDate: this.toDate(new Date()) };
+    let sellerPayment = {};
+    if (status == "PENDING") sellerPayment = { orderId: orderId, retailerId: retailerId, paymentStatus: status, paymentType: 'MANUAL', retailerName: this.seller.businessName, paymentDate: null };
+    else sellerPayment = { orderId: orderId, retailerId: retailerId, paymentStatus: status, paymentType: 'MANUAL', retailerName: this.seller.businessName, paymentDate: this.toDate(new Date()) };
     this.orderService
       .saveSellerPayment(sellerPayment)
       .subscribe((res) => {

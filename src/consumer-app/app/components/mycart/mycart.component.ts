@@ -78,7 +78,7 @@ export class MycartComponent implements OnInit {
       this.loader = false;
       if (window.localStorage['callSaveCart'] != undefined) {
         localStorage.removeItem('callSaveCart');
-        this.saveCartData();
+        this.saveCartData('');
       }
     }, (err) => {
       console.log(err);
@@ -206,6 +206,7 @@ export class MycartComponent implements OnInit {
       this.totalPayableAmount();
     }
     window.localStorage['existingItemsInCart'] = JSON.stringify(this.itemsInCart);
+    this.saveCartData('quantity');
   }
 
   move(item, to) {
@@ -322,11 +323,11 @@ export class MycartComponent implements OnInit {
       }
     }
     this.fromMoveFunction = false;
-    this.saveCartData();
+    this.saveCartData('');
   }
 
-  saveCartData() {
-    this.loader = true;
+  saveCartData(from) {
+    if (from = '') this.loader = true;
     let data; let wishlist;
     if (window.localStorage['existingItemsInCart'] != undefined) data = JSON.parse(window.localStorage['existingItemsInCart']);
     if (window.localStorage['existingItemsInWishList'] != undefined) wishlist = JSON.parse(window.localStorage['existingItemsInWishList']);

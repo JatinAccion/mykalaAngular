@@ -75,7 +75,7 @@
           <!--Predefined Zipcodes-->
           <span *ngIf="showExistingLocation">
             <img class="mr-3" width="15" src="/consumer-app/assets/images/loader.gif" *ngIf="loaderZipcodes" />
-            <span class="deliveryLocations categ_outline_gray text-center mr-2" style="cursor:pointer" (click)="selectAddress(location, $event)" *ngFor="let location of existingLocation">{{location.zipcode}}</span>
+            <span class="deliveryLocations categ_outline_gray text-center mr-2 mb-2" style="cursor:pointer" (click)="selectAddress(location, $event)" *ngFor="let location of existingLocation">{{location.zipcode}}</span>
           </span>
           <!--Predefined Zipcodes-->
 

@@ -9,6 +9,11 @@ export class MyAlertsService {
 
     constructor(private http: Http) { }
 
+    checkSubscription(userId) {
+        const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.checkAlertSubscription}/${userId}`;
+        return this.http.get(url).map((res) => res.text())
+    }
+
     loadAllAlerts(userId, page, size) {
         const url: string = `${this.BASE_URL}/user/${userId}/${environment.apis.profileInterest.getAllAlerts}?page=${page}&size=${size}&sortOrder=desc&sort=alertDate,DESC`;
         return this.http.get(url).map((res) => res.json())
