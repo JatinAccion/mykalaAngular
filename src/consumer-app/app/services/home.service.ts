@@ -42,11 +42,11 @@ export class HomeService {
 
   filterLoadType(data) {
     const url: string = `${this.BASE_URL}/typesList`;
-    return this.http.post(url, data).map((res) => res.json());
+    return this.http.post(url, data).toPromise().then((res) => res.json());
   }
 
   loadProductFromFilter(ids) {
     const url: string = `${this.BASE_URL}/dynamicSearch/${ids}?page=0&size=30`;
-    return this.http.get(url).map((res) => res.json());
+    return this.http.get(url).toPromise().then((res) => res.json());
   }
 }

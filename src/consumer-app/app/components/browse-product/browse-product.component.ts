@@ -6,6 +6,7 @@ import { SearchDataModal } from '../../../../models/searchData.modal';
 import { BrowseProductsModal } from '../../../../models/browse-products';
 import { environment } from '../../../environments/environment';
 import { element } from 'protractor';
+import { DynamicFilters } from '../../../../models/dynamicFilter';
 
 @Component({
   selector: 'app-browse-product',
@@ -33,27 +34,13 @@ export class BrowseProductComponent implements OnInit {
   showMoreBtn: boolean = false;
   showFilterPanel: boolean = false;
   filterModalAPI = { "fieldValues": [] };
-  filterSubcategoryData = [];
-  filterSelectedSubcategory = [];
+  filteredData: Array<DynamicFilters>;
   toStr = JSON.stringify;
-  filterTypeData_1 = [];
-  filterSelectedType_1 = [];
-  filterTypeData_2 = [];
-  filterSelectedType_2 = [];
-  filterTypeData_3 = [];
-  filterSelectedType_3 = [];
-  idsSubcatProd = [];
-  idsTypeProd_1 = [];
-  idsTypeProd_2 = [];
-  idsTypeProd_3 = [];
-  showSubCategoryFilter: boolean = false;
-  showTypeFilter1: boolean = false;
-  showTypeFilter2: boolean = false;
-  showTypeFilter3: boolean = false;
-  resetSubcategory = null;
-  resetType_1 = null;
-  resetType_2 = null;
-  resetType_3 = null;
+  ids: Array<any> = new Array;
+  increaseLevel: number = 0;
+  newData: Array<any> = new Array;
+  lastParentLevel: number;
+  level0SavedData = [];
 
   constructor(private homeService: HomeService, public core: CoreService, private route: Router) { }
 
@@ -69,8 +56,7 @@ export class BrowseProductComponent implements OnInit {
     this.loader = true;
     this.loadTypes(undefined);
     this.core.pageLabel();
-    this.loadFilterPanelSubcategory();
-    this.showSubCategoryFilter = true;
+    this.loadFilterData();
   }
 
   /*Sequential Search Result*/
@@ -171,12 +157,6 @@ export class BrowseProductComponent implements OnInit {
     updateStorage.category.text = this.selectedCategoryData.text;
     window.localStorage['levelSelections'] = JSON.stringify(updateStorage);
     this.subCategory = [];
-    this.filterSelectedSubcategory = null;
-    this.showSubCategoryFilter = false;
-    this.showTypeFilter1 = true;
-    this.filterModalAPI.fieldValues = [];
-    this.filterModalAPI.fieldValues.push(subcategory.id);
-    this.loadFilterPanelTypes();
     this.closeNav();
     this.loadTypes();
   };
@@ -197,241 +177,179 @@ export class BrowseProductComponent implements OnInit {
     this.showFilterPanel = !this.showFilterPanel;
   }
 
-  /*Call to load the Subcategory data under Filter Panel*/
-  loadFilterPanelSubcategory() {
-    let categoryId = this.selectedTilesData.category.id;
-    this.filterModalAPI.fieldValues.push(categoryId);
-    this.homeService.filterLoadSubcategory(this.filterModalAPI).subscribe((res) => {
-      this.filterSubcategoryData = res;
-    }, (err) => {
-      console.log(err)
-    })
-  }
-  /*Call to load the Subcategory data under Filter Panel*/
-
-  /*Call to load the Type data under Filter Panel*/
-  loadFilterPanelTypes(from?: any) {
-    this.homeService.filterLoadType(this.filterModalAPI).subscribe((res) => {
-      if (from == 'type_1') this.filterTypeData_2 = res;
-      else if (from == 'type_2') this.filterTypeData_3 = res;
-      else this.filterTypeData_1 = res;
-    }, (err) => {
-      console.log(err)
-    })
-  }
-  /*Call to load the Type data under Filter Panel*/
-
-  /*Select Change Function*/
-  loadFilterData(data, from) {
-    var data = JSON.parse(data);
-    if (from == 'subCategory') {
-      if (data.nextLevelProductTypeStatus) {
-        this.clearTypeValues();
-        this.showTypeFilter1 = true;
-        this.filterModalAPI.fieldValues = [];
-        this.filterModalAPI.fieldValues.push(data.subCategoryId);
-        this.loadFilterPanelTypes('subCategory');
-      }
-      else this.clearTypeValues();
-      this.idsSubcatProd.push(data.subCategoryId);
-      this.filterSelectedSubcategory.push(data);
-      this.loadProductsParellel(this.idsSubcatProd);
-    }
-    else if (from == 'type_1') {
-      if (data.nextLevelProductTypeStatus) {
-        this.showTypeFilter2 = true;
-        this.showTypeFilter3 = false;
-        this.filterModalAPI.fieldValues = [];
-        this.filterModalAPI.fieldValues.push(data.productTypeId);
-        this.loadFilterPanelTypes('type_1');
-      }
-      else {
-        this.showTypeFilter2 = false;
-        this.showTypeFilter3 = false;
-      }
-      this.idsTypeProd_1.push(data.productTypeId);
-      this.filterSelectedType_1.push(data);
-      this.loadProductsParellel(this.idsTypeProd_1);
-    }
-    else if (from == 'type_2') {
-      if (data.nextLevelProductTypeStatus) {
-        this.showTypeFilter3 = true;
-        this.filterModalAPI.fieldValues = [];
-        this.filterModalAPI.fieldValues.push(data.productTypeId);
-        this.loadFilterPanelTypes('type_2');
-      }
-      else this.showTypeFilter3 = false;
-      this.idsTypeProd_2.push(data.productTypeId);
-      this.filterSelectedType_2.push(data);
-      this.loadProductsParellel(this.idsTypeProd_2);
-    }
-    else if (from == 'type_3') {
-      this.idsTypeProd_3.push(data.productTypeId);
-      this.filterSelectedType_3.push(data);
-      this.loadProductsParellel(this.idsTypeProd_3);
-    }
-  }
-  /*Select Change Function*/
-
-  /*Select Change Function - Loading New Products Based on Ids*/
-  loadProductsParellel(ids) {
-    this.homeService.loadProductFromFilter(ids).subscribe((res) => {
-      this.tilesData = [];
-      this.filterResponse(res);
-    }, (err) => {
-      console.log(err)
-    })
-  }
-  /*Select Change Function - Loading New Products Based on Ids*/
-
-  /*Uncheck the selected Subcategory or Type and reload the product*/
-  deleteFilterData(data, from) {
-    if (from == 'subCategory') {
-      for (var i = 0; i < this.idsSubcatProd.length; i++) {
-        if (this.idsSubcatProd[i] == data.subCategoryId) {
-          this.idsSubcatProd.splice(i, 1);
-        }
-      }
-      for (var i = 0; i < this.filterSelectedSubcategory.length; i++) {
-        if (this.filterSelectedSubcategory[i].subCategoryId == data.subCategoryId) {
-          this.filterSelectedSubcategory.splice(i, 1);
-        }
-      }
-      if (this.idsSubcatProd.length > 0) this.loadProductsParellel(this.idsSubcatProd);
-      else {
-        this.clearTypeValues();
-        this.showTypeFilter1 = false;
-      }
-    }
-    else if (from == 'type_1') {
-      for (var i = 0; i < this.idsTypeProd_1.length; i++) {
-        if (this.idsTypeProd_1[i] == data.productTypeId) {
-          this.idsTypeProd_1.splice(i, 1);
-        }
-      }
-      for (var i = 0; i < this.filterSelectedType_1.length; i++) {
-        if (this.filterSelectedType_1[i].productTypeId == data.productTypeId) {
-          this.filterSelectedType_1.splice(i, 1);
-        }
-      }
-      if (this.filterSelectedType_1.length == 0) {
-        this.resetType_1 = null;
-        this.resetType_2 = null;
-        this.resetType_3 = null;
-        this.idsTypeProd_2 = [];
-        this.idsTypeProd_3 = [];
-        this.filterSelectedType_2 = [];
-        this.filterSelectedType_3 = [];
-        this.filterTypeData_2 = [];
-        this.filterTypeData_3 = [];
-        this.showTypeFilter2 = false;
-        this.showTypeFilter3 = false;
-        if (this.idsSubcatProd.length > 0) this.loadProductsParellel(this.idsSubcatProd);
-        else {
-          let updateStorage = JSON.parse(window.localStorage['levelSelections']);
-          this.loadProductsParellel(updateStorage.subcategory.id)
-        }
-      }
-      else this.loadProductsParellel(this.idsTypeProd_1);
-    }
-    else if (from == 'type_2') {
-      for (var i = 0; i < this.idsTypeProd_2.length; i++) {
-        if (this.idsTypeProd_2[i] == data.productTypeId) {
-          this.idsTypeProd_2.splice(i, 1);
-        }
-      }
-      for (var i = 0; i < this.filterSelectedType_2.length; i++) {
-        if (this.filterSelectedType_2[i].productTypeId == data.productTypeId) {
-          this.filterSelectedType_2.splice(i, 1);
-        }
-      }
-      if (this.filterSelectedType_2.length == 0) {
-        this.resetType_2 = null;
-        this.resetType_3 = null;
-        this.showTypeFilter3 = false;
-        this.idsTypeProd_3 = [];
-        this.filterSelectedType_3 = [];
-        this.filterTypeData_3 = [];
-        this.showTypeFilter3 = false;
-        this.loadProductsParellel(this.idsTypeProd_1);
-      }
-      else this.loadProductsParellel(this.idsTypeProd_2);
-    }
-    else if (from == 'type_3') {
-      for (var i = 0; i < this.idsTypeProd_3.length; i++) {
-        if (this.idsTypeProd_3[i] == data.productTypeId) {
-          this.idsTypeProd_3.splice(i, 1);
-        }
-      }
-      for (var i = 0; i < this.filterSelectedType_3.length; i++) {
-        if (this.filterSelectedType_3[i].productTypeId == data.productTypeId) {
-          this.filterSelectedType_3.splice(i, 1);
-        }
-      }
-      if (this.filterSelectedType_3.length == 0) {
-        this.resetType_3 = null;
-        this.loadProductsParellel(this.idsTypeProd_2);
-      }
-      else this.loadProductsParellel(this.idsTypeProd_3);
-    }
-
-    // If Subcategory FilterData is Empty
-    if (this.filterSelectedSubcategory.length == 0) {
-      this.clearSubTypeValues()
-      this.loadTypes(undefined); //Default
-    }
-  }
-  /*Uncheck the selected Subcategory or Type and reload the product*/
-
-  /*Clear All Filters*/
   clearAllFilters() {
+    this.filteredData = [];
+    this.increaseLevel = 0;
+    this.ids = [];
+    this.newData = [];
+    this.level0SavedData = [];
     this.enableFilterPanel();
-    this.filterSelectedSubcategory = [];
-    this.clearSubTypeValues();
-    this.loadTypes(undefined);
+    this.loadFilterData();
+    this.loadTypes();
   }
-  /*Clear All Filters*/
 
-  /*Clear Types Data*/
-  clearTypeValues() {
-    this.idsTypeProd_1 = [];
-    this.idsTypeProd_2 = [];
-    this.idsTypeProd_3 = [];
-    this.filterSelectedType_1 = [];
-    this.filterSelectedType_2 = [];
-    this.filterSelectedType_3 = [];
-    this.filterTypeData_1 = [];
-    this.filterTypeData_2 = [];
-    this.filterTypeData_3 = [];
-    this.resetSubcategory = null;
-    this.resetType_1 = null;
-    this.resetType_2 = null;
-    this.resetType_3 = null;
-    this.showTypeFilter1 = false;
-    this.showTypeFilter2 = false;
-    this.showTypeFilter3 = false;
+  loadFilterData() {
+    this.filterModalAPI.fieldValues = [this.selectedTilesData.category.id];
+    this.homeService.filterLoadSubcategory(this.filterModalAPI).subscribe((res) => {
+      if (res.length > 0) {
+        for (let i = 0; i < res.length; i++) res[i].level = this.increaseLevel;
+        this.filteredData = new Array<DynamicFilters>();
+        this.filteredData.push(new DynamicFilters(false, this.increaseLevel, res, [], ""));
+      }
+    }, (err) => {
+      console.log(err);
+    })
   }
-  /*Clear Types Data*/
 
-  /*Clear Subcategory and Types Data*/
-  clearSubTypeValues() {
-    this.idsSubcatProd = [];
-    this.idsTypeProd_1 = [];
-    this.idsTypeProd_2 = [];
-    this.idsTypeProd_3 = [];
-    this.filterSelectedType_1 = [];
-    this.filterSelectedType_2 = [];
-    this.filterSelectedType_3 = [];
-    this.filterTypeData_1 = [];
-    this.filterTypeData_2 = [];
-    this.filterTypeData_3 = [];
-    this.resetSubcategory = null;
-    this.resetType_1 = null;
-    this.resetType_2 = null;
-    this.resetType_3 = null;
-    this.showTypeFilter1 = false;
-    this.showTypeFilter2 = false;
-    this.showTypeFilter3 = false;
+  async changeFilter(data, parent) {
+    data = JSON.parse(data);
+    //parent.selectedValues.push(data);
+
+    /*Load Types*/
+    this.filterModalAPI.fieldValues = [parent.level == 0 ? data.subCategoryId : data.productTypeId];
+    var res = await this.homeService.filterLoadType(this.filterModalAPI);
+
+    parent.selectedValues.push(data);
+    let hashTable = {};
+    let deduped = parent.selectedValues.filter(function (el) {
+      var key = JSON.stringify(el);
+      var match = Boolean(hashTable[key]);
+      return (match ? false : hashTable[key] = true);
+    });
+    parent.selectedValues = deduped;
+
+    if (res.length > 0) {
+      if (parent.level == 0) {
+        this.level0SavedData.push({ level: 1, label: data.subCategoryName, data: res });
+      }
+      if (this.increaseLevel == parent.level) this.increaseLevel = this.increaseLevel + 1;
+      else {
+        this.increaseLevel = parent.level + 1;
+        this.commonToFilterData();
+      }
+      for (let i = 0; i < res.length; i++) res[i].level = this.increaseLevel;
+      this.filteredData.push(new DynamicFilters(true, this.increaseLevel, res, [], parent.level == 0 ? data.subCategoryName : data.productTypeName));
+      var getMatched = this.filteredData.filter(item => item.level > parent.level);
+      if (getMatched.length > 0) {
+        for (let i = 0; i < getMatched.length; i++) {
+          for (let j = 0; j < this.filteredData.length; j++) {
+            if (getMatched[i].selectedString == this.filteredData[j].selectedString && this.filteredData[j].level == this.increaseLevel) {
+              this.filteredData.splice(j, 1);
+            }
+          }
+        }
+      }
+      this.newData.push({ level: this.increaseLevel, label: parent.level == 0 ? data.subCategoryName : data.productTypeName, data: res });
+      var newDataFiltered = this.newData.filter(item => item.level != parent.level && item.level >= parent.level);
+
+      for (let i = 0; i < newDataFiltered.length; i++) {
+        if (newDataFiltered[i].level > 0 && newDataFiltered[i].level > this.increaseLevel) {
+          newDataFiltered.splice(i, 1);
+          this.newData = newDataFiltered;
+          i--;
+        }
+      }
+
+      /*For Level 1 Data*/
+      if (parent.level == 0) {
+        newDataFiltered = [...this.level0SavedData, ...newDataFiltered];
+      }
+      /*For Level 1 Data*/
+
+      newDataFiltered = newDataFiltered.filter((elem, index, self) => self.findIndex((img) => {
+        return (img.level === elem.level && img.label === elem.label)
+      }) === index);
+
+      console.log(newDataFiltered);
+
+      this.filteredData.push(new DynamicFilters(true, this.increaseLevel, newDataFiltered, [], parent.level == 0 ? data.subCategoryName : data.productTypeName));
+      this.clearingDataArr();
+    }
+    this.loadProducts(data, parent); /*Load Products*/
   }
-  /*Clear Subcategory and Types Data*/
+
+  commonToFilterData() {
+    for (let i = 0; i < this.filteredData.length; i++) {
+      if (this.filteredData[i].level > 0 && this.filteredData[i].level > this.increaseLevel) {
+        this.filteredData.splice(i, 1);
+        i--;
+      }
+    }
+  }
+
+  clearingDataArr() {
+    for (let i = 0; i < this.filteredData.length; i++) {
+      let level = this.filteredData[i].level;
+      for (let j = 0; j < this.filteredData[i].data.length; j++) {
+        if (level > 0 && level != this.filteredData[i].data[j].level) {
+          this.filteredData[i].data.splice(j, 1);
+          j--;
+        }
+      }
+    }
+  }
+
+  async loadProducts(data, parent) {
+    if (parent.level != this.lastParentLevel) this.ids = [];
+    this.ids.push(data.subCategoryId != undefined ? data.subCategoryId : data.productTypeId);
+    var ids = Array.from(new Set(this.ids));
+    var response = await this.homeService.loadProductFromFilter(ids);
+    this.tilesData = [];
+    if (response.content.length > 0) {
+      this.filterResponse(response);
+      this.lastParentLevel = parent.level;
+    }
+  }
+
+  deleteFilter(data, e) {
+    e.currentTarget.parentElement.parentElement.children[0].selectedIndex = 0;
+    let dataId = data.subCategoryId != undefined ? data.subCategoryId : data.productTypeId;
+    this.ids = this.ids.filter(item => item != dataId);
+    this.newData = this.newData.filter(item => item.level == data.level);
+    this.filteredData = this.filteredData.filter(item => item.level <= data.level);
+    if (data.level == 0) {
+      for (let i = 0; i < this.level0SavedData.length; i++) {
+        if (this.level0SavedData[i].label == data.subCategoryName) {
+          this.level0SavedData.splice(i, 1);
+          i--;
+        }
+      }
+    }
+
+    for (let i = 0; i < this.filteredData.length; i++) {
+      if (data.level == this.filteredData[i].level) {
+        for (let j = 0; j < this.filteredData[i].selectedValues.length; j++) {
+          let filterId = this.filteredData[i].selectedValues[j].subCategoryId != undefined ? this.filteredData[i].selectedValues[j].subCategoryId : this.filteredData[i].selectedValues[j].productTypeId;
+          if (dataId == filterId) {
+            this.filteredData[i].selectedValues.splice(j, 1);
+            if (this.filteredData[i].selectedValues.length == 0) {
+              this.filteredData.splice(i, 1);
+              break;
+            }
+          }
+        }
+      }
+    }
+
+    for (let i = 0; i < this.filteredData.length; i++) {
+      var ifDataPresent = this.filteredData.filter(item => item.level === data.level);
+      if (ifDataPresent.length > 0) {
+        if (data.level == this.filteredData[i].level) {
+          for (let j = 0; j < this.filteredData[i].selectedValues.length; j++) {
+            this.changeFilter(this.toStr(this.filteredData[i].selectedValues[j]), this.filteredData[i]);
+          }
+        }
+      }
+      else {
+        if (this.filteredData[i].level == (data.level - 1)) {
+          for (let j = 0; j < this.filteredData[i].selectedValues.length; j++) {
+            this.changeFilter(this.toStr(this.filteredData[i].selectedValues[j]), this.filteredData[i]);
+            break;
+          }
+        }
+      }
+    }
+
+    if (this.filteredData.length == 0) this.clearAllFilters();
+  }
 }

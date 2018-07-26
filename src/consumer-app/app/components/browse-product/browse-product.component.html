@@ -30,51 +30,41 @@
         </ul>
         <!--Close and Clear Filter Section-->
 
-        <!--Select and Data Capsules Wrapper-->
-        <div class="selectionWrapperFilter" *ngIf="showSubCategoryFilter">
-            <select class="form-control" [(ngModel)]="resetSubcategory" (change)="loadFilterData($event.target.value, 'subCategory')">
-                <option [value]="null" selected>Select Subcategory</option>
-                <option [value]="toStr(data)" *ngFor="let data of filterSubcategoryData">{{data.subCategoryName}}</option>
-            </select>
-            <div class="selectedDataCapsules" *ngFor="let subCategory of filterSelectedSubcategory">
-                <span class="selectedDataCapsulesContent">{{subCategory.subCategoryName}}</span>
-                <span class="selectedDataCapsulesDelete" (click)="deleteFilterData(subCategory, 'subCategory')">x</span>
-            </div>
-        </div>
+        <!--Select and Data Capsules Wrapper : Starts-->
+        <div class="selectionWrapperFilter" *ngFor="let data of filteredData">
+            <!--Select Drop Down-->
+            <div class="w-100" *ngIf="data.level == 0;else next">
+                <select class="form-control" (change)="changeFilter($event.target.value, data)">
+                    <option>Select</option>
+                    <option [value]="toStr(subCategory)" *ngFor="let subCategory of data.data">{{subCategory.subCategoryName}}</option>
+                </select>
 
-        <div class="selectionWrapperFilter" *ngIf="showTypeFilter1">
-            <select class="form-control" [(ngModel)]="resetType_1" (change)="loadFilterData($event.target.value, 'type_1')">
-                <option [value]="null" selected>Select Type</option>
-                <option [value]="toStr(data)" *ngFor="let data of filterTypeData_1">{{data.productTypeName}}</option>
-            </select>
-            <div class="selectedDataCapsules" *ngFor="let type of filterSelectedType_1">
-                <span class="selectedDataCapsulesContent">{{type.productTypeName}}</span>
-                <span class="selectedDataCapsulesDelete" (click)="deleteFilterData(type, 'type_1')">x</span>
+                <div class="selectedDataCapsules" *ngFor="let value of data.selectedValues">
+                    <span class="selectedDataCapsulesContent">{{value.subCategoryName}}</span>
+                    <span (click)="deleteFilter(value, $event)" class="selectedDataCapsulesDelete">x</span>
+                </div>
             </div>
-        </div>
+            <!--Select Drop Down-->
 
-        <div class="selectionWrapperFilter" *ngIf="showTypeFilter2">
-            <select class="form-control" [(ngModel)]="resetType_2" (change)="loadFilterData($event.target.value, 'type_2')">
-                <option [value]="null" selected>Select Type</option>
-                <option [value]="toStr(data)" *ngFor="let data of filterTypeData_2">{{data.productTypeName}}</option>
-            </select>
-            <div class="selectedDataCapsules" *ngFor="let type of filterSelectedType_2">
-                <span class="selectedDataCapsulesContent">{{type.productTypeName}}</span>
-                <span class="selectedDataCapsulesDelete" (click)="deleteFilterData(type, 'type_2')">x</span>
-            </div>
-        </div>
+            <!--Select Drop Down With Option Group-->
+            <ng-template #next>
+                <div class="w-100">
+                    <select class="form-control" (change)="changeFilter($event.target.value, data)">
+                        <optgroup label="{{newData.label}}" *ngFor="let newData of data.data">
+                            <option>Select</option>
+                            <option *ngFor="let type of newData.data" [value]="toStr(type)">{{type.productTypeName}}</option>
+                        </optgroup>
+                    </select>
 
-        <div class="selectionWrapperFilter" *ngIf="showTypeFilter3">
-            <select class="form-control" [(ngModel)]="resetType_3" (change)="loadFilterData($event.target.value, 'type_3')">
-                <option [value]="null" selected>Select Type</option>
-                <option [value]="toStr(data)" *ngFor="let data of filterTypeData_3">{{data.productTypeName}}</option>
-            </select>
-            <div class="selectedDataCapsules" *ngFor="let type of filterSelectedType_3">
-                <span class="selectedDataCapsulesContent">{{type.productTypeName}}</span>
-                <span class="selectedDataCapsulesDelete" (click)="deleteFilterData(type, 'type_3')">x</span>
-            </div>
+                    <div class="selectedDataCapsules" *ngFor="let value of data.selectedValues">
+                        <span class="selectedDataCapsulesContent">{{value.productTypeName}}</span>
+                        <span (click)="deleteFilter(value, $event)" class="selectedDataCapsulesDelete">x</span>
+                    </div>
+                </div>
+            </ng-template>
+            <!--Select Drop Down With Option Group-->
         </div>
-        <!--Select and Data Capsules Wrapper-->
+        <!--Select and Data Capsules Wrapper : Ends-->
     </div>
     <!--Side Bar Filter Panel-->
 
