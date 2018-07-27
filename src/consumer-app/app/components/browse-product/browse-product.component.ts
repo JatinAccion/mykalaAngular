@@ -290,8 +290,13 @@ export class BrowseProductComponent implements OnInit {
   }
 
   async loadProducts(data, parent) {
-    if (parent.level != this.lastParentLevel) this.ids = [];
-    this.ids.push(data.subCategoryId != undefined ? data.subCategoryId : data.productTypeId);
+    // if (parent.level != this.lastParentLevel) this.ids = [];
+    // this.ids.push(data.subCategoryId != undefined ? data.subCategoryId : data.productTypeId);
+    this.ids = [];
+    for (let i = 0; i < parent.selectedValues.length; i++) {
+      let filterId = parent.selectedValues[i].subCategoryId != undefined ? parent.selectedValues[i].subCategoryId : parent.selectedValues[i].productTypeId;
+      this.ids.push(filterId);
+    }
     var ids = Array.from(new Set(this.ids));
     var response = await this.homeService.loadProductFromFilter(ids);
     this.tilesData = [];
