@@ -35,7 +35,7 @@
             <!--Select Drop Down-->
             <div class="w-100" *ngIf="data.level == 0;else next">
                 <select class="form-control" (change)="changeFilter($event.target.value, data)">
-                    <option>Select</option>
+                    <option selected>Select</option>
                     <option [value]="toStr(subCategory)" *ngFor="let subCategory of data.data">{{subCategory.subCategoryName}}</option>
                 </select>
 
@@ -51,7 +51,7 @@
                 <div class="w-100">
                     <select class="form-control" (change)="changeFilter($event.target.value, data)">
                         <optgroup label="{{newData.label}}" *ngFor="let newData of data.data">
-                            <option>Select</option>
+                            <option selected>Select</option>
                             <option *ngFor="let type of newData.data" [value]="toStr(type)">{{type.productTypeName}}</option>
                         </optgroup>
                     </select>

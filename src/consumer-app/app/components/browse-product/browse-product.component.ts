@@ -40,7 +40,6 @@ export class BrowseProductComponent implements OnInit {
   increaseLevel: number = 0;
   newData: Array<any> = new Array;
   lastParentLevel: number;
-  level0SavedData = [];
 
   constructor(private homeService: HomeService, public core: CoreService, private route: Router) { }
 
@@ -182,7 +181,6 @@ export class BrowseProductComponent implements OnInit {
     this.increaseLevel = 0;
     this.ids = [];
     this.newData = [];
-    this.level0SavedData = [];
     this.enableFilterPanel();
     this.loadFilterData();
     this.loadTypes();
@@ -219,51 +217,31 @@ export class BrowseProductComponent implements OnInit {
     parent.selectedValues = deduped;
 
     if (res.length > 0) {
-      if (parent.level == 0) {
-        this.level0SavedData.push({ level: 1, label: data.subCategoryName, data: res });
-      }
       if (this.increaseLevel == parent.level) this.increaseLevel = this.increaseLevel + 1;
       else {
         this.increaseLevel = parent.level + 1;
         this.commonToFilterData();
       }
       for (let i = 0; i < res.length; i++) res[i].level = this.increaseLevel;
-      this.filteredData.push(new DynamicFilters(true, this.increaseLevel, res, [], parent.level == 0 ? data.subCategoryName : data.productTypeName));
-      var getMatched = this.filteredData.filter(item => item.level > parent.level);
-      if (getMatched.length > 0) {
-        for (let i = 0; i < getMatched.length; i++) {
-          for (let j = 0; j < this.filteredData.length; j++) {
-            if (getMatched[i].selectedString == this.filteredData[j].selectedString && this.filteredData[j].level == this.increaseLevel) {
-              this.filteredData.splice(j, 1);
-            }
-          }
-        }
+      var getExisting = this.filteredData.filter(item => item.level == this.increaseLevel);
+      if (getExisting.length > 0) {
+        getExisting[0].data.push({ level: this.increaseLevel, label: parent.level == 0 ? data.subCategoryName : data.productTypeName, data: res })
+        getExisting[0].selectedValues = [];
+        getExisting[0].data = getExisting[0].data.filter((elem, index, self) => self.findIndex((item) => {
+          return (item.level === elem.level && item.label === elem.label)
+        }) === index);
       }
-      this.newData.push({ level: this.increaseLevel, label: parent.level == 0 ? data.subCategoryName : data.productTypeName, data: res });
-      var newDataFiltered = this.newData.filter(item => item.level != parent.level && item.level >= parent.level);
-
-      for (let i = 0; i < newDataFiltered.length; i++) {
-        if (newDataFiltered[i].level > 0 && newDataFiltered[i].level > this.increaseLevel) {
-          newDataFiltered.splice(i, 1);
-          this.newData = newDataFiltered;
-          i--;
-        }
+      else {
+        this.newData.push({ level: this.increaseLevel, label: parent.level == 0 ? data.subCategoryName : data.productTypeName, data: res });
+        var newDataFiltered = this.newData.filter(item => item.level != parent.level && item.level > parent.level);
+        newDataFiltered = newDataFiltered.filter((elem, index, self) => self.findIndex((item) => {
+          return (item.level === elem.level && item.label === elem.label)
+        }) === index);
+        this.filteredData.push(new DynamicFilters(true, this.increaseLevel, newDataFiltered, [], parent.level == 0 ? data.subCategoryName : data.productTypeName));
+        newDataFiltered = [];
+        this.newData = [];
       }
-
-      /*For Level 1 Data*/
-      if (parent.level == 0) {
-        newDataFiltered = [...this.level0SavedData, ...newDataFiltered];
-      }
-      /*For Level 1 Data*/
-
-      newDataFiltered = newDataFiltered.filter((elem, index, self) => self.findIndex((img) => {
-        return (img.level === elem.level && img.label === elem.label)
-      }) === index);
-
-      console.log(newDataFiltered);
-
-      this.filteredData.push(new DynamicFilters(true, this.increaseLevel, newDataFiltered, [], parent.level == 0 ? data.subCategoryName : data.productTypeName));
-      this.clearingDataArr();
+      console.log(this.filteredData)
     }
     this.loadProducts(data, parent); /*Load Products*/
   }
@@ -312,15 +290,6 @@ export class BrowseProductComponent implements OnInit {
     this.ids = this.ids.filter(item => item != dataId);
     this.newData = this.newData.filter(item => item.level == data.level);
     this.filteredData = this.filteredData.filter(item => item.level <= data.level);
-    if (data.level == 0) {
-      for (let i = 0; i < this.level0SavedData.length; i++) {
-        if (this.level0SavedData[i].label == data.subCategoryName) {
-          this.level0SavedData.splice(i, 1);
-          i--;
-        }
-      }
-    }
-
     for (let i = 0; i < this.filteredData.length; i++) {
       if (data.level == this.filteredData[i].level) {
         for (let j = 0; j < this.filteredData[i].selectedValues.length; j++) {
