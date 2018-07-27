@@ -349,7 +349,6 @@ export class BrowseProductComponent implements OnInit {
         if (this.filteredData[i].level == (data.level - 1)) {
           for (let j = 0; j < this.filteredData[i].selectedValues.length; j++) {
             this.changeFilter(this.toStr(this.filteredData[i].selectedValues[j]), this.filteredData[i]);
-            break;
           }
         }
       }
