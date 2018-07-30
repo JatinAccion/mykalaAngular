@@ -42,10 +42,12 @@ export class Inquiry {
       this.orderDate = obj.orderDate;
       this.productName = obj.productName;
       this.productCost = obj.productCost;
-      this.productTotalCost= obj.productTotalCost;
+      this.productTotalCost = obj.productTotalCost;
       this.inquiryType = obj.inquiryType;
+      this.otherTypeDesc = obj.otherTypeDesc;
       this.inquiryDate = obj.inquiryDate;
       this.inquiryCategory = obj.inquiryCategory;
+      this.otherCategoryDesc = obj.otherCategoryDesc;
       this.description = obj.description;
       this.priority = obj.priority;
       this.assignedTo = obj.assignedTo;

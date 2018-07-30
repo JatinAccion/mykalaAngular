@@ -57,13 +57,21 @@
                         <p>Assigned : {{getUser(inquiry.assignedTo).username}}</p>
                     </td>
                     <td>
-                        <div class="row">
+                        <div class="row mb-3">
                             <div class="col-sm-4">Type:</div>
-                            <div class="col-sm-8">{{inquiry.inquiryType}}</div>
+                            <div class="col-sm-8">
+                                <span>{{inquiry.inquiryType}}</span>
+                                <br />
+                                <span *ngIf="inquiry.otherTypeDesc != null && inquiry.otherTypeDesc != undefined && inquiry.otherTypeDesc != ''">{{inquiry.otherTypeDesc}}</span>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-4">Category:</div>
-                            <div class="col-sm-8">{{inquiry.inquiryCategory}}</div>
+                            <div class="col-sm-8">
+                                <span>{{inquiry.inquiryCategory}}</span>
+                                <br />
+                                <span *ngIf="inquiry.otherCategoryDesc != null && inquiry.otherCategoryDesc != undefined && inquiry.otherCategoryDesc != ''">{{inquiry.otherCategoryDesc}}</span>
+                            </div>
                         </div>
                     </td>
                     <td>{{inquiry.priority}}</td>
@@ -85,7 +93,10 @@
                                     <table class="no_tdBorder" width="100%" border="0">
                                         <tr>
                                             <td>Status:</td>
-                                            <td>{{inquiry.inquiryStatus}}, {{inquiry.resolutionType}}</td>
+                                            <td>
+                                                <span>{{inquiry.inquiryStatus}}</span>
+                                                <span *ngIf="inquiry.resolutionType != undefined && inquiry.resolutionType != null && inquiry.resolutionType != ''">, {{inquiry.resolutionType}}</span>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Date of Inquiry:</td>
@@ -99,7 +110,7 @@
                                             <td>Last updated:</td>
                                             <td>{{inquiry.modifiedDate| date: 'MMM dd, yyyy, hh:mm a'}}</td>
                                         </tr>
-                                        <tr>
+                                        <tr *ngIf="inquiry.resolutionDate != null && inquiry.resolutionDate != undefined && inquiry.resolutionDate != ''">
                                             <td>Resolved on:</td>
                                             <td>{{inquiry.resolutionDate| date: 'fullDate'}}</td>
                                         </tr>
