@@ -101,7 +101,7 @@
             </tr>
             <tr>
                 <td>Processed on:</td>
-                <td>{{retailerOrder.orderProcessedDate | date:'MMM dd, yyyy, hh:mm a'}}</td>
+                <td>{{getProcessedDate(retailerOrder.orderDate) | date:'MMM dd, yyyy, hh:mm a'}}</td>
             </tr>
             <tr *ngIf="showTrackingForm">
                 <td colspan="2">
@@ -246,10 +246,13 @@
                 <tr>
                     <td>Issue status:</td>
                     <td>
-                        <strong>{{inquiry.inquiryStatus}}, {{inquiry.resolutionType}}</strong>
+                        <strong>
+                            <span>{{inquiry.inquiryStatus}}</span>
+                            <span *ngIf="inquiry.resolutionType != undefined && inquiry.resolutionType != null && inquiry.resolutionType != ''">, {{inquiry.resolutionType}}</span>
+                        </strong>
                     </td>
                 </tr>
-                <tr>
+                <tr *ngIf="inquiry.resolutionDate != null && inquiry.resolutionDate != undefined">
                     <td>Resolved on:</td>
                     <td>
                         <strong>{{inquiry.resolutionDate| date: 'fullDate'}}</strong>

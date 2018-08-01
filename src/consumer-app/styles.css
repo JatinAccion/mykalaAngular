@@ -3176,21 +3176,34 @@ table.customeTable tr td {
   position: absolute;
   right: 0;
 }
-.matDOBProfile .mat-form-field-prefix, .mat-form-field-suffix {
+.matDOB .mat-form-field-prefix, .matDOB .mat-form-field-suffix {
+    position: absolute;
+    right: 5px;
+    top: 1px;
+}
+.matDOBProfile .mat-form-field-prefix, .matDOBProfile .mat-form-field-suffix {
     position: absolute;
     right: 5px;
     top: 5px;
 }
+.matDOB .mat-form-field-prefix .mat-icon-button, 
+.matDOB .mat-form-field-suffix .mat-icon-button,
 .matDOBProfile .mat-form-field-prefix .mat-icon-button, 
 .matDOBProfile .mat-form-field-suffix .mat-icon-button {
     outline: none;
 }
 .matDOB .mat-datepicker-toggle-active,
 .matDOBProfile .mat-datepicker-toggle-active {
-    color: #e06263;
+    color: #2c2c2c;
 }
 .matDOBProfile .mat-button-focus-overlay {
     background: none;
+}
+.mat-button-ripple-round {
+    display: none;
+}
+.mat-button-focus-overlay {
+    background: none !important;
 }
 mat-form-field .placeholder {
     float: left;

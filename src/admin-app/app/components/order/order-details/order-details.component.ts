@@ -228,4 +228,10 @@ export class OrderDetailsComponent implements OnInit {
       } else { return ''; }
     }
   }
+  getProcessedDate(orderDate) {
+    var processedDate = new Date(orderDate);
+    processedDate.setHours(processedDate.getHours() + 1);
+    let PDTimeStamp = +processedDate;
+    return PDTimeStamp;
+  }
 }

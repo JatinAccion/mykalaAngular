@@ -40,6 +40,7 @@ export class BrowseProductComponent implements OnInit {
   increaseLevel: number = 0;
   newData: Array<any> = new Array;
   lastParentLevel: number;
+  nextItemArr: Array<any> = [];
 
   constructor(private homeService: HomeService, public core: CoreService, private route: Router) { }
 
@@ -181,6 +182,7 @@ export class BrowseProductComponent implements OnInit {
     this.increaseLevel = 0;
     this.ids = [];
     this.newData = [];
+    this.nextItemArr = [];
     this.enableFilterPanel();
     this.loadFilterData();
     this.loadTypes();
@@ -204,6 +206,7 @@ export class BrowseProductComponent implements OnInit {
     //parent.selectedValues.push(data);
 
     /*Load Types*/
+    this.nextItemArr = this.nextItemArr.filter(item => item.level <= parent.level);
     this.filterModalAPI.fieldValues = [parent.level == 0 ? data.subCategoryId : data.productTypeId];
     var res = await this.homeService.filterLoadType(this.filterModalAPI);
 
@@ -241,7 +244,14 @@ export class BrowseProductComponent implements OnInit {
         newDataFiltered = [];
         this.newData = [];
       }
-      console.log(this.filteredData)
+    }
+    else {
+      if (!data.nextLevelProductTypeStatus) {
+        this.nextItemArr.push({ level: parent.level, id: parent.level == 0 ? data.subCategoryId : data.productTypeId });
+        this.nextItemArr = this.nextItemArr.filter((elem, index, self) => self.findIndex((item) => {
+          return (item.id === elem.id && item.level === elem.level)
+        }) === index);
+      }
     }
     this.loadProducts(data, parent); /*Load Products*/
   }
@@ -275,12 +285,22 @@ export class BrowseProductComponent implements OnInit {
       let filterId = parent.selectedValues[i].subCategoryId != undefined ? parent.selectedValues[i].subCategoryId : parent.selectedValues[i].productTypeId;
       this.ids.push(filterId);
     }
+    if (this.nextItemArr.length > 0) {
+      for (let i = 0; i < this.nextItemArr.length; i++) {
+        this.ids.push(this.nextItemArr[i].id);
+      }
+    }
     var ids = Array.from(new Set(this.ids));
     var response = await this.homeService.loadProductFromFilter(ids);
     this.tilesData = [];
     if (response.content.length > 0) {
       this.filterResponse(response);
       this.lastParentLevel = parent.level;
+    }
+    else {
+      this.headerMessage = 'Sorry, but we don\'t have product matches for you';
+      this.core.show(this.headerMessage);
+      window.localStorage['browseProductSearch'] = this.headerMessage;
     }
   }
 
@@ -290,6 +310,13 @@ export class BrowseProductComponent implements OnInit {
     this.ids = this.ids.filter(item => item != dataId);
     this.newData = this.newData.filter(item => item.level == data.level);
     this.filteredData = this.filteredData.filter(item => item.level <= data.level);
+    this.nextItemArr = this.nextItemArr.filter(item => item.level <= data.level);
+    for (let i = 0; i < this.nextItemArr.length; i++) {
+      if (this.nextItemArr[i].id == dataId) {
+        this.nextItemArr.splice(i, 1);
+        i--;
+      }
+    }
     for (let i = 0; i < this.filteredData.length; i++) {
       if (data.level == this.filteredData[i].level) {
         for (let j = 0; j < this.filteredData[i].selectedValues.length; j++) {

@@ -21,8 +21,8 @@ export class MyOrdersService {
         return this.http.post(url, cancelOrderModel).map(res => res.text());
     }
 
-    trackOrder(carrier, shippingTrackId) {
-        const url: string = `${this.BASE_URL}/${environment.apis.consumerCheckout.trackOrderShipment}/${carrier}/${shippingTrackId}`;
+    trackOrder(carrier, shippingTrackId, productId) {
+        const url: string = `${this.BASE_URL}/${environment.apis.consumerCheckout.trackOrderShipment}/${carrier}/${shippingTrackId}/${productId}`;
         return this.http.get(url).map(res => res.json());
     }
 

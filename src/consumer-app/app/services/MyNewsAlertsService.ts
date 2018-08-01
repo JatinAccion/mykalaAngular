@@ -19,14 +19,14 @@ export class MyAlertsService {
         return this.http.get(url).map((res) => res.json())
     }
 
-    trackOrder(carrier, shippingTrackId) {
+    trackOrder(carrier, shippingTrackId, productId) {
         const BASE_URL: string = environment.checkout;
-        const url: string = `${BASE_URL}/${environment.apis.consumerCheckout.trackOrderShipment}/${carrier}/${shippingTrackId}`;
+        const url: string = `${BASE_URL}/${environment.apis.consumerCheckout.trackOrderShipment}/${carrier}/${shippingTrackId}/${productId}`;
         return this.http.get(url).map(res => res.json());
     }
 
     updateAlerts(alert) {
-        const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.getAllAlerts}`;
+        const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.getAllAlerts}/${'read'}`;
         return this.http.post(url, alert).map((res) => res.json())
     }
 }
