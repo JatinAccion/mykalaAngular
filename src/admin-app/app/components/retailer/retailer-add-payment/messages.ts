@@ -29,7 +29,7 @@ export const inputValidations = {
     'lastName': { required: 'Please enter a Last Name', error: 'Please enter a valid Last Name' },
     'ssnlast4': { required: 'Please enter last 4 digits of SSN', error: 'Please enter a valid last 4 digits of SSN' },
     'Validators': { required: 'Please enter Address Line 1', error: 'Please enter valid Address Line 1' },
-    'dob': { required: 'Please enter Date of Birth', error: 'Please enter a valid Date of Birthy' },
+    'dob': { required: 'Please enter Date of Birth', error: 'Please enter a valid Date of Birth' },
     'addressLine1LegalContact': { required: 'Please enter a Address Line 1', error: 'Please enter a valid Address Line 1' },
     'addressLine2LegalContact': { required: 'Please enter a Address Line 2', error: 'Please enter a valid Address Line 2' },
     'cityLegalContact': { required: 'Please enter a City', error: 'Please enter a valid City' },

@@ -50,13 +50,18 @@ export class RetailerAddPaymentComponent implements OnInit {
   isKalaAdmin = this.core.user.isKalaAdmin;
 
   maxDate = { year: new Date().getFullYear() - 13, month: 1, day: 1 };
-  minDate = { year: 1950, month: 1, day: 1 };
+  minDate = { year: 1940, month: 1, day: 1 };
   // #endregion declaration
   constructor(
     private formBuilder: FormBuilder,
     private retialerService: RetialerService,
     public validatorExt: ValidatorExt,
-    public core: CoreService) { }
+    public core: CoreService) {
+    let dateToBeCalculated = new Date(`${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear() - 13}`);
+    this.maxDate.year = dateToBeCalculated.getFullYear();
+    this.maxDate.month = dateToBeCalculated.getMonth() + 1;
+    this.maxDate.day = dateToBeCalculated.getDate();
+  }
 
   ngOnInit() {
     this.getPaymentInfoDropdowndata();

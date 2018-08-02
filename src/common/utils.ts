@@ -33,6 +33,7 @@ export default class DateUtils {
     }
     fromDate(obj: any): any {
         const date = obj ? new Date(obj) : new Date();
-        return { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
+        if (obj != undefined) return { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
+        else return { year: date.getFullYear() - 13, month: date.getMonth() + 1, day: date.getDate() };
     }
 }
