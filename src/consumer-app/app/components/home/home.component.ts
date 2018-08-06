@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.core.searchMsgToggle();
     setTimeout(function () {
       var header = document.getElementsByClassName("header_sub")[0];
@@ -77,7 +77,11 @@ export class HomeComponent implements OnInit {
     localStorage.removeItem("offerIdForEdit");
     this.core.hide();
     this.core.pageLabel();
-    this.checkProductAvailability();
+    /*Product Availability*/
+    var response = await this.homeService.checkProductAvailability(this.productAvailabilityModal);
+    response = response.filter(item => item.level = this.selectionLevel);
+    this.availableProducts = response;
+    /*Product Availability*/
     this.getPlace();
   }
 
@@ -107,7 +111,6 @@ export class HomeComponent implements OnInit {
     let response = await this.homeService.checkProductAvailability(this.productAvailabilityModal);
     response = response.filter(item => item.level = this.selectionLevel);
     this.availableProducts = response;
-    console.log(this.availableProducts);
   }
 
   getPlace() {
