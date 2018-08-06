@@ -2094,6 +2094,9 @@ input::-webkit-inner-spin-button {
    transition: .5s ease;
    background-color:  rgba(220, 32, 32, 0.80); 
  }
+ .overlayDisabled {
+    cursor: no-drop;
+ }
  .banner_title .imgHover:hover .overlay {
    opacity: 0.9;
  }

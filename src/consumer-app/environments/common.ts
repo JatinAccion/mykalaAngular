@@ -50,7 +50,8 @@ export const apiNames = {
         search: 'textSearch?type',
         typeAhead: 'typeAhead',
         dynamicAttributes: 'dynamicAttributes',
-        productDetails: 'productDetails'
+        productDetails: 'productDetails',
+        comingSoon: 'comingsoon'
     },
     getOffers: {
         confirmOffer: 'getOffersRequest',

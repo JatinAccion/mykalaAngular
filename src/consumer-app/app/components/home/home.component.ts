@@ -27,6 +27,9 @@ export class HomeComponent implements OnInit {
   response: any;
   breadCrums = [];
   customers: any = [];
+  productAvailabilityModal = [];
+  availableProducts = [];
+  selectionLevel: number = 1;
   constructor(private routerOutlet: RouterOutlet, private router: Router, private homeService: HomeService, public core: CoreService) { }
 
   @HostListener("window:scroll", [])
@@ -74,6 +77,7 @@ export class HomeComponent implements OnInit {
     localStorage.removeItem("offerIdForEdit");
     this.core.hide();
     this.core.pageLabel();
+    this.checkProductAvailability();
     this.getPlace();
   }
 
@@ -99,18 +103,37 @@ export class HomeComponent implements OnInit {
     this.contactKala = true;
   }
 
-  //Get All Places
+  async checkProductAvailability() {
+    let response = await this.homeService.checkProductAvailability(this.productAvailabilityModal);
+    response = response.filter(item => item.level = this.selectionLevel);
+    this.availableProducts = response;
+    console.log(this.availableProducts);
+  }
+
   getPlace() {
     this.loader = true;
     this.homeService.getTilesPlace().subscribe(res => {
       this.loader = false;
       for (var i = 0; i < res.length; i++) this.searchData.push(new SearchDataModal(res[i].placeId, res[i].placeName, res[i].placeName, "1", `${this.s3}${this.placeImageUrl}${res[i].placeName}.png`, `${this.s3}${this.placeIconsUrl}${res[i].placeName}.png`));
+      setTimeout(() => { this.modifySearchData() }, 100);
       let carosal = document.getElementsByClassName('carousel-item');
       carosal[0].classList.add("active");
       carosal[1].classList.remove("active");
       this.carousalItems = this.searchData;
       this.tiles = this.searchData;
     });
+  }
+
+  modifySearchData() {
+    let getLevelBasedData = this.availableProducts.filter(item => item.level == this.selectionLevel);
+    for (let i = 0; i < getLevelBasedData.length; i++) {
+      for (let j = 0; j < this.searchData.length; j++) {
+        if (getLevelBasedData[i].name == this.searchData[j].name && getLevelBasedData[i].level == this.searchData[j].level) {
+          this.searchData[j].isProductAvailable = true;
+          break;
+        }
+      }
+    }
   }
 
   animateToTiles() {
@@ -132,16 +155,25 @@ export class HomeComponent implements OnInit {
 
     //Get Category
     if (tile && tile.level == "1") {
+      this.selectionLevel = 2;
       this.loader = true;
       this.userResponse.place = tile;
+      this.productAvailabilityModal = [{
+        "levelName": tile.name,
+        "levelId": tile.id,
+        "levelCount": this.selectionLevel
+      }];
+      this.checkProductAvailability();
       this.homeService.getTilesCategory(tile.id).subscribe((res) => {
         this.loader = false;
         for (var i = 0; i < res.length; i++) this.searchData.push(new SearchDataModal(res[i].categoryId, res[i].categoryName, res[i].categoryName, "2", `${this.s3}${this.categoryImageUrl}${tile.name}/${res[i].categoryName}.jpg`));
+        setTimeout(() => { this.modifySearchData() }, 100);
         this.tiles = this.searchData;
       });
     }
     //Get Sub Category
     else if (tile && tile.level == "2") {
+      this.selectionLevel = 3;
       this.userResponse.category = tile;
       window.localStorage['levelSelections'] = JSON.stringify(this.userResponse);
       if (this.routerOutlet.isActivated) this.routerOutlet.deactivate();
@@ -149,12 +181,18 @@ export class HomeComponent implements OnInit {
     }
     //Get Type
     else if (tile && tile.level == "3") {
+      this.selectionLevel = 4;
       this.userResponse.subcategory = tile;
       window.localStorage['levelSelections'] = JSON.stringify(this.userResponse);
       if (this.routerOutlet.isActivated) this.routerOutlet.deactivate();
       this.router.navigateByUrl('/browse-product');
     }
     //Get Place
-    else this.getPlace();
+    else {
+      this.selectionLevel = 1;
+      this.productAvailabilityModal = [];
+      this.checkProductAvailability();
+      this.getPlace();
+    }
   }
 }

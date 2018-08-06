@@ -35,6 +35,11 @@ export class HomeService {
     return this.http.get(url).map((res) => res.json());
   }
 
+  checkProductAvailability(data) {
+    const url: string = `${this.BASE_URL}/${environment.apis.products.comingSoon}`;
+    return this.http.post(url, data).toPromise().then((res) => res.json());
+  }
+
   filterLoadSubcategory(data) {
     const url: string = `${this.BASE_URL}/subCategoriesList`;
     return this.http.post(url, data).map((res) => res.json());
