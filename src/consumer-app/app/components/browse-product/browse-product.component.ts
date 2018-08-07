@@ -41,10 +41,13 @@ export class BrowseProductComponent implements OnInit {
   newData: Array<any> = new Array;
   lastParentLevel: number;
   nextItemArr: Array<any> = [];
+  productAvailabilityModal = {};
+  productAvailabilityResponse = [];
+  defaultProductLevel: number = 3;
 
   constructor(private homeService: HomeService, public core: CoreService, private route: Router) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.core.checkIfLoggedOut(); /*** If User Logged Out*/
     localStorage.removeItem('GetOfferStep_1');
     localStorage.removeItem('GetOfferStep_2');
@@ -56,6 +59,9 @@ export class BrowseProductComponent implements OnInit {
     this.loader = true;
     this.loadTypes(undefined);
     this.core.pageLabel();
+    this.productAvailabilityModal = { levelName: this.selectedTilesData.category.name, levelId: this.selectedTilesData.category.id, levelCount: this.defaultProductLevel };
+    this.productAvailabilityResponse = await this.homeService.checkProductAvailability(this.productAvailabilityModal);
+    this.productAvailabilityResponse = this.productAvailabilityResponse.filter(item => item.level = this.defaultProductLevel);
     this.loadFilterData();
   }
 
@@ -178,11 +184,14 @@ export class BrowseProductComponent implements OnInit {
   }
 
   clearAllFilters() {
+    this.defaultProductLevel = 3;
     this.filteredData = [];
     this.increaseLevel = 0;
     this.ids = [];
     this.newData = [];
     this.nextItemArr = [];
+    this.productAvailabilityModal = { levelName: this.selectedTilesData.category.name, levelId: this.selectedTilesData.category.id, levelCount: this.defaultProductLevel };
+    this.checkProductAvailability();
     this.enableFilterPanel();
     this.loadFilterData();
     this.loadTypes();
@@ -194,7 +203,8 @@ export class BrowseProductComponent implements OnInit {
       if (res.length > 0) {
         for (let i = 0; i < res.length; i++) res[i].level = this.increaseLevel;
         this.filteredData = new Array<DynamicFilters>();
-        this.filteredData.push(new DynamicFilters(false, this.increaseLevel, res, [], ""));
+        this.filteredData.push(new DynamicFilters(false, this.increaseLevel, res, [], "", this.defaultProductLevel));
+        this.modifyData();
       }
     }, (err) => {
       console.log(err);
@@ -220,6 +230,7 @@ export class BrowseProductComponent implements OnInit {
     parent.selectedValues = deduped;
 
     if (res.length > 0) {
+      this.defaultProductLevel = parent.pALevel + 1;
       if (this.increaseLevel == parent.level) this.increaseLevel = this.increaseLevel + 1;
       else {
         this.increaseLevel = parent.level + 1;
@@ -240,7 +251,7 @@ export class BrowseProductComponent implements OnInit {
         newDataFiltered = newDataFiltered.filter((elem, index, self) => self.findIndex((item) => {
           return (item.level === elem.level && item.label === elem.label)
         }) === index);
-        this.filteredData.push(new DynamicFilters(true, this.increaseLevel, newDataFiltered, [], parent.level == 0 ? data.subCategoryName : data.productTypeName));
+        this.filteredData.push(new DynamicFilters(true, this.increaseLevel, newDataFiltered, [], parent.level == 0 ? data.subCategoryName : data.productTypeName, this.defaultProductLevel));
         newDataFiltered = [];
         this.newData = [];
       }
@@ -253,6 +264,14 @@ export class BrowseProductComponent implements OnInit {
         }) === index);
       }
     }
+    /*Check product Availability*/
+    this.productAvailabilityModal = {
+      levelName: parent.level == 0 ? data.subCategoryName : data.productTypeName,
+      levelId: parent.level == 0 ? data.subCategoryId : data.productTypeId,
+      levelCount: this.defaultProductLevel
+    };
+    this.checkProductAvailability();
+    /*Check product Availability*/
     this.loadProducts(data, parent); /*Load Products*/
   }
 
@@ -278,8 +297,6 @@ export class BrowseProductComponent implements OnInit {
   }
 
   async loadProducts(data, parent) {
-    // if (parent.level != this.lastParentLevel) this.ids = [];
-    // this.ids.push(data.subCategoryId != undefined ? data.subCategoryId : data.productTypeId);
     this.ids = [];
     for (let i = 0; i < parent.selectedValues.length; i++) {
       let filterId = parent.selectedValues[i].subCategoryId != undefined ? parent.selectedValues[i].subCategoryId : parent.selectedValues[i].productTypeId;
@@ -351,5 +368,40 @@ export class BrowseProductComponent implements OnInit {
     }
 
     if (this.filteredData.length == 0) this.clearAllFilters();
+  }
+
+  async checkProductAvailability() {
+    this.productAvailabilityResponse = await this.homeService.checkProductAvailability(this.productAvailabilityModal);
+    this.productAvailabilityResponse = this.productAvailabilityResponse.filter(item => item.level = this.defaultProductLevel);
+    this.modifyData();
+  }
+
+  modifyData() {
+    for (let i = 0; i < this.productAvailabilityResponse.length; i++) {
+      for (let j = 0; j < this.filteredData.length; j++) {
+        if (this.productAvailabilityResponse[i].level == this.filteredData[j].pALevel) {
+          for (let k = 0; k < this.filteredData[j].data.length; k++) {
+            /*If Level 0 (Subcategory)*/
+            if (this.filteredData[j].data[k].level == 0) {
+              let name = this.filteredData[j].data[k].subCategoryName;
+              if (this.productAvailabilityResponse[i].name == name && (this.filteredData[j].data[k].isProductAvailable == undefined)) {
+                this.filteredData[j].data[k].isProductAvailable = true;
+                break;
+              }
+            }
+            /*If Level > 0 (Types)*/
+            else {
+              for (let l = 0; l < this.filteredData[j].data[k].data.length; l++) {
+                let name = this.filteredData[j].data[k].data[l].productTypeName;
+                if (this.productAvailabilityResponse[i].name == name && (this.filteredData[j].data[k].data[l].isProductAvailable == undefined)) {
+                  this.filteredData[j].data[k].data[l].isProductAvailable = true;
+                  break;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }

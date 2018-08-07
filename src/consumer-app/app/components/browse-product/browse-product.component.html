@@ -36,7 +36,7 @@
             <div class="w-100" *ngIf="data.level == 0;else next">
                 <select class="form-control" (change)="changeFilter($event.target.value, data)">
                     <option selected disabled>Sub Category</option>
-                    <option [value]="toStr(subCategory)" *ngFor="let subCategory of data.data">{{subCategory.subCategoryName}}</option>
+                    <option [disabled]="subCategory.isProductAvailable == undefined" [value]="toStr(subCategory)" *ngFor="let subCategory of data.data">{{subCategory.subCategoryName}} {{subCategory.isProductAvailable == undefined ? ' - Coming Soon' : ''}}</option>
                 </select>
 
                 <div class="selectedDataCapsules" *ngFor="let value of data.selectedValues">
@@ -52,7 +52,7 @@
                     <select class="form-control" (change)="changeFilter($event.target.value, data)">
                         <optgroup label="{{newData.label}}" *ngFor="let newData of data.data">
                             <option selected disabled>Type</option>
-                            <option *ngFor="let type of newData.data" [value]="toStr(type)">{{type.productTypeName}}</option>
+                            <option *ngFor="let type of newData.data" [disabled]="type.isProductAvailable == undefined" [value]="toStr(type)">{{type.productTypeName}} {{type.isProductAvailable == undefined ? ' - Coming Soon' : ''}}</option>
                         </optgroup>
                     </select>
 

@@ -6,7 +6,7 @@
         <img src="{{tile.imgUrl}}" class="img-fluid card-img-top" />
         <span class="imageOverlayText">{{tile.text}}</span>
         <!--Overlay-->
-        <div [ngClass]="{'overlayDisabled':!tile.isProductAvailable}" class="overlay ml-3 text-center">
+        <div [ngClass]="{'overlayDisabled':tile.isProductAvailable == undefined}" class="overlay ml-3 text-center">
           <div class="explore col-sm-12 p-0">
             <img src="{{!tile.isProductAvailable ? '/consumer-app/assets/images/icon_comingsoon.png' : '/consumer-app/assets/images/icon_explore.png'}}"
             />
