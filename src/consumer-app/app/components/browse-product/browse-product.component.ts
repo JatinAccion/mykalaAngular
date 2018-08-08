@@ -155,7 +155,7 @@ export class BrowseProductComponent implements OnInit {
     this.homeService.getTilesSubCategory(object.id).subscribe(res => {
       this.loadersubCategory = false;
       for (var i = 0; i < res.length; i++) this.subCategory.push(new SearchDataModal(res[i].subCategoryId, res[i].subCategoryName, res[i].subCategoryName, "3"));
-      let data = { levelName: this.selectedTilesData.category.name, levelId: this.selectedTilesData.category.id, levelCount: 3 };
+      let data = { levelName: this.selectedCategoryData.name, levelId: this.selectedCategoryData.id, levelCount: 3 };
       this.productAvailability(data, 'sc', 3);
     });
   };
