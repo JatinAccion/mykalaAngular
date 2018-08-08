@@ -67,7 +67,7 @@
             <div class="form-group matDOB matDOBProfile">
               <!-- <input formControlName="dateOfBirth" (focus)="d.open()" [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker #d="ngbDatepicker" class="form-control" placeholder="mm-dd-yyyy"> -->
               <mat-form-field class="example-full-width" floatLabel="never">
-                <input readonly maxlength="10" (paste)="$event.preventDefault()" (dateChange)="addEvent('change', $event)" (keypress)="core.allowOnlyNumbers($event)" class="form-control datePickerInput" matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker">
+                <input readonly maxlength="10" (paste)="$event.preventDefault()" (dateChange)="addEvent('change', $event)" (keypress)="core.allowOnlyNumbers($event)" class="form-control datePickerInput" (mousedown)="picker.open()" matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker">
                 <mat-placeholder class="placeholder">mm/dd/yyyy</mat-placeholder>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>

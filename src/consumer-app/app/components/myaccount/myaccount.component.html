@@ -100,7 +100,7 @@
                   <ng-template #empty></ng-template>
                 </span>
                 <mat-form-field *ngIf="input_dob" class="example-full-width" floatLabel="never">
-                  <input readonly maxlength="10" (paste)="$event.preventDefault()" [value]="myAccountModel.profileInfo.dob" (dateChange)="addEvent('change', $event)" (keypress)="core.allowOnlyNumbers($event)" class="txtnml width100 appendedInput datePickerInput" (focus)="picker.open()" matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker">
+                  <input readonly maxlength="10" (paste)="$event.preventDefault()" [value]="myAccountModel.profileInfo.dob" (dateChange)="addEvent('change', $event)" (keypress)="core.allowOnlyNumbers($event)" class="txtnml width100 appendedInput datePickerInput" (mousedown)="picker.open()" matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker">
                   <mat-placeholder class="placeholder">mm/dd/yyyy</mat-placeholder>
                   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                   <mat-datepicker #picker></mat-datepicker>
