@@ -43,6 +43,7 @@ export class BrowseProductComponent implements OnInit {
   nextItemArr: Array<any> = [];
   productAvailabilityModal = {};
   productAvailabilityResponse = [];
+  productAvailabilityCategoryIC = [];
   defaultProductLevel: number = 3;
 
   constructor(private homeService: HomeService, public core: CoreService, private route: Router) { }
@@ -136,6 +137,8 @@ export class BrowseProductComponent implements OnInit {
     this.homeService.getTilesCategory(this.selectedTilesData.place.id).subscribe(res => {
       this.loaderCategory = false;
       for (var i = 0; i < res.length; i++) this.categoryList.push(new SearchDataModal(res[i].categoryId, res[i].categoryName, res[i].categoryName, "2", "", "", "", false));
+      let data = { levelName: this.selectedTilesData.place.name, levelId: this.selectedTilesData.place.id, levelCount: 2 };
+      this.productAvailability(data, 'c', 2);
     });
   };
 
@@ -152,6 +155,8 @@ export class BrowseProductComponent implements OnInit {
     this.homeService.getTilesSubCategory(object.id).subscribe(res => {
       this.loadersubCategory = false;
       for (var i = 0; i < res.length; i++) this.subCategory.push(new SearchDataModal(res[i].subCategoryId, res[i].subCategoryName, res[i].subCategoryName, "3"));
+      let data = { levelName: this.selectedTilesData.category.name, levelId: this.selectedTilesData.category.id, levelCount: 3 };
+      this.productAvailability(data, 'sc', 3);
     });
   };
 
@@ -399,6 +404,34 @@ export class BrowseProductComponent implements OnInit {
                 }
               }
             }
+          }
+        }
+      }
+    }
+  }
+
+  productAvailability(data, from, level) {
+    this.homeService.productAvailability(data).subscribe((res) => {
+      this.productAvailabilityCategoryIC = res.filter(item => item.level = level);
+      this.modifyCatSubData(from);
+    }, (err) => {
+      console.log("Error from Product Availability");
+    })
+  }
+
+  modifyCatSubData(from) {
+    for (let i = 0; i < this.productAvailabilityCategoryIC.length; i++) {
+      if (from == 'c') {
+        for (let j = 0; j < this.categoryList.length; j++) {
+          if (this.productAvailabilityCategoryIC[i].name == this.categoryList[j].name) {
+            this.categoryList[j].isProductAvailable = true;
+          }
+        }
+      }
+      else {
+        for (let j = 0; j < this.subCategory.length; j++) {
+          if (this.productAvailabilityCategoryIC[i].name == this.subCategory[j].name) {
+            this.subCategory[j].isProductAvailable = true;
           }
         }
       }

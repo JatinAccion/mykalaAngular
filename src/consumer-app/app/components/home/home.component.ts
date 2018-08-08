@@ -77,11 +77,6 @@ export class HomeComponent implements OnInit {
     localStorage.removeItem("offerIdForEdit");
     this.core.hide();
     this.core.pageLabel();
-    /*Product Availability*/
-    this.productAvailabilityModal = { levelName: null, levelId: null, levelCount: this.selectionLevel };
-    this.availableProducts = await this.homeService.checkProductAvailability(this.productAvailabilityModal);
-    this.availableProducts = this.availableProducts.filter(item => item.level = this.selectionLevel);
-    /*Product Availability*/
     this.getPlace();
   }
 
@@ -107,22 +102,25 @@ export class HomeComponent implements OnInit {
     this.contactKala = true;
   }
 
-  async checkProductAvailability() {
-    this.availableProducts = await this.homeService.checkProductAvailability(this.productAvailabilityModal);
-    this.availableProducts = this.availableProducts.filter(item => item.level = this.selectionLevel);
-  }
-
   getPlace() {
     this.loader = true;
     this.homeService.getTilesPlace().subscribe(res => {
       this.loader = false;
       for (var i = 0; i < res.length; i++) this.searchData.push(new SearchDataModal(res[i].placeId, res[i].placeName, res[i].placeName, "1", `${this.s3}${this.placeImageUrl}${res[i].placeName}.png`, `${this.s3}${this.placeIconsUrl}${res[i].placeName}.png`));
-      this.modifySearchData();
       let carosal = document.getElementsByClassName('carousel-item');
       carosal[0].classList.add("active");
       carosal[1].classList.remove("active");
       this.carousalItems = this.searchData;
       this.tiles = this.searchData;
+      /*Product Availability*/
+      this.productAvailabilityModal = { levelName: null, levelId: null, levelCount: this.selectionLevel };
+      this.homeService.productAvailability(this.productAvailabilityModal).subscribe((res) => {
+        this.availableProducts = res.filter(item => item.level = this.selectionLevel);
+        this.modifySearchData();
+      }, (err) => {
+        console.log("Error From Product Availability");
+      });
+      /*Product Availability*/
     });
   }
 
@@ -160,13 +158,19 @@ export class HomeComponent implements OnInit {
       this.selectionLevel = 2;
       this.loader = true;
       this.userResponse.place = tile;
-      this.productAvailabilityModal = { levelName: tile.name, levelId: tile.id, levelCount: this.selectionLevel };
-      this.checkProductAvailability();
       this.homeService.getTilesCategory(tile.id).subscribe((res) => {
         this.loader = false;
         for (var i = 0; i < res.length; i++) this.searchData.push(new SearchDataModal(res[i].categoryId, res[i].categoryName, res[i].categoryName, "2", `${this.s3}${this.categoryImageUrl}${tile.name}/${res[i].categoryName}.jpg`));
-        this.modifySearchData();
         this.tiles = this.searchData;
+        /*Product Availability*/
+        this.productAvailabilityModal = { levelName: tile.name, levelId: tile.id, levelCount: this.selectionLevel };
+        this.homeService.productAvailability(this.productAvailabilityModal).subscribe((res) => {
+          this.availableProducts = res.filter(item => item.level = this.selectionLevel);
+          this.modifySearchData();
+        }, (err) => {
+          console.log("Error From Product Availability");
+        });
+        /*Product Availability*/
       });
     }
     //Get Sub Category
@@ -186,8 +190,6 @@ export class HomeComponent implements OnInit {
     //Get Place
     else {
       this.selectionLevel = 1;
-      this.productAvailabilityModal = { levelName: null, levelId: null, levelCount: this.selectionLevel };
-      this.checkProductAvailability();
       this.getPlace();
     }
   }

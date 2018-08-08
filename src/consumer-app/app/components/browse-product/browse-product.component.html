@@ -6,11 +6,12 @@
         />
         <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
         <ul class="category_tiles" *ngFor="let category of categoryList">
-            <li>
-                <span (click)="loadSubcategory($event, category)" title="{{category.name}}" class="pr-3 d-block">{{category.name}}</span>
+            <li [ngStyle]="{'cursor': category.isProductAvailable == undefined ? 'no-drop' : 'pointer'}">
+                <span [ngStyle]="{'cursor': category.isProductAvailable == undefined ? 'no-drop' : 'auto'}" (click)="category.isProductAvailable && loadSubcategory($event, category)"
+                    title="{{category.name}}" class="pr-3 d-block">{{category.name}}</span>
                 <ul class="cat_subMenu" *ngIf="category.expanded">
                     <img src="/consumer-app/assets/images/loader_2.gif" style="margin: 10% 46% 0%" *ngIf="loadersubCategory" />
-                    <li *ngFor="let subcategory of subCategory" (click)="refreshSubcategory(subcategory)" title="{{subcategory.name}}">{{subcategory.name}}</li>
+                    <li *ngFor="let subcategory of subCategory" [ngStyle]="{'cursor': subcategory.isProductAvailable == undefined ? 'no-drop' : 'pointer'}" (click)="subcategory.isProductAvailable && refreshSubcategory(subcategory)" title="{{subcategory.name}}">{{subcategory.name}}</li>
                 </ul>
             </li>
         </ul>
