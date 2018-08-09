@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>kala market</title>
+    <title>MyKala</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
@@ -31,10 +31,10 @@
                             </tr>
                             <tr>
                                 <td style="color:#999;font-size:16px; padding-left:10px; text-align:center">
-                                   <b>Your account has been closed successfully</b>
+                                    <b>Your account has been closed successfully</b>
                                 </td>
                             </tr>
-                          
+
                             <tr>
                                 <td style="height:10px;">&nbsp;</td>
                             </tr>
@@ -44,35 +44,29 @@
             </tr>
             <tr>
                 <td style="background:#fff; color:#999999; text-align:center; padding:10px 0px; font-size:12px;">
-                    <a href="http://www.mykala.com/" style="color:#999; font-size:12px;">Kala </a> |
-                    <a href="#" style="color:#999; font-size:12px;">Privacy Policy</a>
-                   
-                </td>
-            </tr>
-            <tr>
-                <td style="background:#fff; color:#999999; text-align:center; padding:10px 0px; font-size:12px;">
-                    &copy; Kala
+                    <a style="color:#999; font-size:12px;">&copy; Kala</a> |
+                    <a href="http://consumer-qa.mykala.s3-website.us-east-2.amazonaws.com/privacy.html" target="_blank" style="color:#999; font-size:12px;">Privacy Policy</a>
                 </td>
             </tr>
         </table>
     </div>
-   <script>
-	    function loadAPI(){
-		//	getParameterByName();
-			var userId = getParameterByName('userId');
-				if (userId) {
-					var xhttp = new XMLHttpRequest();
-					xhttp.onreadystatechange = function () {
-						if (this.readyState == 4 && this.status == 200) {
-							var response = this.responseText;
-							console.log(response);
-						}
-					};
-					xhttp.open("DELETE", "http://qa-signup-service.us-west-1.elasticbeanstalk.com/user/v1/delete/consumer/" + userId, true);
-					xhttp.setRequestHeader("Content-type", "application/json");
-					xhttp.send();
-			}
-	    }
+    <script>
+        function loadAPI() {
+            //	getParameterByName();
+            var userId = getParameterByName('userId');
+            if (userId) {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var response = this.responseText;
+                        console.log(response);
+                    }
+                };
+                xhttp.open("DELETE", "http://qa-signup-service.us-west-1.elasticbeanstalk.com/user/v1/delete/consumer/" + userId, true);
+                xhttp.setRequestHeader("Content-type", "application/json");
+                xhttp.send();
+            }
+        }
         function getParameterByName(name, url) {
             if (!url) url = window.location.href;
             name = name.replace(/[\[\]]/g, "\\$&");

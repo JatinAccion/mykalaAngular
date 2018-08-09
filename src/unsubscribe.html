@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>kala market</title>
+    <title>MyKala</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
@@ -30,31 +30,32 @@
                                 <td style="height:10px;">&nbsp;</td>
                             </tr>
                             <tr>
-                                <td style="color:#999;font-size:14px; padding-left:10px;  ">
-                                    We’re sorry to see you go. If you no longer wish to receive emails from Kala, please click the unsubscribe button below and you will be removed from our mailing list.
+                                <td style="color:#999;font-size:14px; padding-left:10px;" class="reWriteCancelMsg">
+                                    We’re sorry to see you go. If you no longer wish to receive emails from Kala, please click the unsubscribe button below and
+                                    you will be removed from our mailing list.
                                 </td>
                             </tr>
-                            <tr>
+                            <tr class="hideElements">
                                 <td style="height:10px;">&nbsp;</td>
                             </tr>
-                            <tr>
-                                <td style="color:#999;font-size:14px; padding-left:10px;  ">
+                            <tr class="hideElements">
+                                <td style="color:#999;font-size:14px; padding-left:10px;">
                                     Would you like to be removed from the mailing list?
                                 </td>
                             </tr>
-                            <tr>
+                            <tr class="hideElements">
                                 <td style="height:30px;">&nbsp;</td>
                             </tr>
-                            <tr>
+                            <tr class="hideElements">
                                 <td align="center">
                                     <a href="#" style="padding:10px 50px; border-radius:10px; background:#436798; text-decoration:none; color:#fff;" onclick="UserAction()">Unsubscribe</a>
                                     <a href="#" style="padding:10px 50px; border-radius:10px; background:#436798; text-decoration:none; color:#fff;" onclick="close_window();return false;">Cancel</a>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr class="hideElements">
                                 <td style="height:40px;">&nbsp;</td>
                             </tr>
-                            <tr>
+                            <tr class="hideElements">
                                 <td style="font-size:14px; color:#999999;">
                                     - Your Kala Team
                                 </td>
@@ -68,14 +69,9 @@
             </tr>
             <tr>
                 <td style="background:#fff; color:#999999; text-align:center; padding:10px 0px; font-size:12px;">
-                    <a href="http://www.mykala.com/" style="color:#999; font-size:12px;">Kala </a> |
-                    <a href="#" style="color:#999; font-size:12px;">Privacy Policy</a> |
-                    <a href="#" style="color:#999; font-size:12px;">My Account</a>
-                </td>
-            </tr>
-            <tr>
-                <td style="background:#fff; color:#999999; text-align:center; padding:10px 0px; font-size:12px;">
-                    &copy; Kala
+                    <a style="color:#999; font-size:12px;">&copy; Kala</a> |
+                    <a href="http://consumer-qa.mykala.s3-website.us-east-2.amazonaws.com/privacy.html" target="_blank" style="color:#999; font-size:12px;">Privacy Policy</a> |
+                    <a href="#" onclick="redirectToMA()" style="color:#999; font-size:12px;">My Account</a>
                 </td>
             </tr>
         </table>
@@ -96,9 +92,18 @@
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
-                        var response = JSON.parse(this.responseText);
-                        console.log(response);
-                        alert('Successfully Unsubscribed');
+                        var hideElements = document.getElementsByClassName('hideElements');
+                        for (i = 0; i < hideElements.length; i++) {
+                            hideElements[i].remove();
+                            i--;
+                        }
+                        document.getElementsByClassName('reWriteCancelMsg')[0].innerText = 'Your have successfully unsubscribed to email alerts.';
+                        document.getElementsByClassName('reWriteCancelMsg')[0].style.textAlign = 'center';
+                        document.getElementsByClassName('reWriteCancelMsg')[0].style.fontWeight = 'bold';
+                        document.getElementsByClassName('reWriteCancelMsg')[0].style.fontSize = '16px';
+                        setTimeout(() => {
+                            window.open('http://consumer-qa.mykala.s3-website.us-east-2.amazonaws.com/#/', '_self');
+                        }, 3000);
                     }
                 };
                 xhttp.open("GET", "http://dev-consumer-profile.us-east-2.elasticbeanstalk.com/consumer/v1/unsubscribe/" + userId, true);
@@ -107,10 +112,22 @@
             }
         }
         function close_window() {
-            if (confirm("Close Window?")) {
-                var win = window.open('http://www.mykala.com', '_self');
-                win.close();
+            var hideElements = document.getElementsByClassName('hideElements');
+            for (i = 0; i < hideElements.length; i++) {
+                hideElements[i].remove();
+                i--;
             }
+            document.getElementsByClassName('reWriteCancelMsg')[0].innerText = 'Your request has been cancelled';
+            document.getElementsByClassName('reWriteCancelMsg')[0].style.textAlign = 'center';
+            document.getElementsByClassName('reWriteCancelMsg')[0].style.fontWeight = 'bold';
+            document.getElementsByClassName('reWriteCancelMsg')[0].style.fontSize = '16px';
+            setTimeout(() => {
+                window.open('http://consumer-qa.mykala.s3-website.us-east-2.amazonaws.com/#/', '_self');
+            }, 2000);
+        }
+        function redirectToMA() {
+            var userId = getParameterByName('userId');
+            window.open('http://consumer-qa.mykala.s3-website.us-east-2.amazonaws.com/#/mail/' + userId + '/myaccount', '_blank');
         }
     </script>
 

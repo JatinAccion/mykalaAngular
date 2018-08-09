@@ -29,7 +29,7 @@ const appRoutes: Routes = [
     component: MailLeaveReviewComponent,
   },
   {
-    path: 'mail/:userId/order/:orderId/product/:productId/track',
+    path: 'mail/:userId/order/:orderId/product/:productId/carrier/:carrier/trackingNumber/:trackingNumber/track',
     component: MailTrackOrderComponent,
   },
   {

@@ -18,6 +18,8 @@ export class MailTrackOrderComponent implements OnInit {
   loader: boolean;
   userId: any;
   productId: any;
+  carrier: any;
+  trackingNumber: any;
   constructor(private router: Router,
     route: ActivatedRoute,
     private auth: AuthService,
@@ -25,25 +27,27 @@ export class MailTrackOrderComponent implements OnInit {
     this.userId = route.snapshot.params['userId'];
     this.orderId = route.snapshot.params['orderId'];
     this.productId = route.snapshot.params['productId'];
+    this.carrier = route.snapshot.params['carrier'];
+    this.trackingNumber = route.snapshot.params['trackingNumber'];
   }
 
   ngOnInit() {
     if (!this.core.validateUser(this.userId)) {
       this.router.navigateByUrl('/home');
     } else {
-      //this.trackOrder(this.orderId, this.productId);
+      this.trackOrder(this.orderId, this.productId);
     }
   }
-  // trackOrder(orderId, productId) {
-  //   this.myOrdersService.getById(orderId).subscribe(order => {
-  //     if (order.orderItems.filter(p => p.productId === productId).length > 0) {
-  //       this.myOrdersService.trackOrder('SHIPPO_TRANSIT').subscribe((res) => {
-  //         window.localStorage['productForTracking'] = JSON.stringify({ modal: order, order: order.orderItems.filter(p => p.productId === productId)[0], goShippoRes: res });
-  //         this.core.redirectTo('trackOrder');
-  //       }, (err) => {
-  //         console.log(err);
-  //       });
-  //     }
-  //   });
-  // }
+  trackOrder(orderId, productId) {
+    this.myOrdersService.getById(orderId).subscribe(order => {
+      if (order.orderItems.filter(p => p.productId === productId).length > 0) {
+        this.myOrdersService.trackOrder(this.carrier, this.trackingNumber, this.productId).subscribe((res) => {
+          window.localStorage['productForTracking'] = JSON.stringify({ modal: order, order: order.orderItems.filter(p => p.productId === productId)[0], goShippoRes: res });
+          this.core.redirectTo('trackOrder');
+        }, (err) => {
+          console.log(err);
+        });
+      }
+    });
+  }
 }

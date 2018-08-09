@@ -19,9 +19,9 @@
             <div class="carousel-inner">
                 <div class="carousel-item d-block">
                     <ul>
-                        <li *ngFor="let tile of carousalItems; let i=index" [id]="tile.id" (click)="animateToTiles(); tileSelected(tile)">
+                        <li *ngFor="let tile of carousalItems; let i=index" [id]="tile.id" (click)="tile.isProductAvailable && animateToTiles(); tile.isProductAvailable && tileSelected(tile)">
                             <div *ngIf="i<=4">
-                                <a class="nav-link">
+                                <a class="nav-link" [ngStyle]="{'cursor':tile.isProductAvailable ? 'pointer' : 'no-drop'}">
                                     <img src="{{tile.iconUrl}}" />
                                     <span>{{tile.text}}</span>
                                 </a>
@@ -31,9 +31,9 @@
                 </div>
                 <div class="carousel-item d-none">
                     <ul>
-                        <li *ngFor="let tile of carousalItems; let i=index" [id]="tile.id" (click)="animateToTiles(); tileSelected(tile)">
+                        <li *ngFor="let tile of carousalItems; let i=index" [id]="tile.id" (click)="tile.isProductAvailable && animateToTiles(); tile.isProductAvailable && tileSelected(tile)">
                             <div *ngIf="i>4 && i<=10">
-                                <a class="nav-link js-scroll-trigger">
+                                <a class="nav-link js-scroll-trigger" [ngStyle]="{'cursor':tile.isProductAvailable ? 'pointer' : 'no-drop'}">
                                     <img src="{{tile.iconUrl}}" />
                                     <span>{{tile.text}}</span>
                                 </a>
