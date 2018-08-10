@@ -167,6 +167,9 @@ export class ProductService {
 
   getProductPlaces(): Observable<Array<ProductPlace>> {
     if (this.productPlaces != null && this.productPlaces.length !== 0) {
+      this.productPlaces = this.productPlaces.filter((elem, index, self) => self.findIndex((item) => {
+        return (item.PlaceId === elem.PlaceId)
+      }) === index);
       return Observable.of(this.productPlaces);
     } else {
       const url = `${this.BASE_URL}/${environment.apis.product.places}`;
@@ -175,7 +178,9 @@ export class ProductService {
         .map(res => {
           const resArr = <Array<any>>res.json();
           resArr.forEach(obj => this.productPlaces.push(new ProductPlace(obj)));
-          return this.productPlaces;
+          return this.productPlaces = this.productPlaces.filter((elem, index, self) => self.findIndex((item) => {
+            return (item.PlaceId === elem.PlaceId)
+          }) === index);
         })
         .catch(this.handleError);
     }

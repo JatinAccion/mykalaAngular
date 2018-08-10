@@ -292,8 +292,8 @@ export class RetailerAddPaymentComponent implements OnInit {
     this.paymentInfoObj.bankSwiftCode = this.paymentFG2.value.bankSwiftCode;
 
     this.paymentInfoObj.legalContact = this.paymentInfoObj.legalContact || new LegalContact();
-    this.paymentInfoObj.legalContact.firstName = this.paymentFG2.value.firstName;
-    this.paymentInfoObj.legalContact.lastName = this.paymentFG2.value.lastName;
+    this.paymentInfoObj.legalContact.firstName = this.paymentFG2.value.firstName == null ? '' : this.paymentFG2.value.firstName;
+    this.paymentInfoObj.legalContact.lastName = this.paymentFG2.value.lastName == null ? '' : this.paymentFG2.value.lastName;
     this.paymentInfoObj.legalContact.name = this.paymentFG2.value.firstName + ' ' + this.paymentFG2.value.lastName;
     this.paymentInfoObj.legalContact.ssnlast4 = this.paymentFG2.value.ssnlast4;
     // this.paymentInfoObj.legalContact.dob = this.paymentFG2.value.dob;

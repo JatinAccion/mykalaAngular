@@ -243,6 +243,9 @@ export class ReportOrderItem {
   product: Product;
   trackingNumber: string;
   shipTrackingId: string;
+  orderProcessedDate: Date;
+  orderShippedDate: Date;
+  orderDeliveredDate: Date;
   constructor(obj?: any) {
     if (obj) {
       this.productId = obj.productId;
@@ -260,6 +263,9 @@ export class ReportOrderItem {
       this.deliveryStatus = obj.deliveryStatus;
       this.trackingNumber = obj.trackingNumber;
       this.shipTrackingId = obj.shipTrackingId;
+      this.orderProcessedDate = obj.orderProcessedDate;
+      this.orderShippedDate = obj.orderShippedDate;
+      this.orderDeliveredDate = obj.orderDeliveredDate;
     }
   }
 }
