@@ -118,6 +118,7 @@ export class Step1Component implements OnInit {
   }
 
   getPlaces() {
+    let productAvalabilityReq = { levelName: null, levelId: null, levelCount: 1 };
     this.noTypesAvailable = false;
     this.loader_place = true;
     this.userResponse.place = [];
@@ -125,10 +126,14 @@ export class Step1Component implements OnInit {
       this.loader_place = false;
       this.loadedPlaces = false;
       for (var i = 0; i < res.length; i++) this.userResponse.place.push(new SearchDataModal(res[i].placeId, res[i].placeName, res[i].placeName, "1", ""));
+      this.checkProductAvailability(1, productAvalabilityReq);
     })
   };
 
-  getCategory() {
+  getCategory(data?: any) {
+    let productAvalabilityReq = {};
+    if (data != undefined) productAvalabilityReq = { levelName: data.name, levelId: data.id, levelCount: 2 };
+    else productAvalabilityReq = { levelName: this.Step1SelectedValues.place['name'], levelId: this.Step1SelectedValues.place['id'], levelCount: 2 };
     this.noTypesAvailable = false;
     this.loader_category = true;
     this.userResponse.category = [];
@@ -136,10 +141,14 @@ export class Step1Component implements OnInit {
       this.loader_category = false;
       this.loadedCategory = false;
       for (var i = 0; i < res.length; i++) this.userResponse.category.push(new SearchDataModal(res[i].categoryId, res[i].categoryName, res[i].categoryName, "2", ""));
+      this.checkProductAvailability(2, productAvalabilityReq);
     });
   };
 
-  getSubCategory() {
+  getSubCategory(data?: any) {
+    let productAvalabilityReq = {};
+    if (data != undefined) productAvalabilityReq = { levelName: data.name, levelId: data.id, levelCount: 3 };
+    else productAvalabilityReq = { levelName: this.Step1SelectedValues.category['name'], levelId: this.Step1SelectedValues.category['id'], levelCount: 3 };
     this.showAvailableTypes = false;
     this.noTypesAvailable = false;
     this.loader_subCategory = true;
@@ -148,6 +157,7 @@ export class Step1Component implements OnInit {
       this.loader_subCategory = false;
       this.loadedSubCategory = false;
       for (var i = 0; i < res.length; i++) this.userResponse.subcategory.push(new SearchDataModal(res[i].subCategoryId, res[i].subCategoryName, res[i].subCategoryName, "3", ""));
+      this.checkProductAvailability(3, productAvalabilityReq);
     });
   };
 
@@ -222,7 +232,7 @@ export class Step1Component implements OnInit {
       this.gSCM.categoryName = "";
       e.currentTarget.className = "categ_outline_red m-2";
       this.getPlaceId = obj.id;
-      this.getCategory();
+      this.getCategory(obj);
       this.clearItems(elemName);
       this.userResponse.place = [obj];
       this.Step1SelectedValues.place = obj;
@@ -232,7 +242,7 @@ export class Step1Component implements OnInit {
       this.gSCM.productType = "";
       e.currentTarget.className = "categ_outline_red m-2";
       this.getCategoryId = obj.id;
-      this.getSubCategory();
+      this.getSubCategory(obj);
       this.clearItems(elemName);
       this.userResponse.category = [obj];
       this.Step1SelectedValues.category = obj;
@@ -382,5 +392,51 @@ export class Step1Component implements OnInit {
       this.route.navigate(['/getoffer', 'step2']);
     }
   };
+
+  async checkProductAvailability(level, data) {
+    let productAvailability = [];
+    let response = await this.homeService.checkProductAvailability(data);
+    productAvailability = response.filter(item => item.level = level);
+    this.modifyData(productAvailability, level);
+  }
+
+  modifyData(productAvailability, level) {
+    if (level == 1) {
+      for (let i = 0; i < productAvailability.length; i++) {
+        for (let j = 0; j < this.userResponse.place.length; j++) {
+          if (productAvailability[i].level == parseInt(this.userResponse.place[j].level)
+            && productAvailability[i].name == this.userResponse.place[j].name) {
+            this.userResponse.place[j].isProductAvailable = true;
+            break;
+          }
+        }
+      }
+    }
+    else if (level == 2) {
+      for (let i = 0; i < productAvailability.length; i++) {
+        for (let j = 0; j < this.userResponse.category.length; j++) {
+          if (productAvailability[i].level == parseInt(this.userResponse.category[j].level)
+            && productAvailability[i].name == this.userResponse.category[j].name) {
+            this.userResponse.category[j].isProductAvailable = true;
+            break;
+          }
+        }
+      }
+    }
+    else if (level == 3) {
+      for (let i = 0; i < productAvailability.length; i++) {
+        for (let j = 0; j < this.userResponse.subcategory.length; j++) {
+          if (productAvailability[i].level == parseInt(this.userResponse.subcategory[j].level)
+            && productAvailability[i].name == this.userResponse.subcategory[j].name) {
+            this.userResponse.subcategory[j].isProductAvailable = true;
+            break;
+          }
+        }
+      }
+    }
+    else {
+      console.log("Type");
+    }
+  }
 
 }

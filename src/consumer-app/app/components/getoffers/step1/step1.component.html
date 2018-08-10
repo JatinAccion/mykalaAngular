@@ -18,7 +18,8 @@
       />
     </div>
     <div class="col-sm-7">
-      <div style="cursor: pointer" (click)="loadData(place, 'place', $event)" *ngFor="let place of userResponse.place" class="m-2"
+      <div style="cursor: pointer" (click)="place.isProductAvailable && loadData(place, 'place', $event)" *ngFor="let place of userResponse.place"
+        class="m-2" [ngStyle]="{'cursor': place.isProductAvailable ? 'pointer' : 'no-drop', 'opacity' : place.isProductAvailable ? '1' : '0.5'}"
         [ngClass]="loadedPlaces == true ? 'categ_outline_red' : 'categ_outline_gray'">
         {{place.name}}
         <a (click)="delete(place, 'place')" class="categ_close d-none">x</a>
@@ -40,8 +41,9 @@
       />
     </div>
     <div class="col-sm-7">
-      <div style="cursor: pointer" (click)="loadData(category, 'category', $event)" *ngFor="let category of userResponse.category"
-        class="m-2" [ngClass]="loadedCategory == true ? 'categ_outline_red' : 'categ_outline_gray'">
+      <div style="cursor: pointer" (click)="category.isProductAvailable && loadData(category, 'category', $event)" *ngFor="let category of userResponse.category"
+        class="m-2" [ngStyle]="{'cursor': category.isProductAvailable ? 'pointer' : 'no-drop', 'opacity' : category.isProductAvailable ? '1' : '0.5'}"
+        [ngClass]="loadedCategory == true ? 'categ_outline_red' : 'categ_outline_gray'">
         {{category.name}}
         <a (click)="delete(category, 'category')" class="categ_close d-none">x</a>
       </div>
@@ -62,8 +64,9 @@
       />
     </div>
     <div class="col-sm-7">
-      <div style="cursor: pointer" (click)="loadData(subCategory, 'subcategory', $event)" *ngFor="let subCategory of userResponse.subcategory"
-        class="m-2" [ngClass]="loadedSubCategory == true ? 'categ_outline_red' : 'categ_outline_gray'">
+      <div style="cursor: pointer" (click)="subCategory.isProductAvailable && loadData(subCategory, 'subcategory', $event)" *ngFor="let subCategory of userResponse.subcategory"
+        class="m-2" [ngStyle]="{'cursor': subCategory.isProductAvailable ? 'pointer' : 'no-drop', 'opacity' : subCategory.isProductAvailable ? '1' : '0.5'}"
+        [ngClass]="loadedSubCategory == true ? 'categ_outline_red' : 'categ_outline_gray'">
         {{subCategory.name}}
         <a (click)="delete(subCategory, 'subcategory')" class="categ_close d-none">x</a>
       </div>
