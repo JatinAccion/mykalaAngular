@@ -271,8 +271,8 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getConsumerProfile() {
     this.pageLoader = true;
-    let emailId = this.getUserInfo.emailId;
-    this.myAccount.getUserDetails(emailId).subscribe((res) => {
+    let userId = this.getUserInfo.userId;
+    this.myAccount.getUserDetails(userId).subscribe((res) => {
       this.pageLoader = false;
       if (res.consumerImagePath != undefined && res.consumerImagePath != null && res.consumerImagePath != "") {
         if (res.consumerImagePath.indexOf('data:') === -1 && res.consumerImagePath.indexOf('https:') === -1) {

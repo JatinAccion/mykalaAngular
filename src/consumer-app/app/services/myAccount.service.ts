@@ -8,8 +8,8 @@ export class MyAccountService {
     private BASE_URL: string = environment.profileInterest;
     constructor(private http: Http) { }
 
-    getUserDetails(emailId) {
-        const url: string = `${this.BASE_URL}/email/${emailId}`;
+    getUserDetails(userId) {
+        const url: string = `${this.BASE_URL}/userId/${userId}`;
         return this.http.get(url).map(res => res.json());
     }
 
