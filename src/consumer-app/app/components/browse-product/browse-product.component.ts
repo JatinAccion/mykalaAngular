@@ -54,6 +54,7 @@ export class BrowseProductComponent implements OnInit {
     localStorage.removeItem('GetOfferStep_2');
     localStorage.removeItem('GetOfferStep_3');
     localStorage.removeItem('GetOfferStep_4');
+    localStorage.removeItem('changeBackFn');
     localStorage.removeItem('GetOfferPrice');
     this.core.headerScroll();
     localStorage.removeItem("selectedProduct");

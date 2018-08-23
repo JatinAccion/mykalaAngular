@@ -19,6 +19,7 @@ export class Step2Component implements OnInit {
   fromAPI: boolean = false;
   lastValueForAPI: string;
   noFilterValue: string;
+  loader: boolean = false;
 
   constructor(
     private route: Router,
@@ -41,9 +42,15 @@ export class Step2Component implements OnInit {
   };
 
   getofferSubCategory(GetOfferStep_1Data) {
+    this.loader = true;
     this.getoffers.getofferSubCategory(GetOfferStep_1Data).subscribe(res => {
       this.GetOfferStep_2.attributes = {};
-      this.getObjectFromOrderNo(res)
+      this.getObjectFromOrderNo(res);
+      if (Object.keys(res.attributes).length == 1) {
+        window.localStorage['changeBackFn'] = true;
+        this.next();
+      }
+      else this.loader = false;
     });
   }
 
@@ -82,18 +89,6 @@ export class Step2Component implements OnInit {
     this.sort(withValues)
     getObjectFromOrder = withValues;
 
-    //getObjectFromOrder = [];
-
-    /*for (var i = 0; i < withValues.length; i++) {
-      getObjectFromOrder.push(withValues[i]);
-      if (this.noFilterValue != withValues[i].key) {
-        if (withValues[i].order.Filter == 'Y') {
-          this.noFilterValue = withValues[i].key;
-          break;
-        }
-      }
-    }*/
-
     //Filter data from internal API response
     if (this.fromAPI) {
       for (var i = 0; i < this.getObjectFromOrder.length; i++) {
@@ -119,47 +114,6 @@ export class Step2Component implements OnInit {
         this.getObjectFromOrder.push(getObjectFromOrder[i])
       }
 
-      /*let a = this.getObjectFromOrder;
-      let b = getObjectFromOrder
-      let onlyInA = a.filter(this.compare(b));
-      let onlyInB = b.filter(this.compare(a));
-      let result = onlyInA.concat(onlyInB);
-      result = result.filter((thing, index, self) =>
-        index === self.findIndex((t) => (
-          t.key === thing.key
-        ))
-      )
-      let c = this.getObjectFromOrder;
-      let d = result
-      let onlyInC = c.filter(this.finalCompare(d));
-      let onlyInD = d.filter(this.finalCompare(c));
-      let final = onlyInC.concat(onlyInD);
-      if (final.length > 0) {
-        for (var i = 0; i < final.length; i++) {
-          this.getObjectFromOrder.push(final[i])
-        }
-      }
-      else {
-        for (var key in this.GetOfferStep_2PS.attributes) {
-          for (var i = 0; i < getObjectFromOrder.length; i++) {
-            if (this.lastValueForAPI != getObjectFromOrder[i].key) {
-              if (key == getObjectFromOrder[i].key) getObjectFromOrder.splice(i, 1);
-            }
-            else getObjectFromOrder.splice(i, 1);
-          }
-        }
-        for (var j = 0; j < getObjectFromOrder.length; j++) {
-          let newObj = getObjectFromOrder[j];
-          for (var k = 0; k < this.getObjectFromOrder.length; k++) {
-            let oldObj = this.getObjectFromOrder[k];
-            if (this.lastValueForAPI != oldObj.key) {
-              if (newObj.key == oldObj.key) {
-                this.getObjectFromOrder.splice(k, 1, newObj)
-              }
-            }
-          }
-        }
-      }*/
       this.sort(this.getObjectFromOrder)
       this.fromAPI = false;
       this.OtherOptionAvailable('fromAPI');
@@ -493,6 +447,7 @@ export class Step2Component implements OnInit {
   skip() {
     window.localStorage['GetOfferPrice'] = JSON.stringify(this.getObjectFromOrder);
     localStorage.removeItem('GetOfferStep_2');
+    localStorage.removeItem('changeBackFn');
     this.route.navigate(['/getoffer', 'step3']);
   }
 
@@ -545,7 +500,7 @@ export class Step2Component implements OnInit {
   next() {
     this.getOtherValue()
     window.localStorage['GetOfferPrice'] = JSON.stringify(this.getObjectFromOrder);
-    window.localStorage['GetOfferStep_2'] = JSON.stringify(this.GetOfferStep_2PS)
+    window.localStorage['GetOfferStep_2'] = JSON.stringify(this.GetOfferStep_2PS);
     this.route.navigate(['/getoffer', 'step3']);
   };
 

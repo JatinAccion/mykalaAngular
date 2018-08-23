@@ -69,6 +69,7 @@ export class HomeComponent implements OnInit {
     localStorage.removeItem('GetOfferStep_2');
     localStorage.removeItem('GetOfferStep_3');
     localStorage.removeItem('GetOfferStep_4');
+    localStorage.removeItem('changeBackFn');
     localStorage.removeItem('GetOfferStep_2Request');
     localStorage.removeItem('GetOfferPrice');
     localStorage.removeItem("getOffers");

@@ -1,4 +1,6 @@
-<div class="title mb-4">
+<img src="/consumer-app/assets/images/loader.gif" style="margin: 50px 50%" *ngIf="loader" />
+
+<div class="title mb-4" *ngIf="!loader">
   <h2 class="w-100">get offers
     <span class="colorGray"> Step 2/4: detail info</span> |
     <a routerLink="/browse-product">
@@ -10,7 +12,7 @@
   </h2>
 </div>
 
-<div class="col-sm-12 p-0">
+<div class="col-sm-12 p-0" *ngIf="!loader">
   <div class="col-sm-12 p-0">
     <div class="row" *ngFor="let offers of getObjectFromOrder">
       <div class="col-sm-12" *ngIf="offers.key != 'Price'">
@@ -21,10 +23,14 @@
             </p>
           </div>
           <div class="col-sm-8">
-            <div class="categ_outline_gray mr-3 mb-3 {{offers.key}} {{offers.orderNo}}" style="cursor: pointer" (click)="select(offers, values, $event)" *ngFor="let values of offers.values">{{values}}</div>
-            <input type="text" [(ngModel)]="offers.otherInputValue" class="form-control d-inline w-25" *ngIf="offers.otherInput" style="height: 30px" />
+            <div class="categ_outline_gray mr-3 mb-3 {{offers.key}} {{offers.orderNo}}" style="cursor: pointer" (click)="select(offers, values, $event)"
+              *ngFor="let values of offers.values">{{values}}</div>
+            <input type="text" [(ngModel)]="offers.otherInputValue" class="form-control d-inline w-25" *ngIf="offers.otherInput" style="height: 30px"
+            />
           </div>
-          <div class="col-sm-2" style="cursor: pointer" *ngIf="offers.hideRemaining != undefined && offers.hideRemaining && !offers.expanded;else showLess" class="colorred" (click)="toggleElements(offers, $event)">show more +</div>
+          <div class="col-sm-2" style="cursor: pointer" *ngIf="offers.hideRemaining != undefined && offers.hideRemaining && !offers.expanded;else showLess"
+            class="colorred" (click)="toggleElements(offers, $event)">show more +
+          </div>
           <ng-template #showLess>
             <div class="col-sm-2" style="cursor: pointer" *ngIf="!offers.hideRemaining && offers.expanded" class="colorred" (click)="toggleElements(offers, $event)">show less -</div>
           </ng-template>
@@ -34,7 +40,9 @@
       {{filterShowHide(offers)}}
     </div>
   </div>
+
   <div class="clearfix">&nbsp;</div>
+
   <div class="row">
     <div class="col-sm-6">
       <a (click)="prev()" class="colorred">back</a>
@@ -43,6 +51,8 @@
       <a (click)="next()" class="btn btn_red_right pr-5 pl-5">next step</a>
     </div>
   </div>
+
   <div class="clearfix">&nbsp;</div>
   <div class="clearfix">&nbsp;</div>
   <div class="clearfix">&nbsp;</div>
+</div>

@@ -235,7 +235,8 @@ export class Step3Component implements OnInit {
   };
 
   prev() {
-    this.route.navigate(['/getoffer', 'step2']);
+    if (window.localStorage['changeBackFn'] != undefined) this.route.navigate(['/getoffer', 'step1']);
+    else this.route.navigate(['/getoffer', 'step2']);
   };
 
   next() {

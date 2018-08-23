@@ -57,6 +57,7 @@ export class Step1Component implements OnInit {
     this.core.show(this.headerMessage);
     this.pageLabel = window.localStorage['browseProductSearch'];
     this.core.pageLabel(this.pageLabel);
+    localStorage.removeItem('changeBackFn');
     if (window.localStorage['GetOfferStep_2Request'] != undefined) this.gSCMRequestModal = JSON.parse(window.localStorage['GetOfferStep_2Request'])
     if (window.localStorage['levelSelections'] != undefined) this.levelSelection = JSON.parse(window.localStorage['levelSelections']);
     if (window.localStorage['GetOfferStep_1'] != undefined) {
