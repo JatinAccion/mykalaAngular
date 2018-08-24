@@ -277,7 +277,7 @@ export class Step2Component implements OnInit {
       this.commonAsParent()
     }
     //else {
-    if (offer.order.Filter == "Y") {
+    if (offer.order.Filter == "Y" || offer.order.multiSelect == "N") {
       if (values == 'No Preference') {
         offer.lastSelection = values;
         this.noPreferencesOther(offer, values, 'noPreference');
