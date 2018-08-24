@@ -142,7 +142,8 @@ export class ProfileInfoComponent implements OnInit {
     this.profileInformation.emailId = this.getUserInfo.emailId;
     this.profileInformation.consumerImagePath = this.profileInfo.controls.profileImage.value;
     this.profileInformation.gender = this.profileInfo.controls.gender.value;
-    this.profileInformation.dateOfBirth = this.selectedDOB.year + '-' + this.selectedDOB.month + '-' + this.selectedDOB.date;
+    let newDOB = new Date(this.selectedDOB.year + '-' + this.selectedDOB.month + '-' + this.selectedDOB.date);
+    this.profileInformation.dateOfBirth = new Date(newDOB.getFullYear() + '/' + (newDOB.getMonth() + 1) + '/' + newDOB.getDate() + ' ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds())
     console.log(this.profileInformation);
     this.profileInfoServ.completeProfile(this.profileInformation).subscribe(res => {
       this.loader = false;

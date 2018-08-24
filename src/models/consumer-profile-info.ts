@@ -8,6 +8,6 @@ export class ConsumerProfileInfo {
     public fullName: string;
     public consumerImagePath: string;
     public gender: string;
-    public dateOfBirth: string;
+    public dateOfBirth: Date;
     public address: Array<ConsumerAddress>;
 }

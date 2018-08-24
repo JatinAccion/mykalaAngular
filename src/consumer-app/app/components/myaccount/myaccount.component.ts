@@ -342,8 +342,6 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
           return false
         }
         else {
-          /* Added Time in Date Captured as Follows : new Date(yyyy/mm/dd hh:mm:ss) */
-          event.value = new Date(event.value.getFullYear() + '/' + (event.value.getMonth() + 1) + '/' + event.value.getDate() + ' ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds());
           this.selectedDOB.year = event.value.getFullYear().toString();
           this.selectedDOB.month = (event.value.getMonth() + 1).toString();
           this.selectedDOB.date = event.value.getDate().toString();
@@ -685,7 +683,8 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
       this.getUserInfo = JSON.parse(window.localStorage['userInfo'])
       /**API to Save DOB**/
       this.DOBSaveModel.emailId = this.getUserInfo.emailId;
-      this.DOBSaveModel.dateOfBirth = new Date(this.myAccountModel.profileInfo.birthYear + '-' + this.myAccountModel.profileInfo.birthMonth + '-' + this.myAccountModel.profileInfo.birthDate);
+      let newDOB = new Date(this.myAccountModel.profileInfo.birthYear + '-' + this.myAccountModel.profileInfo.birthMonth + '-' + this.myAccountModel.profileInfo.birthDate);
+      this.DOBSaveModel.dateOfBirth = new Date(newDOB.getFullYear() + '/' + (newDOB.getMonth() + 1) + '/' + newDOB.getDate() + ' ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds());
       this.myAccount.saveDOB(this.DOBSaveModel).subscribe((res) => {
         this.loader_DOB = false;
         this.model = this.append_dob;
