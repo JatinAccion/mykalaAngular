@@ -13,7 +13,7 @@ export class Inquiry {
   public inquiryType: string;
   // public inquiryTypeOther: string;
   public otherTypeDesc: string;
-  public inquiryDate: string;
+  public inquiryDate: any;
   public inquiryCategory: string;
   // public inquiryCategoryOther: string;
   public otherCategoryDesc: string;

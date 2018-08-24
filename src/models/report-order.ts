@@ -422,7 +422,7 @@ export class ShippingTracking {
   public carrier: string;
   public productSKU: Array<string>;
   public productIds: Array<string>;
-  public shipmentDate: string; // "2018-05-16"
+  public shipmentDate: any; // "2018-05-16"
   constructor(obj?: any) {
     this.productSKU = new Array<string>();
     this.productIds = new Array<string>();

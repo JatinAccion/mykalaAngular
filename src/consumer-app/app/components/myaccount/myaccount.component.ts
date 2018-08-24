@@ -342,6 +342,8 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
           return false
         }
         else {
+          /* Added Time in Date Captured as Follows : new Date(yyyy/mm/dd hh:mm:ss) */
+          event.value = new Date(event.value.getFullYear() + '/' + (event.value.getMonth() + 1) + '/' + event.value.getDate() + ' ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds());
           this.selectedDOB.year = event.value.getFullYear().toString();
           this.selectedDOB.month = (event.value.getMonth() + 1).toString();
           this.selectedDOB.date = event.value.getDate().toString();

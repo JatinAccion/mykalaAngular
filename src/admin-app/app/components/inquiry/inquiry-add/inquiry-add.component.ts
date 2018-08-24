@@ -240,7 +240,9 @@ export class InquiryAddComponent implements OnInit {
     // this.inquiry.productCost = form.productCost;
     this.inquiry.inquiryType = form.inquiryType;
     this.inquiry.otherTypeDesc = form.inquiryTypeOther;
-    this.inquiry.inquiryDate = this.toDate(form.inquiryDate);
+    // this.inquiry.inquiryDate = this.toDate(form.inquiryDate);
+    let inquiryDate = new Date(this.toDate(form.inquiryDate));
+    this.inquiry.inquiryDate = new Date(inquiryDate.getFullYear() + '/' + (inquiryDate.getMonth() + 1) + '/' + inquiryDate.getDate() + ' ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds())
     this.inquiry.inquiryCategory = form.inquiryCategory;
     this.inquiry.otherCategoryDesc = form.inquiryCategoryOther;
     this.inquiry.description = form.description;
