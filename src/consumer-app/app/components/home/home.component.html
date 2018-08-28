@@ -9,9 +9,9 @@
                 <span *ngIf="!core.loaderSearch">EXPLORE</span>
                 <img *ngIf="core.loaderSearch" src="/consumer-app/assets/images/loaderWhite.gif" style="margin-top: -3px" />
             </button>
-            <div class="p-0 float-left text-left suggesstionList" *ngIf="core.suggesstionList != undefined && core.suggesstionList.length > 0">
+            <!-- <div class="p-0 float-left text-left suggesstionList" *ngIf="core.suggesstionList != undefined && core.suggesstionList.length > 0">
                 <button *ngFor="let list of core.suggesstionList; let i = index" (click)="core.search(list)">{{list}}</button>
-            </div>
+            </div> -->
         </div>
     </div>
     <div class="row hdr_footer">

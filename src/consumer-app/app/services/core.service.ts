@@ -247,7 +247,7 @@ export class CoreService {
 
   search(text, from?: string) {
     if (text !== '' || text !== undefined) {
-      if (text.indexOf("in") > -1) text = text.split("in")[1].trim();
+      //if (text.indexOf("in") > -1) text = text.split("in")[1].trim();
       this.searchBar = text;
       localStorage.removeItem('esKeyword');
       this.route.navigateByUrl("/elastic-product");

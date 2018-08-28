@@ -208,8 +208,10 @@ export class Step1Component implements OnInit {
     if (this.getObjectFromOrder.data.length === 0) this.noTypesAvailable = true;
     else {
       for (var i = 0; i < this.getObjectFromOrder.data.length; i++) {
-        let type = this.getObjectFromOrder.data[i]
-        this.userResponse.type.push(new SearchDataModal('id' + i, type, type, '4', '', '', this.getObjectFromOrder.selection));
+        let type = this.getObjectFromOrder.data[i];
+        if (type != '' && type != ' ') {
+          this.userResponse.type.push(new SearchDataModal('id' + i, type, type, '4', '', '', this.getObjectFromOrder.selection));
+        }
       }
     }
     this.showAvailableTypes = true;
