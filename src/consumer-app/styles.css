@@ -3329,3 +3329,17 @@ ul.filterActionList a {
     margin-bottom: 0;
     border-bottom: none;
 }
+.ratingStars{
+    float: left;
+    margin-right: 4px;
+    margin-top: 4px;
+    width: 16px;
+    height: 15px;
+    background: url('/consumer-app/assets/images/rating-inactive.jpg') left top no-repeat;
+}
+.ratingActiveStars {
+    float: left;
+    width: 16px;
+    height: 15px;
+    background: url('/consumer-app/assets/images/rating-active.jpg') left top no-repeat;
+}

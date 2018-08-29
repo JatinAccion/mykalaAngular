@@ -94,7 +94,8 @@ export class ViewProductComponent implements OnInit {
       if (res.length > 0) {
         this.totalReviewSummary = res[0];
         this.totalReviewSummary.average = parseInt(this.totalReviewSummary.avg);
-        this.totalReviewSummary.left = eval(`${5 - this.totalReviewSummary.average}`)
+        this.totalReviewSummary.left = eval(`${5 - this.totalReviewSummary.average}`);
+        setTimeout(() => this.appendRatings(), 500);
       }
     }, (err) => {
       console.log(err);
@@ -305,6 +306,33 @@ export class ViewProductComponent implements OnInit {
 
   getRating(rate) {
     return Array(rate).fill(rate)
+  }
+
+  appendRatings() {
+    let firstVal, secondVal;
+    if (this.totalReviewSummary.avg.toString().indexOf('.') > -1) {
+      firstVal = parseInt(this.totalReviewSummary.avg.toString().split('.')[0]);
+      secondVal = parseInt(this.totalReviewSummary.avg.toString().split('.')[1]);
+    }
+    else {
+      firstVal = this.totalReviewSummary.avg;
+      secondVal = 0;
+    }
+    if (firstVal != undefined && firstVal != null) {
+      let appendTo = document.getElementsByClassName('ratingStars');
+      for (let i = 0; i < appendTo.length; i++) {
+        appendTo[i].innerHTML = '<span class="ratingActiveStars"></span>';
+        if ((i + 1) == firstVal && secondVal == 0) break;
+        if ((i + 1) == firstVal && secondVal != undefined && secondVal != 0) {
+          i++;
+          secondVal = parseInt(secondVal.toString().split("")[0]);
+          appendTo[i].innerHTML = '<span class="ratingActiveStars"></span>';
+          let element = appendTo[i].children[0] as HTMLElement;
+          element.style.width = 16 - (17 - 4 - secondVal) + 'px';
+          break;
+        }
+      }
+    }
   }
 
   getStockNumber() {

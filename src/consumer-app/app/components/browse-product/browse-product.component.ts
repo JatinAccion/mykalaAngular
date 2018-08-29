@@ -167,10 +167,14 @@ export class BrowseProductComponent implements OnInit {
     updateStorage.category.id = this.selectedCategoryData.id;
     updateStorage.category.name = this.selectedCategoryData.name;
     updateStorage.category.text = this.selectedCategoryData.text;
+    this.selectedTilesData.category.name = this.selectedCategoryData.name;
+    this.selectedTilesData.category.id = this.selectedCategoryData.id;
+    this.selectedTilesData.category.text = this.selectedCategoryData.text;
     window.localStorage['levelSelections'] = JSON.stringify(updateStorage);
     this.subCategory = [];
     this.closeNav();
-    this.loadTypes();
+    this.clearAllFilters();
+    this.showFilterPanel = false;
   };
 
   viewDetails(tile) {
