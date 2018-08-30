@@ -64,7 +64,10 @@ export class CoreService {
 
   showLogout() { return this.user !== null }
 
-  show(msg?: any) { this.navVisible = true; this.showHeaderMessage = msg; }
+  show(msg?: any) {
+    this.navVisible = true;
+    this.showHeaderMessage = msg;
+  }
 
   toggle() { this.navVisible = !this.navVisible; }
 
@@ -132,7 +135,7 @@ export class CoreService {
       var searchBox = document.getElementsByClassName("searchBox")[0];
       var logoContainer = document.getElementsByClassName("logo")[0];
       header.classList.add("header_Scroll");
-      searchBox.classList.remove("invisible");
+      if (searchBox != undefined) searchBox.classList.remove("invisible");
       logoContainer.classList.remove("d-none");
       logoContainer.nextElementSibling.classList.add("d-none");
     }, 100);
@@ -249,7 +252,7 @@ export class CoreService {
     if (text !== '' || text !== undefined) {
       //if (text.indexOf("in") > -1) text = text.split("in")[1].trim();
       this.searchBar = text;
-      localStorage.removeItem('esKeyword');
+      window.localStorage['esKeyword'] = this.searchBar;
       this.route.navigateByUrl("/elastic-product");
       this.loadProducts(text);
     }

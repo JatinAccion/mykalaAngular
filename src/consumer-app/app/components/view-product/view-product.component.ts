@@ -35,6 +35,7 @@ export class ViewProductComponent implements OnInit {
   totalReviewSummary: any;
   retailerPolicy: string;
   fromES: boolean;
+  attributeData = { selectedColor: [], selectedSizes: [] }
 
   constructor(
     public core: CoreService,
@@ -95,7 +96,7 @@ export class ViewProductComponent implements OnInit {
         this.totalReviewSummary = res[0];
         this.totalReviewSummary.average = parseInt(this.totalReviewSummary.avg);
         this.totalReviewSummary.left = eval(`${5 - this.totalReviewSummary.average}`);
-        setTimeout(() => this.appendRatings(), 500);
+        setTimeout(() => this.appendRatings(), 100);
       }
     }, (err) => {
       console.log(err);
@@ -119,6 +120,9 @@ export class ViewProductComponent implements OnInit {
         this.viewProduct.getDynamicAttributes(this.selectedProduct, this.selectedProduct.product.attributes.Size, "size").subscribe((res) => {
           this.dynamicColorData = res.allColors;
           this.dynamicSizeData = res.allSizes;
+          this.attributeData.selectedColor = res.selectedColor;
+          this.attributeData.selectedSizes = res.selectedSizes;
+          this.defaultClass();
         }, (err) => {
           console.log(err)
         })
@@ -130,6 +134,9 @@ export class ViewProductComponent implements OnInit {
         this.viewProduct.getDynamicAttributes(this.selectedProduct, this.selectedProduct.product.attributes.Color, "color").subscribe((res) => {
           this.dynamicColorData = res.allColors;
           this.dynamicSizeData = res.allSizes;
+          this.attributeData.selectedColor = res.selectedColor;
+          this.attributeData.selectedSizes = res.selectedSizes;
+          this.defaultClass();
         }, (err) => {
           console.log(err)
         })
@@ -199,6 +206,22 @@ export class ViewProductComponent implements OnInit {
         }
       }
     }
+    else {
+      if (from == 'color') {
+        if (this.attributeData.selectedColor.indexOf(data) === -1) {
+          lastSize = undefined;
+          sendOnlyColor = true;
+          sendOnlySize = false;
+        }
+      }
+      else {
+        if (this.attributeData.selectedSizes.indexOf(data) === -1) {
+          lastColor = undefined;
+          sendOnlyColor = false;
+          sendOnlySize = true;
+        }
+      }
+    }
     //Get Product
     this.viewProduct.getProductDetails(this.selectedProduct, data, from, lastColor, lastSize, sendOnlyColor, sendOnlySize).subscribe((res) => {
       this.productListingModal = new BrowseProductsModal(res);
@@ -213,6 +236,8 @@ export class ViewProductComponent implements OnInit {
     })
     //Get Color and Sizes
     this.viewProduct.getDynamicAttributes(this.selectedProduct, data, from).subscribe((res) => {
+      this.attributeData.selectedColor = res.selectedColor;
+      this.attributeData.selectedSizes = res.selectedSizes;
       if (selectionMade == 'color') {
         this.dynamicColorData = res.allColors;
         this.dynamicSizeData = res.allSizes;
@@ -235,6 +260,7 @@ export class ViewProductComponent implements OnInit {
         let data = [];
         this.filterAttribute(element, selectedSize, allColor, availableColors, data);
       }
+      this.defaultClass();
     }, (err) => {
       console.log(err)
     })
@@ -424,6 +450,27 @@ export class ViewProductComponent implements OnInit {
       let getDay = new Date(date.getTime() + 24 * 60 * 60 * 1000); //Calculating on the next 5days basis
       return weekday[getDay.getDay()] + ', ' + getDay.toLocaleString(locale, { month: "long" }) + ' ' + (getDay.getDate())
     }
+  }
+
+  defaultClass() {
+    setTimeout(() => {
+      let colors = document.getElementsByClassName('data_color');
+      let sizes = document.getElementsByClassName('data_size');
+      for (let i = 0; i < colors.length; i++) {
+        if (colors[i].innerHTML == this.selectedProduct.product.attributes.Color) {
+          colors[i].classList.add('categ_outline_red');
+          colors[i].classList.remove('categ_outline_gray');
+          break;
+        }
+      }
+      for (let i = 0; i < sizes.length; i++) {
+        if (sizes[i].innerHTML == this.selectedProduct.product.attributes.Size) {
+          sizes[i].classList.add('categ_outline_red');
+          sizes[i].classList.remove('categ_outline_gray');
+          break;
+        }
+      }
+    }, 500);
   }
 
 }

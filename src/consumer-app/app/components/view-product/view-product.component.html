@@ -80,7 +80,7 @@
         <div class="row" *ngIf="totalReviewSummary != undefined && totalReviewSummary != ''">
           <div class="col-12 pl-4 pr-4 mt-2">
             <span *ngFor="let rating of getRating(5)" class="ratingStars"></span>
-            <span class="cursor float-left" style="color: blue" class="ml-2" (click)="animateToTiles('reviews')">
+            <span style="color: blue" class="ml-2 cursor float-left" (click)="animateToTiles('reviews')">
               <u>{{totalReviewSummary.total}}</u>
             </span>
           </div>

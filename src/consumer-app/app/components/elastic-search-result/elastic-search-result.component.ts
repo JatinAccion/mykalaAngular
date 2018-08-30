@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { HomeService } from '../../services/home.service';
 import { CoreService } from '../../services/core.service';
 import { Router, RouterOutlet } from '@angular/router';
@@ -12,7 +12,7 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./elastic-search-result.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class ElasticSearchResult implements OnInit, OnDestroy {
+export class ElasticSearchResult implements OnInit, AfterViewInit {
   selectedTilesData: any;
   s3 = environment.s3
   tilesData = [];
@@ -20,6 +20,7 @@ export class ElasticSearchResult implements OnInit, OnDestroy {
   productListingModal = new BrowseProductsModal();
   headerMessage: string;
   showMoreBtn: boolean = false;
+  callAPILoop: number = 1;
 
   constructor(
     private homeService: HomeService,
@@ -34,15 +35,23 @@ export class ElasticSearchResult implements OnInit, OnDestroy {
     localStorage.removeItem('GetOfferStep_3');
     localStorage.removeItem('GetOfferStep_4');
     this.core.headerScroll();
-    this.core.hide();
+    this.core.pageLabel();
     localStorage.removeItem("selectedProduct");
     this.loader = true;
     if (window.localStorage['esKeyword'] != undefined) this.core.search(window.localStorage['esKeyword']);
     this.core.esKey.subscribe(p => {
-      this.filterResponse(p);
+      if (this.callAPILoop == 1) {
+        this.filterResponse(p);
+        this.callAPILoop = 0;
+      }
     }, (err) => {
       this.loader = false;
     });
+  }
+
+  ngAfterViewInit() {
+    window.localStorage['esKeyword'] = this.core.searchBar;
+    this.core.searchBar = "";
   }
 
   filterResponse(res) {
@@ -88,16 +97,10 @@ export class ElasticSearchResult implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
-    window.localStorage['esKeyword'] = this.core.searchBar;
-    this.core.searchBar = "";
-  }
-
   viewDetails(tile) {
     window.localStorage['selectedProduct'] = JSON.stringify(tile);
     this.route.navigateByUrl("/view-product");
     window.localStorage['fromES'] = true;
-    window.localStorage['esKeyword'] = this.core.searchBar;
   }
 
 }
