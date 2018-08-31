@@ -36,6 +36,7 @@ export class ViewProductComponent implements OnInit {
   retailerPolicy: string;
   fromES: boolean;
   attributeData = { selectedColor: [], selectedSizes: [] }
+  callColorIfAvailable: number = 0;
 
   constructor(
     public core: CoreService,
@@ -48,6 +49,7 @@ export class ViewProductComponent implements OnInit {
     this.core.hide();
     this.core.searchMsgToggle();
     localStorage.removeItem("addedInCart");
+    this.callColorIfAvailable = 1;
     if (window.localStorage['fromES'] != undefined) this.fromES = true;
     if (window.localStorage['userInfo'] != undefined) this.userData = JSON.parse(window.localStorage['userInfo'])
     if (window.localStorage['selectedProduct'] != undefined) this.loadProductInfo(undefined);
@@ -247,7 +249,7 @@ export class ViewProductComponent implements OnInit {
         let availableSizes = res.selectedSizes;
         this.dynamicAttributeSize = res.selectedSizes;
         let data = [];
-        this.filterAttribute(element, selectedColor, allSize, availableSizes, data);
+        this.filterAttribute(element, selectedColor, allSize, availableSizes, data, 'color');
       }
       else {
         this.dynamicColorData = res.allColors;
@@ -258,7 +260,7 @@ export class ViewProductComponent implements OnInit {
         let availableColors = res.selectedColor;
         this.dynamicAttributeColor = res.selectedColor;
         let data = [];
-        this.filterAttribute(element, selectedSize, allColor, availableColors, data);
+        this.filterAttribute(element, selectedSize, allColor, availableColors, data, 'size');
       }
       this.defaultClass();
     }, (err) => {
@@ -266,7 +268,7 @@ export class ViewProductComponent implements OnInit {
     })
   }
 
-  filterAttribute(element, selectedData, currentData, availableData, data) {
+  filterAttribute(element, selectedData, currentData, availableData, data, from) {
     if (selectedData != undefined) {
       for (var i = 0; i < element.length; i++) {
         if (element[i].innerHTML != selectedData) element[i].classList.add('unavailable');
@@ -274,7 +276,8 @@ export class ViewProductComponent implements OnInit {
     }
     for (var i = 0; i < currentData.length; i++) {
       data.push(currentData[i].innerHTML);
-      currentData[i].classList.add('unavailable');
+      if (from == 'color') currentData[i].classList.add('hideUnavailable');
+      else currentData[i].classList.add('unavailable');
       currentData[i].classList.remove('categ_outline_red');
       currentData[i].classList.add('categ_outline_gray');
     }
@@ -284,6 +287,7 @@ export class ViewProductComponent implements OnInit {
         if (notAvailabe[i] == currentData[j].innerHTML) {
           currentData[j].classList.remove('unavailable');
           currentData[j].classList.remove('categ_outline_red');
+          currentData[j].classList.remove('hideUnavailable');
         }
       }
     }
@@ -469,6 +473,18 @@ export class ViewProductComponent implements OnInit {
           sizes[i].classList.remove('categ_outline_gray');
           break;
         }
+      }
+      if (this.callColorIfAvailable) {
+        let element;
+        let colorData = document.getElementsByClassName('data_color');
+        for (let i = 0; i < colorData.length; i++) {
+          if (colorData[i].classList.contains('categ_outline_red')) {
+            element = colorData[i];
+            element.click();
+            break;
+          }
+        }
+        this.callColorIfAvailable = 0;
       }
     }, 500);
   }

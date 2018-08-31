@@ -112,7 +112,9 @@
             </span>
           </div>
           <div class="col-12 pl-4 pr-4 mb-3">
-            <span class="w-25 text-left d-block float-left">Size ({{unitValue}})</span>
+            <span class="w-25 text-left d-block float-left">Size
+              <span *ngIf="unitValue != undefined && unitValue != '' && unitValue != null">({{unitValue}})</span>
+            </span>
             <span class="w-75 text-left d-block float-right">
               <span *ngFor="let size of dynamicSizeData" title="{{size}}" (click)="loadSimilarItems($event, size, 'size')" class="categ_outline_gray cursor mr-2 mb-2 data_size">{{size}}</span>
             </span>
