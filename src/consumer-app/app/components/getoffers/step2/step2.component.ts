@@ -44,7 +44,8 @@ export class Step2Component implements OnInit {
   getofferSubCategory(GetOfferStep_1Data) {
     this.loader = true;
     this.getoffers.getofferSubCategory(GetOfferStep_1Data).subscribe(res => {
-      this.GetOfferStep_2.attributes = {};
+      /* Uncomment to reset the lastSelection whenever there is an API call 
+      this.GetOfferStep_2.attributes = {}; */
       this.getObjectFromOrderNo(res);
       if (Object.keys(res.attributes).length == 1) {
         window.localStorage['changeBackFn'] = true;
@@ -365,7 +366,8 @@ export class Step2Component implements OnInit {
       this.lastValueForAPI = offer.key;
       this.getoffers.getofferSubCategory(this.GetOfferStep_2).subscribe(res => {
         this.fromAPI = true;
-        if (!window.localStorage['multiSelectAPI']) this.GetOfferStep_2.attributes = {};
+        /* Uncomment to reset the lastSelection whenever there is an API call 
+        if (!window.localStorage['multiSelectAPI']) this.GetOfferStep_2.attributes = {};*/
         localStorage.removeItem("multiSelectAPI");
         this.getObjectFromOrderNo(res);
       });
