@@ -20,6 +20,7 @@ export class Step2Component implements OnInit {
   lastValueForAPI: string;
   noFilterValue: string;
   loader: boolean = false;
+  number = [];
 
   constructor(
     private route: Router,
@@ -363,6 +364,7 @@ export class Step2Component implements OnInit {
       }
     }
     if (addSelected) {
+      this.resetAccordingly(offer);
       this.lastValueForAPI = offer.key;
       this.getoffers.getofferSubCategory(this.GetOfferStep_2).subscribe(res => {
         this.fromAPI = true;
@@ -371,6 +373,27 @@ export class Step2Component implements OnInit {
         localStorage.removeItem("multiSelectAPI");
         this.getObjectFromOrderNo(res);
       });
+    }
+  }
+
+  resetAccordingly(offer) {
+    let elements = document.getElementsByClassName('uiKeys');
+    this.number.push(offer.orderNo);
+    if (this.number.length > 1) {
+      if (offer.orderNo < this.number[this.number.length - 2]) {
+        for (let i = 0; i < elements.length; i++) {
+          let elem = elements[i] as HTMLElement;
+          if (Object.keys(this.GetOfferStep_2.attributes).indexOf(elem.innerText) > -1) {
+            for (let key in this.GetOfferStep_2.attributes) {
+              if (key != 'Type' && key != offer.key) {
+                delete this.GetOfferStep_2.attributes[key];
+                break;
+              }
+            }
+            break;
+          }
+        }
+      }
     }
   }
 
@@ -499,8 +522,27 @@ export class Step2Component implements OnInit {
     }
   }
 
+  getFinalGOS2PS() {
+    let getNewData = {};
+    let elements = document.getElementsByClassName('uiKeys');
+    for (let i = 0; i < elements.length; i++) {
+      let elem = elements[i] as HTMLElement;
+      if (Object.keys(this.GetOfferStep_2PS.attributes).indexOf(elem.innerText) > -1) {
+        let isSelected: boolean = false;
+        let children = elements[0].parentElement.nextElementSibling.children;
+        for (let j = 0; j < children.length; j++) {
+          if (children[j].classList.contains('categ_outline_red')) isSelected = true;
+        }
+        if (isSelected) getNewData[elem.innerText] = this.GetOfferStep_2PS.attributes[elem.innerText];
+      }
+    }
+    getNewData['Type'] = this.GetOfferStep_2PS.attributes['Type'];
+    this.GetOfferStep_2PS.attributes = getNewData;
+  }
+
   next() {
-    this.getOtherValue()
+    this.getOtherValue();
+    this.getFinalGOS2PS();
     window.localStorage['GetOfferPrice'] = JSON.stringify(this.getObjectFromOrder);
     window.localStorage['GetOfferStep_2'] = JSON.stringify(this.GetOfferStep_2PS);
     this.route.navigate(['/getoffer', 'step3']);

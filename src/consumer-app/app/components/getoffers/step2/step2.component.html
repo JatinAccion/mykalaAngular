@@ -18,9 +18,8 @@
       <div class="col-sm-12" *ngIf="offers.key != 'Price'">
         <div class="row">
           <div class="col-sm-2 colorlightGray">
-            <p>{{offers.key}}
-              <span *ngIf="offers.order.Units != '' && offers.order.Units != undefined">({{offers.order.Units}})</span>
-            </p>
+            <p class="uiKeys d-inline-block mb-0" data-id="{{offers.orderNo}}">{{offers.key}}</p>
+            <span *ngIf="offers.order.Units != '' && offers.order.Units != undefined">({{offers.order.Units}})</span>
           </div>
           <div class="col-sm-8">
             <div class="categ_outline_gray mr-3 mb-3 {{offers.key}} {{offers.orderNo}}" style="cursor: pointer" (click)="select(offers, values, $event)"
