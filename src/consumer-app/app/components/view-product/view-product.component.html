@@ -72,13 +72,13 @@
         </div>
 
         <div class="row">
-          <div class="col-sm-12">
-            <h3 class="productHeading">{{selectedProduct.product.productName}}</h3>
+          <div class="col-sm-12 mb-4">
+            <h3 class="productHeading mb-0">{{selectedProduct.product.productName}}</h3>
           </div>
         </div>
 
         <div class="row" *ngIf="totalReviewSummary != undefined && totalReviewSummary != ''">
-          <div class="col-12 pl-4 pr-4 mt-2">
+          <div class="col-12 pl-4 pr-4 mb-4">
             <span *ngFor="let rating of getRating(5)" class="ratingStars"></span>
             <span style="color: blue" class="ml-2 cursor float-left" (click)="animateToTiles('reviews')">
               <u>{{totalReviewSummary.total}}</u>
@@ -87,7 +87,7 @@
         </div>
 
         <div class="row" *ngIf="selectedProduct.product.deliveryMethod != undefined">
-          <div class="col-sm-12 pl-4 pt-4 mb-4">
+          <div class="col-sm-12 pl-4 mb-4">
             <span>Get it by
               <span style="font-family: 'open_sansbold'">{{selectedProduct.product.deliveryMethod}}</span>
             </span>
@@ -95,7 +95,7 @@
         </div>
 
         <div class="row">
-          <div *ngIf="!alreadyAddedInCart" class="col-sm-12 pl-4 mb-4">
+          <div *ngIf="!alreadyAddedInCart && !loaderQuantity" class="col-sm-12 pl-4 mb-4">
             <span *ngIf="selectedProduct.product.quantity > 0;else outOfStock">{{selectedProduct.product.quantity}} in stock</span>
             <ng-template #outOfStock>
               <span>Out of stock</span>
@@ -157,7 +157,7 @@
               value="buy it now" />
           </div>
 
-          <div *ngIf="alreadyAddedInCart" class="col-sm-12 p-2 pl-4 pr-4 mt-3">
+          <div *ngIf="alreadyAddedInCart" class="col-sm-12 p-2 pl-4 pr-4">
             <label>
               <strong>Item already added in cart</strong>
             </label>

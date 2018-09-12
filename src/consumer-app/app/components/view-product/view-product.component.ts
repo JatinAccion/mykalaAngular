@@ -37,6 +37,8 @@ export class ViewProductComponent implements OnInit {
   fromES: boolean;
   attributeData = { selectedColor: [], selectedSizes: [] }
   callColorIfAvailable: number = 0;
+  callReviewsAPI: number = 0;
+  loaderQuantity: boolean = true;
 
   constructor(
     public core: CoreService,
@@ -63,14 +65,14 @@ export class ViewProductComponent implements OnInit {
 
   loadProductInfo(fromInternalAPI?: any) {
     this.selectedProduct = JSON.parse(window.localStorage['selectedProduct']);
-    this.loadReviewsSummary(this.selectedProduct.product.kalaUniqueId);
+    if (this.callReviewsAPI == 1) this.loadReviewsSummary(this.selectedProduct.product.kalaUniqueId);
     this.loadRetailerPolicy(this.selectedProduct.product.retailerId);
     if (this.selectedProduct.product.productImages) {
       this.filterIamgeURL();
       this.getMainImage();
     }
     this.getStockNumber();
-    this.getReviews(this.selectedProduct.product.kalaUniqueId);
+    if (this.callReviewsAPI == 1) this.getReviews(this.selectedProduct.product.kalaUniqueId);
     if (this.selectedProduct.product.attributes != undefined && this.selectedProduct.product.attributes != {}) {
       if (this.selectedProduct.product.attributes.Color != undefined && this.selectedProduct.product.attributes.Size != {}) {
         this.loadAttributes(this.selectedProduct.product.attributes, fromInternalAPI);
@@ -79,7 +81,7 @@ export class ViewProductComponent implements OnInit {
         this.loadAttributes(this.selectedProduct.product.attributes, undefined);
       }
     }
-    this.getItBy(this.selectedProduct.product.shipProfileId);
+    if (this.callReviewsAPI == 1) this.getItBy(this.selectedProduct.product.shipProfileId);
   }
 
   getItBy(shippingProfileId) {
@@ -485,6 +487,10 @@ export class ViewProductComponent implements OnInit {
           }
         }
         this.callColorIfAvailable = 0;
+        this.callReviewsAPI = 1;
+        setTimeout(() => {
+          this.loaderQuantity = false;
+        }, 500);
       }
     }, 500);
   }
