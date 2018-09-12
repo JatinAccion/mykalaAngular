@@ -146,6 +146,8 @@ export class ViewProductComponent implements OnInit {
         })
       }
       /*If Only Color is Available*/
+
+      else this.defaultClass();
     }
   }
 
@@ -479,20 +481,32 @@ export class ViewProductComponent implements OnInit {
       if (this.callColorIfAvailable) {
         let element;
         let colorData = document.getElementsByClassName('data_color');
-        for (let i = 0; i < colorData.length; i++) {
-          if (colorData[i].classList.contains('categ_outline_red')) {
-            element = colorData[i];
-            element.click();
-            break;
+        if (colorData.length > 0) {
+          for (let i = 0; i < colorData.length; i++) {
+            if (colorData[i].classList.contains('categ_outline_red')) {
+              element = colorData[i];
+              element.click();
+              break;
+            }
           }
+          this.callForData();
         }
-        this.callColorIfAvailable = 0;
-        this.callReviewsAPI = 1;
-        setTimeout(() => {
-          this.loaderQuantity = false;
-        }, 500);
+        else {
+          this.callForData();
+          this.loadReviewsSummary(this.selectedProduct.product.kalaUniqueId);
+          this.getReviews(this.selectedProduct.product.kalaUniqueId);
+          this.getItBy(this.selectedProduct.product.shipProfileId);
+        }
       }
     }, 500);
+  }
+
+  callForData() {
+    this.callColorIfAvailable = 0;
+    this.callReviewsAPI = 1;
+    setTimeout(() => {
+      this.loaderQuantity = false;
+    }, 1000);
   }
 
 }
