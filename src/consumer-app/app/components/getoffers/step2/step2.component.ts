@@ -529,7 +529,7 @@ export class Step2Component implements OnInit {
       let elem = elements[i] as HTMLElement;
       if (Object.keys(this.GetOfferStep_2PS.attributes).indexOf(elem.innerText) > -1) {
         let isSelected: boolean = false;
-        let children = elements[0].parentElement.nextElementSibling.children;
+        let children = elem.parentElement.nextElementSibling.children;
         for (let j = 0; j < children.length; j++) {
           if (children[j].classList.contains('categ_outline_red')) isSelected = true;
         }
