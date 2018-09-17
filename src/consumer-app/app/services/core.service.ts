@@ -35,6 +35,7 @@ export class CoreService {
   resetToDefault: number;
   showHeaderSuggestion: boolean = false;
   searchBar: string;
+  stripe = Stripe(environment.stripePK);
 
   constructor(
     private http: Http,

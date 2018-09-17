@@ -11,6 +11,7 @@ export const environment = {
   checkout: 'http://qa-order-service.us-east-1.elasticbeanstalk.com/order/v1',
   card: 'http://qa-order-service.us-east-1.elasticbeanstalk.com/payment/v1',
   shippingMethod: 'http://qa-retailer-service.us-west-1.elasticbeanstalk.com',
+  stripePK: 'pk_test_pNeF3FuRWQ99HxWEMvVbLlKN',
   apis: apiNames,
   regex: regexPatterns,
   commonMsg: commonMessages
