@@ -9,6 +9,7 @@ import { Subject } from 'rxjs/Subject';
 import { BrowseProductsModal } from '../../../models/browse-products';
 import { MyCartService } from './mycart.service';
 import { Location } from '@angular/common';
+import { SuggestionList } from '../../../models/suggestionList';
 
 @Injectable()
 export class CoreService {
@@ -272,7 +273,8 @@ export class CoreService {
       else {
         this.getProductSuggesstion(text).subscribe((res) => {
           if (res.length > 0) {
-            this.suggesstionList = res;
+            this.suggesstionList = new Array<SuggestionList>();
+            this.suggesstionList = res.map((item) => new SuggestionList(item.descriptionForTypeAhead.trim(), item.productCategoryName.trim()));
             this.resetToDefault = this.suggesstionList.length;
           }
           else this.suggesstionList = [];

@@ -4,14 +4,16 @@
         <h1>Take the Search out of Shopping</h1>
         <h4>Your Online Shopping Experience. Personalized.</h4>
         <div class="banner_action d-inline-block">
-            <input type="text" [(ngModel)]="core.searchBar" (blur)="core.hideSuggesstionList()" (keyup)="core.searchSuggestion(core.searchBar, $event)" class="form-control float-left" placeholder="What can we help you find?" />
+            <input type="text" [(ngModel)]="core.searchBar" (blur)="core.hideSuggesstionList()" (keyup)="core.searchSuggestion(core.searchBar, $event)"
+                class="form-control float-left" placeholder="What can we help you find?" />
             <button (click)="core.search(core.searchBar, 'explore')" class="btn btn-red float-left text-center">
                 <span *ngIf="!core.loaderSearch">EXPLORE</span>
                 <img *ngIf="core.loaderSearch" src="/consumer-app/assets/images/loaderWhite.gif" style="margin-top: -3px" />
             </button>
-            <!-- <div class="p-0 float-left text-left suggesstionList" *ngIf="core.suggesstionList != undefined && core.suggesstionList.length > 0">
-                <button *ngFor="let list of core.suggesstionList; let i = index" (click)="core.search(list)">{{list}}</button>
-            </div> -->
+            <div class="p-0 float-left text-left suggesstionList" *ngIf="core.suggesstionList != undefined && core.suggesstionList.length > 0">
+                <button *ngFor="let list of core.suggesstionList; let i = index" (click)="core.search(list.descriptionForTypeAhead)">{{list.descriptionForTypeAhead}}
+                    in {{list.productCategoryName}}</button>
+            </div>
         </div>
     </div>
     <div class="row hdr_footer">
@@ -58,7 +60,8 @@
     <div class="container banner_title">
         <h1>Explore. Bid. Create & Buy.</h1>
         <h4>Are you ready to shop your own way?</h4>
-        <img src="/consumer-app/assets/images/loader.gif" style="right: 15px; top: 245px; width: 20px; height:20px" class="absoluteImg_2" *ngIf="loader" />
+        <img src="/consumer-app/assets/images/loader.gif" style="right: 15px; top: 245px; width: 20px; height:20px"
+            class="absoluteImg_2" *ngIf="loader" />
         <app-breadcrums [breadCrums]="breadCrums" (selectTile)="tileSelected($event, 'IsBc')"></app-breadcrums>
         <app-tiles [tilesData]="tiles" (selectTile)="tileSelected($event, undefined)"></app-tiles>
     </div>
@@ -75,7 +78,8 @@
                     <h1>01</h1>
                     <h5>EXPLORE</h5>
                     <p>
-                        Easily find the unique products you are looking for by only viewing products you are interested in and nothing else
+                        Easily find the unique products you are looking for by only viewing products you are interested
+                        in and nothing else
                     </p>
                 </div>
             </div>
@@ -96,7 +100,8 @@
                     <h1 class="color_step_h1">02</h1>
                     <h5 class="color_step_h5">REQUEST OFFERS</h5>
                     <p>
-                        Tell Kala what’s important to you and request offers from retailers to get the perfect item at the right price
+                        Tell Kala what’s important to you and request offers from retailers to get the perfect item at
+                        the right price
                     </p>
                 </div>
             </div>
@@ -111,7 +116,8 @@
                     <h1 class="color_step_h1">03</h1>
                     <h5 class="color_step_h5">CREATE</h5>
                     <p>
-                        Create your own community and space filled with your favorite products, retailers, experts, and others who share your interests
+                        Create your own community and space filled with your favorite products, retailers, experts, and
+                        others who share your interests
                     </p>
                 </div>
             </div>
@@ -132,7 +138,8 @@
                     <h1 class="color_step_h1">04</h1>
                     <h5 class="color_step_h5">Buy</h5>
                     <p>
-                        Our text-based buying experience makes shopping online with your phone, tablet or desktop as easy as sending an email or text
+                        Our text-based buying experience makes shopping online with your phone, tablet or desktop as
+                        easy as sending an email or text
                     </p>
                 </div>
             </div>
@@ -151,27 +158,40 @@
             <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
                 <ngb-panel title="+ WHAT MAKES KALA DIFFERENT?">
                     <ng-template ngbPanelContent>
-                        Current online retail sites are transactional by nature – shoppers must enter search parameters, browse through large product databases to find what they’re looking for, and then research even more to ensure they’re getting a good deal. Kala is a new social commerce model that provides an interactive and personalized experience unlike anything in the market today, ideally tailored for the modern, mobile consumer.
+                        Current online retail sites are transactional by nature – shoppers must enter search
+                        parameters, browse through large product databases to find what they’re looking for, and then
+                        research even more to ensure they’re getting a good deal. Kala is a new social commerce model
+                        that provides an interactive and personalized experience unlike anything in the market today,
+                        ideally tailored for the modern, mobile consumer.
                     </ng-template>
                 </ngb-panel>
                 <ngb-panel title="+ WHEN CAN I USE IT?">
                     <ng-template ngbPanelContent>
-                        Kala will be releasing a beta version to a select group of shoppers in June, 2018. A full national launch will be available in late summer.
+                        Kala will be releasing a beta version to a select group of shoppers in June, 2018. A full
+                        national launch will be available in late summer.
                     </ng-template>
                 </ngb-panel>
                 <ngb-panel title="+ HOW DO I JOIN?">
                     <ng-template ngbPanelContent>
-                        It couldn’t be simpler, and best of all it’s free! To be part of our exclusive beta release, please register today by providing your name and email address. We’ll keep you updated with exclusive content, rewards, and behind-the-scenes looks as we get closer to launch.
+                        It couldn’t be simpler, and best of all it’s free! To be part of our exclusive beta release,
+                        please register today by providing your name and email address. We’ll keep you updated with
+                        exclusive content, rewards, and behind-the-scenes looks as we get closer to launch.
                     </ng-template>
                 </ngb-panel>
                 <ngb-panel title="+ WHAT KINDS OF THINGS CAN I BUY?">
                     <ng-template ngbPanelContent>
-                        We’re constantly adding new products and stores all the time. Whether you’re doing a home remodel, looking for the latest tech gadget, or are shopping for your favorite pet – we’ve got you covered. And we’re always reaching out to the Kala community to get new ideas for how we can make your experience even better.
+                        We’re constantly adding new products and stores all the time. Whether you’re doing a home
+                        remodel, looking for the latest tech gadget, or are shopping for your favorite pet – we’ve got
+                        you covered. And we’re always reaching out to the Kala community to get new ideas for how we
+                        can make your experience even better.
                     </ng-template>
                 </ngb-panel>
                 <ngb-panel title="+ WHAT IS ‘GET OFFERS’ ?">
                     <ng-template ngbPanelContent>
-                        Kala is designed to takes the search out of shopping and provide a more personalized way to shop online. You simply tell us the product you want, what features are most important, and how much you want to pay, and Kala responds with custom product offers at the ideal price based on your needs right now.
+                        Kala is designed to takes the search out of shopping and provide a more personalized way to
+                        shop online. You simply tell us the product you want, what features are most important, and how
+                        much you want to pay, and Kala responds with custom product offers at the ideal price based on
+                        your needs right now.
                     </ng-template>
                 </ngb-panel>
             </ngb-accordion>
@@ -187,8 +207,10 @@
         <h1>Still got questions?</h1>
         <h4>We’d be delighted to answer them. Just call or email us!</h4>
         <div class="text-center col-sm-12 pb-5">
-            <a (click)="emailKalaBtn()" href="mailto:support@mykala.com" style="width: 150px" class="btn btn_default mr-2">EMAIL KALA</a>
-            <a (click)="contactKalaBtn()" href="javascript:void(0)" style="width: 150px" class="btn btn_default">CALL US</a>
+            <a (click)="emailKalaBtn()" href="mailto:support@mykala.com" style="width: 150px" class="btn btn_default mr-2">EMAIL
+                KALA</a>
+            <a (click)="contactKalaBtn()" href="javascript:void(0)" style="width: 150px" class="btn btn_default">CALL
+                US</a>
         </div>
         <h4 class="pb-0" *ngIf="emailKala">support@mykala.com</h4>
         <h4 class="pb-0" *ngIf="contactKala">1-855-4-MYKALA (1-855-469-5252)</h4>
