@@ -113,6 +113,19 @@ export class HomeComponent implements OnInit {
       carosal[1].classList.remove("active");
       this.carousalItems = this.searchData;
       this.tiles = this.searchData;
+      this.searchData.forEach((item) => {
+        if (item.name == 'Home & Garden') item.orderNo = 1;
+        else if (item.name == 'Pets') item.orderNo = 2;
+        else if (item.name == 'Sports & Fitness') item.orderNo = 3;
+        else if (item.name == 'Electronics') item.orderNo = 4;
+        else if (item.name == 'Travel') item.orderNo = 5;
+        else if (item.name == 'Kids') item.orderNo = 6;
+        else if (item.name == 'Health & Beauty') item.orderNo = 7;
+        else if (item.name == 'Fashion & Apparel') item.orderNo = 8;
+        else if (item.name == 'Tools & Hardware') item.orderNo = 9;
+        else item.orderNo = 10;
+      });
+      this.searchData.sort((a, b) => a.orderNo - b.orderNo);
       /*Product Availability*/
       this.productAvailabilityModal = { levelName: null, levelId: null, levelCount: this.selectionLevel };
       this.homeService.productAvailability(this.productAvailabilityModal).subscribe((res) => {

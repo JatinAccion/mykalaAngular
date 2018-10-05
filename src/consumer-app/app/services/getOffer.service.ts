@@ -17,12 +17,12 @@ export class GetOfferService {
     }
 
     confirmOffer(step4Modal) {
-        const url: string = `${environment.getOffer}/${environment.apis.getOffers.confirmOffer}`;
+        const url: string = `${environment.productList}/${environment.apis.getOffers.confirmOffer}`;
         return this.http.post(url, step4Modal).map(res => res.json());
     }
 
     getofferSubCategory(gSCM) {
-        const url: string = `${environment.getOffer}/${environment.apis.getOffers.partial}`;
+        const url: string = `${environment.productList}/${environment.apis.getOffers.partial}`;
         return this.http.post(url, gSCM).map((res) => res.json());
     }
 }
