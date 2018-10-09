@@ -6,14 +6,20 @@ import { environment } from '../../environments/environment';
 @Injectable()
 export class MyReviewService {
     private BASE_URL: string = environment.profileInterest;
-    private token: string = JSON.parse(JSON.parse(window.localStorage['token']).value);
-    private headers: Headers = new Headers({
-        Authorization: `Bearer ${this.token}`
-    })
+    private token: string;
+    private headers;
     constructor(private http: Http) { }
 
     postReview(requestReviewModel) {
+        this.setToken();
         const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.review}`;
         return this.http.post(url, requestReviewModel, { headers: this.headers }).map((res) => res.json());
+    }
+
+    setToken() {
+        this.token = window.localStorage['token'] != undefined ? JSON.parse(JSON.parse(window.localStorage['token']).value) : '';
+        this.headers = new Headers({
+            Authorization: 'Bearer ' + this.token
+        })
     }
 }

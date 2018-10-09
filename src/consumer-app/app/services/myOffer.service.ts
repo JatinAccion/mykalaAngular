@@ -6,19 +6,26 @@ import { environment } from '../../environments/environment';
 @Injectable()
 export class MyOffersService {
     private BASE_URL: string = environment.profileInterest;
-    private token: string = JSON.parse(JSON.parse(window.localStorage['token']).value);
-    private headers: Headers = new Headers({
-        Authorization: `Bearer ${this.token}`
-    })
+    private token: string;
+    private headers;
     constructor(private http: Http) { }
 
     loadOffers(userId) {
+        this.setToken();
         const url: string = `${this.BASE_URL}/loadMyOffers/${userId}`;
         return this.http.get(url, { headers: this.headers }).map((res) => res.json())
     }
 
     endOffer(offerId) {
+        this.setToken();
         const url: string = `${this.BASE_URL}/endOffer/${offerId}`;
         return this.http.delete(url, { headers: this.headers }).map((res) => res.text())
+    }
+
+    setToken() {
+        this.token = window.localStorage['token'] != undefined ? JSON.parse(JSON.parse(window.localStorage['token']).value) : '';
+        this.headers = new Headers({
+            Authorization: 'Bearer ' + this.token
+        })
     }
 }

@@ -6,10 +6,8 @@ import { environment } from '../../environments/environment';
 @Injectable()
 export class ViewOfferService {
     private BASE_URL: string = environment.profileInterestPublic;
-    private token: string = JSON.parse(JSON.parse(window.localStorage['token']).value);
-    private headers: Headers = new Headers({
-        Authorization: `Bearer ${this.token}`
-    })
+    private token: string;
+    private headers;
     constructor(private http: Http) { }
 
     getReviews(productId) {
@@ -35,8 +33,16 @@ export class ViewOfferService {
     }
 
     declineOffer(offerId, productId) {
+        this.setToken();
         const BASE_URL: string = environment.profileInterest;
         const url: string = `${BASE_URL}/offers/${offerId}/products/${productId}`;
         return this.http.delete(url, { headers: this.headers }).map((res) => res.text())
+    }
+
+    setToken() {
+        this.token = window.localStorage['token'] != undefined ? JSON.parse(JSON.parse(window.localStorage['token']).value) : '';
+        this.headers = new Headers({
+            Authorization: 'Bearer ' + this.token
+        })
     }
 }
