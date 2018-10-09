@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { environment } from '../../environments/environment';
 
 @Injectable()
 export class ViewOfferService {
-    private BASE_URL: string = environment.profileInterest;
+    private BASE_URL: string = environment.profileInterestPublic;
+    private token: string = JSON.parse(JSON.parse(window.localStorage['token']).value);
+    private headers: Headers = new Headers({
+        Authorization: `Bearer ${this.token}`
+    })
     constructor(private http: Http) { }
 
     getReviews(productId) {
@@ -31,7 +35,8 @@ export class ViewOfferService {
     }
 
     declineOffer(offerId, productId) {
-        const url: string = `${this.BASE_URL}/offers/${offerId}/products/${productId}`;
-        return this.http.delete(url, offerId).map((res) => res.text())
+        const BASE_URL: string = environment.profileInterest;
+        const url: string = `${BASE_URL}/offers/${offerId}/products/${productId}`;
+        return this.http.delete(url, { headers: this.headers }).map((res) => res.text())
     }
 }

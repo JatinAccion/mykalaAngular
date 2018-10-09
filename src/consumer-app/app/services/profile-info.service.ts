@@ -5,7 +5,7 @@ import { environment } from '../../environments/environment';
 
 @Injectable()
 export class ProfileInfoService {
-    private BASE_URL: string = environment.profileInterest;
+    private BASE_URL: string = environment.profileInterestPublic;
     constructor(private http: Http) { }
 
     getLocation(term: string) {

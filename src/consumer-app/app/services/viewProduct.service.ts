@@ -5,7 +5,8 @@ import { environment } from '../../environments/environment';
 
 @Injectable()
 export class ViewProductService {
-    private BASE_URL: string = environment.profileInterest;
+    private BASE_URL: string = environment.profileInterestPublic;
+
     constructor(private http: Http) { }
 
     getReviews(productId) {

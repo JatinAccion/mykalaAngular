@@ -38,8 +38,12 @@ export class AuthService {
   }
 
   getUserInfo(token) {
-    const url = `${this.BASE_URL}/${environment.apis.auth.userInfo}?access_token=${token}`;
-    return this.http.get(url).map((res) => res.json());
+    const headers = new Headers({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    });
+    const url = `${this.BASE_URL}/users/${environment.apis.auth.userInfo}`;
+    return this.http.get(url, { headers: headers }).map((res) => res.json());
   }
 
   verifyAccount(emailId) {
@@ -53,16 +57,4 @@ export class AuthService {
     const url: string = `${BASE_URL}/email/${emailId}`;
     return this.http.get(url).map((res) => res.json())
   }
-
-  /* For Mobile/Conversational UI
-  login(user: User): Promise<any> {
-    let url: string = `${this.BASE_URL}/login`;
-    return this.http.post(url, user, { headers: this.headers }).toPromise();
-  }
-
-  register(user: User): Promise<any> {
-    let url: string = `${this.BASE_URL}/register`;
-    return this.http.post(url, user, { headers: this.headers }).toPromise();
-  }
-  */
 }
