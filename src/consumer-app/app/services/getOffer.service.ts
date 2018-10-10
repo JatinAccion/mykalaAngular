@@ -19,7 +19,7 @@ export class GetOfferService {
     }
 
     confirmOffer(step4Modal) {
-        const url: string = `${environment.productList}/${environment.apis.getOffers.confirmOffer}`;
+        const url: string = `${environment.productList.split("/public")[0]}/${environment.apis.getOffers.confirmOffer}`;
         return this.http.post(url, step4Modal, { headers: this.core.setHeaders() }).map(res => res.json());
     }
 
