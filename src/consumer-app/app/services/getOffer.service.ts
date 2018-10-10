@@ -25,6 +25,6 @@ export class GetOfferService {
 
     getofferSubCategory(gSCM) {
         const url: string = `${environment.productList}/${environment.apis.getOffers.partial}`;
-        return this.http.post(url, gSCM, { headers: this.core.setHeaders() }).map((res) => res.json());
+        return this.http.post(url, gSCM).map((res) => res.json());
     }
 }
