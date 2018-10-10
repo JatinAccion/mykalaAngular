@@ -15,19 +15,19 @@ export class ViewOfferService {
     }
 
     getReviewsSummary(productId) {
-        const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.review}/${environment.apis.profileInterest.productReviewSummary}/${productId}`;
+        const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.productReviewSummary}/${productId}`;
         return this.http.get(url).map((res) => res.json());
     }
 
     getRetailerPolicy(retailerId) {
         const BASE_URL: string = environment.shippingMethod;
-        const url: string = `${BASE_URL}/retailer/v1/${retailerId}/${environment.apis.shippingMethod.retailerPolicy}`;
+        const url: string = `${BASE_URL}/retailer/v1/public/${retailerId}/${environment.apis.shippingMethod.retailerPolicy}`;
         return this.http.get(url).map((res) => res.json());
     }
 
     getItBy(shippingProfileId) {
         const BASE_URL: string = environment.shippingMethod;
-        const url: string = `${BASE_URL}/retailer/v1/${shippingProfileId}/${environment.apis.shippingMethod.latestShipMethodName}`;
+        const url: string = `${BASE_URL}/retailer/v1/public/${shippingProfileId}/${environment.apis.shippingMethod.latestShipMethodName}`;
         return this.http.get(url).map((res) => res.text());
     }
 
