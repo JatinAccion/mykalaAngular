@@ -1,5 +1,5 @@
 import { Injectable, ViewChild, ElementRef } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Headers } from '@angular/http';
 import { User, UserProfile } from '../../../models/user';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
@@ -7,7 +7,6 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import animateScrollTo from 'animated-scroll-to';
 import { Subject } from 'rxjs/Subject';
 import { BrowseProductsModal } from '../../../models/browse-products';
-import { MyCartService } from './mycart.service';
 import { Location } from '@angular/common';
 import { SuggestionList } from '../../../models/suggestionList';
 
@@ -37,12 +36,12 @@ export class CoreService {
   showHeaderSuggestion: boolean = false;
   searchBar: string;
   stripe = Stripe(environment.stripePK);
+  loader_suggestion: boolean = false;
 
   constructor(
     private http: Http,
     private route: Router,
     private modalService: NgbModal,
-    private mycart: MyCartService,
     private location: Location
   ) { }
 
@@ -261,23 +260,32 @@ export class CoreService {
   }
 
   searchSuggestion(text, e) {
+    this.loader_suggestion = true;
     if (e.keyCode == 13) {
+      this.loader_suggestion = false;
       let keyword = document.getElementsByClassName('activeList')[0];
       this.searchBar = text;
       this.search(this.searchBar);
       this.suggesstionList = [];
     }
     else {
-      if (e.keyCode != 38 && e.keyCode != 40) this.arrowkeyLocation = 0;
-      if (text === '') this.suggesstionList = [];
+      if (e.keyCode != 38 && e.keyCode != 40) this.arrowkeyLocation = 0
+      if (text === '') {
+        this.loader_suggestion = false;
+        this.suggesstionList = [];
+      }
       else {
         this.getProductSuggesstion(text).subscribe((res) => {
           if (res.length > 0) {
             this.suggesstionList = new Array<SuggestionList>();
-            this.suggesstionList = res.map((item) => new SuggestionList(item.descriptionForTypeAhead.trim(), item.productCategoryName.trim()));
+            this.suggesstionList = res.map((item) => new SuggestionList(item.levelId, item.parentId, item.parentName, item.productLevelName, item.productLevelSuggestion, item.type));
             this.resetToDefault = this.suggesstionList.length;
+            this.loader_suggestion = false;
           }
-          else this.suggesstionList = [];
+          else {
+            this.loader_suggestion = false;
+            this.suggesstionList = [];
+          }
         }, (err) => {
           console.log(err)
         })
@@ -302,28 +310,21 @@ export class CoreService {
     else return true;
   }
 
-  getItemsInCart(userId) {
-    this.mycart.getCartItems(userId).subscribe((res) => {
-      let cartItems = [];
-      let wishListItems = []
-      for (var i = 0; i < res.length; i++) {
-        let items = res[i];
-        if (items.label == 'cart') {
-          cartItems.push(res[i]);
-          window.localStorage['existingItemsInCart'] = JSON.stringify(cartItems);
-        }
-        else {
-          wishListItems.push(res[i]);
-          window.localStorage['existingItemsInWishList'] = JSON.stringify(wishListItems);
-        }
-      }
-    }, (err) => {
-      console.log('Failed to load cart items')
-    })
-  }
-
   goPrevPage() {
     this.location.back();
+  }
+
+  getBearerToken() {
+    let token = window.localStorage['token'] != undefined ? JSON.parse(JSON.parse(window.localStorage['token']).value) : '';
+    return token;
+  }
+
+  setHeaders() {
+    let header = new Headers({
+      Authorization: 'Bearer ' + this.getBearerToken()
+    });
+
+    return header;
   }
 
 }

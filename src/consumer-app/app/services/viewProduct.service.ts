@@ -21,7 +21,7 @@ export class ViewProductService {
 
     getRetailerPolicy(retailerId) {
         const BASE_URL: string = environment.shippingMethod;
-        const url: string = `${BASE_URL}/retailer/v1/${retailerId}/${environment.apis.shippingMethod.retailerPolicy}`;
+        const url: string = `${BASE_URL}/retailer/v1/public/${retailerId}/${environment.apis.shippingMethod.retailerPolicy}`;
         return this.http.get(url).map((res) => res.json());
     }
 

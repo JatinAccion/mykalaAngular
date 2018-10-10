@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
+import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { environment } from '../../environments/environment';
+import { CoreService } from './core.service';
 
 @Injectable()
 export class ViewOfferService {
     private BASE_URL: string = environment.profileInterestPublic;
-    private token: string;
-    private headers;
-    constructor(private http: Http) { }
+    constructor(private http: Http, private core: CoreService) { }
 
     getReviews(productId) {
         const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.getProductReviews}?page=0&size=10&sortOrder=asc&elementType=createdDate&productId=${productId}`;
@@ -33,16 +32,8 @@ export class ViewOfferService {
     }
 
     declineOffer(offerId, productId) {
-        this.setToken();
         const BASE_URL: string = environment.profileInterest;
         const url: string = `${BASE_URL}/offers/${offerId}/products/${productId}`;
-        return this.http.delete(url, { headers: this.headers }).map((res) => res.text())
-    }
-
-    setToken() {
-        this.token = window.localStorage['token'] != undefined ? JSON.parse(JSON.parse(window.localStorage['token']).value) : '';
-        this.headers = new Headers({
-            Authorization: 'Bearer ' + this.token
-        })
+        return this.http.delete(url, { headers: this.core.setHeaders() }).map((res) => res.text())
     }
 }

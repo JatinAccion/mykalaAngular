@@ -10,6 +10,7 @@ import { userMessages, inputValidation } from './login.messges';
 import { RememberMe } from '../../../../models/rememberMe';
 import { LocalStorageService } from '../../services/LocalStorage.service';
 import { regexPatterns } from '../../../../common/regexPatterns';
+import { MyCartService } from '../../services/mycart.service';
 
 @Component({
   selector: 'app-login',
@@ -44,6 +45,7 @@ export class LoginComponent implements OnInit, CuiComponent {
     private auth: AuthService,
     public core: CoreService,
     private formBuilder: FormBuilder,
+    private mycart: MyCartService,
     private localStorageService: LocalStorageService) { }
 
   ngOnInit() {
@@ -128,7 +130,23 @@ export class LoginComponent implements OnInit, CuiComponent {
                   window.localStorage['userInfo'] = JSON.stringify(res);
                   this.core.hideUserInfo(false);
                   this.core.setUser(res);
-                  this.core.getItemsInCart(res.userId);
+                  this.mycart.getCartItems(res.userId).subscribe((res) => {
+                    let cartItems = [];
+                    let wishListItems = []
+                    for (var i = 0; i < res.length; i++) {
+                      let items = res[i];
+                      if (items.label == 'cart') {
+                        cartItems.push(res[i]);
+                        window.localStorage['existingItemsInCart'] = JSON.stringify(cartItems);
+                      }
+                      else {
+                        wishListItems.push(res[i]);
+                        window.localStorage['existingItemsInWishList'] = JSON.stringify(wishListItems);
+                      }
+                    }
+                  }, (err) => {
+                    console.log('Failed to load cart items')
+                  });
                   if (window.localStorage['tbnAfterLogin'] != undefined) {
                     let url = window.localStorage['tbnAfterLogin'];
                     localStorage.removeItem("tbnAfterLogin");
