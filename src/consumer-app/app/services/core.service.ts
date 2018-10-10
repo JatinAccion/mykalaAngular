@@ -201,9 +201,9 @@ export class CoreService {
     }
   }
 
-  searchProduct(text) {
-    const url: string = `${environment.productList}/${environment.apis.products.search}=${text}`;
-    return this.http.get(url).map((res) => res.json());
+  searchProduct(text, parentName) {
+    const url: string = `${environment.productList}/${environment.apis.products.search}=${text}&parentName=${parentName}`;
+    return this.http.get(url).toPromise().then((res) => res.json());
   }
 
   getProductSuggesstion(text) {
@@ -238,34 +238,34 @@ export class CoreService {
     }
   }
 
-  loadProducts(text) {
-    this.tilesData = [];
-    this.searchProduct(text).subscribe(res => {
-      this.tilesData = res.products.map(p => new BrowseProductsModal(p));
-      this.filterIamgeURL();
-      this.getMainImage();
-      this.esKey.next(this.tilesData);
-      this.suggesstionList = [];
-    });
-  }
-
-  search(text, from?: string) {
+  async search(text, parentName) {
     if (text !== '' || text !== undefined) {
-      //if (text.indexOf("in") > -1) text = text.split("in")[1].trim();
+      this.loaderSearch = true;
+      this.tilesData = [];
       this.searchBar = text;
-      window.localStorage['esKeyword'] = this.searchBar;
-      this.route.navigateByUrl("/elastic-product");
-      this.loadProducts(text);
+      text = text.replace(/ /g, "%20").replace(/&/g, "%26");
+      if (parentName) parentName = parentName.replace(/&/g, "%26").replace(/ /g, "%20");
+      var response = await this.searchProduct(text, parentName);
+      if (response.products.length > 0) {
+        this.tilesData = response.products.map(p => new BrowseProductsModal(p));
+        this.filterIamgeURL();
+        this.getMainImage();
+        this.esKey.next(this.tilesData);
+        this.suggesstionList = [];
+        window.localStorage['esKeyword'] = JSON.stringify({ text: text, parentName: parentName });
+        this.route.navigateByUrl("/elastic-product");
+        this.loaderSearch = false;
+      }
     }
   }
 
-  searchSuggestion(text, e) {
+  searchSuggestion(text, parentName, e) {
     this.loader_suggestion = true;
     if (e.keyCode == 13) {
       this.loader_suggestion = false;
       let keyword = document.getElementsByClassName('activeList')[0];
       this.searchBar = text;
-      this.search(this.searchBar);
+      this.search(this.searchBar, parentName);
       this.suggesstionList = [];
     }
     else {

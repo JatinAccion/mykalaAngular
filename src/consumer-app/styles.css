@@ -3543,7 +3543,7 @@ table.customeTable tr td {
     top: 37px;
     left: 14px;
     width: 272px;
-    min-height: 220px;
+    min-height: auto;
     max-height: 220px;
     overflow-y: auto;
     padding-top: 10px !important;

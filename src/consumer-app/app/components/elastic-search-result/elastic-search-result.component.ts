@@ -38,7 +38,11 @@ export class ElasticSearchResult implements OnInit, AfterViewInit {
     this.core.pageLabel();
     localStorage.removeItem("selectedProduct");
     this.loader = true;
-    if (window.localStorage['esKeyword'] != undefined) this.core.search(window.localStorage['esKeyword']);
+    if (window.localStorage['esKeyword'] != undefined) {
+      let text = JSON.parse(window.localStorage['esKeyword']).text;
+      let parentName = JSON.parse(window.localStorage['esKeyword']).parentName;
+      this.core.search(text, parentName);
+    }
     this.core.esKey.subscribe(p => {
       if (this.callAPILoop == 1) {
         this.filterResponse(p);
