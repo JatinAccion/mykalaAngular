@@ -51,8 +51,9 @@ export class MyAccountService {
     }
 
     getInterest() {
-        const url: string = `${this.BASE_URL}/${environment.apis.profileInterest.getCatalogue}`;
-        return this.http.get(url, { headers: this.core.setHeaders() }).map((res) => res.json());
+        const BASE_URL: string = environment.profileInterestPublic;
+        const url: string = `${BASE_URL}/${environment.apis.profileInterest.getCatalogue}`;
+        return this.http.get(url).map((res) => res.json());
     }
 
     saveProfileImage(profileImageModel) {
