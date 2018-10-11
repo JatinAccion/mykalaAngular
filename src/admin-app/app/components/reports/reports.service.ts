@@ -14,6 +14,7 @@ import { ReportOrders, ReportRetailerInquirys, ReportPaymentDatas, ReportProduct
 import { ReportReviewSummary, ReviewItem } from '../../../../models/report-review';
 import { Retailers, RetailerReviews, ReviewRatings } from '../../../../models/retailer';
 import { ReportConsumers } from '../../../../models/report-consumer';
+import { CoreService } from '../../services/core.service';
 
 @Injectable()
 export class ReportsService {
@@ -31,7 +32,8 @@ export class ReportsService {
   constructor(
     private http: Http,
     private localStorageService: LocalStorageService,
-    private httpc: HttpClient
+    private httpc: HttpClient,
+    private core: CoreService
   ) {
     this.seedStaticData();
   }
@@ -44,7 +46,7 @@ export class ReportsService {
     this.headers = this.getHttpHeraders();
     const url = `${this.BASE_URL}/${environment.apis.retailers.get}`;
     return this.http
-      .get(url, { search: query, headers: this.headers })
+      .get(url, { search: query, headers: this.core.setHeaders() })
       .map(p => p.json())
       .catch(this.handleError);
   }
@@ -52,7 +54,7 @@ export class ReportsService {
     this.headers = this.getHttpHeraders();
     const url = `${environment.ordersReportApi}/${environment.apis.orders.paymentCounts}`.replace('{paymentType}', paymentType).replace('{year}', year).replace('{month}', month || '');
     return this.http
-      .get(url, { headers: this.headers })
+      .get(url, { headers: this.core.setHeaders() })
       .map(p => p.json())
       .catch(this.handleError);
   }
@@ -60,7 +62,7 @@ export class ReportsService {
     this.headers = this.getHttpHeraders();
     const url = `${environment.ordersReportApi}/${environment.apis.orders.paymentReports}`.replace('{paymentType}', paymentType).replace('{summary}', summary).replace('{year}', year).replace('{month}', month || '');
     return this.http
-      .get(url, { headers: this.headers })
+      .get(url, { headers: this.core.setHeaders() })
       .map(p => p.json())
       .catch(this.handleError);
   }
@@ -68,7 +70,7 @@ export class ReportsService {
     this.headers = this.getHttpHeraders();
     const url = `${environment.ordersReportApi}/${environment.apis.orders.consumerPayment}`.replace('{paymentType}', paymentType).replace('{year}', year).replace('{month}', month || '');
     return this.http
-      .get(url, { headers: this.headers })
+      .get(url, { headers: this.core.setHeaders() })
       .map(p => p.json())
       .catch(this.handleError);
   }
@@ -76,7 +78,7 @@ export class ReportsService {
     this.headers = this.getHttpHeraders();
     const url = `${environment.ordersReportApi}/${environment.apis.orders.get}`.replace('{paymentType}', paymentType).replace('{year}', year).replace('{month}', month || '');
     return this.http
-      .get(url, { search: query, headers: this.headers })
+      .get(url, { search: query, headers: this.core.setHeaders() })
       .map(p => this.handleResponse(p, ReportOrders))
       .catch(this.handleError);
   }
@@ -84,7 +86,7 @@ export class ReportsService {
     this.headers = this.getHttpHeraders();
     const url = `${environment.consumerApi}/${environment.apis.consumer.getConsumerDetails}`;
     return this.http
-      .get(url, { search: query, headers: this.headers })
+      .get(url, { search: query, headers: this.core.setHeaders() })
       .map(p => this.handleResponse(p, ReportConsumers))
       .catch(this.handleError);
   }
@@ -92,7 +94,7 @@ export class ReportsService {
     this.headers = this.getHttpHeraders();
     const url = `${environment.ordersApi}/${environment.apis.consumer.getConsumerDetailsBasedOnTransactions}`;
     return this.http
-      .get(url, { search: query, headers: this.headers })
+      .get(url, { search: query, headers: this.core.setHeaders() })
       .map(p => this.handleResponse(p, ReportConsumers))
       .catch(this.handleError);
   }
@@ -100,7 +102,7 @@ export class ReportsService {
     this.headers = this.getHttpHeraders();
     const url = `${environment.ordersReportApi}/${environment.apis.orders.getPaymentDetails}`;
     return this.http
-      .get(url, { search: query, headers: this.headers })
+      .get(url, { search: query, headers: this.core.setHeaders() })
       .map(p => this.handleResponse(p, ReportPaymentDatas))
       .catch(this.handleError);
   }
@@ -108,7 +110,7 @@ export class ReportsService {
     this.headers = this.getHttpHeraders();
     const url = `${environment.AdminApi}/${environment.apis.orders.getRetailerReviews}`;
     return this.http
-      .get(url, { search: query, headers: this.headers })
+      .get(url, { search: query, headers: this.core.setHeaders() })
       .map(p => this.handleResponse(p, RetailerReviews))
       .catch(this.handleError);
   }
@@ -116,7 +118,7 @@ export class ReportsService {
     this.headers = this.getHttpHeraders();
     const url = `${environment.consumerApi}/${environment.apis.orders.getRetailerReviewRatings}`.replace('{retailerId}', retailerId);
     return this.http
-      .get(url, { headers: this.headers })
+      .get(url, { headers: this.core.setHeaders() })
       .map(res => {
         if (res.text() === '') {
           return '';
@@ -130,7 +132,7 @@ export class ReportsService {
     this.headers = this.getHttpHeraders();
     const url = `${environment.consumerApi}/${environment.apis.orders.consumerCount}`.replace('{memberType}', memberType).replace('{year}', year).replace('{month}', month || '');
     return this.http
-      .get(url, { headers: this.headers })
+      .get(url, { headers: this.core.setHeaders() })
       .map(p => p.json())
       .catch(this.handleError);
   }
@@ -138,7 +140,7 @@ export class ReportsService {
     this.headers = this.getHttpHeraders();
     const url = `${environment.consumerApi}/${environment.apis.orders.orderReviewCount}`.replace('{year}', year).replace('{month}', month || '');
     return this.http
-      .get(url, { headers: this.headers })
+      .get(url, { headers: this.core.setHeaders() })
       .map(p => p.json())
       .map(p => new ReportReviewSummary(p))
       .catch(this.handleError);
@@ -147,7 +149,7 @@ export class ReportsService {
     this.headers = this.getHttpHeraders();
     const url = `${environment.consumerApi}/${environment.apis.orders.avgReviewCount}`.replace('{year}', year).replace('{month}', month || '');
     return this.http
-      .get(url, { headers: this.headers })
+      .get(url, { headers: this.core.setHeaders() })
       .map(p => this.handleResponse(p, ReportReviewSummary))
       .catch(this.handleError);
   }
@@ -155,7 +157,7 @@ export class ReportsService {
     this.headers = this.getHttpHeraders();
     const url = `${environment.consumerApi}/${environment.apis.orders.avgResponseTime}`.replace('{year}', year).replace('{month}', month || '');
     return this.http
-      .get(url, { headers: this.headers })
+      .get(url, { headers: this.core.setHeaders() })
       .map(p => p.json())
       .catch(this.handleError);
   }
@@ -163,7 +165,7 @@ export class ReportsService {
     this.headers = this.getHttpHeraders();
     const url = `${environment.consumerApi}/${environment.apis.orders.consumerYearlyReport}`.replace('{memberType}', memberType).replace('{year}', year).replace('{month}', month || '');
     return this.http
-      .get(url, { headers: this.headers })
+      .get(url, { headers: this.core.setHeaders() })
       .map(p => this.handleResponse(p, ReportReviewSummary))
       .catch(this.handleError);
   }
@@ -171,7 +173,7 @@ export class ReportsService {
     this.headers = this.getHttpHeraders();
     const url = `${environment.InquiryApi}/${environment.apis.inquiry.inquiriesReport}`.replace('{type}', type).replace('{year}', year).replace('{month}', month || '');
     return this.http
-      .get(url, { headers: this.headers })
+      .get(url, { headers: this.core.setHeaders() })
       .map(p => p.json())
       .catch(this.handleError);
   }
@@ -179,7 +181,7 @@ export class ReportsService {
     this.headers = this.getHttpHeraders();
     const url = `${environment.InquiryApi}/${environment.apis.inquiry.inquiriesCategoryReport}`.replace('{type}', type).replace('{year}', year).replace('{month}', month || '');
     return this.http
-      .get(url, { headers: this.headers })
+      .get(url, { headers: this.core.setHeaders() })
       .map(p => p.json())
       .catch(this.handleError);
   }
@@ -187,7 +189,7 @@ export class ReportsService {
     this.headers = this.getHttpHeraders();
     const url = `${environment.InquiryApi}/${environment.apis.inquiry.retailerInquiries}`.replace('{type}', inquiryType).replace('{category}', inquiryCategory);
     return this.http
-      .get(url, { search: query, headers: this.headers })
+      .get(url, { search: query, headers: this.core.setHeaders() })
       .map(p => this.handleResponse(p, ReportRetailerInquirys))
       .catch(this.handleError);
   }
@@ -202,7 +204,7 @@ export class ReportsService {
     }
 
     return this.http
-      .get(url, { headers: this.headers })
+      .get(url, { headers: this.core.setHeaders() })
       .map(p => this.handleResponse(p, ReportReviewSummary))
       .catch(this.handleError);
   }
@@ -213,39 +215,39 @@ export class ReportsService {
     this.headers = this.getHttpHeraders();
     const url = `${environment.ordersApi}/${environment.apis.salesReport.widOne}`.replace('{year}', year).replace('{month}', month || '');
     return this.http
-      .get(url, { headers: this.headers })
+      .get(url, { headers: this.core.setHeaders() })
       .map(p => this.handleArrayResponse(p, ReviewItem))
       .catch(this.handleError);
   }
   srGetWidTwoData(year: string, month?: string): Observable<Array<ReviewItem>> {
-   this.headers = this.getHttpHeraders();
+    this.headers = this.getHttpHeraders();
     const url = `${environment.ordersApi}/${environment.apis.salesReport.widTwo}`.replace('{year}', year).replace('{month}', month || '');
     return this.http
-      .get(url, { headers: this.headers })
+      .get(url, { headers: this.core.setHeaders() })
       .map(p => this.handleArrayResponse(p, ReviewItem))
       .catch(this.handleError);
   }
   srGetWidFourData(year: string, month?: string): Observable<Array<ReviewItem>> {
-   this.headers = this.getHttpHeraders();
+    this.headers = this.getHttpHeraders();
     const url = `${environment.InquiryApi}/${environment.apis.salesReport.widFour}`.replace('{year}', year).replace('{month}', month || '');
     return this.http
-      .get(url, { headers: this.headers })
+      .get(url, { headers: this.core.setHeaders() })
       .map(p => this.handleArrayResponse(p, ReviewItem))
       .catch(this.handleError);
   }
   srGetChartData(year: string, month?: string): Observable<Array<ReviewItem>> {
-   this.headers = this.getHttpHeraders();
+    this.headers = this.getHttpHeraders();
     const url = `${environment.InquiryApi}/${environment.apis.salesReport.chart}`.replace('{year}', year).replace('{month}', month || '');
     return this.http
-      .get(url, { headers: this.headers })
+      .get(url, { headers: this.core.setHeaders() })
       .map(p => this.handleArrayResponse(p, ReviewItem))
       .catch(this.handleError);
   }
   srGetGridData(year: string, month?: string, query?: any): Observable<ReportProductSolds> {
-   this.headers = this.getHttpHeraders();
+    this.headers = this.getHttpHeraders();
     const url = `${environment.ordersApi}/${environment.apis.salesReport.grid}`.replace('{year}', year).replace('{month}', month || '');
     return this.http
-      .get(url, {search: query, headers: this.headers })
+      .get(url, { search: query, headers: this.core.setHeaders() })
       .map(p => this.handleResponse(p, ReportProductSolds))
       .catch(this.handleError);
   }

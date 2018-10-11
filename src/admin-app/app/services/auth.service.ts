@@ -5,6 +5,7 @@ import 'rxjs/add/operator/toPromise';
 import { User, BasicAuth, UserProfile } from '../../../models/user';
 import { environment } from './../../environments/environment';
 import { Observable } from 'rxjs/Observable';
+import { CoreService } from './core.service';
 
 
 @Injectable()
@@ -15,7 +16,7 @@ export class AuthService {
     'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8;',
     Authorization: `Basic ${this.basicAuth.encoded}`
   });
-  constructor(private http: Http) { }
+  constructor(private http: Http, private core: CoreService) { }
 
   login(user: User): Promise<any> {
     const data = {
@@ -30,8 +31,8 @@ export class AuthService {
     return this.http.post(url, '', { headers: this.headers }).toPromise();
   }
   getUserInfo(token): Observable<UserProfile> {
-    const url = `${environment.Api}/${environment.apis.Auth.userInfo}?access_token=${token}`;
-    return this.http.get(url).map(res => {
+    const url = `${environment.Api}/users/${environment.apis.Auth.userInfo}`;
+    return this.http.get(url, { headers: this.core.setHeaders() }).map(res => {
       if (res.text() === '') {
         return new UserProfile();
       } else {

@@ -11,6 +11,7 @@ import { LocalStorageService } from '../../services/LocalStorage.service';
 import { environment } from './../../../environments/environment';
 import { nameValue } from '../../../../models/nameValue';
 import { UserProfile } from '../../../../models/user';
+import { CoreService } from '../../services/core.service';
 
 @Injectable()
 export class UserService {
@@ -28,7 +29,8 @@ export class UserService {
   constructor(
     private http: Http,
     private localStorageService: LocalStorageService,
-    private httpc: HttpClient
+    private httpc: HttpClient,
+    private core: CoreService
   ) {
     this.seedStaticData();
   }
@@ -41,14 +43,14 @@ export class UserService {
     this.headers = this.getHttpHeraders();
     const url = `${this.BASE_URL}/${environment.apis.users.getAdmin}`;
     return this.http
-      .get(url, { search: query, headers: this.headers })
+      .get(url, { search: query, headers: this.core.setHeaders() })
       .map(p => p.json().map(q => new UserProfile(q)))
       .catch(this.handleError);
   }
   getUser(userId: string): Observable<any> {
     const url = `${this.BASE_URL}/${environment.apis.users.get}`.replace('{userId}', userId);
     return this.http
-      .get(`${url}`, { headers: this.headers })
+      .get(`${url}`, { headers: this.core.setHeaders() })
       .map(res => {
         if (res.text() === '') {
           return 'User Not found';
@@ -61,7 +63,7 @@ export class UserService {
   save(user: UserProfile): Promise<any> {
     this.headers = this.getHttpHeraders();
     const url = `${this.BASE_URL}/${environment.apis.users.save}`;
-    const requestOptions = { body: user, method: RequestMethod.Post, headers: this.headers };
+    const requestOptions = { body: user, method: RequestMethod.Post, headers: this.core.setHeaders() };
     if (user.userId) {
       requestOptions.method = RequestMethod.Put;
     }
@@ -75,7 +77,7 @@ export class UserService {
   delete(userId: string) {
     const url = `${this.BASE_URL}/${environment.apis.users.delete}`.replace('{userId}', userId);
     return this.http
-      .delete(`${url}`, { headers: this.headers })
+      .delete(`${url}`, { headers: this.core.setHeaders() })
       .map(res => res.text())
       .catch(this.handleError);
   }

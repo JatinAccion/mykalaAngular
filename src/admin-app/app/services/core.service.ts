@@ -1,4 +1,5 @@
 import { Injectable, transition } from '@angular/core';
+import { Headers } from '@angular/http';
 import { ToastrService } from 'ngx-toastr';
 import { User, UserProfile } from '../../../models/user';
 import { Observable } from 'rxjs/Observable';
@@ -70,5 +71,18 @@ export class CoreService {
     if (key) {
       window.location.hash = key;
     }
+  }
+
+  getBearerToken() {
+    let token = window.localStorage['token'] != undefined ? JSON.parse(JSON.parse(window.localStorage['token']).value) : '';
+    return token;
+  }
+
+  setHeaders() {
+    let header = new Headers({
+      Authorization: 'Bearer ' + this.getBearerToken()
+    });
+
+    return header;
   }
 }

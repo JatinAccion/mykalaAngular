@@ -62,7 +62,7 @@ export class LoginComponent implements OnInit {
     this.auth.login(this.user).then((res) => {
       this.processRemeberme();
       const resJson = res.json();
-      this.localStorageService.setItem('token', `${resJson.token_type} ${resJson.access_token}`, resJson.expires_in);
+      this.localStorageService.setItem('token', `${resJson.access_token}`, resJson.expires_in);
       this.auth.getUserInfo(resJson.access_token).subscribe(usr => {
         this.loader = false;
         if (usr.userCreateStatus === false) {

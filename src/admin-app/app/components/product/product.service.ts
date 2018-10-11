@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
-import { HttpClient, HttpRequest, HttpEvent, HttpEventType, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpEvent, HttpEventType, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/observable/of';
@@ -14,6 +14,7 @@ import { Product, Products, ProductAttributesMasterData } from '../../../../mode
 import { ProductPlace, ProductType, ProductSubCategory, ProductCategory } from '../../../../models/product-info';
 import { RetailerProfileInfo } from '../../../../models/retailer-profile-info';
 import { ProductUploads } from '../../../../models/productUpload';
+import { CoreService } from '../../services/core.service';
 
 @Injectable()
 export class ProductService {
@@ -33,7 +34,8 @@ export class ProductService {
   constructor(
     private http: Http,
     private localStorageService: LocalStorageService,
-    private httpc: HttpClient
+    private httpc: HttpClient,
+    private core: CoreService
   ) {
     this.seedStaticData();
   }
@@ -43,16 +45,17 @@ export class ProductService {
   get(query: any): Observable<Products> {
     this.headers = this.getHttpHeraders();
     let url = `${this.BASE_URL}/${environment.apis.product.get}`;
+    query.page = isNaN(query.page) ? '0' : query.page
     if (query.sourceId) {
       url = `${this.BASE_URL}/${environment.apis.product.viewUploadedProducts}`;
       return this.http
-        .get(url, { search: query, headers: this.headers })
+        .get(url, { search: query, headers: this.core.setHeaders() })
         .map(p => p.json())
         .map(p => new Products(p))
         .catch(this.handleError);
     } else {
       return this.http
-        .post(url, query, { headers: this.headers })
+        .post(url, query, { headers: this.core.setHeaders() })
         .map(p => p.json())
         .map(p => new Products(p))
         .catch(this.handleError);
@@ -62,7 +65,7 @@ export class ProductService {
     this.headers = this.getHttpHeraders();
     const url = `${this.BASE_URL}/${environment.apis.product.save}`;
     return this.http
-      .post(url, product, { headers: this.headers })
+      .post(url, product, { headers: this.core.setHeaders() })
       .map(p => p.json())
       // .map(p => new Products(p))
       .catch(this.handleError);
@@ -75,7 +78,7 @@ export class ProductService {
       this.headers = this.getHttpHeraders();
       const url = `${environment.AdminApi}/${environment.apis.retailers.getShippingProfileNames}`.replace('{retailerId}', retailerId.toString());
       return this.http
-        .get(`${url}`, { headers: this.headers })
+        .get(`${url}`, { headers: this.core.setHeaders() })
         .map(res => <Array<any>>res.json().map(obj => new nameValue(obj.shippingProfileId, obj.shippingProfileName)))
         .catch(this.handleError);
     }
@@ -84,7 +87,7 @@ export class ProductService {
     this.headers = this.getHttpHeraders();
     const url = `${environment.AdminApi}/${environment.apis.retailers.getRetailerNames}`;
     return this.http
-      .get(`${url}`, { headers: this.headers })
+      .get(`${url}`, { headers: this.core.setHeaders() })
       .map(res => <Array<any>>res.json().map(obj => new RetailerProfileInfo(obj)))
       .catch(this.handleError);
   }
@@ -101,7 +104,8 @@ export class ProductService {
     const url = `${this.BASE_URL}/${environment.apis.product.saveImage}`;
     const req = new HttpRequest('POST', url, formdata, {
       reportProgress: false,
-      responseType: 'text'
+      responseType: 'text',
+      headers: new HttpHeaders().set("Authorization", "Bearer " + JSON.parse(JSON.parse(window.localStorage['token']).value))
     });
 
     return this.httpc.request(req).map(p => p);
@@ -110,7 +114,7 @@ export class ProductService {
     this.headers = this.getHttpHeraders();
     const url = `${this.BASE_URL}/${environment.apis.product.markasMainImage}`.replace('{productId}', productId).replace('{imageId}', imageId);
     return this.http
-      .put(url, { headers: this.headers })
+      .put(url, { headers: this.core.setHeaders() })
       .map(p => new Product(p.json()))
       .catch(this.handleError);
   }
@@ -118,7 +122,7 @@ export class ProductService {
     this.headers = this.getHttpHeraders();
     const url = `${this.BASE_URL}/${environment.apis.product.deleteImage}`.replace('{productId}', productId).replace('{imageId}', imageId);
     return this.http
-      .delete(url, { headers: this.headers })
+      .delete(url, { headers: this.core.setHeaders() })
       .map(p => new Product(p.json()))
       .catch(this.handleError);
   }
@@ -174,7 +178,7 @@ export class ProductService {
     } else {
       const url = `${this.BASE_URL}/${environment.apis.product.places}`;
       return this.http
-        .get(`${url}`, { headers: this.headers })
+        .get(`${url}`, { headers: this.core.setHeaders() })
         .map(res => {
           const resArr = <Array<any>>res.json();
           resArr.forEach(obj => this.productPlaces.push(new ProductPlace(obj)));
@@ -188,21 +192,21 @@ export class ProductService {
   getProductCategories(placeIds: string[]): Observable<Array<ProductCategory>> {
     const url = `${this.BASE_URL}/${environment.apis.product.categories}`;
     return this.http
-      .post(`${url}`, { fieldValues: placeIds }, { headers: this.headers })
+      .post(`${url}`, { fieldValues: placeIds }, { headers: this.core.setHeaders() })
       .map(res => <Array<any>>res.json().map(obj => new ProductCategory(obj)))
       .catch(this.handleError);
   }
   getProductSubCategories(categoryIds: string[]): Observable<Array<ProductSubCategory>> {
     const url = `${this.BASE_URL}/${environment.apis.product.subCategories}`;
     return this.http
-      .post(`${url}`, { fieldValues: categoryIds }, { headers: this.headers })
+      .post(`${url}`, { fieldValues: categoryIds }, { headers: this.core.setHeaders() })
       .map(res => <Array<any>>res.json().map(obj => new ProductSubCategory(obj)))
       .catch(this.handleError);
   }
   getProductTypes(subCategoryIds: string[]): Observable<Array<ProductType>> {
     const url = `${this.BASE_URL}/${environment.apis.product.types}`;
     return this.http
-      .post(`${url}`, { fieldValues: subCategoryIds }, { headers: this.headers })
+      .post(`${url}`, { fieldValues: subCategoryIds }, { headers: this.core.setHeaders() })
       .map(res => <Array<any>>res.json().map(obj => new ProductType(obj)))
       .catch(this.handleError);
   }
@@ -228,6 +232,7 @@ export class ProductService {
     const url = `${this.BASE_URL}/${environment.apis.product.upload}`;
     const req = new HttpRequest('POST', url, formdata, {
       reportProgress: true,
+      headers: new HttpHeaders().set("Authorization", "Bearer " + JSON.parse(JSON.parse(window.localStorage['token']).value))
     });
     return this.httpc.request(req).map(p => p);
   }
@@ -245,7 +250,7 @@ export class ProductService {
     // formdata.append('retailerId', retailerId);
 
     const url = `${this.BASE_URL}/${environment.apis.product.bulkUpload}`;
-    return this.http.post(url, formdata).map(p => p.text());
+    return this.http.post(url, formdata, { headers: this.core.setHeaders() }).map(p => p.text());
     /*
     const req = new HttpRequest('POST', url, formdata, {
       reportProgress: true,
@@ -256,7 +261,7 @@ export class ProductService {
   getUploadSummary(query: any): Observable<ProductUploads> {
     const url = `${this.BASE_URL}/${environment.apis.product.uploadSummary}`;
     return this.http
-      .get(`${url}`, { search: query, headers: this.headers })
+      .get(`${url}`, { search: query, headers: this.core.setHeaders() })
       .map(res => {
         if (res.text() !== '') {
           return new ProductUploads(res.json());
@@ -270,7 +275,7 @@ export class ProductService {
     this.headers = this.getHttpHeraders();
     const url = `${this.BASE_URL}/${environment.apis.product.deleteSummary}`.replace('{summaryId}', summaryId);
     return this.http
-      .delete(url, { headers: this.headers })
+      .delete(url, { headers: this.core.setHeaders() })
       .map(p => p.text())
       .catch(this.handleError);
   }
@@ -278,14 +283,14 @@ export class ProductService {
     this.headers = this.getHttpHeraders();
     const url = `${this.BASE_URL}/${environment.apis.product.delete}`.replace('{productId}', productId);
     return this.http
-      .delete(url, { headers: this.headers })
+      .delete(url, { headers: this.core.setHeaders() })
       .map(p => p.text())
       .catch(this.handleError);
   }
   changeStatus(productId: string, status: boolean | null = true) {
     const url = `${this.BASE_URL}/${environment.apis.product.changeStatus}`.replace('{productId}', productId).replace('{status}', `${status}`);
     return this.http
-      .put(`${url}`, { headers: this.headers })
+      .put(`${url}`, null, { headers: this.core.setHeaders() })
       .map(res => res.text())
       .catch(this.handleError);
   }
@@ -298,7 +303,7 @@ export class ProductService {
         'categoryName': category,
         'placeName': placeName,
         'productType': subCategory
-      }, { headers: this.headers })
+      })
       .map(res => {
         if (res.text() !== '') {
           return new ProductAttributesMasterData(res.json());

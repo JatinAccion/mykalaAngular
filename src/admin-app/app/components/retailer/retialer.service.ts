@@ -19,6 +19,7 @@ import { RetailerProductInfo } from '../../../../models/retailer-product-info';
 import { Subject } from 'rxjs/Subject';
 import { MasterData } from '../../../../models/masterData';
 import { StripePayment } from '../../../../models/stripe-payment';
+import { CoreService } from '../../services/core.service';
 
 @Injectable()
 export class RetialerService {
@@ -75,7 +76,8 @@ export class RetialerService {
   }
   constructor(
     private http: Http,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private core: CoreService
   ) {
     this.seedStaticData();
     this.profileData.subscribe(p => this.profileDataObj = p);
@@ -98,7 +100,7 @@ export class RetialerService {
     this.headers = this.getHttpHeraders();
     const url = `${this.BASE_URL}/${environment.apis.retailers.get}`;
     return this.http
-      .get(url, { search: query, headers: this.headers })
+      .get(url, { search: query, headers: this.core.setHeaders() })
       .map(p => p.json())
       .map(p => new Retailers(p))
       .catch(this.handleError);
@@ -110,7 +112,7 @@ export class RetialerService {
     } else {
       const url = `${this.BASE_URL}/${environment.apis.retailerProfileInfo.get}`.replace('{retailerId}', retailerId.toString());
       return this.http
-        .get(`${url}`, { headers: this.headers })
+        .get(`${url}`, { headers: this.core.setHeaders() })
         .map(res => {
           if (res.text() === '') {
             return this.profileDataObj;
@@ -125,7 +127,7 @@ export class RetialerService {
   profileInfoSave(retailerProfileInfo: RetailerProfileInfo): Observable<RetailerProfileInfo> {
     this.headers = this.getHttpHeraders();
     const url = `${this.BASE_URL}/${environment.apis.retailerProfileInfo.save}`;
-    const requestOptions = { body: retailerProfileInfo, method: RequestMethod.Post, headers: this.headers };
+    const requestOptions = { body: retailerProfileInfo, method: RequestMethod.Post, headers: this.core.setHeaders() };
     if (retailerProfileInfo.retailerId) {
       requestOptions.method = RequestMethod.Put;
     }
@@ -143,7 +145,7 @@ export class RetialerService {
     this.headers = this.getHttpHeraders();
     const url = `${this.BASE_URL}/${environment.apis.retailers.sellerTypes}`;
     return this.http
-      .get(url, { headers: this.headers })
+      .get(url, { headers: this.core.setHeaders() })
       .map(res => res.json().map(p => new SellerType(p)))
       .catch(this.handleError);
   }
@@ -155,7 +157,7 @@ export class RetialerService {
       const url = `${this.BASE_URL}/${environment.apis.retailerPaymentInfo.get}`.replace('{retailerId}', retailerId.toString());
 
       return this.http
-        .get(`${url}`, { headers: this.headers })
+        .get(`${url}`, { headers: this.core.setHeaders() })
         .map(res => {
           if (res.text() === '') {
             return this.paymentDataObj;
@@ -170,7 +172,7 @@ export class RetialerService {
   paymentInfoSave(paymentInfo: RetailerPaymentInfo): Observable<RetailerPaymentInfo> {
     this.headers = this.getHttpHeraders();
     const url = `${this.BASE_URL}/${environment.apis.retailerPaymentInfo.save}`;
-    const requestOptions = { body: paymentInfo, method: RequestMethod.Post, headers: this.headers };
+    const requestOptions = { body: paymentInfo, method: RequestMethod.Post, headers: this.core.setHeaders() };
     if (paymentInfo.retailerBankPaymentId) {
       requestOptions.method = RequestMethod.Put;
     }
@@ -210,7 +212,7 @@ export class RetialerService {
   addSellerAccount(stripePayment: StripePayment, reActivateStripe: boolean): Observable<any> {
     this.headers = this.getHttpHeraders();
     let url = `${environment.paymentApi}/${environment.apis.retailerPaymentInfo.addSellerAccount}`;
-    const requestOptions = { body: stripePayment, method: RequestMethod.Post, headers: this.headers };
+    const requestOptions = { body: stripePayment, method: RequestMethod.Post, headers: this.core.setHeaders() };
     if (reActivateStripe) {
       url = `${environment.paymentApi}/${environment.apis.retailerPaymentInfo.updateSellerAccount}`;
       requestOptions.method = RequestMethod.Put;
@@ -226,7 +228,7 @@ export class RetialerService {
     } else {
       const url = `${this.BASE_URL}/${environment.apis.retailerShippingInfo.get}`.replace('{retailerId}', retailerId.toString());
       return this.http
-        .get(`${url}`, { headers: this.headers })
+        .get(`${url}`, { headers: this.core.setHeaders() })
         .map(res => {
           if (res.text() === '') {
             return this.shippingsDataObj;
@@ -241,7 +243,7 @@ export class RetialerService {
   saveShipping(shippingProfile: RetialerShippingProfile): Observable<RetialerShippingProfile> {
     this.headers = this.getHttpHeraders();
     const url = `${this.BASE_URL}/${environment.apis.retailerShippingInfo.save}`;
-    const requestOptions = { body: shippingProfile, method: RequestMethod.Post, headers: this.headers };
+    const requestOptions = { body: shippingProfile, method: RequestMethod.Post, headers: this.core.setHeaders() };
     if (shippingProfile.shippingProfileId) {
       requestOptions.method = RequestMethod.Put;
     }
@@ -271,9 +273,9 @@ export class RetialerService {
     if (this.notificationDataObj && this.notificationDataObj.retailerId === retailerId) {
       return Observable.of(this.notificationDataObj);
     } else {
-      const url = `${this.BASE_URL}/${environment.apis.retailerShippingNotification.get}`.replace('{retailerId}', retailerId.toString());
+      const url = `${this.BASE_URL}/public/${environment.apis.retailerShippingNotification.get}`.replace('{retailerId}', retailerId.toString());
       return this.http
-        .get(`${url}`, { headers: this.headers })
+        .get(`${url}`)
         .map(res => {
           if (res.text() === '') {
             return this.notificationDataObj;
@@ -288,7 +290,7 @@ export class RetialerService {
   saveNotifications(notification: RetailerNotification): Observable<any> {
     this.headers = this.getHttpHeraders();
     const url = `${this.BASE_URL}/${environment.apis.retailerShippingNotification.save}`;
-    const requestOptions = { body: notification, method: RequestMethod.Post, headers: this.headers };
+    const requestOptions = { body: notification, method: RequestMethod.Post, headers: this.core.setHeaders() };
     if (notification.shippingNotificationsId) {
       requestOptions.method = RequestMethod.Put;
     }
@@ -306,9 +308,9 @@ export class RetialerService {
     if (this.returnDataObj && this.returnDataObj.retailerId === retailerId) {
       return Observable.of(this.returnDataObj);
     } else {
-      const url = `${this.BASE_URL}/${environment.apis.retailerShippingReturnPolicy.get}`.replace('{retailerId}', retailerId.toString());
+      const url = `${this.BASE_URL}/public/${environment.apis.retailerShippingReturnPolicy.get}`.replace('{retailerId}', retailerId.toString());
       return this.http
-        .get(`${url}`, { headers: this.headers })
+        .get(`${url}`)
         .map(res => {
           if (res.text() === '') { return this.returnDataObj; } else {
             this.returnData.next(new RetailerReturnPolicy(res.json()));
@@ -321,7 +323,7 @@ export class RetialerService {
   saveReturnPolicy(returnPolicy: RetailerReturnPolicy): Observable<any> {
     this.headers = this.getHttpHeraders();
     const url = `${this.BASE_URL}/${environment.apis.retailerShippingReturnPolicy.save}`;
-    const requestOptions = { body: returnPolicy, method: RequestMethod.Post, headers: this.headers };
+    const requestOptions = { body: returnPolicy, method: RequestMethod.Post, headers: this.core.setHeaders() };
     if (returnPolicy.shippingReturnId) {
       requestOptions.method = RequestMethod.Put;
     }
@@ -340,7 +342,7 @@ export class RetialerService {
     } else {
       const url = `${environment.TaxApi}/${environment.apis.retailerTax.get}`.replace('{retailerId}', retailerId.toString());
       return this.http
-        .get(`${url}`, { headers: this.headers })
+        .get(`${url}`, { headers: this.core.setHeaders() })
         .map(res => {
           if (res.text() === '') { return this.taxDataObj; } else {
             this.taxData.next(new RetailerTax(res.json()));
@@ -353,7 +355,7 @@ export class RetialerService {
   saveTax(tax: RetailerTax): Observable<any> {
     this.headers = this.getHttpHeraders();
     const url = `${environment.TaxApi}/${environment.apis.retailerTax.save}`;
-    const requestOptions = { body: tax, method: RequestMethod.Post, headers: this.headers };
+    const requestOptions = { body: tax, method: RequestMethod.Post, headers: this.core.setHeaders() };
     if (tax.taxNexusId) {
       requestOptions.method = RequestMethod.Put;
     }
@@ -372,7 +374,7 @@ export class RetialerService {
     } else {
       const url = `${this.BASE_URL}/${environment.apis.retailerProduct.get}`.replace('{retailerId}', retailerId.toString());
       return this.http
-        .get(`${url}`, { headers: this.headers })
+        .get(`${url}`, { headers: this.core.setHeaders() })
         .map(res => {
           if (res.text() === '') { return this.productDataObj; } else {
             this.productData.next(new RetailerProductInfo(res.json())); return new RetailerProductInfo(res.json());
@@ -386,7 +388,7 @@ export class RetialerService {
     this.headers = this.getHttpHeraders();
     const url = `${this.BASE_URL}/${environment.apis.retailerProduct.save}`;
     return this.http
-      .post(url, obj, { headers: this.headers })
+      .post(url, obj, { headers: this.core.setHeaders() })
       .map(p => {
         obj.productPreferenceId = p.json().productPreferenceId;
         obj.status = true;
@@ -399,13 +401,13 @@ export class RetialerService {
   changeStatus(retailerId: string, status: boolean | null = true) {
     const url = `${this.BASE_URL}/${environment.apis.retailers.changeStatus}`;
     return this.http
-      .put(`${url}/${retailerId}/${status}`, { headers: this.headers })
+      .put(`${url}/${retailerId}/${status}`, null, { headers: this.core.setHeaders() })
       .map(res => res.text())
       .catch(this.handleError);
   }
   checkSellerName(sellerName: string): Promise<boolean> {
     const url = `${this.BASE_URL}/${environment.apis.retailers.duplicateSellerName}`.replace('{sellerName}', sellerName);
-    return this.http.get(`${url}`, { headers: this.headers }).toPromise().then(p => p.json());
+    return this.http.get(`${url}`, { headers: this.core.setHeaders() }).toPromise().then(p => p.json());
     // return response.json();
   }
   getStates(): Observable<MasterData> {
@@ -414,7 +416,7 @@ export class RetialerService {
     } else {
       const url = `${this.BASE_URL}/${environment.apis.retailers.getStates}`;
       return this.http
-        .get(url)
+        .get(url, { headers: this.core.setHeaders() })
         .map(res => {
           this.states = new MasterData(res.json());
           return this.states;

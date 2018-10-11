@@ -12,6 +12,7 @@ import { environment } from './../../../environments/environment';
 import { nameValue } from '../../../../models/nameValue';
 import { ReportOrders, ReportConsumer, ReportOrder, ConsumerOffersOrdersCount, RetailerOrders, ShippingTracking } from '../../../../models/report-order';
 import { Product } from '../../../../models/product';
+import { CoreService } from '../../services/core.service';
 
 @Injectable()
 export class OrderService {
@@ -29,7 +30,8 @@ export class OrderService {
   constructor(
     private http: Http,
     private localStorageService: LocalStorageService,
-    private httpc: HttpClient
+    private httpc: HttpClient,
+    private core: CoreService
   ) {
     this.seedStaticData();
   }
@@ -39,7 +41,7 @@ export class OrderService {
     this.headers = this.getHttpHeraders();
     const url = `${this.BASE_URL}/${environment.apis.orders.get}`;
     return this.http
-      .get(url, { search: query, headers: this.headers })
+      .get(url, { search: query, headers: this.core.setHeaders() })
       .map(p => this.handleResponse(p, ReportOrders))
       .catch(this.handleError);
   }
@@ -47,7 +49,7 @@ export class OrderService {
     this.headers = this.getHttpHeraders();
     const url = `${this.BASE_URL}/${environment.apis.orders.retailerOrders}`;
     return this.http
-      .get(url, { search: query, headers: this.headers })
+      .get(url, { search: query, headers: this.core.setHeaders() })
       .map(p => this.handleResponse(p, RetailerOrders))
       .catch(this.handleError);
   }
@@ -56,15 +58,15 @@ export class OrderService {
     this.headers = this.getHttpHeraders();
     const url = `${environment.ordersApi}/${orderId}`;
     return this.http
-      .get(url, { headers: this.headers })
+      .get(url, { headers: this.core.setHeaders() })
       .map(p => this.handleResponse(p, ReportOrder))
       .catch(this.handleError);
   }
-  saveShipmentTracking(shippingTracking: ShippingTracking) { 
+  saveShipmentTracking(shippingTracking: ShippingTracking) {
     this.headers = this.getHttpHeraders();
     const url = `${environment.ordersApi}/${environment.apis.orders.saveShipmentTracking}`;
     return this.http
-      .post(url, shippingTracking, { headers: this.headers })
+      .post(url, shippingTracking, { headers: this.core.setHeaders() })
       .map(p => p.text())
       .catch(this.handleError);
   }
@@ -72,7 +74,7 @@ export class OrderService {
     this.headers = this.getHttpHeraders();
     const url = `${environment.productApi}/${environment.apis.product.getProducts}/${productIds}`;
     return this.http
-      .get(url, { headers: this.headers })
+      .get(url)
       .map(p => this.handleArrayResponse(p, Product))
       .catch(this.handleError);
   }
@@ -80,7 +82,7 @@ export class OrderService {
     this.headers = this.getHttpHeraders();
     const url = `${environment.consumerApi}/${environment.apis.product.getProductReview}/${productIds}`;
     return this.http
-      .get(url, { headers: this.headers })
+      .get(url, { headers: this.core.setHeaders() })
       .map(p => p.json())
       .catch(this.handleError);
   }
@@ -88,7 +90,7 @@ export class OrderService {
     this.headers = this.getHttpHeraders();
     const url = `${environment.consumerApi}/${environment.apis.consumer.get}/${consumerId}`;
     return this.http
-      .get(url, { headers: this.headers })
+      .get(url, { headers: this.core.setHeaders() })
       .map(p => this.handleResponse(p, ReportConsumer))
       .catch(this.handleError);
   }
@@ -96,7 +98,7 @@ export class OrderService {
     this.headers = this.getHttpHeraders();
     const url = `${environment.ordersApi}/${environment.apis.consumer.orderOfferNumber}/${orderId}`;
     return this.http
-      .get(url, { headers: this.headers })
+      .get(url, { headers: this.core.setHeaders() })
       .map(p => this.handleResponse(p, ConsumerOffersOrdersCount))
       .catch(this.handleError);
   }
@@ -104,7 +106,7 @@ export class OrderService {
     this.headers = this.getHttpHeraders();
     const url = `${this.BASE_URL}/${environment.apis.orders.get}/${retailerId}`;
     return this.http
-      .get(url, { headers: this.headers })
+      .get(url, { headers: this.core.setHeaders() })
       .map(p => p.json())
       .catch(this.handleError);
   }
@@ -112,7 +114,7 @@ export class OrderService {
     this.headers = this.getHttpHeraders();
     const url = `${environment.ordersApi}/${environment.apis.orders.sellerPayment}`;
     return this.http
-      .post(url, sellerPayment, { headers: this.headers })
+      .post(url, sellerPayment, { headers: this.core.setHeaders() })
       .map(p => p.text())
       .catch(this.handleError);
   }
@@ -120,7 +122,7 @@ export class OrderService {
     this.headers = this.getHttpHeraders();
     const url = `${environment.ordersApi}/${environment.apis.orders.sellerPaymentStatus}`.replace('{orderId}', orderId).replace('{retailerId}', retailerId);
     return this.http
-      .get(url, { headers: this.headers })
+      .get(url, { headers: this.core.setHeaders() })
       .map(p => {
         if (p.text() === '') {
           return '';
