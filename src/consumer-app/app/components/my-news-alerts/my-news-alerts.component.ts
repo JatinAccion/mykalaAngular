@@ -91,7 +91,7 @@ export class MyNewsAlertsComponent implements OnInit {
         })
       }
       else {
-        let modal = { purchasedDate: alert.orderDate, orderId: alert.orderId };
+        let modal = { purchasedDate: alert.purchasedDate, orderId: alert.orderId };
         window.localStorage['forReview'] = JSON.stringify({ modal: modal, order: alert.orderItems, from: 'NA' });
         this.route.navigateByUrl("/leave-review");
       }
