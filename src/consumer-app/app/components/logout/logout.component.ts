@@ -28,6 +28,7 @@ export class LogoutComponent implements OnInit {
     localStorage.removeItem('fromES');
     localStorage.removeItem('offerIdForEdit');
     localStorage.removeItem('changeBackFn');
+    localStorage.removeItem('rf_Token');
     this.core.clearUser();
     this.core.hideUserInfo(true);
     this.router.navigateByUrl('/login');

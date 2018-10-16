@@ -1,6 +1,6 @@
 import { Injectable, ViewChild, ElementRef } from '@angular/core';
 import { Http, Headers } from '@angular/http';
-import { User, UserProfile } from '../../../models/user';
+import { User, UserProfile, BasicAuth } from '../../../models/user';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
@@ -9,6 +9,7 @@ import { Subject } from 'rxjs/Subject';
 import { BrowseProductsModal } from '../../../models/browse-products';
 import { Location } from '@angular/common';
 import { SuggestionList } from '../../../models/suggestionList';
+import { LocalStorageService } from './LocalStorage.service';
 
 @Injectable()
 export class CoreService {
@@ -37,12 +38,14 @@ export class CoreService {
   searchBar: string;
   stripe = Stripe(environment.stripePK);
   loader_suggestion: boolean = false;
+  session: any;
 
   constructor(
     private http: Http,
     private route: Router,
     private modalService: NgbModal,
-    private location: Location
+    private location: Location,
+    private localStorageService: LocalStorageService
   ) { }
 
   hide() { this.navVisible = false; }
@@ -325,6 +328,31 @@ export class CoreService {
     });
 
     return header;
+  }
+
+  setRefereshToken(token) {
+    window.localStorage['rf_Token'] = token;
+  }
+
+  callRefereshIfExpired() {
+    let loggedInTime = new Date(JSON.parse(JSON.parse(window.localStorage['token']).timestamp));
+    let currentTime = new Date();
+    if (currentTime > loggedInTime) {
+      let refereshToken = window.localStorage['rf_Token'];
+      let basicAuth = new BasicAuth();
+      let headers: Headers = new Headers({
+        'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8;',
+        Authorization: `Basic ${basicAuth.encoded}`
+      });
+      const BASE_URL: string = `${environment.login}/${environment.apis.auth.token}?client_id=${basicAuth.client_id}&grant_type=refresh_token&refresh_token=${refereshToken}`;
+      return this.http.post(BASE_URL, null, { headers: headers }).map((res) => res.json()).subscribe((res) => {
+        console.log(res);
+        this.localStorageService.setItem('token', res.access_token, res.expires_in);
+        this.setRefereshToken(res.refresh_token);
+      }, (err) => {
+        console.log("Error While Refereshing Token" + err);
+      });
+    }
   }
 
 }

@@ -118,6 +118,7 @@ export class LoginComponent implements OnInit, CuiComponent {
             this.checkRememberMe();
             const resJson = res.json();
             this.localStorageService.setItem('token', resJson.access_token, resJson.expires_in);
+            this.core.setRefereshToken(resJson.refresh_token);
             this.auth.getUserInfo(resJson.access_token).subscribe(res => {
               this.loader = false;
               if (res.userCreateStatus == false) {
