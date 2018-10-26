@@ -17,10 +17,13 @@ export class ElasticSearchResult implements OnInit, AfterViewInit {
   s3 = environment.s3
   tilesData = [];
   loader: boolean = false;
+  loaderShowMore: boolean = false;
   productListingModal = new BrowseProductsModal();
   headerMessage: string;
-  showMoreBtn: boolean = false;
+  showMoreBtn: boolean = true;
   callAPILoop: number = 1;
+  esSizeCounter = 30;
+  esFromCounter = 0;
 
   constructor(
     private homeService: HomeService,
@@ -70,6 +73,7 @@ export class ElasticSearchResult implements OnInit, AfterViewInit {
       else this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' products for you';
     }
     else this.headerMessage = 'Sorry, but we don\'t have product matches for you';
+    if (this.tilesData.length <= 10) this.showMoreBtn = false;
     this.core.show(this.headerMessage);
     this.core.searchMsgToggle('get offers');
     window.localStorage['browseProductSearch'] = this.headerMessage;
@@ -107,4 +111,18 @@ export class ElasticSearchResult implements OnInit, AfterViewInit {
     window.localStorage['fromES'] = true;
   }
 
+  async showMore() {
+    this.loaderShowMore = true;
+    this.esFromCounter = this.esFromCounter + 30;
+    let text = JSON.parse(window.localStorage['esKeyword']).text;
+    let parentName = JSON.parse(window.localStorage['esKeyword']).parentName;
+    var response = await this.core.searchProduct(text, parentName, this.esSizeCounter, this.esFromCounter);
+    if (response.products.length > 0) {
+      this.loaderShowMore = false;
+      response = response.products.map(p => new BrowseProductsModal(p));
+      if (response.length <= 10) this.showMoreBtn = false;
+      this.tilesData = [...this.tilesData, ...response];
+      this.filterResponse(this.tilesData);
+    }
+  }
 }

@@ -39,6 +39,8 @@ export class CoreService {
   stripe = Stripe(environment.stripePK);
   loader_suggestion: boolean = false;
   session: any;
+  esSizeCounter: number = 30;
+  esFromCounter: number = 0;
 
   constructor(
     private http: Http,
@@ -204,8 +206,8 @@ export class CoreService {
     }
   }
 
-  searchProduct(text, parentName) {
-    const url: string = `${environment.productList}/${environment.apis.products.search}=${text}&parentName=${parentName}`;
+  searchProduct(text, parentName, size, from) {
+    const url: string = `${environment.productList}/${environment.apis.products.search}=${text}&parentName=${parentName}&size=${size}&from=${from}`;
     return this.http.get(url).toPromise().then((res) => res.json());
   }
 
@@ -248,7 +250,7 @@ export class CoreService {
       this.searchBar = text;
       text = text.replace(/ /g, "%20").replace(/&/g, "%26");
       if (parentName) parentName = parentName.replace(/&/g, "%26").replace(/ /g, "%20");
-      var response = await this.searchProduct(text, parentName);
+      var response = await this.searchProduct(text, parentName, this.esSizeCounter, this.esFromCounter);
       if (response.products.length > 0) {
         this.tilesData = response.products.map(p => new BrowseProductsModal(p));
         this.filterIamgeURL();

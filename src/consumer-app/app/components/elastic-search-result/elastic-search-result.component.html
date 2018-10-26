@@ -9,9 +9,14 @@
                 <div class="hover_panel">
                     <h5>{{tile.product.productName}}</h5>
                     <span style="font-size:17px;margin-right:10px;">{{tile.product.kalaPrice | currency}}</span>
-                    <span style="font-size:14px;text-decoration:line-through;margin-right:100px;">{{tile.product.retailPrice | currency}}</span>
+                    <span style="font-size:14px;text-decoration:line-through;margin-right:100px;">{{tile.product.retailPrice
+                        | currency}}</span>
                 </div>
             </div>
+        </div>
+        <div *ngIf="showMoreBtn" class="col-sm-12 text-center mt-4 mb-4">
+            <button (click)="showMore()" class="btn btn_red_right" *ngIf="!loaderShowMore">show more</button>
+            <img src="/consumer-app/assets/images/loader.gif" *ngIf="loaderShowMore" />
         </div>
     </div>
 </div>
