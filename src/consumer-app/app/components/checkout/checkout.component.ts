@@ -738,6 +738,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.ProductCheckoutModal.paymentFunding = this.selectedCardDetails.funding;
       this.ProductCheckoutModal.paymentSource = this.selectedCardDetails.cardType;
       this.ProductCheckoutModal.last4Digits = this.selectedCardDetails.last4Digit;
+      this.ProductCheckoutModal.cardId = this.selectedCardDetails.cardId;
       this.ProductCheckoutModal.totalShipCost = this.finalShippingAmount;
       this.ProductCheckoutModal.totalTaxCost = this.totalProductTax;
       this.ProductCheckoutModal.purchasedPrice = eval(`${this.totalProductTax + this.totalAmountFromCart + this.finalShippingAmount}`);

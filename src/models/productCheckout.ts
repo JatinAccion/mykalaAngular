@@ -6,6 +6,7 @@ export class ProductCheckout {
     public paymentSource: string;
     public paymentFunding: string;
     public last4Digits: string;
+    public cardId: string;
     public customerName: string;
     public address = new Address();
     public purchasedDate: Date;
