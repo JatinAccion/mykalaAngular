@@ -23,7 +23,8 @@ export class Step4Component implements OnInit {
   userData: any;
   step2DataArr = [];
   @ViewChild('confirmOfferModal') confirmOfferModal: ElementRef;
-  confirmValidationMsg = { label: '', message: '' }
+  confirmValidationMsg = { label: '', message: '' };
+  isFromES: boolean = false;
 
   constructor(
     private route: Router,
@@ -38,6 +39,7 @@ export class Step4Component implements OnInit {
     this.core.show(this.headerMessage);
     this.pageLabel = 'You\'re almost done! Please confirm that we got everything right';
     this.core.pageLabel(this.pageLabel);
+    window.localStorage['esKeyword'] != undefined ? this.isFromES = true : this.isFromES = false;
     if (window.localStorage['GetOfferStep_1'] != undefined) this.Step1Data = JSON.parse(window.localStorage['GetOfferStep_1']);
     if (window.localStorage['GetOfferStep_2'] != undefined) {
       this.Step2Data = JSON.parse(window.localStorage['GetOfferStep_2']);

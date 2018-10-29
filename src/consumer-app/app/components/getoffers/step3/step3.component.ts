@@ -38,6 +38,7 @@ export class Step3Component implements OnInit {
   enterZipcode: boolean = false;
   @ViewChild('selectValidationModal') selectValidationModal: ElementRef;
   validationMsg = { message: '', priceAvailable: false };
+  isFromES: boolean = false;
 
   constructor(
     private route: Router,
@@ -72,6 +73,7 @@ export class Step3Component implements OnInit {
     this.core.show(this.headerMessage);
     this.pageLabel = 'What\'s your budget and delivery preference for this item?';
     this.core.pageLabel(this.pageLabel);
+    window.localStorage['esKeyword'] != undefined ? this.isFromES = true : this.isFromES = false;
     if (window.localStorage['GetOfferPrice'] != undefined) {
       let price;
       this.step2PriceData = JSON.parse(window.localStorage['GetOfferPrice']);

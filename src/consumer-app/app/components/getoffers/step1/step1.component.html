@@ -2,7 +2,7 @@
 <div class="title mb-4">
   <h2>get offers
     <span class="colorGray"> Step 1/4: basic info</span> |
-    <a routerLink="/browse-product">
+    <a [routerLink]="isFromES ? '/elastic-product' : '/browse-product'">
       <span class="btnClose">X</span>
     </a>
   </h2>
@@ -14,8 +14,7 @@
   <div class="row">
     <div class="col-sm-2">
       <p>Place:</p>
-      <img src="/consumer-app/assets/images/loader.gif" style="right: -40px; top: 0px" class="absoluteImg_2" *ngIf="loader_place"
-      />
+      <img src="/consumer-app/assets/images/loader.gif" style="right: -40px; top: 0px" class="absoluteImg_2" *ngIf="loader_place" />
     </div>
     <div class="col-sm-7">
       <div style="cursor: pointer" (click)="place.isProductAvailable && loadData(place, 'place', $event)" *ngFor="let place of userResponse.place"
@@ -37,12 +36,11 @@
   <div class="row">
     <div class="col-sm-2">
       <p>Category:</p>
-      <img src="/consumer-app/assets/images/loader.gif" style="right: -40px; top: 0px" class="absoluteImg_2" *ngIf="loader_category"
-      />
+      <img src="/consumer-app/assets/images/loader.gif" style="right: -40px; top: 0px" class="absoluteImg_2" *ngIf="loader_category" />
     </div>
     <div class="col-sm-7">
-      <div style="cursor: pointer" (click)="category.isProductAvailable && loadData(category, 'category', $event)" *ngFor="let category of userResponse.category"
-        class="m-2" [ngStyle]="{'cursor': category.isProductAvailable ? 'pointer' : 'no-drop', 'opacity' : category.isProductAvailable ? '1' : '0.5'}"
+      <div style="cursor: pointer" (click)="category.isProductAvailable && loadData(category, 'category', $event)"
+        *ngFor="let category of userResponse.category" class="m-2" [ngStyle]="{'cursor': category.isProductAvailable ? 'pointer' : 'no-drop', 'opacity' : category.isProductAvailable ? '1' : '0.5'}"
         [ngClass]="loadedCategory == true ? 'categ_outline_red' : 'categ_outline_gray'">
         {{category.name}}
         <a (click)="delete(category, 'category')" class="categ_close d-none">x</a>
@@ -60,12 +58,11 @@
   <div class="row">
     <div class="col-sm-2">
       <p>Sub-category:</p>
-      <img src="/consumer-app/assets/images/loader.gif" style="right: -40px; top: 0px" class="absoluteImg_2" *ngIf="loader_subCategory"
-      />
+      <img src="/consumer-app/assets/images/loader.gif" style="right: -40px; top: 0px" class="absoluteImg_2" *ngIf="loader_subCategory" />
     </div>
     <div class="col-sm-7">
-      <div style="cursor: pointer" (click)="subCategory.isProductAvailable && loadData(subCategory, 'subcategory', $event)" *ngFor="let subCategory of userResponse.subcategory"
-        class="m-2" [ngStyle]="{'cursor': subCategory.isProductAvailable ? 'pointer' : 'no-drop', 'opacity' : subCategory.isProductAvailable ? '1' : '0.5'}"
+      <div style="cursor: pointer" (click)="subCategory.isProductAvailable && loadData(subCategory, 'subcategory', $event)"
+        *ngFor="let subCategory of userResponse.subcategory" class="m-2" [ngStyle]="{'cursor': subCategory.isProductAvailable ? 'pointer' : 'no-drop', 'opacity' : subCategory.isProductAvailable ? '1' : '0.5'}"
         [ngClass]="loadedSubCategory == true ? 'categ_outline_red' : 'categ_outline_gray'">
         {{subCategory.name}}
         <a (click)="delete(subCategory, 'subcategory')" class="categ_close d-none">x</a>
@@ -83,13 +80,12 @@
   <div class="row" *ngIf="showAvailableTypes">
     <div class="col-sm-2">
       <p>Type:</p>
-      <img src="/consumer-app/assets/images/loader.gif" style="right: -40px; top: 0px" class="absoluteImg_2" *ngIf="loader_Type"
-      />
+      <img src="/consumer-app/assets/images/loader.gif" style="right: -40px; top: 0px" class="absoluteImg_2" *ngIf="loader_Type" />
     </div>
 
     <div class="col-sm-7" *ngIf="userResponse.type != [] && !noTypesAvailable && !loader_Type">
-      <div style="cursor: pointer" class="m-2 typeList" [ngClass]="checkIfStored?'categ_outline_red':'categ_outline_gray'" (click)="loadData(type, 'type', $event)"
-        *ngFor="let type of userResponse.type">{{type.name}}</div>
+      <div style="cursor: pointer" class="m-2 typeList" [ngClass]="checkIfStored?'categ_outline_red':'categ_outline_gray'"
+        (click)="loadData(type, 'type', $event)" *ngFor="let type of userResponse.type">{{type.name}}</div>
     </div>
 
     <div class="col-sm-7" *ngIf="noTypesAvailable">

@@ -21,6 +21,7 @@ export class Step2Component implements OnInit {
   noFilterValue: string;
   loader: boolean = false;
   number = [];
+  isFromES: boolean = false;
 
   constructor(
     private route: Router,
@@ -35,6 +36,7 @@ export class Step2Component implements OnInit {
     this.core.show(this.headerMessage);
     this.pageLabel = 'We just need a few details about what\'s most important to you';
     this.core.pageLabel(this.pageLabel);
+    window.localStorage['esKeyword'] != undefined ? this.isFromES = true : this.isFromES = false;
     if (window.localStorage['GetOfferStep_2Request'] != undefined) {
       this.GetOfferStep_2 = JSON.parse(window.localStorage['GetOfferStep_2Request']);
       this.GetOfferStep_2PS = JSON.parse(window.localStorage['GetOfferStep_2Request']);

@@ -25,6 +25,7 @@ export class MycartComponent implements OnInit {
   userData: any;
   cartData = [];
   loader: boolean = false;
+  isFromES: boolean;
 
   constructor(
     public core: CoreService,
@@ -38,6 +39,7 @@ export class MycartComponent implements OnInit {
     this.core.searchMsgToggle();
     localStorage.removeItem('existingItemsInCart');
     localStorage.removeItem('existingItemsInWishList');
+    window.localStorage['esKeyword'] != undefined ? this.isFromES = true : this.isFromES = false;
     if (window.localStorage['userInfo'] != undefined) {
       this.userData = JSON.parse(window.localStorage['userInfo']);
       this.getCartItems(this.userData.userId);

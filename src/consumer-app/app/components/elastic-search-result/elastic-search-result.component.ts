@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import { HomeService } from '../../services/home.service';
 import { CoreService } from '../../services/core.service';
 import { Router, RouterOutlet } from '@angular/router';
 import { SearchDataModal } from '../../../../models/searchData.modal';
 import { BrowseProductsModal } from '../../../../models/browse-products';
 import { environment } from '../../../environments/environment';
+import { DynamicFilters } from '../../../../models/dynamicFilter';
 
 @Component({
   selector: 'app-browse-product',
@@ -24,6 +25,21 @@ export class ElasticSearchResult implements OnInit, AfterViewInit {
   callAPILoop: number = 1;
   esSizeCounter = 30;
   esFromCounter = 0;
+  showFilterPanel: boolean = false;
+  filterModalAPI = { "fieldValues": [] };
+  filteredData: Array<DynamicFilters>;
+  increaseLevel: number = 0;
+  defaultProductLevel: number = 3;
+  nextItemArr: Array<any> = [];
+  ids: Array<any> = new Array;
+  newData: Array<any> = new Array;
+  productAvailabilityModal = {};
+  productAvailabilityResponse = [];
+  lastParentLevel: number;
+  toStr = JSON.stringify;
+  textAsSearchedTerm: string;
+  parentNameAsCategoryName: string;
+  parentIdAsCategoryId: string;
 
   constructor(
     private homeService: HomeService,
@@ -42,27 +58,30 @@ export class ElasticSearchResult implements OnInit, AfterViewInit {
     localStorage.removeItem("selectedProduct");
     this.loader = true;
     if (window.localStorage['esKeyword'] != undefined) {
-      let text = JSON.parse(window.localStorage['esKeyword']).text;
-      let parentName = JSON.parse(window.localStorage['esKeyword']).parentName;
-      this.core.search(text, parentName);
+      this.textAsSearchedTerm = JSON.parse(window.localStorage['esKeyword']).text;
+      this.parentNameAsCategoryName = JSON.parse(window.localStorage['esKeyword']).parentName;
+      this.parentIdAsCategoryId = JSON.parse(window.localStorage['esKeyword']).parentId;
+      this.loadType();
     }
-    this.core.esKey.subscribe(p => {
-      if (this.callAPILoop == 1) {
-        this.filterResponse(p);
-        this.callAPILoop = 0;
-      }
-    }, (err) => {
-      this.loader = false;
-    });
+  }
+
+  async loadType() {
+    var response = await this.core.searchProduct(this.textAsSearchedTerm, this.parentNameAsCategoryName, this.esSizeCounter, this.esFromCounter);
+    if (response.products.length > 0) this.filterResponse(response);
+    this.productAvailabilityModal = { levelName: this.parentNameAsCategoryName, levelId: this.parentIdAsCategoryId, levelCount: this.defaultProductLevel };
+    this.productAvailabilityResponse = await this.homeService.checkProductAvailability(this.productAvailabilityModal);
+    this.productAvailabilityResponse = this.productAvailabilityResponse.filter(item => item.level = this.defaultProductLevel);
+    this.loadFilterData();
   }
 
   ngAfterViewInit() {
-    window.localStorage['esKeyword'] = this.core.searchBar;
-    this.core.searchBar = "";
+    this.core.searchBar = '';
   }
 
   filterResponse(res) {
     this.loader = false;
+    if (res.content) res = res.content.map((item) => new BrowseProductsModal(item));
+    if (res.products) res = res.products.map((item) => new BrowseProductsModal(item));
     this.tilesData = res.filter(item => {
       if (item.product.productStatus) return new BrowseProductsModal(item.product)
     });
@@ -73,7 +92,7 @@ export class ElasticSearchResult implements OnInit, AfterViewInit {
       else this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' products for you';
     }
     else this.headerMessage = 'Sorry, but we don\'t have product matches for you';
-    if (this.tilesData.length <= 10) this.showMoreBtn = false;
+    this.tilesData.length <= 10 ? this.showMoreBtn = false : this.showMoreBtn = true;
     this.core.show(this.headerMessage);
     this.core.searchMsgToggle('get offers');
     window.localStorage['browseProductSearch'] = this.headerMessage;
@@ -123,6 +142,229 @@ export class ElasticSearchResult implements OnInit, AfterViewInit {
       if (response.length <= 10) this.showMoreBtn = false;
       this.tilesData = [...this.tilesData, ...response];
       this.filterResponse(this.tilesData);
+    }
+    else {
+      this.showMoreBtn = false;
+      this.loaderShowMore = false;
+    }
+  }
+
+  enableFilterPanel() {
+    this.showFilterPanel = !this.showFilterPanel;
+  }
+
+  loadFilterData() {
+    this.filterModalAPI.fieldValues = [this.parentIdAsCategoryId];
+    this.homeService.filterLoadSubcategory(this.filterModalAPI).subscribe((res) => {
+      if (res.length > 0) {
+        for (let i = 0; i < res.length; i++) res[i].level = this.increaseLevel;
+        this.filteredData = new Array<DynamicFilters>();
+        this.filteredData.push(new DynamicFilters(false, this.increaseLevel, res, [], "", this.defaultProductLevel));
+        this.modifyData();
+      }
+    }, (err) => {
+      console.log(err);
+    })
+  }
+
+  async changeFilter(data, parent) {
+    this.esSizeCounter = 30;
+    this.esFromCounter = 0;
+    data = JSON.parse(data);
+    //parent.selectedValues.push(data);
+
+    /*Load Types*/
+    this.nextItemArr = this.nextItemArr.filter(item => item.level <= parent.level);
+    this.filterModalAPI.fieldValues = [parent.level == 0 ? data.subCategoryId : data.productTypeId];
+    var res = await this.homeService.filterLoadType(this.filterModalAPI);
+
+    parent.selectedValues.push(data);
+    let hashTable = {};
+    let deduped = parent.selectedValues.filter(function (el) {
+      var key = JSON.stringify(el);
+      var match = Boolean(hashTable[key]);
+      return (match ? false : hashTable[key] = true);
+    });
+    parent.selectedValues = deduped;
+
+    if (res.length > 0) {
+      this.defaultProductLevel = parent.pALevel + 1;
+      if (this.increaseLevel == parent.level) this.increaseLevel = this.increaseLevel + 1;
+      else {
+        this.increaseLevel = parent.level + 1;
+        this.commonToFilterData();
+      }
+      for (let i = 0; i < res.length; i++) res[i].level = this.increaseLevel;
+      var getExisting = this.filteredData.filter(item => item.level == this.increaseLevel);
+      if (getExisting.length > 0) {
+        getExisting[0].data.push({ level: this.increaseLevel, label: parent.level == 0 ? data.subCategoryName : data.productTypeName, data: res })
+        getExisting[0].selectedValues = [];
+        getExisting[0].data = getExisting[0].data.filter((elem, index, self) => self.findIndex((item) => {
+          return (item.level === elem.level && item.label === elem.label)
+        }) === index);
+      }
+      else {
+        this.newData.push({ level: this.increaseLevel, label: parent.level == 0 ? data.subCategoryName : data.productTypeName, data: res });
+        var newDataFiltered = this.newData.filter(item => item.level != parent.level && item.level > parent.level);
+        newDataFiltered = newDataFiltered.filter((elem, index, self) => self.findIndex((item) => {
+          return (item.level === elem.level && item.label === elem.label)
+        }) === index);
+        this.filteredData.push(new DynamicFilters(true, this.increaseLevel, newDataFiltered, [], parent.level == 0 ? data.subCategoryName : data.productTypeName, this.defaultProductLevel));
+        newDataFiltered = [];
+        this.newData = [];
+      }
+    }
+    else {
+      if (!data.nextLevelProductTypeStatus) {
+        this.nextItemArr.push({ level: parent.level, id: parent.level == 0 ? data.subCategoryId : data.productTypeId });
+        this.nextItemArr = this.nextItemArr.filter((elem, index, self) => self.findIndex((item) => {
+          return (item.id === elem.id && item.level === elem.level)
+        }) === index);
+      }
+    }
+    /*Check product Availability*/
+    this.productAvailabilityModal = {
+      levelName: parent.level == 0 ? data.subCategoryName : data.productTypeName,
+      levelId: parent.level == 0 ? data.subCategoryId : data.productTypeId,
+      levelCount: this.defaultProductLevel
+    };
+    this.checkProductAvailability();
+    /*Check product Availability*/
+    this.loadProducts(data, parent); /*Load Products*/
+  }
+
+  commonToFilterData() {
+    for (let i = 0; i < this.filteredData.length; i++) {
+      if (this.filteredData[i].level > 0 && this.filteredData[i].level > this.increaseLevel) {
+        this.filteredData.splice(i, 1);
+        i--;
+      }
+    }
+  }
+
+  async loadProducts(data, parent) {
+    this.ids = [];
+    for (let i = 0; i < parent.selectedValues.length; i++) {
+      let filterId = parent.selectedValues[i].subCategoryId != undefined ? parent.selectedValues[i].subCategoryId : parent.selectedValues[i].productTypeId;
+      this.ids.push(filterId);
+    }
+    if (this.nextItemArr.length > 0) {
+      for (let i = 0; i < this.nextItemArr.length; i++) {
+        this.ids.push(this.nextItemArr[i].id);
+      }
+    }
+    var ids = Array.from(new Set(this.ids));
+    var response = await this.homeService.loadProductFromFilter(ids);
+    this.tilesData = [];
+    if (response.content.length > 0) {
+      this.filterResponse(response);
+      this.lastParentLevel = parent.level;
+    }
+    else {
+      this.headerMessage = 'Sorry, but we don\'t have product matches for you';
+      this.core.show(this.headerMessage);
+      window.localStorage['browseProductSearch'] = this.headerMessage;
+    }
+  }
+
+  deleteFilter(data, e) {
+    e.currentTarget.parentElement.parentElement.children[0].selectedIndex = 0;
+    let dataId = data.subCategoryId != undefined ? data.subCategoryId : data.productTypeId;
+    this.ids = this.ids.filter(item => item != dataId);
+    this.newData = this.newData.filter(item => item.level == data.level);
+    this.filteredData = this.filteredData.filter(item => item.level <= data.level);
+    this.nextItemArr = this.nextItemArr.filter(item => item.level <= data.level);
+    for (let i = 0; i < this.nextItemArr.length; i++) {
+      if (this.nextItemArr[i].id == dataId) {
+        this.nextItemArr.splice(i, 1);
+        i--;
+      }
+    }
+    for (let i = 0; i < this.filteredData.length; i++) {
+      if (data.level == this.filteredData[i].level) {
+        for (let j = 0; j < this.filteredData[i].selectedValues.length; j++) {
+          let filterId = this.filteredData[i].selectedValues[j].subCategoryId != undefined ? this.filteredData[i].selectedValues[j].subCategoryId : this.filteredData[i].selectedValues[j].productTypeId;
+          if (dataId == filterId) {
+            this.filteredData[i].selectedValues.splice(j, 1);
+            if (this.filteredData[i].selectedValues.length == 0) {
+              this.filteredData.splice(i, 1);
+              break;
+            }
+          }
+        }
+      }
+    }
+
+    for (let i = 0; i < this.filteredData.length; i++) {
+      var ifDataPresent = this.filteredData.filter(item => item.level === data.level);
+      if (ifDataPresent.length > 0) {
+        if (data.level == this.filteredData[i].level) {
+          for (let j = 0; j < this.filteredData[i].selectedValues.length; j++) {
+            this.changeFilter(this.toStr(this.filteredData[i].selectedValues[j]), this.filteredData[i]);
+          }
+        }
+      }
+      else {
+        if (this.filteredData[i].level == (data.level - 1)) {
+          for (let j = 0; j < this.filteredData[i].selectedValues.length; j++) {
+            this.changeFilter(this.toStr(this.filteredData[i].selectedValues[j]), this.filteredData[i]);
+          }
+        }
+      }
+    }
+
+    if (this.filteredData.length == 0) this.clearAllFilters();
+  }
+
+  async checkProductAvailability() {
+    this.productAvailabilityResponse = await this.homeService.checkProductAvailability(this.productAvailabilityModal);
+    this.productAvailabilityResponse = this.productAvailabilityResponse.filter(item => item.level = this.defaultProductLevel);
+    this.modifyData();
+  }
+
+  clearAllFilters() {
+    this.loader = true;
+    this.defaultProductLevel = 3;
+    this.filteredData = [];
+    this.increaseLevel = 0;
+    this.ids = [];
+    this.newData = [];
+    this.nextItemArr = [];
+    this.esSizeCounter = 30;
+    this.esFromCounter = 0;
+    this.productAvailabilityModal = { levelName: this.parentNameAsCategoryName, levelId: this.parentIdAsCategoryId, levelCount: this.defaultProductLevel };
+    this.checkProductAvailability();
+    this.enableFilterPanel();
+    this.loadFilterData();
+    this.loadType();
+  }
+
+  modifyData() {
+    for (let i = 0; i < this.productAvailabilityResponse.length; i++) {
+      for (let j = 0; j < this.filteredData.length; j++) {
+        if (this.productAvailabilityResponse[i].level == this.filteredData[j].pALevel) {
+          for (let k = 0; k < this.filteredData[j].data.length; k++) {
+            /*If Level 0 (Subcategory)*/
+            if (this.filteredData[j].data[k].level == 0) {
+              let name = this.filteredData[j].data[k].subCategoryName;
+              if (this.productAvailabilityResponse[i].name == name && (this.filteredData[j].data[k].isProductAvailable == undefined)) {
+                this.filteredData[j].data[k].isProductAvailable = true;
+                break;
+              }
+            }
+            /*If Level > 0 (Types)*/
+            else {
+              for (let l = 0; l < this.filteredData[j].data[k].data.length; l++) {
+                let name = this.filteredData[j].data[k].data[l].productTypeName;
+                if (this.productAvailabilityResponse[i].name == name && (this.filteredData[j].data[k].data[l].isProductAvailable == undefined)) {
+                  this.filteredData[j].data[k].data[l].isProductAvailable = true;
+                  break;
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

@@ -1,7 +1,7 @@
 <div class="title">
   <h2>get offers
     <span class="colorGray"> Step 4/4: summary</span> |
-    <a routerLink="/browse-product">
+    <a [routerLink]="isFromES ? '/elastic-product' : '/browse-product'">
       <span class="btnClose">X</span>
     </a>
   </h2>
@@ -60,7 +60,8 @@
     <div class="col-sm-3 colorlightGray">
       <p>Price range:</p>
     </div>
-    <div class="col-sm-6 text-left">{{Step4Summary.priceRange.minPrice | currency}} - {{Step4Summary.priceRange.maxPrice | currency}}</div>
+    <div class="col-sm-6 text-left">{{Step4Summary.priceRange.minPrice | currency}} -
+      {{Step4Summary.priceRange.maxPrice | currency}}</div>
   </div>
 
   <div class="row" *ngIf="Step3Data != undefined && Step3Data != ''">

@@ -74,7 +74,8 @@
             <strong #TotalAmountPayable>{{totalPayableAmount() | currency}}</strong>
           </div>
           <div class="col-sm-6 col-12 p-0 colorred text-right">
-            <a routerLink="/browse-product" class="btn-outer btn_redouter_right colorred mr-2">continue shopping</a>
+            <a [routerLink]="isFromES ? '/elastic-product' : '/browse-product'" class="btn-outer btn_redouter_right colorred mr-2">continue
+              shopping</a>
             <a (click)="checkOut()" class="btn-outer btn_red_right" style="color:#fff">checkout</a>
           </div>
         </div>

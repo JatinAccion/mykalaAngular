@@ -42,6 +42,7 @@ export class Step1Component implements OnInit {
   @ViewChild('selectValidationModal') selectValidationModal: ElementRef;
   validationMsg: string;
   skipTrue: boolean = false;
+  isFromES: boolean;
 
   constructor(
     private homeService: HomeService,
@@ -57,65 +58,69 @@ export class Step1Component implements OnInit {
     this.core.show(this.headerMessage);
     this.pageLabel = window.localStorage['browseProductSearch'];
     this.core.pageLabel(this.pageLabel);
+    window.localStorage['esKeyword'] != undefined ? this.isFromES = true : this.isFromES = false;
     localStorage.removeItem('changeBackFn');
     if (window.localStorage['GetOfferStep_2Request'] != undefined) this.gSCMRequestModal = JSON.parse(window.localStorage['GetOfferStep_2Request'])
-    if (window.localStorage['levelSelections'] != undefined) this.levelSelection = JSON.parse(window.localStorage['levelSelections']);
-    if (window.localStorage['GetOfferStep_1'] != undefined) {
-      this.checkIfStored = true;
-      this.loadedPlaces = true;
-      this.loadedCategory = true;
-      this.loadedSubCategory = true;
-      this.viewSavedData = JSON.parse(window.localStorage['GetOfferStep_1']);
-      for (var i = 0; i < this.viewSavedData.length; i++) {
-        this.userResponse.place.push(this.viewSavedData[i].place);
-        this.Step1SelectedValues.place = this.viewSavedData[i].place;
-        this.getPlaceId = this.viewSavedData[i].place.id;
-        this.userResponse.category.push(this.viewSavedData[i].category);
-        this.Step1SelectedValues.category = this.viewSavedData[i].category;
-        this.getCategoryId = this.viewSavedData[i].category.id;
-        this.userResponse.subcategory.push(this.viewSavedData[i].subCategory);
-        this.Step1SelectedValues.subcategory = this.viewSavedData[i].subCategory;
-        this.getSubcategoryId = this.viewSavedData[i].subCategory.id;
-        this.gSCM.placeName = this.viewSavedData[i].place.name;
-        this.gSCM.categoryName = this.viewSavedData[i].category.name;
-        this.gSCM.productType = this.viewSavedData[i].subCategory.name;
-        if (!this.viewSavedData[i].noType) {
-          this.skipTrue = false;
-          this.showAvailableTypes = true;
-          for (var j = 0; j < this.viewSavedData[i].type.length; j++) {
-            this.userResponse.type.push(this.viewSavedData[i].type[j]);
-            this.Step1SelectedValues.type.push(this.viewSavedData[i].type[j]);
+    if (window.localStorage['levelSelections'] != undefined) {
+      this.levelSelection = JSON.parse(window.localStorage['levelSelections']);
+      if (window.localStorage['GetOfferStep_1'] != undefined) {
+        this.checkIfStored = true;
+        this.loadedPlaces = true;
+        this.loadedCategory = true;
+        this.loadedSubCategory = true;
+        this.viewSavedData = JSON.parse(window.localStorage['GetOfferStep_1']);
+        for (var i = 0; i < this.viewSavedData.length; i++) {
+          this.userResponse.place.push(this.viewSavedData[i].place);
+          this.Step1SelectedValues.place = this.viewSavedData[i].place;
+          this.getPlaceId = this.viewSavedData[i].place.id;
+          this.userResponse.category.push(this.viewSavedData[i].category);
+          this.Step1SelectedValues.category = this.viewSavedData[i].category;
+          this.getCategoryId = this.viewSavedData[i].category.id;
+          this.userResponse.subcategory.push(this.viewSavedData[i].subCategory);
+          this.Step1SelectedValues.subcategory = this.viewSavedData[i].subCategory;
+          this.getSubcategoryId = this.viewSavedData[i].subCategory.id;
+          this.gSCM.placeName = this.viewSavedData[i].place.name;
+          this.gSCM.categoryName = this.viewSavedData[i].category.name;
+          this.gSCM.productType = this.viewSavedData[i].subCategory.name;
+          if (!this.viewSavedData[i].noType) {
+            this.skipTrue = false;
+            this.showAvailableTypes = true;
+            for (var j = 0; j < this.viewSavedData[i].type.length; j++) {
+              this.userResponse.type.push(this.viewSavedData[i].type[j]);
+              this.Step1SelectedValues.type.push(this.viewSavedData[i].type[j]);
+            }
+          }
+          else {
+            this.skipTrue = true;
+            this.showAvailableTypes = false;
           }
         }
-        else {
-          this.skipTrue = true;
-          this.showAvailableTypes = false;
-        }
+      }
+      else {
+        this.loadedPlaces = true;
+        this.loadedCategory = true;
+        this.loadedSubCategory = true;
+        this.userResponse.place.push(this.levelSelection.place);
+        this.Step1SelectedValues.place = this.levelSelection.place;
+        this.gSCM.placeName = this.levelSelection.place.name;
+        this.userResponse.type.push(this.levelSelection.type);
+        this.userResponse.category.push(this.levelSelection.category);
+        this.Step1SelectedValues.category = this.levelSelection.category;
+        this.gSCM.categoryName = this.levelSelection.category.name;
+        this.userResponse.subcategory.push(this.levelSelection.subcategory);
+        this.Step1SelectedValues.subcategory = this.levelSelection.subcategory;
+        this.gSCM.productType = this.levelSelection.subcategory.name;
+        this.Step1SelectedValues.type.push(this.levelSelection.type);
+        this.getPlaceId = this.levelSelection.place.id;
+        this.getCategoryId = this.levelSelection.category.id;
+        this.getSubcategoryId = this.levelSelection.subcategory.id;
+        //this.getofferSubCategory(this.Step1SelectedValues.subcategory);
+        if (this.Step1SelectedValues.subcategory.length == 0) this.getSubCategory();
+        else this.getofferSubCategory(this.Step1SelectedValues.subcategory);
+        //else this.getType();
       }
     }
-    else {
-      this.loadedPlaces = true;
-      this.loadedCategory = true;
-      this.loadedSubCategory = true;
-      this.userResponse.place.push(this.levelSelection.place);
-      this.Step1SelectedValues.place = this.levelSelection.place;
-      this.gSCM.placeName = this.levelSelection.place.name;
-      this.userResponse.type.push(this.levelSelection.type);
-      this.userResponse.category.push(this.levelSelection.category);
-      this.Step1SelectedValues.category = this.levelSelection.category;
-      this.gSCM.categoryName = this.levelSelection.category.name;
-      this.userResponse.subcategory.push(this.levelSelection.subcategory);
-      this.Step1SelectedValues.subcategory = this.levelSelection.subcategory;
-      this.gSCM.productType = this.levelSelection.subcategory.name;
-      this.Step1SelectedValues.type.push(this.levelSelection.type);
-      this.getPlaceId = this.levelSelection.place.id;
-      this.getCategoryId = this.levelSelection.category.id;
-      this.getSubcategoryId = this.levelSelection.subcategory.id;
-      //this.getofferSubCategory(this.Step1SelectedValues.subcategory);
-      if (this.Step1SelectedValues.subcategory.length == 0) this.getSubCategory();
-      else this.getofferSubCategory(this.Step1SelectedValues.subcategory);
-      //else this.getType();
-    }
+    else this.getPlaces();
   }
 
   getPlaces() {
@@ -314,7 +319,13 @@ export class Step1Component implements OnInit {
   }
 
   getUpdateTypes() {
-    let userSelection = JSON.parse(window.localStorage['levelSelections']);
+    if (window.localStorage['levelSelections'] == undefined) {
+      let place = new Object(this.userResponse.place[0]);
+      let category = new Object(this.userResponse.category[0]);
+      let subcategory = new Object(this.userResponse.subcategory[0]);
+      let type = [];
+      window.localStorage['levelSelections'] = JSON.stringify({ place: place, category: category, subcategory: subcategory, type: type });
+    }
     this.gSCMRequestModal.placeName = this.gSCM.placeName;
     this.gSCMRequestModal.categoryName = this.gSCM.categoryName;
     if (this.Step1SelectedValues.type.length > 0) {

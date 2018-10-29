@@ -4,7 +4,7 @@
         <h1>Take the Search out of Shopping</h1>
         <h4>Your Online Shopping Experience. Personalized.</h4>
         <div class="banner_action d-inline-block">
-            <input type="text" [(ngModel)]="core.searchBar" (blur)="core.hideSuggesstionList()" (keyup)="core.searchSuggestion(core.searchBar, null, $event)"
+            <input type="text" [(ngModel)]="core.searchBar" (blur)="core.hideSuggesstionList()" (keyup)="core.searchSuggestion(core.searchBar, null, null, $event)"
                 class="form-control float-left" placeholder="What can we help you find?" />
             <img src="/consumer-app/assets/images/loader.gif" style="top: 9px; position: absolute; right: 105px" width="15"
                 *ngIf="core.loader_suggestion" />
@@ -13,7 +13,7 @@
                 <img *ngIf="core.loaderSearch" src="/consumer-app/assets/images/loaderWhite.gif" style="margin-top: -3px" />
             </button>
             <div class="p-0 float-left text-left suggesstionList" *ngIf="core.suggesstionList != undefined && core.suggesstionList.length > 0">
-                <button *ngFor="let list of core.suggesstionList; let i = index" (click)="core.search(list.productLevelName, list.parentName)">{{list.productLevelName}}
+                <button *ngFor="let list of core.suggesstionList; let i = index" (click)="core.search(list.productLevelName, list.parentName, list.parentId)">{{list.productLevelName}}
                     In {{list.parentName}}</button>
             </div>
         </div>

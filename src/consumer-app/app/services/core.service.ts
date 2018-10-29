@@ -41,6 +41,7 @@ export class CoreService {
   session: any;
   esSizeCounter: number = 30;
   esFromCounter: number = 0;
+  isSearchWithoutSuggestion: boolean = false;
 
   constructor(
     private http: Http,
@@ -243,8 +244,9 @@ export class CoreService {
     }
   }
 
-  async search(text, parentName) {
+  async search(text, parentName, parentId) {
     if (text !== '' || text !== undefined) {
+      text && parentName && parentId ? this.isSearchWithoutSuggestion = false : this.isSearchWithoutSuggestion = true;
       this.loaderSearch = true;
       this.tilesData = [];
       this.searchBar = text;
@@ -257,20 +259,20 @@ export class CoreService {
         this.getMainImage();
         this.esKey.next(this.tilesData);
         this.suggesstionList = [];
-        window.localStorage['esKeyword'] = JSON.stringify({ text: text, parentName: parentName });
+        window.localStorage['esKeyword'] = JSON.stringify({ text: text, parentName: parentName, parentId: parentId });
         this.route.navigateByUrl("/elastic-product");
         this.loaderSearch = false;
       }
     }
   }
 
-  searchSuggestion(text, parentName, e) {
+  searchSuggestion(text, parentName, parentId, e) {
     this.loader_suggestion = true;
     if (e.keyCode == 13) {
       this.loader_suggestion = false;
       let keyword = document.getElementsByClassName('activeList')[0];
       this.searchBar = text;
-      this.search(this.searchBar, parentName);
+      this.search(this.searchBar, parentName, parentId);
       this.suggesstionList = [];
     }
     else {

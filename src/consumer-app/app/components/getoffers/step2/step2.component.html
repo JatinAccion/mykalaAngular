@@ -3,7 +3,7 @@
 <div class="title mb-4" *ngIf="!loader">
   <h2 class="w-100">get offers
     <span class="colorGray"> Step 2/4: detail info</span> |
-    <a routerLink="/browse-product">
+    <a [routerLink]="isFromES ? '/elastic-product' : '/browse-product'">
       <span class="btnClose">X</span>
     </a>
     <small class="text-right mt-2 bgColor float-right">
