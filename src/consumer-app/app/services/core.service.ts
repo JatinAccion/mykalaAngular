@@ -247,6 +247,8 @@ export class CoreService {
   async search(text, parentName, parentId) {
     if (text !== '' || text !== undefined) {
       text && parentName && parentId ? this.isSearchWithoutSuggestion = false : this.isSearchWithoutSuggestion = true;
+      if (this.isSearchWithoutSuggestion) window.localStorage['searchedWithoutSuggestion'] = true;
+      else localStorage.removeItem("searchedWithoutSuggestion");
       this.loaderSearch = true;
       this.tilesData = [];
       this.searchBar = text;

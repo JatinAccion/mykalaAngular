@@ -50,6 +50,16 @@ export class HomeService {
     return this.http.post(url, data).map((res) => res.json());
   }
 
+  filterLoadSubcategoryAsync(data) {
+    const url: string = `${this.BASE_URL}/subCategoriesList`;
+    return this.http.post(url, data).toPromise().then((res) => res.json());
+  }
+
+  filterLoadCategories(data) {
+    const url: string = `${this.BASE_URL}/categoriesList`;
+    return this.http.post(url, data).toPromise().then((res) => res.json());
+  }
+
   filterLoadType(data) {
     const url: string = `${this.BASE_URL}/typesList`;
     return this.http.post(url, data).toPromise().then((res) => res.json());

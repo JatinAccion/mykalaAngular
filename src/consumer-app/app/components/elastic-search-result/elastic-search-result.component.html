@@ -15,33 +15,76 @@
         </ul>
         <!--Close and Clear Filter Section-->
 
-        <!--Select and Data Capsules Wrapper : Starts-->
-        <div class="selectionWrapperFilter" *ngFor="let data of filteredData">
-            <!--Select Drop Down-->
-            <div class="w-100" *ngIf="data.level == 0;else next">
-                <select class="form-control" (change)="changeFilter($event.target.value, data)">
-                    <option selected disabled>Sub Category</option>
-                    <option [disabled]="subCategory.isProductAvailable == undefined" [value]="toStr(subCategory)"
-                        *ngFor="let subCategory of data.data">{{subCategory.subCategoryName}}
-                        {{subCategory.isProductAvailable == undefined ? ' - Coming Soon' : ''}}</option>
-                </select>
 
-                <div class="selectedDataCapsules" *ngFor="let value of data.selectedValues">
-                    <span class="selectedDataCapsulesContent">{{value.subCategoryName}}</span>
-                    <span (click)="deleteFilter(value, $event)" class="selectedDataCapsulesDelete">x</span>
+        <!--Select and Data Capsules Wrapper If Searched Without Suggestion List : Starts-->
+        <ng-container *ngIf="core.isSearchWithoutSuggestion">
+            <div class="selectionWrapperFilter" *ngFor="let data of filteredData">
+                <!--Select Drop Down : Place-->
+                <div class="w-100" *ngIf="data.level == 1">
+                    <select class="form-control" (change)="changeFilter($event.target.value, data)">
+                        <option selected disabled>Place</option>
+                        <option [disabled]="place.isProductAvailable == undefined" [value]="toStr(place)" *ngFor="let place of data.data">{{place.placeName}}
+                            {{place.isProductAvailable == undefined ? ' - Coming Soon' : ''}}
+                        </option>
+                    </select>
+
+                    <div class="selectedDataCapsules" *ngFor="let value of data.selectedValues">
+                        <span class="selectedDataCapsulesContent">{{value.placeName}}</span>
+                        <span (click)="deleteFilter(value, $event)" class="selectedDataCapsulesDelete">x</span>
+                    </div>
                 </div>
-            </div>
-            <!--Select Drop Down-->
+                <!--Select Drop Down : Place-->
 
-            <!--Select Drop Down With Option Group-->
-            <ng-template #next>
-                <div class="w-100">
+                <!--Select Drop Down With Option Group : Category-->
+                <div class="w-100" *ngIf="data.level == 2">
+                    <select class="form-control" (change)="changeFilter($event.target.value, data)">
+                        <optgroup label="{{newData.label}}" *ngFor="let newData of data.data">
+                            <option selected disabled>Category</option>
+                            <option *ngFor="let category of newData.data" [disabled]="category.isProductAvailable == undefined"
+                                [value]="toStr(category)">
+                                {{category.categoryName}} {{category.isProductAvailable == undefined ? ' - Coming Soon'
+                                : ''}}
+                            </option>
+                        </optgroup>
+                    </select>
+
+                    <div class="selectedDataCapsules" *ngFor="let value of data.selectedValues">
+                        <span class="selectedDataCapsulesContent">{{value.categoryName}}</span>
+                        <span (click)="deleteFilter(value, $event)" class="selectedDataCapsulesDelete">x</span>
+                    </div>
+                </div>
+                <!--Select Drop Down With Option Group : Category-->
+
+                <!--Select Drop Down With Option Group : Sub Category-->
+                <div class="w-100" *ngIf="data.level == 3">
+                    <select class="form-control" (change)="changeFilter($event.target.value, data)">
+                        <optgroup label="{{newData.label}}" *ngFor="let newData of data.data">
+                            <option selected disabled>Sub Category</option>
+                            <option *ngFor="let subcategory of newData.data" [disabled]="subcategory.isProductAvailable == undefined"
+                                [value]="toStr(subcategory)">
+                                {{subcategory.subCategoryName}} {{subcategory.isProductAvailable == undefined ? ' -
+                                Coming Soon' : ''}}
+                            </option>
+                        </optgroup>
+                    </select>
+
+                    <div class="selectedDataCapsules" *ngFor="let value of data.selectedValues">
+                        <span class="selectedDataCapsulesContent">{{value.subCategoryName}}</span>
+                        <span (click)="deleteFilter(value, $event)" class="selectedDataCapsulesDelete">x</span>
+                    </div>
+                </div>
+                <!--Select Drop Down With Option Group : Sub Category-->
+
+                <!--Select Drop Down With Option Group : Types-->
+                <div class="w-100" *ngIf="data.level > 3">
                     <select class="form-control" (change)="changeFilter($event.target.value, data)">
                         <optgroup label="{{newData.label}}" *ngFor="let newData of data.data">
                             <option selected disabled>Type</option>
                             <option *ngFor="let type of newData.data" [disabled]="type.isProductAvailable == undefined"
-                                [value]="toStr(type)">{{type.productTypeName}} {{type.isProductAvailable == undefined ?
-                                ' - Coming Soon' : ''}}</option>
+                                [value]="toStr(type)">
+                                {{type.productTypeName}} {{type.isProductAvailable == undefined ? ' - Coming Soon' :
+                                ''}}
+                            </option>
                         </optgroup>
                     </select>
 
@@ -50,15 +93,61 @@
                         <span (click)="deleteFilter(value, $event)" class="selectedDataCapsulesDelete">x</span>
                     </div>
                 </div>
-            </ng-template>
-            <!--Select Drop Down With Option Group-->
-        </div>
-        <!--Select and Data Capsules Wrapper : Ends-->
+                <!--Select Drop Down With Option Group : Types-->
+            </div>
+        </ng-container>
+        <!--Select and Data Capsules Wrapper If Searched Without Suggestion List : Ends-->
+
+
+        <!--Select and Data Capsules Wrapper If Searched With Suggestion List : Starts-->
+        <ng-container *ngIf="!core.isSearchWithoutSuggestion">
+            <div class="selectionWrapperFilter" *ngFor="let data of filteredData">
+                <!--Select Drop Down-->
+                <div class="w-100" *ngIf="data.level == 0;else next">
+                    <select class="form-control" (change)="changeFilter($event.target.value, data)">
+                        <option selected disabled>Sub Category</option>
+                        <option [disabled]="subCategory.isProductAvailable == undefined" [value]="toStr(subCategory)"
+                            *ngFor="let subCategory of data.data">{{subCategory.subCategoryName}}
+                            {{subCategory.isProductAvailable == undefined ? ' - Coming Soon' : ''}}
+                        </option>
+                    </select>
+
+                    <div class="selectedDataCapsules" *ngFor="let value of data.selectedValues">
+                        <span class="selectedDataCapsulesContent">{{value.subCategoryName}}</span>
+                        <span (click)="deleteFilter(value, $event)" class="selectedDataCapsulesDelete">x</span>
+                    </div>
+                </div>
+                <!--Select Drop Down-->
+
+                <!--Select Drop Down With Option Group-->
+                <ng-template #next>
+                    <div class="w-100">
+                        <select class="form-control" (change)="changeFilter($event.target.value, data)">
+                            <optgroup label="{{newData.label}}" *ngFor="let newData of data.data">
+                                <option selected disabled>Type</option>
+                                <option *ngFor="let type of newData.data" [disabled]="type.isProductAvailable == undefined"
+                                    [value]="toStr(type)">{{type.productTypeName}} {{type.isProductAvailable ==
+                                    undefined ?
+                                    ' - Coming Soon' : ''}}
+                                </option>
+                            </optgroup>
+                        </select>
+
+                        <div class="selectedDataCapsules" *ngFor="let value of data.selectedValues">
+                            <span class="selectedDataCapsulesContent">{{value.productTypeName}}</span>
+                            <span (click)="deleteFilter(value, $event)" class="selectedDataCapsulesDelete">x</span>
+                        </div>
+                    </div>
+                </ng-template>
+                <!--Select Drop Down With Option Group-->
+            </div>
+        </ng-container>
+        <!--Select and Data Capsules Wrapper If Searched With Suggestion List : Starts-->
     </div>
     <!--Side Bar Filter Panel-->
 
     <div class="row browseProduct mt-3 mb-3" *ngIf="!loader">
-        <div class="col-12" *ngIf="!core.isSearchWithoutSuggestion">
+        <div class="col-12">
             <span (click)="enableFilterPanel()" class="web-category filterProducts float-right mb-4">
                 <span>
                     <i class="fa fa-filter" aria-hidden="true"></i>
