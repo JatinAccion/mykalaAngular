@@ -65,8 +65,8 @@ export class HomeService {
     return this.http.post(url, data).toPromise().then((res) => res.json());
   }
 
-  loadProductFromFilter(ids) {
-    const url: string = `${this.BASE_URL}/dynamicSearch/${ids}?page=0&size=30`;
+  loadProductFromFilter(ids, page?: number, size?: number) {
+    const url: string = `${this.BASE_URL}/dynamicSearch/${ids}?page=${page}&size=${size}`;
     return this.http.get(url).toPromise().then((res) => res.json());
   }
 }

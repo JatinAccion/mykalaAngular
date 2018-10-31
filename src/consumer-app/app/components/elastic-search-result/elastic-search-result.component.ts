@@ -41,6 +41,10 @@ export class ElasticSearchResult implements OnInit, AfterViewInit {
   textAsSearchedTerm: string;
   parentNameAsCategoryName: string;
   parentIdAsCategoryId: string;
+  isFilterUsed: boolean = false;
+  showMoreReqWithFilter: Array<string[]>;
+  showMorePageCounter: number = 0;
+  showMoreSizeCounter: number = 30;
 
   constructor(
     private homeService: HomeService,
@@ -137,19 +141,36 @@ export class ElasticSearchResult implements OnInit, AfterViewInit {
   async showMore() {
     this.loaderShowMore = true;
     this.esFromCounter = this.esFromCounter + 30;
-    let text = JSON.parse(window.localStorage['esKeyword']).text;
-    let parentName = JSON.parse(window.localStorage['esKeyword']).parentName;
-    var response = await this.core.searchProduct(text, parentName, this.esSizeCounter, this.esFromCounter);
-    if (response.products.length > 0) {
-      this.loaderShowMore = false;
-      response = response.products.map(p => new BrowseProductsModal(p));
-      if (response.length < 30) this.showMoreBtn = false;
-      this.tilesData = [...this.tilesData, ...response];
-      this.filterResponse(this.tilesData);
+    if (this.isFilterUsed) {
+      this.showMorePageCounter = this.showMorePageCounter + 1;
+      var response = await this.homeService.loadProductFromFilter(this.showMoreReqWithFilter, this.showMorePageCounter, this.showMoreSizeCounter);
+      if (response.content.length > 0) {
+        this.loaderShowMore = false;
+        response = response.content.map((item) => new BrowseProductsModal(item));
+        if (response.length < 30) this.showMoreBtn = false;
+        this.tilesData = [...this.tilesData, ...response];
+        this.filterResponse(this.tilesData);
+      }
+      else {
+        this.showMoreBtn = false;
+        this.loaderShowMore = false;
+      }
     }
     else {
-      this.showMoreBtn = false;
-      this.loaderShowMore = false;
+      let text = JSON.parse(window.localStorage['esKeyword']).text;
+      let parentName = JSON.parse(window.localStorage['esKeyword']).parentName;
+      var response = await this.core.searchProduct(text, parentName, this.esSizeCounter, this.esFromCounter);
+      if (response.products.length > 0) {
+        this.loaderShowMore = false;
+        response = response.products.map(p => new BrowseProductsModal(p));
+        if (response.length < 30) this.showMoreBtn = false;
+        this.tilesData = [...this.tilesData, ...response];
+        this.filterResponse(this.tilesData);
+      }
+      else {
+        this.showMoreBtn = false;
+        this.loaderShowMore = false;
+      }
     }
   }
 
@@ -191,6 +212,7 @@ export class ElasticSearchResult implements OnInit, AfterViewInit {
   }
 
   async changeFilter(data, parent) {
+    this.isFilterUsed = true;
     this.esSizeCounter = 30;
     this.esFromCounter = 0;
     data = JSON.parse(data);
@@ -350,7 +372,9 @@ export class ElasticSearchResult implements OnInit, AfterViewInit {
       }
     }
     var ids = Array.from(new Set(this.ids));
-    var response = await this.homeService.loadProductFromFilter(ids);
+    this.showMoreReqWithFilter = ids;
+    this.showMorePageCounter = 0;
+    var response = await this.homeService.loadProductFromFilter(ids, this.showMorePageCounter, 30);
     this.tilesData = [];
     if (response.content.length > 0) {
       this.filterResponse(response);
@@ -446,6 +470,7 @@ export class ElasticSearchResult implements OnInit, AfterViewInit {
 
   clearAllFilters() {
     this.loader = true;
+    this.isFilterUsed = false;
     this.defaultProductLevel = 3;
     this.filteredData = [];
     this.increaseLevel = 0;
