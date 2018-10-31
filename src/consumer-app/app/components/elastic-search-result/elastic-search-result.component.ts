@@ -96,7 +96,7 @@ export class ElasticSearchResult implements OnInit, AfterViewInit {
       else this.headerMessage = 'Nice! We matched' + ' ' + this.tilesData.length + ' products for you';
     }
     else this.headerMessage = 'Sorry, but we don\'t have product matches for you';
-    this.tilesData.length <= 30 ? this.showMoreBtn = false : this.showMoreBtn = true;
+    this.tilesData.length < 30 ? this.showMoreBtn = false : this.showMoreBtn = true;
     this.core.show(this.headerMessage);
     this.core.searchMsgToggle('get offers');
     window.localStorage['browseProductSearch'] = this.headerMessage;
@@ -143,7 +143,7 @@ export class ElasticSearchResult implements OnInit, AfterViewInit {
     if (response.products.length > 0) {
       this.loaderShowMore = false;
       response = response.products.map(p => new BrowseProductsModal(p));
-      if (response.length <= 30) this.showMoreBtn = false;
+      if (response.length < 30) this.showMoreBtn = false;
       this.tilesData = [...this.tilesData, ...response];
       this.filterResponse(this.tilesData);
     }
