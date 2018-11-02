@@ -128,6 +128,7 @@ export class LoginComponent implements OnInit, CuiComponent {
               else {
                 if (res.roleName[0] != "consumer") this.unAuthorized = true;
                 else {
+                  this.core.startTokenValidation();
                   window.localStorage['userInfo'] = JSON.stringify(res);
                   this.core.hideUserInfo(false);
                   this.core.setUser(res);

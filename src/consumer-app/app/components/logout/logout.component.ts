@@ -15,6 +15,7 @@ export class LogoutComponent implements OnInit {
   ngOnInit() {
     this.onLogout();
   }
+  
   onLogout(): void {
     localStorage.removeItem("token");
     localStorage.removeItem("userInfo");
@@ -30,6 +31,8 @@ export class LogoutComponent implements OnInit {
     localStorage.removeItem('changeBackFn');
     localStorage.removeItem('rf_Token');
     localStorage.removeItem('esKeyword');
+    localStorage.removeItem('searchedWithoutSuggestion');
+    this.core.clearTokenValidation();
     this.core.clearUser();
     this.core.hideUserInfo(true);
     this.router.navigateByUrl('/login');

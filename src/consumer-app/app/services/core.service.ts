@@ -49,7 +49,9 @@ export class CoreService {
     private modalService: NgbModal,
     private location: Location,
     private localStorageService: LocalStorageService
-  ) { }
+  ) {
+    if (window.localStorage['token'] != undefined) this.startTokenValidation()
+  }
 
   hide() { this.navVisible = false; }
 
@@ -340,6 +342,14 @@ export class CoreService {
     window.localStorage['rf_Token'] = token;
   }
 
+  startTokenValidation() {
+    this.session = setInterval(() => this.callRefereshIfExpired(), 2000);
+  }
+
+  clearTokenValidation() {
+    clearInterval(this.session);
+  }
+
   callRefereshIfExpired() {
     let loggedInTime = new Date(JSON.parse(JSON.parse(window.localStorage['token']).timestamp));
     let currentTime = new Date();
@@ -352,9 +362,9 @@ export class CoreService {
       });
       const BASE_URL: string = `${environment.login}/${environment.apis.auth.token}?client_id=${basicAuth.client_id}&grant_type=refresh_token&refresh_token=${refereshToken}`;
       return this.http.post(BASE_URL, null, { headers: headers }).map((res) => res.json()).subscribe((res) => {
-        console.log(res);
         this.localStorageService.setItem('token', res.access_token, res.expires_in);
         this.setRefereshToken(res.refresh_token);
+        this.startTokenValidation();
       }, (err) => {
         console.log("Error While Refereshing Token" + err);
       });
