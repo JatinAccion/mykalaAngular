@@ -1,3 +1,15 @@
+<div class="tokenReactivate text-center" *ngIf="core.refreshingSession">
+  <span class="d-inline-block">
+    <img src="/consumer-app/assets/images/loader.gif" />
+  </span>
+</div>
+
+<div class="tokenReactivate text-center" *ngIf="core.refreshingTokkenExpired">
+  <span class="d-inline-block">
+    <img src="/consumer-app/assets/images/loader.gif" />
+  </span>
+</div>
+
 <header *ngIf="getHeader == 'header1'">
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top header_Scroll">
     <div class="container web-header">
@@ -19,7 +31,8 @@
                 <img src="/consumer-app/assets/images/voice.png">
               </span>
             </form> -->
-            <input type="text" [(ngModel)]="core.searchBar" (blur)="core.hideSuggesstionList()" (keyup)="core.searchSuggestion(core.searchBar, $event)" placeholder="What can we help you find?">
+            <input type="text" [(ngModel)]="core.searchBar" (blur)="core.hideSuggesstionList()" (keyup)="core.searchSuggestion(core.searchBar, $event)"
+              placeholder="What can we help you find?">
             <span>
               <img src="/consumer-app/assets/images/voice.png">
             </span>
@@ -170,7 +183,8 @@
                 <img src="/consumer-app/assets/images/voice.png">
               </span>
             </form> -->
-            <input type="text" [(ngModel)]="core.searchBar" (blur)="core.hideSuggesstionList()" (keyup)="core.searchSuggestion(core.searchBar, $event)" placeholder="What can we help you find?">
+            <input type="text" [(ngModel)]="core.searchBar" (blur)="core.hideSuggesstionList()" (keyup)="core.searchSuggestion(core.searchBar, $event)"
+              placeholder="What can we help you find?">
             <span>
               <img src="/consumer-app/assets/images/voice.png">
             </span>

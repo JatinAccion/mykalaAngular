@@ -42,6 +42,8 @@ export class CoreService {
   esSizeCounter: number = 30;
   esFromCounter: number = 0;
   isSearchWithoutSuggestion: boolean = false;
+  refreshingSession: boolean = false;
+  refreshingTokkenExpired: boolean = false;
 
   constructor(
     private http: Http,
@@ -343,7 +345,8 @@ export class CoreService {
   }
 
   startTokenValidation() {
-    this.session = setInterval(() => this.callRefereshIfExpired(), 2000);
+    if (window.localStorage['token'] != undefined) this.session = setInterval(() => this.callRefereshIfExpired(), 1000);
+    else clearInterval(this.session);
   }
 
   clearTokenValidation() {
@@ -354,6 +357,7 @@ export class CoreService {
     let loggedInTime = new Date(JSON.parse(JSON.parse(window.localStorage['token']).timestamp));
     let currentTime = new Date();
     if (currentTime > loggedInTime) {
+      this.clearTokenValidation();
       let refereshToken = window.localStorage['rf_Token'];
       let basicAuth = new BasicAuth();
       let headers: Headers = new Headers({
@@ -362,11 +366,17 @@ export class CoreService {
       });
       const BASE_URL: string = `${environment.login}/${environment.apis.auth.token}?client_id=${basicAuth.client_id}&grant_type=refresh_token&refresh_token=${refereshToken}`;
       return this.http.post(BASE_URL, null, { headers: headers }).map((res) => res.json()).subscribe((res) => {
+        this.refreshingSession = true;
         this.localStorageService.setItem('token', res.access_token, res.expires_in);
         this.setRefereshToken(res.refresh_token);
         this.startTokenValidation();
+        setTimeout(() => this.refreshingSession = false, 5000);
       }, (err) => {
-        console.log("Error While Refereshing Token" + err);
+        this.refreshingTokkenExpired = true;
+        setTimeout(() => {
+          this.refreshingTokkenExpired = false;
+          this.route.navigateByUrl("/logout");
+        }, 3000);
       });
     }
   }
