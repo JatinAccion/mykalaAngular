@@ -25,14 +25,15 @@
                 <img src="/consumer-app/assets/images/voice.png">
               </span>
             </form> -->
-            <input type="text" [(ngModel)]="core.searchBar" (blur)="core.hideSuggesstionList()" (keyup)="core.searchSuggestion(core.searchBar, $event)"
+            <input type="text" [(ngModel)]="core.searchBar" (blur)="core.hideSuggesstionList()" (keyup)="core.searchSuggestion(core.searchBar, null, null, $event)"
               placeholder="What can we help you find?">
             <span>
               <img src="/consumer-app/assets/images/voice.png">
             </span>
-            <!-- <div class="p-0 float-left text-left suggesstionList suggesstionListBig" *ngIf="core.suggesstionList != undefined && core.suggesstionList.length > 0">
-              <button *ngFor="let list of core.suggesstionList; let i = index" (click)="core.search(list)" [ngClass]="{'activeList':i == core.arrowkeyLocation}">{{list}}</button>
-            </div> -->
+            <div class="p-0 float-left text-left suggesstionList suggesstionListBig" *ngIf="core.suggesstionList != undefined && core.suggesstionList.length > 0">
+              <button *ngFor="let list of core.suggesstionList; let i = index" (click)="core.search(list.productLevelName, list.parentName, list.parentId)">{{list.productLevelName}}
+                In {{list.parentName}}</button>
+            </div>
           </div>
         </div>
         <div class="col-sm-4 col-12 text-right">
@@ -177,14 +178,15 @@
                 <img src="/consumer-app/assets/images/voice.png">
               </span>
             </form> -->
-            <input type="text" [(ngModel)]="core.searchBar" (blur)="core.hideSuggesstionList()" (keyup)="core.searchSuggestion(core.searchBar, $event)"
+            <input type="text" [(ngModel)]="core.searchBar" (blur)="core.hideSuggesstionList()" (keyup)="core.searchSuggestion(core.searchBar, null, null, $event)"
               placeholder="What can we help you find?">
             <span>
               <img src="/consumer-app/assets/images/voice.png">
             </span>
-            <!-- <div class="p-0 float-left text-left suggesstionList suggesstionListBig" style="left: 8px" *ngIf="core.suggesstionList != undefined && core.suggesstionList.length > 0">
-              <button *ngFor="let list of core.suggesstionList; let i = index" (click)="core.search(list)" [ngClass]="{'activeList':i == core.arrowkeyLocation}">{{list}}</button>
-            </div> -->
+            <div class="p-0 float-left text-left suggesstionList suggesstionListBig" *ngIf="core.suggesstionList != undefined && core.suggesstionList.length > 0">
+              <button *ngFor="let list of core.suggesstionList; let i = index" (click)="core.search(list.productLevelName, list.parentName, list.parentId)">{{list.productLevelName}}
+                In {{list.parentName}}</button>
+            </div>
           </div>
           <div *ngIf="!core.showSearch" class="col-sm-12 mb-3 p-0 text-right pr-3">
             <a class="dialogue dialogue_right colorwhite" [routerLink]="['/getoffer', 'step1']">{{core.searchMessage}}</a>
