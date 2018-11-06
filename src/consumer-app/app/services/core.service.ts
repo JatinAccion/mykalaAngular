@@ -43,6 +43,7 @@ export class CoreService {
   esFromCounter: number = 0;
   isSearchWithoutSuggestion: boolean = false;
   refreshingSession: boolean = false;
+  isWithSpecialCharacter: boolean = false;
 
   constructor(
     private http: Http,
@@ -216,6 +217,7 @@ export class CoreService {
   }
 
   getProductSuggesstion(text) {
+    this.isWithSpecialCharacter ? text = text.replace(/[^a-zA-Z0-9 ]/g, "") : text;
     const url: string = `${environment.productList}/${environment.apis.products.typeAhead}/${text}`;
     return this.http.get(url).map((res) => res.json());
   }
@@ -255,6 +257,7 @@ export class CoreService {
       this.loaderSearch = true;
       this.tilesData = [];
       this.searchBar = text;
+      this.isWithSpecialCharacter ? text = text.replace(/[^a-zA-Z0-9 ]/g, "") : text;
       text = text.replace(/ /g, "%20").replace(/&/g, "%26");
       if (parentName) parentName = parentName.replace(/&/g, "%26").replace(/ /g, "%20");
       var response = await this.searchProduct(text, parentName, this.esSizeCounter, this.esFromCounter);
@@ -272,6 +275,9 @@ export class CoreService {
   }
 
   searchSuggestion(text, parentName, parentId, e) {
+    let regexCheck = /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+    this.isWithSpecialCharacter = false;
+    if (regexCheck.test(text)) this.isWithSpecialCharacter = true;
     this.loader_suggestion = true;
     if (e.keyCode == 13) {
       this.loader_suggestion = false;
