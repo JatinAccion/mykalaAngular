@@ -63,6 +63,7 @@ export class LoginComponent implements OnInit {
       this.processRemeberme();
       const resJson = res.json();
       this.localStorageService.setItem('token', `${resJson.access_token}`, resJson.expires_in);
+      this.core.setRefereshToken(resJson.refresh_token);
       this.auth.getUserInfo(resJson.access_token).subscribe(usr => {
         this.loader = false;
         if (usr.userCreateStatus === false) {
@@ -70,6 +71,7 @@ export class LoginComponent implements OnInit {
           this.userInactive = true;
         } else {
           if (usr.roleName && usr.roleName.length > 0 && usr.roleName.indexOf('admin') > -1) {
+            this.core.startTokenValidation();
             window.localStorage['userInfo'] = JSON.stringify(usr);
             this.core.setUser(usr);
             this.router.navigateByUrl('/retailer-list');

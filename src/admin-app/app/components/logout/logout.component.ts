@@ -20,5 +20,6 @@ export class LogoutComponent implements OnInit {
     this.core.hide();
     this.core.clearUser();
     this.router.navigateByUrl('/login');
+    this.core.clearTokenValidation();
   }
 }

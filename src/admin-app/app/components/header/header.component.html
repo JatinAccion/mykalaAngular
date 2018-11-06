@@ -1,5 +1,12 @@
+<div class="tokenReactivate text-center" *ngIf="core.refreshingSession">
+  <span class="d-inline-block">
+    <img src="/admin-app/assets/images/loader.gif" />
+  </span>
+</div>
+
 <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse fixed-top">
-  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+    aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon" (click)="menuCollapse=!menuCollapse"></span>
   </button>
   <a class="navbar-brand" href="#">
@@ -11,27 +18,31 @@
         <a class="nav-link" [routerLinkActive]="['active']" routerLink="/retailer-list">Accounts</a>
       </li>
       <li ngbDropdown class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>Products</a>
+        <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+          ngbDropdownToggle>Products</a>
         <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown01">
           <a class="dropdown-item " [routerLinkActive]="['active']" routerLink="/product-list">View Products</a>
           <a class="dropdown-item " [routerLinkActive]="['active']" routerLink="/product-upload">Products Files</a>
-          <a class="dropdown-item " [routerLinkActive]="['active']" routerLink="/product-upload-meta">Products Meta Files</a>
+          <a class="dropdown-item " [routerLinkActive]="['active']" routerLink="/product-upload-meta">Products Meta
+            Files</a>
         </div>
       </li>
       <li ngbDropdown class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>Support</a>
+        <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+          ngbDropdownToggle>Support</a>
         <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown01">
           <a class="dropdown-item " [routerLinkActive]="['active']" routerLink="/order-list">Orders</a>
           <a class="dropdown-item " [routerLinkActive]="['active']" routerLink='/inquiry-list'>Inquiries</a>
         </div>
       </li>
       <li ngbDropdown class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>Reports</a>
+        <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+          ngbDropdownToggle>Reports</a>
         <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown01">
-          <a class="dropdown-item" [routerLinkActive]="['active']" routerLink='/sales-report' >Sales</a>
+          <a class="dropdown-item" [routerLinkActive]="['active']" routerLink='/sales-report'>Sales</a>
           <a class="dropdown-item" [routerLinkActive]="['active']" routerLink='/customers-report'>Customers</a>
           <a class="dropdown-item" [routerLinkActive]="['active']" routerLink='/reviews-report'>Reviews</a>
-          <a class="dropdown-item" [routerLinkActive]="['active']" routerLink='/inquiries-report' >Inquiries</a>
+          <a class="dropdown-item" [routerLinkActive]="['active']" routerLink='/inquiries-report'>Inquiries</a>
           <a class="dropdown-item" [routerLinkActive]="['active']" routerLink='/payments-report'>Payments</a>
         </div>
       </li>
