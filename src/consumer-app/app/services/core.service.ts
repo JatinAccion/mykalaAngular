@@ -43,7 +43,6 @@ export class CoreService {
   esFromCounter: number = 0;
   isSearchWithoutSuggestion: boolean = false;
   refreshingSession: boolean = false;
-  refreshingTokkenExpired: boolean = false;
 
   constructor(
     private http: Http,
@@ -370,11 +369,11 @@ export class CoreService {
         this.localStorageService.setItem('token', res.access_token, res.expires_in);
         this.setRefereshToken(res.refresh_token);
         this.startTokenValidation();
-        setTimeout(() => this.refreshingSession = false, 5000);
+        setTimeout(() => this.refreshingSession = false, 3000);
       }, (err) => {
-        this.refreshingTokkenExpired = true;
+        this.refreshingSession = true;
         setTimeout(() => {
-          this.refreshingTokkenExpired = false;
+          this.refreshingSession = false;
           this.route.navigateByUrl("/logout");
         }, 3000);
       });
