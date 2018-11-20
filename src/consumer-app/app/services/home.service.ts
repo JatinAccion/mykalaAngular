@@ -45,6 +45,11 @@ export class HomeService {
     return this.http.post(url, data).toPromise().then((res) => res.json());
   }
 
+  checkProductAvailabilityES(data) {
+    const url: string = `${this.BASE_URL}/${environment.apis.products.searchCommingSoon}`;
+    return this.http.post(url, data).toPromise().then((res) => res.json());
+  }
+
   filterLoadSubcategory(data) {
     const url: string = `${this.BASE_URL}/subCategoriesList`;
     return this.http.post(url, data).map((res) => res.json());
@@ -67,6 +72,11 @@ export class HomeService {
 
   loadProductFromFilter(ids, page?: number, size?: number) {
     const url: string = `${this.BASE_URL}/dynamicSearch/${ids}?page=${page}&size=${size}`;
+    return this.http.get(url).toPromise().then((res) => res.json());
+  }
+
+  loadProductFromFilterES(ids, page?: number, size?: number, type?: string, parentName?: string) {
+    const url: string = `${this.BASE_URL}/textSearch/${ids}/?type=${type}&parentName=${parentName}&size=${size}&from=${page}`;
     return this.http.get(url).toPromise().then((res) => res.json());
   }
 }

@@ -51,7 +51,8 @@ export const apiNames = {
         typeAhead: 'typeAhead',
         dynamicAttributes: 'dynamicAttributes',
         productDetails: 'productDetails',
-        comingSoon: 'comingsoon'
+        comingSoon: 'comingsoon',
+        searchCommingSoon: 'searchCommingSoon'
     },
     getOffers: {
         confirmOffer: 'getOffersRequest',

@@ -75,8 +75,8 @@ export class ElasticSearchResult implements OnInit, AfterViewInit {
     this.core.isSearchWithoutSuggestion ? this.defaultProductLevel = 1 : this.defaultProductLevel = 3;
     var response = await this.core.searchProduct(this.textAsSearchedTerm, this.parentNameAsCategoryName, this.esSizeCounter, this.esFromCounter);
     if (response.products.length > 0) this.filterResponse(response);
-    this.productAvailabilityModal = { levelName: this.parentNameAsCategoryName, levelId: this.parentIdAsCategoryId, levelCount: this.defaultProductLevel };
-    this.productAvailabilityResponse = await this.homeService.checkProductAvailability(this.productAvailabilityModal);
+    this.productAvailabilityModal = { levelName: this.textAsSearchedTerm, levelId: this.parentIdAsCategoryId, levelCount: this.defaultProductLevel };
+    this.productAvailabilityResponse = await this.homeService.checkProductAvailabilityES(this.productAvailabilityModal);
     this.productAvailabilityResponse = this.productAvailabilityResponse.filter(item => item.level = this.defaultProductLevel);
     if (this.core.isSearchWithoutSuggestion) this.loaderPlaces()
     else this.loadFilterData();
@@ -143,10 +143,10 @@ export class ElasticSearchResult implements OnInit, AfterViewInit {
     this.esFromCounter = this.esFromCounter + 30;
     if (this.isFilterUsed) {
       this.showMorePageCounter = this.showMorePageCounter + 1;
-      var response = await this.homeService.loadProductFromFilter(this.showMoreReqWithFilter, this.showMorePageCounter, this.showMoreSizeCounter);
-      if (response.content.length > 0) {
+      var response = await this.homeService.loadProductFromFilterES(this.showMoreReqWithFilter, this.showMorePageCounter, this.showMoreSizeCounter, this.textAsSearchedTerm, this.parentNameAsCategoryName);
+      if (response.products.length > 0) {
         this.loaderShowMore = false;
-        response = response.content.map((item) => new BrowseProductsModal(item));
+        response = response.products.map((item) => new BrowseProductsModal(item));
         if (response.length < 30) this.showMoreBtn = false;
         this.tilesData = [...this.tilesData, ...response];
         this.filterResponse(this.tilesData);
@@ -307,7 +307,7 @@ export class ElasticSearchResult implements OnInit, AfterViewInit {
     /*Check product Availability*/
     if (this.core.isSearchWithoutSuggestion) {
       this.productAvailabilityModal = {
-        levelName: this.getLabel(data, parent),
+        levelName: this.textAsSearchedTerm,
         levelId: this.getId(data, parent),
         levelCount: this.defaultProductLevel
       };
@@ -374,9 +374,9 @@ export class ElasticSearchResult implements OnInit, AfterViewInit {
     var ids = Array.from(new Set(this.ids));
     this.showMoreReqWithFilter = ids;
     this.showMorePageCounter = 0;
-    var response = await this.homeService.loadProductFromFilter(ids, this.showMorePageCounter, 30);
+    var response = await this.homeService.loadProductFromFilterES(ids, this.showMorePageCounter, 30, this.textAsSearchedTerm, this.parentNameAsCategoryName);
     this.tilesData = [];
-    if (response.content.length > 0) {
+    if (response.products.length > 0) {
       this.filterResponse(response);
       this.lastParentLevel = parent.level;
     }
@@ -463,7 +463,7 @@ export class ElasticSearchResult implements OnInit, AfterViewInit {
   }
 
   async checkProductAvailability() {
-    this.productAvailabilityResponse = await this.homeService.checkProductAvailability(this.productAvailabilityModal);
+    this.productAvailabilityResponse = await this.homeService.checkProductAvailabilityES(this.productAvailabilityModal);
     this.productAvailabilityResponse = this.productAvailabilityResponse.filter(item => item.level = this.defaultProductLevel);
     this.modifyData();
   }
