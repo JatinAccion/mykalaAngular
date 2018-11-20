@@ -479,7 +479,7 @@ export class ElasticSearchResult implements OnInit, AfterViewInit {
     this.nextItemArr = [];
     this.esSizeCounter = 30;
     this.esFromCounter = 0;
-    this.productAvailabilityModal = { levelName: this.parentNameAsCategoryName, levelId: this.parentIdAsCategoryId, levelCount: this.defaultProductLevel };
+    this.productAvailabilityModal = { levelName: this.textAsSearchedTerm, levelId: this.parentIdAsCategoryId, levelCount: this.defaultProductLevel };
     this.checkProductAvailability();
     this.enableFilterPanel();
     this.loadType();
