@@ -13,6 +13,7 @@ export class PostInterest {
     public gender: string;
     public dateOfBirth: string;
     public customerAccountStatus: string;
+    public fullName: string;
 };
 
 export class ConsumerInterest {
