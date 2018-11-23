@@ -49,11 +49,11 @@ export class ProductAddBasicComponent implements OnInit {
 
   setFormValidators() {
     this.fG1 = this.formBuilder.group({
-      productName: ['', [Validators.pattern(environment.regex.textRegex), Validators.maxLength(255), Validators.required]],
+      productName: ['', [Validators.maxLength(255), Validators.required]],
       // brandName: ['', [Validators.pattern(environment.regex.textRegex), Validators.maxLength(255), Validators.required]],
       productSkuCode: ['', [Validators.pattern(environment.regex.textRegex), Validators.maxLength(255), Validators.required]],
       productUpcCode: ['', [Validators.pattern(environment.regex.numberRegex), Validators.maxLength(255), Validators.required]],
-      productDescription: ['', [Validators.pattern(environment.regex.textRegex), Validators.maxLength(1000), Validators.required]],
+      productDescription: ['', [Validators.maxLength(1000), Validators.required]],
       quantity: ['', [Validators.pattern(environment.regex.numberValueRegex), Validators.min(0), Validators.required]],
       weight: ['', [Validators.pattern(environment.regex.numberValueRegex), Validators.min(0), Validators.required]],
       weightunit: ['', [Validators.pattern(environment.regex.textRegex), Validators.min(0), Validators.required]],
