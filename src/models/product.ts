@@ -4,7 +4,7 @@ import { environment } from '../admin-app/environments/environment';
 export class Product {
     public retailerId: string;
     public retailerName: string;
-
+    public units: Object;
     public kalaUniqueId: string;
     public productSkuCode: string;
     public productUpcCode: string;
@@ -70,7 +70,7 @@ export class Product {
             this.productSubCategoryName = obj.productSubCategoryName;
             this.weightunit = 'lbs';
             this.dimensionunit = 'inches';
-            // this.productTypeName = obj.productTypeName;
+            this.units = obj.units;
             if (obj.productHierarchy) {
                 this.productHierarchy = obj.productHierarchy.map(p => new ProductLevel(p)).sort((a, b) => a < b);
                 if (this.productHierarchy.length > 0) { this.productPlaceId = this.productHierarchy[0].levelId; this.productPlaceName = this.productHierarchy[0].levelName; }
@@ -155,9 +155,14 @@ export class Product {
                     element = new ProdAttr({ key: p.key, value: '', Is_Numeric: p.Is_Numeric, Units: p.Units, Display_Other: p.Display_Other });
                     attributeList.push(element);
                 }
+                else {
+                    element.Display_Other = p.Display_Other;
+                    element.Is_Numeric = p.Is_Numeric;
+                    element.Units = p.Units;
+                }
                 switch (element.key.toLowerCase()) {
                     case 'size':
-                       // element.attrType = 'string';
+                        // element.attrType = 'string';
                         element.attrType = 'select';
                         break;
                     case 'unit':

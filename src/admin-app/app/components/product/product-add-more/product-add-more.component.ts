@@ -63,6 +63,12 @@ export class ProductAddMoreComponent implements OnInit {
 
   saveData() {
     this.saveLoader = true;
+    let getAttribtesData = Object.assign({}, this.product.attributeArray.map(p => p));
+    let unit = new Object();
+    Object.keys(getAttribtesData).map(p => {
+      if (getAttribtesData[p].Units) unit[getAttribtesData[p].key] = getAttribtesData[p].Units
+    });
+    this.product.units = unit;
     this.productService
       .saveProduct(this.product).subscribe(res => {
         this.core.message.success(userMessages.success);

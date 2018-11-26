@@ -50,13 +50,17 @@ export class PmdInputSelectComponent implements OnInit {
       this.showIsNumeric = false;
       this.showOtherEntry = true;
     }
-    if (this.showOtherEntry) {
+    if (this.showOtherEntry && this.prodAttr.Display_Other == 'Y') {
       this.otherValue = this.prodAttr.value;
       this.prodAttr.strValue = 'Other';
     }
     else if (this.prodAttr.Is_Numeric == 'Y') {
       this.showIsNumeric = true;
       this.showSelect = false;
+      /*Latest Edited*/
+      this.IsNumericValue = this.prodAttr.value;
+      this.showOtherEntry = false;
+      /*Latest Edited*/
     }
     else {
       this.otherValue = '';
