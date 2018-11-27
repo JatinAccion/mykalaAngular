@@ -83,7 +83,8 @@ export class PmdInputSelectComponent implements OnInit {
     if (this.prodAttr.strValue) {
       this.showOtherEntry = this.prodAttr.strValue === 'Other';
       const itemFound = this.data && this.data.filter(p => p === this.prodAttr.strValue && p !== 'Other').length > 0;
-      this.showOtherEntry = !itemFound;
+      if (this.prodAttr.Is_Numeric == 'Y') this.showIsNumeric = true;
+      else this.showOtherEntry = !itemFound;
     }
   }
   isNumberKey(evt) {
