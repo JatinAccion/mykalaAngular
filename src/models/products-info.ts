@@ -30,6 +30,7 @@ export class ProductsInfo {
     offerPrice: number;
     productAttributes: string;
     productHierarchyWithIds: Array<any>;
+    units: Object;
     constructor(obj?: any) {
         this.productImages = new Array<any>();
         if (obj) {
@@ -63,6 +64,7 @@ export class ProductsInfo {
             this.productHierarchyWithIds = obj.productHierarchy;
             this.productHierarchy = `${obj.productPlaceName},${obj.productCategoryName},${obj.productSubCategoryName}`;
             this.offerPrice = obj.offerPrice;
+            this.units = obj.units;
             if (obj.attributes != undefined && Object.keys(obj.attributes).length > 0) {
                 this.productAttributes = `Color:${obj.attributes.Color},Brand:${obj.attributes.Brand},Size:${obj.attributes.Size}`
             }
