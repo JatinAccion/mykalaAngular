@@ -695,6 +695,10 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
       this.DOBSaveModel.emailId = this.getUserInfo.emailId;
       let newDOB = new Date(this.myAccountModel.profileInfo.birthYear + '-' + this.myAccountModel.profileInfo.birthMonth + '-' + this.myAccountModel.profileInfo.birthDate);
       this.DOBSaveModel.dateOfBirth = new Date(newDOB.getFullYear() + '/' + (newDOB.getMonth() + 1) + '/' + newDOB.getDate() + ' ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds());
+      //Offset Changes
+      let d = new Date(this.DOBSaveModel.dateOfBirth);
+      this.DOBSaveModel.dateOfBirth = new Date(d.setMinutes(d.getMinutes() + d.getTimezoneOffset()));
+      //Offset Changes
       this.myAccount.saveDOB(this.DOBSaveModel).subscribe((res) => {
         this.loader_DOB = false;
         this.model = this.append_dob;
