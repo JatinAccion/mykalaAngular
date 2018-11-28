@@ -150,15 +150,32 @@
     </div>
 
     <ng-template #noOffer>
-      <div *ngIf="!loader" class="myCart-list text-center mt-3 colorred">
+      <div *ngIf="!loader" class="myCart-list text-center mt-2 colorred">
         <u routerLink="/home">You don’t currently have any active news or alerts to display. Click here to continue shopping.</u>
       </div>
     </ng-template>
   </div>
 
   <ng-template #notSubscribed>
-    <div *ngIf="!loader" class="myCart-list text-center mt-3 colorred">
+    <div *ngIf="!loader" class="myCart-list text-center mt-2 colorred">
       <u routerLink="/myaccount">You haven't subscribed to alert notifications. Click here to subscribe.</u>
     </div>
   </ng-template>
 </div>
+
+<!--Product Already Reviewed-->
+<ng-template #productAlreadyReviewed let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Leave Review</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>You have already reviewed this product.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outer btn_redouter_right" (click)="c('Close click')">Close</button>
+  </div>
+</ng-template>
+<!--Product Already Reviewed-->

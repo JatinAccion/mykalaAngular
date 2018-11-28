@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { userMessages } from './messages';
 import { CoreService } from '../../../services/core.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -9,10 +9,27 @@ import { MyOrdersService } from '../../../services/myorder.service';
 
 @Component({
   selector: 'app-mail-leavereview',
-  template: '<div class="header bgimage"><div>',
+  template: `
+  <div class="header bgimage"><div>
+  <ng-template #productAlreadyReviewed let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Leave Review</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>You have already reviewed this product.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outer btn_redouter_right" (click)="c('Close click')">Close</button>
+  </div>
+</ng-template>
+  `,
   encapsulation: ViewEncapsulation.None
 })
 export class MailLeaveReviewComponent implements OnInit {
+  @ViewChild('productAlreadyReviewed') productAlreadyReviewed: ElementRef;
   orderId: any;
   unAuthorized: boolean;
   loader: boolean;
@@ -36,10 +53,23 @@ export class MailLeaveReviewComponent implements OnInit {
     }
   }
   leaveReview(orderId, productId) {
+    if (!window.localStorage['token']) {
+      this.core.redirectTo(this.router.url);
+      this.router.navigateByUrl('/login');
+      return false;
+    }
     this.myOrdersService.getById(orderId).subscribe(order => {
       if (order.orderItems.filter(p => p.productId === productId).length > 0) {
-        window.localStorage['forReview'] = JSON.stringify({ modal: order, order: order.orderItems.filter(p => p.productId === productId)[0] });
-        this.core.redirectTo('leave-review');
+        this.myOrdersService.getOrderReviewStatus(orderId, productId).subscribe((res) => {
+          if (res === '') {
+            window.localStorage['forReview'] = JSON.stringify({ modal: order, order: order.orderItems.filter(p => p.productId === productId)[0] });
+            this.core.redirectTo('leave-review');
+          }
+          else {
+            this.core.openModal(this.productAlreadyReviewed);
+            this.core.getProductDetails(productId);
+          }
+        }, (err) => console.log(err));
       }
     });
   }

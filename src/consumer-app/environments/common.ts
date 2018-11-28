@@ -40,6 +40,7 @@ export const apiNames = {
         postReviewAlert: 'reviewAlert',
         getAllAlerts: 'alerts',
         checkAlertSubscription: 'alertActive',
+        checkReviewStatus: 'checkReviewStatus'
     },
     products: {
         getPlaces: 'places',

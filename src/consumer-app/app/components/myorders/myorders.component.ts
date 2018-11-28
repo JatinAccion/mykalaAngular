@@ -51,6 +51,7 @@ export class MyordersComponent implements OnInit {
   selection = { parent: '', child: '' }
   @ViewChild("contactKalaModal") contactKalaModal: ElementRef;
   @ViewChild("cancelOrdersModal") cancelOrdersModal: ElementRef;
+  @ViewChild('productAlreadyReviewed') productAlreadyReviewed: ElementRef;
   selectedModalDetails: any;
   selectedOrderDetails: any;
 
@@ -341,8 +342,18 @@ export class MyordersComponent implements OnInit {
   }
 
   leaveReview(modal, order) {
-    window.localStorage['forReview'] = JSON.stringify({ modal: modal, order: order });
-    this.route.navigateByUrl("/leave-review");
+    this.myOrder.getOrderReviewStatus(modal.orderId, order.productId).subscribe((res) => {
+      if (res === '') {
+        window.localStorage['forReview'] = JSON.stringify({ modal: modal, order: order });
+        this.route.navigateByUrl("/leave-review");
+      }
+      else {
+        this.core.getProductDetails(order.productId);
+        this.core.openModal(this.productAlreadyReviewed);
+      }
+    }, (err) => {
+      console.log("Error In API", err)
+    })
   }
 
   confirmCancelOrder() {

@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { CoreService } from '../../services/core.service';
 import { Router, RouterOutlet } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { MyAlertsService } from '../../services/MyNewsAlertsService';
+import { MyOrdersService } from '../../services/myorder.service';
 
 @Component({
   selector: 'app-my-news-alerts',
@@ -20,12 +21,14 @@ export class MyNewsAlertsComponent implements OnInit {
   enableShowMore: boolean = false;
   alerts: Array<any>;
   alertSubscribed: boolean = false;
+  @ViewChild('productAlreadyReviewed') productAlreadyReviewed: ElementRef;
 
   constructor(
     public core: CoreService,
     private myalerts: MyAlertsService,
     private route: Router,
-    private routerOutlet: RouterOutlet
+    private routerOutlet: RouterOutlet,
+    private myorder: MyOrdersService
   ) { }
 
   ngOnInit() {
@@ -92,8 +95,16 @@ export class MyNewsAlertsComponent implements OnInit {
       }
       else {
         let modal = { purchasedDate: alert.purchasedDate, orderId: alert.orderId };
-        window.localStorage['forReview'] = JSON.stringify({ modal: modal, order: alert.orderItems, from: 'NA' });
-        this.route.navigateByUrl("/leave-review");
+        this.myorder.getOrderReviewStatus(alert.orderId, alert.orderItems.productId).subscribe((res) => {
+          if (res === '') {
+            window.localStorage['forReview'] = JSON.stringify({ modal: modal, order: alert.orderItems, from: 'NA' });
+            this.route.navigateByUrl("/leave-review");
+          }
+          else {
+            this.core.getProductDetails(alert.orderItems.productId);
+            this.core.openModal(this.productAlreadyReviewed);
+          }
+        }, (err) => console.log(err));
       }
     }, (err) => {
       console.log("Error while updating alerts")

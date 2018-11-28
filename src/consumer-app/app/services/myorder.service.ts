@@ -30,7 +30,7 @@ export class MyOrdersService {
         const url: string = `${this.BASE_URL}/${environment.apis.consumerCheckout.support}`;
         return this.http.post(url, model, { headers: this.core.setHeaders() }).map(res => res.json());
     }
-    
+
     getById(orderId: any): Observable<MyOrders> {
         const url = `${this.BASE_URL}/${orderId}`;
         return this.http
@@ -41,6 +41,17 @@ export class MyOrdersService {
                 } else {
                     return new MyOrders(res.json());
                 }
+            });
+    }
+
+    getOrderReviewStatus(orderId, productId) {
+        let BASE_URL = environment.profileInterest;
+        const url: string = `${BASE_URL}/${environment.apis.profileInterest.review}/${environment.apis.profileInterest.checkReviewStatus}/order/${orderId}/product/${productId}`;
+        return this.http
+            .get(url, { headers: this.core.setHeaders() })
+            .map(res => {
+                if (res.text() === '') return res.text();
+                else return res.json()
             });
     }
 
