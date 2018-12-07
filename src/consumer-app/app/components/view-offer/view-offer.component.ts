@@ -124,8 +124,8 @@ export class ViewOfferComponent implements OnInit {
       for (let key in this.selectedProduct.product.units) {
         attributes.map((x) => {
           if (key === x.key) {
-            this.unitValue = this.selectedProduct.product.units[key];
-            x.key = x.key + ' ' + '(' + this.unitValue + ')';
+            if (key == 'Size' || key == 'size') this.unitValue = this.selectedProduct.product.units[key];
+            x.key = x.key + ' ' + '(' + this.selectedProduct.product.units[key] + ')';
           }
         })
       }
