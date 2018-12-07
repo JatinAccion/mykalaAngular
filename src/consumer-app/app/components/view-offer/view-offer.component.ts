@@ -119,11 +119,18 @@ export class ViewOfferComponent implements OnInit {
         })
       }
     }
-    if (this.selectedProduct.product.units && this.selectedProduct.product.units != {}) this.unitValue = this.selectedProduct.product.units['Size']
-    attributes.filter((x) => {
-      if (x.key == 'Size') {
-        if (this.unitValue != undefined) x.key = x.key + ' ' + '(' + this.unitValue + ')'
+    //if (this.selectedProduct.product.units && this.selectedProduct.product.units != {}) this.unitValue = this.selectedProduct.product.units['Size']
+    if (this.selectedProduct.product.units && this.selectedProduct.product.units != {}) {
+      for (let key in this.selectedProduct.product.units) {
+        attributes.map((x) => {
+          if (key === x.key) {
+            this.unitValue = this.selectedProduct.product.units[key];
+            x.key = x.key + ' ' + '(' + this.unitValue + ')';
+          }
+        })
       }
+    }
+    attributes.filter((x) => {
       if (x.key == 'Features') {
         x.value = x.value.filter((x) => x !== "");
         if (x.value.length == 0) attributes = attributes.filter(p => p.key != x.key)

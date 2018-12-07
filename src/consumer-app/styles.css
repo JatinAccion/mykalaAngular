@@ -3093,7 +3093,7 @@ label {
 }
 
 .prodImageContainer_xl img {
-    width: calc(100% - 30%) !important;
+    width: calc(100% - 125px) !important;
 }
 
 .prodImageContainer img {
