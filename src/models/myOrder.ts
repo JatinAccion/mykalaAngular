@@ -109,6 +109,7 @@ export class OrderItems {
     public productSKUCode: string;
     public shipTrackingId: string;
     public carrier: string;
+    public orderDeliveredDate: Date;
     public productHierarchy: string;
     public orderFrom: string;
     public productAttributes: string;
@@ -136,6 +137,7 @@ export class OrderItems {
             this.productSKUCode = obj.productSKUCode;
             this.shipTrackingId = obj.shipTrackingId;
             this.carrier = obj.carrier;
+            this.orderDeliveredDate = obj.orderDeliveredDate;
             this.productHierarchy = obj.productHierarchy;
             this.orderFrom = obj.orderFrom;
             this.productAttributes = obj.productAttributes;
