@@ -31,7 +31,8 @@
                             </tr>
                             <tr>
                                 <td style="color:#999;font-size:14px; padding-left:10px;" class="reWriteCancelMsg">
-                                    We’re sorry to see you go. If you no longer wish to receive emails from Kala, please click the unsubscribe button below and
+                                    We’re sorry to see you go. If you no longer wish to receive emails from Kala,
+                                    please click the unsubscribe button below and
                                     you will be removed from our mailing list.
                                 </td>
                             </tr>
@@ -48,8 +49,10 @@
                             </tr>
                             <tr class="hideElements">
                                 <td align="center">
-                                    <a href="#" style="padding:10px 50px; border-radius:10px; background:#436798; text-decoration:none; color:#fff;" onclick="UserAction()">Unsubscribe</a>
-                                    <a href="#" style="padding:10px 50px; border-radius:10px; background:#436798; text-decoration:none; color:#fff;" onclick="close_window();return false;">Cancel</a>
+                                    <a href="#" style="padding:10px 50px; border-radius:10px; background:#436798; text-decoration:none; color:#fff;"
+                                        onclick="UserAction()">Unsubscribe</a>
+                                    <a href="#" style="padding:10px 50px; border-radius:10px; background:#436798; text-decoration:none; color:#fff;"
+                                        onclick="close_window();return false;">Cancel</a>
                                 </td>
                             </tr>
                             <tr class="hideElements">
@@ -70,7 +73,8 @@
             <tr>
                 <td style="background:#fff; color:#999999; text-align:center; padding:10px 0px; font-size:12px;">
                     <a style="color:#999; font-size:12px;">&copy; Kala</a> |
-                    <a href="http://consumer-qa.mykala.s3-website.us-east-2.amazonaws.com/privacy.html" target="_blank" style="color:#999; font-size:12px;">Privacy Policy</a> |
+                    <a href="http://consumer-qa.mykala.s3-website.us-east-2.amazonaws.com/privacy.html" target="_blank"
+                        style="color:#999; font-size:12px;">Privacy Policy</a> |
                     <a href="#" onclick="redirectToMA()" style="color:#999; font-size:12px;">My Account</a>
                 </td>
             </tr>
@@ -106,7 +110,7 @@
                         }, 3000);
                     }
                 };
-                xhttp.open("GET", "http://dev-consumer-profile.us-east-2.elasticbeanstalk.com/consumer/v1/unsubscribe/" + userId, true);
+                xhttp.open("GET", "http://dev-consumer-profile.us-east-2.elasticbeanstalk.com/consumer/v1/public/unsubscribe/" + userId, true);
                 xhttp.setRequestHeader("Content-type", "application/json");
                 xhttp.send();
             }

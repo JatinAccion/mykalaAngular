@@ -45,7 +45,8 @@
             <tr>
                 <td style="background:#fff; color:#999999; text-align:center; padding:10px 0px; font-size:12px;">
                     <a style="color:#999; font-size:12px;">&copy; Kala</a> |
-                    <a href="http://consumer-qa.mykala.s3-website.us-east-2.amazonaws.com/privacy.html" target="_blank" style="color:#999; font-size:12px;">Privacy Policy</a>
+                    <a href="http://consumer-qa.mykala.s3-website.us-east-2.amazonaws.com/privacy.html" target="_blank"
+                        style="color:#999; font-size:12px;">Privacy Policy</a>
                 </td>
             </tr>
         </table>
@@ -62,7 +63,7 @@
                         console.log(response);
                     }
                 };
-                xhttp.open("DELETE", "http://qa-signup-service.us-west-1.elasticbeanstalk.com/user/v1/delete/consumer/" + userId, true);
+                xhttp.open("DELETE", "http://qa-signup-service.us-west-1.elasticbeanstalk.com/user/v1/public/delete/consumer/" + userId, true);
                 xhttp.setRequestHeader("Content-type", "application/json");
                 xhttp.send();
             }
