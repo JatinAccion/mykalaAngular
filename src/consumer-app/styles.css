@@ -3904,3 +3904,28 @@ ul.filterActionList a {
     -o-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
 }
+
+.windowOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 9999;
+}
+
+.windowOverlayContent {
+    position: absolute;
+    background: #fff;
+    padding: 20px;
+    border-radius: 3px;
+    top: 50%;
+    width: 550px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+}

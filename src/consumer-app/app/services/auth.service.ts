@@ -24,7 +24,7 @@ export class AuthService {
       client_id: this.basicAuth.client_id
     };
 
-    const url = `${this.BASE_URL}/${environment.apis.auth.token}?client_id=${this.basicAuth.client_id}&grant_type=password&username=${user.username}&password=${user.password}`;
+    const url = `${this.BASE_URL}/${environment.apis.auth.token}?client_id=${this.basicAuth.client_id}&grant_type=password&username=${user.username}&password=${encodeURIComponent(user.password)}`;
     return this.http.post(url, '', { headers: this.headers }).toPromise();
   }
 

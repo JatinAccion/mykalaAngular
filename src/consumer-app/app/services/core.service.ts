@@ -44,6 +44,7 @@ export class CoreService {
   isSearchWithoutSuggestion: boolean = false;
   refreshingSession: boolean = false;
   isWithSpecialCharacter: boolean = false;
+  productNotFound: boolean = false;
 
   constructor(
     private http: Http,
@@ -271,6 +272,11 @@ export class CoreService {
         this.route.navigateByUrl("/elastic-product");
         this.loaderSearch = false;
       }
+      else {
+        this.loaderSearch = false;
+        this.searchBar = '';
+        this.productNotFound = true;
+      }
     }
   }
 
@@ -384,6 +390,10 @@ export class CoreService {
         }, 3000);
       });
     }
+  }
+
+  disableNtFoundFlag() {
+    this.productNotFound = false;
   }
 
 }

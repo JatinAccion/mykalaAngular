@@ -27,7 +27,7 @@ export class AuthService {
     };
 
     // tslint:disable-next-line:max-line-length
-    const url = `${environment.Api}/${environment.apis.Auth.token}?client_id=${this.basicAuth.client_id}&grant_type=password&username=${user.username}&password=${user.password}`;
+    const url = `${environment.Api}/${environment.apis.Auth.token}?client_id=${this.basicAuth.client_id}&grant_type=password&username=${user.username}&password=${encodeURIComponent(user.password)}`;
     return this.http.post(url, '', { headers: this.headers }).toPromise();
   }
   getUserInfo(token): Observable<UserProfile> {
