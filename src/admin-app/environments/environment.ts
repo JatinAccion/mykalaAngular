@@ -9,7 +9,7 @@ export const environment = {
   // productApi: 'http://192.168.169.185:9089/api',
   // productApi: 'http://qa-product-service.us-west-1.elasticbeanstalk.com/api',
   productApi: 'http://dev-product-service.us-east-2.elasticbeanstalk.com/api',
-  userApi: 'http://dev-user-signup.us-east-2.elasticbeanstalk.com/user/v1',
+  userApi: 'http://dev-user-signup.us-east-2.elasticbeanstalk.com/user/v1/public',
   // ordersReportApi: 'http://192.168.168.150:8090/order/v1/reports',
   ordersReportApi: 'http://dev-orderservice.us-east-1.elasticbeanstalk.com/order/v1/reports',
   // ordersApi: 'http://192.168.168.150:8090/order/v1',
