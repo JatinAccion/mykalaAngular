@@ -8,7 +8,7 @@ export const environment = {
     TaxApi: 'http://qa-retailer-service.us-west-1.elasticbeanstalk.com/tax/v1',
     //productApi: 'http://qa-product-service.us-west-1.elasticbeanstalk.com/api',
     productApi: 'http://dev-product-service.us-east-2.elasticbeanstalk.com/api',
-    userApi: 'http://qa-signup-service.us-west-1.elasticbeanstalk.com/user/v1/public',
+    userApi: 'http://qa-signup-service.us-west-1.elasticbeanstalk.com/user/v1',
     ordersReportApi: 'http://qa-order-service.us-east-1.elasticbeanstalk.com/order/v1/reports',
     // ordersApi: 'http://qa-order-service.us-east-1.elasticbeanstalk.com/order/v1',
     ordersApi: 'http://qa-order-service.us-east-1.elasticbeanstalk.com/order/v1',

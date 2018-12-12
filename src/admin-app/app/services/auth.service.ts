@@ -45,7 +45,7 @@ export class AuthService {
   //   return this.http.post(url, user, { headers: this.headers }).toPromise();
   // }
   getUserByEmail(email: string): Observable<any> {
-    const url = `${environment.userApi}/email/${email}`;
+    const url = `${environment.userApi}/public/email/${email}`;
     return this.http
       .get(`${url}`)
       .map(res => {
@@ -65,11 +65,11 @@ export class AuthService {
     return this.http.get(url, { headers: headers }).toPromise();
   }
   forgotPassword(fpModal) {
-    const url = `${environment.userApi}/${environment.apis.users.forgetPassword}`;
+    const url = `${environment.userApi}/public/${environment.apis.users.forgetPassword}`;
     return this.http.post(url, fpModal).map((res) => res.json());
   }
   resetPassword(rpModal) {
-    const url = `${environment.userApi}/${environment.apis.users.resetPassword}`;
+    const url = `${environment.userApi}/public/${environment.apis.users.resetPassword}`;
     return this.http.post(url, rpModal).map((res) => res.text());
   }
 }
