@@ -39,6 +39,11 @@ export class MailTrackOrderComponent implements OnInit {
     }
   }
   trackOrder(orderId, productId) {
+    if (!window.localStorage['token']) {
+      this.core.redirectTo(this.router.url);
+      this.router.navigateByUrl('/login');
+      return false;
+    }
     this.myOrdersService.getById(orderId).subscribe(order => {
       if (order.orderItems.filter(p => p.productId === productId).length > 0) {
         this.myOrdersService.trackOrder(this.carrier, this.trackingNumber, this.productId).subscribe((res) => {
