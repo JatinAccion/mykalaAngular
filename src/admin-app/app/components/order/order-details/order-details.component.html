@@ -49,7 +49,9 @@
             </tr>
             <tr>
                 <td>Type:</td>
-                <td>{{orderItem.product?orderItem.product.productSubCategoryName:''}},{{orderItem.product?orderItem.product.productTypeName:''}}</td>
+                <td>{{orderItem.product?orderItem.product.productSubCategoryName:''}}<span *ngIf="orderItem.product && orderItem.product.productTypeName">,
+                        {{orderItem.product.productTypeName}}</span>
+                </td>
             </tr>
             <tr>
                 <td>Delivery Method:</td>
@@ -101,7 +103,7 @@
             </tr>
             <tr>
                 <td>Ship to:</td>
-                <td>{{order.address?order.address.toString():''}}</td>
+                <td>{{order.address?order.address.toString().trim().slice(0, -1):''}}</td>
             </tr>
         </table>
     </div>
@@ -116,12 +118,15 @@
                     <div [formGroup]="fG1">
                         <div class="row pb-1">
                             <div class="col-sm-5 pr-0">
-                                <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.trackingNumber)">Tracking Number:</label>
+                                <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.trackingNumber)">Tracking
+                                    Number:</label>
                             </div>
                             <div class="col-sm-7 pl-0">
-                                <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="trackingNumber">
+                                <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern
+                                    formControlName="trackingNumber">
                                 <!--Validation-->
-                                <app-field-error-display [field]="fG1.controls.trackingNumber" [errorMsg]="errorMsgs"> </app-field-error-display>
+                                <app-field-error-display [field]="fG1.controls.trackingNumber" [errorMsg]="errorMsgs">
+                                </app-field-error-display>
                                 <!--Validation-->
                             </div>
                         </div>
@@ -130,20 +135,23 @@
                                 <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.carrier)">Carrier:</label>
                             </div>
                             <div class="col-sm-7 pl-0">
-                                <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern formControlName="carrier">
+                                <input type="text" class="form-control" aria-describedby=" " placeholder="" pattern
+                                    formControlName="carrier">
                                 <!--Validation-->
-                                <app-field-error-display [field]="fG1.controls.carrier" [errorMsg]="errorMsgs"> </app-field-error-display>
+                                <app-field-error-display [field]="fG1.controls.carrier" [errorMsg]="errorMsgs">
+                                </app-field-error-display>
                                 <!--Validation-->
                             </div>
                         </div>
                         <div class="row pb-1">
                             <div class="col-sm-5">
-                                <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.shipmentDate)">Shipment Date:</label>
+                                <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.shipmentDate)">Shipment
+                                    Date:</label>
                             </div>
                             <div class="col-sm-7 pl-0">
                                 <div class="input-group">
-                                    <input formControlName="shipmentDate" (focus)="d.open()" [minDate]="minDateInquiry" [maxDate]="maxDateInquiry" ngbDatepicker
-                                        #d="ngbDatepicker" class="form-control">
+                                    <input formControlName="shipmentDate" (focus)="d.open()" [minDate]="minDateInquiry"
+                                        [maxDate]="maxDateInquiry" ngbDatepicker #d="ngbDatepicker" class="form-control">
                                     <div class="input-group-append">
                                         <button class="btn btn-default ancProfile1" (click)="d.toggle()">
                                             <i class="fa fa-calendar" aria-hidden="true"></i>
@@ -151,7 +159,8 @@
                                     </div>
                                 </div>
                                 <!--Validation-->
-                                <app-field-error-display [field]="fG1.controls.shipmentDate" [errorMsg]="errorMsgs"> </app-field-error-display>
+                                <app-field-error-display [field]="fG1.controls.shipmentDate" [errorMsg]="errorMsgs">
+                                </app-field-error-display>
                                 <!--Validation-->
                             </div>
                         </div>
@@ -161,7 +170,8 @@
                             </div>
                             <div class="col-sm-12 ">
                                 <label *ngFor="let option of processedProducts" class="pl-5 p-1">
-                                    <input type="checkbox" [(ngModel)]="option.selected" formControlName="productSKU"> {{option.productName}}
+                                    <input type="checkbox" [(ngModel)]="option.selected" formControlName="productSKU">
+                                    {{option.productName}}
                                 </label>
                                 <!--                                  
                                    
@@ -172,7 +182,8 @@
                                     </option>
                                 </select>  -->
                                 <!--Validation-->
-                                <app-field-error-display [field]="fG1.controls.productSKU" [errorMsg]="errorMsgs"> </app-field-error-display>
+                                <app-field-error-display [field]="fG1.controls.productSKU" [errorMsg]="errorMsgs">
+                                </app-field-error-display>
                                 <!--Validation-->
                             </div>
                         </div>
@@ -188,15 +199,19 @@
             <tr *ngIf="retailerOrder.orderStatus === 'Shipped' || retailerOrder.orderStatus === 'Delivered'">
                 <td>Seller payment status :</td>
                 <!-- {{order.sellerPayment|json}} -->
-                <td>{{order.sellerPayment && order.sellerPayment.paymentStatus ? order.sellerPayment.paymentStatus:'Unpaid' }}
+                <td>{{order.sellerPayment && order.sellerPayment.paymentStatus ?
+                    order.sellerPayment.paymentStatus:'Unpaid' }}
                     <span class="float-right" *ngIf="!order.sellerPayment || (order.sellerPayment.paymentStatus !== 'PENDING' && order.sellerPayment.paymentStatus !== 'PAID')">
-                        <a class="ancDefault" (click)='sellerPayment(order.orderId, order.orderItems[0].retailerId, "PENDING")'>Pending </a>
+                        <a class="ancDefault" (click)='sellerPayment(order.orderId, order.orderItems[0].retailerId, "PENDING")'>Pending
+                        </a>
                     </span>
                     <span class="float-right ancDefault" *ngIf="!order.sellerPayment || order.sellerPayment.paymentStatus !== 'PAID'">
-                        <a class="ancDefault" (click)='sellerPayment(order.orderId, order.orderItems[0].retailerId, "PAID")'>Paid </a>
+                        <a class="ancDefault" (click)='sellerPayment(order.orderId, order.orderItems[0].retailerId, "PAID")'>Paid
+                        </a>
                     </span>
                     <span class="float-right ancDefault" *ngIf="order.sellerPayment && order.sellerPayment.paymentStatus === 'PAID'">
-                        <a class="ancDefault" (click)='sellerPayment(order.orderId, order.orderItems[0].retailerId, "PENDING")'>Pending </a>
+                        <a class="ancDefault" (click)='sellerPayment(order.orderId, order.orderItems[0].retailerId, "PENDING")'>Pending
+                        </a>
                     </span>
                 </td>
             </tr>
@@ -210,7 +225,8 @@
 <hr />
 <app-tile-member *ngIf="order && order.userId" [id]="order.userId" [orderId]="order.orderId"></app-tile-member>
 <hr />
-<app-tile-retailer *ngIf="order && order.orderItems && order.orderItems.length > 0 && order.orderItems[0].retailerId" [id]="order.orderItems[0].retailerId"></app-tile-retailer>
+<app-tile-retailer *ngIf="order && order.orderItems && order.orderItems.length > 0 && order.orderItems[0].retailerId"
+    [id]="order.orderItems[0].retailerId"></app-tile-retailer>
 <hr />
 <div *ngIf="inquirys">
     <div class="row orderdetail_row m-2" *ngFor="let inquiry of inquirys.content">
@@ -248,7 +264,8 @@
                     <td>
                         <strong>
                             <span>{{inquiry.inquiryStatus}}</span>
-                            <span *ngIf="inquiry.resolutionType != undefined && inquiry.resolutionType != null && inquiry.resolutionType != ''">, {{inquiry.resolutionType}}</span>
+                            <span *ngIf="inquiry.resolutionType != undefined && inquiry.resolutionType != null && inquiry.resolutionType != ''">,
+                                {{inquiry.resolutionType}}</span>
                         </strong>
                     </td>
                 </tr>
@@ -284,7 +301,8 @@
         </div>
         <div class="col-sm-2">
             <p>
-                <a class="btn_red_right  w-100" target="_blank" [routerLink]="['../inquiry-edit', inquiry.supportId]">edit inquiry</a>
+                <a class="btn_red_right  w-100" target="_blank" [routerLink]="['../inquiry-edit', inquiry.supportId]">edit
+                    inquiry</a>
             </p>
             <!-- <p *ngIf="seller">
                 <a class="btn_redouter_right w-100" [routerLink]="['../retailer-edit', seller.retailerId]">edit account</a>

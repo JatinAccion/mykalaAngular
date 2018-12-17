@@ -23,7 +23,7 @@ export class Inquiry {
   public inquiryStatus: string;
   public notes: string[];
   public resolvedInquiryStatus: string;
-  public resolutionDate: string;
+  public resolutionDate: any;
   public resolutionType: string;
   public resolutionDescription: string;
   public retailerId: string;

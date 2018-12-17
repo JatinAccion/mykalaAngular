@@ -94,7 +94,7 @@ export class OrderDetailsComponent implements OnInit {
           this.core.message.success(userMessages.success);
           // Old Code :  this.retailerOrder.orderShippedDate = new Date(this.shippingTracking.shipmentDate);
           let newShippedDate = new Date(this.shippingTracking.shipmentDate);
-          this.retailerOrder.orderShippedDate = new Date(newShippedDate.getFullYear() + '/' + (newShippedDate.getMonth() + 1) + '/' + newShippedDate.getDate() + ' ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds());
+          this.retailerOrder.orderShippedDate = new Date(newShippedDate.getFullYear() + '/' + (newShippedDate.getMonth() + 1) + '/' + newShippedDate.getDate());
           this.shippingTracking.productIds.forEach(p => {
             this.retailerOrder._ProductStatusShipped = p;
             const product = this.retailerOrder.products.firstOrDefault(q => q.productId === p);
@@ -123,7 +123,7 @@ export class OrderDetailsComponent implements OnInit {
     this.shippingTracking.carrier = form.carrier;
     //this.shippingTracking.shipmentDate = this.toDate(form.shipmentDate);
     let newShipmentDate = new Date(this.toDate(form.shipmentDate));
-    this.shippingTracking.shipmentDate = new Date(newShipmentDate.getFullYear() + '/' + (newShipmentDate.getMonth() + 1) + '/' + newShipmentDate.getDate() + ' ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds())
+    this.shippingTracking.shipmentDate = new Date(newShipmentDate.getFullYear() + '/' + (newShipmentDate.getMonth() + 1) + '/' + newShipmentDate.getDate());
     this.shippingTracking.productSKU = this.products.filter(p => this.processedProducts.firstOrDefault(q => q.productId === p.kalaUniqueId && q.selected)).map(p => p.productSkuCode);
     this.shippingTracking.productIds = this.products.filter(p => this.processedProducts.firstOrDefault(q => q.productId === p.kalaUniqueId && q.selected)).map(p => p.kalaUniqueId);
   }
@@ -203,8 +203,9 @@ export class OrderDetailsComponent implements OnInit {
   sellerPayment(orderId, retailerId, status) {
     //Old Code const sellerPayment = { orderId: orderId, retailerId: retailerId, paymentStatus: status, paymentType: 'MANUAL', retailerName: this.seller.businessName, paymentDate: this.toDate(new Date()) };
     let sellerPayment = {};
+    let newPD = new Date();
     if (status == "PENDING") sellerPayment = { orderId: orderId, retailerId: retailerId, paymentStatus: status, paymentType: 'MANUAL', retailerName: this.seller.businessName, paymentDate: null };
-    else sellerPayment = { orderId: orderId, retailerId: retailerId, paymentStatus: status, paymentType: 'MANUAL', retailerName: this.seller.businessName, paymentDate: new Date() };
+    else sellerPayment = { orderId: orderId, retailerId: retailerId, paymentStatus: status, paymentType: 'MANUAL', retailerName: this.seller.businessName, paymentDate: new Date(newPD.getFullYear() + '/' + (newPD.getMonth() + 1) + '/' + newPD.getDate()) };
     this.orderService
       .saveSellerPayment(sellerPayment)
       .subscribe((res) => {
