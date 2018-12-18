@@ -166,14 +166,14 @@ export class ReviewsReportComponent implements OnInit {
       }
     },
     scales:
-      {
-        xAxes: [{
-          gridLines: {
-            display: false,
-          },
-          display: false
-        }]
-      }
+    {
+      xAxes: [{
+        gridLines: {
+          display: false,
+        },
+        display: false
+      }]
+    }
   };
 
   constructor(private reportsService: ReportsService, ) {
@@ -217,8 +217,14 @@ export class ReviewsReportComponent implements OnInit {
       if (this.reportModel === 'Monthly') {
         const reportData = new Array<any>();
         date = new Date(this.currentYear, this.currentMonth, 1);
-        year = this.currentYear - 1;
-        month = this.currentMonth + 1;
+        if (month == 12) {
+          year = year;
+          month = 1
+        }
+        else {
+          year = this.currentYear - 1;
+          month = this.currentMonth + 1;
+        }
         for (let i = 0; i < 12; i++) {
           monthLabels.push({ month: month - 1, year: year });
           const filter = res[1].avgReviewCount.filter(p => p.month === month);
@@ -384,14 +390,14 @@ export class ReviewsReportComponent implements OnInit {
     }
 
     widget.value = widget.values[widget.index];
-    date = new Date(widget.year, widget.month, 1);
+    date = new Date(widget.year, widget.month - 1, 1);
     if (this.reportModel !== 'Monthly') {
       date.setFullYear(widget.year + incr);
     } else {
-      date.setMonth(widget.month + incr);
+      date.setMonth(widget.month - 1 + incr);
     }
     widget.year = date.getFullYear();
-    widget.month = date.getMonth() || 0;
+    widget.month = date.getMonth() + 1;
     widget.monthName = this.dateUtils.getMonthName(widget.month || 12);
   }
   getPage(page: number) {

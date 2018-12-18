@@ -278,8 +278,16 @@ export class ReportsService {
   }
   getPrev12Months(year: number, month: number) {
     const reportData = new Array<ReviewItem>();
-    let _year = year - 1;
-    let _month = month + 1;
+    let _year;
+    let _month;
+    if (month == 12) {
+      _month = 1;
+      _year = year;
+    }
+    else {
+      _year = year - 1;
+      _month = month + 1;
+    }
     for (let i = 0; i < 12; i++) {
       reportData.push(new ReviewItem({ year: _year, month: _month }));
       if (_month === 12) {

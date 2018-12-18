@@ -111,14 +111,14 @@ export class PaymentsReportComponent implements OnInit {
       case 'manual': widget = this.widget.manual; break;
       case 'pending': widget = this.widget.pending; break;
     }
-    date = new Date(widget.year, widget.month, 1);
+    date = new Date(widget.year, widget.month - 1, 1);
     if (this.reportModel !== 'Monthly') {
       date.setFullYear(widget.year + incr);
     } else {
-      date.setMonth(widget.month + incr);
+      date.setMonth(widget.month - 1 + incr);
     }
     widget.year = date.getFullYear();
-    widget.month = date.getMonth() || 0;
+    widget.month = date.getMonth() + 1;
     widget.monthName = this.dateUtils.getMonthName(widget.month || 12);
     this.reportsService.getPaymentCounts(widget.widgetType, widget.year.toString(), this.reportModel !== 'Monthly' ? '' : (widget.month).toString()).subscribe((res) => { widget.value = res.values; });
     // this.getDetails(type);

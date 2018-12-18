@@ -215,8 +215,14 @@ export class InquiriesReportComponent implements OnInit {
       const yearLabels = Array.apply(null, { length: this.reportYears }).fill(this.currentYear).map((p, i) => p - i).reverse();
       if (this.reportModel === 'Monthly') {
         const reportData = new Array<any>();
-        year = this.currentYear - 1;
-        month = this.currentMonth + 1;
+        if (month == 12) {
+          year = year;
+          month = 1;
+        }
+        else {
+          year = this.currentYear - 1;
+          month = this.currentMonth + 1;
+        }
         this.widget.one.values = [];
         this.widget.two.values = [];
         this.widget.three.values = [];
@@ -281,14 +287,14 @@ export class InquiriesReportComponent implements OnInit {
     }
 
     widget.value = widget.values[widget.index];
-    date = new Date(widget.year, widget.month, 1);
+    date = new Date(widget.year, widget.month - 1, 1);
     if (this.reportModel !== 'Monthly') {
       date.setFullYear(widget.year + incr);
     } else {
-      date.setMonth(widget.month + incr);
+      date.setMonth(widget.month - 1 + incr);
     }
     widget.year = date.getFullYear();
-    widget.month = date.getMonth() || 0;
+    widget.month = date.getMonth() + 1;
     widget.monthName = this.dateUtils.getMonthName(widget.month || 12);
   }
   getDetails(type) {
