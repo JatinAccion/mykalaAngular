@@ -352,8 +352,16 @@ export class InquiriesReportComponent implements OnInit {
     this.loading = true;
     this.reportsService.getInquiriesSummary(this.summaryInquiryType, this.summaryInquiryCategory, this.summaryYear.toString(), this.reportModel === 'Monthly' ? this.summaryMonth.toString() : '').subscribe(res => {
       this.retailerInquiriesSummary = res;
-      let month = this.summaryMonth + 1;
-      let year = this.summaryYear - 1;
+      let month;
+      let year;
+      if (this.summaryMonth == 12) {
+        month = 1;
+        year = this.summaryYear;
+      }
+      else {
+        month = this.summaryMonth + 1;
+        year = this.summaryYear - 1;
+      }
       const monthLabels = [];
       const yearLabels = Array.apply(null, { length: this.reportYears }).fill(this.summaryYear).map((p, i) => p - i).reverse();
       let data = [];
