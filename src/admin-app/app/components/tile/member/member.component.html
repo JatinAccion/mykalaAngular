@@ -22,7 +22,7 @@
                 <td>{{consumer.emailId}}</td>
             </tr>
             <tr>
-                <td class="w-50">{{consumer.address && consumer.address.length>0?consumer.address[0].toString():''}}</td>
+                <td class="w-50">{{consumer.address && consumer.address.length>0?consumer.address[0].toString().trim().slice(0, -1):''}}</td>
             </tr>
         </table>
     </div>
