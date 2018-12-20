@@ -22,7 +22,6 @@ export class AppComponent implements OnInit {
     }
 
     urlManipulation() {
-        debugger;
         this.acutalURL = location.href;
         if ((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i))) {
             let customURL = `${'mykala://' + this.acutalURL}`

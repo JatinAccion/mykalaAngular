@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { VerificationService } from '../../services/verification.service';
 import { userMessages } from './verification.messages';
-import { Router, RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet, ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -18,11 +18,12 @@ export class ThankMessageComponent implements OnInit {
   constructor(
     private verification: VerificationService,
     private routerOutlet: RouterOutlet,
-    private router: Router
+    private router: Router,
+    private ar: ActivatedRoute
   ) { }
 
   ngOnInit() {
-    this.token = window.location.href.split('=')[1];
+    this.token = this.ar.snapshot.queryParams['token'];
     this.verification.getVerified(this.token).subscribe((data) => {
       this.verficationStatus = data;
       setTimeout(() => {
