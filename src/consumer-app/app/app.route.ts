@@ -170,7 +170,7 @@ const appRoutes: Routes = [
         canActivate: [EnsureAuthenticated]
     },
     {
-        path: 'thank',
+        path: 'token/:tokenId/thank',
         component: ThankMessageComponent,
         data: { header: 'header1' }
     },

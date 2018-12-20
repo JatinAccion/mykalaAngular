@@ -19,11 +19,12 @@ export class ThankMessageComponent implements OnInit {
     private verification: VerificationService,
     private routerOutlet: RouterOutlet,
     private router: Router,
-    private ar: ActivatedRoute
-  ) { }
+    route: ActivatedRoute,
+  ) {
+    this.token = route.snapshot.params['token'];
+  }
 
   ngOnInit() {
-    this.token = this.ar.snapshot.queryParams['token'];
     this.verification.getVerified(this.token).subscribe((data) => {
       this.verficationStatus = data;
       setTimeout(() => {
