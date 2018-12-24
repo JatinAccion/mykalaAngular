@@ -49,6 +49,7 @@ export class InquiryListComponent implements OnInit {
       this.inquirys = res;
       this.inquirys.content = this.inquirys.content.filter(item => item.stringInquiryDate = new Date(item.stringInquiryDate))
       this.inquirys.content = this.inquirys.content.filter(item => item.stringResolutionDate = new Date(item.stringResolutionDate))
+      this.inquirys.content = this.inquirys.content.filter(item => item.stringOrderDate = new Date(item.stringOrderDate))
       this.loading = false;
     });
   }

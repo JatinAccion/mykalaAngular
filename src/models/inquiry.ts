@@ -35,6 +35,7 @@ export class Inquiry {
   public isCollapsed = true;
   public stringInquiryDate: any;
   public stringResolutionDate: any;
+  public stringOrderDate: any;
   constructor(obj?: any) {
     if (obj) {
       this.supportId = obj.supportId;
@@ -67,6 +68,7 @@ export class Inquiry {
       this.modifiedDate = obj.modifiedDate;
       this.stringInquiryDate = obj.stringInquiryDate;
       this.stringResolutionDate = obj.stringResolutionDate;
+      this.stringOrderDate = obj.stringOrderDate;
     }
   }
 }

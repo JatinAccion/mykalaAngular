@@ -151,6 +151,8 @@ export class InquiryAddComponent implements OnInit {
       } else {
         this.inquiry.customerId = this.order.userId;
         this.inquiry.orderDate = this.toDate(this.order.purchasedDate);
+        let stringOrderDate = this.fromDate(this.order.purchasedDate);
+        this.inquiry.stringOrderDate = stringOrderDate.month + '/' + stringOrderDate.day + '/' + stringOrderDate.year;
         this.minDateInquiry = this.fromDate(this.order.purchasedDate);
         this.minDateResolution = this.fromDate(this.order.purchasedDate);
         this.inquiry.customerName = this.order.customerName;
