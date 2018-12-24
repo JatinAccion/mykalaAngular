@@ -242,6 +242,7 @@ export class InquiryAddComponent implements OnInit {
     this.inquiry.otherTypeDesc = form.inquiryTypeOther;
     // this.inquiry.inquiryDate = this.toDate(form.inquiryDate);
     let inquiryDate = new Date(this.toDate(form.inquiryDate));
+    this.inquiry.stringInquiryDate = form.inquiryDate.month + '/' + form.inquiryDate.day + '/' + form.inquiryDate.year;
     this.inquiry.inquiryDate = new Date(inquiryDate.getFullYear() + '/' + (inquiryDate.getMonth() + 1) + '/' + inquiryDate.getDate())
     this.inquiry.inquiryCategory = form.inquiryCategory;
     this.inquiry.otherCategoryDesc = form.inquiryCategoryOther;
@@ -252,7 +253,10 @@ export class InquiryAddComponent implements OnInit {
     this.inquiry.notes = [form.inquiryNotes];
     this.inquiry.resolvedInquiryStatus = form.resolutionOutcome;
     this.inquiry.resolutionDate = this.toDate(form.resolutionDate);
-    if (this.inquiry.resolutionDate) this.inquiry.resolutionDate = new Date(new Date(this.inquiry.resolutionDate).getFullYear() + '/' + (new Date(this.inquiry.resolutionDate).getMonth() + 1) + '/' + new Date(this.inquiry.resolutionDate).getDate());
+    if (this.inquiry.resolutionDate) {
+      this.inquiry.resolutionDate = new Date(new Date(this.inquiry.resolutionDate).getFullYear() + '/' + (new Date(this.inquiry.resolutionDate).getMonth() + 1) + '/' + new Date(this.inquiry.resolutionDate).getDate());
+      this.inquiry.stringResolutionDate = form.resolutionDate.month + '/' + form.resolutionDate.day + '/' + form.resolutionDate.year;
+    }
     this.inquiry.resolutionType = form.resolutionType;
     this.inquiry.resolutionDescription = form.resolutionDescription;
     this.inquiry.resolutionNotes = [form.resolutionNotes];

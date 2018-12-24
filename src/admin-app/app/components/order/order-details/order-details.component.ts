@@ -95,6 +95,7 @@ export class OrderDetailsComponent implements OnInit {
           // Old Code :  this.retailerOrder.orderShippedDate = new Date(this.shippingTracking.shipmentDate);
           let newShippedDate = new Date(this.shippingTracking.shipmentDate);
           this.retailerOrder.orderShippedDate = new Date(newShippedDate.getFullYear() + '/' + (newShippedDate.getMonth() + 1) + '/' + newShippedDate.getDate());
+          this.retailerOrder.stringShipmentDate = this.shippingTracking.stringShipmentDate;
           this.shippingTracking.productIds.forEach(p => {
             this.retailerOrder._ProductStatusShipped = p;
             const product = this.retailerOrder.products.firstOrDefault(q => q.productId === p);
@@ -102,6 +103,7 @@ export class OrderDetailsComponent implements OnInit {
             const orderItem = this.order.orderItems.firstOrDefault(q => q.productId === p);
             orderItem.trackingNumber = this.shippingTracking.trackingNumber;
             orderItem.shipTrackingId = this.shippingTracking.trackingNumber;
+            orderItem.stringShipmentDate = this.shippingTracking.stringShipmentDate;
           });
           this.retailerOrder.orderStatus = this.retailerOrder._OrderStatus;
           this.retailerOrderChange.emit(this.retailerOrder);
@@ -124,6 +126,7 @@ export class OrderDetailsComponent implements OnInit {
     //this.shippingTracking.shipmentDate = this.toDate(form.shipmentDate);
     let newShipmentDate = new Date(this.toDate(form.shipmentDate));
     this.shippingTracking.shipmentDate = new Date(newShipmentDate.getFullYear() + '/' + (newShipmentDate.getMonth() + 1) + '/' + newShipmentDate.getDate());
+    this.shippingTracking.stringShipmentDate = form.shipmentDate.month + '/' + form.shipmentDate.day + '/' + form.shipmentDate.year;
     this.shippingTracking.productSKU = this.products.filter(p => this.processedProducts.firstOrDefault(q => q.productId === p.kalaUniqueId && q.selected)).map(p => p.productSkuCode);
     this.shippingTracking.productIds = this.products.filter(p => this.processedProducts.firstOrDefault(q => q.productId === p.kalaUniqueId && q.selected)).map(p => p.kalaUniqueId);
   }
@@ -172,6 +175,7 @@ export class OrderDetailsComponent implements OnInit {
           const orderItem = this.order.orderItems.firstOrDefault(q => q.productId === p.kalaUniqueId);
           if (orderItem) {
             orderItem.product = p;
+            orderItem.stringShipmentDate = new Date(orderItem.stringShipmentDate);
           }
         });
 

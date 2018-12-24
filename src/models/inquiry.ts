@@ -33,6 +33,8 @@ export class Inquiry {
   public modifiedDate: string;
   public resolutionNotes: string[];
   public isCollapsed = true;
+  public stringInquiryDate: any;
+  public stringResolutionDate: any;
   constructor(obj?: any) {
     if (obj) {
       this.supportId = obj.supportId;
@@ -63,6 +65,8 @@ export class Inquiry {
       this.consumerId = obj.consumerId;
       this.createdDate = obj.createdDate;
       this.modifiedDate = obj.modifiedDate;
+      this.stringInquiryDate = obj.stringInquiryDate;
+      this.stringResolutionDate = obj.stringResolutionDate;
     }
   }
 }

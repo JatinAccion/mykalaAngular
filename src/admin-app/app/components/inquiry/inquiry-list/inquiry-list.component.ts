@@ -47,6 +47,8 @@ export class InquiryListComponent implements OnInit {
     if (this.search === '' || this.searchType !== 'Order Number') { delete searchParams.orderId; }
     this.inquiryService.get(searchParams).subscribe(res => {
       this.inquirys = res;
+      this.inquirys.content = this.inquirys.content.filter(item => item.stringInquiryDate = new Date(item.stringInquiryDate))
+      this.inquirys.content = this.inquirys.content.filter(item => item.stringResolutionDate = new Date(item.stringResolutionDate))
       this.loading = false;
     });
   }

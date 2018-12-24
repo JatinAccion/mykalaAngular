@@ -83,7 +83,7 @@ export class RetailerOrder {
   orderProcessedDate: Date;
   orderShippedDate: Date;
   orderDeliveredDate: Date;
-
+  stringShipmentDate: any;
   isCollapsed: boolean;
 
   constructor(obj?: any) {
@@ -101,6 +101,7 @@ export class RetailerOrder {
       this.orderProcessedDate = obj.orderProcessedDate;
       this.orderShippedDate = obj.orderShippedDate;
       this.orderDeliveredDate = obj.orderDeliveredDate;
+      this.stringShipmentDate = obj.stringShipmentDate;
       if (obj.products) {
         this.products = obj.products.map(p => new ProductOrderStatus(p));
         this.orderStatus = this._OrderStatus;
@@ -246,6 +247,7 @@ export class ReportOrderItem {
   orderProcessedDate: Date;
   orderShippedDate: Date;
   orderDeliveredDate: Date;
+  stringShipmentDate: any;
   constructor(obj?: any) {
     if (obj) {
       this.productId = obj.productId;
@@ -266,6 +268,7 @@ export class ReportOrderItem {
       this.orderProcessedDate = obj.orderProcessedDate;
       this.orderShippedDate = obj.orderShippedDate;
       this.orderDeliveredDate = obj.orderDeliveredDate;
+      this.stringShipmentDate = obj.stringShipmentDate;
     }
   }
 }
@@ -423,6 +426,7 @@ export class ShippingTracking {
   public productSKU: Array<string>;
   public productIds: Array<string>;
   public shipmentDate: any; // "2018-05-16"
+  public stringShipmentDate: any;
   constructor(obj?: any) {
     this.productSKU = new Array<string>();
     this.productIds = new Array<string>();
@@ -438,6 +442,7 @@ export class ShippingTracking {
         this.productIds = obj.productIds;
       }
       this.shipmentDate = obj.shipmentDate;
+      this.stringShipmentDate = obj.stringShipmentDate;
     }
   }
 }
