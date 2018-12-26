@@ -21,6 +21,7 @@ export class CoreService {
   dialogResponse = new Subject<string>();
   session: any;
   refreshingSession: boolean = false;
+  stripe = Stripe(environment.stripePK);
 
   constructor(private toastr: ToastrService, private http: Http, private localStorageService: LocalStorageService, private route: Router) {
     if (window.localStorage['token'] != undefined) this.startTokenValidation()

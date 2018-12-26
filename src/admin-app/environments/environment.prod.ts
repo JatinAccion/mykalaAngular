@@ -15,7 +15,7 @@ export const environment = {
     paymentApi: 'http://qa-order-service.us-east-1.elasticbeanstalk.com/payment/v1',
     consumerApi: 'http://qa-consumer-service.us-west-1.elasticbeanstalk.com',
     InquiryApi: 'http://qa-retailer-service.us-west-1.elasticbeanstalk.com/retailer/v1',
-    stripePK: 'pk_test_9th9u2YsJ2y1ms60AgtpXoMS',
+    stripePK: 'pk_test_pNeF3FuRWQ99HxWEMvVbLlKN',
     apis: apiNames,
     regex: regexPatterns,
     commonMsg: commonMessages

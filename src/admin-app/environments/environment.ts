@@ -21,7 +21,7 @@ export const environment = {
   // consumerApi: 'http://192.168.169.185:6090',
   // InquiryApi: 'http://192.168.168.150:8099/retailer/v1',
   InquiryApi: 'http://dev-retailer-service-mongo.us-east-1.elasticbeanstalk.com/retailer/v1',
-  stripePK: 'pk_test_9th9u2YsJ2y1ms60AgtpXoMS',
+  stripePK: 'pk_test_pNeF3FuRWQ99HxWEMvVbLlKN',
   apis: apiNames,
   regex: regexPatterns,
   commonMsg: commonMessages

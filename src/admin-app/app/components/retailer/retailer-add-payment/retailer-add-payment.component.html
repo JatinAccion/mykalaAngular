@@ -280,7 +280,7 @@
             <i class="fa fa-repeat fa-spin" aria-hidden="true" *ngIf="paymentSaveloader"></i>
         </button>        
     </div>
-    <div class="col-sm-6 text-right" *ngIf="paymentInfoStep!==1 && activateStripe && reActivateStripe">
+    <div class="col-sm-6 text-right" *ngIf="paymentInfoStep!==1 && activateStripe && reActivateStripe && stripeInegrated">
         <button (click)="stripe()" class="btn btn-default ancProfile1" [disabled]="paymentSaveloader">Update / Register Your Account with Stripe
             <i class="fa fa-repeat fa-spin" aria-hidden="true" *ngIf="paymentSaveloader"></i>
         </button>        

@@ -362,7 +362,8 @@ export class RetailerAddPaymentComponent implements OnInit {
       this.paymentInfoNext();
     } else {
       if (this.reActivateStripe) {
-        if (this.updateExternalAccount) {
+        //this.updateExternalAccount && !this.stripeInegrated
+        if (!this.stripeInegrated) {
           this.processStripeWithToken();
         } else {
           this.processStripeWithNoToken();
@@ -375,7 +376,7 @@ export class RetailerAddPaymentComponent implements OnInit {
   async processStripeWithToken() {
     if (this.paymentInfoObj.stripeToken === undefined) {
       this.paymentSaveloader = true;
-      stripe.createToken('bank_account', {
+      this.core.stripe.createToken('bank_account', {
         country: 'US',
         currency: 'usd',
         routing_number: this.paymentInfoObj.bankABARoutingNumber,
@@ -417,7 +418,7 @@ export class RetailerAddPaymentComponent implements OnInit {
   }
 
   addSellerAccount(stripePaymnentObj: StripePayment) {
-    this.retialerService.addSellerAccount(stripePaymnentObj, this.reActivateStripe).subscribe(p => {
+    this.retialerService.addSellerAccount(stripePaymnentObj, this.reActivateStripe, this.stripeInegrated).subscribe(p => {
       this.core.message.success(userMessages.stripe_integration_completed);
       this.paymentInfoObj.stripeConnectAccountId = p;
       this.paymentInfoObj.bankAccountNumber = this.paymentInfoObj.bankAccountNumber.substr(this.paymentInfoObj.bankAccountNumber.length - 4);
