@@ -1,5 +1,5 @@
 <!-- <form class="divPayemnt1"> -->
-<div [formGroup]="paymentFG1" [ngClass]="{'show': paymentInfoStep==1, 'hide': paymentInfoStep!==1 }">
+<form novalidate [formGroup]="paymentFG1" [ngClass]="{'show': paymentInfoStep==1, 'hide': paymentInfoStep!==1 }">
     <div class="form-group">
         <label class="control-label" [ngClass]="validatorExt.displayFieldCss(paymentFG1.controls.paymentMethod)">Payment Method</label>
         <select class="ddl_default w-100 form-control" formControlName="paymentMethod" (change)="paymentMethodChange()">
@@ -97,7 +97,7 @@
         </div>
     </div>
     <hr />
-</div>
+</form>
 
 <div [formGroup]="paymentFG2" [ngClass]="{'show': paymentInfoStep==2, 'hide': paymentInfoStep!==2  }">
     <div class="form-group">
