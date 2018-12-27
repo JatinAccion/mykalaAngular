@@ -1,10 +1,14 @@
-<div [formGroup]="fG1">
+<form novalidate [formGroup]="fG1">
     <div class="row">
         <div class="form-group col-sm-12 pt-2">
-            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.productName)">Product name:</label>
-            <small class="float-right">{{ validatorExt.remainingCharacters(fG1.controls.productName, 250) }} characters left</small>
-            <input type="text" class="form-control" placeholder="" pattern [(ngModel)]="product.productName" formControlName="productName">
-            <app-field-error-display [field]="fG1.controls.productName" [errorMsg]="errorMsgs"> </app-field-error-display>
+            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.productName)">Product
+                name:</label>
+            <small class="float-right">{{ validatorExt.remainingCharacters(fG1.controls.productName, 250) }} characters
+                left</small>
+            <input type="text" class="form-control" placeholder="" pattern [(ngModel)]="product.productName"
+                formControlName="productName">
+            <app-field-error-display [field]="fG1.controls.productName" [errorMsg]="errorMsgs">
+            </app-field-error-display>
         </div>
         <!-- <div class="form-group col-sm-12 pt-2">
             <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.brandName)">Brand name:</label>
@@ -13,59 +17,82 @@
             <app-field-error-display [field]="fG1.controls.brandName" [errorMsg]="errorMsgs"> </app-field-error-display>
         </div> -->
         <div class="form-group col-sm-12 pt-2">
-            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.productSkuCode)">SKU code:</label>
-            <input type="text" class="form-control" [(ngModel)]="product.productSkuCode" placeholder="" pattern formControlName="productSkuCode">
-            <app-field-error-display [field]="fG1.controls.productSkuCode" [errorMsg]="errorMsgs"> </app-field-error-display>
+            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.productSkuCode)">SKU
+                code:</label>
+            <input type="text" class="form-control" [(ngModel)]="product.productSkuCode" placeholder="" pattern
+                formControlName="productSkuCode">
+            <app-field-error-display [field]="fG1.controls.productSkuCode" [errorMsg]="errorMsgs">
+            </app-field-error-display>
         </div>
         <div class="form-group col-sm-12 pt-2">
-            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.productUpcCode)">UPC code:</label>
-            <input type="text" class="form-control" [(ngModel)]="product.productUpcCode" placeholder="" pattern formControlName="productUpcCode">
-            <app-field-error-display [field]="fG1.controls.productUpcCode" [errorMsg]="errorMsgs"> </app-field-error-display>
+            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.productUpcCode)">UPC
+                code:</label>
+            <input type="text" class="form-control" [(ngModel)]="product.productUpcCode" placeholder="" pattern
+                formControlName="productUpcCode">
+            <app-field-error-display [field]="fG1.controls.productUpcCode" [errorMsg]="errorMsgs">
+            </app-field-error-display>
         </div>
         <div class="form-group col-sm-12 pt-2">
             <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.productDescription)">Description:</label>
-            <small class="float-right">{{ validatorExt.remainingCharacters(fG1.controls.productDescription, 1000) }} characters left</small>
-            <textarea class="form-control" [(ngModel)]="product.productDescription" placeholder="" pattern formControlName="productDescription"></textarea>
-            <app-field-error-display [field]="fG1.controls.productDescription" [errorMsg]="errorMsgs"> </app-field-error-display>
+            <small class="float-right">{{ validatorExt.remainingCharacters(fG1.controls.productDescription, 1000) }}
+                characters left</small>
+            <textarea class="form-control" [(ngModel)]="product.productDescription" placeholder="" pattern
+                formControlName="productDescription"></textarea>
+            <app-field-error-display [field]="fG1.controls.productDescription" [errorMsg]="errorMsgs">
+            </app-field-error-display>
         </div>
         <div class="form-group col-sm-12 pt-2">
-            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.quantity)">Available quantity:</label>
-            <input type="number" class="form-control" [(ngModel)]="product.quantity" min='0' placeholder="" pattern formControlName="quantity">
+            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.quantity)">Available
+                quantity:</label>
+            <input type="number" class="form-control" [(ngModel)]="product.quantity" min='0' placeholder="" pattern
+                formControlName="quantity">
             <app-field-error-display [field]="fG1.controls.quantity" [errorMsg]="errorMsgs"> </app-field-error-display>
         </div>
         <div class="form-group col-sm-12 pt-2">
             <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.weight)">Product Weight:</label>
             <div class="input-group">
-                <input type="number" class="form-control" [(ngModel)]="product.weight" min='0' placeholder="" pattern formControlName="weight">
+                <input type="number" class="form-control" [(ngModel)]="product.weight" min='0' placeholder="" pattern
+                    formControlName="weight">
                 <select class="input-group-addon" [(ngModel)]="product.weightunit" formControlName="weightunit">
-                    <option value="lbs" >pounds</option>
-                    <option value="oz" >ounces</option>
+                    <option value="lbs">pounds</option>
+                    <option value="oz">ounces</option>
                 </select>
             </div>
             <app-field-error-display [field]="fG1.controls.weight" [errorMsg]="errorMsgs"> </app-field-error-display>
-            <app-field-error-display [field]="fG1.controls.weightunit" [errorMsg]="errorMsgs"> </app-field-error-display>
+            <app-field-error-display [field]="fG1.controls.weightunit" [errorMsg]="errorMsgs">
+            </app-field-error-display>
         </div>
         <div class="form-group col-sm-12 pt-2">
-            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.length)">Product Dimensions: </label>
+            <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.length)">Product
+                Dimensions: </label>
             <div class="form-group pl-2 pt-2">
-                <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.length)">Length: </label>
+                <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.length)">Length:
+                </label>
                 <div class="input-group">
-                    <input type="number" class="form-control" [(ngModel)]="product.length" min='0' placeholder="" pattern formControlName="length">
+                    <input type="number" class="form-control" [(ngModel)]="product.length" min='0' placeholder=""
+                        pattern formControlName="length">
                     <select class="input-group-addon" [(ngModel)]="product.dimensionunit" formControlName="dimensionunit">
                         <option>inches</option>
                     </select>
                 </div>
-                <app-field-error-display [field]="fG1.controls.length" [errorMsg]="errorMsgs"> </app-field-error-display>
-                <app-field-error-display [field]="fG1.controls.dimensionunit" [errorMsg]="errorMsgs"> </app-field-error-display>
+                <app-field-error-display [field]="fG1.controls.length" [errorMsg]="errorMsgs">
+                </app-field-error-display>
+                <app-field-error-display [field]="fG1.controls.dimensionunit" [errorMsg]="errorMsgs">
+                </app-field-error-display>
             </div>
             <div class="form-group pl-2 pt-2">
-                <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.height)">Height: </label>
-                <input type="number" class="form-control" [(ngModel)]="product.height" min='0' placeholder="" pattern formControlName="height">
-                <app-field-error-display [field]="fG1.controls.height" [errorMsg]="errorMsgs"> </app-field-error-display>
+                <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.height)">Height:
+                </label>
+                <input type="number" class="form-control" [(ngModel)]="product.height" min='0' placeholder="" pattern
+                    formControlName="height">
+                <app-field-error-display [field]="fG1.controls.height" [errorMsg]="errorMsgs">
+                </app-field-error-display>
             </div>
             <div class="form-group pl-2 pt-2">
-                <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.width)">Width: </label>
-                <input type="number" class="form-control" [(ngModel)]="product.width" min='0' placeholder="" pattern formControlName="width">
+                <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.width)">Width:
+                </label>
+                <input type="number" class="form-control" [(ngModel)]="product.width" min='0' placeholder="" pattern
+                    formControlName="width">
                 <app-field-error-display [field]="fG1.controls.width" [errorMsg]="errorMsgs"> </app-field-error-display>
             </div>
         </div>
@@ -77,4 +104,4 @@
         </div>
     </div>
 
-</div>
+</form>
