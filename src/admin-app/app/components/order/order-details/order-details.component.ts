@@ -175,7 +175,7 @@ export class OrderDetailsComponent implements OnInit {
           const orderItem = this.order.orderItems.firstOrDefault(q => q.productId === p.kalaUniqueId);
           if (orderItem) {
             orderItem.product = p;
-            orderItem.stringShipmentDate = new Date(orderItem.stringShipmentDate);
+            if (orderItem.stringShipmentDate) orderItem.stringShipmentDate = new Date(orderItem.stringShipmentDate);
           }
         });
 
