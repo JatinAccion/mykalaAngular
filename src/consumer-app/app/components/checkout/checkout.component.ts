@@ -431,7 +431,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selectedAddressDetails = address;
     let resShippingResponse = [];
     for (var i = 0; i < this.itemsInCart.length; i++) {
-      this.checkout.getShippingMethods(address.state, this.itemsInCart[i].shipProfileId, this.itemsInCart[i].quantity, this.itemsInCart[i].weight, this.itemsInCart[i].price, this.itemsInCart[i].length, this.itemsInCart[i].height, this.itemsInCart[i].width).subscribe((res) => {
+      this.checkout.getShippingMethods(address.state, this.itemsInCart[i].shipProfileId, this.itemsInCart[i].quantity, this.itemsInCart[i].shippingWeight, this.itemsInCart[i].price, this.itemsInCart[i].shippingLength, this.itemsInCart[i].shippingHeight, this.itemsInCart[i].shippingWidth).subscribe((res) => {
         resShippingResponse.push({
           shippingProfileId: res.shippingProfileId,
           shippingOriginAddress: res.shippingOriginAddress

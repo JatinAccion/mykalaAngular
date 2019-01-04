@@ -15,10 +15,10 @@ export class AddToCart {
     public productUPCCode: number;
     public label: string;
     public userId: string;
-    public height: number;
-    public length: number;
-    public weight: number;
-    public width: number;
+    public shippingHeight: number;
+    public shippingLength: number;
+    public shippingWeight: number;
+    public shippingWidth: number;
     public orderFrom: string;
     public productHierarchy: string;
     public productAttributes: string;

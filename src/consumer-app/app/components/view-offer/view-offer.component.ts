@@ -215,10 +215,10 @@ export class ViewOfferComponent implements OnInit {
     this.addToCartModal.taxCode = this.selectedProduct.product.taxCode;
     this.addToCartModal.productSKUCode = this.selectedProduct.product.productSkuCode;
     this.addToCartModal.productUPCCode = this.selectedProduct.product.productUpcCode;
-    this.addToCartModal.width = this.selectedProduct.product.width;
-    this.addToCartModal.height = this.selectedProduct.product.height;
-    this.addToCartModal.length = this.selectedProduct.product.length;
-    this.addToCartModal.weight = this.selectedProduct.product.weight;
+    this.addToCartModal.shippingWidth = this.selectedProduct.product.shippingWidth;
+    this.addToCartModal.shippingHeight = this.selectedProduct.product.shippingHeight;
+    this.addToCartModal.shippingLength = this.selectedProduct.product.shippingLength;
+    this.addToCartModal.shippingWeight = this.selectedProduct.product.shippingWeight;
     this.addToCartModal.orderFrom = "OFFER";
     this.addToCartModal.productHierarchy = this.selectedProduct.product.productHierarchy;
     this.addToCartModal.productAttributes = this.selectedProduct.product.productAttributes;

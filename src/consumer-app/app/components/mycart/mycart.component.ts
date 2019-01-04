@@ -63,7 +63,7 @@ export class MycartComponent implements OnInit {
       this.cartData = new Array<SaveGetCartItems>();
       for (var i = 0; i < res.length; i++) {
         let items = res[i];
-        this.cartData.push(new SaveGetCartItems(items.userId, items.label, items.retailerId, items.retailerName, items.productId, items.productName, items.price, items.quantity, items.inStock, items.productImage, items.taxCode, items.productSKUCode, items.productUPCCode, items.width, items.height, items.length, items.weight, items.shipProfileId, items.productDescription, items.orderFrom, items.productHierarchy, items.productAttributes, items.cartId))
+        this.cartData.push(new SaveGetCartItems(items.userId, items.label, items.retailerId, items.retailerName, items.productId, items.productName, items.price, items.quantity, items.inStock, items.productImage, items.taxCode, items.productSKUCode, items.productUPCCode, items.shippingWidth, items.shippingHeight, items.shippingLength, items.shippingWeight, items.shipProfileId, items.productDescription, items.orderFrom, items.productHierarchy, items.productAttributes, items.cartId))
       }
       for (var i = 0; i < this.cartData.length; i++) {
         if (this.cartData[i].label == 'cart') {
@@ -227,10 +227,10 @@ export class MycartComponent implements OnInit {
     this.addToCartModal.productDescription = item.productDescription;
     this.addToCartModal.productSKUCode = item.productSKUCode;
     this.addToCartModal.productUPCCode = item.productUPCCode;
-    this.addToCartModal.width = item.width;
-    this.addToCartModal.height = item.height;
-    this.addToCartModal.length = item.length;
-    this.addToCartModal.weight = item.weight;
+    this.addToCartModal.shippingWidth = item.shippingWidth;
+    this.addToCartModal.shippingHeight = item.shippingHeight;
+    this.addToCartModal.shippingLength = item.shippingLength;
+    this.addToCartModal.shippingWeight = item.shippingWeight;
     this.addToCartModal.orderFrom = item.orderFrom;
     this.addToCartModal.productHierarchy = item.productHierarchy;
     this.addToCartModal.productAttributes = item.productAttributes;
