@@ -18,22 +18,5 @@ export class AppComponent implements OnInit {
         document.addEventListener("deviceready", function() {
             console.log(device.platform);
         }, false);
-        this.urlManipulation();
-    }
-
-    urlManipulation() {
-        this.acutalURL = location.href;
-        if ((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i))) {
-            let customURL = `${'mykala://' + this.acutalURL}`
-            location.replace(customURL);
-        }
-        else if ((navigator.userAgent.match(/android/i)) || (navigator.userAgent.match(/Android/i))) {
-            let customURL = `${'mykala://' + this.acutalURL}`
-            location.replace(customURL);
-        }
-        else {
-            this.route.navigateByUrl(this.acutalURL);
-        }
-        return false;
     }
 }
