@@ -3144,10 +3144,11 @@ label {
 
 .readReviewImage {
     display: inline-block;
+    text-align: center;
     padding: 5px;
     box-sizing: border-box;
     width: 120px;
-    height: 120px;
+    height: auto;
     border: 1px solid #ccc;
     border-radius: 3px;
     -moz-border-radius: 3px;
@@ -3159,15 +3160,8 @@ label {
 }
 
 .readReviewImage img {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: calc(100% - 5px);
-    transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    -webkit-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
+    min-width: auto;
+    max-width: 100%;
 }
 
 .customSlider {
