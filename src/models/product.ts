@@ -43,12 +43,12 @@ export class Product {
     public attributeArray: Array<ProdAttr>;
     public taxCode: string;
     public reviewCount: number;
-    public weight: number;
-    public weightunit: string;
+    public shippingWeight: number;
+    public shippingWeightUnit: string;
     public dimensionunit: string;
-    public length: number;
-    public height: number;
-    public width: number;
+    public shippingLength: number;
+    public shippingHeight: number;
+    public shippingWidth: number;
     public productTypeLevels: ProductTypeLevels;
     constructor(obj?: any) {
         this.otherImages = new Array<ProductImage>();
@@ -68,7 +68,7 @@ export class Product {
             this.productPlaceName = obj.productPlaceName;
             this.productCategoryName = obj.productCategoryName;
             this.productSubCategoryName = obj.productSubCategoryName;
-            this.weightunit = 'lbs';
+            this.shippingWeightUnit = 'lbs';
             this.dimensionunit = 'inches';
             this.units = obj.units;
             if (obj.productHierarchy) {
@@ -88,12 +88,12 @@ export class Product {
             this.productActivatedDate = obj.productActivatedDate;
             this.createdDate = obj.createdDate;
             this.taxCode = obj.taxCode;
-            this.weight = obj.weight;
-            this.weightunit = obj.weightunit || 'lbs';
+            this.shippingWeight = obj.shippingWeight;
+            this.shippingWeightUnit = obj.shippingWeightUnit || 'lbs';
             this.dimensionunit = obj.dimensionunit || 'inches';
-            this.length = obj.length;
-            this.height = obj.height;
-            this.width = obj.width;
+            this.shippingLength = obj.shippingLength;
+            this.shippingHeight = obj.shippingHeight;
+            this.shippingWidth = obj.shippingWidth;
             if (obj.attributes && JSON.stringify(obj.attributes) !== '{}') {
                 this.attributes = obj.attributes;
 

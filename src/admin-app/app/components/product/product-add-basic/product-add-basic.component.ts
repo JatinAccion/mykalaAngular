@@ -42,8 +42,8 @@ export class ProductAddBasicComponent implements OnInit {
     if (!this.product.dimensionunit) {
       this.product.dimensionunit = 'inches';
     }
-    if (!this.product.weightunit) {
-      this.product.weightunit = 'lbs';
+    if (!this.product.shippingWeightUnit) {
+      this.product.shippingWeightUnit = 'lbs';
     }
   }
 

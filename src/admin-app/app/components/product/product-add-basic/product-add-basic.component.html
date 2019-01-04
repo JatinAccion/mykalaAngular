@@ -51,9 +51,9 @@
         <div class="form-group col-sm-12 pt-2">
             <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.weight)">Product Weight:</label>
             <div class="input-group">
-                <input type="number" class="form-control" [(ngModel)]="product.weight" min='0' placeholder="" pattern
+                <input type="number" class="form-control" [(ngModel)]="product.shippingWeight" min='0' placeholder="" pattern
                     formControlName="weight">
-                <select class="input-group-addon" [(ngModel)]="product.weightunit" formControlName="weightunit">
+                <select class="input-group-addon" [(ngModel)]="product.shippingWeightUnit" formControlName="weightunit">
                     <option value="lbs">pounds</option>
                     <option value="oz">ounces</option>
                 </select>
@@ -69,7 +69,7 @@
                 <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.length)">Length:
                 </label>
                 <div class="input-group">
-                    <input type="number" class="form-control" [(ngModel)]="product.length" min='0' placeholder=""
+                    <input type="number" class="form-control" [(ngModel)]="product.shippingLength" min='0' placeholder=""
                         pattern formControlName="length">
                     <select class="input-group-addon" [(ngModel)]="product.dimensionunit" formControlName="dimensionunit">
                         <option>inches</option>
@@ -83,7 +83,7 @@
             <div class="form-group pl-2 pt-2">
                 <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.height)">Height:
                 </label>
-                <input type="number" class="form-control" [(ngModel)]="product.height" min='0' placeholder="" pattern
+                <input type="number" class="form-control" [(ngModel)]="product.shippingHeight" min='0' placeholder="" pattern
                     formControlName="height">
                 <app-field-error-display [field]="fG1.controls.height" [errorMsg]="errorMsgs">
                 </app-field-error-display>
@@ -91,7 +91,7 @@
             <div class="form-group pl-2 pt-2">
                 <label class="control-label" [ngClass]="validatorExt.displayFieldCss(fG1.controls.width)">Width:
                 </label>
-                <input type="number" class="form-control" [(ngModel)]="product.width" min='0' placeholder="" pattern
+                <input type="number" class="form-control" [(ngModel)]="product.shippingWidth" min='0' placeholder="" pattern
                     formControlName="width">
                 <app-field-error-display [field]="fG1.controls.width" [errorMsg]="errorMsgs"> </app-field-error-display>
             </div>
