@@ -21,7 +21,7 @@ export class ThankMessageComponent implements OnInit {
     private router: Router,
     route: ActivatedRoute,
   ) {
-    this.token = route.snapshot.params['token'];
+    this.token = route.snapshot.params['tokenId'];
   }
 
   ngOnInit() {
