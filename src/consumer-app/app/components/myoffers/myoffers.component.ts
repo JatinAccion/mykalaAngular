@@ -72,6 +72,8 @@ export class MyoffersComponent implements OnInit {
       this.getMainImage(res);
       this.refineAttributes();
       for (var i = 0; i < this.myOffersDetails.length; i++) {
+        this.myOffersDetails[i].getOffersRequestDTO.startDate = this.myOffersDetails[i].getOffersRequestDTO.startDate.split("+")[0];
+        this.myOffersDetails[i].getOffersRequestDTO.endDate = this.myOffersDetails[i].getOffersRequestDTO.endDate.split("+")[0];
         let objDate = new Date(this.myOffersDetails[i].getOffersRequestDTO.startDate), locale = "en-us", month = objDate.toLocaleString(locale, { month: "long" });
         this.myOffersDetails[i].getOffersRequestDTO.startDate = objDate.toLocaleString(locale, { month: "short" }) + ' ' + objDate.getDate() + ', ' + this.formatAMPM(objDate);
         this.calculateTimeLeft(this.myOffersDetails[i].getOffersRequestDTO);
