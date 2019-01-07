@@ -14,6 +14,7 @@ export class PostInterest {
     public dateOfBirth: string;
     public customerAccountStatus: string;
     public fullName: string;
+    public stringDateOfBirth?: string;
 };
 
 export class ConsumerInterest {

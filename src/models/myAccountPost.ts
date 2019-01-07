@@ -21,6 +21,7 @@ export class MyAccountAddressModel {
 export class MyAccountDOBModel {
     public emailId: string;
     public dateOfBirth: Date;
+    public stringDateOfBirth?: string;
 }
 
 export class MyAccountInterestModel {

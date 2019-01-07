@@ -145,6 +145,7 @@ export class ProfileInfoComponent implements OnInit {
     let newDOB = new Date(this.selectedDOB.year + '/' + this.selectedDOB.month + '/' + this.selectedDOB.date);
     // this.profileInformation.dateOfBirth = new Date(newDOB.getFullYear() + '/' + (newDOB.getMonth() + 1) + '/' + newDOB.getDate() + ' ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds())
     this.profileInformation.dateOfBirth = newDOB;
+    this.profileInformation.stringDateOfBirth = this.selectedDOB.year + '/' + this.selectedDOB.month + '/' + this.selectedDOB.date;
     this.profileInfoServ.completeProfile(this.profileInformation).subscribe(res => {
       this.loader = false;
       if (this.profileInfoResponse.response !== null) {

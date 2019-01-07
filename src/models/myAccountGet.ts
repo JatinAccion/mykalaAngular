@@ -20,6 +20,7 @@ export class MyaccountProfileInfo {
     birthYear: string;
     address: Array<MyAccountAddress>;
     consumerInterests: Array<MyAccountConsumerInterest>;
+    stringDateOfBirth?: string;
 }
 
 export class MyAccountConsumerInterest {

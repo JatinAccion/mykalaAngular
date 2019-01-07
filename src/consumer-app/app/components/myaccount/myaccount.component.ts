@@ -301,11 +301,12 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
       // this.myAccountModel.profileInfo.consumerImagePath = this.imgS3.concat(res.consumerImagePath);
       this.myAccountModel.profileInfo.consumerImagePath = res.consumerImagePath;
       this.myAccountModel.profileInfo.consumerInterests = res.consumerInterests;
-      if (res.dateOfBirth != null) {
-        this.myAccountModel.profileInfo.dob = new Date(res.dateOfBirth);
-        this.myAccountModel.profileInfo.birthDate = new Date(res.dateOfBirth).getDate().toString();
-        this.myAccountModel.profileInfo.birthMonth = (new Date(res.dateOfBirth).getMonth() + 1).toString();
-        this.myAccountModel.profileInfo.birthYear = new Date(res.dateOfBirth).getFullYear().toString();
+      // Old Data : res.dateOfBirth != null
+      if (res.stringDateOfBirth != null) {
+        this.myAccountModel.profileInfo.dob = new Date(res.stringDateOfBirth);
+        this.myAccountModel.profileInfo.birthDate = new Date(res.stringDateOfBirth).getDate().toString();
+        this.myAccountModel.profileInfo.birthMonth = (new Date(res.stringDateOfBirth).getMonth() + 1).toString();
+        this.myAccountModel.profileInfo.birthYear = new Date(res.stringDateOfBirth).getFullYear().toString();
         this.selectedDOB.year = this.myAccountModel.profileInfo.birthYear;
         this.selectedDOB.month = this.myAccountModel.profileInfo.birthMonth;
         this.selectedDOB.date = this.myAccountModel.profileInfo.birthDate;
@@ -696,11 +697,12 @@ export class MyaccountComponent implements OnInit, AfterViewInit, OnDestroy {
       let newDOB = new Date(this.myAccountModel.profileInfo.birthYear + '/' + this.myAccountModel.profileInfo.birthMonth + '/' + this.myAccountModel.profileInfo.birthDate);
       // this.DOBSaveModel.dateOfBirth = new Date(newDOB.getFullYear() + '/' + (newDOB.getMonth() + 1) + '/' + newDOB.getDate() + ' ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds());
       this.DOBSaveModel.dateOfBirth = newDOB;
+      this.DOBSaveModel.stringDateOfBirth = this.myAccountModel.profileInfo.birthYear + '/' + this.myAccountModel.profileInfo.birthMonth + '/' + this.myAccountModel.profileInfo.birthDate;
       this.myAccount.saveDOB(this.DOBSaveModel).subscribe((res) => {
         this.loader_DOB = false;
         this.model = this.append_dob;
         window.localStorage['userInfo'] = JSON.stringify(res);
-        this.myAccountModel.profileInfo.dob = new Date(res.dateOfBirth);
+        this.myAccountModel.profileInfo.dob = new Date(res.stringDateOfBirth);
       }, (err) => {
         this.loader_DOB = false;
         console.log(err);

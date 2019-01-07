@@ -96,7 +96,7 @@
               <div class="col-sm-4 p-2 colorlightGray">date of birth</div>
               <div class="col-sm-5 p-2 text-right matDOB">
                 <span #dobElement *ngIf="!input_dob">
-                  <span *ngIf="selectedDOB.month != '' && selectedDOB.date != '' && selectedDOB.year != '';else empty">{{selectedDOB.month}}/{{selectedDOB.date}}/{{selectedDOB.year}}</span>
+                  <span *ngIf="selectedDOB.month != '' && selectedDOB.date != '' && selectedDOB.year != '';else empty">{{myAccountModel.profileInfo.dob | date:"MM/dd/yyyy" }}</span>
                   <ng-template #empty></ng-template>
                 </span>
                 <mat-form-field *ngIf="input_dob" class="example-full-width" floatLabel="never">

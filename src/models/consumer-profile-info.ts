@@ -10,4 +10,5 @@ export class ConsumerProfileInfo {
     public gender: string;
     public dateOfBirth: Date;
     public address: Array<ConsumerAddress>;
+    public stringDateOfBirth?: string;
 }

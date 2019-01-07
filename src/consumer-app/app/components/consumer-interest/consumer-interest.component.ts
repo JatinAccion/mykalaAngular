@@ -78,6 +78,7 @@ export class ConsumerInterestComponent implements OnInit {
     this.postInterest.fullName = this.getUserInfo.firstName + ' ' + this.postInterest.lastName;
     this.postInterest.phone = this.getUserInfo.userId.phone;
     this.postInterest.userId = this.getUserInfo.userId;
+    this.postInterest.stringDateOfBirth = this.getUserInfo.stringDateOfBirth;
     console.log(this.postInterest);
     this.interest.postInterest(this.postInterest).subscribe(res => {
       console.log(res);
