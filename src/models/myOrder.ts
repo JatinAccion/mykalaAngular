@@ -113,6 +113,7 @@ export class OrderItems {
     public productHierarchy: string;
     public orderFrom: string;
     public productAttributes: string;
+    public retailerIntegrationMethod: string;
     public leaveReview?: boolean;
     public contactSupport?: boolean;
     public cancelOrder?: boolean;
@@ -141,11 +142,13 @@ export class OrderItems {
             this.productHierarchy = obj.productHierarchy;
             this.orderFrom = obj.orderFrom;
             this.productAttributes = obj.productAttributes;
+            this.retailerIntegrationMethod = obj.retailerIntegrationMethod;
             this.leaveReview = obj.leaveReview;
             this.contactSupport = obj.contactSupport;
             this.cancelOrder = obj.cancelOrder;
             this.trackOrder = obj.trackOrder;
             this.showCustomerSupport = obj.showCustomerSupport;
+
         }
     }
 }

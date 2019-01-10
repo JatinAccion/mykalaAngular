@@ -31,6 +31,7 @@ export class Product {
     public productActivatedDate: Date | null;
     public createdDate: Date | null;
     public productImages: ProductImage[] | null = new Array<ProductImage>();
+    public retailerIntegrationMethod: string;
 
     public productPlace: ProductPlace;
     public productCategory: ProductCategory;
@@ -59,6 +60,7 @@ export class Product {
         if (obj) {
             this.retailerId = obj.retailerId;
             this.retailerName = obj.retailerName;
+            this.retailerIntegrationMethod = obj.retailerIntegrationMethod;
             this.kalaUniqueId = obj.kalaUniqueId;
             this.productSkuCode = obj.productSkuCode;
             this.productUpcCode = obj.productUpcCode;

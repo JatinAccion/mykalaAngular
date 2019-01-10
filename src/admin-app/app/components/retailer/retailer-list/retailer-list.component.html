@@ -28,6 +28,13 @@
             </p>
             <div>{{retailer.businessAddress.city}}, {{retailer.businessAddress.state}}, USA</div>
             <div>reviews:...</div>
+            <div class="mt-4">Integration Method: 
+                <span *ngIf="retailer.retailerIntegrationMethod == 'KALAMANUAL';else next">Kala Manual</span>
+                <ng-template #next>
+                    <span *ngIf="retailer.retailerIntegrationMethod == 'CHANNELADVISORAPI';else default">ChannelAdvisor APIs</span>
+                    <ng-template #default>Not Registered</ng-template>
+                </ng-template>
+            </div>
         </div>
         <div class="col-sm-2 mt-4 pr-4">
             <p class="clearfix">

@@ -193,6 +193,16 @@
                                         <img src="{{img.imageUrl}}" class="p-2" *ngFor="let img of product.otherImages" width="100">
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td class="colorlightGray">Integrated Method:</td>
+                                    <td colspan="3">
+                                        <span *ngIf="product.retailerIntegrationMethod == 'KALAMANUAL';else next">Kala Manual</span>
+                                        <ng-template #next>
+                                            <span *ngIf="product.retailerIntegrationMethod == 'CHANNELADVISORAPI';else default">ChannelAdvisor APIs</span>
+                                            <ng-template #default>Not Registered</ng-template>
+                                        </ng-template>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>

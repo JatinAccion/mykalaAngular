@@ -15,6 +15,7 @@ export class Inquiry {
   public otherTypeDesc: string;
   public inquiryDate: any;
   public inquiryCategory: string;
+  public retailerIntegrationMethod: string;
   // public inquiryCategoryOther: string;
   public otherCategoryDesc: string;
   public description: string;
@@ -69,6 +70,7 @@ export class Inquiry {
       this.stringInquiryDate = obj.stringInquiryDate;
       this.stringResolutionDate = obj.stringResolutionDate;
       this.stringOrderDate = obj.stringOrderDate;
+      this.retailerIntegrationMethod = obj.retailerIntegrationMethod;
     }
   }
 }

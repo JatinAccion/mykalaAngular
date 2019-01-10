@@ -93,7 +93,7 @@ export class MyordersComponent implements OnInit {
     for (var i = 0; i < this.myorderModal.length; i++) {
       for (var j = 0; j < this.myorderModal[i].orderItems.length; j++) {
         let image = this.myorderModal[i].orderItems[j].productImage;
-        if (image.indexOf('maxHeight') > -1) {
+        if (image && image.indexOf('maxHeight') > -1) {
           this.myorderModal[i].orderItems[j].productImage = image.split(";")[0]
         }
       }
@@ -119,6 +119,7 @@ export class MyordersComponent implements OnInit {
       this.consumerSupport.orderDate = new Date(modal.purchasedDate);
       this.consumerSupport.productName = order.productName;
       this.consumerSupport.productCost = order.totalProductPrice;
+      this.consumerSupport.retailerIntegrationMethod = order.retailerIntegrationMethod;
       this.questionCounter = 0;
       this.supportMessages.push({
         mainImage: '/consumer-app/assets/images/logo.png',

@@ -35,6 +35,16 @@
                 <td>Reviews:</td>
                 <td>{{orderItem.product?orderItem.product.reviewCount:''}}</td>
             </tr>
+            <tr>
+                <td>Integration Method:</td>
+                <td>
+                    <span *ngIf="orderItem.retailerIntegrationMethod == 'KALAMANUAL';else next">Kala Manual</span>
+                    <ng-template #next>
+                        <span *ngIf="orderItem.retailerIntegrationMethod == 'CHANNELADVISORAPI';else default">ChannelAdvisor APIs</span>
+                        <ng-template #default>Not Registered</ng-template>
+                    </ng-template>
+                </td>
+            </tr>
         </table>
     </div>
     <div class="col-sm-4 offset-2" *ngIf="orderItem">

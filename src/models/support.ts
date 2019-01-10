@@ -10,4 +10,5 @@ export class ConsumerSupportModal {
     public inquiryCategory: string;
     public inquiryDate: Date;
     public description: string;
+    public retailerIntegrationMethod: string
 }

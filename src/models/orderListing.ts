@@ -16,6 +16,7 @@ export class Orders {
         public quantity: number,
         public shipProfileId: string,
         public taxCost: number,
-        public taxCode: string
+        public taxCode: string,
+        public retailerIntegrationMethod: string
     ) { }
 }

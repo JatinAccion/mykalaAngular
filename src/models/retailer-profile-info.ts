@@ -16,7 +16,7 @@ export class RetailerProfileInfo {
     public createdDate: Date | null;
     public modifiedDate: Date | null;
     public status: boolean | null = true;
-
+    public retailerIntegrationMethod: string;
     public businessAddress: RetailerBusinessAddress;
     public contactPerson: RetailerContact[];
     public addresses: PostalAddress[];
@@ -57,6 +57,10 @@ export class RetailerProfileInfo {
                 }
             }
             this.retailerOtherInfo = new RetailerOtherInfo(obj.retailerOtherInfo);
+            // if (obj.retailerIntegrationMethod == 'KALAMANUAL') obj.retailerIntegrationMethod = 'Kala Manual';
+            // else if (obj.retailerIntegrationMethod == 'CHANNELADVISORAPI') obj.retailerIntegrationMethod = 'ChannelAdvisor APIs';
+            // else obj.retailerIntegrationMethod = 'Not Registered';
+            this.retailerIntegrationMethod = obj.retailerIntegrationMethod;
         }
     }
 

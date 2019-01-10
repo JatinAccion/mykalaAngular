@@ -52,12 +52,14 @@ export class RetailerNotification {
     public shippingNotificationsId: string;
     public orderEmail: string;
     public shipEmail: string;
+    public retailerIntegrationMethod: string;
     constructor(obj?: any) {
         if (obj) {
             this.retailerId = obj.retailerId;
             this.shippingNotificationsId = obj.shippingNotificationsId;
             this.orderEmail = obj.orderEmail;
             this.shipEmail = obj.shipEmail;
+            this.retailerIntegrationMethod = obj.retailerIntegrationMethod;
         }
     }
 }

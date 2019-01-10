@@ -22,4 +22,5 @@ export class AddToCart {
     public orderFrom: string;
     public productHierarchy: string;
     public productAttributes: string;
+    public retailerIntegrationMethod: string;
 }

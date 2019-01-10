@@ -24,7 +24,7 @@ import { CoreService } from '../../../services/core.service';
   encapsulation: ViewEncapsulation.None
 })
 export class ProductAddComponent implements OnInit {
-
+  notRegistered: boolean = false;
   retailers: Array<RetailerProfileInfo>;
   retailer: RetailerProfileInfo;
   reatileDummy: RetailerProfileInfo;
@@ -97,9 +97,11 @@ export class ProductAddComponent implements OnInit {
     if (this.retailer) {
       this.product.retailerId = this.retailer.retailerId;
       this.product.retailerName = this.retailer.businessName;
+      this.notRegistered = this.retailer.retailerIntegrationMethod === 'NOTREGISTERED';
     } else {
       this.product.retailerId = null;
       this.product.retailerName = '';
+      this.notRegistered = false;
     }
   }
   setActiveTab(event) {
@@ -112,6 +114,11 @@ export class ProductAddComponent implements OnInit {
         event.preventDefault(); return;
       }
     }
+    if (this.notRegistered) {
+      this.core.message.info(inputValidations.retailer.notRegistered);
+      event.preventDefault(); return;
+    }
+    else this.product.retailerIntegrationMethod = this.retailer.retailerIntegrationMethod;
     if (this.fG1) { this.fG1.controls.retailer.reset({ value: this.retailer, disabled: event.nextId !== 'tab-category' }); }
     if (!this.productId) {
       switch (event.nextId) {

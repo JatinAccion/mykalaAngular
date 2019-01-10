@@ -254,7 +254,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
           filterItems.differentShippingMethod = true;
           filterItems.retailerId = item.retailerId;
           filterItems.retailerName = item.retailerName;
-          filterItems.orderItems.push(new Orders(item.inStock, item.price, item.productDescription, item.productId, item.productImage, item.productName, item.quantity, item.shipProfileId, 0, item.taxCode))
+          filterItems.orderItems.push(new Orders(item.inStock, item.price, item.productDescription, item.productId, item.productImage, item.productName, item.quantity, item.shipProfileId, 0, item.taxCode, item.retailerIntegrationMethod))
           pushIt = true;
         }
         else {
@@ -744,7 +744,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.ProductCheckoutModal.purchasedPrice = eval(`${this.totalProductTax + this.totalAmountFromCart + this.finalShippingAmount}`);
       for (var i = 0; i < this.itemsInCart.length; i++) {
         let item = this.itemsInCart[i]
-        this.ProductCheckoutModal.orderItems.push(new OrderItems(item.productId, item.productName, item.retailerName, item.retailerId, item.productDescription, item.productImage, item.quantity, item.price, item.productTaxCost, item.shippingCost, eval(`${item.price * item.quantity}`), item.deliveryMethod, item.productUPCCode, item.productSKUCode, item.orderFrom, item.productHierarchy, item.productAttributes))
+        this.ProductCheckoutModal.orderItems.push(new OrderItems(item.productId, item.productName, item.retailerName, item.retailerId, item.productDescription, item.productImage, item.quantity, item.price, item.productTaxCost, item.shippingCost, eval(`${item.price * item.quantity}`), item.deliveryMethod, item.productUPCCode, item.productSKUCode, item.orderFrom, item.productHierarchy, item.productAttributes, item.retailerIntegrationMethod))
       };
       console.log(this.ProductCheckoutModal);
       for (var i = 0; i < this.itemsInCart.length; i++) {

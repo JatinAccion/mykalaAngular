@@ -44,6 +44,7 @@ export class OrderItems {
         public productSKUCode: string,
         public orderFrom: string,
         public productHierarchy: string,
-        public productAttributes: string
+        public productAttributes: string,
+        public retailerIntegrationMethod: string
     ) { }
 }

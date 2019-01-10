@@ -58,6 +58,7 @@ export class RetailerAddNotificationsComponent implements OnInit {
     this.fG1 = this.formBuilder.group({
       orderEmail: [this.notificationData.orderEmail, [Validators.pattern(environment.regex.emailRegex), Validators.maxLength(255), Validators.required]],
       shipEmail: [this.notificationData.shipEmail, [Validators.maxLength(255), Validators.pattern(environment.regex.emailRegex), Validators.required]],
+      retailerIntegrationMethod: [this.notificationData.retailerIntegrationMethod, [Validators.required]]
     });
   }
 
@@ -85,6 +86,7 @@ export class RetailerAddNotificationsComponent implements OnInit {
     this.Obj.retailerId = this.retailerId;
     this.Obj.orderEmail = this.fG1.value.orderEmail;
     this.Obj.shipEmail = this.fG1.value.shipEmail;
+    this.Obj.retailerIntegrationMethod = this.fG1.value.retailerIntegrationMethod;
     return this.Obj;
   }
 

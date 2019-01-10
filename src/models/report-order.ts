@@ -248,6 +248,7 @@ export class ReportOrderItem {
   orderShippedDate: Date;
   orderDeliveredDate: Date;
   stringShipmentDate: any;
+  retailerIntegrationMethod: string;
   constructor(obj?: any) {
     if (obj) {
       this.productId = obj.productId;
@@ -269,6 +270,7 @@ export class ReportOrderItem {
       this.orderShippedDate = obj.orderShippedDate;
       this.orderDeliveredDate = obj.orderDeliveredDate;
       this.stringShipmentDate = obj.stringShipmentDate;
+      this.retailerIntegrationMethod = obj.retailerIntegrationMethod;
     }
   }
 }
