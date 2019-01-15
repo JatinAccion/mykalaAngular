@@ -15,8 +15,12 @@ export class AppComponent implements OnInit {
     constructor(private route: Router) { }
 
     ngOnInit() {
-        document.addEventListener("deviceready", function() {
+        document.addEventListener("deviceready", function () {
             console.log(device.platform);
         }, false);
+
+        if (navigator && navigator.userAgent.indexOf('iPhone') > -1 || navigator.userAgent.indexOf('Android') > -1) {
+            location.href = 'mykala://' + location.hash
+        }
     }
 }
