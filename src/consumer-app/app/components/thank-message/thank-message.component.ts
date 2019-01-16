@@ -25,13 +25,16 @@ export class ThankMessageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.verification.getVerified(this.token).subscribe((data) => {
-      this.verficationStatus = data;
-      setTimeout(() => {
-        if (this.routerOutlet.isActivated) this.routerOutlet.deactivate();
-        this.router.navigateByUrl('/login');
-      }, 3000);
-    });
+    if (navigator && navigator.userAgent.indexOf('iPhone') > -1 || navigator.userAgent.indexOf('Android') > -1) { }
+    else {
+      this.verification.getVerified(this.token).subscribe((data) => {
+        this.verficationStatus = data;
+        setTimeout(() => {
+          if (this.routerOutlet.isActivated) this.routerOutlet.deactivate();
+          this.router.navigateByUrl('/login');
+        }, 3000);
+      });
+    }
   }
 
 }
