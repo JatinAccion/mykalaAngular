@@ -5,8 +5,8 @@
         </div>
         <div class="col-sm-3 title p-0"></div>
         <div class="col-sm-3 title text-right top_right p-0">
-            <select class="ddl_default form-control mt-3" [(ngModel)]="reportModel" (change)="getData()">
-                <option>Monthly</option>
+            <select class="ddl_default form-control mt-3" (change)="getData($event)">
+                <option selected>Monthly</option>
                 <option>Yearly</option>
             </select>
         </div>

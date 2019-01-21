@@ -88,7 +88,11 @@ export class PaymentsReportComponent implements OnInit {
     this.getData();
     this.getPage(1);
   }
-  getData() {
+  getData(event?:any) {
+    if(event && event.target.value)
+    {
+        this.reportModel= event.target.value; 
+    }
     this.goto('total', 0);
     this.goto('automatic', 0);
     this.goto('manual', 0);

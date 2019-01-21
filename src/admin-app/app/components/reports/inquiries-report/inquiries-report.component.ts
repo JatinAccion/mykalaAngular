@@ -203,7 +203,11 @@ export class InquiriesReportComponent implements OnInit {
     this.getPage(1);
     this.getInquiriesSummary(1);
   }
-  getData() {
+  getData(event?:any) {
+    if(event && event.target.value)
+    {
+        this.reportModel= event.target.value; 
+    }
     let year = this.currentYear;
     let month = this.reportModel !== 'Monthly' ? '' : new Date().getMonth() + 1;
     const oneData = this.reportsService.getInquiryReport(this.widget.one.widgetType, year.toString(), this.reportModel !== 'Monthly' ? '' : (month).toString());

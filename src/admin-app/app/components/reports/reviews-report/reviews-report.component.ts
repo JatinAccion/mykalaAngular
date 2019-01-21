@@ -185,7 +185,11 @@ export class ReviewsReportComponent implements OnInit {
     this.getData();
     this.getPage(1);
   }
-  getData() {
+  getData(event?:any) {
+    if(event && event.target.value)
+    {
+        this.reportModel= event.target.value; 
+    }
     this.yearLabels = Array.apply(null, { length: this.reportYears }).fill(this.currentYear).map((p, i) => (p - i).toString()).reverse();
     this.getChartData();
   }

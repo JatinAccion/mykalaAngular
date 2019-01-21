@@ -4,8 +4,8 @@
             <h1>Reviews</h1>
         </div>
         <div class="col-sm-2 pr-2 text-right">
-            <select class="ddl_default form-control " [(ngModel)]="reportModel" (change)="getData()">
-                <option>Monthly</option>
+            <select class="ddl_default form-control " (change)="getData($event)">
+                <option selected>Monthly</option>
                 <option>Yearly</option>
             </select>
         </div>

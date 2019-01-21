@@ -139,7 +139,11 @@ export class CustomersReportComponent implements OnInit {
     this.getData();
     this.getPage(1);
   }
-  getData() {
+  getData(event?:any) {
+    if(event && event.target.value)
+    {
+        this.reportModel= event.target.value; 
+    }
     this.goto('new', 0);
     this.goto('active', 0);
     this.goto('total', 0);
