@@ -138,7 +138,11 @@ export class SalesReportComponent implements OnInit {
     this.setupChartData();
     this.getGridData(1);
   }
-  getData() {
+  getData(event?:any) {
+    if(event && event.target.value)
+    {
+        this.reportModel= event.target.value; 
+    }
     this.currentYear = new Date().getFullYear();
     this.currentMonth = new Date().getMonth() + 1;
     this.initializeWidget();
