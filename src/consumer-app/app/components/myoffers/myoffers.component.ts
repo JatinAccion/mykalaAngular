@@ -4,6 +4,8 @@ import { MyOffersService } from '../../services/myOffer.service';
 import { Router, RouterOutlet } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { BrowseProductsModal } from '../../../../models/browse-products';
+import { SearchDataModal } from '../../../../models/searchData.modal';
+import { OfferInfo1, OfferInfo3 } from '../../../../models/steps.modal';
 
 @Component({
   selector: 'app-myoffers',
@@ -168,6 +170,32 @@ export class MyoffersComponent implements OnInit {
     window.localStorage['offerIdForEdit'] = offer.offerID;
     setTimeout(() => {
       if (this.routerOutlet.isActivated) this.routerOutlet.deactivate();
+      /** LevelSelection Storage Creation and Step1 Request for Preselected Data */
+      let place = [], category = [], subcategory = [], levelSelection;
+      place = new Array<SearchDataModal>();
+      category = new Array<SearchDataModal>();
+      place.push(new SearchDataModal(offer.getOffersRequestDTO.placeId, offer.getOffersRequestDTO.placeName, offer.getOffersRequestDTO.placeName, "1", "", "", "", false, true));
+      category.push(new SearchDataModal(offer.getOffersRequestDTO.categoryId, offer.getOffersRequestDTO.categoryName, offer.getOffersRequestDTO.categoryName, "2", "", "", "", false, true));
+      subcategory.push(new SearchDataModal(offer.getOffersRequestDTO.subCategoryId, offer.getOffersRequestDTO.subCategoryName, offer.getOffersRequestDTO.subCategoryName, "3", "", "", "", false, true));
+      if (window.localStorage['levelSelections'] == undefined) levelSelection = new Object();
+      else levelSelection = JSON.parse(window.localStorage['levelSelections']);
+      levelSelection.place = place[0];
+      levelSelection.category = category[0];
+      levelSelection.subcategory = subcategory[0];
+      levelSelection.subType = {};
+      levelSelection.type = [];
+      window.localStorage['levelSelections'] = JSON.stringify(levelSelection);
+
+      let step1Data = new Array<OfferInfo1>();
+      step1Data.push(new OfferInfo1(levelSelection.place, levelSelection.category, levelSelection.subcategory, levelSelection.type, false, levelSelection.place.id, levelSelection.category.id, levelSelection.subcategory.id));
+      window.localStorage['GetOfferStep_1'] = JSON.stringify(step1Data);
+      /** LevelSelection Storage Creation and Step1 Request for Preselected Data */
+
+      /** Creating Get Offer Step 3 Data */
+      let step3Data = new Array<OfferInfo3>();
+      step3Data.push(new OfferInfo3(offer.getOffersRequestDTO.price, offer.getOffersRequestDTO.deliveryMethod, offer.getOffersRequestDTO.instruction, offer.getOffersRequestDTO.deliveryLocation));
+      window.localStorage['GetOfferStep_3'] = JSON.stringify(step3Data);
+      /** Creating Get Offer Step 3 Data */
       this.route.navigate(['/getoffer', 'step1']);
     }, 1000);
   }

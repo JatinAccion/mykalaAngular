@@ -4,7 +4,11 @@ export class OfferInfo1 {
         public category: string,
         public subCategory: string,
         public type: Array<any>,
-        public noType: boolean) { }
+        public noType: boolean,
+        public placeId?: string,
+        public categoryId?: string,
+        public subCategoryId?: string
+    ) { }
 }
 export class OfferInfo2 {
     constructor(
@@ -36,7 +40,9 @@ export class OfferInfo4 {
     public offerId?: string;
     public attributes: any;
     public productType: string;
-
+    public placeId?: string;
+    public categoryId?: string;
+    public subCategoryId?: string;
 }
 export class PriceRange {
     public minPrice: number;

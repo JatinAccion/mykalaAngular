@@ -27,9 +27,9 @@ export class Step1Component implements OnInit {
   getCategoryId: string;
   getSubcategoryId: string;
   spliceElem;
-  Step1SelectedValues = { place: "", type: [], category: "", subcategory: "" };
-  gSCM = { productType: "", placeName: "", categoryName: "" };
-  gSCMRequestModal = { productType: "", placeName: "", categoryName: "", attributes: {} };
+  Step1SelectedValues = { place: "", type: [], category: "", subcategory: "", placeId: "", categoryId: "", subCategoryId: "" };
+  gSCM = { productType: "", placeName: "", categoryName: "", placeId: "", categoryId: "", subCategoryId: "" };
+  gSCMRequestModal = { productType: "", placeId: "", placeName: "", categoryId: "", subCategoryId: "", categoryName: "", attributes: {} };
   Step1Modal = new GetOfferModal();
   viewSavedData;
   checkIfStored: boolean = false;
@@ -82,12 +82,20 @@ export class Step1Component implements OnInit {
           this.gSCM.placeName = this.viewSavedData[i].place.name;
           this.gSCM.categoryName = this.viewSavedData[i].category.name;
           this.gSCM.productType = this.viewSavedData[i].subCategory.name;
+          this.gSCM.placeId = this.viewSavedData[i].place.id;
+          this.gSCM.categoryId = this.viewSavedData[i].category.id;
+          this.gSCM.subCategoryId = this.viewSavedData[i].subCategory.id;
           if (!this.viewSavedData[i].noType) {
             this.skipTrue = false;
             this.showAvailableTypes = true;
-            for (var j = 0; j < this.viewSavedData[i].type.length; j++) {
-              this.userResponse.type.push(this.viewSavedData[i].type[j]);
-              this.Step1SelectedValues.type.push(this.viewSavedData[i].type[j]);
+            if (window.localStorage['offerIdForEdit'] && this.viewSavedData[i].type.length == 0) {
+              this.getofferSubCategory(this.Step1SelectedValues.subcategory);
+            }
+            else {
+              for (var j = 0; j < this.viewSavedData[i].type.length; j++) {
+                this.userResponse.type.push(this.viewSavedData[i].type[j]);
+                this.Step1SelectedValues.type.push(this.viewSavedData[i].type[j]);
+              }
             }
           }
           else {
@@ -103,13 +111,16 @@ export class Step1Component implements OnInit {
         this.userResponse.place.push(this.levelSelection.place);
         this.Step1SelectedValues.place = this.levelSelection.place;
         this.gSCM.placeName = this.levelSelection.place.name;
+        this.gSCM.placeId = this.levelSelection.place.id;
         this.userResponse.type.push(this.levelSelection.type);
         this.userResponse.category.push(this.levelSelection.category);
         this.Step1SelectedValues.category = this.levelSelection.category;
         this.gSCM.categoryName = this.levelSelection.category.name;
+        this.gSCM.categoryId = this.levelSelection.category.id;
         this.userResponse.subcategory.push(this.levelSelection.subcategory);
         this.Step1SelectedValues.subcategory = this.levelSelection.subcategory;
         this.gSCM.productType = this.levelSelection.subcategory.name;
+        this.gSCM.subCategoryId = this.levelSelection.subcategory.id;
         this.Step1SelectedValues.type.push(this.levelSelection.type);
         this.getPlaceId = this.levelSelection.place.id;
         this.getCategoryId = this.levelSelection.category.id;
@@ -180,11 +191,23 @@ export class Step1Component implements OnInit {
         this.gSCMRequestModal.placeName = this.gSCM.placeName;
         this.gSCMRequestModal.categoryName = this.gSCM.categoryName;
         this.gSCMRequestModal.productType = this.gSCM.productType;
+        this.gSCMRequestModal.placeId = this.gSCM.placeId;
+        this.gSCMRequestModal.categoryId = this.gSCM.categoryId;
+        this.gSCMRequestModal.subCategoryId = this.gSCM.subCategoryId;
       }
       else {
         this.skipTrue = false;
         this.getObjectFromOrderNo(res);
       }
+      setTimeout(() => {
+        if (window.localStorage['offerIdForEdit']) {
+          let typeList = document.getElementsByClassName('typeList');
+          for (let i = 0; i < typeList.length; i++) {
+            typeList[i].classList.remove('categ_outline_red');
+            typeList[i].classList.add('categ_outline_gray');
+          }
+        }
+      }, 100)
     });
   }
 
@@ -237,6 +260,7 @@ export class Step1Component implements OnInit {
   loadData(obj, elemName, e?: any) {
     if (elemName == 'place') {
       this.gSCM.placeName = obj.name;
+      this.gSCM.placeId = obj.id;
       this.gSCM.categoryName = "";
       e.currentTarget.className = "categ_outline_red m-2";
       this.getPlaceId = obj.id;
@@ -247,6 +271,7 @@ export class Step1Component implements OnInit {
     }
     else if (elemName == 'category') {
       this.gSCM.categoryName = obj.name;
+      this.gSCM.categoryId = obj.id;
       this.gSCM.productType = "";
       e.currentTarget.className = "categ_outline_red m-2";
       this.getCategoryId = obj.id;
@@ -257,6 +282,7 @@ export class Step1Component implements OnInit {
     }
     else if (elemName == 'subcategory') {
       this.gSCM.productType = obj.name;
+      this.gSCM.subCategoryId = obj.id;
       e.currentTarget.className = "categ_outline_red m-2";
       this.checkIfStored = false;
       this.getSubcategoryId = obj.id;
@@ -327,9 +353,12 @@ export class Step1Component implements OnInit {
       window.localStorage['levelSelections'] = JSON.stringify({ place: place, category: category, subcategory: subcategory, type: type });
     }
     this.gSCMRequestModal.placeName = this.gSCM.placeName;
+    this.gSCMRequestModal.placeId = this.gSCM.placeId;
     this.gSCMRequestModal.categoryName = this.gSCM.categoryName;
+    this.gSCMRequestModal.categoryId = this.gSCM.categoryId;
     if (this.Step1SelectedValues.type.length > 0) {
       this.gSCMRequestModal.productType = this.Step1SelectedValues.subcategory['name'];
+      this.gSCMRequestModal.subCategoryId = this.Step1SelectedValues.subcategory['id'];
       if (this.getObjectFromOrder.key == "") this.getObjectFromOrder.key = Object.keys(this.gSCMRequestModal.attributes)[0]
       this.gSCMRequestModal.attributes[this.getObjectFromOrder.key] = [];
       for (var i = 0; i < this.Step1SelectedValues.type.length; i++) {
@@ -400,7 +429,7 @@ export class Step1Component implements OnInit {
     else {
       this.checkIfStored = true;
       this.Step1Modal.getoffer_1 = new Array<OfferInfo1>();
-      this.Step1Modal.getoffer_1.push(new OfferInfo1(this.Step1SelectedValues.place, this.Step1SelectedValues.category, this.Step1SelectedValues.subcategory, this.Step1SelectedValues.type, this.skipTrue ? true : false));
+      this.Step1Modal.getoffer_1.push(new OfferInfo1(this.Step1SelectedValues.place, this.Step1SelectedValues.category, this.Step1SelectedValues.subcategory, this.Step1SelectedValues.type, this.skipTrue ? true : false, this.Step1SelectedValues.place['id'], this.Step1SelectedValues.category['id'], this.Step1SelectedValues.subcategory['id']));
       window.localStorage['GetOfferStep_1'] = JSON.stringify(this.Step1Modal.getoffer_1);
       window.localStorage['GetOfferStep_2Request'] = JSON.stringify(this.gSCMRequestModal);
       this.route.navigate(['/getoffer', 'step2']);
