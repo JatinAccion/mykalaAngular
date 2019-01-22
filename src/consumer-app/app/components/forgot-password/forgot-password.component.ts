@@ -56,7 +56,7 @@ export class ForgotPasswordComponent implements OnInit {
     else if (this.forgotPassword.controls.email.value && this.forgotPassword.controls.email.errors) this.emailValidation = true;
     else {
       this.loader = true;
-      this.fpModal.email = this.forgotPassword.controls.email.value;
+      this.fpModal.email = this.forgotPassword.controls.email.value.toLowerCase();
       this.fpService.getUserByEmailId(this.fpModal.email).subscribe((res) => {
         if (res.userId != null || res.userId != undefined) {
           if (res.userCreateStatus) {

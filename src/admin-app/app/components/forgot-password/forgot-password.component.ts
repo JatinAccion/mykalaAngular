@@ -45,7 +45,7 @@ export class ForgotPasswordComponent implements OnInit {
   onSubmit() {
     this.responseHandling.status = false;
     this.loader = true;
-    this.fpModal.email = this.forgotPassword.controls.email.value;
+    this.fpModal.email = this.forgotPassword.controls.email.value.toLowerCase();
     this.fpService.getUserByEmail(this.fpModal.email).subscribe(p => {
       if (p === 'User Not found' || p.userId === null || p.roleName.indexOf('admin') === -1) {
         this.core.message.error(userMessages.unknownEmail);

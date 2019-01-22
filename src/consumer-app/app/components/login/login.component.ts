@@ -108,8 +108,8 @@ export class LoginComponent implements OnInit, CuiComponent {
     else if (!this.loginKala.controls.password.value) this.passwordValidation = true;
     else {
       this.loader = true;
-      this.userCredential = new User(this.loginKala.controls.email.value, this.loginKala.controls.email.value, this.loginKala.controls.password.value)
-      this.credentialModal.email = this.loginKala.controls.email.value;
+      this.userCredential = new User(this.loginKala.controls.email.value.toLowerCase(), this.loginKala.controls.email.value.toLowerCase(), this.loginKala.controls.password.value)
+      this.credentialModal.email = this.loginKala.controls.email.value.toLowerCase();
       this.credentialModal.password = window.btoa(this.loginKala.controls.password.value);
       this.credentialModal.remember = this.loginKala.controls.remember.value;
       this.auth.getUserByEmailId(this.credentialModal.email).subscribe((res) => {
