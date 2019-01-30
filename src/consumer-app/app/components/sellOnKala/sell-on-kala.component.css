@@ -1,0 +1,78 @@
+.title.sellOn h2{
+    color: #E06163; 
+    display: block;
+    font-size: 25px;
+    font-family: open_sanslight;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    text-align: center;
+}
+.title.sellOn p{
+    font-style: italic;
+    display: block; 
+    padding-top: 20px;
+    text-align: center;
+    float: inherit;
+}
+.sellon-layout{
+    background: #fff; 
+    margin-bottom: 80px;
+    padding: 20px;
+    position: relative;
+    left: -4px;
+}
+.sellon-layout p{
+    padding-bottom: 0px;
+    margin: 0px;
+}
+.sellon-layout .ddl-sell{
+    height: 40px !important;
+}
+.sellon-layout .ddl{
+    display: block;
+    width: 100%;
+    padding: .5rem .75rem;
+    height: 100%;
+    font-size: 1rem;
+    line-height: 1.25;
+    color: #464a4c;
+    background-color: #fff;
+    background-image: none;
+    background-clip: padding-box;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: .25rem;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+.sellon-layout .textArea{
+    display: block;
+    width: 100%;
+    padding: .5rem .75rem;
+    height: 100px;
+    margin: 0px 15px;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: .25rem;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+.sellon-layout button{ 
+    background: #e06263;
+    padding: 5px 30px;
+    color: #fff;
+    border: solid 0px;
+}
+.tab-sellOn .nav-tabs{
+    display: inline-block; 
+}
+.tab-sellOn .tab-content{
+    display: inline-block;
+    vertical-align: top;
+}
+.tab-sellOn .nav-tabs .nav-link{
+    padding: 4px 12px !important;
+    text-align: left;
+}
+.tab-sellOn  .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{
+    padding: 4px 12px !important;
+    text-align: left;
+    border-color: transparent !important;
+    border-radius: 0px !important;
+}

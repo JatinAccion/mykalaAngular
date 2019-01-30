@@ -1,20 +1,117 @@
 <div class="container">
     <div style="height:120px;width:100%;"></div>
-    <div class="title">
-        <h2>Sell On Kala</h2>
+    <div class="title sellOn">
+        <h2>Tell us a little about yourself...</h2>
+        <p>Please fill out all fields and then click "Submit" button below.</p>
     </div>
-    <div class="col-sm-12 join_layout">
-        <form [formGroup]="joinKala">
-            
-           
-            <div class="text-center p-3 colorlightGray">
-                <small>By creating an account you agree to Kala’s
-                    <a href="/terms.html" target="_blank">Terms of Use</a>
-                    &
-                    <a href="/privacy.html" target="_blank">Privacy Policy</a>
-                </small>
-            </div>
-        </form>
-        <div class="clearfix">&nbsp;</div>
-    </div>
+    <ngb-tabset class="tab-sellOn">
+        <ngb-tab title="Questionnaire">
+            <ng-template ngbTabContent>
+                <div class="sellon-layout"> 
+                    <div class="row pb-3">
+                        <p class="col-sm-12">Company Name</p>
+                        <div class="col-sm-12 py-2">
+                            <input aria-describedby="" class="form-control" formcontrolname="" id="" placeholder="Legal Entity or ‘DBA’ Name"
+                                type="text">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p class="col-sm-12">Business Address</p>
+                        <div class="col-sm-6 py-2">
+                            <input aria-describedby="" class="form-control" formcontrolname="" id="" placeholder="Street Address Line 1"
+                                type="text">
+                        </div>
+                        <div class="col-sm-6 py-2">
+                            <input aria-describedby="" class="form-control" formcontrolname="" id="" placeholder="Street Address Line 2"
+                                type="text">
+                        </div>
+                    </div>
+                    <div class="row pb-3">
+                        <div class="col-sm-5 py-2">
+                            <input aria-describedby="" class="form-control" formcontrolname="" id="" placeholder="City"
+                                type="text">
+                        </div>
+                        <div class="col-sm-2 py-2">
+                            <select class="ddl">
+                                <option>test1</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-5 py-2">
+                            <input aria-describedby="" class="form-control" formcontrolname="" id="" placeholder="Zip Code"
+                                type="text">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p class="col-sm-12">Contact Information</p>
+                        <div class="col-sm-6 py-2">
+                            <input aria-describedby="" class="form-control" formcontrolname="" id="" placeholder="Name of Primary Contact"
+                                type="text">
+                        </div>
+                        <div class="col-sm-6 py-2">
+                            <input aria-describedby="" class="form-control" formcontrolname="" id="" placeholder="Phone Number of Primary Contact"
+                                type="text">
+                        </div>
+                    </div>
+                    <div class="row pb-3">
+                        <div class="col-sm-6 py-2">
+                            <input aria-describedby="" class="form-control" formcontrolname="" id="" placeholder="Email Address of Primary Contact"
+                                type="text">
+                        </div>
+                    </div>
+                    <div class="row pb-3">
+                        <p class="col-sm-12">Product Information</p>
+                        <div class="col-sm-6 py-2">
+                            <select class="ddl-sell ddl">
+                                <option>Select Product Categories</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6 py-2">
+                            <select class="ddl-sell ddl">
+                                <option>Select Number of Products</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row pb-3">
+                        <p class="col-sm-12">Seller Information</p>
+                        <div class="col-sm-6 py-2">
+                            <input aria-describedby="" class="form-control" formcontrolname="" id="" placeholder="Business Tax ID Number ('TIN')"
+                                type="text">
+                        </div>
+                        <div class="col-sm-6">
+                            <select class="ddl-sell ddl">
+                                <option>Select Number of Products?</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row pb-3">
+                        <div class="col-sm-6 py-2">
+                            <select class="ddl-sell ddl">
+                                <option>Registered to sell in the US?</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6">
+                            <select class="ddl-sell ddl">
+                                <option>Preferred integration method</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row ">
+                        <textarea class="textArea" placeholder="Anything else you would like us to know? (optional)"></textarea>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-sm-6 text-left"><a href="#">Back</a></div>
+                        <div class="col-sm-6 text-right"><button>Submit</button></div>
+                    </div>
+                </div>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Documentation">
+            <ng-template ngbTabContent>
+
+            </ng-template>
+        </ngb-tab>
+    </ngb-tabset>
+    <div class="clearfix">&nbsp;</div>
+
 </div>
