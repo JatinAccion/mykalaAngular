@@ -79,6 +79,8 @@ import { ElasticSearchResult } from './components/elastic-search-result/elastic-
 import { MyCartService } from './services/mycart.service';
 import { ViewOfferComponent } from './components/view-offer/view-offer.component';
 import { ViewOfferService } from './services/viewOffer.service';
+import { SellOnKalaComponent } from './components/sellOnKala/sell-on-kala.component';
+import { SellOnKalaService } from '../app/services/sell-on-kala.service';
 
 @NgModule({
   declarations: [
@@ -119,7 +121,8 @@ import { ViewOfferService } from './services/viewOffer.service';
     TrackOrderComponent,
     MyNewsAlertsComponent,
     ElasticSearchResult,
-    ViewOfferComponent
+    ViewOfferComponent,
+    SellOnKalaComponent
   ],
   imports: [
     BrowserModule,
@@ -159,6 +162,7 @@ import { ViewOfferService } from './services/viewOffer.service';
     GetOfferService,
     CheckoutService,
     MyCartService,
+    SellOnKalaService,
     ViewOfferService,
     {
       provide: NgbDateParserFormatter,

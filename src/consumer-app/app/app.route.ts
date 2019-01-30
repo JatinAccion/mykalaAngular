@@ -33,6 +33,7 @@ import { MyNewsAlertsComponent } from './components/my-news-alerts/my-news-alert
 import { MailEntryRoutingModule } from './components/mail-entry/mail-entry-routing.module';
 import { ElasticSearchResult } from './components/elastic-search-result/elastic-search-result.component';
 import { ViewOfferComponent } from './components/view-offer/view-offer.component';
+import { SellOnKalaComponent } from './components/sellOnKala/sell-on-kala.component';
 
 const appRoutes: Routes = [
     {
@@ -175,6 +176,11 @@ const appRoutes: Routes = [
         data: { header: 'header1' }
     },
     {
+        path: 'sell-on-kala',
+        component: SellOnKalaComponent,
+        data: { header: 'header1' }
+    },
+    {
         path: '**',
         redirectTo: '/home'
     },
@@ -182,7 +188,7 @@ const appRoutes: Routes = [
         path: '',
         pathMatch: 'full',
         redirectTo: '/home'
-    },
+    }
 ];
 
 @NgModule({
