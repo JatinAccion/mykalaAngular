@@ -1,13 +1,25 @@
 <div class="container">
-    <div style="height:120px;width:100%;"></div>
+    <div style="height:74px;width:100%;"></div>
+    <div class="sell-header">
+        <div class="row">
+            <div class="col-sm-4 text-right">
+                logo
+            </div>
+            <div class="col-sm-8">
+                <h5>Welcome to the Kala Community! </h5>
+                <p>Please download and review our seller documentation.</p> 
+            </div>
+        </div>
+    </div>
     <div class="title sellOn">
         <h2>Tell us a little about yourself...</h2>
         <p>Please fill out all fields and then click "Submit" button below.</p>
     </div>
+
     <ngb-tabset class="tab-sellOn">
         <ngb-tab title="Questionnaire">
             <ng-template ngbTabContent>
-                <div class="sellon-layout"> 
+                <div class="sellon-layout">
                     <div class="row pb-3">
                         <p class="col-sm-12">Company Name</p>
                         <div class="col-sm-12 py-2">
@@ -108,10 +120,44 @@
         </ngb-tab>
         <ngb-tab title="Documentation">
             <ng-template ngbTabContent>
-
+                <div class="sell_documentation">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th width="80%">Documents</th>
+                                <th width="20%">Post Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Agreement & Policy List</td>
+                                <td>
+                                    <p>Apr 5,2015</p>
+                                    <p>9:47:24 PM EST</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Seller Terms & Conditions</td>
+                                <td>
+                                    <p>Apr 5,2015</p>
+                                    <p>9:47:24 PM EST</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Seller Agreement</td>
+                                <td>
+                                    <p>Apr 5,2015</p>
+                                    <p>9:47:24 PM EST</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </ng-template>
         </ngb-tab>
     </ngb-tabset>
+
+
     <div class="clearfix">&nbsp;</div>
 
 </div>
