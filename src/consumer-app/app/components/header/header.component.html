@@ -18,7 +18,7 @@
           </ul>
         </div>
         <div class="col-sm-7 mt-2">
-          <div class="dialogue dialogue_right clearfix searchBox position-relative">
+          <div *ngIf ="core.hideSearchField" class="dialogue dialogue_right clearfix searchBox position-relative">
             <!-- <form (ngSubmit)="core.search(searchBar.value)">
               <input type="text" #searchBar placeholder="what can we help you find?">
               <span>
@@ -151,6 +151,13 @@
               </a>
             </li>
           </ul>
+          <ul class="list-unstyled">
+              <li class="list-unstyled d-inline pr-2">
+                <a routerLink="/sell-on-kala">
+                  SELL ON KALA
+                </a>
+              </li>
+            </ul>
           <ul class="list-unstyled mob-social">
             <li class="list-unstyled d-inline pr-2">
               <a href="https://www.facebook.com/KalaMarketplace" target="_blank">
@@ -171,7 +178,7 @@
           <div class="col-sm-12 mb-3 p-0 pr-3" *ngIf="core.navVisible">
             <a class="dialogue dialogue_left">{{core.showHeaderMessage}}</a>
           </div>
-          <div class="dialogue dialogue_right clearfix searchBox position-relative" *ngIf="core.showSearch">
+          <div class="dialogue dialogue_right clearfix searchBox position-relative" *ngIf="!core.showSearch">
             <!-- <form (ngSubmit)="core.search(searchBar.value)">
               <input type="text" #searchBar placeholder="what can we help you find?">
               <span>

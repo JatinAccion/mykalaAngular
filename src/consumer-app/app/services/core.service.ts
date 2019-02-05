@@ -45,7 +45,7 @@ export class CoreService {
   refreshingSession: boolean = false;
   isWithSpecialCharacter: boolean = false;
   productNotFound: boolean = false;
-
+  hideSearchField:boolean = true;
   constructor(
     private http: Http,
     private route: Router,

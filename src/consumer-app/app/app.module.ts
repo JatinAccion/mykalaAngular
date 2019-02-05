@@ -81,6 +81,8 @@ import { ViewOfferComponent } from './components/view-offer/view-offer.component
 import { ViewOfferService } from './services/viewOffer.service';
 import { SellOnKalaComponent } from './components/sellOnKala/sell-on-kala.component';
 import { SellOnKalaService } from '../app/services/sell-on-kala.service';
+import { SharedModule } from '../../common/shared.module';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 
 @NgModule({
   declarations: [
@@ -136,6 +138,8 @@ import { SellOnKalaService } from '../app/services/sell-on-kala.service';
     MailEntryModule,
     BrowserAnimationsModule,
     MaterialModule,
+    SharedModule,
+    AngularMultiSelectModule,
     NgbModule.forRoot(),
     SidebarModule.forRoot()
   ],

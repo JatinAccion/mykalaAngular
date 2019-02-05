@@ -7,103 +7,162 @@
     <ngb-tabset class="tab-sellOn">
         <ngb-tab title="Questionnaire">
             <ng-template ngbTabContent>
-                <div class="sellon-layout"> 
-                    <div class="row pb-3">
-                        <p class="col-sm-12">Company Name</p>
-                        <div class="col-sm-12 py-2">
-                            <input aria-describedby="" class="form-control" formcontrolname="" id="" placeholder="Legal Entity or ‘DBA’ Name"
-                                type="text">
+                <form [formGroup]="sellOnKalaForm">
+                    <div class="sellon-layout">
+                        <div class="row pb-3">
+                            <p class="col-sm-12">Company Name</p>
+                            <div class="col-sm-12 py-2">
+                                <input aria-describedby="" (keyup)="hideValidation()" class="form-control"
+                                formControlName="comp_name" placeholder="Legal Entity or ‘DBA’ Name" type="text">
+                            </div>
+                            <div class="col-sm-12 errorUser" *ngIf="compNameValidation">
+                                <div *ngIf="!sellOnKalaForm.controls.comp_name.value" class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.compNameRequired}}</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <p class="col-sm-12">Business Address</p>
+                            <div class="col-sm-6 py-2">
+                                <input aria-describedby="" class="form-control" formControlName="bussines_address1" id=""
+                                    placeholder="Street Address Line 1" type="text">
+                            </div>
+
+                            <div class="col-sm-6 py-2">
+                                <input aria-describedby="" class="form-control" formControlName="bussines_address2" id=""
+                                    placeholder="Street Address Line 2" type="text">
+                            </div>
+                            <div class="col-sm-12 errorUser" *ngIf="bussinesAddress1Validation">
+                                <div *ngIf="!sellOnKalaForm.controls.bussines_address1.value" class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.address1Required}}</div>
+                            </div>
+                        </div>
+                        <div class="row pb-3">
+                            <div class="col-sm-5 py-2">
+                                <input aria-describedby="" class="form-control" formControlName="city" id=""
+                                    placeholder="City" type="text">
+                            </div>
+                            <div class="col-sm-6 py-2">
+                                <input aria-describedby="" class="form-control" formControlName="bussines_address2" id=""
+                                    placeholder="Street Address Line 2" type="text">
+                            </div>
+                            <div class="col-sm-2 py-2">
+                                <select formControlName="state" class="form-control">
+                                    <option value selected disabled>Select a state</option>
+                                    <option *ngFor="let state of getStates" value="{{state}}">{{state}}</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-5 py-2">
+                                <input aria-describedby="" class="form-control" formControlName="zipCode" id=""
+                                    placeholder="Zip Code" type="text">
+                            </div>
+                            <div class="col-sm-12 errorUser" *ngIf="cityValidation">
+                                <div *ngIf="!sellOnKalaForm.controls.city.value" class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.cityRequired}}</div>
+                            </div>
+                            <div class="col-sm-12 errorUser" *ngIf="stateValidation">
+                                <div *ngIf="!sellOnKalaForm.controls.state.value" class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.stateRequired}}</div>
+                            </div>
+                            <div class="col-sm-12 errorUser" *ngIf="zipcodeValidation">
+                                <div *ngIf="!sellOnKalaForm.controls.zipCode.value" class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.validZipRequired}}</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <p class="col-sm-12">Contact Information</p>
+                            <div class="col-sm-6 py-2">
+                                <input aria-describedby="" class="form-control" formControlName="name" id=""
+                                    placeholder="Name of Primary Contact" type="text">
+                            </div>
+                            <div class="col-sm-6 py-2">
+                                <input aria-describedby="" class="form-control" formControlName="phoneNumber" id=""
+                                    placeholder="Phone Number of Primary Contact" type="text">
+                            </div>
+                            <div class="col-sm-12 errorUser" *ngIf="nameValidation">
+                                <div *ngIf="!sellOnKalaForm.controls.name.value" class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.contactNamerequired}}</div>
+                            </div>
+                            <div class="col-sm-12 errorUser" *ngIf="phoneNumbervalidation">
+                                <div *ngIf="!sellOnKalaForm.controls.phoneNumber.value" class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.phoneNumRequired}}</div>
+                            </div>
+                        </div>
+                        <div class="row pb-3">
+                            <div class="col-sm-6 py-2">
+                                <input aria-describedby="" class="form-control" formControlName="email" id=""
+                                    placeholder="Email Address of Primary Contact" type="text">
+                            </div>
+                            <div class="col-sm-12 errorUser" *ngIf="emailValidation">
+                                <div *ngIf="!sellOnKalaForm.controls.email.value" class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.contactEmailRequired}}</div>
+                            </div>
+                        </div>
+                        <div class="row pb-3">
+                            <p class="col-sm-12">Product Information</p>
+                            <div class="col-sm-6 py-2">
+                                <angular2-multiselect [data]="places" [(ngModel)]="productInfo" [settings]="placesSettings"
+                                    (onSelect)="onPlaceSelect($event)" (onDeSelect)="onPlaceDeSelect($event)"
+                                    (onSelectAll)="onPlaceSelectAll($event)" (onDeSelectAll)="onPlaceDeSelectAll($event)"
+                                    formControlName="productPlace">
+                                </angular2-multiselect>
+                            </div>
+
+                            <div class="col-sm-6 py-2">
+                                <select formControlName="noOfProducts" class="form-control ddl-sell ddl">
+                                    <option value selected disabled>Select Number of Products</option>
+                                    <option *ngFor="let nop of noOfProductsList" value="{{nop}}">{{nop}}</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-12 errorUser" *ngIf="productPlaceValidation">
+                                <div *ngIf="!sellOnKalaForm.controls.productPlace.value" class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.productplaceRequired}}</div>
+                            </div>
+                            <div class="col-sm-12 errorUser" *ngIf="noOfProductsValidation">
+                                <div *ngIf="!sellOnKalaForm.controls.productPlace.value" class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.noProdInventoryRequired}}</div>
+                            </div>
+                        </div>
+                        <div class="row pb-3">
+                            <p class="col-sm-12">Seller Information</p>
+                            <div class="col-sm-6 py-2">
+                                <input aria-describedby="" class="form-control" formControlName="TIN" id="" placeholder="Business Tax ID Number ('TIN')"
+                                    type="text">
+                            </div>
+                            <div class="col-sm-6">
+                                <select formControlName="doShipProds" class="ddl-sell ddl">
+                                    <option value selected disabled>Do you ship your own products?</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-12 errorUser" *ngIf="tinValidation">
+                                <div *ngIf="!sellOnKalaForm.controls.TIN.value" class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.taxIdRequired}}</div>
+                            </div>
+                            <div class="col-sm-12 errorUser" *ngIf="doShipProdsValidation">
+                                <div *ngIf="!sellOnKalaForm.controls.doShipProds.value" class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.doownProdRequired}}</div>
+                            </div>
+                        </div>
+                        <div class="row pb-3">
+                            <div class="col-sm-6 py-2">
+                                <select formControlName="regInUS" class="ddl-sell ddl">
+                                    <option value selected disabled>Registered to sell in the US?</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <select formControlName="prefIntMeth" class="ddl-sell ddl">
+                                    <option value selected disabled>Preferred integration method</option>
+                                    <option *ngFor="let pim of prefIntMethods" value="{{pim}}">{{pim}}</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-12 errorUser" *ngIf="regInUSValidation">
+                                <div *ngIf="!sellOnKalaForm.controls.regInUS.value" class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.regInUSRequired}}</div>
+                            </div>
+                            <div class="col-sm-12 errorUser" *ngIf="prefIntMethValidation">
+                                <div *ngIf="!sellOnKalaForm.controls.prefIntMeth.value" class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.prefIntMethodRequired}}</div>
+                            </div>
+                        </div>
+                        <div class="row ">
+                            <textarea formControlName="anythingElse" class="textArea" placeholder="Anything else you would like us to know? (optional)"></textarea>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div (click)="goBack(2)" class="col-sm-6 text-left"><a href="#">Back</a></div>
+                            <div (click)="onSubmit()" type="Submit" class="col-sm-6 text-right"><button>Submit</button></div>
                         </div>
                     </div>
-                    <div class="row">
-                        <p class="col-sm-12">Business Address</p>
-                        <div class="col-sm-6 py-2">
-                            <input aria-describedby="" class="form-control" formcontrolname="" id="" placeholder="Street Address Line 1"
-                                type="text">
-                        </div>
-                        <div class="col-sm-6 py-2">
-                            <input aria-describedby="" class="form-control" formcontrolname="" id="" placeholder="Street Address Line 2"
-                                type="text">
-                        </div>
-                    </div>
-                    <div class="row pb-3">
-                        <div class="col-sm-5 py-2">
-                            <input aria-describedby="" class="form-control" formcontrolname="" id="" placeholder="City"
-                                type="text">
-                        </div>
-                        <div class="col-sm-2 py-2">
-                            <select class="ddl">
-                                <option>test1</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-5 py-2">
-                            <input aria-describedby="" class="form-control" formcontrolname="" id="" placeholder="Zip Code"
-                                type="text">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <p class="col-sm-12">Contact Information</p>
-                        <div class="col-sm-6 py-2">
-                            <input aria-describedby="" class="form-control" formcontrolname="" id="" placeholder="Name of Primary Contact"
-                                type="text">
-                        </div>
-                        <div class="col-sm-6 py-2">
-                            <input aria-describedby="" class="form-control" formcontrolname="" id="" placeholder="Phone Number of Primary Contact"
-                                type="text">
-                        </div>
-                    </div>
-                    <div class="row pb-3">
-                        <div class="col-sm-6 py-2">
-                            <input aria-describedby="" class="form-control" formcontrolname="" id="" placeholder="Email Address of Primary Contact"
-                                type="text">
-                        </div>
-                    </div>
-                    <div class="row pb-3">
-                        <p class="col-sm-12">Product Information</p>
-                        <div class="col-sm-6 py-2">
-                            <select class="ddl-sell ddl">
-                                <option>Select Product Categories</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-6 py-2">
-                            <select class="ddl-sell ddl">
-                                <option>Select Number of Products</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row pb-3">
-                        <p class="col-sm-12">Seller Information</p>
-                        <div class="col-sm-6 py-2">
-                            <input aria-describedby="" class="form-control" formcontrolname="" id="" placeholder="Business Tax ID Number ('TIN')"
-                                type="text">
-                        </div>
-                        <div class="col-sm-6">
-                            <select class="ddl-sell ddl">
-                                <option>Select Number of Products?</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row pb-3">
-                        <div class="col-sm-6 py-2">
-                            <select class="ddl-sell ddl">
-                                <option>Registered to sell in the US?</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-6">
-                            <select class="ddl-sell ddl">
-                                <option>Preferred integration method</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row ">
-                        <textarea class="textArea" placeholder="Anything else you would like us to know? (optional)"></textarea>
-                    </div>
-                    <hr />
-                    <div class="row">
-                        <div class="col-sm-6 text-left"><a href="#">Back</a></div>
-                        <div class="col-sm-6 text-right"><button>Submit</button></div>
-                    </div>
-                </div>
+                </form>
             </ng-template>
         </ngb-tab>
         <ngb-tab title="Documentation">
