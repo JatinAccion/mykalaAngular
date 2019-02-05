@@ -14,16 +14,36 @@
     text-align: center;
     float: inherit;
 }
+.tab-sellOn .form-control{
+    font-size: 12px;
+}
+.sell-header{ 
+    background: #fff;
+    text-align: left;
+    padding: 10px 0px;
+    margin-bottom: 30px;
+}
+.sell-header h5{
+    color: #E06163;
+    font-weight: lighter;
+    font-size: 14px;
+}
+.sell-header p{ 
+    font-weight: lighter;
+    font-size: 14px;
+}
 .sellon-layout{
     background: #fff; 
     margin-bottom: 80px;
     padding: 20px;
     position: relative;
     left: -4px;
+    font-size: 12px;
 }
 .sellon-layout p{
     padding-bottom: 0px;
     margin: 0px;
+    width: 13px;
 }
 .sellon-layout .ddl-sell{
     height: 40px !important;
@@ -33,7 +53,7 @@
     width: 100%;
     padding: .5rem .75rem;
     height: 100%;
-    font-size: 1rem;
+    font-size: 12px;
     line-height: 1.25;
     color: #464a4c;
     background-color: #fff;
@@ -42,6 +62,7 @@
     border: 1px solid rgba(0,0,0,.15);
     border-radius: .25rem;
     transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    
 }
 .sellon-layout .textArea{
     display: block;
@@ -52,6 +73,7 @@
     border: 1px solid rgba(0,0,0,.15);
     border-radius: .25rem;
     transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    font-size: 12px;
 }
 .sellon-layout button{ 
     background: #e06263;
@@ -61,18 +83,36 @@
 }
 .tab-sellOn .nav-tabs{
     display: inline-block; 
+    width: 15%;
 }
 .tab-sellOn .tab-content{
     display: inline-block;
     vertical-align: top;
+    width: 84%;
 }
 .tab-sellOn .nav-tabs .nav-link{
     padding: 4px 12px !important;
     text-align: left;
+    font-size: 12px;
 }
 .tab-sellOn  .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{
     padding: 4px 12px !important;
     text-align: left;
     border-color: transparent !important;
     border-radius: 0px !important;
+    font-size: 12px;
+}
+.sell_documentation{
+    background: #fff; 
+    margin-bottom: 80px; 
+    position: relative;
+    left: -4px;
+    font-size:12px;
+}
+.sell_documentation table thead{
+    background: #fafafa;
+}
+.sell_documentation p{
+    padding: 0px;
+    margin: 0px;
 }
