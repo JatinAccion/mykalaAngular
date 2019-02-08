@@ -1,30 +1,28 @@
-import { BusinessAddress } from './business-address';
-import { ProductPlace, ProductCategory, ProductSubCategory } from './product-info';
+import { SellerBusinessAddress } from './seller-business-address';
+
 export class SellOnKala {
     public compName: string;
-    public businessAddress: BusinessAddress;
+    public businessAddress: SellerBusinessAddress;
     public name: string;
-    public email: BusinessAddress;
-    public phoneNo: string;
     public extraInfo?:string;
-    public productInfo:Array<ProductInfo>
-    constructor() { }
-}
-export class ProductInfo {
-    public productPlaces:Array<ProductPlace>;
-    public noOfProducts:MinMax;
-    constructor(prodPlaces : any,  nop: any) {
-        this.productPlaces = prodPlaces;
-        this.noOfProducts = nop;
-     }
-}
-export class SellerInfo {
+    public productPlaces:Array<ProductPlaceSOK>;
+    public minNoOfProducts:Number;
+    public maxNoOfProducts : Number;
     public taxIdNumber : Number;
-    public noOfProducts:Number;
     public IsRegisteredInUS:boolean;
     public integrationMethod:string;
+    public doShipProds :boolean;
+    public regInUS :boolean;
+    public prefIntMeth : string;
+    constructor() { }
 }
-export class MinMax{
-    public min : Number;
-    public max : Number;
+export class ProductPlaceSOK {
+    public placeId: string;
+    public placeName: string;
+    constructor(obj?: any) {
+        if (obj) {
+            this.placeId = obj.placeId;
+            this.placeName = obj.placeName;
+        }
+    }
 }

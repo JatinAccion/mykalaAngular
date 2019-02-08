@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, EventEmitter, Output, Input } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, EventEmitter, Output, Input ,ViewChild,ElementRef} from '@angular/core';
 import { CuiComponent, MsgDirection } from '../conversational/cui.interface';
 import { ConversationalService } from '../conversational/conversational.service';
 import { Router, RouterOutlet } from '@angular/router';
@@ -10,11 +10,16 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { JoinKalaService } from '../../services/join-kala.service';
 import { ConsumerSignUp } from '../../../../models/consumer-signup';
 import { regexPatterns } from '../../../../common/regexPatterns';
-import { SellOnKala,ProductInfo } from '../../../../models/sell-on-kala';
+import { SellOnKala } from '../../../../models/sell-on-kala';
 import { SellOnKalaService } from '../../services/sell-on-kala.service';
 import { HomeService } from '../../services/home.service';
 import { nameValue, IdNameParent, TypeDataSelected } from '../../../../models/nameValue';
 import { userMessages, inputValidation } from './sell-on-kala.message';
+import { RetailerProfileInfo } from '../../../../models/retailer-profile-info';
+import { SellerBusinessAddress } from '../../../../models/seller-business-address';
+import { ProductPlaceSOK } from '../../../../models/sell-on-kala';
+import { NgbTabset } from '@ng-bootstrap/ng-bootstrap/tabset/tabset';
+import { ValidatorExt } from '../../../../common/ValidatorExtensions';
 @Component({
   selector: 'app-sell-on-kala',
   templateUrl: './sell-on-kala.component.html',
@@ -22,28 +27,49 @@ import { userMessages, inputValidation } from './sell-on-kala.message';
   encapsulation: ViewEncapsulation.None 
 })
 export class SellOnKalaComponent implements OnInit, CuiComponent {
+  @ViewChild("dontShipProdsModal") dontShipProdsModal: ElementRef;
+  @ViewChild("doneQuestionareModal")doneQuestionareModal: ElementRef;
+  @ViewChild('tabs') ngbTabSet: NgbTabset;
   loader: boolean = false;
   sellOnKalaData:SellOnKala = new SellOnKala();
   sellOnKalaForm: FormGroup;
   places = new Array<IdNameParent>();
-  productInfo = new Array<ProductInfo>();
   sellOnKalaInputValMsg = inputValidation;
+  userMsg= userMessages;
+  profileInfoObj :SellerBusinessAddress;  
   placesSettings = {};
+  public fileurl: string = "";
+  prodPlace:ProductPlaceSOK = new ProductPlaceSOK();
   noOfProductsList = ["1 to 100","101 to 1000","1001 to 10000","10001 to 25000","25001 to 100000","101000 to 250000","Over 250000"];
-  prefIntMethods =["Manual-maintain your own products","Kala, Automated-integrate with Kala APIs","ChannelAdvisor-integrate with ChannelAdvisor APIs","Other"];
+  prefIntMethods =[{
+   display: "Manual-maintain your own products",
+   key:"KALAMANUAL"},
+   {
+    display: "Kala, Automated-integrate with Kala APIs",
+    key:"KALAAUTO"
+    },
+    {
+      display: "ChannelAdvisor-integrate with ChannelAdvisor APIs",
+      key:"CHANNELADVISORAPI"
+      }, 
+      {
+        display: "Other",
+        key:"OTHER"
+        },
+];
+ 
   getStates: any;
   textRegx = regexPatterns.textRegex;
-  tinRegx = regexPatterns.tinRegex;
+  zipPattern = regexPatterns.zipPattern;
   passwordRegex = regexPatterns.password;
   fullname = new RegExp('^[a-zA-Z0-9.-]*$');
+  phoneNumberPattern = new RegExp('^(\\d{10}|\\d{10})$');
   emailRegex = regexPatterns.emailRegex;
+  phoneNoRegex = regexPatterns.phoneNumberRegex;
   userModel = new ConsumerSignUp();
   searchData = [];
   @Input() hideNavi: string;
-  signUpResponse = {
-    status: false,
-    message: ""
-  };
+
   userInfo: any;
   @Input() data: any;
   @Output() clicked = new EventEmitter<Conversation>();
@@ -65,12 +91,16 @@ export class SellOnKalaComponent implements OnInit, CuiComponent {
   doShipProdsValidation : boolean = false;
   regInUSValidation : boolean = false;
   prefIntMethValidation : boolean = false;
-  
-  constructor(private routerOutlet: RouterOutlet, private sellOnKalaService: SellOnKalaService, private homeService: HomeService, private formBuilder: FormBuilder, private router: Router, private auth: AuthService, public core: CoreService) { }
+  isWelcomePage : boolean = false;
+  isQuiestionarePage : boolean = false;
+  isDocumentationPage : boolean = false;
+  isQuiestionarePageDisabled : boolean = false;
+  constructor(private routerOutlet: RouterOutlet,public validatorExt: ValidatorExt, private sellOnKalaService: SellOnKalaService, private homeService: HomeService, private formBuilder: FormBuilder, private router: Router, private auth: AuthService, public core: CoreService) { }
   ngOnInit() {
     /* Hide search bar for this page */
     //var searchBox = document.getElementsByClassName("searchBox")[0];
    // searchBox != undefined? searchBox.classList.add("d-none"):{};
+   this.isWelcomePage = true;
    this.core.hideSearchField = false;
     /**Clearing the Logged In Session */
     //localStorage.removeItem('token');
@@ -79,6 +109,7 @@ export class SellOnKalaComponent implements OnInit, CuiComponent {
     //this.core.clearUser();
     //this.core.hideUserInfo(true);
     /**Clearing the Logged In Session */
+    
     this.placesSettings = {
       singleSelection: false,
       text: 'Select Places',
@@ -98,13 +129,13 @@ export class SellOnKalaComponent implements OnInit, CuiComponent {
       bussines_address2: ['', [Validators.maxLength(255), Validators.pattern(this.textRegx)]],
       city: ['', [Validators.maxLength(255), Validators.pattern(this.textRegx), Validators.required]],
       state: ['', [Validators.maxLength(255), Validators.pattern(this.textRegx), Validators.required]],
-      zipCode: ['', [Validators.maxLength(5), Validators.minLength(5), Validators.pattern(this.textRegx), Validators.required]],
+      zipCode: ['',Validators.compose([Validators.required,Validators.pattern(this.zipPattern)])],
       email: ['', [Validators.maxLength(255), Validators.pattern(this.emailRegex), Validators.required]],
-      phoneNumber: ['', [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(this.textRegx), Validators.required]],
+      phoneNumber: ['', [Validators.maxLength(10), Validators.minLength(10), Validators.pattern(this.phoneNumberPattern), Validators.required]],
       productPlace : ['',[Validators.required]],
       noOfProducts : ['',[Validators.required]],
       name:['',[Validators.maxLength(255), Validators.pattern(this.textRegx), Validators.required]],
-      TIN : ['', [Validators.maxLength(10),  Validators.pattern(this.tinRegx), Validators.required]],
+      TIN : ['',  Validators.required],
       doShipProds :['',Validators.required],
       regInUS:['',Validators.required],
       prefIntMeth :['',Validators.required],
@@ -186,12 +217,8 @@ export class SellOnKalaComponent implements OnInit, CuiComponent {
 
   onSubmit() {
     /*Request JSON*/
-    this.compNameValidation = false;
-    this.bussinesAddress1Validation = false;
-    this.emailValidation = false;
-    this.passwordValidation = false;
+    this.hideValidation();
     this.loader = false;
-    this.signUpResponse.status = false;
     if (!this.sellOnKalaForm.value.comp_name) this.compNameValidation = true;
     else if (this.sellOnKalaForm.controls.comp_name.value && this.sellOnKalaForm.controls.comp_name.errors) this.compNameValidation = true;
     else if (!this.sellOnKalaForm.controls.bussines_address1.value) this.bussinesAddress1Validation = true;
@@ -212,8 +239,8 @@ export class SellOnKalaComponent implements OnInit, CuiComponent {
     else if (this.sellOnKalaForm.controls.productPlace.value && this.sellOnKalaForm.controls.productPlace.errors) this.productPlaceValidation = true;
     else if (!this.sellOnKalaForm.controls.noOfProducts.value) this.noOfProductsValidation = true;
     else if (this.sellOnKalaForm.controls.noOfProducts.value && this.sellOnKalaForm.controls.noOfProducts.errors) this.noOfProductsValidation = true;
-    else if (!this.sellOnKalaForm.controls.tin.value) this.tinValidation = true;
-    else if (this.sellOnKalaForm.controls.tin.value && this.sellOnKalaForm.controls.tin.errors) this.tinValidation = true;
+    else if (!this.sellOnKalaForm.controls.TIN.value) this.tinValidation = true;
+    else if (this.sellOnKalaForm.controls.TIN.value && this.sellOnKalaForm.controls.TIN.errors) this.tinValidation = true;
     else if (!this.sellOnKalaForm.controls.doShipProds.value) this.doShipProdsValidation = true;
     else if (this.sellOnKalaForm.controls.doShipProds.value && this.sellOnKalaForm.controls.doShipProds.errors) this.doShipProdsValidation = true;
     else if (!this.sellOnKalaForm.controls.regInUS.value) this.regInUSValidation = true;
@@ -222,70 +249,71 @@ export class SellOnKalaComponent implements OnInit, CuiComponent {
     else if (this.sellOnKalaForm.controls.prefIntMeth.value && this.sellOnKalaForm.controls.prefIntMeth.errors) this.prefIntMethValidation = true;
     else {
       this.loader = true;
+      this.sellOnKalaData.productPlaces = [];
       this.sellOnKalaData.compName = this.sellOnKalaForm.value.comp_name;
-      this.sellOnKalaData.businessAddress.addressLineOne = this.sellOnKalaForm.value.bussines_address1;
-      this.sellOnKalaData.businessAddress.addressLineTwo = this.sellOnKalaForm.value.bussines_address2;
-      this.sellOnKalaData.businessAddress.city = this.sellOnKalaForm.value.city;
-      this.sellOnKalaData.businessAddress.state = this.sellOnKalaForm.value.state;
-      this.sellOnKalaData.businessAddress.zipcode = this.sellOnKalaForm.value.zipcode;
       this.sellOnKalaData.name = this.sellOnKalaForm.value.name;
-      this.sellOnKalaData.email = this.sellOnKalaForm.value.email;
-      this.sellOnKalaData.phoneNo = this.sellOnKalaForm.value.phoneNo;
-      this.sellOnKalaData.productInfo.push(new ProductInfo(this.sellOnKalaForm.value.productPlace, this.sellOnKalaForm.value.noOfProducts));
+      this.sellOnKalaForm.value.productPlace.forEach(place => {
+        this.prodPlace.placeId = place.id;
+        this.prodPlace.placeName = place.itemName;
+        this.sellOnKalaData.productPlaces.push(this.prodPlace);
+      });
+      this.profileInfoObj = new SellerBusinessAddress();
+      this.profileInfoObj.addressLine1 = this.sellOnKalaForm.value.bussines_address1;
+      this.profileInfoObj.addressLine2 = this.sellOnKalaForm.value.bussines_address2;
+      this.profileInfoObj.city = this.sellOnKalaForm.value.city;
+      this.profileInfoObj.state = this.sellOnKalaForm.value.state;
+      this.profileInfoObj.zipcode = this.sellOnKalaForm.value.zipCode;
+      this.profileInfoObj.email = this.sellOnKalaForm.value.email;
+      this.profileInfoObj.phoneNo = this.sellOnKalaForm.value.phoneNumber;
+      this.profileInfoObj.addressType = "businessAddress";
+      //this.profileInfoObj.businessAddress.email = this.sellOnKalaForm.value.email;
+      //this.profileInfoObj.businessAddress.phoneNo = this.sellOnKalaForm.value.phoneNo;
+      this.sellOnKalaData.businessAddress = this.profileInfoObj;
+      this.sellOnKalaData.extraInfo = this.sellOnKalaForm.value.anythingElse;
+      this.sellOnKalaData.taxIdNumber =this.sellOnKalaForm.value.TIN;
+      this.sellOnKalaData.doShipProds =this.sellOnKalaForm.value.doShipProds;
+      this.sellOnKalaData.regInUS =  this.sellOnKalaForm.value.regInUS;
+      this.sellOnKalaData.prefIntMeth =  this.sellOnKalaForm.value.prefIntMeth;
+      var numberOfProds = this.sellOnKalaForm.value.noOfProducts.split(' ');
+      if(numberOfProds.length>0)
+      { 
+        if(this.sellOnKalaForm.value.noOfProducts.indexOf("Over") != -1)
+        {
+          this.sellOnKalaData.minNoOfProducts =numberOfProds[numberOfProds.length-1];
+          this.sellOnKalaData.maxNoOfProducts = 0;
+       
+        }
+        else
+        {
+          this.sellOnKalaData.minNoOfProducts = numberOfProds[0];
+          this.sellOnKalaData.maxNoOfProducts = numberOfProds[numberOfProds.length-1];
+        }
+      }
 
-      // this.loader = true;
-      // this.userModel.firstName = this.sellOnKalaForm.value.firstname;
-      // this.userModel.lastName = this.sellOnKalaForm.value.lastname;
-      // this.userModel.password = this.sellOnKalaForm.value.password;
-      // this.userModel.emailId = this.sellOnKalaForm.value.email.toLowerCase();
-      // this.userModel.fullName = this.sellOnKalaForm.value.firstname + ' ' + this.sellOnKalaForm.value.lastname;
-      // this.userModel.userCreateStatus = false;
-      // this.userModel.phone = "";
-      // this.userModel.roleName = [];
-      // this.userModel.roleName.push("consumer");
-      // this.joinKalaService.joinKalaStepOne(this.userModel).subscribe(res => {
-      //   console.log(res);
-      //   this.loader = false;
-      //   this.userInfo = res;
-      //   if (this.userInfo.user_status === "success") {
-      //     window.localStorage['userInfo'] = JSON.stringify(this.userInfo);
-      //     this.signUpResponse.status = true;
-      //     this.signUpResponse.message = '';//this.joinUserMsg.success;
-      //     setTimeout(() => {
-      //       if (this.routerOutlet.isActivated) this.routerOutlet.deactivate();
-      //       this.router.navigateByUrl('/profile-info');
-      //     }, 3000);
-      //     this.sellOnKalaForm.reset();
-      //   }
-      //   else if (this.userInfo.user_status === "alreadyExists") {
-      //     if (this.userInfo.userCreateStatus == false) {
-      //       this.userInfo.user_status = "inactive";
-      //       this.signUpResponse.status = true;
-      //       this.signUpResponse.message ='';// this.joinUserMsg.inactiveUser;
-      //     }
-      //     else {
-      //       this.signUpResponse.status = true;
-      //       this.signUpResponse.message ='';// this.joinUserMsg.emailExists;
-      //     }
-      //   }
-      // }, err => {
-      //   this.loader = false;
-      //   this.signUpResponse.status = true;
-      //   this.signUpResponse.message ='';// this.joinUserMsg.fail;
-      // });
+      this.sellOnKalaService.postSellOnKalaForm(this.sellOnKalaData).subscribe(res => {
+        console.log(res);
+        this.loader = false;
+        if (res.sellerId) {
+          this.core.openModal(this.doneQuestionareModal);
+          this.ngbTabSet.select('tab-doc');
+          this.isQuiestionarePageDisabled = true;
+          this.isDocumentationPage = true;
+          this.isQuiestionarePage = false;
+        }
+        else{
+
+        }
+      }, err => {
+        this.loader = false;
+      });
+      //this.core.openModal(this.doneQuestionareModal);
+      //this.ngbTabSet.select('tab-doc');
+      console.log(JSON.stringify(this.sellOnKalaData));
     }
+
   }
 
-  verifyAccount() {
-    this.loader = true;
-    this.signUpResponse.status = false;
-    this.auth.verifyAccount(this.sellOnKalaForm.controls.email.value).subscribe((res) => {
-      this.loader = false;
-      this.userInfo.user_status = "success";
-      this.signUpResponse.status = true;
-      this.signUpResponse.message ='';//this.joinUserMsg.success;
-    })
-  }
+ 
   
   getAllStates() {
     if (this.getStates == undefined) {
@@ -300,11 +328,151 @@ export class SellOnKalaComponent implements OnInit, CuiComponent {
     this.places = res.map(p => new IdNameParent(p.placeId, p.placeName, '', '', true));
   });
  }
- goBack(pageNo) {
-
+ goBack() {
+    this.isWelcomePage = true;
+    this.isQuiestionarePage = false;
+    this.isDocumentationPage= false;
  }
  refreshCategories() {
  
 }
 onPlaceSelect(item: any) { this.refreshCategories(); }
+
+downloadfiletest(downloadTopoData) {
+  var contentType = '';
+  var b64Data = downloadTopoData.Uploaded_File;//'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==';
+  var blob = this.b64toBlob(b64Data, contentType, 512);
+  this.fileurl = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  document.body.appendChild(a);
+  a.href = this.fileurl;
+  a.setAttribute("download", downloadTopoData.File_Name);
+  a.click();
+  window.URL.revokeObjectURL(this.fileurl);
+}
+b64toBlob(b64Data, contentType, sliceSize) {
+  contentType = contentType || '';
+  sliceSize = sliceSize || 512;
+  var byteCharacters = atob(b64Data);
+  var byteArrays = [];
+  for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      var byteNumbers = new Array(slice.length);
+      for (var i = 0; i < slice.length; i++) {
+          byteNumbers[i] = slice.charCodeAt(i);
+      }
+      var byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+  }
+  var blob = new Blob(byteArrays, { type: contentType });
+  return blob;
+}
+
+downloadFile(filepath, type) {
+  window.open('', "_blank");
+}
+
+downloadAllFiles(){
+  var fileList = ["consumer-app/assets/pdf/Kala Product Guidelines.pdf",
+  "consumer-app/assets/pdf/Kala Sellers Terms and Conditions.pdf",
+  "consumer-app/assets/pdf/Kala Trademark Usage Guidelines.pdf",
+  "consumer-app/assets/pdf/Kala_Seller_Agreement.pdf",
+  "consumer-app/assets/pdf/Stripe Terms and Conditions.pdf"];
+  fileList.forEach(file => {
+    var filename = file.split("/").pop();
+    let link = document.createElement("a");
+    link.download = filename;
+    link.href = file;
+    link.click();
+  });
+  // var nameString = "/app/base/controllers/active.png";
+  // var filename = nameString.split("/").pop();
+  // let link = document.createElement("a");
+  // link.download = filename;
+  // link.href = "consumer-app/assets/images/active.png";
+  // link.click();
+}
+startSellingOnKala()
+{
+  this.hideValidation();
+  this.isWelcomePage = false;
+  this.isQuiestionarePage = true;
+}
+onTabChange($event: any) { 
+  if( $event.activeId == 'tab-quest')
+  {
+    this.isQuiestionarePage = false;
+    this.isWelcomePage = false;
+    this.isDocumentationPage = true;
+
+  }
+  else
+  {
+    this.isDocumentationPage = false;
+    this.isWelcomePage = false;
+    this.isQuiestionarePage = true;
+  }
+  console.log('onTabChange=' + $event.activeId);
+ }
+ changedoShipProds(value: any)
+ {
+   if(value=="No")
+   {
+    this.core.openModal(this.dontShipProdsModal)
+    setTimeout(() => {
+      this.core.modalReference.close();
+      this.router.navigateByUrl('/home');
+    }, 7000)
+    //this.core.message.success('Product Info Saved');
+   }
+ }
+ closeModal()
+ {
+  this.core.modalReference.close();
+  this.router.navigateByUrl('/home');
+ }
+ closeQuastionareModal()
+ {
+  this.core.modalReference.close();
+  //this.router.navigateByUrl('/home');
+ }
+ keyPress(event: any) {
+  const pattern = /[0-9]/;
+  const inputChar = String.fromCharCode(event.charCode);
+  if (this.sellOnKalaForm.controls.zipCode.value && this.sellOnKalaForm.controls.zipCode.errors) 
+    this.zipcodeValidation = true;
+  
+  if (!pattern.test(inputChar)) {    
+      // invalid character, prevent input
+      event.preventDefault();
+  }
+}
+zipcodeValidator() {
+  this.zipcodeValidation = false;
+  this.sellOnKalaForm.controls.zipCode.setValidators([Validators.maxLength(5), Validators.minLength(5),
+    Validators.pattern(regexPatterns.zipcodeRegex), this.validatorExt.getRV(true)]);
+  if (!this.sellOnKalaForm.controls.zipCode.value) this.zipcodeValidation = true;
+  else if (this.sellOnKalaForm.controls.zipCode.value && !this.zipPattern.test(this.sellOnKalaForm.controls.zipCode.value) ) 
+      this.zipcodeValidation = true;
+}
+phoneNumberValidator()
+{
+  this.phoneNumbervalidation = false;
+  this.sellOnKalaForm.controls.phoneNumber.setValidators([Validators.maxLength(10), Validators.minLength(10),
+    Validators.pattern(this.phoneNumberPattern), this.validatorExt.getRV(true)]);
+  if (!this.sellOnKalaForm.controls.phoneNumber.value) this.phoneNumbervalidation = true;
+  else if (this.sellOnKalaForm.controls.phoneNumber.value && !this.phoneNumberPattern.test(this.sellOnKalaForm.controls.phoneNumber.value) ) 
+    this.phoneNumbervalidation = true;
+}
+emailValidator()
+{
+  this.emailValidation = false;
+  this.sellOnKalaForm.controls.email.setValidators([
+    Validators.pattern(regexPatterns.emailRegex), this.validatorExt.getRV(true)]);
+  if (!this.sellOnKalaForm.controls.email.value) this.emailValidation = true;
+  else if (this.sellOnKalaForm.controls.email.value && !regexPatterns.emailRegex.test(this.sellOnKalaForm.controls.email.value) ) 
+    this.emailValidation = true;
+}
+
 }

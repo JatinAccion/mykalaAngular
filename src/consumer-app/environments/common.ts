@@ -83,7 +83,8 @@ export const apiNames = {
         getTax: 'tax/v1/productsTax',
         getStates: 'retailer/v1/states/name',
         retailerPolicy: 'shippingReturns',
-        latestShipMethodName: 'latestShipMethodName'
+        latestShipMethodName: 'latestShipMethodName',
+        sellOnKala:'retailer/v1/public/kalaSellerBasicInfo'
     }
 };
 

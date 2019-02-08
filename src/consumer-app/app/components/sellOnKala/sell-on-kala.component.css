@@ -6,6 +6,7 @@
     margin-bottom: 20px;
     margin-top: 10px;
     text-align: center;
+    font-weight: bold; 
 }
 .title.sellOn p{
     font-style: italic;
@@ -16,11 +17,12 @@
 }
 .tab-sellOn .form-control{
     font-size: 12px;
+    border: 2px solid rgba(0,0,0,.15)
 }
 .sell-header{ 
     background: #fff;
     text-align: left;
-    padding: 10px 0px;
+    padding:30px 0px 20px;
     margin-bottom: 30px;
 }
 .sell-header h5{
@@ -80,10 +82,12 @@
     padding: 5px 30px;
     color: #fff;
     border: solid 0px;
+    cursor: pointer;
 }
 .tab-sellOn .nav-tabs{
     display: inline-block; 
     width: 15%;
+    border-bottom: none;
 }
 .tab-sellOn .tab-content{
     display: inline-block;
@@ -91,12 +95,12 @@
     width: 84%;
 }
 .tab-sellOn .nav-tabs .nav-link{
-    padding: 4px 12px !important;
+    padding: 8px 12px !important;
     text-align: left;
     font-size: 12px;
 }
 .tab-sellOn  .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{
-    padding: 4px 12px !important;
+    padding: 8px 12px !important;
     text-align: left;
     border-color: transparent !important;
     border-radius: 0px !important;
@@ -115,4 +119,146 @@
 .sell_documentation p{
     padding: 0px;
     margin: 0px;
+}
+
+body{
+    
+}
+.thumb_seller{
+    width: 70px;
+    height: 70px;
+}
+.sellingWelcome{
+    background: #fff; 
+}
+.sellingWelcome h1{
+    font-size: 24px;
+    color: #df6162;
+    padding: 20px;
+    text-align: center;
+}
+.sellingWelcome p{
+    font-size: 14px;
+    color: #000;
+    padding: 0px 20% 20px 20%;
+    text-align: center;
+    margin-bottom: 0px !important;
+}
+.about_layout{
+    padding: 0px 10%;
+}
+.sellingAbout{
+    background: #e1e1e1; 
+}
+.sellingAbout h1{
+    font-size: 24px;
+    color: #df6162;
+    padding: 20px;
+    text-align: center;
+}
+.sellingAbout p{
+    font-size: 14px;
+    color: #000;
+    padding: 20px 20px 20px 0px; 
+}
+.about_mob{
+    width: 160px;
+}
+.sellingBenefits{
+    background: #fff; 
+}
+.sellingBenefits h1{
+    font-size: 24px;
+    color: #df6162;
+    padding: 20px;
+    text-align: center;
+}
+.cuppa-dropdown .selected-list .c-btn{
+    box-shadow: none !important ;
+    height: 40px;
+}
+
+.featureLayout{
+    position:relative; 
+    margin-left:10%;
+  }
+  .featureLayout ul li{
+    background: #000;
+    color: #fff;
+    width: 100%;
+    list-style-type:none; 
+    position:absolute;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+  } 
+  .featureLayout ul li span{
+      padding-left: 10px;
+      position: relative;
+      top:2px;
+  }
+  .featureLayout ul li:nth-child(1){ 
+    left:40px;
+    top:0px; 
+    width: 60.3%;
+  }
+  .featureLayout ul li:nth-child(2){ 
+    left:78px;
+    top:40px; 
+    width: 56.5%;
+  }
+  .featureLayout ul li:nth-child(3){ 
+    left:87px;
+    top:85px;
+    width: 55.7%;
+  }
+  .featureLayout ul li:nth-child(4){ 
+    left:89px;
+    top:128px;
+    width: 55.7%;
+  }
+  .featureLayout ul li:nth-child(5){ 
+    left:78px;
+    top:170px;
+    width: 56.7%;
+  }
+  .featureLayout ul li:nth-child(6){ 
+    left:50px;
+    top:210px;
+    width: 59.6%;
+  }
+  .half-circle {
+      width: 100px;
+      height: 250px;
+      border-bottom-right-radius: 250px;
+      border-top-right-radius: 250px;
+      border: 1px solid #ccc;
+      border-left: 0;
+      
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+  }
+  .featureLayout div.bullet{ 
+      height: 30px;
+      width: 30px;
+      border-radius: 30px;
+      background: #df6162;
+      display: inline-block;
+  }
+  button.startSelling { 
+    background: #e06263;
+    padding: 5px 30px;
+    color: #fff;
+    border: solid 0px;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 5px;
+}
+button.downloadAll { 
+    background: #e06263;
+    padding: 5px 30px;
+    color: #fff;
+    border: solid 0px;
+    cursor: pointer;
+    text-align: center; 
 }

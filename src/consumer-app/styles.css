@@ -2320,6 +2320,12 @@ a.anc_Cart {
     padding: 10px 40px;
     color: #fff;
 }
+footer .footer_link .fa-facebook,
+footer .footer_link .fa-twitter
+{
+    font-size: 18px;
+    padding: 0px 6px;
+}
 
 footer .footer_link a {
     color: #999999;

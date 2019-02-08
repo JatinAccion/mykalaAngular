@@ -8,5 +8,5 @@ export const regexPatterns = {
     nameRegex: new RegExp("^[a-zA-Z 0-9_.'-\]*$"),
     emailRegex: new RegExp('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+[\.]+[a-zA-Z0-9]{2,4}$'),
     password: new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$'),
-    tinRegex: new RegExp('/^(?:\d{3}-\d{2}-\d{4}|\d{2}-\d{7})$/')
+    zipPattern : new RegExp('^(\\d{5}|\\d{5})$')
 };

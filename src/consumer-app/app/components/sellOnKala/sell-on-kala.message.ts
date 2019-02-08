@@ -14,7 +14,7 @@ export const inputValidation = {
     validZipRequired:'Please enter a valid Zip Code.',
     contactNamerequired :'Please enter a name for the primary contact.',
     contactEmailRequired : 'Please enter an email for the primary contact.',
-    phoneNumRequired : 'Please enter a phone number for the primary contact.',
+    phoneNumRequired : 'Please enter a valid phone number for the primary contact.',
     productplaceRequired : 'Please select at least 1 product category.',
     noProdInventoryRequired:'Please select a range for the number of products you sell.',
     taxIdRequired:'Please enter a valid Tax ID Number.',

@@ -1,223 +1,355 @@
-<div class="container">
-    <div style="height:74px;width:100%;"></div>
-    <div class="sell-header">
-        <div class="row">
-            <div class="col-sm-4 text-right">
-                logo
+<div class="container-fluid p-0">
+    <div style="height:72px;width:100%;"></div>
+    <div class="sell-header " *ngIf="!isWelcomePage">
+        <div class="container">
+                <div class="row">
+                        <div class="col-sm-4 text-right">
+                             <img src="consumer-app/assets/images/sellerLogo.png"  width="60px" height="60px">
+                        </div>
+                        <div class="col-sm-7" >
+                             <h5>Welcome to the Kala Community! </h5>
+                             <p *ngIf="isQuiestionarePage">We just need to collect a few details to get you started.</p> 
+                             <p *ngIf="isDocumentationPage">Please download and review our seller documentation.</p> 
+                        </div>
+                     </div>
+        </div>
+        
+    </div>
+
+    <section class="sellingWelcome" *ngIf="isWelcomePage" >
+            <h1>Welcome to Kala - Online Shopping Personalized</h1>
+            <p>Kala changes the way buyers and sellers engage with each other, providing a new consumer-driven model that
+                makes it easier to find the products they want, while helping retailers & brands drive sales by delivering
+                custom offers at the ideal time.</p>
+    </section>
+    <section class="sellingAbout" *ngIf="isWelcomePage">
+            <h1>A little bit about us...</h1>
+            <div class="container about_layout">
+                    <div class="row mx-4 mb-0">
+                            <div class="col-sm-9">
+                                <div class="row my-4">
+                                    <div class="col-sm-2">
+                                        <img src="consumer-app/assets/images/icon_mob.png" class="thumb_seller">
+                                    </div>
+                                    <div class="col-sm-10 pl-0 text-left">
+                                        <p>Conversational Commerce - ideally suited for mobile</p>
+                                    </div>
+                                </div>
+                                <div class="row my-4">
+                                    <div class="col-sm-10 pl-4 pr-0 text-left">
+                                        <p>Eliminate mass discounts and sale promotions that devalue your brand equity </p>
+                                    </div>
+                                    <div class="col-sm-2 pl-0 text-left">
+                                        <img src="consumer-app/assets/images/icon_tagcut.png" class="thumb_seller">
+                                    </div>
+                                </div>
+                                <div class="row my-5">
+                                    <div class="col-sm-2">
+                                        <img src="consumer-app/assets/images/icon_settings.png" class="thumb_seller">
+                                    </div>
+                                    <div class="col-sm-10 pl-0 text-left">
+                                        <p>Personalized shopping experience - custom offers & individualized pricing for consumers </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <img src="consumer-app/assets/images/mob_icon.png" class="about_mob">
+                            </div>
+                        </div>
             </div>
-            <div class="col-sm-8">
-                <h5>Welcome to the Kala Community! </h5>
-                <p>Please download and review our seller documentation.</p> 
+           
+    </section>
+    <section class="sellingBenefits" *ngIf="isWelcomePage">
+            <h1>More Features & Benefits</h1>
+            <div class="container">
+                    <div class="featureLayout">
+                            <div class="half-circle"></div>
+                            <div>
+                                <ul>
+                                    <li><div class="bullet">&nbsp;</div><span>Security - Payments, Credit Cards, Payment Accounts Stored in Stripe</span></li>
+                                    <li><div class="bullet">&nbsp;</div><span>Advanced eCommerce Payment Fraud Detection</span></li>
+                                    <li><div class="bullet">&nbsp;</div><span>Personalized Offers Automated by Kala's Proprietary Algorithms</span></li>
+                                    <li><div class="bullet">&nbsp;</div><span>Flexible Integration Options - Products, Orders, Shipping</span></li>
+                                    <li><div class="bullet">&nbsp;</div><span>Control Your Own Products, Pricing, Shipping Methods and Fulfillment</span></li>
+                                    <li><div class="bullet">&nbsp;</div><span>Automated Sales Tax Calculation and Compliance</span></li>
+                                </ul>
+                            </div>
+                        </div>
             </div>
+           
+            <div class="text-center py-5">
+                <button class="startSelling" (click)="startSellingOnKala()">Start selling on Kala</button>
+            </div>
+        </section> 
+    <div class="title sellOn" *ngIf="isQuiestionarePage">
+        <h2>Tell us a little about yourself...</h2>
+        <p>Please fill out all fields and then click "Submit" button below.</p> 
+    </div> 
+    <div class="title sellOn documentation" *ngIf="isDocumentationPage">
+        <h2>Download Seller Documentation</h2>
+        <div class="text-right pb-3 mr-3">
+            <button class="downloadAll" (click)="downloadAllFiles()">Download All</button>
         </div>
     </div>
-    <div class="title sellOn">
-        <h2>Tell us a little about yourself...</h2>
-        <p>Please fill out all fields and then click "Submit" button below.</p>
+    <div class="container-fluid p-0">
+            <ngb-tabset  #tabs="ngbTabset" class="tab-sellOn" *ngIf="!isWelcomePage" (tabChange)="onTabChange($event)">
+                    <ngb-tab id="tab-quest" title="Questionnaire"  [disabled]="isQuiestionarePageDisabled" >
+                        <ng-template ngbTabContent>
+                            <form [formGroup]="sellOnKalaForm">
+                                <div class="sellon-layout">
+                                    <div class="row pb-3">
+                                        <p class="col-sm-12">Company Name</p>
+                                        <div class="col-sm-12 py-2">
+                                            <input aria-describedby="" (keyup)="hideValidation()" class="form-control"
+                                            formControlName="comp_name" placeholder="Legal Entity or ‘DBA’ Name" type="text">
+                                        </div>
+                                        <div class="col-sm-12 errorUser" *ngIf="compNameValidation">
+                                            <div  class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.compNameRequired}}</div>
+                                        </div>
+                          
+                                    </div>
+                                    <div class="row">
+                                        <p class="col-sm-12">Business Address</p>
+                                        <div class="col-sm-6 py-2">
+                                            <input aria-describedby="" class="form-control" formControlName="bussines_address1" id=""
+                                                placeholder="Street Address Line 1" type="text">
+                                        </div>
+            
+                                        <div class="col-sm-6 py-2">
+                                            <input aria-describedby="" class="form-control" formControlName="bussines_address2" id=""
+                                                placeholder="Street Address Line 2" type="text">
+                                        </div>
+                                        <div class="col-sm-12 errorUser" *ngIf="bussinesAddress1Validation">
+                                            <div  class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.address1Required}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="row pb-3">
+                                        <div class="col-sm-5 py-2">
+                                            <input aria-describedby="" class="form-control" formControlName="city" id=""
+                                                placeholder="City" type="text">
+                                        </div>
+                                       
+                                        <div class="col-sm-2 py-2">
+                                            <select formControlName="state" class="form-control">
+                                                <option value selected disabled>Select a state</option>
+                                                <option *ngFor="let state of getStates" value="{{state}}">{{state}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-5 py-2">
+                                                <!-- <input type="number"  (keyup)="zipcodeValidator()"  class="form-control" formControlName="zipCode" id=""
+                                                placeholder="Zip Code" > -->
+                                                <input aria-describedby="" (keyup)="zipcodeValidator()" class="form-control ng-dirty ng-touched ng-valid" formControlName="zipCode"
+                                                maxlength="5" onkeypress="return event.charCode >= 48 && event.charCode <= 57" placeholder="Zipcode" type="text">
+                                        </div>
+                                       
+                                        <div class="col-sm-12 errorUser" *ngIf="cityValidation">
+                                            <div class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.cityRequired}}</div>
+                                        </div>
+                                        <div class="col-sm-12 errorUser" *ngIf="stateValidation">
+                                            <div  class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.stateRequired}}</div>
+                                        </div>
+                                        <div class="col-sm-12 errorUser" *ngIf="zipcodeValidation">
+                                            <div class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.validZipRequired}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <p class="col-sm-12">Contact Information</p>
+                                        <div class="col-sm-6 py-2">
+                                            <input aria-describedby="" class="form-control" formControlName="name" id=""
+                                                placeholder="Name of Primary Contact" type="text">
+                                            <div *ngIf="nameValidation"  class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.contactNamerequired}}</div>
+                                        </div>
+                                        <div class="col-sm-6 py-2">
+                                                <input type="text" (keyup)="phoneNumberValidator()" class="form-control" formControlName="phoneNumber" id=""
+                                                placeholder="Phone Number of Primary Contact" >
+                                                <div *ngIf="phoneNumbervalidation"  class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.phoneNumRequired}}</div>
+                                        </div>
+                                       
+                                    </div>
+                                    <div class="row pb-3">
+                                        <div class="col-sm-12 py-2">
+                                            <input aria-describedby=""  (keyup)="emailValidator()" class="form-control" formControlName="email" id=""
+                                                placeholder="Email Address of Primary Contact" type="text">
+                                        </div>
+                                        <div class="col-sm-12 errorUser" *ngIf="emailValidation">
+                                            <div  class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.contactEmailRequired}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="row pb-3">
+                                        <p class="col-sm-12">Product Information</p>
+                                        <div class="col-sm-6 py-2">
+                                            <angular2-multiselect [data]="places" [(ngModel)]="productInfo" [settings]="placesSettings"
+                                                (onSelect)="onPlaceSelect($event)" (onDeSelect)="onPlaceDeSelect($event)"
+                                                (onSelectAll)="onPlaceSelectAll($event)" (onDeSelectAll)="onPlaceDeSelectAll($event)"
+                                                formControlName="productPlace">
+                                            </angular2-multiselect>
+                                        </div>
+            
+                                        <div class="col-sm-6 py-2">
+                                            <select formControlName="noOfProducts" class="form-control ddl-sell ddl">
+                                                <option value selected disabled>Select Number of Products</option>
+                                                <option *ngFor="let nop of noOfProductsList" value="{{nop}}">{{nop}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-12 errorUser" *ngIf="productPlaceValidation">
+                                            <div  class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.productplaceRequired}}</div>
+                                        </div>
+                                        <div class="col-sm-12 errorUser" *ngIf="noOfProductsValidation">
+                                            <div  class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.noProdInventoryRequired}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="row pb-3">
+                                        <p class="col-sm-12">Seller Information</p>
+                                        <div class="col-sm-6 py-2">
+                                            <input aria-describedby="" class="form-control" formControlName="TIN" id="" placeholder="Business Tax ID Number ('TIN')"
+                                                type="text">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <select formControlName="doShipProds" class="ddl-sell ddl" (change)="changedoShipProds($event.target.value)">
+                                                <option value selected disabled>Do you ship your own products?</option>
+                                                <option value="Yes">Yes</option>
+                                                <option value="No">No</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-12 errorUser" *ngIf="tinValidation">
+                                            <div  class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.taxIdRequired}}</div>
+                                        </div>
+                                        <div class="col-sm-12 errorUser" *ngIf="doShipProdsValidation">
+                                            <div  class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.doownProdRequired}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="row pb-3">
+                                        <div class="col-sm-6 py-2">
+                                            <select formControlName="regInUS" class="ddl-sell ddl">
+                                                <option value selected disabled>Registered to sell in the US?</option>
+                                                <option value="Yes">Yes</option>
+                                                <option value="No">No</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-6 py-2">
+                                            <select formControlName="prefIntMeth" class="ddl-sell ddl">
+                                                <option value selected disabled>Preferred integration method</option>
+                                                <option *ngFor="let pim of prefIntMethods" value="{{pim.key}}">{{pim.display}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-12 errorUser" *ngIf="regInUSValidation">
+                                            <div  class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.regInUSRequired}}</div>
+                                        </div>
+                                        <div class="col-sm-12 errorUser" *ngIf="prefIntMethValidation">
+                                            <div  class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.prefIntMethodRequired}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="row ">
+                                        <textarea formControlName="anythingElse" class="textArea" placeholder="Anything else you would like us to know? (optional)"></textarea>
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-sm-6 text-left"><a (click)="goBack()">Back</a></div>
+                                        <div class="col-sm-6 text-right"><button (click)="onSubmit()"  type="Submit">Submit</button></div>
+                                    </div>
+                                </div>
+                            </form>
+                        </ng-template>
+                    </ngb-tab>
+                    <ngb-tab id="tab-doc" title="Documentation" >
+                        <ng-template ngbTabContent >
+                            <div class="sell_documentation" >
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th width="80%">Documents</th>
+                                            <th width="20%">Post Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                            <tr>
+                                                    <td>
+                                                            <a href="consumer-app/assets/pdf/Stripe Connected Account Agreement.pdf" target="_blank"> Seller Agreement </a>
+                                                        
+                                                    </td>
+                                                    <td>
+                                                        <p>Apr 5,2015</p>
+                                                        <p>9:47:24 PM EST</p>
+                                                    </td>
+                                                </tr>
+                                        <tr>
+                                            <td>
+                                                    <a href="consumer-app/assets/pdf/Kala Sellers Terms and Conditions.pdf" target="_blank"> Seller Terms & Conditions</a>
+                                                
+                                            </td>
+                                            <td>
+                                                <p>Apr 3,2015</p>
+                                                <p>3:58:48 AM PDT</p>
+                                            </td>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td>
+                                                    <a href="consumer-app/assets/pdf/Kala Product Guidelines.pdf" target="_blank"> Product Guidelines </a>
+                                                </td>
+                                            <td>
+                                                <p>Apr 5,2015</p>
+                                                <p>9:47:24 PM EST</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>
+                                                        <a href="consumer-app/assets/pdf/Kala Trademark Usage Guidelines.pdf" target="_blank"> Kala Trademark Usage Guidelines </a>
+                                                    </td>
+                                                <td>
+                                                    <p>Apr 3,2015</p>
+                                                    <p>3:58:48 AM PDT</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                    <td>
+                                                       
+                                                        <a href="consumer-app/assets/pdf/Stripe Terms and Conditions.pdf" target="_blank"> Stripe Terms & Conditions </a>
+                                                    </td>
+                                                    <td>
+                                                        <p>Apr 5,2015</p>
+                                                        <p>9:47:24 PM EST</p>
+                                                    </td>
+                                                </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                </ngb-tabset> 
     </div>
-
-    <ngb-tabset class="tab-sellOn">
-        <ngb-tab title="Questionnaire">
-            <ng-template ngbTabContent>
-                <form [formGroup]="sellOnKalaForm">
-                    <div class="sellon-layout">
-                        <div class="row pb-3">
-                            <p class="col-sm-12">Company Name</p>
-                            <div class="col-sm-12 py-2">
-                                <input aria-describedby="" (keyup)="hideValidation()" class="form-control"
-                                formControlName="comp_name" placeholder="Legal Entity or ‘DBA’ Name" type="text">
-                            </div>
-                            <div class="col-sm-12 errorUser" *ngIf="compNameValidation">
-                                <div *ngIf="!sellOnKalaForm.controls.comp_name.value" class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.compNameRequired}}</div>
-                            </div>
-              
-                        <div class="row">
-                            <p class="col-sm-12">Business Address</p>
-                            <div class="col-sm-6 py-2">
-                                <input aria-describedby="" class="form-control" formControlName="bussines_address1" id=""
-                                    placeholder="Street Address Line 1" type="text">
-                            </div>
-
-                            <div class="col-sm-6 py-2">
-                                <input aria-describedby="" class="form-control" formControlName="bussines_address2" id=""
-                                    placeholder="Street Address Line 2" type="text">
-                            </div>
-                            <div class="col-sm-12 errorUser" *ngIf="bussinesAddress1Validation">
-                                <div *ngIf="!sellOnKalaForm.controls.bussines_address1.value" class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.address1Required}}</div>
-                            </div>
-                        </div>
-                        <div class="row pb-3">
-                            <div class="col-sm-5 py-2">
-                                <input aria-describedby="" class="form-control" formControlName="city" id=""
-                                    placeholder="City" type="text">
-                            </div>
-                            <div class="col-sm-6 py-2">
-                                <input aria-describedby="" class="form-control" formControlName="bussines_address2" id=""
-                                    placeholder="Street Address Line 2" type="text">
-                            </div>
-                            <div class="col-sm-2 py-2">
-                                <select formControlName="state" class="form-control">
-                                    <option value selected disabled>Select a state</option>
-                                    <option *ngFor="let state of getStates" value="{{state}}">{{state}}</option>
-                                </select>
-                            </div>
-                            <div class="col-sm-5 py-2">
-                                <input aria-describedby="" class="form-control" formControlName="zipCode" id=""
-                                    placeholder="Zip Code" type="text">
-                            </div>
-                            <div class="col-sm-12 errorUser" *ngIf="cityValidation">
-                                <div *ngIf="!sellOnKalaForm.controls.city.value" class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.cityRequired}}</div>
-                            </div>
-                            <div class="col-sm-12 errorUser" *ngIf="stateValidation">
-                                <div *ngIf="!sellOnKalaForm.controls.state.value" class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.stateRequired}}</div>
-                            </div>
-                            <div class="col-sm-12 errorUser" *ngIf="zipcodeValidation">
-                                <div *ngIf="!sellOnKalaForm.controls.zipCode.value" class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.validZipRequired}}</div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <p class="col-sm-12">Contact Information</p>
-                            <div class="col-sm-6 py-2">
-                                <input aria-describedby="" class="form-control" formControlName="name" id=""
-                                    placeholder="Name of Primary Contact" type="text">
-                            </div>
-                            <div class="col-sm-6 py-2">
-                                <input aria-describedby="" class="form-control" formControlName="phoneNumber" id=""
-                                    placeholder="Phone Number of Primary Contact" type="text">
-                            </div>
-                            <div class="col-sm-12 errorUser" *ngIf="nameValidation">
-                                <div *ngIf="!sellOnKalaForm.controls.name.value" class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.contactNamerequired}}</div>
-                            </div>
-                            <div class="col-sm-12 errorUser" *ngIf="phoneNumbervalidation">
-                                <div *ngIf="!sellOnKalaForm.controls.phoneNumber.value" class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.phoneNumRequired}}</div>
-                            </div>
-                        </div>
-                        <div class="row pb-3">
-                            <div class="col-sm-6 py-2">
-                                <input aria-describedby="" class="form-control" formControlName="email" id=""
-                                    placeholder="Email Address of Primary Contact" type="text">
-                            </div>
-                            <div class="col-sm-12 errorUser" *ngIf="emailValidation">
-                                <div *ngIf="!sellOnKalaForm.controls.email.value" class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.contactEmailRequired}}</div>
-                            </div>
-                        </div>
-                        <div class="row pb-3">
-                            <p class="col-sm-12">Product Information</p>
-                            <div class="col-sm-6 py-2">
-                                <angular2-multiselect [data]="places" [(ngModel)]="productInfo" [settings]="placesSettings"
-                                    (onSelect)="onPlaceSelect($event)" (onDeSelect)="onPlaceDeSelect($event)"
-                                    (onSelectAll)="onPlaceSelectAll($event)" (onDeSelectAll)="onPlaceDeSelectAll($event)"
-                                    formControlName="productPlace">
-                                </angular2-multiselect>
-                            </div>
-
-                            <div class="col-sm-6 py-2">
-                                <select formControlName="noOfProducts" class="form-control ddl-sell ddl">
-                                    <option value selected disabled>Select Number of Products</option>
-                                    <option *ngFor="let nop of noOfProductsList" value="{{nop}}">{{nop}}</option>
-                                </select>
-                            </div>
-                            <div class="col-sm-12 errorUser" *ngIf="productPlaceValidation">
-                                <div *ngIf="!sellOnKalaForm.controls.productPlace.value" class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.productplaceRequired}}</div>
-                            </div>
-                            <div class="col-sm-12 errorUser" *ngIf="noOfProductsValidation">
-                                <div *ngIf="!sellOnKalaForm.controls.productPlace.value" class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.noProdInventoryRequired}}</div>
-                            </div>
-                        </div>
-                        <div class="row pb-3">
-                            <p class="col-sm-12">Seller Information</p>
-                            <div class="col-sm-6 py-2">
-                                <input aria-describedby="" class="form-control" formControlName="TIN" id="" placeholder="Business Tax ID Number ('TIN')"
-                                    type="text">
-                            </div>
-                            <div class="col-sm-6">
-                                <select formControlName="doShipProds" class="ddl-sell ddl">
-                                    <option value selected disabled>Do you ship your own products?</option>
-                                    <option value="Yes">Yes</option>
-                                    <option value="No">No</option>
-                                </select>
-                            </div>
-                            <div class="col-sm-12 errorUser" *ngIf="tinValidation">
-                                <div *ngIf="!sellOnKalaForm.controls.TIN.value" class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.taxIdRequired}}</div>
-                            </div>
-                            <div class="col-sm-12 errorUser" *ngIf="doShipProdsValidation">
-                                <div *ngIf="!sellOnKalaForm.controls.doShipProds.value" class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.doownProdRequired}}</div>
-                            </div>
-                        </div>
-                        <div class="row pb-3">
-                            <div class="col-sm-6 py-2">
-                                <select formControlName="regInUS" class="ddl-sell ddl">
-                                    <option value selected disabled>Registered to sell in the US?</option>
-                                    <option value="Yes">Yes</option>
-                                    <option value="No">No</option>
-                                </select>
-                            </div>
-                            <div class="col-sm-6">
-                                <select formControlName="prefIntMeth" class="ddl-sell ddl">
-                                    <option value selected disabled>Preferred integration method</option>
-                                    <option *ngFor="let pim of prefIntMethods" value="{{pim}}">{{pim}}</option>
-                                </select>
-                            </div>
-                            <div class="col-sm-12 errorUser" *ngIf="regInUSValidation">
-                                <div *ngIf="!sellOnKalaForm.controls.regInUS.value" class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.regInUSRequired}}</div>
-                            </div>
-                            <div class="col-sm-12 errorUser" *ngIf="prefIntMethValidation">
-                                <div *ngIf="!sellOnKalaForm.controls.prefIntMeth.value" class="alert alert-danger errorMessages">{{sellOnKalaInputValMsg.prefIntMethodRequired}}</div>
-                            </div>
-                        </div>
-                        <div class="row ">
-                            <textarea formControlName="anythingElse" class="textArea" placeholder="Anything else you would like us to know? (optional)"></textarea>
-                        </div>
-                        <hr />
-                        <div class="row">
-                            <div (click)="goBack(2)" class="col-sm-6 text-left"><a href="#">Back</a></div>
-                            <div (click)="onSubmit()" type="Submit" class="col-sm-6 text-right"><button>Submit</button></div>
-                        </div>
-                    </div>
-                    </div>
-                </form>
-            </ng-template>
-        </ngb-tab>
-        <ngb-tab title="Documentation">
-            <ng-template ngbTabContent>
-                <div class="sell_documentation">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th width="80%">Documents</th>
-                                <th width="20%">Post Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Agreement & Policy List</td>
-                                <td>
-                                    <p>Apr 5,2015</p>
-                                    <p>9:47:24 PM EST</p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Seller Terms & Conditions</td>
-                                <td>
-                                    <p>Apr 5,2015</p>
-                                    <p>9:47:24 PM EST</p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Seller Agreement</td>
-                                <td>
-                                    <p>Apr 5,2015</p>
-                                    <p>9:47:24 PM EST</p>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </ng-template>
-        </ngb-tab>
-    </ngb-tabset>
-
-
-    <div class="clearfix">&nbsp;</div>
-
+   
 </div>
+<!--Contact Kala-->
+<ng-template #dontShipProdsModal let-c="close" let-d="dismiss">
+        <div class="modal-header">
+          <h4 class="modal-title">Sell On Kala</h4>
+          <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>We’re sorry, but at this time Kala is only accepting sellers that ship their products and orders.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outer btn_redouter_right" (click)="closeModal()">Close</button>
+        </div>
+</ng-template>
+<!--Contact Kala-->
+<!--Contact Kala-->
+<ng-template #doneQuestionareModal let-c="close" let-d="dismiss">
+        <div class="modal-header">
+          <h4 class="modal-title">Sell On Kala</h4>
+          <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Congratulations, you’ve taken the first step to selling on Kala! Your information is being delivered to your assigned Kala Account Manager, who will be in touch shortly to help you get enrolled.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outer btn_redouter_right" (click)="closeQuastionareModal()">Done</button>
+        </div>
+</ng-template>
+<!--Contact Kala-->
+      

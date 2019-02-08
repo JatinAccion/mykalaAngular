@@ -46,6 +46,7 @@ export class CoreService {
   isWithSpecialCharacter: boolean = false;
   productNotFound: boolean = false;
   hideSearchField:boolean = true;
+
   constructor(
     private http: Http,
     private route: Router,
@@ -53,9 +54,10 @@ export class CoreService {
     private location: Location,
     private localStorageService: LocalStorageService
   ) {
-    if (window.localStorage['token'] != undefined) this.startTokenValidation()
-  }
+    if (window.localStorage['token'] != undefined) this.startTokenValidation();
+    
 
+  }
   hide() { this.navVisible = false; }
 
   searchMsgToggle(msg?: any) {
