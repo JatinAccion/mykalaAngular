@@ -1,7 +1,7 @@
 .title.sellOn h2{
     color: #E06163; 
     display: block;
-    font-size: 25px;
+    font-size: 35px;
     font-family: open_sanslight;
     margin-bottom: 20px;
     margin-top: 10px;
@@ -28,11 +28,11 @@
 .sell-header h5{
     color: #E06163;
     font-weight: lighter;
-    font-size: 14px;
+    font-size: 18px;
 }
 .sell-header p{ 
     font-weight: lighter;
-    font-size: 14px;
+    font-size: 16px;
 }
 .sellon-layout{
     background: #fff; 
@@ -98,6 +98,7 @@
     padding: 8px 12px !important;
     text-align: left;
     font-size: 12px;
+    color:#a5a5a5;
 }
 .tab-sellOn  .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{
     padding: 8px 12px !important;
@@ -111,7 +112,7 @@
     margin-bottom: 80px; 
     position: relative;
     left: -4px;
-    font-size:12px;
+    font-size:14px;
 }
 .sell_documentation table thead{
     background: #fafafa;
@@ -132,43 +133,43 @@ body{
     background: #fff; 
 }
 .sellingWelcome h1{
-    font-size: 24px;
+    font-size: 35px;
     color: #df6162;
     padding: 20px;
     text-align: center;
 }
 .sellingWelcome p{
-    font-size: 14px;
+    font-size: 16px;
     color: #000;
-    padding: 0px 20% 20px 20%;
+    padding: 0px 26% 20px 26%;
     text-align: center;
     margin-bottom: 0px !important;
 }
 .about_layout{
-    padding: 0px 10%;
+    padding: 0px 6%;
 }
 .sellingAbout{
     background: #e1e1e1; 
 }
 .sellingAbout h1{
-    font-size: 24px;
+    font-size: 35px;
     color: #df6162;
     padding: 20px;
     text-align: center;
 }
 .sellingAbout p{
-    font-size: 14px;
+    font-size: 16px;
     color: #000;
     padding: 20px 20px 20px 0px; 
 }
 .about_mob{
-    width: 160px;
+    width: 200px;
 }
 .sellingBenefits{
     background: #fff; 
 }
 .sellingBenefits h1{
-    font-size: 24px;
+    font-size: 35px;
     color: #df6162;
     padding: 20px;
     text-align: center;
@@ -199,32 +200,32 @@ body{
   .featureLayout ul li:nth-child(1){ 
     left:40px;
     top:0px; 
-    width: 60.3%;
+    width: 84.3%;
   }
   .featureLayout ul li:nth-child(2){ 
     left:78px;
     top:40px; 
-    width: 56.5%;
+    width: 80.5%;
   }
   .featureLayout ul li:nth-child(3){ 
     left:87px;
     top:85px;
-    width: 55.7%;
+    width: 79.7%;
   }
   .featureLayout ul li:nth-child(4){ 
     left:89px;
     top:128px;
-    width: 55.7%;
+    width: 79.7%;
   }
   .featureLayout ul li:nth-child(5){ 
     left:78px;
     top:170px;
-    width: 56.7%;
+    width: 80.7%;
   }
   .featureLayout ul li:nth-child(6){ 
     left:50px;
     top:210px;
-    width: 59.6%;
+    width: 83.6%;
   }
   .half-circle {
       width: 100px;
@@ -261,4 +262,7 @@ button.downloadAll {
     border: solid 0px;
     cursor: pointer;
     text-align: center; 
+}
+.prodCategories{
+    font-size: 12px;
 }

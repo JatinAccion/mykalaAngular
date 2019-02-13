@@ -131,7 +131,7 @@
                                        
                                         <div class="col-sm-2 py-2">
                                             <select formControlName="state" class="form-control">
-                                                <option value selected disabled>Select a state</option>
+                                                <option value selected disabled>Select a State</option>
                                                 <option *ngFor="let state of getStates" value="{{state}}">{{state}}</option>
                                             </select>
                                         </div>
@@ -139,7 +139,7 @@
                                                 <!-- <input type="number"  (keyup)="zipcodeValidator()"  class="form-control" formControlName="zipCode" id=""
                                                 placeholder="Zip Code" > -->
                                                 <input aria-describedby="" (keyup)="zipcodeValidator()" class="form-control ng-dirty ng-touched ng-valid" formControlName="zipCode"
-                                                maxlength="5" onkeypress="return event.charCode >= 48 && event.charCode <= 57" placeholder="Zipcode" type="text">
+                                                maxlength="5" onkeypress="return event.charCode >= 48 && event.charCode <= 57" placeholder="Zip Code" type="text">
                                         </div>
                                        
                                         <div class="col-sm-12 errorUser" *ngIf="cityValidation">
@@ -178,7 +178,7 @@
                                     <div class="row pb-3">
                                         <p class="col-sm-12">Product Information</p>
                                         <div class="col-sm-6 py-2">
-                                            <angular2-multiselect [data]="places" [(ngModel)]="productInfo" [settings]="placesSettings"
+                                            <angular2-multiselect [data]="places" class="prodCategories" [(ngModel)]="productInfo" [settings]="placesSettings"
                                                 (onSelect)="onPlaceSelect($event)" (onDeSelect)="onPlaceDeSelect($event)"
                                                 (onSelectAll)="onPlaceSelectAll($event)" (onDeSelectAll)="onPlaceDeSelectAll($event)"
                                                 formControlName="productPlace">
@@ -257,19 +257,18 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th width="80%">Documents</th>
+                                            <th width="80%">Document</th>
                                             <th width="20%">Post Date</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                             <tr>
                                                     <td>
-                                                            <a href="consumer-app/assets/pdf/Stripe Connected Account Agreement.pdf" target="_blank"> Seller Agreement </a>
-                                                        
+                                                            <a href="consumer-app/assets/pdf/Kala_Seller_Agreement.pdf" target="_blank"> Seller Agreement </a>
                                                     </td>
                                                     <td>
-                                                        <p>Apr 5,2015</p>
-                                                        <p>9:47:24 PM EST</p>
+                                                        <p>Mar 1, 2019</p>
+                                                        <p>5:00 pm EST</p>
                                                     </td>
                                                 </tr>
                                         <tr>
@@ -278,8 +277,8 @@
                                                 
                                             </td>
                                             <td>
-                                                <p>Apr 3,2015</p>
-                                                <p>3:58:48 AM PDT</p>
+                                                <p>Mar 1, 2019</p>
+                                                <p>5:00 pm EST</p>
                                             </td>
                                         </tr>
                                         
@@ -288,8 +287,8 @@
                                                     <a href="consumer-app/assets/pdf/Kala Product Guidelines.pdf" target="_blank"> Product Guidelines </a>
                                                 </td>
                                             <td>
-                                                <p>Apr 5,2015</p>
-                                                <p>9:47:24 PM EST</p>
+                                                <p>Mar 1, 2019</p>
+                                                <p>5:00 pm EST</p>
                                             </td>
                                         </tr>
                                         <tr>
@@ -297,8 +296,8 @@
                                                         <a href="consumer-app/assets/pdf/Kala Trademark Usage Guidelines.pdf" target="_blank"> Kala Trademark Usage Guidelines </a>
                                                     </td>
                                                 <td>
-                                                    <p>Apr 3,2015</p>
-                                                    <p>3:58:48 AM PDT</p>
+                                                    <p>Mar 1, 2019</p>
+                                                    <p>5:00 pm EST</p>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -307,8 +306,8 @@
                                                         <a href="consumer-app/assets/pdf/Stripe Terms and Conditions.pdf" target="_blank"> Stripe Terms & Conditions </a>
                                                     </td>
                                                     <td>
-                                                        <p>Apr 5,2015</p>
-                                                        <p>9:47:24 PM EST</p>
+                                                        <p>Nov 12,2018</p>
+                                                        <p>12:30 PM EST</p>
                                                     </td>
                                                 </tr>
                                     </tbody>

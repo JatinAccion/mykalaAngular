@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, EventEmitter, Output, Input ,ViewChild,ElementRef} from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, EventEmitter, Output, Input ,ViewChild,ElementRef,OnDestroy,ChangeDetectorRef} from '@angular/core';
 import { CuiComponent, MsgDirection } from '../conversational/cui.interface';
 import { ConversationalService } from '../conversational/conversational.service';
 import { Router, RouterOutlet } from '@angular/router';
@@ -26,7 +26,7 @@ import { ValidatorExt } from '../../../../common/ValidatorExtensions';
   styleUrls: ['./sell-on-kala.component.css'],
   encapsulation: ViewEncapsulation.None 
 })
-export class SellOnKalaComponent implements OnInit, CuiComponent {
+export class SellOnKalaComponent implements OnInit, CuiComponent,OnDestroy {
   @ViewChild("dontShipProdsModal") dontShipProdsModal: ElementRef;
   @ViewChild("doneQuestionareModal")doneQuestionareModal: ElementRef;
   @ViewChild('tabs') ngbTabSet: NgbTabset;
@@ -42,14 +42,14 @@ export class SellOnKalaComponent implements OnInit, CuiComponent {
   prodPlace:ProductPlaceSOK = new ProductPlaceSOK();
   noOfProductsList = ["1 to 100","101 to 1000","1001 to 10000","10001 to 25000","25001 to 100000","101000 to 250000","Over 250000"];
   prefIntMethods =[{
-   display: "Manual-maintain your own products",
+   display: "Manual – maintain your own products",
    key:"KALAMANUAL"},
    {
-    display: "Kala, Automated-integrate with Kala APIs",
+    display: "Automated – integrate with Kala APIs",
     key:"KALAAUTO"
     },
     {
-      display: "ChannelAdvisor-integrate with ChannelAdvisor APIs",
+      display: "ChannelAdvisor – integrate with ChannelAdvisor APIs",
       key:"CHANNELADVISORAPI"
       }, 
       {
@@ -95,7 +95,7 @@ export class SellOnKalaComponent implements OnInit, CuiComponent {
   isQuiestionarePage : boolean = false;
   isDocumentationPage : boolean = false;
   isQuiestionarePageDisabled : boolean = false;
-  constructor(private routerOutlet: RouterOutlet,public validatorExt: ValidatorExt, private sellOnKalaService: SellOnKalaService, private homeService: HomeService, private formBuilder: FormBuilder, private router: Router, private auth: AuthService, public core: CoreService) { }
+  constructor(private routerOutlet: RouterOutlet, private cd: ChangeDetectorRef,public validatorExt: ValidatorExt, private sellOnKalaService: SellOnKalaService, private homeService: HomeService, private formBuilder: FormBuilder, private router: Router, private auth: AuthService, public core: CoreService) { }
   ngOnInit() {
     /* Hide search bar for this page */
     //var searchBox = document.getElementsByClassName("searchBox")[0];
@@ -112,7 +112,7 @@ export class SellOnKalaComponent implements OnInit, CuiComponent {
     
     this.placesSettings = {
       singleSelection: false,
-      text: 'Select Places',
+      text: 'Select Product Categories',
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
       searchPlaceholderText: 'Search Fields',
@@ -121,7 +121,7 @@ export class SellOnKalaComponent implements OnInit, CuiComponent {
       classes: 'myclass custom-class'
     };
     this.core.show();
-    this.getAllStates();
+    this.getState();
     this.getPlaces();
     this.sellOnKalaForm = this.formBuilder.group({
       comp_name: ['', [Validators.maxLength(255), Validators.pattern(this.textRegx), Validators.required]],
@@ -313,15 +313,19 @@ export class SellOnKalaComponent implements OnInit, CuiComponent {
 
   }
 
- 
-  
-  getAllStates() {
-    if (this.getStates == undefined) {
+  getState() {
       this.sellOnKalaService.getAllStates().subscribe((res) => {
         this.getStates = res.stateAbbreviation;
       })
-    }
   }
+  
+  // getAllStates() {
+  //   if (this.getStates == undefined) {
+  //     this.sellOnKalaService.getAllStates().subscribe((res) => {
+  //       this.getStates = res.stateAbbreviation;
+  //     })
+  //   }
+  // }
  getPlaces()
  {
   this.homeService.getTilesPlace().subscribe(res => {
@@ -474,5 +478,7 @@ emailValidator()
   else if (this.sellOnKalaForm.controls.email.value && !regexPatterns.emailRegex.test(this.sellOnKalaForm.controls.email.value) ) 
     this.emailValidation = true;
 }
-
+ngOnDestroy() {
+    this.core.hideSearchField = true;
+}
 }

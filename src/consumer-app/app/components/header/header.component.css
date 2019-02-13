@@ -2,3 +2,9 @@
     background-color: none !important;
     border-color: none !important;
 }
+.sellOnKala{ 
+    position: relative;
+    left: -30px;
+    width: 200px;
+    z-index: 9;
+}

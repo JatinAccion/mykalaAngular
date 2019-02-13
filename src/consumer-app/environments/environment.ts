@@ -16,6 +16,7 @@ export const environment = {
   checkout: 'http://dev-orderservice.us-east-1.elasticbeanstalk.com/order/v1',
   card: 'http://dev-orderservice.us-east-1.elasticbeanstalk.com/payment/v1',
   shippingMethod: 'http://dev-retailer-service-mongo.us-east-1.elasticbeanstalk.com',
+  sellOnKala : 'http://dev-retailer-service-mongo.us-east-1.elasticbeanstalk.com',
   stripePK: 'pk_test_pNeF3FuRWQ99HxWEMvVbLlKN',
   apis: apiNames,
   regex: regexPatterns,

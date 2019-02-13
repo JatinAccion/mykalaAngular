@@ -10,16 +10,24 @@ export class SellOnKalaService {
   constructor(private http: Http, private core: CoreService) { }
 
   postSellOnKalaForm(sellOnKalaModel) {
-    const BASE_URL_RETAILER: string = environment.shippingMethod;
-    const url: string = `${BASE_URL_RETAILER}/${environment.apis.shippingMethod.sellOnKala}`;
+    const BASE_URL_RETAILER: string = environment.sellOnKala;
+    const url: string = `${BASE_URL_RETAILER}/${environment.apis.shippingMethod.postQuestionare}`;
     return this.http.post(url, sellOnKalaModel).map((res) => res.json())
   }
 
  
   getAllStates() {
-    const BASE_URL_RETAILER: string = environment.shippingMethod;
-    const url: string = `${BASE_URL_RETAILER}/${environment.apis.shippingMethod.getStates}`;
-    return this.http.get(url, { headers: this.core.setHeaders() }).map((res) => res.json());
+    const BASE_URL_RETAILER: string = environment.sellOnKala;
+    const url: string = `${BASE_URL_RETAILER}/${environment.apis.shippingMethod.getpublicStates}`;
+    console.log(url);
+    return this.http.get(url).map((res) => res.json());
+    
 }
+ getTilesPlace() {
+  const BASE_URL_RETAILER: string = environment.productList;
+    const url: string = `${BASE_URL_RETAILER}/${environment.apis.products.getPlaces}`;
+    return this.http.get(url).map((res) => res.json());
+  }
+  
 
 }

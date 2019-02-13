@@ -52,12 +52,13 @@ export class HomeComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.core.hideSearchField = true;
     this.core.searchMsgToggle();
     setTimeout(function () {
       var header = document.getElementsByClassName("header_sub")[0];
       var searchBox = document.getElementsByClassName("searchBox")[0];
       var logoContainer = document.getElementsByClassName("logo")[0];
-      searchBox.classList.add("invisible");
+      searchBox !=undefined? searchBox.classList.add("invisible"):{};
       if (header.classList.contains("header_Scroll")) header.classList.remove("header_Scroll");
       if (!logoContainer.classList.contains("d-none")) {
         logoContainer.classList.add("d-none");

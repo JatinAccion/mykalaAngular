@@ -10,7 +10,7 @@ export const inputValidation = {
     compNameRequired: 'Please enter a company name.',
     address1Required: 'Please enter a Street Address.',
     cityRequired :'Please enter a City.',
-    staterequired:'Please select a State.',
+    stateRequired:'Please select a State.',
     validZipRequired:'Please enter a valid Zip Code.',
     contactNamerequired :'Please enter a name for the primary contact.',
     contactEmailRequired : 'Please enter an email for the primary contact.',
